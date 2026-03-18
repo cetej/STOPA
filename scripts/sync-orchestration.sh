@@ -11,7 +11,7 @@
 # Skips: CLAUDE.md (project-specific), state/checkpoint (session-specific), settings.local.json (local permissions)
 # Preserves: Target-specific skills not present in STOPA are left untouched
 
-set -euo pipefail
+set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 SOURCE_DIR="$SCRIPT_DIR/.claude"
