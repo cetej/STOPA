@@ -4,6 +4,8 @@ description: Scan news and updates from AI/ML ecosystem, Claude Code, and commun
 argument-hint: [full / quick / topic:specific-topic]
 user-invocable: true
 allowed-tools: Read, Write, Edit, WebSearch, WebFetch, Agent
+model: sonnet
+effort: medium
 ---
 
 # Watch — News & Updates Scanner

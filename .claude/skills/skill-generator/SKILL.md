@@ -4,6 +4,7 @@ description: Create, update, or improve Claude Code skills. Use when asked to ge
 argument-hint: [description of the skill to create]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep
+effort: high
 ---
 
 # Skill Generator

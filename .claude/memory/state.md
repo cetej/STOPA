@@ -4,7 +4,19 @@ Current task state shared across all agents and skills.
 
 ## Active Task
 
-_No active task._
+**Goal**: Karpathy AutoResearch — research + /autoloop skill creation
+**Type**: research + implementation
+**Status**: complete
+
+### Subtasks
+
+| # | Subtask | Depends on | Method | Status |
+|---|---------|-----------|--------|--------|
+| 1 | Research Karpathy AutoResearch (3 agents) | — | Agent:research ×3 | done |
+| 2 | Analyze STOPA applications | 1 | Direct | done |
+| 3 | Select metric (M5 hybrid) | 2 | Direct | done |
+| 4 | Create /autoloop skill | 3 | Direct | done |
+| 5 | Baseline scoring all skills | 4 | Bash | done |
 
 ## Task History
 

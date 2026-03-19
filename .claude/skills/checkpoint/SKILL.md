@@ -4,6 +4,8 @@ description: Save session state and create a resume prompt for the next session.
 argument-hint: [save / resume / status]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
+model: haiku
+effort: low
 ---
 
 # Checkpoint — Session Continuity Manager

@@ -4,6 +4,8 @@ description: Audit project dependencies for outdated versions, breaking changes,
 argument-hint: [full / quick / package-name]
 user-invocable: true
 allowed-tools: Read, Glob, Grep, WebSearch, WebFetch
+model: sonnet
+effort: medium
 ---
 
 # Dependency Audit — Version & Compatibility Checker

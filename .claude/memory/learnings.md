@@ -47,6 +47,13 @@ Accumulated knowledge from all tasks. Used by all skills/agents to improve over 
 - **Častá záměna**: User říká "udělal jsem pull a nic se nestalo" — pravděpodobně pulloval v jiném repozitáři
 - **Source**: Sessions 2026-03-18
 
+### Karpathy Loop Pattern (AutoLoop)
+- **Context**: When iteratively improving any file with measurable quality
+- **Pattern**: Structural heuristic for fast iteration (grep-based, zero LLM cost) + single LLM-as-judge validation at end. One file, one metric, git rollback per iteration.
+- **Key insight**: M5 hybrid metric scores 22/25 on evaluation criteria. Pure LLM-as-judge (M1) is too expensive per iteration. Pure structural (M2) misses semantic quality. Hybrid combines best of both.
+- **Anti-pattern**: Don't use LLM to evaluate LLM output every iteration — self-reinforcing bias + cost explosion
+- **Source**: Karpathy AutoResearch analysis, 2026-03-19
+
 ## Skill Gaps
 
 ### Plugin Distribution

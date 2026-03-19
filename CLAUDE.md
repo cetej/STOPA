@@ -49,8 +49,8 @@ Orchestrační systém se distribuuje do těchto projektů:
 # Z lokálního adresáře:
 claude --plugin-dir ./stopa-orchestration
 
-# Nebo instalace v cílovém projektu:
-/plugin install github.com/cetej/STOPA/stopa-orchestration
+# Nebo instalace v cílovém projektu (git-subdir):
+/plugin install github.com/cetej/STOPA --subdir stopa-orchestration
 ```
 
 Plugin balí skills + hooks do jednoho distribučního balíčku. Skills jsou dostupné jako `/stopa-orchestration:orchestrate`, `/stopa-orchestration:scout` atd.

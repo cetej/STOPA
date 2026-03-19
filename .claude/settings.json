@@ -19,6 +19,19 @@
         ]
       }
     ],
+    "PostCompact": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/post-compact.sh",
+            "timeout": 3,
+            "statusMessage": "Post-compaction checkpoint reminder"
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
         "matcher": "",

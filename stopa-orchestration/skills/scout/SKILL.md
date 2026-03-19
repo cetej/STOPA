@@ -4,6 +4,8 @@ description: Explore and map codebase context for a given topic or task. Use bef
 argument-hint: [what to explore]
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Agent
+model: haiku
+effort: medium
 ---
 
 # Scout — Explorer & Researcher

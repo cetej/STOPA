@@ -4,6 +4,7 @@ description: Orchestrate complex tasks by decomposing them into subtasks, delega
 argument-hint: [task description]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
+effort: high
 ---
 
 # Orchestrator — The Conductor

@@ -19,6 +19,7 @@ Multi-agent orchestration system for Claude Code. Decomposes complex tasks, dele
 ## Hooks included
 
 - **SessionStart**: Checks for active checkpoint, warns about memory file sizes
+- **PostCompact**: Reminds to checkpoint after context compaction
 - **Stop**: Reminds to record decisions via `/scribe` when a task is active
 
 ## Installation
@@ -28,9 +29,9 @@ Multi-agent orchestration system for Claude Code. Decomposes complex tasks, dele
 claude --plugin-dir ./stopa-orchestration
 ```
 
-### From GitHub
+### From GitHub (git-subdir)
 ```
-/plugin install github.com/cetej/STOPA/stopa-orchestration
+/plugin install github.com/cetej/STOPA --subdir stopa-orchestration
 ```
 
 ## Shared memory

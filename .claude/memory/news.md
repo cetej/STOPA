@@ -4,46 +4,66 @@ Tracked findings from `/watch` scans. Only ACTION and WATCH items are recorded h
 
 ## Last Scan
 
-**2026-03-18** — full (STOPA-focused)
+**2026-03-19** — full
 
 ## Active Items
 
 ### Action Items
 
-1. **Plugin System GA** — zabalit orchestraci jako plugin (`.claude-plugin/plugin.json`)
-   - Impact: high — nahradí sync skript, snadnější distribuce
-   - Status: open, high priority
-   - Ref: https://code.claude.com/docs/en/plugins
+1. **Plugin `git-subdir` source type** (v2.1.69) — install plugins from git repo subdirectories
+   - Impact: high — enables clean `/plugin install github.com/cetej/STOPA` with subdir path
+   - Status: open — update plugin.json + README install docs
 
-2. **Agent Teams GA** — native parallel agent coordination přes SendMessage + shared task list
+2. **`${CLAUDE_PLUGIN_DATA}` persistent state** (v2.1.78) — plugin-specific storage surviving updates
+   - Impact: medium — use for plugin memory instead of `.claude/memory/`
+   - Status: open
+
+3. **New hook events** (v2.1.69-76) — PostCompact, StopFailure, InstructionsLoaded, TeammateIdle, TaskCompleted, Elicitation
+   - Impact: high — PostCompact for auto-checkpoint, TeammateIdle/TaskCompleted for orchestration
+   - Status: open
+
+4. **Skills frontmatter fields** (v2.1.69) — `model:`, `effort`, `maxTurns`, `disallowedTools`, `${CLAUDE_SKILL_DIR}`
+   - Impact: high — per-skill model selection (haiku for validators, opus for critic)
+   - Status: open
+
+5. **`--plugin-dir` breaking change** (v2.1.76) — now single path, use repeated flags for multiple
+   - Impact: low — update docs
+   - Status: open
+
+6. **Agent Teams** — native parallel agent coordination (still research preview)
    - Impact: high for /orchestrate deep tier
-   - Status: open, guidance v orchestrate skill existuje, potřeba native API
-   - Ref: https://code.claude.com/docs/en/agent-teams
+   - Status: open — needs `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
 
-3. **`/loop` command** — opakované spouštění skills na intervalu
-   - Impact: medium — automatizace `/watch` bez ručního spouštění
-   - Status: open
-
-4. **HTTP hooks** — POST JSON místo shell commands
-   - Impact: medium — čistší hook implementace, cross-platform
-   - Status: open
-
-5. **Token limit increase** — Opus 64k default, 128k max output
-   - Impact: low — aktualizovat budget estimation formule
+7. **Diffusers 0.37.0** (Mar 5) — Modular Diffusers, FIBO Edit, Cosmos Predict2.5
+   - Impact: medium for NG-ROBOT — modular pipelines, JSON-based image editing
    - Status: open
 
 ### Watch List
 
-1. **Hook-enforced orchestration** — `barkain/claude-code-workflow-orchestration` — PreToolUse hooks vynucují delegaci
-   - Relevance: konkurenční pattern, silnější enforcement než naše convention-based pravidla
-2. **Ruflo/Claude Flow** — multi-agent swarm s 60+ agenty, self-learning
-   - Relevance: over-engineered pro nás, ale zajímavý self-improvement pattern
-3. **Agent Skills Standard** — Anthropic's open standard, cross-tool kompatibilita
-   - Relevance: ověřit shodu našich skills se standardem
-4. **MCP Memory Servers** — persistent memory přes MCP místo file-based
-   - Relevance: alternativa k naší .claude/memory/ architektuře
+1. **MCP elicitation** (v2.1.76) — servers request structured input mid-task via interactive dialog
+   - Relevance: could enable interactive orchestration flows
+2. **Flowception** — non-autoregressive variable-length video gen, 3x less FLOPs than full-sequence flows
+   - Relevance: potential improvement over Pyramid Flow for test1
+3. **Hook-enforced orchestration** — `barkain/claude-code-workflow-orchestration`
+   - Relevance: competing pattern, stronger enforcement than convention-based
+4. **MCP Memory Servers** — persistent memory via MCP instead of file-based
+   - Relevance: alternative to our .claude/memory/ architecture
+
+### Resolved Items
+
+1. ~~Plugin System GA~~ — **DONE** (implemented in STOPA, v2.1.69+)
+2. ~~`/loop` command~~ — **GA** (v2.1.71) — available now
+3. ~~HTTP hooks~~ — **GA** (v2.1.63) — available now
+4. ~~Token limit increase~~ — **CONFIRMED** (Opus 4.6: 64k default, 128k max output)
 
 ## Scan History
+
+### 2026-03-19 — full
+- Plugin git-subdir, ${CLAUDE_PLUGIN_DATA}, new hook events, skills frontmatter fields
+- 4 previously open items resolved (plugin GA, /loop, HTTP hooks, token limits)
+- Diffusers 0.37.0 Modular Diffusers, Flowception paper
+- Voice mode supports Czech, 1M context for Opus 4.6
+- 340 plugins + 1367 skills in ecosystem
 
 ### 2026-03-18 — full — STOPA-focused scan
 - Plugin System GA — highest priority finding

@@ -4,6 +4,8 @@ description: Track and control orchestration costs. Use to check current budget 
 argument-hint: [check / report / reset]
 user-invocable: true
 allowed-tools: Read, Write, Edit
+model: haiku
+effort: low
 ---
 
 # Budget — Cost Controller

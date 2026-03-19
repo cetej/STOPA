@@ -4,6 +4,7 @@ description: Review and evaluate code, plans, or outputs for quality, correctnes
 argument-hint: [what to review — file path, skill name, or "last changes"]
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Agent
+effort: high
 ---
 
 # Critic — Quality Gate
