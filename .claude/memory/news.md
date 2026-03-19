@@ -4,7 +4,7 @@ Tracked findings from `/watch` scans. Only ACTION and WATCH items are recorded h
 
 ## Last Scan
 
-**2026-03-19** — full
+**2026-03-19** — full (×2, odpolední scan)
 
 ## Active Items
 
@@ -38,10 +38,28 @@ Tracked findings from `/watch` scans. Only ACTION and WATCH items are recorded h
    - Impact: medium for NG-ROBOT — modular pipelines, JSON-based image editing
    - Status: open
 
+8. **Claude Code v2.1.79** — `/remote-control` VSCode bridge do claude.ai/code (browser/phone continuation), PreToolUse `deny` bug fix, streaming po řádcích
+   - Impact: medium — remote monitoring orchestrovaných runs, bezpečnostní fix pro deny pravidla
+   - Status: open
+
+9. **Extended thinking `display: "omitted"`** (API) — vynechání thinking bloků z odpovědi pro rychlejší streaming, signatura zachována pro multi-turn
+   - Impact: medium — ušetří tokeny v /orchestrate deep tier
+   - Status: open
+
+10. **API code execution zdarma** při použití s web search nebo web fetch
+    - Impact: low-medium — upravit budget kalkulace
+    - Status: open
+
 ### Watch List
 
 1. **MCP elicitation** (v2.1.76) — servers request structured input mid-task via interactive dialog
    - Relevance: could enable interactive orchestration flows
+5. **FlashAttention-4 + KernelAgent** (PyTorch blog, Mar 2026) — FA4 rychlejší attention, KernelAgent = multi-agent GPU kernel optimization
+   - Relevance: potenciální zrychlení inference v NG-ROBOT
+6. **Direction-Magnitude Decoupling** (ICLR 2026) — rychlá video generace přes flow matching s nižší výpočetní náročností
+   - Relevance: potenciální vylepšení Pyramid Flow
+7. **ViFeEdit** (Mar 16, 2026) — video generation + editing trénovaný jen na 2D obrázcích
+   - Relevance: alternativní přístup k video editaci pro test1
 2. **Flowception** — non-autoregressive variable-length video gen, 3x less FLOPs than full-sequence flows
    - Relevance: potential improvement over Pyramid Flow for test1
 3. **Hook-enforced orchestration** — `barkain/claude-code-workflow-orchestration`
@@ -58,7 +76,13 @@ Tracked findings from `/watch` scans. Only ACTION and WATCH items are recorded h
 
 ## Scan History
 
-### 2026-03-19 — full
+### 2026-03-19 — full (odpolední scan)
+- v2.1.79: /remote-control VSCode bridge, PreToolUse deny fix, streaming po řádcích
+- Extended thinking display:omitted, API code execution zdarma s web search
+- FlashAttention-4 + KernelAgent (PyTorch), Direction-Magnitude Decoupling (ICLR 2026), ViFeEdit
+- AI píše 41 % kódu, ale produktivita +10 % — adoption vs. output gap
+
+### 2026-03-19 — full (ranní scan)
 - Plugin git-subdir, ${CLAUDE_PLUGIN_DATA}, new hook events, skills frontmatter fields
 - 4 previously open items resolved (plugin GA, /loop, HTTP hooks, token limits)
 - Diffusers 0.37.0 Modular Diffusers, Flowception paper

@@ -15,6 +15,8 @@ Multi-agent orchestration system for Claude Code. Decomposes complex tasks, dele
 | `/stopa-orchestration:watch` | News scanner — weekly AI/ML ecosystem updates |
 | `/stopa-orchestration:skill-generator` | Meta-skill — creates and improves other skills |
 | `/stopa-orchestration:dependency-audit` | Auditor — checks outdated dependencies |
+| `/stopa-orchestration:autoloop` | Optimizer — Karpathy Loop pattern for iterative file improvement |
+| `/stopa-orchestration:project-init` | Initializer — sets up new project with .claude/ structure |
 
 ## Hooks included
 
@@ -24,15 +26,22 @@ Multi-agent orchestration system for Claude Code. Decomposes complex tasks, dele
 
 ## Installation
 
+### From GitHub (recommended)
+```
+/plugin install github.com/cetej/STOPA --subdir stopa-orchestration
+```
+
 ### From local directory (development)
 ```bash
 claude --plugin-dir ./stopa-orchestration
 ```
 
-### From GitHub (git-subdir)
+### Multiple plugins (use repeated flags)
+```bash
+claude --plugin-dir ./stopa-orchestration --plugin-dir ./other-plugin
 ```
-/plugin install github.com/cetej/STOPA --subdir stopa-orchestration
-```
+
+> **Note**: Since v2.1.76, `--plugin-dir` accepts only one path per flag. Use repeated flags for multiple plugins.
 
 ## Shared memory
 

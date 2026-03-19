@@ -4,6 +4,7 @@ description: Run autonomous optimization loop on a file (Karpathy Loop pattern).
 argument-hint: <target file path> [goal description]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
+model: sonnet
 effort: high
 ---
 

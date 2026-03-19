@@ -4,6 +4,7 @@ description: Orchestrate complex tasks by decomposing into subtasks and delegati
 argument-hint: [task description]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
+model: opus
 effort: high
 ---
 

@@ -43,6 +43,32 @@
           }
         ]
       }
+    ],
+    "TaskCompleted": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash hooks/task-completed.sh",
+            "timeout": 3,
+            "statusMessage": "Task completed — checking for learnings..."
+          }
+        ]
+      }
+    ],
+    "StopFailure": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash hooks/stop-failure.sh",
+            "timeout": 3,
+            "statusMessage": "API error — checking recovery..."
+          }
+        ]
+      }
     ]
   }
 }

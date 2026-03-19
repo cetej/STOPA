@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STOPA — Orchestration System Explorer</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0f1117; --bg2: #1a1d27; --bg3: #242836; --bg4: #2e3347;
+    --text: #e2e8f0; --text2: #94a3b8; --text3: #64748b;
+    --accent: #f97316; --accent2: #fb923c;
+    --blue: #3b82f6; --green: #10b981; --purple: #a855f7;
+    --red: #ef4444; --yellow: #eab308; --pink: #ec4899; --cyan: #06b6d4;
+    --radius: 10px;
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+  code, .mono { font-family: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', monospace; }
+
+  /* Header */
+  header { display: flex; align-items: center; gap: 16px; padding: 12px 20px; background: var(--bg2); border-bottom: 1px solid var(--bg3); flex-shrink: 0; }
+  header h1 { font-size: 18px; font-weight: 700; color: var(--accent); }
+  header h1 span { color: var(--text2); font-weight: 400; }
+  .view-tabs { display: flex; gap: 4px; margin-left: auto; }
+  .view-tab { padding: 6px 14px; border-radius: 6px; border: 1px solid var(--bg4); background: transparent; color: var(--text2); cursor: pointer; font-size: 13px; transition: all .15s; }
+  .view-tab:hover { background: var(--bg3); color: var(--text); }
+  .view-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  /* Main layout */
+  .main { display: flex; flex: 1; overflow: hidden; }
+
+  /* Canvas */
+  .canvas-wrap { flex: 1; position: relative; overflow: hidden; }
+  .canvas-wrap svg { width: 100%; height: 100%; }
+
+  /* Detail panel */
+  .panel { width: 360px; background: var(--bg2); border-left: 1px solid var(--bg3); overflow-y: auto; flex-shrink: 0; transition: width .2s; }
+  .panel.collapsed { width: 0; overflow: hidden; }
+  .panel-header { padding: 16px; border-bottom: 1px solid var(--bg3); }
+  .panel-header h2 { font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+  .panel-header .badge { font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 500; }
+  .panel-body { padding: 16px; }
+  .panel-section { margin-bottom: 16px; }
+  .panel-section h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .5px; color: var(--text3); margin-bottom: 8px; }
+  .panel-section p { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 4px; }
+  .tag { font-size: 11px; padding: 3px 8px; border-radius: 4px; background: var(--bg3); color: var(--text2); }
+  .tag.read { border-left: 2px solid var(--blue); }
+  .tag.write { border-left: 2px solid var(--green); }
+  .tag.create { border-left: 2px solid var(--purple); }
+
+  /* Legend */
+  .legend { position: absolute; bottom: 16px; left: 16px; background: var(--bg2); border: 1px solid var(--bg3); border-radius: var(--radius); padding: 12px 16px; font-size: 11px; z-index: 10; }
+  .legend h4 { color: var(--text3); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; font-size: 10px; }
+  .legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; color: var(--text2); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .legend-line { width: 24px; height: 2px; flex-shrink: 0; }
+
+  /* Zoom controls */
+  .zoom-controls { position: absolute; top: 16px; right: 16px; display: flex; flex-direction: column; gap: 4px; z-index: 10; }
+  .zoom-btn { width: 32px; height: 32px; border-radius: 6px; border: 1px solid var(--bg3); background: var(--bg2); color: var(--text2); cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+  .zoom-btn:hover { background: var(--bg3); color: var(--text); }
+
+  /* Tier selector */
+  .tier-bar { position: absolute; top: 16px; left: 16px; display: flex; gap: 4px; z-index: 10; }
+  .tier-btn { padding: 6px 12px; border-radius: 6px; border: 1px solid var(--bg4); background: var(--bg2); color: var(--text2); cursor: pointer; font-size: 12px; }
+  .tier-btn:hover { background: var(--bg3); }
+  .tier-btn.active { border-color: var(--accent); color: var(--accent); }
+
+  /* SVG Nodes */
+  .node-group { cursor: pointer; }
+  .node-group:hover .node-rect { filter: brightness(1.2); }
+  .node-group.selected .node-rect { stroke: var(--accent); stroke-width: 2; }
+  .node-label { font-family: -apple-system, system-ui, sans-serif; font-weight: 600; fill: var(--text); pointer-events: none; }
+  .node-sub { font-family: -apple-system, system-ui, sans-serif; font-weight: 400; fill: var(--text2); pointer-events: none; }
+  .node-icon { font-size: 18px; pointer-events: none; }
+  .conn-line { fill: none; stroke-width: 1.5; opacity: .5; }
+  .conn-line:hover { opacity: 1; stroke-width: 2.5; }
+  .conn-line.read { stroke: var(--blue); }
+  .conn-line.write { stroke: var(--green); }
+  .conn-line.invoke { stroke: var(--accent); stroke-dasharray: 6 3; }
+
+  /* Workflow view */
+  .phase-node { cursor: pointer; }
+  .phase-node:hover .phase-rect { filter: brightness(1.15); }
+  .phase-node.active .phase-rect { stroke: var(--accent); stroke-width: 2.5; }
+  .phase-arrow { fill: none; stroke: var(--text3); stroke-width: 1.5; }
+
+  /* Distribution view */
+  .dist-node { cursor: pointer; }
+
+  /* Tooltip */
+  .tooltip { position: absolute; background: var(--bg3); border: 1px solid var(--bg4); border-radius: 6px; padding: 8px 12px; font-size: 12px; color: var(--text); pointer-events: none; z-index: 100; max-width: 220px; display: none; }
+
+  /* Budget gauge */
+  .gauge-wrap { margin-bottom: 12px; }
+  .gauge-label { font-size: 12px; color: var(--text2); margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .gauge-bar { height: 6px; background: var(--bg4); border-radius: 3px; overflow: hidden; }
+  .gauge-fill { height: 100%; border-radius: 3px; transition: width .3s; }
+  .gauge-fill.ok { background: var(--green); }
+  .gauge-fill.warn { background: var(--yellow); }
+  .gauge-fill.danger { background: var(--red); }
+
+  /* Circuit breaker */
+  .breaker { display: flex; align-items: center; gap: 8px; padding: 8px; background: var(--bg); border-radius: 6px; margin-bottom: 6px; font-size: 12px; }
+  .breaker-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .breaker-dot.green { background: var(--green); }
+  .breaker-dot.red { background: var(--red); }
+
+  /* Phase detail */
+  .phase-step { padding: 8px 12px; background: var(--bg); border-radius: 6px; margin-bottom: 6px; font-size: 12px; border-left: 3px solid var(--bg4); }
+  .phase-step.active-step { border-left-color: var(--accent); }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 3px; }
+
+  /* Responsive */
+  @media (max-width: 900px) { .panel { width: 280px; } }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>STOPA <span>Orchestration Explorer</span></h1>
+  <div class="view-tabs">
+    <button class="view-tab active" onclick="switchView('architecture')">Architektura</button>
+    <button class="view-tab" onclick="switchView('workflow')">Workflow</button>
+    <button class="view-tab" onclick="switchView('budget')">Budget</button>
+    <button class="view-tab" onclick="switchView('distribution')">Distribuce</button>
+  </div>
+</header>
+
+<div class="main">
+  <div class="canvas-wrap" id="canvasWrap">
+    <svg id="canvas" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arr-blue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#3b82f6" opacity=".6"/></marker>
+        <marker id="arr-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#10b981" opacity=".6"/></marker>
+        <marker id="arr-orange" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#f97316" opacity=".6"/></marker>
+        <marker id="arr-gray" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#64748b" opacity=".6"/></marker>
+      </defs>
+    </svg>
+    <div class="tooltip" id="tooltip"></div>
+  </div>
+  <div class="panel" id="panel">
+    <div class="panel-header" id="panelHeader">
+      <h2>Vyber komponentu</h2>
+    </div>
+    <div class="panel-body" id="panelBody">
+      <div class="panel-section">
+        <p style="color:var(--text3)">Klikni na uzel v diagramu pro zobrazení detailů.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────────────
+const skills = [
+  { id:'orchestrate', label:'orchestrate', icon:'🎯', role:'Conductor', desc:'Dekompozice úkolů, delegace na agenty/skills, koordinace workflow. Hlavní řídící smyčka systému.', color:'#f97316', reads:['state','budget','decisions','learnings','checkpoint'], writes:['state','budget','decisions'], layer:'core' },
+  { id:'scout', label:'scout', icon:'🔍', role:'Explorer', desc:'Průzkum a mapování kódu před změnami. Identifikuje vzory, závislosti, rizika.', color:'#3b82f6', reads:['learnings','budget'], writes:['state'], layer:'core' },
+  { id:'critic', label:'critic', icon:'⚖️', role:'Reviewer', desc:'Hodnocení kvality kódu, plánů a výstupů. 8 dimenzí: správnost, bezpečnost, edge cases, výkon...', color:'#ef4444', reads:['learnings'], writes:['budget'], layer:'core' },
+  { id:'scribe', label:'scribe', icon:'📝', role:'Recorder', desc:'Záznam rozhodnutí, poznatků, údržba paměti. Archivace starých záznamů.', color:'#10b981', reads:['state','decisions','learnings'], writes:['decisions','learnings','state','decisions-archive','budget-archive'], layer:'core' },
+  { id:'budget', label:'budget', icon:'💰', role:'Controller', desc:'Sledování nákladů, tier limity, circuit breakers. Odhad tokenů a ceny.', color:'#eab308', reads:['budget'], writes:['budget'], layer:'support' },
+  { id:'checkpoint', label:'checkpoint', icon:'💾', role:'Session Mgr', desc:'Ukládání a obnova stavu session. Resume prompt pro pokračování práce.', color:'#a855f7', reads:['checkpoint','state'], writes:['checkpoint','state'], layer:'support' },
+  { id:'watch', label:'watch', icon:'📡', role:'Scanner', desc:'Scan novinek z AI/ML ekosystému. Claude Code updates, PyTorch, HuggingFace...', color:'#06b6d4', reads:[], writes:['news'], layer:'support' },
+  { id:'skill-generator', label:'skill-generator', icon:'🔧', role:'Meta-skill', desc:'Vytváření a vylepšování skills. Audit existujících, návrh nových.', color:'#ec4899', reads:['learnings'], writes:[], layer:'meta' },
+  { id:'dependency-audit', label:'dep-audit', icon:'📦', role:'Auditor', desc:'Kontrola verzí závislostí, breaking changes, bezpečnostní problémy.', color:'#8b5cf6', reads:['learnings'], writes:[], layer:'meta' },
+  { id:'project-init', label:'project-init', icon:'🚀', role:'Initializer', desc:'Scaffold nového projektu — .claude/ struktura, memory šablony, CLAUDE.md.', color:'#14b8a6', reads:[], writes:['state','decisions','learnings','budget','decisions-archive','budget-archive'], layer:'meta' },
+];
+
+const memoryFiles = [
+  { id:'state', label:'state.md', desc:'Aktivní úkol, progress subtasků, historie', color:'#f97316', icon:'📋' },
+  { id:'decisions', label:'decisions.md', desc:'Log rozhodnutí s kontextem a rationale', color:'#10b981', icon:'📜' },
+  { id:'learnings', label:'learnings.md', desc:'Vzory, anti-vzory, skill gapy', color:'#3b82f6', icon:'🧠' },
+  { id:'budget', label:'budget.md', desc:'Tier, countery agentů/kritiků, event log', color:'#eab308', icon:'💳' },
+  { id:'checkpoint', label:'checkpoint.md', desc:'Snapshot session s resume promptem', color:'#a855f7', icon:'🔖' },
+  { id:'news', label:'news.md', desc:'Výsledky /watch scanů, action items', color:'#06b6d4', icon:'📰' },
+  { id:'decisions-archive', label:'decisions-archive.md', desc:'Archiv starých rozhodnutí', color:'#64748b', icon:'🗄️' },
+  { id:'budget-archive', label:'budget-archive.md', desc:'Archiv budget historie', color:'#64748b', icon:'🗃️' },
+];
+
+const hooks = [
+  { id:'checkpoint-check', label:'checkpoint-check.sh', event:'SessionStart', desc:'Injektuje aktivní checkpoint do kontextu', color:'#a855f7' },
+  { id:'memory-maintenance', label:'memory-maintenance.sh', event:'SessionStart', desc:'Varuje pokud memory soubory > 100 řádků', color:'#eab308' },
+  { id:'scribe-reminder', label:'scribe-reminder.sh', event:'Stop', desc:'Připomíná záznam rozhodnutí před koncem', color:'#10b981' },
+];
+
+const phases = [
+  { id:0, label:'Phase 0', name:'Budget & Checkpoint', desc:'Kontrola rozpočtu a uloženého stavu. Nabídka pokračování z checkpointu.', color:'#64748b', skills:['budget','checkpoint'], steps:['Přečti budget.md — je úkol přes limit?','Přečti checkpoint.md — existuje uložená session?','Pokud ano → zeptej se: Pokračovat nebo nový?'] },
+  { id:1, label:'Phase 1', name:'Understand & Classify', desc:'Analýza úkolu, určení scope a complexity tier.', color:'#3b82f6', skills:['orchestrate'], steps:['Parsuj popis úkolu','Urči scope: single file / multi-file / cross-cutting','Přiřaď tier: light / standard / deep'] },
+  { id:2, label:'Phase 2', name:'Scout', desc:'Průzkum kódu proporcionální k tier.', color:'#06b6d4', skills:['scout'], steps:['light → Glob/Grep přímo, max 3 soubory','standard → /scout skill, max 10 souborů','deep → /scout + paralelní agenti'] },
+  { id:3, label:'Phase 3', name:'Plan', desc:'Dekompozice na subtasky, identifikace závislostí a paralelismu.', color:'#a855f7', skills:['orchestrate'], steps:['Rozlož na subtasky s závislostmi','Klasifikuj: agent / skill / přímo','Zapiš plán do state.md','Identifikuj co může běžet paralelně'] },
+  { id:4, label:'Phase 4', name:'Execute', desc:'Spuštění subtasků — agenti, skills, přímé akce. Paralelní waves.', color:'#f97316', skills:['orchestrate','scout','critic'], steps:['Pro každý subtask (respektuj závislosti):','→ Agent: spawn sub-agenta','→ Skill: zavolej /skill-name','→ Simple: udělej přímo','Paralelně: 2-3 nezávislé agenty najednou','Po každém: update budget, /critic check'] },
+  { id:5, label:'Phase 5', name:'Verify', desc:'Celkové hodnocení kritikem. PASS/WARN/FAIL.', color:'#ef4444', skills:['critic'], steps:['Spusť /critic na celý výstup','PASS → pokračuj do Phase 6','WARN → iteruj specifické subtasky','FAIL → STOP, eskaluj na uživatele','2× FAIL = circuit breaker'] },
+  { id:6, label:'Phase 6', name:'Learn & Close', desc:'Záznam poznatků, archivace, uzavření úkolu.', color:'#10b981', skills:['budget','scribe','skill-generator'], steps:['/budget report — agent count / limit','/scribe complete — označ task jako done','Zapiš nové vzory do learnings.md','Navrhni nový skill pokud se vzor opakuje'] },
+];
+
+const tiers = {
+  light:  { agents:[0,1], critics:1, scout:'Povrchový', when:'Single file fix', color:'#10b981' },
+  standard: { agents:[2,4], critics:2, scout:'Hloubkový', when:'Multi-file změna', color:'#eab308' },
+  deep:   { agents:[5,8], critics:3, scout:'Plný mapping', when:'Cross-cutting feature', color:'#ef4444' },
+};
+
+const breakers = [
+  { label:'Agent Loop', desc:'Stejný agent 3× na stejný subtask', limit:'3×' },
+  { label:'Critic Fail', desc:'2× FAIL verdikt na stejný cíl', limit:'2×' },
+  { label:'Nesting Depth', desc:'orchestrator→skill→agent > 2 úrovně', limit:'>2' },
+  { label:'Memory Bloat', desc:'Jakýkoli memory soubor > 500 řádků', limit:'500 lines' },
+  { label:'Budget Exceeded', desc:'Counter překročí tier limit', limit:'over tier' },
+];
+
+const targets = [
+  { id:'ng-robot', label:'NG-ROBOT', desc:'Hlavní desktop projekt — ML, video processing', url:'github.com/cetej/NG-ROBOT', color:'#3b82f6' },
+  { id:'test1', label:'test1', desc:'Pyramid Flow — web session', url:'github.com/cetej/test1', color:'#10b981' },
+  { id:'adobe-automat', label:'ADOBE-AUTOMAT', desc:'Adobe automatizace', url:'github.com/cetej/ADOBE-AUTOMAT', color:'#a855f7' },
+];
+
+// ─── STATE ──────────────────────────────────────────────────────
+const state = {
+  view: 'architecture',
+  selected: null,
+  selectedType: null,
+  tier: 'standard',
+  activePhase: null,
+  zoom: 1,
+  panX: 0, panY: 0,
+};
+
+// ─── VIEWS ──────────────────────────────────────────────────────
+function switchView(v) {
+  state.view = v;
+  state.selected = null;
+  state.selectedType = null;
+  document.querySelectorAll('.view-tab').forEach(t => t.classList.toggle('active', t.textContent.toLowerCase().includes(
+    v === 'architecture' ? 'architektura' : v === 'workflow' ? 'workflow' : v === 'budget' ? 'budget' : 'distribuce'
+  )));
+  render();
+  showDefaultPanel();
+}
+
+function render() {
+  const svg = document.getElementById('canvas');
+  svg.innerHTML = svg.querySelector('defs').outerHTML;
+  const fn = { architecture: renderArchitecture, workflow: renderWorkflow, budget: renderBudget, distribution: renderDistribution };
+  fn[state.view]();
+}
+
+// ─── ARCHITECTURE VIEW ──────────────────────────────────────────
+function renderArchitecture() {
+  const svg = document.getElementById('canvas');
+  const W = svg.clientWidth || 900, H = svg.clientHeight || 600;
+
+  // Layout: skills top, memory bottom, hooks right
+  const skillPositions = {};
+  const coreSkills = skills.filter(s => s.layer === 'core');
+  const supportSkills = skills.filter(s => s.layer === 'support');
+  const metaSkills = skills.filter(s => s.layer === 'meta');
+
+  const cx = W / 2, startY = 60;
+  // Core row
+  layoutRow(coreSkills, cx, startY, 170, skillPositions);
+  // Support row
+  layoutRow(supportSkills, cx, startY + 130, 190, skillPositions);
+  // Meta row
+  layoutRow(metaSkills, cx, startY + 260, 190, skillPositions);
+
+  // Memory row
+  const memPositions = {};
+  const mainMem = memoryFiles.filter(m => !m.id.includes('archive'));
+  const archiveMem = memoryFiles.filter(m => m.id.includes('archive'));
+  layoutMemRow(mainMem, cx, startY + 410, 140, memPositions);
+  layoutMemRow(archiveMem, cx, startY + 490, 160, memPositions);
+
+  // Draw connections first
+  skills.forEach(s => {
+    const sp = skillPositions[s.id];
+    if (!sp) return;
+    s.reads.forEach(m => {
+      const mp = memPositions[m];
+      if (mp) drawCurve(svg, sp.x, sp.y + 22, mp.x, mp.y - 16, 'read', 'arr-blue');
+    });
+    s.writes.forEach(m => {
+      const mp = memPositions[m];
+      if (mp) drawCurve(svg, sp.x, sp.y + 22, mp.x, mp.y - 16, 'write', 'arr-green');
+    });
+  });
+
+  // Draw nodes
+  skills.forEach(s => {
+    const p = skillPositions[s.id];
+    if (p) drawSkillNode(svg, s, p.x, p.y);
+  });
+  memoryFiles.forEach(m => {
+    const p = memPositions[m.id];
+    if (p) drawMemNode(svg, m, p.x, p.y);
+  });
+
+  // Layer labels
+  addLabel(svg, 30, startY + 10, 'SKILLS — Core', var_text3());
+  addLabel(svg, 30, startY + 140, 'SKILLS — Support', var_text3());
+  addLabel(svg, 30, startY + 270, 'SKILLS — Meta', var_text3());
+  addLabel(svg, 30, startY + 400, 'MEMORY', var_text3());
+
+  // Hooks mini-section
+  const hookX = W - 120;
+  addLabel(svg, hookX - 30, startY + 10, 'HOOKS', var_text3());
+  hooks.forEach((h, i) => {
+    drawHookNode(svg, h, hookX, startY + 40 + i * 50);
+  });
+}
+
+function layoutRow(items, cx, y, spacing, positions) {
+  const total = items.length * spacing;
+  const startX = cx - total / 2 + spacing / 2;
+  items.forEach((item, i) => {
+    positions[item.id] = { x: startX + i * spacing, y };
+  });
+}
+
+function layoutMemRow(items, cx, y, spacing, positions) {
+  const total = items.length * spacing;
+  const startX = cx - total / 2 + spacing / 2;
+  items.forEach((item, i) => {
+    positions[item.id] = { x: startX + i * spacing, y };
+  });
+}
+
+function drawSkillNode(svg, skill, x, y) {
+  const g = createSVG('g', { class: 'node-group', transform: `translate(${x - 65},${y - 22})` });
+  g.dataset.id = skill.id;
+  g.dataset.type = 'skill';
+  const rect = createSVG('rect', { class: 'node-rect', x: 0, y: 0, width: 130, height: 44, rx: 8, fill: skill.color + '18', stroke: skill.color + '50', 'stroke-width': 1 });
+  const icon = createSVG('text', { class: 'node-icon', x: 12, y: 28 }); icon.textContent = skill.icon;
+  const label = createSVG('text', { class: 'node-label', x: 34, y: 20, 'font-size': '12' }); label.textContent = '/' + skill.label;
+  const sub = createSVG('text', { class: 'node-sub', x: 34, y: 34, 'font-size': '10' }); sub.textContent = skill.role;
+  g.append(rect, icon, label, sub);
+  g.addEventListener('click', () => selectItem(skill.id, 'skill'));
+  if (state.selected === skill.id) g.classList.add('selected');
+  svg.appendChild(g);
+}
+
+function drawMemNode(svg, mem, x, y) {
+  const g = createSVG('g', { class: 'node-group', transform: `translate(${x - 55},${y - 16})` });
+  g.dataset.id = mem.id;
+  g.dataset.type = 'memory';
+  const rect = createSVG('rect', { class: 'node-rect', x: 0, y: 0, width: 110, height: 32, rx: 6, fill: mem.color + '15', stroke: mem.color + '40', 'stroke-width': 1 });
+  const icon = createSVG('text', { x: 8, y: 22, 'font-size': '13' }); icon.textContent = mem.icon;
+  const label = createSVG('text', { class: 'node-label', x: 26, y: 21, 'font-size': '11' }); label.textContent = mem.label;
+  g.append(rect, icon, label);
+  g.addEventListener('click', () => selectItem(mem.id, 'memory'));
+  if (state.selected === mem.id) g.classList.add('selected');
+  svg.appendChild(g);
+}
+
+function drawHookNode(svg, hook, x, y) {
+  const g = createSVG('g', { class: 'node-group', transform: `translate(${x - 50},${y})` });
+  g.dataset.id = hook.id;
+  g.dataset.type = 'hook';
+  const rect = createSVG('rect', { class: 'node-rect', x: 0, y: 0, width: 100, height: 36, rx: 6, fill: hook.color + '15', stroke: hook.color + '40', 'stroke-width': 1 });
+  const badge = createSVG('text', { x: 8, y: 14, 'font-size': '9', fill: hook.color }); badge.textContent = hook.event;
+  const label = createSVG('text', { class: 'node-label', x: 8, y: 28, 'font-size': '10' }); label.textContent = hook.id;
+  g.append(rect, badge, label);
+  g.addEventListener('click', () => selectItem(hook.id, 'hook'));
+  svg.appendChild(g);
+}
+
+function drawCurve(svg, x1, y1, x2, y2, type, marker) {
+  const midY = (y1 + y2) / 2;
+  const d = `M${x1},${y1} C${x1},${midY} ${x2},${midY} ${x2},${y2}`;
+  const path = createSVG('path', { d, class: `conn-line ${type}`, 'marker-end': `url(#${marker})` });
+  svg.appendChild(path);
+}
+
+function addLabel(svg, x, y, text, fill) {
+  const t = createSVG('text', { x, y, 'font-size': '10', fill, 'font-family': '-apple-system, system-ui, sans-serif', 'font-weight': '600', 'letter-spacing': '.5px' });
+  t.textContent = text.toUpperCase();
+  svg.appendChild(t);
+}
+
+// ─── WORKFLOW VIEW ──────────────────────────────────────────────
+function renderWorkflow() {
+  const svg = document.getElementById('canvas');
+  const W = svg.clientWidth || 900, H = svg.clientHeight || 600;
+
+  const phaseW = 160, phaseH = 80, gap = 20;
+  // 2 rows: 0-3 top, 4-6 bottom
+  const row1 = phases.slice(0, 4), row2 = phases.slice(4);
+
+  const startX1 = (W - (row1.length * (phaseW + gap) - gap)) / 2;
+  const y1 = H * 0.25, y2 = H * 0.6;
+  const startX2 = (W - (row2.length * (phaseW + gap) - gap)) / 2;
+
+  // Arrows row 1
+  row1.forEach((p, i) => {
+    const x = startX1 + i * (phaseW + gap);
+    if (i < row1.length - 1) {
+      const ax = x + phaseW + 2, ay = y1 + phaseH / 2;
+      svg.appendChild(createSVG('line', { x1: ax, y1: ay, x2: ax + gap - 4, y2: ay, class: 'phase-arrow', 'marker-end': 'url(#arr-gray)' }));
+    }
+  });
+  // Arrow down from row1 last to row2 first
+  const downX1 = startX1 + 3 * (phaseW + gap) + phaseW / 2;
+  const downX2 = startX2 + phaseW / 2;
+  svg.appendChild(createSVG('path', { d: `M${downX1},${y1 + phaseH} C${downX1},${y1 + phaseH + 60} ${downX2},${y2 - 60} ${downX2},${y2}`, class: 'phase-arrow', 'marker-end': 'url(#arr-gray)', fill: 'none' }));
+
+  // Arrows row 2
+  row2.forEach((p, i) => {
+    const x = startX2 + i * (phaseW + gap);
+    if (i < row2.length - 1) {
+      const ax = x + phaseW + 2, ay = y2 + phaseH / 2;
+      svg.appendChild(createSVG('line', { x1: ax, y1: ay, x2: ax + gap - 4, y2: ay, class: 'phase-arrow', 'marker-end': 'url(#arr-gray)' }));
+    }
+  });
+
+  // Phase nodes
+  row1.forEach((p, i) => drawPhaseNode(svg, p, startX1 + i * (phaseW + gap), y1, phaseW, phaseH));
+  row2.forEach((p, i) => drawPhaseNode(svg, p, startX2 + i * (phaseW + gap), y2, phaseW, phaseH));
+
+  // Tier indicator
+  const tierY = H - 50;
+  addLabel(svg, 30, tierY, `Aktivní tier: ${state.tier}`, tiers[state.tier].color);
+  const tierInfo = tiers[state.tier];
+  const infoText = createSVG('text', { x: 30, y: tierY + 18, 'font-size': '11', fill: var_text2(), 'font-family': '-apple-system, system-ui, sans-serif' });
+  infoText.textContent = `Agenti: ${tierInfo.agents[0]}-${tierInfo.agents[1]} | Kritici: ${tierInfo.critics} | Scout: ${tierInfo.scout}`;
+  svg.appendChild(infoText);
+}
+
+function drawPhaseNode(svg, phase, x, y, w, h) {
+  const g = createSVG('g', { class: 'phase-node', transform: `translate(${x},${y})` });
+  if (state.activePhase === phase.id) g.classList.add('active');
+  const rect = createSVG('rect', { class: 'phase-rect', x: 0, y: 0, width: w, height: h, rx: 10, fill: phase.color + '20', stroke: phase.color + '50', 'stroke-width': 1 });
+  const num = createSVG('text', { x: 12, y: 24, 'font-size': '11', fill: phase.color, 'font-family': 'monospace', 'font-weight': '700' }); num.textContent = phase.label;
+  const name = createSVG('text', { x: 12, y: 44, 'font-size': '13', fill: '#e2e8f0', 'font-weight': '600', 'font-family': '-apple-system, system-ui, sans-serif' }); name.textContent = phase.name;
+  const skillTags = createSVG('text', { x: 12, y: 64, 'font-size': '10', fill: '#94a3b8', 'font-family': '-apple-system, system-ui, sans-serif' });
+  skillTags.textContent = phase.skills.map(s => '/' + s).join(', ');
+  g.append(rect, num, name, skillTags);
+  g.addEventListener('click', () => { state.activePhase = phase.id; selectItem(phase.id, 'phase'); render(); });
+  svg.appendChild(g);
+}
+
+// ─── BUDGET VIEW ────────────────────────────────────────────────
+function renderBudget() {
+  const svg = document.getElementById('canvas');
+  const W = svg.clientWidth || 900, H = svg.clientHeight || 600;
+
+  // Tier cards
+  const tierKeys = ['light','standard','deep'];
+  const cardW = 220, cardH = 260, gap = 30;
+  const startX = (W - (3 * cardW + 2 * gap)) / 2;
+  const cardY = 60;
+
+  tierKeys.forEach((key, i) => {
+    const t = tiers[key];
+    const x = startX + i * (cardW + gap);
+    const isActive = state.tier === key;
+    const g = createSVG('g', { class: 'dist-node', transform: `translate(${x},${cardY})` });
+
+    const rect = createSVG('rect', { x: 0, y: 0, width: cardW, height: cardH, rx: 12, fill: isActive ? t.color + '20' : '#1a1d27', stroke: isActive ? t.color : '#2e3347', 'stroke-width': isActive ? 2 : 1 });
+    g.appendChild(rect);
+
+    const title = createSVG('text', { x: cardW/2, y: 35, 'text-anchor': 'middle', 'font-size': '18', 'font-weight': '700', fill: t.color, 'font-family': '-apple-system, system-ui, sans-serif' });
+    title.textContent = key.toUpperCase();
+    g.appendChild(title);
+
+    const when = createSVG('text', { x: cardW/2, y: 55, 'text-anchor': 'middle', 'font-size': '11', fill: '#94a3b8', 'font-family': '-apple-system, system-ui, sans-serif' });
+    when.textContent = t.when;
+    g.appendChild(when);
+
+    // Gauges
+    const metrics = [
+      { label: 'Agenti', val: t.agents[1], max: 8 },
+      { label: 'Kritici', val: t.critics, max: 3 },
+    ];
+    metrics.forEach((m, mi) => {
+      const gy = 80 + mi * 50;
+      const lbl = createSVG('text', { x: 20, y: gy, 'font-size': '11', fill: '#94a3b8', 'font-family': '-apple-system, system-ui, sans-serif' }); lbl.textContent = m.label;
+      const val = createSVG('text', { x: cardW - 20, y: gy, 'text-anchor': 'end', 'font-size': '12', fill: '#e2e8f0', 'font-weight': '600', 'font-family': 'monospace' }); val.textContent = `${t.agents ? t.agents[0]+'-' : ''}${m.val}`;
+      if (m.label === 'Kritici') val.textContent = m.val + '×';
+      if (m.label === 'Agenti') val.textContent = `${t.agents[0]}-${t.agents[1]}`;
+      const barBg = createSVG('rect', { x: 20, y: gy + 6, width: cardW - 40, height: 6, rx: 3, fill: '#242836' });
+      const pct = m.val / m.max;
+      const barFill = createSVG('rect', { x: 20, y: gy + 6, width: (cardW - 40) * pct, height: 6, rx: 3, fill: t.color });
+      g.append(lbl, val, barBg, barFill);
+    });
+
+    // Scout
+    const sy = 190;
+    const slbl = createSVG('text', { x: 20, y: sy, 'font-size': '11', fill: '#94a3b8', 'font-family': '-apple-system, system-ui, sans-serif' }); slbl.textContent = 'Scout';
+    const sval = createSVG('text', { x: cardW - 20, y: sy, 'text-anchor': 'end', 'font-size': '12', fill: '#e2e8f0', 'font-family': '-apple-system, system-ui, sans-serif' }); sval.textContent = t.scout;
+    g.append(slbl, sval);
+
+    // Click
+    g.style.cursor = 'pointer';
+    g.addEventListener('click', () => { state.tier = key; selectItem(key, 'tier'); render(); });
+    svg.appendChild(g);
+  });
+
+  // Circuit breakers
+  const cbY = cardY + cardH + 40;
+  addLabel(svg, startX, cbY, 'CIRCUIT BREAKERS', var_text3());
+
+  breakers.forEach((b, i) => {
+    const bx = startX + (i % 3) * (cardW + gap);
+    const by = cbY + 20 + Math.floor(i / 3) * 44;
+    const g = createSVG('g', { transform: `translate(${bx},${by})` });
+    const rect = createSVG('rect', { x: 0, y: 0, width: cardW, height: 36, rx: 6, fill: '#1a1d27', stroke: '#2e3347', 'stroke-width': 1 });
+    const dot = createSVG('circle', { cx: 16, cy: 18, r: 4, fill: '#10b981' });
+    const lbl = createSVG('text', { x: 28, y: 15, 'font-size': '11', fill: '#e2e8f0', 'font-weight': '600', 'font-family': '-apple-system, system-ui, sans-serif' }); lbl.textContent = b.label;
+    const limit = createSVG('text', { x: 28, y: 28, 'font-size': '10', fill: '#64748b', 'font-family': 'monospace' }); limit.textContent = 'Limit: ' + b.limit;
+    g.append(rect, dot, lbl, limit);
+    g.style.cursor = 'pointer';
+    g.addEventListener('click', () => selectItem(b.label, 'breaker'));
+    svg.appendChild(g);
+  });
+}
+
+// ─── DISTRIBUTION VIEW ──────────────────────────────────────────
+function renderDistribution() {
+  const svg = document.getElementById('canvas');
+  const W = svg.clientWidth || 900, H = svg.clientHeight || 600;
+
+  // STOPA source
+  const srcX = W / 2, srcY = 80;
+  drawDistNode(svg, { label: 'STOPA', desc: 'Source of Truth', color: '#f97316', icon: '🏠' }, srcX, srcY, true);
+
+  // Distribution methods
+  const methY = srcY + 120;
+  const plugX = srcX - 130, syncX = srcX + 130;
+  drawDistNode(svg, { label: 'Plugin', desc: 'claude --plugin-dir', color: '#a855f7', icon: '🔌' }, plugX, methY, false);
+  drawDistNode(svg, { label: 'Sync Script', desc: 'sync-orchestration.sh', color: '#3b82f6', icon: '🔄' }, syncX, methY, false);
+
+  // Arrows from source to methods
+  svg.appendChild(createSVG('line', { x1: srcX - 30, y1: srcY + 25, x2: plugX + 20, y2: methY - 25, class: 'phase-arrow', 'marker-end': 'url(#arr-gray)' }));
+  svg.appendChild(createSVG('line', { x1: srcX + 30, y1: srcY + 25, x2: syncX - 20, y2: methY - 25, class: 'phase-arrow', 'marker-end': 'url(#arr-gray)' }));
+
+  // Targets
+  const targetY = methY + 140;
+  const targetSpacing = 200;
+  const targetStartX = W / 2 - targetSpacing;
+  targets.forEach((t, i) => {
+    const tx = targetStartX + i * targetSpacing;
+    drawDistNode(svg, { label: t.label, desc: t.desc, color: t.color, icon: '📁' }, tx, targetY, false);
+
+    // Arrows from both methods to target
+    svg.appendChild(createSVG('path', {
+      d: `M${plugX},${methY + 25} C${plugX},${methY + 80} ${tx},${targetY - 60} ${tx},${targetY - 25}`,
+      class: 'phase-arrow', 'marker-end': 'url(#arr-gray)', fill: 'none', 'stroke-dasharray': '4 4'
+    }));
+    svg.appendChild(createSVG('path', {
+      d: `M${syncX},${methY + 25} C${syncX},${methY + 80} ${tx},${targetY - 60} ${tx},${targetY - 25}`,
+      class: 'phase-arrow', 'marker-end': 'url(#arr-gray)', fill: 'none'
+    }));
+  });
+
+  // What gets distributed
+  const infoY = targetY + 100;
+  addLabel(svg, 80, infoY, 'CO SE DISTRIBUUJE', var_text3());
+  const items = ['10 Skills', '3 Hooks', '6 Memory šablon', 'settings.json'];
+  items.forEach((item, i) => {
+    const t = createSVG('text', { x: 80 + i * 160, y: infoY + 24, 'font-size': '13', fill: '#e2e8f0', 'font-family': '-apple-system, system-ui, sans-serif' });
+    t.textContent = '• ' + item;
+    svg.appendChild(t);
+  });
+
+  // Note
+  const note = createSVG('text', { x: 80, y: infoY + 52, 'font-size': '11', fill: '#64748b', 'font-family': '-apple-system, system-ui, sans-serif' });
+  note.textContent = 'CLAUDE.md se nekopíruje — je projekt-specifický';
+  svg.appendChild(note);
+}
+
+function drawDistNode(svg, item, x, y, isSource) {
+  const w = isSource ? 160 : 150, h = isSource ? 50 : 44;
+  const g = createSVG('g', { class: 'dist-node', transform: `translate(${x - w/2},${y - h/2})` });
+  const rect = createSVG('rect', { x: 0, y: 0, width: w, height: h, rx: 10, fill: item.color + (isSource ? '25' : '15'), stroke: item.color + '50', 'stroke-width': isSource ? 2 : 1 });
+  const icon = createSVG('text', { x: 14, y: h/2 + 2, 'font-size': '16', 'dominant-baseline': 'middle' }); icon.textContent = item.icon;
+  const label = createSVG('text', { x: 36, y: h/2 - 5, 'font-size': isSource ? '15' : '13', fill: '#e2e8f0', 'font-weight': '600', 'font-family': '-apple-system, system-ui, sans-serif' }); label.textContent = item.label;
+  const desc = createSVG('text', { x: 36, y: h/2 + 11, 'font-size': '10', fill: '#94a3b8', 'font-family': '-apple-system, system-ui, sans-serif' }); desc.textContent = item.desc;
+  g.append(rect, icon, label, desc);
+  svg.appendChild(g);
+}
+
+// ─── PANEL ──────────────────────────────────────────────────────
+function selectItem(id, type) {
+  state.selected = id;
+  state.selectedType = type;
+  updatePanel();
+  render();
+}
+
+function showDefaultPanel() {
+  const header = document.getElementById('panelHeader');
+  const body = document.getElementById('panelBody');
+  const hints = {
+    architecture: 'Klikni na skill, memory soubor nebo hook pro detail.',
+    workflow: 'Klikni na fázi pro zobrazení kroků.',
+    budget: 'Klikni na tier pro výběr. Circuit breakers chrání před přetížením.',
+    distribution: 'STOPA distribuuje orchestraci do 3 projektů.',
+  };
+  header.innerHTML = `<h2>${viewName()}</h2>`;
+  body.innerHTML = `<div class="panel-section"><p style="color:var(--text3)">${hints[state.view]}</p></div>`;
+}
+
+function viewName() {
+  return { architecture: 'Architektura systému', workflow: 'Orchestrační workflow', budget: 'Budget & Limity', distribution: 'Distribuce' }[state.view];
+}
+
+function updatePanel() {
+  const header = document.getElementById('panelHeader');
+  const body = document.getElementById('panelBody');
+
+  if (state.selectedType === 'skill') {
+    const s = skills.find(x => x.id === state.selected);
+    if (!s) return;
+    header.innerHTML = `<h2>${s.icon} /${s.label} <span class="badge" style="background:${s.color}30;color:${s.color}">${s.role}</span></h2>`;
+    body.innerHTML = `
+      <div class="panel-section"><h3>Popis</h3><p>${s.desc}</p></div>
+      <div class="panel-section"><h3>Reads (vstup)</h3><div class="tag-list">${s.reads.map(r => `<span class="tag read">${r}.md</span>`).join('') || '<span class="tag">---</span>'}</div></div>
+      <div class="panel-section"><h3>Writes (výstup)</h3><div class="tag-list">${s.writes.map(w => `<span class="tag write">${w}.md</span>`).join('') || '<span class="tag">---</span>'}</div></div>
+      <div class="panel-section"><h3>Vrstva</h3><div class="tag-list"><span class="tag">${s.layer}</span></div></div>
+      <div class="panel-section"><h3>Použití</h3><p class="mono" style="font-size:12px;color:var(--accent)">/${s.label} [argumenty]</p></div>
+    `;
+  } else if (state.selectedType === 'memory') {
+    const m = memoryFiles.find(x => x.id === state.selected);
+    if (!m) return;
+    const readers = skills.filter(s => s.reads.includes(m.id));
+    const writers = skills.filter(s => s.writes.includes(m.id));
+    header.innerHTML = `<h2>${m.icon} ${m.label}</h2>`;
+    body.innerHTML = `
+      <div class="panel-section"><h3>Obsah</h3><p>${m.desc}</p></div>
+      <div class="panel-section"><h3>Kdo čte</h3><div class="tag-list">${readers.map(r => `<span class="tag read">${r.icon} /${r.label}</span>`).join('') || '<span class="tag">nikdo</span>'}</div></div>
+      <div class="panel-section"><h3>Kdo zapisuje</h3><div class="tag-list">${writers.map(w => `<span class="tag write">${w.icon} /${w.label}</span>`).join('') || '<span class="tag">nikdo</span>'}</div></div>
+      <div class="panel-section"><h3>Cesta</h3><p class="mono" style="font-size:12px;color:var(--text3)">.claude/memory/${m.label}</p></div>
+    `;
+  } else if (state.selectedType === 'hook') {
+    const h = hooks.find(x => x.id === state.selected);
+    if (!h) return;
+    header.innerHTML = `<h2>🪝 ${h.label} <span class="badge" style="background:${h.color}30;color:${h.color}">${h.event}</span></h2>`;
+    body.innerHTML = `
+      <div class="panel-section"><h3>Co dělá</h3><p>${h.desc}</p></div>
+      <div class="panel-section"><h3>Spouští se</h3><p>${h.event === 'SessionStart' ? 'Na začátku každé session' : 'Při ukončení session'}</p></div>
+      <div class="panel-section"><h3>Cesta</h3><p class="mono" style="font-size:12px;color:var(--text3)">.claude/hooks/${h.label}</p></div>
+    `;
+  } else if (state.selectedType === 'phase') {
+    const p = phases.find(x => x.id === state.selected);
+    if (!p) return;
+    header.innerHTML = `<h2 style="color:${p.color}">${p.label}: ${p.name}</h2>`;
+    body.innerHTML = `
+      <div class="panel-section"><h3>Popis</h3><p>${p.desc}</p></div>
+      <div class="panel-section"><h3>Kroky</h3>${p.steps.map(s => `<div class="phase-step">${s}</div>`).join('')}</div>
+      <div class="panel-section"><h3>Používá skills</h3><div class="tag-list">${p.skills.map(s => { const sk = skills.find(x=>x.id===s); return `<span class="tag" style="border-left:2px solid ${sk?.color||'#666'}">${sk?.icon||''} /${s}</span>`; }).join('')}</div></div>
+    `;
+  } else if (state.selectedType === 'tier') {
+    const t = tiers[state.selected];
+    header.innerHTML = `<h2 style="color:${t.color}">Tier: ${state.selected.toUpperCase()}</h2>`;
+    body.innerHTML = `
+      <div class="panel-section"><h3>Kdy použít</h3><p>${t.when}</p></div>
+      <div class="panel-section"><h3>Limity</h3>
+        <div class="gauge-wrap"><div class="gauge-label"><span>Agenti</span><span>${t.agents[0]}-${t.agents[1]}</span></div><div class="gauge-bar"><div class="gauge-fill ok" style="width:${t.agents[1]/8*100}%"></div></div></div>
+        <div class="gauge-wrap"><div class="gauge-label"><span>Kritici</span><span>${t.critics}×</span></div><div class="gauge-bar"><div class="gauge-fill ${t.critics > 2 ? 'warn' : 'ok'}" style="width:${t.critics/3*100}%"></div></div></div>
+        <div class="gauge-wrap"><div class="gauge-label"><span>Scout</span><span>${t.scout}</span></div></div>
+      </div>
+      <div class="panel-section"><h3>Circuit Breakers</h3>${breakers.map(b => `<div class="breaker"><span class="breaker-dot green"></span><span>${b.label}: ${b.limit}</span></div>`).join('')}</div>
+    `;
+  } else if (state.selectedType === 'breaker') {
+    const b = breakers.find(x => x.label === state.selected);
+    if (!b) return;
+    header.innerHTML = `<h2>🛑 ${b.label}</h2>`;
+    body.innerHTML = `
+      <div class="panel-section"><h3>Co hlídá</h3><p>${b.desc}</p></div>
+      <div class="panel-section"><h3>Limit</h3><p class="mono" style="font-size:16px;color:var(--red)">${b.limit}</p></div>
+      <div class="panel-section"><h3>Akce při překročení</h3><p>STOP — práce se zastaví. Uživatel musí rozhodnout jak pokračovat.</p></div>
+    `;
+  }
+}
+
+// ─── SVG HELPERS ────────────────────────────────────────────────
+function createSVG(tag, attrs) {
+  const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for (const [k, v] of Object.entries(attrs || {})) el.setAttribute(k, v);
+  return el;
+}
+function var_text2() { return '#94a3b8'; }
+function var_text3() { return '#64748b'; }
+
+// ─── INIT ───────────────────────────────────────────────────────
+window.addEventListener('load', () => { render(); showDefaultPanel(); });
+window.addEventListener('resize', () => render());
+</script>
+</body>
+</html>

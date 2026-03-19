@@ -1,11 +1,16 @@
 {
   "name": "stopa-orchestration",
-  "description": "Multi-agent orchestration system with budget control, session continuity, and self-improvement. Includes /orchestrate, /scout, /critic, /scribe, /budget, /checkpoint, /watch, /skill-generator, /dependency-audit, and /project-init.",
-  "version": "1.2.0",
+  "description": "Multi-agent orchestration system with budget control, session continuity, and self-improvement. Includes /orchestrate, /scout, /critic, /scribe, /budget, /checkpoint, /watch, /skill-generator, /dependency-audit, /autoloop, and /project-init.",
+  "version": "1.3.0",
   "author": {
     "name": "cetej"
   },
   "homepage": "https://github.com/cetej/STOPA",
   "repository": "https://github.com/cetej/STOPA",
+  "source": {
+    "type": "git-subdir",
+    "url": "https://github.com/cetej/STOPA",
+    "subdir": "stopa-orchestration"
+  },
   "license": "MIT"
 }
