@@ -1,6 +1,6 @@
 ---
 name: orchestrate
-description: Orchestrate complex tasks by decomposing them into subtasks, delegating to specialized agents/skills, and managing the workflow. Use when a task requires multiple steps, coordination, or is too complex for a single action.
+description: Orchestrate complex tasks by decomposing into subtasks and delegating to agents/skills. Use when a task requires multiple steps, coordination, or is too complex for a single action.
 argument-hint: [task description]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent

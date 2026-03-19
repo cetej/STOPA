@@ -12,6 +12,12 @@ effort: medium
 
 You initialize new projects with the optimal `.claude/` structure for orchestration system integration.
 
+## When Things Go Wrong
+
+- **Directory already has `.claude/`**: Use `--force` to overwrite, or skip existing files. Never silently overwrite without flag.
+- **Git not initialized**: Init git first (`git init`), then proceed with `.claude/` setup.
+- **No write permissions**: Report the error clearly, suggest running with appropriate permissions.
+
 ## System Integration
 
 This skill is part of the STOPA orchestration system. After initialization, the user installs the full orchestration via:

@@ -1,6 +1,6 @@
 ---
 name: budget
-description: Track and control orchestration costs. Use to check current budget status, set limits, or when the system needs a cost assessment before spawning agents. Also auto-invoked by orchestrator before expensive operations.
+description: Track and control orchestration costs. Use to check budget status, set limits, or before spawning agents. Auto-invoked by orchestrator before expensive operations.
 argument-hint: [check / report / reset]
 user-invocable: true
 allowed-tools: Read, Write, Edit
@@ -17,6 +17,13 @@ You are the budget controller. You track resource usage, enforce limits, and pre
 The budget is tracked in `.claude/memory/budget.md`. Read it first.
 
 If it doesn't exist, create it with the initial template (see below).
+
+## Process
+
+### Step 1: Read the budget ledger (`.claude/memory/budget.md`)
+### Step 2: Parse the command (check / report / reset)
+### Step 3: Execute the requested operation
+### Step 4: Update the ledger and report back
 
 ## Input
 
