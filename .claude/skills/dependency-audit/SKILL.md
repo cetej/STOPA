@@ -107,6 +107,13 @@ Python 3.8 → 3.10+  (MUST do first)
 2. <Include "test X after upgrading Y" notes>
 ```
 
+## When Things Go Wrong
+
+- **WebSearch returns nothing**: Package may be renamed or deprecated. Try alternative names, check GitHub directly.
+- **Version conflict detected**: Flag as critical in the report, don't try to resolve — let the user decide the trade-off.
+- **No requirements.txt found**: Check for `pyproject.toml`, `setup.py`, `Pipfile`, or `environment.yml` instead.
+- **Package not on PyPI**: It may be a GitHub-only package or custom fork. Note this in the report.
+
 ## Rules
 
 1. **Don't guess versions** — always verify via WebSearch
