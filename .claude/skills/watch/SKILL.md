@@ -137,6 +137,13 @@ How to trigger:
 - Orchestrator checks `.claude/memory/news.md` last scan date — if >7 days, suggest running `/watch`
 - User can set up a hook or reminder externally
 
+## When Things Go Wrong
+
+- **WebSearch returns no results for a tier**: Skip that tier, note it in the report. Don't retry with vaguer queries — that adds noise.
+- **WebFetch fails on a page**: Use the search snippet summary instead. Don't block the whole scan for one broken URL.
+- **All sources return nothing new**: Report "No significant updates since last scan" — this is a valid result, not a failure.
+- **news.md is missing or empty**: Create it with the standard template (see Output Format). First scan initializes the file.
+
 ## Rules
 
 1. **Signal over noise** — skip irrelevant results ruthlessly. Better to report 3 useful items than 20 tangential ones.
