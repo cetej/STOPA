@@ -1,6 +1,6 @@
 ---
 name: watch
-description: Scan news and updates from AI/ML ecosystem, Claude Code, and community sources. Use weekly to stay current on tools, libraries, and techniques relevant to this project and orchestration system. Also use when the user asks "what's new" or "check for updates".
+description: Scan AI/ML ecosystem and Claude Code news weekly. Use when the user asks "what's new", "check for updates", or when last scan in news.md is >7 days old.
 argument-hint: [full / quick / topic:specific-topic]
 user-invocable: true
 allowed-tools: Read, Write, Edit, WebSearch, WebFetch, Agent
