@@ -65,5 +65,12 @@ Accumulated knowledge from all tasks. Used by all skills/agents to improve over 
 ### Agent Teams Native API
 - **Situation**: Agent Teams jsou GA — native coordination přes SendMessage, shared task list
 - **Potřeba**: /orchestrate deep tier by měl použít native Agent Teams místo manuálních Agent() volání
-- **Priority**: medium
+- **Priority**: medium — DONE (implemented + tested 2026-03-19)
 - **Source**: /watch scan, 2026-03-18
+
+### Agent Teams — Live Test Findings (2026-03-19)
+- **Windows in-process mode works**: `backendType: "in-process"` confirmed functional on Windows 11
+- **Explore agents can't shutdown gracefully**: Explore subagent_type lacks SendMessage tool → can't respond to shutdown_request → TeamDelete fails. Workaround: manual cleanup of `~/.claude/teams/` directory.
+- **Spawn prompt vs SendMessage**: Teammates start working from spawn prompt immediately. Sending another "start" message via SendMessage causes duplicate work. Best practice: put full instructions in spawn prompt, use SendMessage only for follow-up coordination.
+- **Recommendation**: For audit/research tasks, use `subagent_type: "general-purpose"` instead of Explore, so teammates can respond to shutdown and use SendMessage.
+- **Source**: Live test — skill-audit team with 2 Sonnet teammates

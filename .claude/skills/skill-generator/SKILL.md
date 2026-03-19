@@ -75,6 +75,10 @@ description: <when to use - be specific, Claude matches on this>
 argument-hint: <expected args>
 disable-model-invocation: <true for side-effects, false otherwise>
 allowed-tools: <comma-separated minimal tool list>
+model: <haiku / sonnet / opus>
+effort: <low / medium / high>
+maxTurns: <number>
+disallowedTools: <comma-separated tools to block, or "" if none>
 ---
 
 # <Title>

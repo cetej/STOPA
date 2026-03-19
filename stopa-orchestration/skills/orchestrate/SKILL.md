@@ -7,6 +7,7 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
 model: opus
 effort: high
 maxTurns: 40
+disallowedTools: ""
 ---
 
 # Orchestrator — The Conductor

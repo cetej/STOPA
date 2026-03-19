@@ -57,6 +57,19 @@
         ]
       }
     ],
+    "TeammateIdle": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash hooks/teammate-idle.sh",
+            "timeout": 10,
+            "statusMessage": "Quality gate — checking teammate output..."
+          }
+        ]
+      }
+    ],
     "StopFailure": [
       {
         "matcher": "",

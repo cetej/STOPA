@@ -7,6 +7,7 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 model: sonnet
 effort: high
 maxTurns: 30
+disallowedTools: Agent
 ---
 
 # AutoLoop — Autonomous Optimization Loop

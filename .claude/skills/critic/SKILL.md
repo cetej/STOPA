@@ -7,6 +7,7 @@ allowed-tools: Read, Glob, Grep, Bash, Agent
 model: sonnet
 effort: high
 maxTurns: 15
+disallowedTools: Write, Edit
 ---
 
 # Critic — Quality Gate
