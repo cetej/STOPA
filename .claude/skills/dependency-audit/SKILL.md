@@ -114,6 +114,12 @@ Python 3.8 → 3.10+  (MUST do first)
 - **No requirements.txt found**: Check for `pyproject.toml`, `setup.py`, `Pipfile`, or `environment.yml` instead.
 - **Package not on PyPI**: It may be a GitHub-only package or custom fork. Note this in the report.
 
+## After Completion
+
+1. Update `.claude/memory/learnings.md` — if the audit revealed a new dependency pattern or risk, add it
+2. Log significant findings to `.claude/memory/decisions.md` — especially if recommending a major version upgrade path
+3. Update `.claude/memory/news.md` — if any package has a notable new release not yet tracked
+
 ## Rules
 
 1. **Don't guess versions** — always verify via WebSearch
