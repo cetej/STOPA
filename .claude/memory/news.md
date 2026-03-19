@@ -10,25 +10,21 @@ Tracked findings from `/watch` scans. Only ACTION and WATCH items are recorded h
 
 ### Action Items
 
-1. **Plugin `git-subdir` source type** (v2.1.69) — install plugins from git repo subdirectories
-   - Impact: high — enables clean `/plugin install github.com/cetej/STOPA` with subdir path
-   - Status: open — update plugin.json + README install docs
+1. ~~**Plugin `git-subdir` source type** (v2.1.69)~~ — **DONE** (plugin.json + README updated, v1.3.0)
 
 2. **`${CLAUDE_PLUGIN_DATA}` persistent state** (v2.1.78) — plugin-specific storage surviving updates
    - Impact: medium — use for plugin memory instead of `.claude/memory/`
    - Status: open
 
-3. **New hook events** (v2.1.69-76) — PostCompact, StopFailure, InstructionsLoaded, TeammateIdle, TaskCompleted, Elicitation
-   - Impact: high — PostCompact for auto-checkpoint, TeammateIdle/TaskCompleted for orchestration
-   - Status: open
+3. **New hook events** (v2.1.69-76) — PostCompact, StopFailure, TaskCompleted implemented. InstructionsLoaded, TeammateIdle, Elicitation still open.
+   - Impact: high — PostCompact, StopFailure, TaskCompleted now active
+   - Status: **partially done** — 3/6 events implemented
 
-4. **Skills frontmatter fields** (v2.1.69) — `model:`, `effort`, `maxTurns`, `disallowedTools`, `${CLAUDE_SKILL_DIR}`
-   - Impact: high — per-skill model selection (haiku for validators, opus for critic)
-   - Status: open
+4. **Skills frontmatter fields** (v2.1.69) — `model:` and `effort` now on all 11 skills. `maxTurns`, `disallowedTools`, `${CLAUDE_SKILL_DIR}` still unused.
+   - Impact: high — per-skill model selection active (haiku/sonnet/opus assigned)
+   - Status: **partially done** — model: + effort: done, maxTurns/disallowedTools open
 
-5. **`--plugin-dir` breaking change** (v2.1.76) — now single path, use repeated flags for multiple
-   - Impact: low — update docs
-   - Status: open
+5. ~~**`--plugin-dir` breaking change** (v2.1.76)~~ — **DONE** (README updated with repeated flags note)
 
 6. **Agent Teams** — native parallel agent coordination (still research preview)
    - Impact: high for /orchestrate deep tier
