@@ -1,9 +1,11 @@
 ---
 name: dependency-audit
-description: Audit project dependencies for outdated versions, breaking changes, and security issues. Use when checking if dependencies need updating, after /watch reports version gaps, or before planning upgrades.
+description: Audit project dependencies for outdated versions, breaking changes, and security issues. Use when checking dependencies, after /watch reports version gaps, or before upgrades.
 argument-hint: [full / quick / package-name]
 user-invocable: true
 allowed-tools: Read, Glob, Grep, WebSearch, WebFetch
+model: sonnet
+effort: medium
 ---
 
 # Dependency Audit — Version & Compatibility Checker
