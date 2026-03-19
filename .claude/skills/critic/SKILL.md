@@ -26,6 +26,20 @@ Parse `$ARGUMENTS`:
 If target is "last changes":
 - Run `git diff HEAD~1` or `git diff --cached` to get recent changes
 
+## Process
+
+### Step 1: Load context
+Read shared memory and understand the active task.
+
+### Step 2: Identify target
+Parse arguments, determine review type, load the target content.
+
+### Step 3: Review
+Apply the appropriate review dimensions (see below) systematically.
+
+### Step 4: Report
+Generate the structured report with verdict, issues, and recommendations.
+
 ## Review Dimensions
 
 ### For Code:
