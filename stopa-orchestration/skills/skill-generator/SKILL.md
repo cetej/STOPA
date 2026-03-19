@@ -1,6 +1,6 @@
 ---
 name: skill-generator
-description: Create, update, or improve Claude Code skills. Use when asked to generate a new skill, modify an existing one, or when the user says they want a slash command for something.
+description: Create, update, or improve Claude Code skills. Use when asked to generate a new skill, modify an existing one, or for a new slash command.
 argument-hint: [description of the skill to create]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep
@@ -185,6 +185,13 @@ When invoked with "improve-all" or "audit":
 7. **Update LEARNINGS.md** with any new patterns discovered during audit
 
 This creates a feedback loop: skills produce learnings → learnings improve skills → improved skills produce better learnings.
+
+## When Things Go Wrong
+
+- **Skill directory already exists**: Read existing SKILL.md first. Use Edit (not Write) for updates.
+- **Description doesn't trigger correctly**: Make it more specific — add concrete trigger words (when, after, use this).
+- **Skill is too long (>500 lines)**: Extract reference material into supporting files in the skill directory.
+- **Frontmatter validation fails**: Check YAML syntax — no tabs, proper quoting, required fields present.
 
 ## Anti-patterns to Avoid
 
