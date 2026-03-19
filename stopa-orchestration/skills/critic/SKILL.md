@@ -6,6 +6,7 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Agent
 model: sonnet
 effort: high
+maxTurns: 15
 ---
 
 # Critic — Quality Gate

@@ -6,6 +6,7 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, Agent
 model: haiku
 effort: medium
+maxTurns: 10
 ---
 
 # Scout — Explorer & Researcher

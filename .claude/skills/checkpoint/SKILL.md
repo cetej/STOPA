@@ -6,6 +6,8 @@ user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 model: haiku
 effort: low
+maxTurns: 10
+disallowedTools: Agent
 ---
 
 # Checkpoint — Session Continuity Manager

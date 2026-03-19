@@ -6,6 +6,7 @@ user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 model: sonnet
 effort: high
+maxTurns: 30
 ---
 
 # AutoLoop — Autonomous Optimization Loop

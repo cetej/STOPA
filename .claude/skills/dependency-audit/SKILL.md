@@ -6,6 +6,8 @@ user-invocable: true
 allowed-tools: Read, Glob, Grep, WebSearch, WebFetch
 model: sonnet
 effort: medium
+maxTurns: 15
+disallowedTools: Agent
 ---
 
 # Dependency Audit — Version & Compatibility Checker

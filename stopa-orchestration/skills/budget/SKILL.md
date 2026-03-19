@@ -6,6 +6,8 @@ user-invocable: true
 allowed-tools: Read, Write, Edit
 model: haiku
 effort: low
+maxTurns: 6
+disallowedTools: Agent
 ---
 
 # Budget — Cost Controller

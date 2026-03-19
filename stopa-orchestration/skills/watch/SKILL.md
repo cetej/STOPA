@@ -6,6 +6,7 @@ user-invocable: true
 allowed-tools: Read, Write, Edit, WebSearch, WebFetch, Agent
 model: sonnet
 effort: medium
+maxTurns: 20
 ---
 
 # Watch — News & Updates Scanner

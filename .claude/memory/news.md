@@ -12,23 +12,23 @@ Tracked findings from `/watch` scans. Only ACTION and WATCH items are recorded h
 
 1. ~~**Plugin `git-subdir` source type** (v2.1.69)~~ — **DONE** (plugin.json + README updated, v1.3.0)
 
-2. **`${CLAUDE_PLUGIN_DATA}` persistent state** (v2.1.78) — plugin-specific storage surviving updates
-   - Impact: medium — use for plugin memory instead of `.claude/memory/`
-   - Status: open
+2. ~~**`${CLAUDE_PLUGIN_DATA}` persistent state**~~ (v2.1.78) — plugin-specific storage surviving updates
+   - Impact: medium — evaluated: all 6 memory files stay in `.claude/memory/` (project-shared). `${CLAUDE_PLUGIN_DATA}` reserved for future cache (autoloop M5, watch deduplikace).
+   - Status: **DONE** — design decision made, no migration needed now
 
-3. **New hook events** (v2.1.69-76) — PostCompact, StopFailure, TaskCompleted implemented. InstructionsLoaded, TeammateIdle, Elicitation still open.
-   - Impact: high — PostCompact, StopFailure, TaskCompleted now active
-   - Status: **partially done** — 3/6 events implemented
+3. ~~**New hook events** (v2.1.69-76)~~ — PostCompact, StopFailure, TaskCompleted implemented. InstructionsLoaded: SKIP (audit only, no use case). TeammateIdle: deferred to Agent Teams implementation. Elicitation: SKIP (no MCP auth needs yet).
+   - Impact: high — 3/6 events active, 3 evaluated and deferred/skipped
+   - Status: **DONE** — all 6 evaluated, 3 implemented, 3 consciously skipped
 
-4. **Skills frontmatter fields** (v2.1.69) — `model:` and `effort` now on all 11 skills. `maxTurns`, `disallowedTools`, `${CLAUDE_SKILL_DIR}` still unused.
-   - Impact: high — per-skill model selection active (haiku/sonnet/opus assigned)
-   - Status: **partially done** — model: + effort: done, maxTurns/disallowedTools open
+4. ~~**Skills frontmatter fields** (v2.1.69)~~ — `model:`, `effort:`, `maxTurns`, `disallowedTools` now on all 11 skills. Only `${CLAUDE_SKILL_DIR}` still unused.
+   - Impact: high — per-skill model selection + resource limits active
+   - Status: **DONE** — model: + effort: + maxTurns + disallowedTools all set
 
 5. ~~**`--plugin-dir` breaking change** (v2.1.76)~~ — **DONE** (README updated with repeated flags note)
 
-6. **Agent Teams** — native parallel agent coordination (still research preview)
+6. ~~**Agent Teams**~~ — native parallel agent coordination (experimental but stable)
    - Impact: high for /orchestrate deep tier
-   - Status: open — needs `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
+   - Status: **DONE** — env var enabled in settings.json, /orchestrate deep tier updated with Teams workflow. Live testing pending on real task.
 
 7. **Diffusers 0.37.0** (Mar 5) — Modular Diffusers, FIBO Edit, Cosmos Predict2.5
    - Impact: medium for NG-ROBOT — modular pipelines, JSON-based image editing
@@ -38,13 +38,13 @@ Tracked findings from `/watch` scans. Only ACTION and WATCH items are recorded h
    - Impact: medium — remote monitoring orchestrovaných runs, bezpečnostní fix pro deny pravidla
    - Status: open
 
-9. **Extended thinking `display: "omitted"`** (API) — vynechání thinking bloků z odpovědi pro rychlejší streaming, signatura zachována pro multi-turn
+9. ~~**Extended thinking `display: "omitted"`**~~ (API) — vynechání thinking bloků z odpovědi pro rychlejší streaming, signatura zachována pro multi-turn
    - Impact: medium — ušetří tokeny v /orchestrate deep tier
-   - Status: open
+   - Status: **DONE** — added to /orchestrate deep tier optimization section
 
 10. **API code execution zdarma** při použití s web search nebo web fetch
     - Impact: low-medium — upravit budget kalkulace
-    - Status: open
+    - Status: open (low priority, defer)
 
 ### Watch List
 

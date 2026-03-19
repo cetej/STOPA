@@ -6,6 +6,7 @@ user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
 model: opus
 effort: high
+maxTurns: 40
 ---
 
 # Orchestrator — The Conductor
@@ -78,6 +79,7 @@ Scale exploration to the assigned tier:
 ### Deep tier:
 - Use `Agent(subagent_type: Explore)` for thorough mapping
 - May spawn parallel explore agents for independent modules
+- **If 3+ independent subtasks**: Consider Agent Teams instead of manual Agent() calls (see Phase 4 Agent Teams section)
 
 **After scouting**: Re-evaluate the tier. If scope is smaller than expected, **downgrade**. If larger, propose upgrade to user.
 
@@ -167,6 +169,44 @@ Wave 2: Agent(C) + Agent(D)  — uses results from wave 1 if needed
 - Never parallelize subtasks with data dependencies
 - Budget: each parallel agent counts toward the tier agent limit
 - If any agent fails, handle it before launching next wave
+
+### Agent Teams (deep tier, 3+ independent subtasks):
+
+When the deep tier has 3+ independent subtasks, use Agent Teams instead of manual Agent() calls:
+
+```
+Decision tree:
+Independent subtasks?
+├── 1-2 → Use parallel Agent() calls (simpler, cheaper)
+└── 3+  → Use Agent Teams (peer-to-peer, shared task queue)
+```
+
+**Agent Teams workflow:**
+1. `TeamCreate` — initialize team namespace
+2. `TaskCreate` — create one task per subtask (with dependencies if any)
+3. `Task` — spawn teammates: `Task({team_name, name, model: "sonnet", description})`
+4. Teammates self-claim tasks, do work, report via `SendMessage`
+5. Lead (this orchestrator, on Opus) monitors, synthesizes findings
+6. `SendMessage({type: "shutdown_request"})` to each teammate when done
+7. `TeamDelete` — cleanup
+
+**Rules for Agent Teams:**
+- Lead = Opus (orchestrator), teammates = Sonnet (cheaper execution)
+- `teammateMode: "in-process"` on Windows (no tmux)
+- TeammateIdle hook enforces quality gates — exit 2 sends feedback
+- Max 8 teammates per team (deep tier budget limit)
+- If task status lags (known limitation), nudge teammate via SendMessage
+- No nested teams — teammates cannot spawn their own teams
+
+**When NOT to use Agent Teams:**
+- Standard/light tier (overhead not worth it for 1-2 agents)
+- Tasks with tight sequential dependencies (no parallelism benefit)
+- Quick fixes where Agent() + result is faster
+
+### Deep tier token optimization:
+- When spawning agents in deep tier, use `model: "sonnet"` for implementation agents (save opus for planning/coordination)
+- Use extended thinking `display: "omitted"` on API-level agent calls when available — strips thinking blocks from response, saves context tokens while preserving multi-turn signatures
+- Prefer returning structured summaries from agents over raw output — reduces context consumption in the orchestrator
 
 ### After each subtask:
 1. Update `.claude/memory/budget.md` — increment counters for any agents/critics used

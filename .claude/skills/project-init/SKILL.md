@@ -6,6 +6,8 @@ user-invocable: true
 allowed-tools: Read, Write, Bash, Glob
 model: haiku
 effort: medium
+maxTurns: 15
+disallowedTools: Agent
 ---
 
 # Project Init — Optimal Claude Code Project Setup
