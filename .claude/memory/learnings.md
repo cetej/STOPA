@@ -73,4 +73,5 @@ Accumulated knowledge from all tasks. Used by all skills/agents to improve over 
 - **Explore agents can't shutdown gracefully**: Explore subagent_type lacks SendMessage tool → can't respond to shutdown_request → TeamDelete fails. Workaround: manual cleanup of `~/.claude/teams/` directory.
 - **Spawn prompt vs SendMessage**: Teammates start working from spawn prompt immediately. Sending another "start" message via SendMessage causes duplicate work. Best practice: put full instructions in spawn prompt, use SendMessage only for follow-up coordination.
 - **Recommendation**: For audit/research tasks, use `subagent_type: "general-purpose"` instead of Explore, so teammates can respond to shutdown and use SendMessage.
+- **Fix applied (2026-03-19)**: All Explore references in orchestrate + scout skills replaced with general-purpose. Warning notes added.
 - **Source**: Live test — skill-audit team with 2 Sonnet teammates

@@ -75,11 +75,11 @@ Scale exploration to the assigned tier:
 
 ### Standard tier:
 - Use `/scout` skill for structured exploration
-- Or a single `Agent(subagent_type: Explore)` if cross-module
+- Or a single `Agent(subagent_type: "general-purpose")` if cross-module
 
 ### Deep tier:
-- Use `Agent(subagent_type: Explore)` for thorough mapping
-- May spawn parallel explore agents for independent modules
+- Use `Agent(subagent_type: "general-purpose")` for thorough mapping (NOT Explore — Explore agents lack SendMessage, can't participate in Agent Teams or respond to shutdown)
+- May spawn parallel agents for independent modules
 - **If 3+ independent subtasks**: Consider Agent Teams instead of manual Agent() calls (see Phase 4 Agent Teams section)
 
 **After scouting**: Re-evaluate the tier. If scope is smaller than expected, **downgrade**. If larger, propose upgrade to user.
@@ -198,6 +198,7 @@ Independent subtasks?
 - Max 8 teammates per team (deep tier budget limit)
 - If task status lags (known limitation), nudge teammate via SendMessage
 - No nested teams — teammates cannot spawn their own teams
+- **Always use `subagent_type: "general-purpose"` for teammates** — Explore/Plan agents lack SendMessage tool, so they can't respond to shutdown_request and TeamDelete will fail
 
 **When NOT to use Agent Teams:**
 - Standard/light tier (overhead not worth it for 1-2 agents)
@@ -271,7 +272,7 @@ Is this a known, repeatable pattern?
 │   └── NO → Create skill via /skill-generator, then use it
 └── NO → Is it complex / needs exploration?
     ├── YES → Spawn Agent
-    │   ├── Needs codebase exploration → Agent(Explore)
+    │   ├── Needs codebase exploration → Agent(general-purpose) with explore instructions
     │   ├── Needs planning → Agent(Plan)
     │   └── Needs implementation → Agent(general-purpose)
     └── NO → Do it directly (simple edit, single command)

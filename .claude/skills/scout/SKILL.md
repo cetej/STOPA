@@ -54,10 +54,12 @@ For each relevant file/module found:
 - Identify entry points and data flow
 
 ### Step 3: Context Map (deep only)
-For complex explorations, use `Agent(subagent_type: Explore)` to:
+For complex explorations, use `Agent(subagent_type: "general-purpose")` to:
 - Trace call chains across multiple files
 - Find all usages of a specific function/class
 - Map relationships between modules
+
+> **Note**: Do NOT use `subagent_type: "Explore"` — Explore agents lack SendMessage, so they can't participate in Agent Teams or respond to shutdown requests.
 
 ### Step 4: Pattern Recognition (deep only)
 - What design patterns are used?

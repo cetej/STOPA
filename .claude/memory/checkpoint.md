@@ -18,7 +18,7 @@
 | # | Item | Priority | Effort | Notes |
 |---|------|----------|--------|-------|
 | 1 | Autoloop Fáze 3 implementation | high | high | Build referenční dataset (5 articles), composite score script, run autoloop on Phase 3 TermVerifier prompt. Best done in NG-ROBOT context. |
-| 2 | Agent Teams — Explore shutdown fix | low | low | Either use general-purpose agents instead of Explore, or document limitation. |
+| 2 | ~~Agent Teams — Explore shutdown fix~~ | ~~low~~ | ~~low~~ | DONE — All Explore refs replaced with general-purpose in orchestrate + scout skills |
 | 3 | git push STOPA + NG-ROBOT | low | trivial | Push commits to remote. |
 
 ## Key Context
