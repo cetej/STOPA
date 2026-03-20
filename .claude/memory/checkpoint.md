@@ -1,68 +1,64 @@
 # Session Checkpoint
 
-**Saved**: 2026-03-20 (late evening, Session 4)
-**Task**: Czech Language Corrector — Sessions 1-4 complete
-**Branch**: main
-**Progress**: ALL TASKS COMPLETE (Variant A + Variant B + Integration)
+**Saved**: 2026-03-20 (Session 4 — final)
+**Task**: Czech Language Corrector — ALL SESSIONS COMPLETE
+**Branch**: main (pushed)
+**Status**: Fully integrated, tested on 3 real articles
 
-## What Was Done — Session 4: Integration
-
-11. **B3: Protected terms bridge** — `ngm_terminology/corrector/protected_terms.py`
-   - `get_protected_terms(chain_db, domains, max_per_domain)` → `set[str]`
-   - Reads from TermDB (flat), NormalizedTermDB (multi-domain), SpeciesDB
-   - Filters: max 5 words per term, lowercase, splits multi-word terms
-   - E2E: 5444 terms total, 500 geography, 1709 biology
-
-12. **B4: NG-ROBOT Phase 4.5** — `document_processor.py`
-   - Import CzechCorrector + ChainTermDB with graceful fallback (`CZECH_CORRECTOR_AVAILABLE`)
-   - Post-Phase 4 hook: runs `_run_czech_corrector()` after FactChecker
-   - Auto-applies typography fixes to `current_content`
-   - Stores suggestions (anglicisms, false friends) in `_corrector_suggestions`
-   - Injects suggestions into Phase 5 via `_format_corrector_suggestions()` as extra context
-   - Saves `4.5_czech_corrector.md` output file
-
-13. **B5: ADOBE-AUTOMAT** — `backend/routers/translate.py`
-   - Import CzechCorrector with graceful fallback
-   - Typography auto-fix loop on each `elem.czech` after translate_batch()
-   - Returns `typo_corrected` count in response
-
-14. **E2E test** — Real article (demence/káva, 14K chars)
-   - 16 auto-fixes (typography: quotes, dashes, number spacing)
-   - 3 suggestions (false friends: aktuální, aktuálně, list)
-   - All 4 capabilities active (typography, spellcheck, morphology, rules_db)
-
-## Complete Feature Summary
+## Complete Feature Map
 
 ### Variant A (Prompt Quick Wins) — Sessions 1-2
-- A1: Czech guardrails in Phase 1 master prompt
-- A2: Czech quality section in Phase 7 SEO prompt
-- A3: CorrectorRulesDB (222 rules, 7 tables in SQLite)
-- A4: Rules injection into Phase 5 prompt
+- **A1**: Czech guardrails in Phase 1 master prompt (`00_MASTER_v42.2.5.md`)
+- **A2**: Czech quality section in Phase 7 SEO prompt (`claude_processor.py:~5099`)
+- **A3**: CorrectorRulesDB — 222 rules in 7 SQLite tables (`corrector_rules.db`)
+- **A4**: Rules injection into Phase 5 prompt (`format_corrector_rules_for_prompt()`)
 
 ### Variant B (Hybrid Corrector) — Sessions 3-4
-- B1: CzechCorrector package (5 modules + protected_terms)
-- B2: Dependencies (MorphoDiTa, pyspellchecker, LINDAT Korektor API)
-- B3: Protected terms bridge (TermDB → corrector)
-- B4: NG-ROBOT Phase 4.5 integration
-- B5: ADOBE-AUTOMAT integration
-- E2E: Tested on real article
+- **B1**: CzechCorrector package — 6 modules in `ngm_terminology/corrector/`
+- **B2**: Dependencies — MorphoDiTa v1.11.3, pyspellchecker v0.9.0, LINDAT Korektor API
+- **B3**: Protected terms bridge — `get_protected_terms(chain_db, domains)` → `set[str]`
+- **B4**: NG-ROBOT Phase 4.5 — post-Phase 4 hook in `document_processor.py`
+- **B5**: ADOBE-AUTOMAT — typography auto-fix in `backend/routers/translate.py`
 
-## Known Issues / Future Work
+### Fixes (Session 4 bonus)
+- Typography: global protection for PMID, DOI, ISBN, URL, version numbers
+- False friends: Czech homonym whitelist (list, host, most...), short word exact-match only
+- git init terminology-db (local, no GitHub remote yet)
 
-| # | Item | Priority | Notes |
-|---|------|----------|-------|
-| 1 | GitHub remote pro terminology-db | low | Jen lokální git, push na GitHub |
-| 2 | Spelling check zapnutí | low | LINDAT Korektor API pomalé, potřebuje caching |
-| 3 | Měření dopadu Phase 4.5 na Phase 5 output | medium | Zpracovat článek s/bez a porovnat tokeny |
-| 4 | Rozšíření CorrectorRulesDB | ongoing | 222 pravidel = základ, přidávat z reálných chyb |
-| 5 | Variant C (full NLP) | future | UDPipe, Stanza, GECCC corpus |
+## E2E Test Results (3 articles)
 
-## Key Context
+| Article | Chars | Typo fixes | Suggestions | Phase 4.5 time | Pipeline cost |
+|---------|-------|-----------|-------------|----------------|---------------|
+| Humans Americas | 16,197 | 21 | 0 | 1.9s | $1.83 |
+| Žraloci býčí | 14,949 | 7 | 3 | 1.8s | $1.20 |
+| Fyzika deště | 13,463 | 2 | 1 | 1.8s | $1.15 |
 
-- ngm-terminology v2.2.0 with CzechCorrector
+Phase 4.5: $0 cost, ~1.8s, 100% precision on typography.
+
+## Remaining Work
+
+| # | Item | Priority | Effort |
+|---|------|----------|--------|
+| 1 | GitHub remote pro terminology-db | low | trivial |
+| 2 | Spelling check — LINDAT Korektor caching | low | medium |
+| 3 | Měření dopadu Phase 4.5 na Phase 5 output tokeny | medium | medium |
+| 4 | Rozšíření CorrectorRulesDB z reálných chyb | ongoing | low |
+| 5 | Variant C (UDPipe, Stanza, GECCC) | future | high |
+
+## Key Paths
+
 - Corrector package: `terminology-db/ngm_terminology/corrector/` (6 modules)
-- Protected terms: `corrector/protected_terms.py` — bridge to TermDB
-- NG-ROBOT: Phase 4.5 in `document_processor.py` (post-Phase 4 hook)
-- ADOBE-AUTOMAT: Typography fix in `backend/routers/translate.py`
+- CorrectorRulesDB: `terminology-db/ngm_terminology/corrector_rules.db`
 - MorphoDiTa model: `terminology-db/models/czech-morfflex2.0-pdtc1.0-220710/`
-- CorrectorRulesDB: 222 rules in 7 tables
+- NG-ROBOT integration: `NG-ROBOT/document_processor.py` (_run_czech_corrector, _format_corrector_suggestions)
+- ADOBE-AUTOMAT integration: `ADOBE-AUTOMAT/backend/routers/translate.py`
+- Phase 1 prompt: `NG-ROBOT/projects/1-PREKLAD-FORMAT/00_MASTER_v42.2.5.md`
+- Phase 5 KB: `NG-ROBOT/projects/5-JAZYK-KONTEXT/`
+- Phase 7 prompt: `NG-ROBOT/claude_processor.py` SEOMetadataGenerator section
+
+## Resume Prompt
+
+> Czech Language Corrector je kompletní (Sessions 1-4). Variant A (prompt quick wins) + Variant B (hybrid MorphoDiTa corrector) integrovaný v NG-ROBOT (Phase 4.5) i ADOBE-AUTOMAT.
+>
+> Další práce: viz "Remaining Work" v `STOPA/.claude/memory/checkpoint.md`.
+> Klíčové repozitáře: terminology-db (lokální git), NG-ROBOT + ADOBE-AUTOMAT + STOPA (GitHub pushed).
