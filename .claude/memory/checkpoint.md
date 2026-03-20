@@ -1,64 +1,68 @@
 # Session Checkpoint
 
-**Saved**: 2026-03-20 (late evening session)
-**Task**: Czech Language Corrector — Sessions 2+3 complete
+**Saved**: 2026-03-20 (late evening, Session 4)
+**Task**: Czech Language Corrector — Sessions 1-4 complete
 **Branch**: main
-**Progress**: 7/8 tasks complete (Variant A done, Variant B skeleton done)
+**Progress**: ALL TASKS COMPLETE (Variant A + Variant B + Integration)
 
-## What Was Done This Session
+## What Was Done — Session 4: Integration
 
-### Session 2: A2 + A4 (Variant A complete)
+11. **B3: Protected terms bridge** — `ngm_terminology/corrector/protected_terms.py`
+   - `get_protected_terms(chain_db, domains, max_per_domain)` → `set[str]`
+   - Reads from TermDB (flat), NormalizedTermDB (multi-domain), SpeciesDB
+   - Filters: max 5 words per term, lowercase, splits multi-word terms
+   - E2E: 5444 terms total, 500 geography, 1709 biology
 
-5. **A2: Phase 7 Czech quality** — Added `🇨🇿 KVALITA ČEŠTINY` section to SEOMetadataGenerator prompt (`claude_processor.py:5099`). Covers anglicisms, typography, word order, FAQ-specific rules. Applies to all generated texts (titles, PEREX, V KOSTCE, FAQ, alt texts, meta description).
+12. **B4: NG-ROBOT Phase 4.5** — `document_processor.py`
+   - Import CzechCorrector + ChainTermDB with graceful fallback (`CZECH_CORRECTOR_AVAILABLE`)
+   - Post-Phase 4 hook: runs `_run_czech_corrector()` after FactChecker
+   - Auto-applies typography fixes to `current_content`
+   - Stores suggestions (anglicisms, false friends) in `_corrector_suggestions`
+   - Injects suggestions into Phase 5 via `_format_corrector_suggestions()` as extra context
+   - Saves `4.5_czech_corrector.md` output file
 
-6. **A4: Corrector rules in Phase 5** — Three changes to `claude_processor.py`:
-   - Import `CorrectorRulesDB` with graceful fallback (`CORRECTOR_AVAILABLE` flag)
-   - New function `format_corrector_rules_for_prompt()` (~line 1247) — follows `format_termdb_for_prompt()` pattern
-   - Phase 5 `check_language_and_context()` auto-appends 222 rules from DB after knowledge base
-   - Output: ~1639 chars of structured markdown tables
+13. **B5: ADOBE-AUTOMAT** — `backend/routers/translate.py`
+   - Import CzechCorrector with graceful fallback
+   - Typography auto-fix loop on each `elem.czech` after translate_batch()
+   - Returns `typo_corrected` count in response
 
-### Session 3: Variant B prototype (CzechCorrector)
+14. **E2E test** — Real article (demence/káva, 14K chars)
+   - 16 auto-fixes (typography: quotes, dashes, number spacing)
+   - 3 suggestions (false friends: aktuální, aktuálně, list)
+   - All 4 capabilities active (typography, spellcheck, morphology, rules_db)
 
-7. **Dependencies installed** — `ufal.morphodita` v1.11.3, `pyspellchecker` v0.9.0
-8. **MorphoDiTa model downloaded** — czech-morfflex2.0-pdtc1.0-220710 (95 MB) from LINDAT to `terminology-db/models/`
-9. **CzechCorrector package** — `ngm_terminology/corrector/` with 5 modules:
-   - `__init__.py` — exports CzechCorrector, CorrectionResult
-   - `corrector.py` — main orchestrator class (graceful degradation per component)
-   - `morpho.py` — MorphoDiTa wrapper (lemmatize, tag_text, get_forms, auto-discovery of model)
-   - `spellcheck.py` — LINDAT Korektor REST API (primary) + pyspellchecker fallback
-   - `typography.py` — deterministic fixes (quotes, dashes, numbers, units, dates, prepositions)
-10. **Version bumped** to v2.2.0
+## Complete Feature Summary
 
-### Test Results
-- Typography: 6/6 auto-fixes on realistic text (quotes, dashes, numbers, units, %, dates)
-- Anglicism detection: 3/3 (implementovat, fokusovat, signifikantní)
-- False friend detection: 2/2 (aktuální, aktuálně)
-- MorphoDiTa: lemmatization + POS tagging + form generation all working
+### Variant A (Prompt Quick Wins) — Sessions 1-2
+- A1: Czech guardrails in Phase 1 master prompt
+- A2: Czech quality section in Phase 7 SEO prompt
+- A3: CorrectorRulesDB (222 rules, 7 tables in SQLite)
+- A4: Rules injection into Phase 5 prompt
 
-## What Remains
+### Variant B (Hybrid Corrector) — Sessions 3-4
+- B1: CzechCorrector package (5 modules + protected_terms)
+- B2: Dependencies (MorphoDiTa, pyspellchecker, LINDAT Korektor API)
+- B3: Protected terms bridge (TermDB → corrector)
+- B4: NG-ROBOT Phase 4.5 integration
+- B5: ADOBE-AUTOMAT integration
+- E2E: Tested on real article
 
-| # | Item | Priority | Effort | Notes |
-|---|------|----------|--------|-------|
-| 1 | B3: Protected terms bridge | medium | low | get_protected_terms(chain_db, domains) → terms corrector must not modify |
-| 2 | B4: NG-ROBOT Phase 4.5 integration | medium | medium | New phase between FactChecker and LanguageContextOptimizer |
-| 3 | B5: ADOBE-AUTOMAT integration | low | low | correct_czech() call after translate_batch() |
-| 4 | E2E test on real article | medium | low | Run full pipeline on sample article |
-| 5 | git init terminology-db | low | trivial | Not a git repo yet |
+## Known Issues / Future Work
+
+| # | Item | Priority | Notes |
+|---|------|----------|-------|
+| 1 | GitHub remote pro terminology-db | low | Jen lokální git, push na GitHub |
+| 2 | Spelling check zapnutí | low | LINDAT Korektor API pomalé, potřebuje caching |
+| 3 | Měření dopadu Phase 4.5 na Phase 5 output | medium | Zpracovat článek s/bez a porovnat tokeny |
+| 4 | Rozšíření CorrectorRulesDB | ongoing | 222 pravidel = základ, přidávat z reálných chyb |
+| 5 | Variant C (full NLP) | future | UDPipe, Stanza, GECCC corpus |
 
 ## Key Context
 
-- ngm-terminology v2.2.0 with CzechCorrector (MorphoDiTa + Korektor + CorrectorRulesDB)
-- Corrector package: `terminology-db/ngm_terminology/corrector/`
+- ngm-terminology v2.2.0 with CzechCorrector
+- Corrector package: `terminology-db/ngm_terminology/corrector/` (6 modules)
+- Protected terms: `corrector/protected_terms.py` — bridge to TermDB
+- NG-ROBOT: Phase 4.5 in `document_processor.py` (post-Phase 4 hook)
+- ADOBE-AUTOMAT: Typography fix in `backend/routers/translate.py`
 - MorphoDiTa model: `terminology-db/models/czech-morfflex2.0-pdtc1.0-220710/`
-- CorrectorRulesDB: `terminology-db/ngm_terminology/corrector_rules.db` (222 rules, 7 tables)
-- Phase 5 + Phase 7 in NG-ROBOT updated with Czech quality rules
-- pyspellchecker has NO Czech dictionary — using LINDAT Korektor REST API instead
-- terminology-db has NO git repo
-
-## Resume Prompt
-
-> Resume work on Czech Language Corrector. Read: `STOPA/.claude/memory/czech_corrector_plan.md`, `STOPA/.claude/memory/checkpoint.md`.
->
-> Sessions 1-3 complete. Variant A (all 4 tasks) + Variant B skeleton done. Next: **Session 4 — integration**: Protected terms bridge, NG-ROBOT Phase 4.5, ADOBE-AUTOMAT integration, E2E test.
->
-> Work in: terminology-db (`C:\Users\stock\Documents\000_NGM\terminology-db`) for the module, NG-ROBOT (`C:\Users\stock\Documents\000_NGM\NG-ROBOT`) for integration, ADOBE-AUTOMAT (`C:\Users\stock\Documents\000_NGM\ADOBE-AUTOMAT`) for translate integration.
+- CorrectorRulesDB: 222 rules in 7 tables
