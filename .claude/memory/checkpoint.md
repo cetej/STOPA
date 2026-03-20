@@ -1,44 +1,58 @@
 # Session Checkpoint
 
-**Saved**: 2026-03-19 (late evening session)
-**Task**: Agent Teams test + quick wins (TeammateIdle hook, sync, plugin bump)
+**Saved**: 2026-03-20 (afternoon session)
+**Task**: BioLib terminology audit + NG-ROBOT & ADOBE-AUTOMAT integration
 **Branch**: main
-**Progress**: 4/5 tasks complete, 1 deferred (Autoloop Fáze 3)
+**Progress**: 4/4 tasks complete
 
 ## What Was Done This Session
 
-1. **Agent Teams live test** — TeamCreate + 2 Sonnet teammates (Explore agents), parallel skill audit. Windows in-process mode confirmed working. Found: Explore agents can't respond to shutdown_request (lack SendMessage), spawn prompt sufficient (no extra SendMessage needed to start).
-2. **TeammateIdle hook** — `teammate-idle.sh` created. Checks: Python syntax, YAML frontmatter, debug artifacts. Exit 2 sends feedback. Wired in settings.json + plugin hooks.json.
-3. **disallowedTools audit** — Agent Teams audit found 5 skills missing the field. Fixed: autoloop (Agent), critic (Write, Edit), orchestrate (""), scout (""), watch (""). skill-generator template updated with maxTurns + disallowedTools.
-4. **NG-ROBOT sync** — 21 files synced total (15 initial + 6 fixes from audit).
-5. **Plugin v1.4.0** — Version bumped from 1.3.0.
+1. **BioLib termdb.db audit** — 244,887 termínů v 6 doménách (biology 218K, geography 19.7K, chemistry 4K, medicine 2.8K, astronomy 126, geology 68). Schema mismatch identifikován — flat vs normalized.
+
+2. **ngm-terminology v2.0.0** — Nové moduly:
+   - `normalized_db.py` — NormalizedTermDB (read-only, normalizované schema)
+   - `chain.py` — ChainTermDB (řetězí více DB, zápis do flat)
+   - `config.py` — `find_multi_domain_db()` pro BIOLIB/termdb.db
+   - Zpětně kompatibilní — starý TermDB beze změn
+
+3. **NG-ROBOT integrace** — `claude_processor.py`:
+   - `_multi_db` + `_chain_db` inicializace (246K+ termínů celkem)
+   - `detect_article_domains()` — mapuje témata z 0_analysis.json na termdb domény
+   - `format_termdb_for_prompt(article_domains=...)` — injektuje doménově relevantní termíny + preferované kategorie
+   - Upraveno v `auto_agent.py` i `ngrobot.py`
+
+4. **ADOBE-AUTOMAT integrace** — `translation_service.py`:
+   - `_build_term_hints()` — batch-překládá EN texty z elementů přes NormalizedTermDB
+   - Inject glosáře do system promptu před překladem
+   - E2E test: Alps→Alpy, Mediterranean Sea→Středozemní moře, calcium→vápník
 
 ## What Remains (for next session)
 
 | # | Item | Priority | Effort | Notes |
 |---|------|----------|--------|-------|
-| 1 | Autoloop Fáze 3 implementation | high | high | Build referenční dataset (5 articles), composite score script, run autoloop on Phase 3 TermVerifier prompt. Best done in NG-ROBOT context. |
-| 2 | ~~Agent Teams — Explore shutdown fix~~ | ~~low~~ | ~~low~~ | DONE — All Explore refs replaced with general-purpose in orchestrate + scout skills |
-| 3 | git push STOPA + NG-ROBOT | low | trivial | Push commits to remote. |
+| 1 | Autoloop Fáze 3 implementation | high | high | Build referenční dataset, composite score, autoloop na TermVerifier |
+| 2 | git commit + push all 3 projects | medium | trivial | STOPA (uncommitted), NG-ROBOT, ADOBE-AUTOMAT, terminology-db |
+| 3 | termdb.db empty domains | low | medium | physics + idioms importers, geology needs more terms |
+| 4 | NG-ROBOT: chain_db pro translate i v batch | low | low | batch_translate na ChainTermDB pro species pre-resolve |
 
 ## Key Context
 
-- All 11 skills now have complete frontmatter: description, model, effort, maxTurns, disallowedTools
-- Agent Teams: working on Windows in-process mode. Use general-purpose subagent_type for tasks needing shutdown.
-- Plugin v1.4.0 with TeammateIdle hook
-- NG-ROBOT fully synced with latest STOPA state
-- Autoloop Fáze 3: TermVerifier class is in `claude_processor.py` (line 2621+), two-call approach (Research → Apply)
+- ngm-terminology v2.0.0 editable install v `C:\Users\stock\Documents\000_NGM\terminology-db\`
+- BIOLIB/termdb.db: 244K termínů, normalizované schema (terms→translations→aliases→sources)
+- NG-ROBOT/terminology.db: 1665 termínů, flat schema (en/cz/lat)
+- ChainTermDB řetězí obě — dotaz na obě, zápis do flat
+- ADOBE-AUTOMAT: glosář auto-inject do Claude překladového promptu
 
 ## Git State
 
 - Branch: main
-- Last commit: 7eb918d — feat: Agent Teams live test, TeammateIdle hook, disallowedTools audit, plugin v1.4.0
-- 1 commit ahead of origin/main (not pushed)
+- Uncommitted changes in: terminology-db, NG-ROBOT, ADOBE-AUTOMAT
+- STOPA: clean (changes only in memory/checkpoint)
 
 ## Resume Prompt
 
-> Resume work on the STOPA orchestration meta-project. Read: `CLAUDE.md`, `.claude/memory/checkpoint.md`.
+> Resume work on STOPA / NG-ROBOT. Read: `CLAUDE.md`, `.claude/memory/checkpoint.md`.
 >
-> Previous session completed 4/5 tasks: Agent Teams live test (working on Windows), TeammateIdle hook, disallowedTools audit (5 fixes), NG-ROBOT sync, plugin v1.4.0.
+> Previous session: ngm-terminology v2.0.0 (NormalizedTermDB + ChainTermDB), integrated 244K+ terms into NG-ROBOT (detect_article_domains + format_termdb_for_prompt) and ADOBE-AUTOMAT (batch term hints in translation_service.py).
 >
-> Remaining: **Autoloop Fáze 3** — build referenční dataset (5 NG-ROBOT articles), composite quality score for TermVerifier, then autoloop iterations on Phase 3 prompt. Work in NG-ROBOT context (`C:\Users\stock\Documents\000_NGM\NG-ROBOT`), TermVerifier class at `claude_processor.py:2621`.
+> Remaining: **Autoloop Fáze 3** — build referenční dataset, composite quality score for TermVerifier. Work in NG-ROBOT context (`C:\Users\stock\Documents\000_NGM\NG-ROBOT`), TermVerifier at `claude_processor.py:2621`.
