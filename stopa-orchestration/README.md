@@ -26,19 +26,36 @@ Multi-agent orchestration system for Claude Code. Decomposes complex tasks, dele
 
 ## Installation
 
-### From GitHub (recommended)
+### Method 1: Marketplace via settings.json (recommended)
+
+Add this to `.claude/settings.json` in your project — plugin auto-installs from GitHub:
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "stopa-tools": {
+      "source": {
+        "source": "github",
+        "repo": "cetej/STOPA"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "stopa-orchestration@stopa-tools": true
+  }
+}
+```
+
+Merge with your existing settings.json (add the two keys alongside existing `hooks`, `env`, etc.). Skills become available after CC restart.
+
+### Method 2: Plugin install (CLI)
 ```
 /plugin install github.com/cetej/STOPA --subdir stopa-orchestration
 ```
 
-### From local directory (development)
+### Method 3: Local directory (development)
 ```bash
 claude --plugin-dir ./stopa-orchestration
-```
-
-### Multiple plugins (use repeated flags)
-```bash
-claude --plugin-dir ./stopa-orchestration --plugin-dir ./other-plugin
 ```
 
 > **Note**: Since v2.1.76, `--plugin-dir` accepts only one path per flag. Use repeated flags for multiple plugins.

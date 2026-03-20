@@ -26,6 +26,11 @@ Accumulated knowledge from all tasks. Used by all skills/agents to improve over 
 
 ## Anti-patterns
 
+### Trusting Agent Research on New Features
+- **Problem**: Sub-agent researching new CC features (v2.1.80 `source: "settings"`) hallucinated a feature that doesn't exist. Implemented it, got schema validation error.
+- **Instead**: Always validate new feature claims against the actual schema/docs BEFORE implementing. Run a quick validation test (e.g., try adding to settings.json) before writing documentation.
+- **Source**: /watch scan, 2026-03-20
+
 ### Mandatory Full Orchestration
 - **Problem**: Over-orchestration wastes tokens. A trivial edit doesn't need scout→plan→execute→critic→scribe.
 - **Instead**: Assign light tier and do simple things directly.
@@ -56,11 +61,12 @@ Accumulated knowledge from all tasks. Used by all skills/agents to improve over 
 
 ## Skill Gaps
 
-### Plugin Distribution
-- **Situation**: Plugin system je GA (v1.0.33+). Naše orchestrace se distribuuje přes sync skript, ale plugin by to nahradil elegantněji.
-- **Potřeba**: Zabalit STOPA orchestraci jako Claude Code plugin (`.claude-plugin/plugin.json` + skills/ + hooks/)
-- **Priority**: high
-- **Source**: /watch scan, 2026-03-18
+### Plugin Distribution — DONE
+- **Situation**: Plugin system je GA. Distribuce přes marketplace v settings.json.
+- **Řešení**: `marketplace.json` v STOPA repo + `github` source v cílových projektech settings.json
+- **Metody**: 1) marketplace přes settings.json (doporučeno), 2) `/plugin install`, 3) `--plugin-dir` (dev)
+- **Priority**: DONE (2026-03-20)
+- **Source**: /watch scan, 2026-03-18 → implementace 2026-03-20
 
 ### Agent Teams Native API
 - **Situation**: Agent Teams jsou GA — native coordination přes SendMessage, shared task list

@@ -4,7 +4,7 @@ Tracked findings from `/watch` scans. Only ACTION and WATCH items are recorded h
 
 ## Last Scan
 
-**2026-03-19** — full (×2, odpolední scan)
+**2026-03-20** — full scan
 
 ## Active Items
 
@@ -30,7 +30,7 @@ Tracked findings from `/watch` scans. Only ACTION and WATCH items are recorded h
    - Impact: high for /orchestrate deep tier
    - Status: **DONE** — env var enabled in settings.json, /orchestrate deep tier updated with Teams workflow. Live testing pending on real task.
 
-7. **Diffusers 0.37.0** (Mar 5) — Modular Diffusers, FIBO Edit, Cosmos Predict2.5
+7. ~~**Diffusers 0.37.0** (Mar 5) — Modular Diffusers, FIBO Edit, Cosmos Predict2.5~~
    - Impact: medium for NG-ROBOT — modular pipelines, JSON-based image editing
    - Status: open
 
@@ -45,6 +45,38 @@ Tracked findings from `/watch` scans. Only ACTION and WATCH items are recorded h
 10. **API code execution zdarma** při použití s web search nebo web fetch
     - Impact: low-medium — upravit budget kalkulace
     - Status: open (low priority, defer)
+
+12. **Claude Code v2.1.80** — nová verze po v2.1.79
+    - ~~`source: 'settings'` pro plugin marketplace~~ — NEEXISTUJE (agent hallucinal, schema neobsahuje tento source typ)
+    - `effort` frontmatter pro skills GA — `effort: high/medium/low/auto` v SKILL.md frontmatter
+    - `rate_limits` v statusline skriptech — ukazuje využití rate limitů (5h/7d okna: session, weekly, weekly_sonnet)
+    - `--channels` (research preview) — MCP servery mohou pushovat zprávy do session
+    - Bug fix: `--resume` opravuje ztracené parallel tool results
+    - ~80 MB méně paměti při startu na velkých repozitářích
+    - Impact: medium — `effort` frontmatter + `rate_limits` relevantní, marketplace přes `github` source funguje
+    - Status: **DONE** — marketplace implementován přes `github` source v settings.json (NG-ROBOT, ADOBE-AUTOMAT)
+
+13. **1M kontext GA pro Sonnet 4.6** (March 13) — již GA, není potřeba beta header
+    - Media limit zvýšen z 100 na 600 obrázků/PDF stran na 1M kontextu
+    - Impact: low — pro nás bez změny, používáme 4.6 modely, limits se aplikují automaticky
+    - Status: open (informativní, bez nutné akce)
+
+14. **Claude Haiku 3 odchod** (April 19, 2026) — `claude-3-haiku-20240307` bude stažen
+    - Naše skills používají alias `haiku` (ne hardcoded ID) → jsme safe
+    - Impact: low — žádná akce potřeba v STOPA, aliases zůstávají funkční
+    - Status: SAFE (zkontrolováno 2026-03-20 — žádný hardcoded claude-3-haiku v projektu)
+
+15. **Models API capability fields** (March 18) — `GET /v1/models` vrací `max_input_tokens`, `max_tokens`, `capabilities`
+    - Impact: low — potenciálně využitelné v /budget skill pro dynamické limity
+    - Status: open (low priority)
+
+11. **OpenClaw** — osobní AI agent runtime (250k+ GitHub stars, 5 700+ AgentSkills, messaging integrations)
+    - Architektura: messaging gateway → LLM backend (Claude/GPT-4o/Ollama) → 5 700+ community skills
+    - Relevance pro STOPA: různé paradigma (messaging-first vs coding-first), ale skills ekosystém architektonicky podobný
+    - Bezpečnostní rizika: CVE-2026-25253 (CVSS 8.8 RCE), 12 % komunitních skills obsahuje malware
+    - Governance: creator odešel do OpenAI (feb 2026), přechod na open-source foundation
+    - Existují bridge pluginy: `openclaw-plugin-claude-code` (CC uvnitř OpenClaw), `openclaw-claude-code-skill` (MCP bridge)
+    - **Verdict**: WATCH — potenciálně zajímavé jako distribution channel nebo mobile access layer, ale nyní nestabilní governance + security
 
 ### Watch List
 
@@ -62,6 +94,18 @@ Tracked findings from `/watch` scans. Only ACTION and WATCH items are recorded h
    - Relevance: competing pattern, stronger enforcement than convention-based
 4. **MCP Memory Servers** — persistent memory via MCP instead of file-based
    - Relevance: alternative to our .claude/memory/ architecture
+6. **`--channels` MCP preview** (v2.1.80) — MCP servery mohou pushovat zprávy do session proaktivně
+   - Relevance: pokud by MCP server monitoroval NG-ROBOT pipeline, mohl by notifikovat přímo do session
+
+7. **Seedance 2.0** (ByteDance) — nový video generation model, neoficiální API přístup dostupný na GitHubu
+   - Relevance: alternativa k Pyramid Flow pro test1, mít na paměti
+
+8. **PyTorch 2.10.0** (Jan 21, 2026) + MXFP8/MoE blog (Mar 15) — NG-ROBOT může benefitovat ze zrychlení
+   - Relevance: dependency check pro NG-ROBOT (aktuálně na jaké verzi PyTorch?)
+
+5. **OpenClaw** — 250k+ stars, 5 700+ AgentSkills, messaging integrations (WhatsApp/Telegram/Discord atd.)
+   - Relevance: přímé propojení Claude Code ↔ OpenClaw přes bridge pluginy existuje. Distribution channel pro STOPA skills potenciálně zajímavý, ale security + governance blokují now.
+   - Sledovat: stabilizaci governance po přechodu na foundation + opravy CVE
 
 ### Resolved Items
 
@@ -71,6 +115,21 @@ Tracked findings from `/watch` scans. Only ACTION and WATCH items are recorded h
 4. ~~Token limit increase~~ — **CONFIRMED** (Opus 4.6: 64k default, 128k max output)
 
 ## Scan History
+
+### 2026-03-20 — full scan
+- CC v2.1.80: `effort` frontmatter GA, `rate_limits` statusline, `--channels` MCP preview, --resume bug fix, -80MB paměti
+- `source: "settings"` hallucinated by agent — neexistuje ve schema. Použit `github` marketplace source místo toho.
+- 1M kontext GA pro Sonnet 4.6 + Opus 4.6 (March 13) — bez beta headeru
+- Haiku 3 retirement April 19, 2026 — STOPA safe (žádný hardcoded model ID)
+- Models API vrací capability fields (March 18)
+- Seedance 2.0 (ByteDance), PyTorch 2.10.0, einops 0.8.2, timm (Feb 23)
+- **Implementováno**: marketplace.json + github source v settings.json pro NG-ROBOT a ADOBE-AUTOMAT
+
+### 2026-03-19 — topic:openclaw (večerní scan)
+- OpenClaw: personal AI agent runtime, 250k+ stars, messaging-first paradigma, bridge pluginy s CC
+- Security: CVE-2026-25253 CVSS 8.8, 12 % malicious community skills
+- Governance: creator odešel do OpenAI, přechod na foundation
+- Verdict: WATCH — nestabilní nyní, potenciálně zajímavé jako distribution channel/mobile layer
 
 ### 2026-03-19 — full (odpolední scan)
 - v2.1.79: /remote-control VSCode bridge, PreToolUse deny fix, streaming po řádcích

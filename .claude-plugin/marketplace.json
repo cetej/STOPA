@@ -1,0 +1,12 @@
+{
+  "name": "stopa-tools",
+  "description": "Orchestration tools for Claude Code — multi-agent coordination, budget control, session continuity",
+  "plugins": [
+    {
+      "name": "stopa-orchestration",
+      "source": "./stopa-orchestration",
+      "description": "Multi-agent orchestration system with 11 skills: orchestrate, scout, critic, scribe, budget, checkpoint, watch, skill-generator, dependency-audit, autoloop, project-init",
+      "version": "1.4.0"
+    }
+  ]
+}

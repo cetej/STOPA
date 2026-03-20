@@ -43,14 +43,38 @@ Orchestrační systém se distribuuje do těchto projektů:
 
 ## Distribuce do projektů
 
-### Metoda 1: Plugin (doporučeno)
+### Metoda 1: Marketplace přes settings.json (doporučeno)
+
+Přidej do `.claude/settings.json` cílového projektu (mergni s existujícími klíči):
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "stopa-tools": {
+      "source": {
+        "source": "github",
+        "repo": "cetej/STOPA"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "stopa-orchestration@stopa-tools": true
+  }
+}
+```
+
+Plugin se auto-instaluje z GitHub marketplace. Skills dostupné po restartu CC.
+
+### Metoda 2: Plugin install (CLI)
 
 ```bash
-# Z lokálního adresáře:
-claude --plugin-dir ./stopa-orchestration
-
-# Nebo instalace v cílovém projektu (git-subdir):
 /plugin install github.com/cetej/STOPA --subdir stopa-orchestration
+```
+
+### Metoda 3: Local directory (vývoj)
+
+```bash
+claude --plugin-dir ./stopa-orchestration
 ```
 
 Plugin balí skills + hooks do jednoho distribučního balíčku. Skills jsou dostupné jako `/stopa-orchestration:orchestrate`, `/stopa-orchestration:scout` atd.
