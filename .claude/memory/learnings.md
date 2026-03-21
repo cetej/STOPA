@@ -26,10 +26,11 @@ Accumulated knowledge from all tasks. Used by all skills/agents to improve over 
 
 ## Anti-patterns
 
-### Trusting Agent Research on New Features
-- **Problem**: Sub-agent researching new CC features (v2.1.80 `source: "settings"`) hallucinated a feature that doesn't exist. Implemented it, got schema validation error.
-- **Instead**: Always validate new feature claims against the actual schema/docs BEFORE implementing. Run a quick validation test (e.g., try adding to settings.json) before writing documentation.
-- **Source**: /watch scan, 2026-03-20
+### Verifying New Features — Timing Matters
+- **Problem**: Sub-agent researching `source: "settings"` (v2.1.80) concluded it doesn't exist because it tested BEFORE the version shipped. Follow-up /watch (2026-03-21) confirmed the feature IS real.
+- **Instead**: When agent research contradicts official changelog, trust the changelog. Check CHANGELOG.md directly. Agent trial-and-error can fail due to version timing.
+- **Note**: Both `github` source (our impl) and `source: 'settings'` work. No migration needed.
+- **Source**: /watch scans, 2026-03-20 → 2026-03-21
 
 ### Mandatory Full Orchestration
 - **Problem**: Over-orchestration wastes tokens. A trivial edit doesn't need scout→plan→execute→critic→scribe.

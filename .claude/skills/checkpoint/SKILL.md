@@ -1,6 +1,8 @@
 ---
 name: checkpoint
-description: Save session state and create a resume prompt for the next session. Use when ending a session, when context is getting large, or when the user says "save progress", "continue later", "checkpoint".
+description: Save session state and create a resume prompt for the next session. Use when ending a session, when context is getting large, or when the user says "save progress", "continue later", "checkpoint". Trigger on 'save progress', 'I'm done for today', 'continue later', 'ulož stav'.
+context:
+  - gotchas.md
 argument-hint: [save / resume / status]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash

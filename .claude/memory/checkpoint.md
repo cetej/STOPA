@@ -1,174 +1,130 @@
 # Session Checkpoint
 
 **Saved**: 2026-03-21
-**Task**: Záchvěv — Session 5: Intervenční obsahová vrstva
-**Branch**: master
+**Task**: Záchvěv — Session 7: Srozumitelný výstup + UI
+**Branch**: main
 **Repo**: https://github.com/cetej/ZACHVEV
-**Status**: Fáze 0 + analýza/intervence hotové, další krok = obsahová produkce
+**Status**: Bloky 1-8 implementovány, topic labeling + UI layout potřebují přepracovat
 
-## Kontext projektu
-
-**Záchvěv** je systém pro detekci, predikci a modelování intervencí u názorových kaskád na sociálních sítích. Funguje jako seismograf — detekuje kde se hromadí napětí a blíží tipping point. Na rozdíl od MiroFish (syntetičtí agenti) analyzuje reálná data z reálných sítí.
-
-**Projektový dokument**: `STOPA/research/cascade-monitor-project.md` (700+ řádků, 12 kapitol)
-
-## Co je hotové
+## Co je hotové (Sessions 1-7)
 
 ### Fáze 0 — PoC (kompletní ✓)
-- [x] Repozitář + pyproject.toml
-- [x] Reddit ingest via Arctic Shift API (ne PRAW — Reddit zavřel self-service API)
-- [x] Sentiment: `tabularisai/multilingual-sentiment-analysis` (ne FERNET-C5 — ten je MaskedLM, ne klasifikátor)
+- [x] Reddit ingest via Arctic Shift API
+- [x] Sentiment: `tabularisai/multilingual-sentiment-analysis` (DistilBERT, 5 tříd)
 - [x] Embeddings: `Seznam/simcse-small-e-czech` (256-dim)
-- [x] EWS detekce: ewstools (variance, lag-1 AC, Kendall tau trendy)
-- [x] Validace na syntetických + reálných datech (r/czech Jan-Feb 2025)
+- [x] EWS detekce: ewstools (variance, lag-1 AC, Kendall tau)
 
 ### Topic Discovery (kompletní ✓)
 - [x] UMAP (256d → 15d) + HDBSCAN clustering
-- [x] TF-IDF-like labeling, Czech stopwords
-- [x] Emerging topic detection (growth ratio 7d vs prev 7d)
-- [x] Topic dashboard vizualizace
-
-### Letná Case Study (kompletní ✓)
-- [x] 6615 postů (Feb-Mar 2026), demonstrace Milion chvilek
-- [x] Topic 14 (vláda/politika) — oba EWS signály rostou (variance τ=+0.545, AC τ=+0.283)
-- [x] Potvrzeno: systém detekuje pre-kaskádové napětí u reálné české politické události
+- [x] TF-IDF-like labeling, Czech+English stopwords (rozšířené)
+- [x] Emerging topic detection (growth ratio)
 
 ### Interpretace + Intervence (kompletní ✓)
-- [x] `zachvev/analyze/interpreter.py` — Cascade Risk Index (3 pilíře: temporal 0.4, structural 0.3, narrative 0.3)
-- [x] České narativní slovníky (absolutismus, urgence, dehumanizace, polarizace, mobilizace)
-- [x] Situační analýza v češtině (textový report)
-- [x] `zachvev/analyze/interventions.py` — 5 strategií (inokulace, bridge amplification, counter-framing, friction injection, energy redirection)
-- [x] Detekce intervenčních oken, doporučení strategií podle CRI + fáze
-- [x] `scripts/full_report.py` — kompletní pipeline data→interpretace→intervence
-- [x] Validace na Letná datech: CRI 0.52 (PREKRITICKÝ STAV)
+- [x] CRI (Cascade Risk Index) — 3 pilíře: temporal 0.4, structural 0.3, narrative 0.3
+- [x] 5 intervenčních strategií (inokulace, bridge_amplification, counter_framing, friction_injection, energy_redirection)
+- [x] Targeting: SHA256 anonymizace, 3 role (influencer/bridge/catalyst)
+- [x] Campaign planner: auto-populated kontext z dat
+- [x] Content templates s českou diakritikou
 
-## Aktuální struktura repozitáře
+### Webové rozhraní (Session 6-7)
+- [x] FastAPI backend (port 8000) — `zachvev/api/app.py`
+- [x] Streamlit frontend (port 8501) — `ui/app.py`
+- [x] 4 tabs: Analýza, Targeting, Kampaň, Vizuály
+- [x] Session history (save/load)
+- [x] Interpretační vrstva (`zachvev/analyze/interpreter.py`) — situation_report, topic_description, strategy_explanation, targeting_explanation
+
+### Session 7 — Bloky 1-8 implementovány
+- [x] Blok 1: situation_report v češtině (interpret_situation)
+- [x] Blok 2: topic_description (interpret_topic_description)
+- [x] Blok 3: strategy_explanation (interpret_strategy_choice)
+- [x] Blok 4: targeting_explanation (interpret_targeting)
+- [x] Blok 5: example_posts v API response
+- [x] Blok 6: top_authors v API response
+- [x] Blok 7: UI tabs přestrukturovány — interpretace nahoře, metriky v expanderu
+- [x] Blok 8: České diacritiky ve všech content templates
+
+## NEVYŘEŠENÉ PROBLÉMY (pro Session 8)
+
+### 1. Topic labeling — KRITICKÉ
+**Problém**: TF-IDF keyword extraction z krátkých Reddit titulků produkuje nesmyslné labely ("proč / někdo / vás", "the / czech / for"). Stopwords byly rozšířeny, ale fundamentální přístup je špatný.
+
+**Zjištění z analýzy**: CLI pipeline i web UI používají STEJNÝ kód (`topics.py:label_clusters()`). "Dobré" labely z CLI pocházely z velkého datasetu (5000-6615 postů) kde TF-IDF funguje lépe. Na menších live-fetched datech TF-IDF selhává.
+
+**Možná řešení**:
+- LLM-based labeling — poslat example_titles z clusteru do Claude a nechat pojmenovat téma
+- Použít `top_title` (nejčtenější post v clusteru) jako label místo klíčových slov
+- Hybrid: keywords + representative title
+- BERTopic-style c-TF-IDF s lepší normalizací
+
+### 2. UI layout — DŮLEŽITÉ
+**Problém**: Uživatel řekl "Připomíná ti náhodně nasypaný hnůj" — layout je chaotický, informace nejsou vizuálně organizované. Potřebuje redesign.
+
+### 3. growth_ratio edge case
+**Problém**: `interpret_situation()` přistupuje k `row["growth_ratio"]` bez guardu — může failnout na `inf` hodnoty. `_build_topic_summaries` má fix (`np.isfinite()`), ale interpret_situation ne.
+
+## Aktuální architektura
 
 ```
 ZACHVEV/
-├── pyproject.toml
-├── CLAUDE.md
 ├── zachvev/
-│   ├── ingest/
-│   │   └── reddit.py          # Arctic Shift API collector
+│   ├── ingest/reddit.py          # Arctic Shift API
 │   ├── process/
-│   │   ├── sentiment.py       # tabularisai/multilingual-sentiment-analysis
-│   │   └── embeddings.py      # Seznam/simcse-small-e-czech (256d)
+│   │   ├── sentiment.py          # DistilBERT sentiment
+│   │   └── embeddings.py         # Seznam/simcse-small-e-czech
 │   ├── detect/
-│   │   ├── ews.py             # ewstools wrapper (variance, AC1, Kendall tau)
-│   │   └── topics.py          # UMAP + HDBSCAN topic discovery
+│   │   ├── ews.py                # ewstools wrapper
+│   │   └── topics.py             # UMAP + HDBSCAN + TF-IDF labeling
 │   ├── analyze/
-│   │   ├── interpreter.py     # CRI index, narativní signály, situační analýza
-│   │   └── interventions.py   # 5 strategií, intervenční okna, doporučení
-│   └── viz/                   # (prázdné — Streamlit dashboard později)
+│   │   ├── interpreter.py        # CRI, narativní signály, interpretace v CZ
+│   │   └── interventions.py      # 5 strategií, intervenční okna
+│   ├── intervene/
+│   │   ├── content.py            # Generátor obsahu (šablony + Claude API)
+│   │   ├── targeting.py          # Analýza účtů, leverage scoring
+│   │   ├── campaign.py           # Kampaňový plánovač
+│   │   └── visuals.py            # Vizuální prompty
+│   └── api/
+│       ├── app.py                # FastAPI backend (v0.7.0)
+│       └── models.py             # Pydantic modely
+├── ui/
+│   └── app.py                    # Streamlit frontend
 ├── scripts/
-│   ├── poc_phase0.py          # ingest → sentiment → EWS pipeline
-│   ├── discover_topics.py     # topic discovery + per-topic EWS
-│   └── full_report.py         # kompletní analýza + intervence
-└── data/                      # (gitignored) parquety, embeddings, reporty
+│   ├── poc_phase0.py
+│   ├── discover_topics.py
+│   ├── full_report.py
+│   └── generate_campaign.py
+└── data/
+    ├── letna_sentiment.parquet   # 6615 postů test data
+    ├── embeddings.npy            # 6615×256d
+    └── sessions/                 # Uložené UI sessions
 ```
 
-## Technické poznatky (důležité pro další session)
+## Servery
+
+- **NG-ROBOT**: `python ngrobot_web.py` z `NG-ROBOT/` → http://localhost:5001
+- **Záchvěv API**: `uvicorn zachvev.api.app:app --host 0.0.0.0 --port 8000` z `ZACHVEV/` → http://localhost:8000
+- **Záchvěv UI**: `streamlit run ui/app.py --server.port 8501 --server.headless true` z `ZACHVEV/` → http://localhost:8501
+
+## Technické poznatky
 
 | Problém | Řešení |
 |---------|--------|
-| Reddit API vyžaduje Responsible Builder Policy approval | Přepojeno na Arctic Shift API (`arctic-shift.photon-reddit.com`) |
-| FERNET-C5-RoBERTa je MaskedLM, ne klasifikátor | Nahrazeno `tabularisai/multilingual-sentiment-analysis` (DistilBERT, 5 tříd) |
-| HDBSCAN 95% noise na 256d embeddings | UMAP redukce (256d → 15d) před clusteringem |
-| ewstools `apply_classifier_ewsnet` API changed | Nepoužíváme EWSNet, stačí statistické EWS (variance + AC) |
-| `created_utc` z Arctic Shift je epoch int, ne string | `_epoch_to_datetime()` helper + epoch cursor pro paginaci |
-
-## Další krok — Session 5: Intervenční obsahová vrstva
-
-### Cíl
-Přeměnit abstraktní strategická doporučení na **konkrétní akční výstupy**: texty zpráv, vizuály, cílení na klíčové účty. Systém nemá jen říct "použij counter-framing" — má navrhnout **konkrétní obsah** a **kam ho distribuovat**.
-
-### Nové moduly k implementaci
-
-#### 1. `zachvev/intervene/content.py` — Generátor intervenčního obsahu
-Vstup: strategie + topic info + narativní kontext
-Výstup: konkrétní texty/obsahy pro šíření
-
-- **Pro každou z 5 strategií** navrhnout šablony a generátor obsahu:
-  - Inokulace → prebunkingové posty ("Pozor na tuto techniku manipulace: ...")
-  - Counter-framing → přerámování ("Místo X se podívejme na Y...")
-  - Bridge amplification → podpůrné zprávy pro mostové hlasy
-  - Friction injection → kontextové štítky, fact-check labely
-  - Energy redirection → konstruktivní alternativy ("Chcete změnu? Tady je jak...")
-
-- **Formáty výstupů:**
-  - Krátký post (Reddit/Twitter/X styl, max 280 znaků)
-  - Střední post (Facebook/Reddit styl, 1-3 odstavce)
-  - Celý článek/zpráva pro web (strukturovaný, s titulkem, lead, tělo)
-  - Prompt pro generování obrázku/memu (pro AI image generátor)
-  - Infografika brief (data + vizuální layout popis)
-
-- **LLM generování:** Použít Claude API pro finální copywriting. Modul připraví strukturovaný prompt s kontextem (topic keywords, sentiment, narativní markery, cílová strategie) → Claude vygeneruje text v požadovaném formátu a tónu.
-
-#### 2. `zachvev/intervene/targeting.py` — Identifikace klíčových účtů a pákového efektu
-Vstup: topic data + user aktivita z postů
-Výstup: seznam klíčových účtů pro distribuci
-
-- **Metriky pro identifikaci klíčových účtů:**
-  - Volume: kdo nejvíc publikuje v daném topicu
-  - Engagement: čí posty mají nejvyšší score/komentáře
-  - Cross-topic reach: kdo publikuje napříč tématy (mostové uzly)
-  - Sentiment influence: korelace mezi posty účtu a sentiment shift
-
-- **Pákový efekt:**
-  - Identifikovat účty s disproporčním dosahem (vysoké engagement/post ratio)
-  - Rozlišit: influenceři (velký dosah), mosty (cross-community), katalyzátoři (startují diskuze)
-  - Pro každou strategii doporučit jiný typ účtu (bridge amplification → mosty, counter-framing → influenceři, atd.)
-
-- **Data z Arctic Shift:** Rozšířit reddit.py o stahování comment-level dat a user profilů. Author field v postech → frequency analysis, engagement scoring.
-
-#### 3. `zachvev/intervene/campaign.py` — Kampaňový plánovač
-Vstup: CRI result + obsah + targeting
-Výstup: kompletní akční plán
-
-- Spojí obsah (co říct) + targeting (komu/kde) + timing (kdy) do uceleného plánu
-- Vygeneruje timeline: "Den 1: prebunking posty přes X, Den 2: counter-frame článek přes Y..."
-- Odhad dosahu a efektivity
-- Export do formátu připraveného pro exekuci
-
-#### 4. Vizuální obsah
-- Integrace s existujícím `visual-data-architect` skillem pro generování JSON promptů pro Nano Banana Pro
-- Návrh memů/infografik: textový brief → vizuální prompt → generování
-- Šablony pro typické formáty (srovnávací infografika, fact-check karta, narativní mapa)
-
-### Úkoly Session 5
-
-```
-1. Vytvořit zachvev/intervene/__init__.py
-2. Vytvořit zachvev/intervene/content.py — generátor obsahu (šablony + LLM prompt builder)
-3. Vytvořit zachvev/intervene/targeting.py — analýza účtů, pákový efekt, doporučení distribuce
-4. Rozšířit ingest/reddit.py — stahování komentářů a author dat pro targeting
-5. Vytvořit zachvev/intervene/campaign.py — kampaňový plánovač (obsah + targeting + timing)
-6. Vytvořit zachvev/intervene/visuals.py — generování vizuálních promptů (memy, infografiky)
-7. Vytvořit scripts/generate_campaign.py — end-to-end: analýza → obsah → targeting → plán
-8. Otestovat na Letná datech — vygenerovat ukázkovou kampaň
-9. Aktualizovat CLAUDE.md s novou architekturou
-10. Commit + push
-```
-
-### Architektonické rozhodnutí k prodiskutování
-
-- **LLM pro obsah:** Použít Claude API přes `anthropic` SDK? Nebo lokální model? Claude je kvalitnější pro češtinu, ale stojí peníze. Hybrid: šablony pro jednoduché formáty, Claude pro články a komplexní obsah.
-- **Etika:** Systém generuje obsah určený k ovlivňování diskurzu. Potřebuje jasné mantinely — kdo může používat, na co, s jakým oversight. Implementovat jako config/policy layer.
-- **Targeting privacy:** Identifikace klíčových účtů z veřejných dat je legální, ale citlivé. Anonymizace v reportech? Agregované profily místo jmen?
+| Reddit API vyžaduje approval | Arctic Shift API (`arctic-shift.photon-reddit.com`) |
+| FERNET-C5 je MaskedLM | `tabularisai/multilingual-sentiment-analysis` |
+| HDBSCAN 95% noise na 256d | UMAP redukce (256→15d) před clusteringem |
+| Port 8000 obsazený | `taskkill //F //IM python.exe` před restartem |
+| TF-IDF labely nesmyslné | Rozšířit stopwords + zvážit LLM labeling (Session 8) |
 
 ## Resume Prompt
 
-> Záchvěv — Session 5: Intervenční obsahová vrstva.
-> Repo: https://github.com/cetej/ZACHVEV (branch master)
+> Záchvěv — Session 8: Oprava topic labeling + UI redesign.
+> Repo: ZACHVEV (branch main)
 >
-> Systém umí: sběr dat (Arctic Shift) → sentiment → embeddings → topic discovery → EWS detekce → CRI index → situační analýza → intervenční doporučení. Validováno na Letná datech (CRI 0.52, prekritický stav).
+> Systém kompletní end-to-end: sběr → sentiment → embeddings → clustering → CRI → interpretace → intervence → kampaň → UI. Validováno na Letná datech (6615 postů, CRI 0.52).
 >
-> **Další krok:** Přeměnit abstraktní strategická doporučení na konkrétní akční výstupy. Nové moduly v `zachvev/intervene/`:
-> 1. `content.py` — generátor textů (posty, články, memy) pro 5 intervenčních strategií
-> 2. `targeting.py` — identifikace klíčových účtů s největším dosahem (pákový efekt)
-> 3. `campaign.py` — kampaňový plánovač (obsah + targeting + timing)
-> 4. `visuals.py` — vizuální prompty pro AI generátory (memy, infografiky)
+> **Hlavní problémy k řešení:**
+> 1. Topic labeling produkuje nesmyslné názvy — TF-IDF na krátkých titulcích selhává. Zvážit LLM-based labeling (poslat example titles do Claude → pojmenovat cluster).
+> 2. UI layout je chaotický — potřebuje vizuální redesign (hierarchie informací, čisté karty, méně textu najednou).
+> 3. growth_ratio edge case v interpret_situation() — chybí guard na inf hodnoty.
 >
-> Podrobný plán: viz checkpoint (`STOPA/.claude/memory/checkpoint.md`)
-> Technické poznatky (Arctic Shift místo PRAW, tabularisai místo FERNET, UMAP před HDBSCAN): tamtéž.
+> Checkpoint: `STOPA/.claude/memory/checkpoint.md`
+> Uncommitted changes: rozšířené stopwords v `topics.py`

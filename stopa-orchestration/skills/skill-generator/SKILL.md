@@ -1,6 +1,6 @@
 ---
 name: skill-generator
-description: Create, update, or improve Claude Code skills. Use when asked to generate a new skill, modify an existing one, or for a new slash command.
+description: Create, update, or improve Claude Code skills. Use when asked to generate a new skill, modify an existing one, or for a new slash command. Trigger on 'create a skill', 'new slash command', 'improve skill X', 'update skill'.
 argument-hint: [description of the skill to create]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep

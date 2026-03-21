@@ -1,6 +1,8 @@
 ---
 name: critic
-description: Review and evaluate code, plans, or outputs for quality, correctness, and adherence to standards. Use after implementation or planning to catch issues before they're finalized.
+description: Review and evaluate code, plans, or outputs for quality, correctness, and adherence to standards. Use after implementation or planning to catch issues before they're finalized. Trigger on 'review this', 'check quality', 'is this correct', or auto-invoked after code edits.
+context:
+  - gotchas.md
 argument-hint: [what to review — file path, skill name, or "last changes"]
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Agent

@@ -1,6 +1,8 @@
 ---
 name: autoloop
-description: Run autonomous optimization loop on a file (Karpathy Loop pattern). Use when asked to iteratively improve a skill, prompt, or config with a measurable metric.
+description: Run autonomous optimization loop on a file (Karpathy Loop pattern). Use when asked to iteratively improve a skill, prompt, or config with a measurable metric. Trigger on 'optimize this', 'iterate on', 'improve until', 'make this better'.
+context:
+  - gotchas.md
 argument-hint: <target file path> [goal description]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
