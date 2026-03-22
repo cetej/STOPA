@@ -2,6 +2,12 @@
 
 Decisions made during task execution. Each entry captures WHAT was decided, WHY, and by WHOM.
 
+### 2026-03-22 — Skill Audit Findings: Integration Gaps in Utility Skills
+- **Context**: skill-audit harness ran across all 15 skills, revealing 4 skills with integration score 2/5
+- **Decision**: Utility skills (youtube-transcript, verify) should add "After Completion" sections writing to learnings.md/state.md; scout should add explicit disallowedTools
+- **Rationale**: COMPOUND loop only works if all skills record their findings — isolated utility skills break the feedback loop
+- **Decided by**: harness/orchestrator
+
 ### 2026-03-18 — Add Budget Controller to Orchestration System
 - **Context**: Self-assessment revealed no cost controls. System could become a "token black hole" with unbounded agent spawns and critic loops.
 - **Options considered**: (A) Simple agent counter, (B) Full budget skill with tiers + circuit breakers + history, (C) External hook-based monitoring

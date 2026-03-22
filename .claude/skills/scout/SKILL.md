@@ -9,7 +9,7 @@ allowed-tools: Read, Glob, Grep, Agent
 model: haiku
 effort: medium
 maxTurns: 10
-disallowedTools: ""
+disallowedTools: Write, Edit, Bash
 ---
 
 # Scout — Explorer & Researcher

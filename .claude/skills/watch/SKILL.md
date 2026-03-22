@@ -7,7 +7,7 @@ allowed-tools: Read, Write, Edit, WebSearch, WebFetch, Agent
 model: sonnet
 effort: medium
 maxTurns: 20
-disallowedTools: ""
+disallowedTools: Bash, Glob, Grep
 ---
 
 # Watch — News & Updates Scanner

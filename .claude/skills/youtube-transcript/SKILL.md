@@ -128,6 +128,12 @@ input/
 └── video2_transcript.txt
 ```
 
+## After Completion
+
+1. If yt-dlp workarounds were used (update, cookies, etc.): write the working solution to `.claude/memory/learnings.md` under Patterns
+2. If download failed permanently: write the failure pattern to `.claude/memory/learnings.md` under Anti-patterns
+3. If `--analyze` was used: note key takeaways in `.claude/memory/state.md` under active task (if one exists)
+
 ## Rules
 
 1. **Always use yt-dlp** — never use the MCP youtube-transcript server (broken since 2026-03)

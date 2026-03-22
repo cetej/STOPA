@@ -1,0 +1,255 @@
+{
+  "_meta": {"phase": 3, "timestamp": "2026-03-22T00:00:00Z", "model": "sonnet"},
+  "audits": [
+    {
+      "name": "youtube-transcript",
+      "allowed_tools": ["Bash", "Read", "Write", "Glob"],
+      "disallowed_tools": [],
+      "permission_level": "ok",
+      "findings": [
+        "Bash: needed for yt-dlp commands — justified",
+        "Write: needed to save transcript files — justified",
+        "Glob: needed to check input/ directory — justified",
+        "Read: needed to read VTT files for cleaning — justified",
+        "No disallowed_tools specified — should add Agent (skill doesn't need sub-agents)",
+        "Missing: Edit is not needed (always writes new files) — correctly excluded"
+      ],
+      "recommendations": [
+        "Add 'disallowedTools: Agent' to prevent accidental agent spawning"
+      ]
+    },
+    {
+      "name": "autoloop",
+      "allowed_tools": ["Read", "Write", "Edit", "Glob", "Grep", "Bash"],
+      "disallowed_tools": ["Agent"],
+      "permission_level": "ok",
+      "findings": [
+        "All tools justified: Read/Write/Edit for file iteration, Glob/Grep for scoring, Bash for git operations",
+        "Agent explicitly disallowed — correct, this skill loops internally",
+        "Bash needed for git checkout/commit in iteration loop — justified",
+        "Write AND Edit both allowed — Write for new backup files, Edit for targeted skill changes — both justified",
+        "Broad set but each tool has clear purpose in the workflow"
+      ],
+      "recommendations": [
+        "No changes needed — permission level is correct given the autonomous iteration workflow"
+      ]
+    },
+    {
+      "name": "budget",
+      "allowed_tools": ["Read", "Write", "Edit"],
+      "disallowed_tools": ["Agent"],
+      "permission_level": "ok",
+      "findings": [
+        "Minimal toolset: Read/Write/Edit for budget.md operations — well-constrained",
+        "Agent disallowed — correct for a simple ledger manager",
+        "No Bash, Glob, Grep — correct, budget is a single-file operation",
+        "Best example of least-privilege in the skill set"
+      ],
+      "recommendations": [
+        "No changes needed — exemplary minimal permissions"
+      ]
+    },
+    {
+      "name": "checkpoint",
+      "allowed_tools": ["Read", "Write", "Edit", "Glob", "Grep", "Bash"],
+      "disallowed_tools": ["Agent"],
+      "permission_level": "ok",
+      "findings": [
+        "Bash: needed for git status/log/diff commands — justified",
+        "Glob: needed to check for implementation-plan.md existence — justified",
+        "Grep: needed to search for today's learnings entries — justified",
+        "Agent disallowed — correct, checkpoint is a focused save operation",
+        "Write AND Edit both needed: Write for new checkpoint, Edit for clearing checkpoint — justified",
+        "Broad but all justified by the 'gather state from many sources' workflow"
+      ],
+      "recommendations": [
+        "No changes needed"
+      ]
+    },
+    {
+      "name": "dependency-audit",
+      "allowed_tools": ["Read", "Glob", "Grep", "WebSearch", "WebFetch"],
+      "disallowed_tools": ["Agent"],
+      "permission_level": "ok",
+      "findings": [
+        "WebSearch + WebFetch: core purpose of the skill — justified",
+        "Read: for requirements.txt and CLAUDE.md — justified",
+        "Glob: to find requirements files — justified",
+        "Grep: to search within dependency files — justified",
+        "No Write/Edit — correct, this skill only reports, doesn't modify",
+        "Agent disallowed — correct, all research done inline",
+        "Good least-privilege: no Bash, no Write, no unnecessary tools"
+      ],
+      "recommendations": [
+        "No changes needed — well-constrained for a read-and-report skill"
+      ]
+    },
+    {
+      "name": "incident-runbook",
+      "allowed_tools": ["Read", "Glob", "Grep", "Bash"],
+      "disallowed_tools": ["Agent", "Write", "Edit"],
+      "permission_level": "ok",
+      "findings": [
+        "Write AND Edit explicitly disallowed — enforces the 'diagnose only, don't fix' mandate",
+        "Agent disallowed — keeps it fast and focused",
+        "Bash: for git log, process checks, port checking — justified",
+        "Read/Glob/Grep: for log inspection and runbook lookup — justified",
+        "Strong disallow list makes intent explicit — exemplary constraint design"
+      ],
+      "recommendations": [
+        "No changes needed — explicit disallow list is a good pattern worth following"
+      ]
+    },
+    {
+      "name": "orchestrate",
+      "allowed_tools": ["Read", "Write", "Edit", "Glob", "Grep", "Bash", "Agent"],
+      "disallowed_tools": [],
+      "permission_level": "ok",
+      "findings": [
+        "Full toolset including Agent: justified — orchestrator must delegate work",
+        "No disallowed_tools — expected for the 'conductor' skill that needs full access",
+        "Write: for state.md, budget.md updates — justified",
+        "Bash: for git operations, context health checks — justified",
+        "This is the ONE skill that legitimately needs all tools",
+        "Broad permissions acceptable given orchestrator role — this is the trust boundary"
+      ],
+      "recommendations": [
+        "No changes needed — orchestrator is designed to be the privileged coordinator"
+      ]
+    },
+    {
+      "name": "project-init",
+      "allowed_tools": ["Read", "Write", "Bash", "Glob"],
+      "disallowed_tools": ["Agent"],
+      "permission_level": "ok",
+      "findings": [
+        "Bash: needed for mkdir -p, git init — justified",
+        "Write: creates template files — justified",
+        "Read: checks existing files before overwriting — justified",
+        "Glob: checks for existing .claude/ structure — justified",
+        "Missing Edit: skill uses Write for new files, never needs to patch existing — correct omission",
+        "Agent disallowed — correct, initialization is a focused write operation",
+        "No Grep needed — correct, no content searching required"
+      ],
+      "recommendations": [
+        "No changes needed"
+      ]
+    },
+    {
+      "name": "scout",
+      "allowed_tools": ["Read", "Glob", "Grep", "Agent"],
+      "disallowed_tools": [],
+      "permission_level": "ok",
+      "findings": [
+        "Read/Glob/Grep: core exploration tools — justified",
+        "Agent: for deep tier cross-module mapping — justified",
+        "No Write/Edit/Bash: correct — scout must be read-only",
+        "No disallowed_tools specified — should explicitly disallow Write, Edit to enforce read-only mandate",
+        "The SKILL.md says 'never modify anything' but doesn't enforce it via disallowedTools"
+      ],
+      "recommendations": [
+        "Add 'disallowedTools: Write, Edit, Bash' to enforce read-only mandate — currently relies on instruction compliance only",
+        "Explicit disallow is safer than 'never modify' in text instructions"
+      ]
+    },
+    {
+      "name": "scribe",
+      "allowed_tools": ["Read", "Write", "Edit"],
+      "disallowed_tools": ["Agent"],
+      "permission_level": "ok",
+      "findings": [
+        "Minimal toolset: Read/Write/Edit for memory file management — correct",
+        "Agent disallowed — correct, scribe operates directly on files",
+        "No Bash, Glob, Grep — correct for a focused file writer",
+        "Write AND Edit both justified: Write for new archives, Edit for existing memory files"
+      ],
+      "recommendations": [
+        "No changes needed — well-constrained"
+      ]
+    },
+    {
+      "name": "skill-generator",
+      "allowed_tools": ["Read", "Write", "Edit", "Glob", "Grep"],
+      "disallowed_tools": ["Agent"],
+      "permission_level": "ok",
+      "findings": [
+        "No Bash: correct — no shell operations needed for skill file management",
+        "Agent disallowed — correct, all work is file-based",
+        "Read/Write/Edit: for creating and updating SKILL.md files — justified",
+        "Glob/Grep: for listing existing skills and scanning content — justified",
+        "Good constraint: no Bash means no accidental execution of generated code"
+      ],
+      "recommendations": [
+        "No changes needed"
+      ]
+    },
+    {
+      "name": "verify",
+      "allowed_tools": ["Read", "Glob", "Grep", "Bash", "Agent"],
+      "disallowed_tools": ["Write", "Edit"],
+      "permission_level": "ok",
+      "findings": [
+        "Write AND Edit explicitly disallowed — enforces 'observe and report only' mandate",
+        "Bash: essential for running real commands and checking output — justified",
+        "Agent: for complex multi-component verification — justified",
+        "Read/Glob/Grep: for reading project context — justified",
+        "Strong disallow list + execution capability is the right balance for a verifier"
+      ],
+      "recommendations": [
+        "No changes needed — well-designed permission profile for a read+execute verifier"
+      ]
+    },
+    {
+      "name": "watch",
+      "allowed_tools": ["Read", "Write", "Edit", "WebSearch", "WebFetch", "Agent"],
+      "disallowed_tools": [],
+      "permission_level": "over-permissioned",
+      "findings": [
+        "Agent: listed as allowed but instructions say 'Never spawn more than 1 agent' — inconsistent",
+        "The instructions also say 'use haiku for agent spawns if deeper analysis needed' — so Agent is sometimes used",
+        "Agent permission is technically correct but the instructions cap it at 1",
+        "No disallowed_tools: should add Bash (not needed for web scanning), Glob (not needed)",
+        "Write/Edit: needed for news.md updates — justified",
+        "WebSearch/WebFetch: core purpose — justified",
+        "MINOR over-permission: Agent is justified but could be constrained further"
+      ],
+      "recommendations": [
+        "Consider adding: 'disallowedTools: Bash, Glob, Grep' — these tools have no role in web scanning",
+        "Agent permission is acceptable but instructions should clarify it's capped at 1 agent"
+      ]
+    },
+    {
+      "name": "critic",
+      "allowed_tools": ["Read", "Glob", "Grep", "Bash", "Agent"],
+      "disallowed_tools": ["Write", "Edit"],
+      "permission_level": "ok",
+      "findings": [
+        "Write AND Edit explicitly disallowed — enforces 'never fix, only report' mandate",
+        "Bash: for git diff to get last changes — justified",
+        "Agent: for complex reviews (e.g., tracing call chains) — justified",
+        "Read/Glob/Grep: for code analysis — justified",
+        "Permission profile mirrors verify — both are read-only analysis tools"
+      ],
+      "recommendations": [
+        "No changes needed — correct permission profile for an analysis-only skill"
+      ]
+    },
+    {
+      "name": "harness",
+      "allowed_tools": ["Read", "Write", "Edit", "Glob", "Grep", "Bash", "Agent"],
+      "disallowed_tools": [],
+      "permission_level": "ok",
+      "findings": [
+        "Full toolset including Agent — justified: harness spawns sub-agents for LLM phases",
+        "Bash: needed for creating .harness/ directory, running validation commands — justified",
+        "Write: for saving phase outputs to .harness/ — justified",
+        "No disallowedTools: acceptable for a dispatcher/runner that coordinates everything",
+        "Similar profile to orchestrate — both are coordinators that need full access"
+      ],
+      "recommendations": [
+        "No major changes needed",
+        "Could consider adding disallowedTools for something like WebSearch/WebFetch that harness wouldn't typically need"
+      ]
+    }
+  ]
+}

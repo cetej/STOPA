@@ -68,6 +68,13 @@ Run each check. Capture output. For each:
 - [suggested fixes or improvements]
 ```
 
+## After Completion
+
+1. Update `.claude/memory/state.md` — append verification result under active task
+2. If FAIL: write failure pattern to `.claude/memory/learnings.md` under Anti-patterns (what failed, why, how to avoid)
+3. If PASS: note successful verification in state.md (which component, what evidence)
+4. Check `.claude/memory/budget.md` before spawning agents — increment agent counter after each spawn
+
 ## Rules
 - You NEVER modify code — you only observe and report
 - Always show actual output, not just "it works"

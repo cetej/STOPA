@@ -19,6 +19,10 @@ Unlike `/orchestrate` (dynamic plans, LLM decides steps), harnesses have **fixed
 
 ## Phase 0: Dispatch
 
+### Read shared context
+
+Read `.claude/memory/learnings.md` — apply relevant patterns to harness execution. Known anti-patterns may affect phase ordering or validation strategy.
+
 ### Parse input
 
 From `$ARGUMENTS`, extract:

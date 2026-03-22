@@ -1,0 +1,321 @@
+{
+  "_meta": {"phase": 4, "timestamp": "2026-03-22T00:00:00Z", "model": "sonnet"},
+  "audits": [
+    {
+      "name": "youtube-transcript",
+      "reads_memory": false,
+      "writes_memory": false,
+      "cross_references": [],
+      "follows_compound_loop": false,
+      "has_budget_awareness": false,
+      "integration_score": 2,
+      "findings": [
+        "No shared memory reads — skill operates as an isolated tool",
+        "No shared memory writes — results don't propagate to learnings/decisions",
+        "No cross-skill references",
+        "Does NOT follow PLAN→WORK→ASSESS→COMPOUND — it's a linear pipeline",
+        "No budget awareness",
+        "Isolated skills are acceptable if the use case is standalone, but this skill could record download failures to learnings.md"
+      ],
+      "recommendations": [
+        "Add: read .claude/memory/checkpoint.md to understand project context (already in instructions: 'check memory/checkpoint for context' but not using the skill's allowed-tools pattern)",
+        "Add: write to .claude/memory/learnings.md when yt-dlp workarounds are discovered (anti-pattern: MCP server broken)",
+        "Low integration is acceptable for a utility skill — score reflects intentional isolation"
+      ]
+    },
+    {
+      "name": "autoloop",
+      "reads_memory": true,
+      "writes_memory": true,
+      "cross_references": [],
+      "follows_compound_loop": true,
+      "has_budget_awareness": true,
+      "integration_score": 4,
+      "findings": [
+        "Reads budget.md before starting — correct budget awareness",
+        "Writes to budget.md event log after run — correct tracking",
+        "Follows COMPOUND loop: iterate → measure → keep/revert → log",
+        "Does NOT reference shared learnings.md for pre-run context",
+        "No cross-skill references (no /critic invocation after optimization)",
+        "Missing: doesn't suggest running /critic after loop completes"
+      ],
+      "recommendations": [
+        "Add: read .claude/memory/learnings.md at start to apply known patterns to optimization",
+        "Add: after loop completes, suggest '/critic <target>' for quality validation",
+        "Add: write discovered optimization patterns to learnings.md on success"
+      ]
+    },
+    {
+      "name": "budget",
+      "reads_memory": true,
+      "writes_memory": true,
+      "cross_references": ["orchestrate"],
+      "follows_compound_loop": false,
+      "has_budget_awareness": true,
+      "integration_score": 5,
+      "findings": [
+        "Core purpose IS memory management — reads and writes budget.md",
+        "Budget awareness is the skill itself — maximum integration",
+        "References orchestrator pattern (auto-invoked by orchestrator)",
+        "Circuit breakers are well-defined and system-integrated",
+        "COMPOUND loop not applicable — this is a utility tracker, not a task executor"
+      ],
+      "recommendations": [
+        "No changes needed — integration is the core function"
+      ]
+    },
+    {
+      "name": "checkpoint",
+      "reads_memory": true,
+      "writes_memory": true,
+      "cross_references": ["orchestrate"],
+      "follows_compound_loop": false,
+      "has_budget_awareness": true,
+      "integration_score": 5,
+      "findings": [
+        "Reads state.md, budget.md, decisions.md, learnings.md, implementation-plan.md — comprehensive",
+        "Writes checkpoint.md — primary output is shared memory",
+        "Referenced by orchestrate (auto-trigger on context health check)",
+        "Reads budget state as part of checkpoint — correct",
+        "COMPOUND loop not applicable — this is a session boundary tool",
+        "Exemplary integration: reads everything, synthesizes into resumable state"
+      ],
+      "recommendations": [
+        "No changes needed — gold standard for memory integration"
+      ]
+    },
+    {
+      "name": "dependency-audit",
+      "reads_memory": true,
+      "writes_memory": true,
+      "cross_references": ["watch", "incident-runbook"],
+      "follows_compound_loop": false,
+      "has_budget_awareness": false,
+      "integration_score": 3,
+      "findings": [
+        "Reads news.md to cross-reference /watch findings — good",
+        "Writes to learnings.md, decisions.md, news.md after completion — correct",
+        "Cross-references /watch and /incident-runbook in description — good",
+        "No budget awareness — skill doesn't check budget before web searches",
+        "COMPOUND loop partially followed: work → record findings, but no self-check"
+      ],
+      "recommendations": [
+        "Add budget awareness: WebSearch can be expensive in volume — check budget tier before running full audit",
+        "The 'After Completion' section is good — no changes there"
+      ]
+    },
+    {
+      "name": "incident-runbook",
+      "reads_memory": false,
+      "writes_memory": false,
+      "cross_references": [],
+      "follows_compound_loop": false,
+      "has_budget_awareness": false,
+      "integration_score": 2,
+      "findings": [
+        "Reads runbook.md (skill-local file) — but NOT shared memory",
+        "Tells user to update runbook but CANNOT write (correctly disallowed)",
+        "No cross-skill references beyond suggesting 'tell user to add to runbook'",
+        "Intentionally isolated: fast diagnosis, no overhead",
+        "The 'Step 5: Update runbook' is a hand-off instruction, not actual memory write",
+        "Could benefit from reading learnings.md for project-specific patterns"
+      ],
+      "recommendations": [
+        "Add: read .claude/memory/learnings.md — project-specific anti-patterns could help diagnosis",
+        "The no-write design is correct for a first-responder — don't change that",
+        "Consider adding Write permission scoped to runbook.md only (not general Write) — OR keep current design and accept low integration score"
+      ]
+    },
+    {
+      "name": "orchestrate",
+      "reads_memory": true,
+      "writes_memory": true,
+      "cross_references": ["scout", "critic", "scribe", "budget", "checkpoint", "skill-generator", "harness"],
+      "follows_compound_loop": true,
+      "has_budget_awareness": true,
+      "integration_score": 5,
+      "findings": [
+        "Reads state.md, decisions.md, learnings.md, budget.md, checkpoint.md, news.md — most comprehensive reader",
+        "Writes to state.md, budget.md via delegation to scribe/budget skills",
+        "References all major skills: scout, critic, scribe, budget, checkpoint, skill-generator, harness",
+        "Follows PLAN→WORK→ASSESS→COMPOUND explicitly in Phase structure",
+        "Budget awareness is central: Phase 0 checks budget, gates every subtask",
+        "Context health check is sophisticated — multi-signal scoring",
+        "Gold standard for full system integration"
+      ],
+      "recommendations": [
+        "No changes needed — orchestrate is the reference implementation for integration"
+      ]
+    },
+    {
+      "name": "project-init",
+      "reads_memory": false,
+      "writes_memory": true,
+      "cross_references": ["orchestrate", "scout"],
+      "follows_compound_loop": false,
+      "has_budget_awareness": false,
+      "integration_score": 2,
+      "findings": [
+        "Writes memory template files (state.md, decisions.md, etc.) — but creates templates, not system entries",
+        "References orchestrate and scout in output instructions",
+        "Does not read existing shared memory (correct — new project has none)",
+        "No budget awareness — acceptable for a one-time setup operation",
+        "COMPOUND loop not applicable — this is a bootstrap tool",
+        "Low integration is by design: initializer creates the system, doesn't use it"
+      ],
+      "recommendations": [
+        "No changes needed — low integration is correct for a bootstrap skill"
+      ]
+    },
+    {
+      "name": "scout",
+      "reads_memory": true,
+      "writes_memory": true,
+      "cross_references": ["orchestrate"],
+      "follows_compound_loop": false,
+      "has_budget_awareness": true,
+      "integration_score": 4,
+      "findings": [
+        "Reads learnings.md at start — correct: 'apply known patterns to speed up exploration'",
+        "Writes to state.md (scout findings) and budget.md (agent spawn counter) — correct",
+        "Budget awareness: checks budget.md for tier before choosing exploration depth — excellent",
+        "Cross-reference: mentions orchestrate implicitly (part of orchestrate workflow)",
+        "After exploration: updates state.md AND notes new patterns for learnings.md",
+        "COMPOUND loop partially: PLAN (tier check) → WORK (explore) → missing ASSESS"
+      ],
+      "recommendations": [
+        "Add: explicit ASSESS step — 'after scouting, validate findings make sense before reporting'",
+        "The learnings.md read-at-start pattern is the right approach — good model for other skills"
+      ]
+    },
+    {
+      "name": "scribe",
+      "reads_memory": true,
+      "writes_memory": true,
+      "cross_references": ["orchestrate"],
+      "follows_compound_loop": false,
+      "has_budget_awareness": false,
+      "integration_score": 4,
+      "findings": [
+        "Core purpose IS reading and writing shared memory — state.md, decisions.md, learnings.md, budget.md",
+        "Read-before-write pattern explicitly stated: 'always read the target file first' — correct",
+        "Auto-invoked by orchestrate — well-integrated into workflow",
+        "Maintenance procedure is well-defined with thresholds",
+        "No budget awareness — appropriate: scribe is cheap (haiku, minimal turns)",
+        "COMPOUND loop not applicable — scribe IS the compound recorder"
+      ],
+      "recommendations": [
+        "No changes needed — scribe's role is the integration layer itself"
+      ]
+    },
+    {
+      "name": "skill-generator",
+      "reads_memory": true,
+      "writes_memory": true,
+      "cross_references": ["orchestrate", "scout", "critic", "scribe"],
+      "follows_compound_loop": true,
+      "has_budget_awareness": false,
+      "integration_score": 4,
+      "findings": [
+        "Reads learnings.md and skill-generator/LEARNINGS.md before starting — good",
+        "Writes to learnings.md, decisions.md after completion — correct COMPOUND pattern",
+        "References orchestrate, scout, critic, scribe in System Integration section",
+        "Follows partial COMPOUND: read patterns → create → record learnings",
+        "No budget awareness — should check budget before spawning (but Agent is disallowed, so less critical)",
+        "Has skill-specific LEARNINGS.md — good specialization pattern"
+      ],
+      "recommendations": [
+        "Add budget awareness for the 'improve-all' / 'audit' flow — this runs across many files",
+        "The LEARNINGS.md in skill directory is a good pattern — consider documenting it"
+      ]
+    },
+    {
+      "name": "verify",
+      "reads_memory": true,
+      "writes_memory": false,
+      "cross_references": ["critic"],
+      "follows_compound_loop": false,
+      "has_budget_awareness": false,
+      "integration_score": 2,
+      "findings": [
+        "Reads state.md for task context — correct",
+        "Does NOT write to shared memory after completion — missed opportunity",
+        "Verify is read+execute: results should be logged to state.md",
+        "No budget awareness despite potentially expensive Agent use",
+        "Cross-reference to critic is implicit (complementary tools)",
+        "COMPOUND loop missing: no ASSESS/COMPOUND after verification"
+      ],
+      "recommendations": [
+        "Add: write verification result to .claude/memory/state.md after completion",
+        "Add: if FAIL, write to .claude/memory/learnings.md as an anti-pattern finding",
+        "Add budget awareness: check budget.md before spawning agents",
+        "Current score is low due to no memory writes — this is a fixable gap"
+      ]
+    },
+    {
+      "name": "watch",
+      "reads_memory": true,
+      "writes_memory": true,
+      "cross_references": ["dependency-audit"],
+      "follows_compound_loop": true,
+      "has_budget_awareness": true,
+      "integration_score": 4,
+      "findings": [
+        "Reads news.md and learnings.md before scanning — correct",
+        "Reads CLAUDE.md for project context — correct",
+        "Writes to news.md, learnings.md, state.md after scan — comprehensive",
+        "Cost control section includes token estimates and model guidance — budget-aware",
+        "References /dependency-audit explicitly — good cross-skill integration",
+        "Follows COMPOUND: scan → filter → record → suggest actions",
+        "7-day cadence trigger via news.md check is a good time-based integration"
+      ],
+      "recommendations": [
+        "No major issues",
+        "Consider: write scan results to decisions.md when action items are found (not just news.md)"
+      ]
+    },
+    {
+      "name": "critic",
+      "reads_memory": true,
+      "writes_memory": true,
+      "cross_references": ["orchestrate", "scribe"],
+      "follows_compound_loop": true,
+      "has_budget_awareness": true,
+      "integration_score": 5,
+      "findings": [
+        "Reads state.md and learnings.md at start — correct",
+        "Writes to budget.md (critic counter), state.md (review note), learnings.md (anti-patterns) — comprehensive",
+        "Budget awareness: checks budget.md, increments counter, enforces tier limit — excellent",
+        "References orchestrate (conductor triggers critic), scribe (logging pattern)",
+        "Follows COMPOUND: review → record anti-patterns → escalate if needed",
+        "Circuit breaker implementation (2 FAILs → stop) is well-integrated",
+        "Separate session recommendation for self-review is a sophisticated meta-rule"
+      ],
+      "recommendations": [
+        "No changes needed — second gold standard alongside orchestrate for integration quality"
+      ]
+    },
+    {
+      "name": "harness",
+      "reads_memory": true,
+      "writes_memory": true,
+      "cross_references": ["orchestrate", "critic"],
+      "follows_compound_loop": true,
+      "has_budget_awareness": true,
+      "integration_score": 4,
+      "findings": [
+        "Reads budget.md before expensive phases — correct",
+        "Writes to state.md and decisions.md after completion — correct",
+        "References orchestrate (complementary tools), implicitly references critic (quality gate mention)",
+        "Follows COMPOUND through phase structure: each phase validates before proceeding",
+        "Phase-level validation is a stronger ASSESS mechanism than most skills",
+        "Missing: harness doesn't read learnings.md at start to apply accumulated knowledge",
+        "The .harness/ directory pattern for intermediate results is the right approach"
+      ],
+      "recommendations": [
+        "Add: read .claude/memory/learnings.md at Phase 0 — apply known patterns to execution",
+        "The phase validation pattern is good — consider documenting as a system-wide pattern in learnings.md"
+      ]
+    }
+  ]
+}

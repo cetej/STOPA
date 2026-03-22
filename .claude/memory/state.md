@@ -13,6 +13,11 @@ _No active task._
 
 ## Task History
 
+### 2026-03-22 — skill-audit harness
+- **Goal**: Run skill-audit harness on all 15 STOPA skills
+- **Result**: Audit complete — overall health 3.9/5. Key gaps: verify/youtube-transcript missing memory writes; scout missing explicit disallow list; watch over-permissioned. Full report: `.harness/report.md`
+- **Origin**: /harness skill-audit
+
 ### 2026-03-19 — Karpathy AutoResearch
 - **Goal**: Research Karpathy AutoResearch + create /autoloop skill
 - **Result**: M5 hybrid metric, /autoloop skill created, baseline scores for all skills

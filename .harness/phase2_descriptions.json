@@ -1,0 +1,278 @@
+{
+  "_meta": {"phase": 2, "timestamp": "2026-03-22T00:00:00Z", "model": "sonnet"},
+  "audits": [
+    {
+      "name": "youtube-transcript",
+      "quality_score": 5,
+      "has_positive_triggers": true,
+      "has_negative_triggers": true,
+      "overlap_risk": [],
+      "description_length": 277,
+      "findings": [
+        "Excellent specificity — concrete triggers (YouTube links, exact Czech phrases)",
+        "Clear negative: non-YouTube sources, embed-only use cases",
+        "Description slightly over 200 chars but justified by multilingual triggers",
+        "Czech trigger phrases ('stáhni přepis', 'co říká to video') are a strong differentiator"
+      ],
+      "recommendations": [
+        "Description is 277 chars — consider trimming slightly for token efficiency, but content quality outweighs length concern"
+      ]
+    },
+    {
+      "name": "autoloop",
+      "quality_score": 5,
+      "has_positive_triggers": true,
+      "has_negative_triggers": true,
+      "overlap_risk": ["skill-generator"],
+      "description_length": 262,
+      "findings": [
+        "Strong trigger words: 'optimize this', 'iterate on', 'improve until', 'make this better'",
+        "Negative trigger correctly excludes one-time edits and no-metric cases",
+        "Overlap risk with skill-generator when user says 'improve skill X' — both could trigger",
+        "Karpathy Loop reference is a useful differentiator for technical users"
+      ],
+      "recommendations": [
+        "Add 'Do NOT use when /skill-generator was already invoked for the same target' or clarify the distinction from skill-generator in description",
+        "Consider: 'iterative loop with measurable metric' vs skill-generator 'create/update skill'"
+      ]
+    },
+    {
+      "name": "budget",
+      "quality_score": 4,
+      "has_positive_triggers": true,
+      "has_negative_triggers": true,
+      "overlap_risk": [],
+      "description_length": 231,
+      "findings": [
+        "Good: 'Auto-invoked by orchestrator' signals system-level integration",
+        "Good: specific negative (simple cost questions) prevents frivolous invocation",
+        "Trigger conditions lean on orchestration context — less useful for standalone invocation",
+        "Missing explicit user-facing triggers (what does user type to invoke this?)"
+      ],
+      "recommendations": [
+        "Add explicit user trigger phrase: 'check budget', 'how much have we spent', 'set budget limit'",
+        "Current description is orchestration-context-heavy; add one user-facing phrase for discoverability"
+      ]
+    },
+    {
+      "name": "checkpoint",
+      "quality_score": 5,
+      "has_positive_triggers": true,
+      "has_negative_triggers": true,
+      "overlap_risk": [],
+      "description_length": 299,
+      "findings": [
+        "Excellent multilingual triggers: English + Czech ('ulož stav')",
+        "Very specific negative: 'mid-task when work is incomplete'",
+        "Clear use cases: ending session, large context, explicit user request",
+        "Description is 299 chars — longest in set, but content justifies it"
+      ],
+      "recommendations": [
+        "Could trim slightly: 'or when the user says' is implicit from trigger list",
+        "Consider: 299 chars is above 200 target but quality is high — acceptable tradeoff"
+      ]
+    },
+    {
+      "name": "dependency-audit",
+      "quality_score": 4,
+      "has_positive_triggers": true,
+      "has_negative_triggers": true,
+      "overlap_risk": ["watch"],
+      "description_length": 225,
+      "findings": [
+        "Good: 'after /watch reports version gaps' creates explicit cross-skill integration",
+        "Good: negative correctly redirects to /incident-runbook for runtime errors",
+        "Overlap with /watch: both scan for outdated dependencies — distinction is /dependency-audit is project-specific, /watch is ecosystem-wide",
+        "Missing: trigger for 'before major refactor' or 'upgrade X' pattern"
+      ],
+      "recommendations": [
+        "Add trigger: 'before upgrading', 'security audit', 'check if X is outdated'",
+        "Clarify vs /watch: 'for project-specific packages (not ecosystem news — use /watch)'"
+      ]
+    },
+    {
+      "name": "incident-runbook",
+      "quality_score": 5,
+      "has_positive_triggers": true,
+      "has_negative_triggers": true,
+      "overlap_risk": [],
+      "description_length": 283,
+      "findings": [
+        "Excellent: rich multilingual trigger list including Czech ('nefunguje', 'padá to', 'chyba')",
+        "Very clear negative: planned changes, feature requests, performance optimization",
+        "No overlap risk — 'unexpected failures' is unambiguous domain",
+        "Trigger word density is high — Claude will reliably recognize incident context"
+      ],
+      "recommendations": [
+        "No significant changes needed — best-in-class description for trigger reliability"
+      ]
+    },
+    {
+      "name": "orchestrate",
+      "quality_score": 5,
+      "has_positive_triggers": true,
+      "has_negative_triggers": true,
+      "overlap_risk": ["harness", "scout"],
+      "description_length": 311,
+      "findings": [
+        "Strong: '3+ files' is a concrete, unambiguous threshold",
+        "Good: explicitly redirects to /harness for repeatable processes",
+        "Overlap with /harness: the boundary ('known repeatable' vs 'unknown scope') is in description but subtle",
+        "Overlap with /scout: 'before implementing' could trigger either scout or orchestrate",
+        "Description at 311 chars is longest — justified by the skill's centrality"
+      ],
+      "recommendations": [
+        "The harness/orchestrate distinction is good but could be sharper: add 'if you've done this task before, use /harness'",
+        "Consider adding 'Do NOT use for exploring only (use /scout)' to prevent scout confusion"
+      ]
+    },
+    {
+      "name": "project-init",
+      "quality_score": 5,
+      "has_positive_triggers": true,
+      "has_negative_triggers": true,
+      "overlap_risk": [],
+      "description_length": 222,
+      "findings": [
+        "Very specific use case: brand new project setup",
+        "Negative is precise: 'existing projects with .claude/ already set up'",
+        "No overlap — unique niche, well-bounded",
+        "Length is good: 222 chars, information-dense"
+      ],
+      "recommendations": [
+        "Could add trigger: 'start new project', 'init project', 'set up claude config'"
+      ]
+    },
+    {
+      "name": "scout",
+      "quality_score": 4,
+      "has_positive_triggers": true,
+      "has_negative_triggers": true,
+      "overlap_risk": ["orchestrate"],
+      "description_length": 289,
+      "findings": [
+        "Good: 'what do we have for X', 'map this area', 'scope this' are memorable trigger phrases",
+        "Good: 'Not for implementing changes' is a clear functional boundary",
+        "Overlap with orchestrate when user wants to 'understand before changing' — both could fire",
+        "The 'before any multi-file change' trigger could cause both scout AND orchestrate to activate simultaneously",
+        "Missing: explicit 'read-only / explore only' language in description"
+      ],
+      "recommendations": [
+        "Add: 'read-only exploration only — for multi-step changes after scouting, use /orchestrate'",
+        "Emphasize the sequential relationship: scout → then orchestrate"
+      ]
+    },
+    {
+      "name": "scribe",
+      "quality_score": 4,
+      "has_positive_triggers": true,
+      "has_negative_triggers": true,
+      "overlap_risk": [],
+      "description_length": 258,
+      "findings": [
+        "Good: 'auto-invoked by orchestrator' establishes system role",
+        "Good: specific negative ('ephemeral task notes')",
+        "Triggers are generic ('record this', 'remember that') — could match general conversation",
+        "Missing: stronger differentiation from general 'save to memory' intent"
+      ],
+      "recommendations": [
+        "Add: 'for structured memory in .claude/memory/ files (state.md, decisions.md, learnings.md)'",
+        "More specific trigger: 'record to shared memory', 'log this decision', 'update state.md'"
+      ]
+    },
+    {
+      "name": "skill-generator",
+      "quality_score": 5,
+      "has_positive_triggers": true,
+      "has_negative_triggers": true,
+      "overlap_risk": ["autoloop"],
+      "description_length": 227,
+      "findings": [
+        "Excellent: concrete trigger phrases ('create a skill', 'new slash command', 'improve skill X')",
+        "Good: negative explicitly excludes harnesses and one-off scripts",
+        "Overlap with autoloop: 'improve skill X' triggers both — autoloop does iterative optimization, skill-generator does one-shot improvement",
+        "Distinction from autoloop is implicit (iterative vs one-shot) — could be clearer"
+      ],
+      "recommendations": [
+        "Add: 'for iterative automated optimization of a skill with scoring, use /autoloop instead'",
+        "The 'update skill' trigger could be more specific: 'update skill structure/frontmatter'"
+      ]
+    },
+    {
+      "name": "verify",
+      "quality_score": 5,
+      "has_positive_triggers": true,
+      "has_negative_triggers": true,
+      "overlap_risk": ["critic"],
+      "description_length": 261,
+      "findings": [
+        "Strong: 'prove it', 'does it actually work' are high-intent triggers",
+        "Good Czech triggers: 'dokaž to', 'funguje to?'",
+        "Good: negative explicitly excludes unit tests and syntax checks",
+        "Overlap with critic: both 'review' and 'verify' can sound similar, but verify is execution-based, critic is analysis-based",
+        "The distinction ('end-to-end proof on real data') is clear"
+      ],
+      "recommendations": [
+        "Consider adding: 'runs real code — not analysis (use /critic for analysis-only review)'",
+        "Current description is strong — minor clarification only"
+      ]
+    },
+    {
+      "name": "watch",
+      "quality_score": 4,
+      "has_positive_triggers": true,
+      "has_negative_triggers": true,
+      "overlap_risk": ["dependency-audit"],
+      "description_length": 210,
+      "findings": [
+        "Good: time-based trigger ('last scan >7 days old') is unique and concrete",
+        "Good: negative correctly redirects project-specific to /dependency-audit",
+        "Trigger 'what's new' is very generic — could fire in unrelated contexts",
+        "Missing: explicit mention of ecosystem scope (Anthropic, AI/ML, not general web)",
+        "The 'check for updates' trigger is ambiguous (updates to what?)"
+      ],
+      "recommendations": [
+        "More specific triggers: 'what's new in Claude Code', 'any AI news', 'scan ecosystem updates'",
+        "Add: 'for AI/ML and Claude Code ecosystem only — not general web research'"
+      ]
+    },
+    {
+      "name": "critic",
+      "quality_score": 5,
+      "has_positive_triggers": true,
+      "has_negative_triggers": true,
+      "overlap_risk": ["verify"],
+      "description_length": 265,
+      "findings": [
+        "Excellent: 'auto-invoked after code edits' establishes proactive role",
+        "Good: 'budget critic iterations exhausted' is a sophisticated negative trigger",
+        "Good: clear separation from verify (analysis vs execution)",
+        "Overlap with verify is manageable — critic reviews, verify proves",
+        "Description well-calibrated for both auto-invocation and explicit use"
+      ],
+      "recommendations": [
+        "No significant issues — well-crafted description",
+        "Minor: could add 'Do NOT use when /verify was just run (avoid double-checking same evidence)'"
+      ]
+    },
+    {
+      "name": "harness",
+      "quality_score": 5,
+      "has_positive_triggers": true,
+      "has_negative_triggers": true,
+      "overlap_risk": ["orchestrate"],
+      "description_length": 271,
+      "findings": [
+        "Strong: '/harness' as explicit trigger is reliable",
+        "Good: 'known fixed steps' vs '/orchestrate' unknown scope is well-articulated",
+        "The orchestrate/harness distinction is the right boundary — matches design intent",
+        "Czech trigger 'spusť harness' matches user's language preference",
+        "The 'structured output' mention adds useful differentiation"
+      ],
+      "recommendations": [
+        "No major issues",
+        "Consider: add 'repeatable, auditable process with phase-level validation' to strengthen the structured-output angle"
+      ]
+    }
+  ]
+}
