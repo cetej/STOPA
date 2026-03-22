@@ -60,6 +60,30 @@ Accumulated knowledge from all tasks. Used by all skills/agents to improve over 
 - **Anti-pattern**: Don't use LLM to evaluate LLM output every iteration — self-reinforcing bias + cost explosion
 - **Source**: Karpathy AutoResearch analysis, 2026-03-19
 
+### Harness Engineering — Deterministic Rails for LLM Workflows
+- **Context**: Komplexní multi-step procesy (pipeline, audit, review) kde skills samy nestačí
+- **Pattern**: Fixní fáze (Python/logika řídí pořadí) + programatická validace po každém kroku + šablonový výstup + mezivýsledky na disk. LLM pracuje uvnitř fází, ale nemůže přeskočit/změnit pořadí.
+- **Key insight**: Skills = best effort (90%). Harness = deterministic (99.9%). Stripe s harness kolem CC merguje 1300 PR/týden.
+- **Anti-pattern**: Pokoušet se dosáhnout 100% spolehlivosti tweakováním promptu. Po ~95% to nejde — potřebuješ hook/harness.
+- **Source**: Video analýza "Harness Engineering" + "Claude Certified Architect", 2026-03-22
+- **Detail**: Viz `docs/HARNESS_STRATEGY.md`
+
+### Prompts vs Hooks — Suggestion vs Law
+- **Context**: Rozhodování jak vynutit chování agenta
+- **Pattern**: Prompt = suggestion (styl, tón, formát). Hook = law (finance, bezpečnost, compliance). Pokud selhání = reálný problém → hook, ne prompt.
+- **Source**: Video "Claude Certified Architect", 2026-03-22
+
+### Tool Descriptions — Nejvyšší páka pro správný routing
+- **Context**: Agent volí špatný tool z nabídky
+- **Pattern**: V popisu toolu uvést KDY použít A KDY NEpoužít. Max 4-5 tools na agenta. `tool_choice: forced` pro první krok.
+- **Source**: Video "Claude Certified Architect", 2026-03-22
+
+### Path-Specific Rules (.claude/rules/)
+- **Context**: CLAUDE.md se načítá celý vždy = plýtvání tokeny
+- **Pattern**: `.claude/rules/*.md` s glob patternem v hlavičce — pravidla se loadují jen pro relevantní soubory
+- **Priority**: STOPA dosud nemá `.claude/rules/` → quick win
+- **Source**: Video "Claude Certified Architect", 2026-03-22
+
 ## Skill Gaps
 
 ### Plugin Distribution — DONE

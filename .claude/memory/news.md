@@ -4,6 +4,8 @@ Tracked findings from `/watch` scans. Only ACTION and WATCH items are recorded h
 
 ## Last Scan
 
+**2026-03-22** — quick scan (Tier 1 only — 1 den od posledního full scanu)
+
 **2026-03-21 (2)** — full scan (AI/ML ecosystem: PyTorch, Diffusers, video gen, Czech NLP)
 
 ## Active Items
@@ -178,6 +180,11 @@ Tracked findings from `/watch` scans. Only ACTION and WATCH items are recorded h
 4. ~~Token limit increase~~ — **CONFIRMED** (Opus 4.6: 64k default, 128k max output)
 
 ## Scan History
+
+### 2026-03-22 — quick scan (Tier 1)
+- CC: stále v2.1.81 — žádná nová verze
+- API: žádné nové release notes od March 18
+- Žádné nové položky k přidání
 
 ### 2026-03-21 (2) — full scan
 - CC v2.1.77: Agent tool `resume` param odstraněn (STOPA safe), SendMessage auto-resume, plugin validate vylepšen

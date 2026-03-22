@@ -1,130 +1,151 @@
 # Session Checkpoint
 
-**Saved**: 2026-03-21
-**Task**: Záchvěv — Session 7: Srozumitelný výstup + UI
+**Saved**: 2026-03-22
+**Task**: STOPA — Harness Engineering Integration
 **Branch**: main
-**Repo**: https://github.com/cetej/ZACHVEV
-**Status**: Bloky 1-8 implementovány, topic labeling + UI layout potřebují přepracovat
+**Repo**: https://github.com/cetej/STOPA (working dir: `C:\Users\stock\Documents\000_NGM\STOPA`)
+**Status**: Analýza + strategie hotová, implementace NEZAČALA
 
-## Co je hotové (Sessions 1-7)
+## Co je hotové (tato session)
 
-### Fáze 0 — PoC (kompletní ✓)
-- [x] Reddit ingest via Arctic Shift API
-- [x] Sentiment: `tabularisai/multilingual-sentiment-analysis` (DistilBERT, 5 tříd)
-- [x] Embeddings: `Seznam/simcse-small-e-czech` (256-dim)
-- [x] EWS detekce: ewstools (variance, lag-1 AC, Kendall tau)
+### Analýza videí
+- Staženy a vyčištěny přepisy 2 YouTube videí (yt-dlp, ne MCP):
+  - `input/video1_transcript.txt` — Harness Engineering (20K chars)
+  - `input/video2_transcript.txt` — Claude Certified Architect (42K chars)
+- Kompletní analýza obou videí s identifikací 10 klíčových poučení
 
-### Topic Discovery (kompletní ✓)
-- [x] UMAP (256d → 15d) + HDBSCAN clustering
-- [x] TF-IDF-like labeling, Czech+English stopwords (rozšířené)
-- [x] Emerging topic detection (growth ratio)
+### Dokumentace
+- `docs/LEARNINGS.md` — poučení z videí + YouTube transcript fix
+- `docs/HARNESS_STRATEGY.md` — kompletní strategie harness integrace:
+  - Gap analýza (7 gaps identifikováno)
+  - Architektura: `.claude/harnesses/` + HARNESS.md formát
+  - 4 konkrétní harnessy (Záchvěv pipeline, NG-ROBOT content, STOPA skill audit, code review)
+  - 4-fázový implementační plán (A→B→C→D)
+  - Rozhodovací tabulka skill vs harness
+  - 4 quick wins implementovatelné okamžitě
+- `.claude/memory/learnings.md` — 4 nové vzory přidány (harness engineering, prompts vs hooks, tool descriptions, path-specific rules)
 
-### Interpretace + Intervence (kompletní ✓)
-- [x] CRI (Cascade Risk Index) — 3 pilíře: temporal 0.4, structural 0.3, narrative 0.3
-- [x] 5 intervenčních strategií (inokulace, bridge_amplification, counter_framing, friction_injection, energy_redirection)
-- [x] Targeting: SHA256 anonymizace, 3 role (influencer/bridge/catalyst)
-- [x] Campaign planner: auto-populated kontext z dat
-- [x] Content templates s českou diakritikou
+### Zjištění
+- YouTube transcript MCP server je nefunkční (hlásí "Video unavailable" na vše)
+- `yt-dlp` 2026.3.17 funguje spolehlivě (po update z 2025.09.05)
+- STOPA nemá `.claude/rules/` — identifikováno jako quick win
 
-### Webové rozhraní (Session 6-7)
-- [x] FastAPI backend (port 8000) — `zachvev/api/app.py`
-- [x] Streamlit frontend (port 8501) — `ui/app.py`
-- [x] 4 tabs: Analýza, Targeting, Kampaň, Vizuály
-- [x] Session history (save/load)
-- [x] Interpretační vrstva (`zachvev/analyze/interpreter.py`) — situation_report, topic_description, strategy_explanation, targeting_explanation
+## ZADÁNÍ PRO DALŠÍ SESSION
 
-### Session 7 — Bloky 1-8 implementovány
-- [x] Blok 1: situation_report v češtině (interpret_situation)
-- [x] Blok 2: topic_description (interpret_topic_description)
-- [x] Blok 3: strategy_explanation (interpret_strategy_choice)
-- [x] Blok 4: targeting_explanation (interpret_targeting)
-- [x] Blok 5: example_posts v API response
-- [x] Blok 6: top_authors v API response
-- [x] Blok 7: UI tabs přestrukturovány — interpretace nahoře, metriky v expanderu
-- [x] Blok 8: České diacritiky ve všech content templates
+### Priorita 1: Quick Wins (Fáze A) — nízký effort, okamžitý přínos
 
-## NEVYŘEŠENÉ PROBLÉMY (pro Session 8)
+#### A1: Path-specific rules
+Vytvořit `.claude/rules/` se 3 soubory:
+- `python-files.md` — pattern `**/*.py`, pravidla: UTF-8, pathlib, type hints pro public API
+- `skill-files.md` — pattern `**/SKILL.md`, pravidla: YAML frontmatter validace, description musí říkat kdy NE-použít
+- `memory-files.md` — pattern `.claude/memory/**`, pravidla: max 500 řádků, archivace starých záznamů
 
-### 1. Topic labeling — KRITICKÉ
-**Problém**: TF-IDF keyword extraction z krátkých Reddit titulků produkuje nesmyslné labely ("proč / někdo / vás", "the / czech / for"). Stopwords byly rozšířeny, ale fundamentální přístup je špatný.
+#### A2: Skill description audit
+Projít všech 13 skills a do každého description přidat:
+- Kdy NEpoužít (negativní trigger)
+- Příklad typického use case
+- Referenční soubory: všech 13 SKILL.md v `.claude/skills/`
 
-**Zjištění z analýzy**: CLI pipeline i web UI používají STEJNÝ kód (`topics.py:label_clusters()`). "Dobré" labely z CLI pocházely z velkého datasetu (5000-6615 postů) kde TF-IDF funguje lépe. Na menších live-fetched datech TF-IDF selhává.
+#### A3: Critic — separate session instrukce
+Do `critic/SKILL.md` přidat pravidlo: "Pokud reviewuješ kód, který byl napsán v TÉTO session, doporuč uživateli spustit review v nové session pro nezaujatý pohled."
 
-**Možná řešení**:
-- LLM-based labeling — poslat example_titles z clusteru do Claude a nechat pojmenovat téma
-- Použít `top_title` (nejčtenější post v clusteru) jako label místo klíčových slov
-- Hybrid: keywords + representative title
-- BERTopic-style c-TF-IDF s lepší normalizací
+### Priorita 2: Harness Engine (Fáze B) — střední effort
 
-### 2. UI layout — DŮLEŽITÉ
-**Problém**: Uživatel řekl "Připomíná ti náhodně nasypaný hnůj" — layout je chaotický, informace nejsou vizuálně organizované. Potřebuje redesign.
+#### B1: Harness adresář + engine
+- Vytvořit `.claude/harnesses/_engine.md` — sdílená logika:
+  - Jak číst HARNESS.md
+  - Jak spouštět fáze sekvenčně
+  - Jak validovat výstup fáze
+  - Jak ukládat mezivýsledky do `.harness/`
+  - Jak routovat modely per fáze
 
-### 3. growth_ratio edge case
-**Problém**: `interpret_situation()` přistupuje k `row["growth_ratio"]` bez guardu — může failnout na `inf` hodnoty. `_build_topic_summaries` má fix (`np.isfinite()`), ale interpret_situation ne.
+#### B2: `/harness` meta-skill
+- `.claude/skills/harness/SKILL.md` — dispatcher:
+  - Načte dostupné harnessy z `.claude/harnesses/`
+  - Nabídne uživateli výběr
+  - Spustí vybraný harness přes engine
 
-## Aktuální architektura
+#### B3: První harness — `skill-audit`
+- `.claude/harnesses/skill-audit/HARNESS.md` — 5 fází:
+  1. Inventory (glob skills, extract metadata)
+  2. Description audit (specifičnost, negativní triggery)
+  3. Tools audit (least privilege)
+  4. Integration audit (shared memory, learnings)
+  5. Report (template)
+- Ověřit spuštěním na STOPA samotné
+
+### Priorita 3: Záchvěv harness (po B)
+
+#### Záchvěv pipeline harness
+- `.claude/harnesses/zachvev-pipeline/HARNESS.md` — 8 fází s validátory
+- Ale NEJDŘÍV musí být hotová Záchvěv Session 8 (topic labeling + UI redesign)
+- Checkpoint Záchvěv Session 8 je stále platný — viz níže
+
+### Bonus: Distribuce
+- Po B3: přidat `harnesses/` do `stopa-orchestration/` pluginu
+- Aktualizovat plugin.json manifest
+
+---
+
+## Aktivní checkpointy jiných projektů
+
+### Záchvěv — Session 8 (NESPLNĚNO)
+- **Repo**: `C:\Users\stock\Documents\000_NGM\ZACHVEV`
+- **3 úkoly**: Topic labeling fix, growth_ratio guard, UI redesign
+- **Detail**: Viz předchozí checkpoint (archivováno v git historii) nebo resume prompt níže
+
+> Záchvěv — Session 8: Topic labeling fix + UI redesign.
+> Repo: ZACHVEV (branch main), working dir: `C:\Users\stock\Documents\000_NGM\ZACHVEV`
+> Pipeline kompletní end-to-end. Validováno na Letná datech (6615 postů, CRI 0.52).
+> Uncommitted: `topics.py` (stopwords), `ui/app.py` (Session 7 UI) — commitni PŘED začátkem.
+> **3 úkoly**: 1) Topic labeling hybrid, 2) growth_ratio guard, 3) UI redesign.
+
+---
+
+## Architektura (reference)
 
 ```
-ZACHVEV/
-├── zachvev/
-│   ├── ingest/reddit.py          # Arctic Shift API
-│   ├── process/
-│   │   ├── sentiment.py          # DistilBERT sentiment
-│   │   └── embeddings.py         # Seznam/simcse-small-e-czech
-│   ├── detect/
-│   │   ├── ews.py                # ewstools wrapper
-│   │   └── topics.py             # UMAP + HDBSCAN + TF-IDF labeling
-│   ├── analyze/
-│   │   ├── interpreter.py        # CRI, narativní signály, interpretace v CZ
-│   │   └── interventions.py      # 5 strategií, intervenční okna
-│   ├── intervene/
-│   │   ├── content.py            # Generátor obsahu (šablony + Claude API)
-│   │   ├── targeting.py          # Analýza účtů, leverage scoring
-│   │   ├── campaign.py           # Kampaňový plánovač
-│   │   └── visuals.py            # Vizuální prompty
-│   └── api/
-│       ├── app.py                # FastAPI backend (v0.7.0)
-│       └── models.py             # Pydantic modely
-├── ui/
-│   └── app.py                    # Streamlit frontend
-├── scripts/
-│   ├── poc_phase0.py
-│   ├── discover_topics.py
-│   ├── full_report.py
-│   └── generate_campaign.py
-└── data/
-    ├── letna_sentiment.parquet   # 6615 postů test data
-    ├── embeddings.npy            # 6615×256d
-    └── sessions/                 # Uložené UI sessions
+STOPA/
+├── .claude/
+│   ├── skills/          # 13 skills (source of truth)
+│   ├── hooks/           # 7 hook scripts
+│   ├── memory/          # Shared memory (state, decisions, learnings, budget, checkpoint, news)
+│   ├── settings.json    # Hooks config
+│   ├── rules/           # ← VYTVOŘIT (Fáze A1)
+│   └── harnesses/       # ← VYTVOŘIT (Fáze B1)
+│       ├── _engine.md
+│       └── skill-audit/
+├── stopa-orchestration/  # Plugin distribuce (v1.4.0)
+├── docs/
+│   ├── LEARNINGS.md      # ← NOVÉ (tato session)
+│   └── HARNESS_STRATEGY.md  # ← NOVÉ (tato session)
+├── input/                # Video přepisy
+└── CLAUDE.md
 ```
 
-## Servery
+## Uncommitted Changes
 
-- **NG-ROBOT**: `python ngrobot_web.py` z `NG-ROBOT/` → http://localhost:5001
-- **Záchvěv API**: `uvicorn zachvev.api.app:app --host 0.0.0.0 --port 8000` z `ZACHVEV/` → http://localhost:8000
-- **Záchvěv UI**: `streamlit run ui/app.py --server.port 8501 --server.headless true` z `ZACHVEV/` → http://localhost:8501
-
-## Technické poznatky
-
-| Problém | Řešení |
-|---------|--------|
-| Reddit API vyžaduje approval | Arctic Shift API (`arctic-shift.photon-reddit.com`) |
-| FERNET-C5 je MaskedLM | `tabularisai/multilingual-sentiment-analysis` |
-| HDBSCAN 95% noise na 256d | UMAP redukce (256→15d) před clusteringem |
-| Port 8000 obsazený | `taskkill //F //IM python.exe` před restartem |
-| TF-IDF labely nesmyslné | Rozšířit stopwords + zvážit LLM labeling (Session 8) |
+```
+ M .claude/memory/checkpoint.md
+ M .claude/memory/learnings.md   # 4 nové vzory
+ M .claude/memory/news.md
+?? docs/                          # LEARNINGS.md + HARNESS_STRATEGY.md
+?? input/                         # Video přepisy + VTT soubory
+?? research/
+```
 
 ## Resume Prompt
 
-> Záchvěv — Session 8: Oprava topic labeling + UI redesign.
-> Repo: ZACHVEV (branch main)
+> STOPA — Harness Engineering Integration.
+> Repo: STOPA (branch main), working dir: `C:\Users\stock\Documents\000_NGM\STOPA`
 >
-> Systém kompletní end-to-end: sběr → sentiment → embeddings → clustering → CRI → interpretace → intervence → kampaň → UI. Validováno na Letná datech (6615 postů, CRI 0.52).
+> Analýza + strategie hotová. Klíčový dokument: `docs/HARNESS_STRATEGY.md`
 >
-> **Hlavní problémy k řešení:**
-> 1. Topic labeling produkuje nesmyslné názvy — TF-IDF na krátkých titulcích selhává. Zvážit LLM-based labeling (poslat example titles do Claude → pojmenovat cluster).
-> 2. UI layout je chaotický — potřebuje vizuální redesign (hierarchie informací, čisté karty, méně textu najednou).
-> 3. growth_ratio edge case v interpret_situation() — chybí guard na inf hodnoty.
+> **Implementační plán (v pořadí priority):**
+> 1. **Quick Wins (Fáze A)**: Vytvořit `.claude/rules/` (3 soubory), audit 13 skill descriptions (přidat "kdy NEpoužít"), update critic skill
+> 2. **Harness Engine (Fáze B)**: `.claude/harnesses/_engine.md` + `/harness` meta-skill + první harness `skill-audit` (5 fází)
+> 3. **Záchvěv harness**: Až po Session 8 (topic labeling + UI) — 8 fází pipeline s validátory
 >
-> Checkpoint: `STOPA/.claude/memory/checkpoint.md`
-> Uncommitted changes: rozšířené stopwords v `topics.py`
+> Přečti `docs/HARNESS_STRATEGY.md` pro plný kontext. Uncommitted changes — commitni před začátkem práce.
+>
+> **Paralelně platný**: Záchvěv Session 8 checkpoint (topic labeling + UI redesign v ZACHVEV repo).
