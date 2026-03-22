@@ -1,6 +1,6 @@
 ---
 name: incident-runbook
-description: Diagnose and resolve common failures using project-specific runbooks. Use when something crashes, errors out, won't start, or behaves unexpectedly. Trigger on 'not working', 'error', 'crashed', 'won't start', 'broken', 'nefunguje', 'padá to', 'chyba'.
+description: Diagnose and resolve common failures using project-specific runbooks. Use when something crashes, errors out, won't start, or behaves unexpectedly. Trigger on 'not working', 'error', 'crashed', 'won't start', 'broken', 'nefunguje', 'padá to', 'chyba'. Do NOT use for planned changes, feature requests, or performance optimization — only for unexpected failures and errors.
 argument-hint: [error message or symptom description]
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash

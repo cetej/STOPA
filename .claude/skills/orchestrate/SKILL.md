@@ -1,6 +1,6 @@
 ---
 name: orchestrate
-description: Orchestrate complex tasks by decomposing into subtasks and delegating to agents/skills. Use when a task requires multiple steps, coordination, or is too complex for a single action. Trigger on 'plan this', 'break this down', 'complex task', or when task touches 3+ files.
+description: Orchestrate complex tasks by decomposing into subtasks and delegating to agents/skills. Use when a task requires multiple steps, coordination, or is too complex for a single action. Trigger on 'plan this', 'break this down', 'complex task', or when task touches 3+ files. Do NOT use for single-file edits, simple questions, or tasks with fewer than 3 steps. For known repeatable processes use /harness instead.
 context:
   - gotchas.md
 argument-hint: [task description]

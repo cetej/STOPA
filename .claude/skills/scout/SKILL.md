@@ -1,6 +1,6 @@
 ---
 name: scout
-description: Explore and map codebase context for a given topic or task. Use before implementing changes to understand what exists, what patterns are used, and what the scope of work is. Trigger on 'what do we have for X', 'map this area', 'scope this', or before any multi-file change.
+description: Explore and map codebase context for a given topic or task. Use before implementing changes to understand what exists, what patterns are used, and what the scope of work is. Trigger on 'what do we have for X', 'map this area', 'scope this', or before any multi-file change. Do NOT use when you already know the file/location — use Read/Grep directly. Not for implementing changes (scout only maps).
 context:
   - gotchas.md
 argument-hint: [what to explore]

@@ -1,6 +1,6 @@
 ---
 name: checkpoint
-description: Save session state and create a resume prompt for the next session. Use when ending a session, when context is getting large, or when the user says "save progress", "continue later", "checkpoint". Trigger on 'save progress', 'I'm done for today', 'continue later', 'ulož stav'.
+description: Save session state and create a resume prompt for the next session. Use when ending a session, when context is getting large, or when the user says "save progress", "continue later", "checkpoint". Trigger on 'save progress', 'I'm done for today', 'continue later', 'ulož stav'. Do NOT use mid-task when work is incomplete — only at natural session boundaries or when explicitly asked.
 context:
   - gotchas.md
 argument-hint: [save / resume / status]

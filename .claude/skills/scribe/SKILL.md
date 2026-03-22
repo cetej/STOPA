@@ -1,6 +1,6 @@
 ---
 name: scribe
-description: Record decisions, update task state, and capture learnings in shared memory. Use after completing subtasks, making decisions, or discovering patterns worth remembering. Trigger on 'record this', 'remember that', 'update state', or auto-invoked by orchestrator after subtask completion.
+description: Record decisions, update task state, and capture learnings in shared memory. Use after completing subtasks, making decisions, or discovering patterns worth remembering. Trigger on 'record this', 'remember that', 'update state', or auto-invoked by orchestrator after subtask completion. Do NOT use for ephemeral task notes — only for decisions and learnings that matter across sessions.
 argument-hint: [what to record — "decision", "learning", "state", or free text]
 user-invocable: true
 allowed-tools: Read, Write, Edit

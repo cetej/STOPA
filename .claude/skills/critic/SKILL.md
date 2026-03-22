@@ -1,6 +1,6 @@
 ---
 name: critic
-description: Review and evaluate code, plans, or outputs for quality, correctness, and adherence to standards. Use after implementation or planning to catch issues before they're finalized. Trigger on 'review this', 'check quality', 'is this correct', or auto-invoked after code edits.
+description: Review and evaluate code, plans, or outputs for quality, correctness, and adherence to standards. Use after implementation or planning to catch issues before they're finalized. Trigger on 'review this', 'check quality', 'is this correct', or auto-invoked after code edits. Do NOT use for syntax-only checks (use linter), for implementing fixes (critic only reports), or when budget critic iterations are exhausted.
 context:
   - gotchas.md
 argument-hint: [what to review — file path, skill name, or "last changes"]
@@ -128,3 +128,4 @@ Before reviewing, check `.claude/memory/budget.md`:
 5. **Check conventions first** — read CLAUDE.md / project config before judging style
 6. **One review, one report** — don't drip-feed issues; collect everything in one pass
 7. **Respect the budget** — if you're the last allowed critic round, focus on high-severity issues only
+8. **Separate session for self-review** — if reviewing code written in THIS session, recommend the user run the review in a NEW session for unbiased perspective. Same-session reviews have inherent confirmation bias.

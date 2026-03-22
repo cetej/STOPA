@@ -1,6 +1,6 @@
 ---
 name: verify
-description: Run end-to-end verification of a pipeline, feature, or deployment. Use when you need to prove something works, not just that it compiles. Trigger on 'verify this works', 'prove it', 'test end-to-end', 'does it actually work', 'dokaž to', 'funguje to?'.
+description: Run end-to-end verification of a pipeline, feature, or deployment. Use when you need to prove something works, not just that it compiles. Trigger on 'verify this works', 'prove it', 'test end-to-end', 'does it actually work', 'dokaž to', 'funguje to?'. Do NOT use for unit tests or syntax checks — only for end-to-end proof on real data or production-like conditions.
 argument-hint: [what to verify — pipeline name, feature, endpoint, or 'last changes']
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Agent

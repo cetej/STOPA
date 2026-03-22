@@ -1,6 +1,6 @@
 ---
 name: budget
-description: Track and control orchestration costs. Use to check budget status, set limits, or before spawning agents. Auto-invoked by orchestrator before expensive operations.
+description: Track and control orchestration costs. Use to check budget status, set limits, or before spawning agents. Auto-invoked by orchestrator before expensive operations. Do NOT use for simple cost questions answerable from context — only when reading/updating budget.md or setting new limits.
 argument-hint: [check / report / reset]
 user-invocable: true
 allowed-tools: Read, Write, Edit
