@@ -1,6 +1,6 @@
 ---
 name: critic
-description: Review and evaluate code, plans, or outputs for quality, correctness, and adherence to standards. Use after implementation or planning to catch issues before they're finalized. Trigger on 'review this', 'check quality', 'is this correct', or auto-invoked after code edits.
+description: Use after implementation or planning to catch quality and correctness issues before finalization. Trigger on 'review this', 'check quality', 'is this correct', 'zkontroluj', or auto-invoked after code edits. Do NOT use for syntax-only checks (use linter), for implementing fixes (critic only reports), or when budget critic iterations are exhausted.
 context:
   - gotchas.md
 argument-hint: [what to review — file path, skill name, or "last changes"]
@@ -36,26 +36,41 @@ If target is "last changes":
 ### Step 1: Load context
 Read shared memory and understand the active task.
 
-### Step 2: Identify target
+### Step 2: Identify target and phase
 Parse arguments, determine review type, load the target content.
+- `--spec` → Spec Compliance phase only
+- `--quality` → Code Quality phase only
+- No flag → run both phases sequentially (default, backward compatible)
 
 ### Step 3: Review
 Apply the appropriate review dimensions (see below) systematically.
+- If running both phases: run Spec Compliance first, then Code Quality. Combine into single report.
 
 ### Step 4: Report
 Generate the structured report with verdict, issues, and recommendations.
 
 ## Review Dimensions
 
-### For Code:
-1. **Correctness** — Does it do what it's supposed to?
-2. **Edge cases** — What inputs/states could break it?
-3. **Security** — OWASP top 10, injection, secrets exposure?
-4. **Performance** — Obvious bottlenecks, N+1 queries, memory leaks?
-5. **Readability** — Can someone understand this in 6 months?
-6. **Conventions** — Does it follow project patterns? (check CLAUDE.md if exists)
-7. **Simplicity** — Is there a simpler way to achieve the same result?
-8. **Dependencies** — Does it break anything that depends on it?
+### Phase: Spec Compliance (`--spec`)
+
+Adversarial review — assume the implementer cut corners. Check every requirement against the actual code:
+
+1. **Completeness** — Are ALL requirements from the spec/task addressed? Nothing missing?
+2. **Correctness vs spec** — Does the implementation match what was requested, not just "something that works"?
+3. **Edge cases from spec** — Are boundary conditions from requirements handled?
+4. **Contract adherence** — Do signatures, types, APIs match the agreed interface?
+5. **Dependency impact** — Does the change break anything that consumes this code?
+
+### Phase: Code Quality (`--quality`)
+
+Quality review — is the implementation well-built?
+
+1. **Security** — OWASP top 10, injection, secrets exposure?
+2. **Performance** — Obvious bottlenecks, N+1 queries, memory leaks?
+3. **Readability** — Can someone understand this in 6 months?
+4. **Conventions** — Does it follow project patterns? (check CLAUDE.md if exists)
+5. **Simplicity** — Is there a simpler way to achieve the same result?
+6. **Dependencies** — Does it break anything that depends on it?
 
 ### For Plans:
 1. **Completeness** — Are all requirements addressed?
@@ -118,6 +133,26 @@ Before reviewing, check `.claude/memory/budget.md`:
 3. If new anti-patterns discovered → note for `.claude/memory/learnings.md`
 4. If verdict is FAIL → the orchestrator must re-plan/re-execute before proceeding
 5. If 2nd FAIL on same target → escalate to user, do NOT continue looping
+6. If the SAME issue (same category + same location) persists across 3+ reviews → flag as **architectural concern** in the report
+
+## Anti-Rationalization Defense
+
+Before submitting your report, check yourself against these common traps:
+
+| Rationalization | Reality | Do Instead |
+|----------------|---------|------------|
+| "Minor style issue, not worth reporting" | Style issues compound into unreadable code | Report as low severity — let the author decide |
+| "The author probably had a reason" | Maybe, but reviewer's job is to question | Ask explicitly or flag as question |
+| "It works in tests so it's fine" | Tests may not cover the failing path | Check coverage, note untested paths |
+| "Fixing this would be a big refactor" | That's information the team needs | Report as medium + note the scope |
+| "I've found enough issues already" | Completeness matters more than comfort | Finish the full review dimensions |
+| "Outside my review scope" | If you see it, report it | Report with note "outside primary scope" |
+
+**Red flags** (if you catch yourself thinking these, STOP):
+- Skipping a dimension because "it's probably fine"
+- Softening severity because the code "mostly works"
+- Not checking conventions because "it looks standard"
+- Writing "no issues" without reading every changed line
 
 ## Rules
 
@@ -128,3 +163,4 @@ Before reviewing, check `.claude/memory/budget.md`:
 5. **Check conventions first** — read CLAUDE.md / project config before judging style
 6. **One review, one report** — don't drip-feed issues; collect everything in one pass
 7. **Respect the budget** — if you're the last allowed critic round, focus on high-severity issues only
+8. **Separate session for self-review** — if reviewing code written in THIS session, recommend the user run the review in a NEW session for unbiased perspective. Same-session reviews have inherent confirmation bias.

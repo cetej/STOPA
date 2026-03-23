@@ -98,6 +98,18 @@ Run each check. Capture output. For each:
 3. If PASS: note successful verification in state.md (which component, what evidence)
 4. Check `.claude/memory/budget.md` before spawning agents — increment agent counter after each spawn
 
+## Anti-Rationalization Defense
+
+| Rationalization | Reality | Do Instead |
+|----------------|---------|------------|
+| "It compiled, so it works" | Compilation ≠ correctness | Run actual test/execution |
+| "Tests pass, verified" | Tests may be stubs or incomplete | Check test assertions are meaningful |
+| "Returns data, endpoint works" | Wrong data is worse than no data | Verify actual content matches spec |
+| "Main path verified, edge cases later" | Edge cases ARE the verification | Test at least 2 boundary conditions |
+| "Too simple to fail" | Simple code fails in integration | Verify in context, not isolation |
+
+**Red flags**: claiming verification without showing output, using "should work" language, skipping L3-L4 levels "because L2 passed"
+
 ## Rules
 - You NEVER modify code — you only observe and report
 - Always show actual output, not just "it works"

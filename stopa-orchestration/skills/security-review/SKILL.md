@@ -1,8 +1,6 @@
 ---
 name: security-review
 description: >
-  Analyze a codebase or feature for security vulnerabilities — trust boundaries, input validation,
-  secrets handling, dependency risks, and OWASP Top 10.
   Use when reviewing code for security concerns, before deploying to production, or when the user
   asks about security posture. Trigger on 'security review', 'security audit', 'is this secure',
   'check for vulnerabilities', 'bezpečnostní review'.
