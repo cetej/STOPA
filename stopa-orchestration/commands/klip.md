@@ -1,6 +1,5 @@
 ---
 name: klip
-description: Generate video animations via fal.ai Kling 3.0 API. Use for text-to-video or image-to-video generation (exploding views, rotations, panning shots, product animations). Trigger on 'generate video', 'create animation', 'kling', 'klip', 'vygeneruj video', 'animace'. Do NOT use for simple GIF creation (use ffmpeg). Do NOT use for video editing or trimming (use ffmpeg directly). Do NOT use for screen recordings.
 argument-hint: <prompt> [--image path/url] [--duration 5|10|15] [--aspect 16:9|9:16|1:1] [--tier standard|pro] [--output path]
 user-invocable: true
 allowed-tools:

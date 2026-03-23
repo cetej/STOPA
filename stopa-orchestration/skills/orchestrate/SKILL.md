@@ -32,7 +32,11 @@ You decompose, delegate, coordinate, and decide.
 Before anything, read the shared memory:
 1. `.claude/memory/state.md` — current task state
 2. `.claude/memory/decisions.md` — past decisions
-3. `.claude/memory/learnings.md` — accumulated knowledge (patterns, anti-patterns, skill gaps)
+3. `.claude/memory/learnings/critical-patterns.md` — top patterns (always-read)
+4. **Grep-first learnings**: Based on the task, grep for relevant learnings:
+   - `grep -r "component: <relevant>" .claude/memory/learnings/` (e.g., `component: orchestration`, `component: skill`)
+   - `grep -r "tags:.*<keyword>" .claude/memory/learnings/` (match task keywords)
+   - Read only matched files — don't load the entire directory
 
 Apply any relevant learnings to the current task.
 
@@ -314,10 +318,10 @@ Once all subtasks are done:
 
 1. **Budget report**: Update `.claude/memory/budget.md` — generate summary, move to history, reset counters. Show the user: agents used / limit, critic rounds / limit, overall verdict.
 2. Update `.claude/memory/state.md` — mark task complete
-3. Record learnings via scribe pattern to `.claude/memory/learnings.md`:
-   - What patterns emerged? (add to Patterns)
-   - What didn't work? (add to Anti-patterns)
-   - Was a skill missing? (add to Skill Gaps)
+3. Record learnings via `/scribe learning` to `.claude/memory/learnings/` (per-file YAML format):
+   - What patterns emerged? (type: best_practice)
+   - What didn't work? (type: anti_pattern)
+   - Was a skill missing? (type: workflow, tags: [skill-gap])
    - Was the tier accurate? (note if over/under-estimated for future calibration)
 4. If a new repeatable pattern was discovered → suggest creating a skill via `/skill-generator`
 5. Summarize results to the user, **including cost summary**
@@ -375,6 +379,21 @@ These CANNOT be overridden without user approval:
 6. **Analysis paralysis**: Agent made 5+ consecutive read-only operations (Read/Grep/Glob) without any Write/Edit/Bash → agent must either write code or report "blocked" with reason
 7. **No-progress loop**: After each wave, check `git diff --stat` against the pre-wave state. If 3 consecutive waves produce zero file changes → STOP with "No progress detected — 3 waves without file changes. Agent may be stuck." This is more precise than iteration counting — it detects actual work, not just activity.
 8. **Fix-quality escalation**: Same subtask gets 3 different fix approaches, all fail critic → STOP. Present to user: "3 approaches failed for [subtask]. Requirement or architecture may need revisiting."
+
+## Anti-Rationalization Defense
+
+Before making orchestration decisions, check yourself against these traps:
+
+| Rationalization | Why It's Wrong | Required Action |
+|----------------|----------------|-----------------|
+| "This is simple, skip scout phase" | Skipping scout causes 50% of re-work | At minimum: Glob/Grep the affected files before planning |
+| "One agent can handle everything" | Monolithic agents lose context and quality | Decompose if task has 3+ distinct concerns |
+| "Deep tier needed — this is complex" | Over-tiering wastes budget | Start light, upgrade only with evidence from scout |
+| "Agent reported DONE, move on" | DONE without diff = nothing happened | Verify git diff shows actual changes |
+| "Skip critic, we're running low on budget" | Skipping quality gate is the most expensive shortcut | Run at least QUICK critic, even at budget limit |
+| "Pre-existing bug, ignore it" | Logging it matters for future sessions | Log to deferred list, never silently ignore |
+| "One more retry should fix it" | After 2 failures, pattern is architectural | Trigger 3-fix escalation, ask user |
+| "Subtasks are independent, max parallelism" | Shared files cause merge conflicts | Check file overlap before parallel launch |
 
 ## Rules
 

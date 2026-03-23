@@ -1,6 +1,5 @@
 ---
 name: brainstorm
-description: >
   Use when the user has a vague idea but hasn't defined scope, constraints, or acceptance criteria.
   Trigger on 'brainstorm', 'let's think about', 'I have an idea', 'what should we build', 'spec this out'.
   Do NOT use when the user already has a clear spec or actionable task — use /orchestrate or /scout instead.

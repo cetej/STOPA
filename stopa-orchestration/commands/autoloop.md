@@ -1,6 +1,5 @@
 ---
 name: autoloop
-description: Run autonomous optimization loop on a file (Karpathy Loop pattern). Use when asked to iteratively improve a skill, prompt, or config with a measurable metric. Trigger on 'optimize this', 'iterate on', 'improve until', 'make this better'.
 context:
   - gotchas.md
 argument-hint: <target file path> [goal description]
@@ -105,10 +104,24 @@ cp <target>.backup <target>  # to revert
 
 ### Step 5: Check exit conditions
 
-Stop early if:
+After each iteration, emit a structured status block:
+
+```
+AUTOLOOP_STATUS:
+  iteration: <N>
+  score: <current>
+  delta: <+/-N or 0>
+  consecutive_reverts: <count>
+  EXIT_SIGNAL: <true|false>
+```
+
+Set `EXIT_SIGNAL: true` when ANY of these conditions is met:
 - **Plateau**: 3 consecutive reverts (no improvement found)
 - **Max score**: All scoring dimensions are maxed out
 - **Budget**: Iteration count hit the limit
+
+The loop ONLY terminates when `EXIT_SIGNAL: true` — never based on narrative text alone.
+This dual-condition gate (heuristic check + explicit signal) prevents premature exits.
 
 ## Phase 2: Final Validation (LLM-as-judge)
 

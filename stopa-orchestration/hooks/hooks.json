@@ -25,6 +25,19 @@
         ]
       }
     ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -m dippy",
+            "timeout": 5,
+            "statusMessage": ""
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "",
@@ -122,6 +135,19 @@
             "command": "bash hooks/stop-failure.sh",
             "timeout": 3,
             "statusMessage": "API error — checking recovery..."
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python hooks/skill-suggest.py",
+            "timeout": 3,
+            "statusMessage": ""
           }
         ]
       }

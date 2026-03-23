@@ -1,6 +1,5 @@
 ---
 name: prp
-description: >
   Generate a Prompt-Ready Packet (PRP) — an AI-optimized task context document that gives any Claude session
   everything it needs to execute a task without re-reading the entire codebase.
   Use when handing off work between sessions, delegating to sub-agents, or preparing context for /orchestrate.

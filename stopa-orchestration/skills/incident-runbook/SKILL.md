@@ -1,6 +1,6 @@
 ---
 name: incident-runbook
-description: Diagnose and resolve common failures using project-specific runbooks. Use when something crashes, errors out, won't start, or behaves unexpectedly. Trigger on 'not working', 'error', 'crashed', 'won't start', 'broken', 'nefunguje', 'padá to', 'chyba'.
+description: Diagnose and resolve common failures using project-specific runbooks. Use when something crashes, errors out, won't start, or behaves unexpectedly. Trigger on 'not working', 'error', 'crashed', 'won't start', 'broken', 'nefunguje', 'padá to', 'chyba'. Do NOT use for planned changes, feature requests, or performance optimization — only for unexpected failures and errors.
 argument-hint: [error message or symptom description]
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash
@@ -23,8 +23,9 @@ You diagnose problems fast using known patterns. You DON'T fix things — you id
 
 ## Process
 
-### Step 1: Read runbook
-Read `runbook.md` (in this skill's directory) for known patterns.
+### Step 1: Read context
+1. Read `runbook.md` (in this skill's directory) for known patterns
+2. Read `.claude/memory/learnings.md` — check Anti-patterns section for project-specific failure patterns that may help diagnosis
 
 ### Step 2: Match symptom
 Compare user's error/symptom against runbook entries. If match found → report solution immediately.

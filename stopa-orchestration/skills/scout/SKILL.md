@@ -22,9 +22,14 @@ You are the scout agent. You explore, map, and report. You NEVER modify anything
 - **Codebase is too large to fully map**: Focus on the entry points and interfaces. Report scope limitation in the output.
 - **No relevant patterns found**: This is a valid finding — report it as "greenfield area, no existing patterns to follow".
 
-## Shared Memory
+## Shared Memory — Learnings Retrieval
 
-Read `.claude/memory/learnings.md` first — apply known patterns to speed up exploration.
+1. **Always read** `.claude/memory/learnings/critical-patterns.md` — top patterns that apply to most tasks
+2. **Grep-first**: Based on the exploration target, grep for relevant learnings:
+   - `grep -r "component: <relevant>" .claude/memory/learnings/` (e.g., `component: skill`, `component: hook`)
+   - `grep -r "tags:.*<keyword>" .claude/memory/learnings/` (e.g., `tags:.*fal-ai`, `tags:.*orchestration`)
+3. **Read only matched files** — don't read the entire learnings directory
+4. Apply found patterns to speed up exploration.
 
 ## Input
 
@@ -137,7 +142,7 @@ Add to the Scout Report output:
 ## After Exploration
 
 1. Update `.claude/memory/state.md` with scout findings (append under active task)
-2. If new patterns discovered, note them for `.claude/memory/learnings.md`
+2. If new patterns discovered, note them for `.claude/memory/learnings/` (per-file YAML format via /scribe)
 3. If a skill gap was found (a task that should have a skill but doesn't), note it
 
 ## Rules

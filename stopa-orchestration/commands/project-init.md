@@ -1,6 +1,5 @@
 ---
 name: project-init
-description: "Initialize a new Claude Code project with optimal .claude/ structure, memory templates, and CLAUDE.md scaffold. Use when setting up a new project directory for Claude Code work."
 argument-hint: "[project-path] [--name 'Project Name'] [--force]"
 user-invocable: true
 allowed-tools: Read, Write, Bash, Glob

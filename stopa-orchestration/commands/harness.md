@@ -1,6 +1,5 @@
 ---
 name: harness
-description: Run a deterministic multi-phase harness for repeatable processes. Use when a task has known fixed steps, needs programmatic validation per phase, and produces structured output. Trigger on 'run harness', 'spusť harness', '/harness', or when /orchestrate would be overkill for a known pipeline. Do NOT use for ad-hoc tasks with unknown scope — use /orchestrate instead.
 argument-hint: [harness-name] or leave empty to list available harnesses
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent

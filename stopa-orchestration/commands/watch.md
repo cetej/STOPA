@@ -1,13 +1,12 @@
 ---
 name: watch
-description: Scan AI/ML ecosystem and Claude Code news weekly. Use when the user asks "what's new", "check for updates", or when last scan in news.md is >7 days old.
 argument-hint: [full / quick / topic:specific-topic]
 user-invocable: true
 allowed-tools: Read, Write, Edit, WebSearch, WebFetch, Agent
 model: sonnet
 effort: medium
 maxTurns: 20
-disallowedTools: ""
+disallowedTools: Bash, Glob, Grep
 ---
 
 # Watch — News & Updates Scanner
@@ -114,6 +113,8 @@ To minimize cost, use parallel WebSearch calls:
    - Record scan date and mode
    - Append ACTION and WATCH items (not INFO — too noisy)
    - If an ACTION item from a previous scan is now resolved, mark it done
+   - **Clean up DONE items**: Remove ~~strikethrough~~ / Status: DONE / SAFE items from Active Items — move them to `news-archive.md` with archival date
+   - **Deduplicate**: If a Watch List item already exists (same topic), update existing entry instead of adding duplicate
 
 2. **If ACTION items found for orchestration system**:
    - Add to `.claude/memory/learnings.md` under appropriate section

@@ -1,7 +1,7 @@
 {
   "name": "stopa-orchestration",
-  "description": "Multi-agent orchestration system with budget control, session continuity, harness engine, and self-improvement. 25 skills including /orchestrate, /scout, /critic, /tdd, /systematic-debugging, /brainstorm, /prp, /security-review, /fix-issue, /pr-review, /verify, and more.",
-  "version": "1.9.0",
+  "description": "Multi-agent orchestration system with budget control, session continuity, harness engine, and self-improvement. 8 skills (orchestrate, scout, critic, scribe, checkpoint, verify, fix-issue, incident-runbook) + 17 commands (brainstorm, pr-review, tdd, etc). Schema-enforced learnings with grep-first retrieval.",
+  "version": "2.0.0",
   "author": {
     "name": "cetej"
   },
