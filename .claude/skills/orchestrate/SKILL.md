@@ -134,12 +134,18 @@ Write the plan to `.claude/memory/state.md` using this format:
 For each subtask (respecting dependencies):
 
 ### If using an Agent:
+
+**Hierarchical context injection**: The orchestrator loads shared memory ONCE (Phase 0). When spawning agents, pass the relevant context directly in the prompt — do NOT instruct agents to re-read memory files. This saves 60-80% of token usage on memory loading across agents.
+
 ```
 Agent(subagent_type: "general-purpose", prompt: "
-  Context: <what the agent needs to know>
+  Context: <what the agent needs to know — include relevant learnings, decisions, conventions>
   Task: <specific deliverable>
   Constraints: <quality standards, conventions>
   Output: <what to return>
+
+  IMPORTANT: All project context you need is provided above. Do NOT read .claude/memory/ files
+  — the orchestrator has already loaded and filtered the relevant information for you.
 
   FIRST ACTION: Update your task status to in_progress with a 1-sentence
   summary of your approach (e.g. 'Scanning auth middleware for token storage patterns').
@@ -312,6 +318,7 @@ These CANNOT be overridden without user approval:
 4. **Nesting depth**: orchestrator→skill→agent exceeds 2 levels → STOP, flatten
 5. **Memory bloat**: Any `.claude/memory/` file exceeds 500 lines → trigger scribe maintenance first
 6. **Analysis paralysis**: Agent made 5+ consecutive read-only operations (Read/Grep/Glob) without any Write/Edit/Bash → agent must either write code or report "blocked" with reason
+7. **No-progress loop**: After each wave, check `git diff --stat` against the pre-wave state. If 3 consecutive waves produce zero file changes → STOP with "No progress detected — 3 waves without file changes. Agent may be stuck." This is more precise than iteration counting — it detects actual work, not just activity.
 
 ## Rules
 

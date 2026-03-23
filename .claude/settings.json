@@ -39,6 +39,30 @@
             "statusMessage": ""
           }
         ]
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/ruff-lint.sh",
+            "timeout": 10,
+            "statusMessage": "Linting Python..."
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/permission-auto-approve.sh",
+            "timeout": 3,
+            "statusMessage": ""
+          }
+        ]
       }
     ],
     "PostCompact": [

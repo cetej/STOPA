@@ -125,3 +125,13 @@ Accumulated knowledge from all tasks. Used by all skills/agents to improve over 
 - **FAL_KEY**: Stored in `~/.claude/settings.json` env section (user-level, not committed to git)
 - **Pricing**: Nano Banana Pro ~$0.15/image (1K), Kling v3 standard ~$0.084/s, pro ~$0.112/s
 - **Source**: End-to-end test of /nano-banana and /kling skills
+
+### Awesome Claude Code Ecosystem Scan (2026-03-23)
+- **Scanned**: 30+ repos, 100+ projects z awesome-claude-code (hesreallyhim/awesome-claude-code)
+- **Top competitors**: Claude Code Flow (23k★, vector memory + consensus), Claude Task Master (26k★, PRD parsing), superpowers (107k★, auto-triggered skills), wshobson/agents (32k★, 72 plugins + progressive disclosure)
+- **STOPA unikáty**: Goal-backward verification (L1-L4), deviation rules, budget tiers s approval gates, harness engine — žádný competitor tohle nemá
+- **Architektonický insight**: Konkurence = task scheduling + paralelismus. STOPA = goal-backward reasoning + verification gates. Posilovat tuto filozofii.
+- **Adoptovat**: Hooks (PostToolUse lint, PermissionRequest auto-approve, PreCompact checkpoint), structured exit token v autoloop, /fix-issue skill, /pr-review (6-persona), /brainstorm (Socratic), change-detection circuit breaker, hierarchická context injection, status line (ccstatusline)
+- **NEadoptovat**: Vector memory (overkill pro naši škálu), multi-model routing (jsme Claude-native), Byzantine consensus (over-engineering), Docker sandboxing (TSK), mobile control (Happy Coder)
+- **Detail**: Viz `research/awesome-claude-code-scan.md`
+- **Source**: Paralelní scan 4 agentů přes celý awesome-claude-code repo
