@@ -107,6 +107,14 @@ Accumulated knowledge from all tasks. Used by all skills/agents to improve over 
 - **Fix applied (2026-03-19)**: All Explore references in orchestrate + scout skills replaced with general-purpose. Warning notes added.
 - **Source**: Live test — skill-audit team with 2 Sonnet teammates
 
+### GSD Patterns Adopted (2026-03-23)
+- **Wave execution**: Topologický sort subtasků podle závislostí → wave číslo → paralelní exekuce per wave. Preferovat vertical slices (celý feature per subtask) nad horizontal layers (all models, then all APIs) — maximalizuje Wave 1 paralelismus.
+- **Deviation rules**: Sub-agenti mají pre-granted autoritu fixovat bugy inline (max 3 pokusy), ale STOP při architektonické změně. Pre-existing bugy jen logovat, nefixovat.
+- **Analysis-paralysis guard**: 5+ po sobě jdoucích read-only operací bez Write/Edit = agent je stuck → musí jednat nebo reportovat blocked.
+- **Goal-backward verification**: 4 úrovně ověření: L1 Exists → L2 Substantive (ne stub) → L3 Wired (importován) → L4 Flows (reálná data). Stub detection: `return []`, `return null`, `preventDefault()` only, state never rendered.
+- **Context monitor**: Vyhodnoceno jako redundantní — STOPA už má PostCompact hook + orchestrate context health scoring. GSD řeší dual-bridge přes temp soubory, což je over-engineered pro náš setup.
+- **Source**: Analýza gsd-build/get-shit-done v1.28
+
 ### fal.ai API Integration (2026-03-23)
 - **Python path**: On this Windows system, use `python` (C:\Python313) not `python3` (WindowsApps stub) — fal-client is installed only under C:\Python313
 - **fal_client.subscribe()**: Blocking call, works for images (fast). For video (1-3 min), use `fal_client.submit()` + `iter_events()` for progress tracking

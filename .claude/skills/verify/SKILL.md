@@ -35,19 +35,40 @@ Parse ARGUMENTS to determine what to verify:
 - Read state.md for current task context
 - Check if project has existing test scripts (`tests/`, `scripts/`, `Makefile`)
 
-### Step 3: Design verification plan
-Create a checklist of what constitutes "verified":
+### Step 3: Design verification plan (Goal-Backward)
+
+Start from the **goal** (what must be TRUE from user's perspective), not from task completion.
+
+For each component, verify at 4 levels:
+
+| Level | Check | How |
+|-------|-------|-----|
+| L1: Exists | File/endpoint exists | Glob, `ls`, `curl -I` |
+| L2: Substantive | Not a stub — real logic, >10 lines, no placeholder returns | Read, check for `return null`, `return []`, `TODO`, `pass` |
+| L3: Wired | Imported and used by other code, not orphaned | Grep for imports, check route registration |
+| L4: Flows | Real data actually reaches the output (not hardcoded empty) | Run with test input, check actual output contains expected data |
+
+**Stub detection patterns** (common false "done" signals):
+- API route returning `Response.json([])` or `return []`
+- Component with `return null` or just `<div>TODO</div>`
+- Form handler only calling `e.preventDefault()` with no logic
+- State that exists but is never rendered
+- Function that accepts params but ignores them
+
+Create checklist with level per check:
 ```
 ## Verification Plan
-- [ ] Component A: [what to check] → [how to check]
-- [ ] Component B: [what to check] → [how to check]
-- [ ] Integration: [end-to-end check]
+- [ ] L4: User can [action] and sees [result] → [how to verify]
+- [ ] L3: [Module A] imports and uses [Module B] → grep imports
+- [ ] L2: [API endpoint] has real logic → read + check line count
+- [ ] L1: [Config file] exists → glob
 ```
 
 ### Step 4: Execute
 Run each check. Capture output. For each:
-- **PASS**: show key output proving it works
-- **FAIL**: show error, suggest root cause
+- **PASS**: show key output proving it works (with verification level)
+- **FAIL**: show error, suggest root cause, note which level failed
+- **STUB**: component exists but is not substantive (L1 pass, L2 fail)
 - **SKIP**: explain why (missing dependency, requires external service)
 
 ### Step 5: Report
@@ -57,15 +78,17 @@ Run each check. Capture output. For each:
 **Result**: PASS / PARTIAL / FAIL
 
 ### Checks
-| # | Check | Result | Evidence |
-|---|-------|--------|----------|
-| 1 | [description] | ✓/✗ | [key output or error] |
+| # | Check | Level | Result | Evidence |
+|---|-------|-------|--------|----------|
+| 1 | [description] | L1-L4 | ✓/✗/STUB | [key output or error] |
 
 ### Issues Found
 - [any problems discovered during verification]
+- **Stubs detected**: [list any components that exist but are not substantive]
 
 ### Recommendations
 - [suggested fixes or improvements]
+- If stubs found: recommend specific implementation needed (not just "finish it")
 ```
 
 ## After Completion

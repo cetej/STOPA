@@ -1,6 +1,6 @@
 ---
 name: orchestrate
-description: Orchestrate complex tasks by decomposing into subtasks and delegating to agents/skills. Use when a task requires multiple steps, coordination, or is too complex for a single action. Trigger on 'plan this', 'break this down', 'complex task', or when task touches 3+ files.
+description: Orchestrate complex tasks by decomposing into subtasks and delegating to agents/skills. Use when a task requires multiple steps, coordination, or is too complex for a single action. Trigger on 'plan this', 'break this down', 'complex task', or when task touches 3+ files. Do NOT use for single-file edits, simple questions, or tasks with fewer than 3 steps. For known repeatable processes use /harness instead.
 context:
   - gotchas.md
 argument-hint: [task description]
@@ -99,7 +99,10 @@ Based on scout results:
    - New but repeatable → create skill via `/skill-generator`, then use it
    - One-off complex → delegate to Agent (general-purpose)
    - One-off simple → do directly
-4. **Determine parallelism** — what can run simultaneously?
+4. **Assign waves** (topological sort):
+   - Subtask without dependencies → Wave 1
+   - Subtask with dependencies → Wave = max(dependency waves) + 1
+   - Two subtasks modifying the same file → CANNOT be in the same wave
 5. **Assess risks** — what could go wrong?
 
 Write the plan to `.claude/memory/state.md` using this format:
@@ -113,13 +116,17 @@ Write the plan to `.claude/memory/state.md` using this format:
 
 ### Subtasks
 
-| # | Subtask | Depends on | Method | Status |
-|---|---------|-----------|--------|--------|
-| 1 | ... | — | Agent:Explore | done |
-| 2 | ... | 1 | Skill:/review | pending |
-| 3 | ... | 1 | Agent:general | pending |
-| 4 | ... | 2,3 | Skill:/test | pending |
+| # | Subtask | Depends on | Wave | Method | Status |
+|---|---------|-----------|------|--------|--------|
+| 1 | ... | — | 1 | Agent:general | done |
+| 2 | ... | — | 1 | Skill:/review | pending |
+| 3 | ... | 1 | 2 | Agent:general | pending |
+| 4 | ... | 2,3 | 3 | Skill:/test | pending |
 ```
+
+**Wave planning rules:**
+- Prefer "vertical slices" (one full feature per subtask) over "horizontal layers" (all models, then all APIs). Vertical slices maximize Wave 1 parallelism.
+- If all subtasks end up in Wave 1 with no dependencies, double-check they truly don't share files or state.
 
 ## Phase 4: Execute
 
@@ -151,37 +158,25 @@ Invoke the appropriate `/skill-name` with arguments.
 ### Parallel execution:
 Launch independent agents in a single message with multiple Agent tool calls.
 
-### Parallel execution strategy:
+### Wave-based execution:
 
-Decide how to run independent subtasks:
+Execute subtasks wave by wave (from Phase 3 plan):
 
 ```
-How many independent subtasks?
-├── 1 → Run sequentially (no parallelism needed)
-├── 2-3 → Use multiple Agent() calls in ONE message
-│         (Claude Code runs them in parallel automatically)
-└── 4+  → Split into waves of 2-3 parallel agents
-          (avoid overwhelming context with too many results at once)
-```
-
-**Multiple Agent() calls in one message** (preferred for 2-3 subtasks):
-```
-Agent(prompt: "Subtask A: ...", subagent_type: "general-purpose")
-Agent(prompt: "Subtask B: ...", subagent_type: "general-purpose")
-```
-Both launch simultaneously. Results return when both complete.
-
-**Wave execution** (for 4+ subtasks):
-```
-Wave 1: Agent(A) + Agent(B)  — wait for results
-Wave 2: Agent(C) + Agent(D)  — uses results from wave 1 if needed
+Wave 1: Launch ALL Wave 1 subtasks as parallel Agent() calls in ONE message
+         ↓ wait for all to complete
+Wave 2: Launch ALL Wave 2 subtasks (can use Wave 1 results)
+         ↓ wait for all to complete
+Wave N: Continue until all waves done
 ```
 
-**Rules for parallel agents**:
+**Rules for wave execution:**
 - Each agent MUST get complete context (it can't see other agents' work)
-- Never parallelize subtasks with data dependencies
+- Max 3 parallel agents per wave (avoid overwhelming context with results)
+- If a wave has 4+ subtasks, split into sub-waves of 3
 - Budget: each parallel agent counts toward the tier agent limit
-- If any agent fails, handle it before launching next wave
+- If any agent in a wave fails → handle it before launching next wave
+- Pass relevant outputs from previous waves as context to next wave agents
 
 ### Agent Teams (deep tier, 3+ independent subtasks):
 
@@ -290,6 +285,22 @@ Is this a known, repeatable pattern?
     └── NO → Do it directly (simple edit, single command)
 ```
 
+## Deviation Rules (for sub-agents)
+
+When a spawned agent encounters issues during execution, it has pre-granted authority within these boundaries:
+
+| Situation | Action | Limit |
+|-----------|--------|-------|
+| Bug in own implementation | Fix inline | Max 3 attempts per task |
+| Missing import/dependency | Fix inline | Max 3 attempts per task |
+| Missing critical code (null check, validation) | Add inline | Max 3 attempts per task |
+| Architectural change (new DB table, new service) | **STOP** — return to orchestrator | — |
+| Pre-existing bug (not caused by current task) | Log to deferred, do NOT fix | — |
+
+After 3 failed fix attempts on the same issue → document the problem and move on. Do not restart hoping it resolves itself.
+
+Include these rules in every Agent() prompt: "Deviation rules: fix bugs/imports inline (max 3 attempts). STOP and report if architectural change needed. Pre-existing bugs go to deferred, don't fix them."
+
 ## Circuit Breakers (hard stops)
 
 These CANNOT be overridden without user approval:
@@ -299,6 +310,7 @@ These CANNOT be overridden without user approval:
 3. **Budget exceeded**: Any counter hits tier limit → STOP, ask user to extend or wrap up
 4. **Nesting depth**: orchestrator→skill→agent exceeds 2 levels → STOP, flatten
 5. **Memory bloat**: Any `.claude/memory/` file exceeds 500 lines → trigger scribe maintenance first
+6. **Analysis paralysis**: Agent made 5+ consecutive read-only operations (Read/Grep/Glob) without any Write/Edit/Bash → agent must either write code or report "blocked" with reason
 
 ## Rules
 
