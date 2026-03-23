@@ -4,6 +4,29 @@ Archived items from `news.md`. Read-only reference — not actively loaded into 
 
 ## Archived Action Items
 
+<!-- Archived 2026-03-23 batch 2 — all remaining action items processed -->
+
+7. ~~**Diffusers 0.37.0** (Mar 5)~~ — Modular Diffusers, FIBO Edit, Cosmos Predict2.5
+   - Status: **DEFERRED** — relevantní pro NG-ROBOT, ne STOPA. Evaluovat při práci na NG-ROBOT.
+
+8. ~~**Claude Code v2.1.79**~~ — `/remote-control` VSCode bridge, PreToolUse `deny` bug fix
+   - Status: **DONE** — informativní, žádná akce potřeba
+
+10. ~~**API code execution zdarma**~~ — s web search nebo web fetch
+    - Status: **DEFERRED** — low priority, update budget kalkulace až bude relevantní
+
+16. ~~**Claude Code v2.1.81**~~ (Mar 20) — `--bare` flag, `--channels` relay, Windows streaming off
+    - Status: **NOTED** — `--bare` nepotřebujeme (STOPA nevolá claude CLI jako subprocess). Windows streaming info = informativní.
+
+17. ~~**`source: 'settings'` existuje**~~ (v2.1.80) — inline plugin deklarace
+    - Status: **DONE** — informativní, stávající implementace OK. Zaznamenáno v learnings.md.
+
+18. ~~**CC v2.1.77 — Agent `resume` odstraněn**~~ — použij `SendMessage({to: agentId})`
+    - Status: **SAFE** — STOPA už používá SendMessage od 2026-03-19
+
+19. ~~**API: Automatic caching**~~ (Feb 19) — `cache_control` v request body
+    - Status: **DEFERRED** — relevantní pro NG-ROBOT pipeline, ne STOPA
+
 <!-- Archived 2026-03-23 by manual maintenance -->
 
 1. ~~**Plugin `git-subdir` source type** (v2.1.69)~~ — **DONE** (plugin.json + README updated, v1.3.0)
@@ -41,6 +64,12 @@ Archived items from `news.md`. Read-only reference — not actively loaded into 
 
 ## Archived Watch List
 
+<!-- Archived 2026-03-23 batch 2 — informational items, no action needed -->
+
+9. ~~**Google Flow**~~ (Feb/Mar 2026) — unified AI video workspace. Žádné veřejné API — nelze integrovat.
+10. ~~**Models API capability fields**~~ (March 18) — `GET /v1/models` — informativní, žádná akce
+11. ~~**1M kontext GA pro Sonnet 4.6**~~ (March 13) — informativní, bez nutné akce
+
 <!-- Archived 2026-03-23 — deduplicated entries (short versions removed, full versions kept) -->
 
 1. **MCP elicitation** (v2.1.76) — servers request structured input mid-task via interactive dialog
@@ -53,6 +82,17 @@ Archived items from `news.md`. Read-only reference — not actively loaded into 
 8. **PyTorch 2.10.0** (Jan 21, 2026)
 
 ## Archived Scan History
+
+<!-- Archived 2026-03-23 batch 2 — scans older than 2 days -->
+
+### 2026-03-22 — quick scan (Tier 1)
+- CC: stále v2.1.81 — žádná nová verze
+- API: žádné nové release notes od March 18
+
+### 2026-03-21 (2) — full scan
+- CC v2.1.77: Agent tool `resume` param odstraněn (STOPA safe), SendMessage auto-resume, plugin validate vylepšen
+- API: Automatic caching GA (Feb 19), Sonnet 3.7 + Haiku 3.5 retired (safe — aliases)
+- LTX-2.3, Google Flow redesign, Czech ABSA benchmarks
 
 <!-- Archived 2026-03-23 — scans older than 14 days -->
 
