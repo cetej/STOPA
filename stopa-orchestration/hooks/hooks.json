@@ -15,6 +15,25 @@
             "command": "bash hooks/memory-maintenance.sh",
             "timeout": 5,
             "statusMessage": "Checking memory health..."
+          },
+          {
+            "type": "command",
+            "command": "bash hooks/memory-brief.sh",
+            "timeout": 5,
+            "statusMessage": "Loading memory brief..."
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash hooks/activity-log.sh",
+            "timeout": 3,
+            "statusMessage": ""
           }
         ]
       }

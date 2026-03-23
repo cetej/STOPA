@@ -23,6 +23,9 @@ You record facts neutrally and accurately. You do NOT judge or execute.
 | `.claude/memory/decisions.md` | Decision log with rationale | After each significant decision |
 | `.claude/memory/learnings.md` | Patterns, anti-patterns, skill gaps | After task completion or pattern discovery |
 | `.claude/memory/budget.md` | Cost tracking, tier limits, event log | Updated by orchestrator/scout/critic — scribe archives on task close |
+| `.claude/memory/news.md` | Watch scan findings (ACTION/WATCH items) | Updated by /watch — scribe archives DONE items during maintenance |
+| `.claude/memory/news-archive.md` | Archived news items (read-only) | Written by scribe during news.md maintenance |
+| `.claude/memory/activity-log.md` | Auto-captured tool events (PostToolUse hook) | Written by hook — scribe reads during maintenance to suggest learnings |
 
 ## Input
 
@@ -105,8 +108,19 @@ Triggered automatically when any memory file exceeds 500 lines (circuit breaker 
 - `decisions-archive.md` — old decisions (read-only reference, not actively used)
 - `budget-archive.md` — old budget history (read-only reference)
 
+### news.md Maintenance
+
+When news.md exceeds 150 lines (or during regular maintenance):
+
+1. **Read** news.md and news-archive.md
+2. **Archive DONE Action Items** — move ~~strikethrough~~ and Status: DONE/SAFE items from Active Items to `news-archive.md` → Archived Action Items. Include archival date.
+3. **Archive old Watch List items** — move items older than 30 days to `news-archive.md` → Archived Watch List
+4. **Deduplicate Watch List** — if an item exists as both short and expanded version, keep only the expanded one
+5. **Archive old Scan History** — keep only the last 3 scans in news.md. Move older scans to `news-archive.md` → Archived Scan History
+6. **Report**: "news.md: X lines → Y lines. Archived: N action, M watch, K scans"
+
 ### Thresholds
-- **Warning**: any memory file >100 lines → suggest maintenance
+- **Warning**: any memory file >100 lines → suggest maintenance (news.md: >150 lines)
 - **Critical**: any memory file >500 lines → maintenance required before continuing
 
 ## Rules
