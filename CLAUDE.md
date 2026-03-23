@@ -24,7 +24,8 @@ STOPA/
 │       ├── state.md            # Stav aktuálního úkolu
 │       ├── budget.md           # Rozpočtový ledger
 │       ├── decisions.md        # Log rozhodnutí
-│       ├── learnings.md        # Vzory, anti-vzory, skill gapy
+│       ├── learnings.md        # Pointer → learnings/ directory
+│       ├── learnings/          # Per-file YAML learnings (grep-first retrieval)
 │       ├── checkpoint.md       # Snapshot session
 │       ├── news.md             # Výsledky /watch scanů
 │       ├── decisions-archive.md  # Archiv starých rozhodnutí

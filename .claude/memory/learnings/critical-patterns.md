@@ -1,0 +1,27 @@
+# Critical Patterns — Always Read
+
+These patterns are loaded at session start. Max 10 entries. Only the highest-severity, most frequently applicable learnings belong here.
+
+## 1. Budget-First Orchestration
+Assign complexity tier BEFORE scouting. Start with lowest viable tier. Upgrade only if scout reveals higher complexity. Over-orchestration wastes tokens — trivial edit doesn't need scout-plan-execute-critic-scribe.
+
+## 2. Skill Description = Trigger Only
+Skill `description` field MUST be trigger conditions + exclusions ONLY. Never summarize workflow or list steps — tested by obra/superpowers: workflow summaries cause Claude to shortcut instead of reading the full skill body.
+
+## 3. Prompts vs Hooks — Suggestion vs Law
+Prompt = suggestion (styl, tón, formát). Hook = law (finance, bezpečnost, compliance). If failure = real problem → hook, not prompt.
+
+## 4. Harness > Skill for Deterministic Processes
+Skills = best effort (~90%). Harness = deterministic (~99.9%). Prompt tweaking caps at ~95%. For repeatable multi-step processes, use harness (Python controls order + validation).
+
+## 5. Cost Estimation for User Decisions
+Always estimate cost in tokens AND real currency (USD + CZK). Users can't judge "50k tokens" but understand "$0.15/week".
+
+## 6. Analysis-Paralysis Guard
+5+ consecutive read-only operations without Write/Edit = agent stuck. Must act or report blocked.
+
+## 7. Tool Descriptions — Routing
+In tool description: state WHEN to use AND WHEN NOT to use. Max 4-5 tools per agent. `tool_choice: forced` for first step.
+
+## 8. 3-Fix Escalation
+After 3 failed fix attempts on same issue → STOP. This is architectural, not fixable by retry. Document all 3 attempts and escalate to user.

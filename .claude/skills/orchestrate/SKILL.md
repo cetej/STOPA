@@ -32,7 +32,11 @@ You decompose, delegate, coordinate, and decide.
 Before anything, read the shared memory:
 1. `.claude/memory/state.md` — current task state
 2. `.claude/memory/decisions.md` — past decisions
-3. `.claude/memory/learnings.md` — accumulated knowledge (patterns, anti-patterns, skill gaps)
+3. `.claude/memory/learnings/critical-patterns.md` — top patterns (always-read)
+4. **Grep-first learnings**: Based on the task, grep for relevant learnings:
+   - `grep -r "component: <relevant>" .claude/memory/learnings/` (e.g., `component: orchestration`, `component: skill`)
+   - `grep -r "tags:.*<keyword>" .claude/memory/learnings/` (match task keywords)
+   - Read only matched files — don't load the entire directory
 
 Apply any relevant learnings to the current task.
 
@@ -314,10 +318,10 @@ Once all subtasks are done:
 
 1. **Budget report**: Update `.claude/memory/budget.md` — generate summary, move to history, reset counters. Show the user: agents used / limit, critic rounds / limit, overall verdict.
 2. Update `.claude/memory/state.md` — mark task complete
-3. Record learnings via scribe pattern to `.claude/memory/learnings.md`:
-   - What patterns emerged? (add to Patterns)
-   - What didn't work? (add to Anti-patterns)
-   - Was a skill missing? (add to Skill Gaps)
+3. Record learnings via `/scribe learning` to `.claude/memory/learnings/` (per-file YAML format):
+   - What patterns emerged? (type: best_practice)
+   - What didn't work? (type: anti_pattern)
+   - Was a skill missing? (type: workflow, tags: [skill-gap])
    - Was the tier accurate? (note if over/under-estimated for future calibration)
 4. If a new repeatable pattern was discovered → suggest creating a skill via `/skill-generator`
 5. Summarize results to the user, **including cost summary**
