@@ -48,10 +48,10 @@ Accumulated knowledge from all tasks. Used by all skills/agents to improve over 
 
 ### User's Environment
 - **Projekty**: NG-ROBOT (desktop, hlavní), test1 (web, Pyramid Flow), ADOBE-AUTOMAT (desktop, Adobe automatizace), STOPA (meta-projekt, source of truth pro orchestraci)
-- **Sync**: Z STOPA do cílových projektů přes `scripts/sync-orchestration.sh`
+- **Distribuce**: Plugin v1.5.0 přes GitHub marketplace (settings.json v cílových projektech). Legacy sync skript stále existuje ale preferuj plugin.
 - **CLAUDE.md**: Každý projekt má vlastní, nesyncuje se
-- **Častá záměna**: User říká "udělal jsem pull a nic se nestalo" — pravděpodobně pulloval v jiném repozitáři
-- **Source**: Sessions 2026-03-18
+- **Skills**: 17 skills, 1 harness (skill-audit), 3 rules
+- **Source**: Sessions 2026-03-18, updated 2026-03-23
 
 ### Karpathy Loop Pattern (AutoLoop)
 - **Context**: When iteratively improving any file with measurable quality
@@ -81,8 +81,8 @@ Accumulated knowledge from all tasks. Used by all skills/agents to improve over 
 ### Path-Specific Rules (.claude/rules/)
 - **Context**: CLAUDE.md se načítá celý vždy = plýtvání tokeny
 - **Pattern**: `.claude/rules/*.md` s glob patternem v hlavičce — pravidla se loadují jen pro relevantní soubory
-- **Priority**: STOPA dosud nemá `.claude/rules/` → quick win
-- **Source**: Video "Claude Certified Architect", 2026-03-22
+- **Status**: DONE — 3 rules vytvořeny (python-files, skill-files, memory-files)
+- **Source**: Video "Claude Certified Architect", 2026-03-22. Implemented 2026-03-22.
 
 ## Skill Gaps
 

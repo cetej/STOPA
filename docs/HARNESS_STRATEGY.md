@@ -1,5 +1,7 @@
 # Harness Strategy — Integrace do STOPA a projektů
 
+> **STATUS: SPLNĚNO** (2026-03-22). Fáze A (rules, skill audit, critic) i Fáze B (engine, /harness skill, skill-audit harness) implementovány. Tento dokument slouží jako historická reference.
+
 Jak využít principy harness engineering (deterministické řízení AI agentů) pro upgrade orchestračního systému STOPA a cílových projektů.
 
 ---

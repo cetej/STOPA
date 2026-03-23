@@ -1,151 +1,51 @@
 # Session Checkpoint
 
-**Saved**: 2026-03-22
-**Task**: STOPA — Harness Engineering Integration
+**Saved**: 2026-03-23
+**Task**: STOPA — údržba a evoluce orchestračního systému
 **Branch**: main
-**Repo**: https://github.com/cetej/STOPA (working dir: `C:\Users\stock\Documents\000_NGM\STOPA`)
-**Status**: Analýza + strategie hotová, implementace NEZAČALA
+**Repo**: https://github.com/cetej/STOPA
+**Status**: Všechny plánované fáze (A+B) kompletní. Systém v provozním stavu.
 
-## Co je hotové (tato session)
+## Aktuální stav systému
 
-### Analýza videí
-- Staženy a vyčištěny přepisy 2 YouTube videí (yt-dlp, ne MCP):
-  - `input/video1_transcript.txt` — Harness Engineering (20K chars)
-  - `input/video2_transcript.txt` — Claude Certified Architect (42K chars)
-- Kompletní analýza obou videí s identifikací 10 klíčových poučení
+### Skills: 17
+autoloop, budget, checkpoint, critic, dependency-audit, harness, incident-runbook, klip, nano, orchestrate, project-init, scout, scribe, skill-generator, verify, watch, youtube-transcript
 
-### Dokumentace
-- `docs/LEARNINGS.md` — poučení z videí + YouTube transcript fix
-- `docs/HARNESS_STRATEGY.md` — kompletní strategie harness integrace:
-  - Gap analýza (7 gaps identifikováno)
-  - Architektura: `.claude/harnesses/` + HARNESS.md formát
-  - 4 konkrétní harnessy (Záchvěv pipeline, NG-ROBOT content, STOPA skill audit, code review)
-  - 4-fázový implementační plán (A→B→C→D)
-  - Rozhodovací tabulka skill vs harness
-  - 4 quick wins implementovatelné okamžitě
-- `.claude/memory/learnings.md` — 4 nové vzory přidány (harness engineering, prompts vs hooks, tool descriptions, path-specific rules)
+### Harness engine
+- `_engine.md` — sdílená logika (sekvenční exekuce, validace, resumability, model routing)
+- 1 harness: `skill-audit` (5 fází, proběhl 2026-03-22, report v `.harness/report.md`)
 
-### Zjištění
-- YouTube transcript MCP server je nefunkční (hlásí "Video unavailable" na vše)
-- `yt-dlp` 2026.3.17 funguje spolehlivě (po update z 2025.09.05)
-- STOPA nemá `.claude/rules/` — identifikováno jako quick win
+### Rules: 3
+- `python-files.md`, `skill-files.md`, `memory-files.md`
 
-## ZADÁNÍ PRO DALŠÍ SESSION
+### Plugin: v1.5.0
+- 17 skills v `stopa-orchestration/`
+- Distribuován přes GitHub marketplace
 
-### Priorita 1: Quick Wins (Fáze A) — nízký effort, okamžitý přínos
+## Dokončené milníky
 
-#### A1: Path-specific rules
-Vytvořit `.claude/rules/` se 3 soubory:
-- `python-files.md` — pattern `**/*.py`, pravidla: UTF-8, pathlib, type hints pro public API
-- `skill-files.md` — pattern `**/SKILL.md`, pravidla: YAML frontmatter validace, description musí říkat kdy NE-použít
-- `memory-files.md` — pattern `.claude/memory/**`, pravidla: max 500 řádků, archivace starých záznamů
+| Datum | Co | Commit |
+|-------|-----|--------|
+| 2026-03-18 | Initial system (9 skills, memory, budget) | `874a43d` |
+| 2026-03-19 | Agent Teams + AutoLoop | `96cc1c7` |
+| 2026-03-20 | Plugin distribution | — |
+| 2026-03-22 | Fáze A: rules, skill audit, critic update | `df9b221` |
+| 2026-03-22 | Fáze B: harness engine + skill-audit harness | `df9b221`, `cf74324` |
+| 2026-03-22 | Plugin v1.5.0 (harness, nano, klip) | `be9774f` |
+| 2026-03-23 | Auto-summary pattern (z claude-peers analýzy) | `c3c6f24` |
 
-#### A2: Skill description audit
-Projít všech 13 skills a do každého description přidat:
-- Kdy NEpoužít (negativní trigger)
-- Příklad typického use case
-- Referenční soubory: všech 13 SKILL.md v `.claude/skills/`
+## Otevřené body
 
-#### A3: Critic — separate session instrukce
-Do `critic/SKILL.md` přidat pravidlo: "Pokud reviewuješ kód, který byl napsán v TÉTO session, doporuč uživateli spustit review v nové session pro nezaujatý pohled."
-
-### Priorita 2: Harness Engine (Fáze B) — střední effort
-
-#### B1: Harness adresář + engine
-- Vytvořit `.claude/harnesses/_engine.md` — sdílená logika:
-  - Jak číst HARNESS.md
-  - Jak spouštět fáze sekvenčně
-  - Jak validovat výstup fáze
-  - Jak ukládat mezivýsledky do `.harness/`
-  - Jak routovat modely per fáze
-
-#### B2: `/harness` meta-skill
-- `.claude/skills/harness/SKILL.md` — dispatcher:
-  - Načte dostupné harnessy z `.claude/harnesses/`
-  - Nabídne uživateli výběr
-  - Spustí vybraný harness přes engine
-
-#### B3: První harness — `skill-audit`
-- `.claude/harnesses/skill-audit/HARNESS.md` — 5 fází:
-  1. Inventory (glob skills, extract metadata)
-  2. Description audit (specifičnost, negativní triggery)
-  3. Tools audit (least privilege)
-  4. Integration audit (shared memory, learnings)
-  5. Report (template)
-- Ověřit spuštěním na STOPA samotné
-
-### Priorita 3: Záchvěv harness (po B)
-
-#### Záchvěv pipeline harness
-- `.claude/harnesses/zachvev-pipeline/HARNESS.md` — 8 fází s validátory
-- Ale NEJDŘÍV musí být hotová Záchvěv Session 8 (topic labeling + UI redesign)
-- Checkpoint Záchvěv Session 8 je stále platný — viz níže
-
-### Bonus: Distribuce
-- Po B3: přidat `harnesses/` do `stopa-orchestration/` pluginu
-- Aktualizovat plugin.json manifest
-
----
-
-## Aktivní checkpointy jiných projektů
-
-### Záchvěv — Session 8 (NESPLNĚNO)
-- **Repo**: `C:\Users\stock\Documents\000_NGM\ZACHVEV`
-- **3 úkoly**: Topic labeling fix, growth_ratio guard, UI redesign
-- **Detail**: Viz předchozí checkpoint (archivováno v git historii) nebo resume prompt níže
-
-> Záchvěv — Session 8: Topic labeling fix + UI redesign.
-> Repo: ZACHVEV (branch main), working dir: `C:\Users\stock\Documents\000_NGM\ZACHVEV`
-> Pipeline kompletní end-to-end. Validováno na Letná datech (6615 postů, CRI 0.52).
-> Uncommitted: `topics.py` (stopwords), `ui/app.py` (Session 7 UI) — commitni PŘED začátkem.
-> **3 úkoly**: 1) Topic labeling hybrid, 2) growth_ratio guard, 3) UI redesign.
-
----
-
-## Architektura (reference)
-
-```
-STOPA/
-├── .claude/
-│   ├── skills/          # 13 skills (source of truth)
-│   ├── hooks/           # 7 hook scripts
-│   ├── memory/          # Shared memory (state, decisions, learnings, budget, checkpoint, news)
-│   ├── settings.json    # Hooks config
-│   ├── rules/           # ← VYTVOŘIT (Fáze A1)
-│   └── harnesses/       # ← VYTVOŘIT (Fáze B1)
-│       ├── _engine.md
-│       └── skill-audit/
-├── stopa-orchestration/  # Plugin distribuce (v1.4.0)
-├── docs/
-│   ├── LEARNINGS.md      # ← NOVÉ (tato session)
-│   └── HARNESS_STRATEGY.md  # ← NOVÉ (tato session)
-├── input/                # Video přepisy
-└── CLAUDE.md
-```
-
-## Uncommitted Changes
-
-```
- M .claude/memory/checkpoint.md
- M .claude/memory/learnings.md   # 4 nové vzory
- M .claude/memory/news.md
-?? docs/                          # LEARNINGS.md + HARNESS_STRATEGY.md
-?? input/                         # Video přepisy + VTT soubory
-?? research/
-```
+- **Záchvěv pipeline harness**: Plánován pro `.claude/harnesses/zachvev-pipeline/`, ale patří do ZACHVEV repo, ne STOPA
+- **learnings.md**: 117 řádků — blíží se limitu 500, ale zatím OK
+- **HARNESS_STRATEGY.md**: Historická reference, plán je splněn
 
 ## Resume Prompt
 
-> STOPA — Harness Engineering Integration.
+> STOPA — orchestrační systém, source of truth.
 > Repo: STOPA (branch main), working dir: `C:\Users\stock\Documents\000_NGM\STOPA`
 >
-> Analýza + strategie hotová. Klíčový dokument: `docs/HARNESS_STRATEGY.md`
+> Systém kompletní: 17 skills, harness engine, 3 rules, plugin v1.5.0.
+> Žádné otevřené úkoly. Checkpoint aktuální k 2026-03-23.
 >
-> **Implementační plán (v pořadí priority):**
-> 1. **Quick Wins (Fáze A)**: Vytvořit `.claude/rules/` (3 soubory), audit 13 skill descriptions (přidat "kdy NEpoužít"), update critic skill
-> 2. **Harness Engine (Fáze B)**: `.claude/harnesses/_engine.md` + `/harness` meta-skill + první harness `skill-audit` (5 fází)
-> 3. **Záchvěv harness**: Až po Session 8 (topic labeling + UI) — 8 fází pipeline s validátory
->
-> Přečti `docs/HARNESS_STRATEGY.md` pro plný kontext. Uncommitted changes — commitni před začátkem práce.
->
-> **Paralelně platný**: Záchvěv Session 8 checkpoint (topic labeling + UI redesign v ZACHVEV repo).
+> Další kroky závisí na uživateli — nové harnessy, skill vylepšení, nebo práce na jiných projektech.
