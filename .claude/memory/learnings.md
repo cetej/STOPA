@@ -4,6 +4,14 @@ Accumulated knowledge from all tasks. Used by all skills/agents to improve over 
 
 ## Patterns
 
+### Spec-Kit Adoption (2026-03-23)
+- **Context**: Competitive analysis github/spec-kit (81k★, 7 months). Spec-Driven Development toolkit od GitHubu.
+- **Pattern**: 3 adoptované patterns: (1) Constitution check — project governance doc jako non-negotiable autorita v /orchestrate a /brainstorm, (2) Handoff metadata — `handoffs:` field ve skill frontmatter definuje workflow graph (brainstorm→orchestrate→critic→verify), (3) Requirements-level checklist — "Are requirements defined for X?" místo "Verify X works" + traceability tagy [Spec §X], [Gap], [Ambiguity] v /critic --spec.
+- **Key insight**: Hard question limits (max 3 open markers) force action over analysis paralysis — adopted in /brainstorm.
+- **Not adopted**: Multi-agent format rendering (27 agents — zbytečná komplexita), extension marketplace (premature), preset system (plugin covers this).
+- **Strategic**: Spec-kit je document-generation tool, STOPA je execution system. Komplementární, ne konkurenční. Threat level LOW.
+- **Source**: github/spec-kit v0.4.0, analysis v competitive-spec-kit.md
+
 ### Superpowers Adoption (2026-03-23)
 - **Context**: Analýza obra/superpowers (v5.0.5) pro adopci patterns do STOPA
 - **Pattern**: 5 adoptovaných patterns: two-stage review, agent status codes, anti-rationalization tables, trigger-only descriptions, 3-fix escalation. Klíčový insight: skill description summary → Claude shortcuts místo čtení full body (testováním prokázáno). DONE_WITH_CONCERNS status je nejhodnotnější — předchází silent shipping.

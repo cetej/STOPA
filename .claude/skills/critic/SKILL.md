@@ -10,6 +10,16 @@ model: sonnet
 effort: high
 maxTurns: 15
 disallowedTools: Write, Edit
+handoffs:
+  - skill: /orchestrate
+    when: "FAIL verdict — orchestrator must re-plan or re-execute"
+    prompt: "Fix issues from critic report: <paste issues>"
+  - skill: /verify
+    when: "PASS verdict — prove the implementation works end-to-end"
+    prompt: "Verify that the changes actually work: <describe what to test>"
+  - skill: /scribe
+    when: "New anti-patterns discovered during review"
+    prompt: "Record learning: <pattern description>"
 ---
 
 # Critic — Quality Gate
@@ -60,6 +70,11 @@ Adversarial review — assume the implementer cut corners. Check every requireme
 3. **Edge cases from spec** — Are boundary conditions from requirements handled?
 4. **Contract adherence** — Do signatures, types, APIs match the agreed interface?
 5. **Dependency impact** — Does the change break anything that consumes this code?
+6. **Requirements quality** — Are the requirements themselves well-defined? Use "checklist as unit tests for requirements":
+   - "Are acceptance criteria defined for [scenario]?" (not "Verify scenario works")
+   - "Is [ambiguous term] quantified with specific thresholds?" (not "Test the threshold")
+   - Tag each finding: `[Spec §X]` (traced), `[Gap]` (missing req), `[Ambiguity]` (unclear req)
+7. **Constitution alignment** — If project has `constitution.md` or governance principles in CLAUDE.md, check for violations. Constitution violations are automatically **high** severity.
 
 ### Phase: Code Quality (`--quality`)
 

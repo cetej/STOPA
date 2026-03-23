@@ -14,6 +14,16 @@ allowed-tools:
   - AskUserQuestion
   - WebSearch
   - TodoWrite
+handoffs:
+  - skill: /orchestrate
+    when: "Spec is ready, user wants to implement"
+    prompt: "Implement the spec from /brainstorm: <paste spec>"
+  - skill: /scout
+    when: "Need deeper codebase exploration before spec finalization"
+    prompt: "Map the codebase area related to: <topic>"
+  - skill: /prp
+    when: "Handing off to another session or sub-agent"
+    prompt: "Create PRP for: <feature name>"
 ---
 
 # /brainstorm — Socratic Spec Refinement
@@ -31,7 +41,16 @@ Read the user's initial idea. Identify:
 
 Output a brief restatement: "Here's what I understand: [restatement]. Let me ask a few questions to sharpen this."
 
-### Phase 2: Socratic Questioning (2-4 rounds)
+### Phase 1b: Constitution Check (if exists)
+
+Check if the project has a `constitution.md`, `specs/constitution.md`, or governance principles in CLAUDE.md:
+- If found: load the principles and ensure ALL spec decisions align with them
+- If not found: skip — suggest creating one if the project is large enough
+- Constitution violations are non-negotiable — if user's idea conflicts with a principle, flag it explicitly
+
+### Phase 2: Socratic Questioning (2-4 rounds, max 3 open questions)
+
+**Hard limit: max 3 `[NEEDS CLARIFICATION]` markers in the final spec.** If more than 3 things are unclear after questioning, make informed guesses and document your assumptions. This forces action over analysis paralysis.
 
 Ask 2-4 focused questions per round. Categories:
 

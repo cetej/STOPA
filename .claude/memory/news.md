@@ -5,15 +5,25 @@ Archived items: `.claude/memory/news-archive.md`
 
 ## Last Scan
 
-**2026-03-23** — full scan (all tiers — žádné nové action items, 2 watch)
+**2026-03-23** — full scan + spec-kit competitive analysis
 
 ## Active Items
 
 ### Action Items
 
-_Žádné otevřené action items. Vše zpracováno 2026-03-23._
+1. **Adopt spec-kit patterns** (2026-03-23) — 3 patterns z github/spec-kit adoptováno
+   - Constitution check (orchestrate, brainstorm, critic), handoff metadata (4 skills), checklist reframe (critic --spec)
+   - Status: DONE — plugin v1.9.0
 
 ### Watch List
+
+7. **GitHub Spec Kit** (github/spec-kit, 81k★) — Spec-Driven Development toolkit
+   - Official GitHub repo, 27 AI agents supported, extension/preset marketplace
+   - Pipeline: specify → clarify → plan → tasks → analyze → implement
+   - Relevance: direct competitor to STOPA orchestration, faster growth (81k★ in 7 months)
+   - Key differentiator: spec-centric (documents drive code) vs STOPA execution-centric
+   - Adopted patterns: constitution, handoff metadata, checklist reframe
+   - Full analysis: `.claude/memory/competitive-spec-kit.md`
 
 1. **Claude Code Channels** (v2.1.81) — Telegram/Discord integration přes `/telegram:configure`
    - Async push trigger model — potenciální mobile/async trigger pro STOPA orchestraci

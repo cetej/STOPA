@@ -10,6 +10,16 @@ model: opus
 effort: high
 maxTurns: 40
 disallowedTools: ""
+handoffs:
+  - skill: /critic
+    when: "After implementation — quality gate before declaring done"
+    prompt: "Review last changes: <describe what was implemented>"
+  - skill: /verify
+    when: "After critic PASS — prove it works end-to-end"
+    prompt: "Verify: <what to prove>"
+  - skill: /checkpoint
+    when: "Task complete or context getting large"
+    prompt: "Save checkpoint for: <task summary>"
 ---
 
 # Orchestrator — The Conductor
@@ -90,6 +100,16 @@ Scale exploration to the assigned tier:
 Update `.claude/memory/budget.md` — increment scout counter.
 
 ## Phase 3: Analyze & Plan
+
+### Constitution Check (before planning)
+
+Check if the project has governance principles:
+- `constitution.md` or `specs/constitution.md` → load as non-negotiable authority
+- CLAUDE.md project instructions → extract any architectural principles
+- If found: every subtask and technical decision must align. Constitution violations = STOP and flag to user.
+- If not found: skip — this is optional.
+
+### Decomposition
 
 Based on scout results:
 
