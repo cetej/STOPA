@@ -6,6 +6,8 @@ Known failure modes. Add a line each time Claude trips on something.
 - **Explore agents can't respond to shutdown** — use `subagent_type: "general-purpose"` for audit/research, not Explore (lacks SendMessage)
 - **Duplicate work on spawn** — put full instructions in spawn prompt; SendMessage is for follow-up only, not "start working"
 - **Unbounded agent spawning** — enforce tier limits (Light=0-1, Standard=2-4, Deep=5-8) or tokens spiral
+- **Agents sharing files → overwrite conflicts** — assign file ownership per agent in spawn template; each agent edits ONLY its owned files
+- **Agent idle without work → wasted tokens** — always assign explicit tasks in spawn prompt; vague roles ("help out") lead to agents doing nothing
 
 ## Critic Loop
 - **Infinite critic→fix→critic cycle** — max 2 FAIL verdicts on same target, then circuit breaker → ask user

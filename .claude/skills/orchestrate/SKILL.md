@@ -217,37 +217,105 @@ Wave N: Continue until all waves done
 - If any agent in a wave fails → handle it before launching next wave
 - Pass relevant outputs from previous waves as context to next wave agents
 
-### Agent Teams (deep tier, 3+ independent subtasks):
+### Agent Teams (standard 3+ / deep tier):
 
-When the deep tier has 3+ independent subtasks, use Agent Teams instead of manual Agent() calls:
+Use Agent Teams when 3+ independent subtasks exist in standard or deep tier:
 
 ```
 Decision tree:
 Independent subtasks?
-├── 1-2 → Use parallel Agent() calls (simpler, cheaper)
-└── 3+  → Use Agent Teams (peer-to-peer, shared task queue)
+├── 1-2 (any tier)       → Use parallel Agent() calls (simpler, cheaper)
+├── 3+, standard tier    → Agent Teams (lite) — no dedicated QA, lead monitors quality
+└── 3+, deep tier        → Agent Teams (full) — includes QA/reviewer teammate
 ```
+
+**Lite vs Full variants:**
+
+| Aspect | Lite (standard) | Full (deep) |
+|--------|----------------|-------------|
+| Max teammates | 4 | 8 |
+| QA agent | No (lead reviews) | Yes (dedicated reviewer) |
+| Plan approval | No (direct execution) | Yes (`mode: "plan"` — lead approves before execution) |
+| Critic pass | 1× on final output | 2-3× (QA + critic skill) |
 
 **Agent Teams workflow:**
 1. `TeamCreate` — initialize team namespace
-2. `TaskCreate` — create one task per subtask (with dependencies if any)
-3. `Task` — spawn teammates: `Task({team_name, name, model: "sonnet", description})`
-4. Teammates self-claim tasks, do work, report via `SendMessage`
+2. `TaskCreate` — one task per subtask (with dependencies if any)
+3. Spawn teammates using `Agent({team_name, name, model: "sonnet", ...})` — use **Spawn Template** below
+4. Teammates self-claim tasks, do work, communicate via `SendMessage`
 5. Lead (this orchestrator, on Opus) monitors, synthesizes findings
-6. `SendMessage({type: "shutdown_request"})` to each teammate when done
+6. **Clean shutdown:** see Shutdown Protocol below
 7. `TeamDelete` — cleanup
+
+### Agent Teams Spawn Template
+
+Every teammate spawn prompt MUST follow this structure:
+
+```
+## Goal
+{one-line project goal — why this team exists, what the end result should be}
+
+## Your Role: {teammate_name}
+Role: {specialization}
+Owns: {specific files/directories — ONLY you edit these}
+Produces: {concrete deliverable}
+
+## Communication
+- Send results to: {named teammate(s)} via SendMessage
+- Receive from: {named teammate(s)} — what to expect
+- When done: Mark your task complete via TaskUpdate, then go idle
+
+## Context
+{injected context from orchestrator — relevant code, decisions, constraints}
+
+## Rules
+- Do NOT edit files outside your ownership scope
+- Include Status block (DONE/DONE_WITH_CONCERNS/NEEDS_CONTEXT/BLOCKED) in final message to lead
+- If blocked for 3+ attempts → STOP and report to lead via SendMessage
+```
+
+Key principles:
+- **File ownership** — each agent owns specific files, prevents overwrite conflicts
+- **Named recipients** — explicitly state who receives what, no assumptions
+- **Goal propagation** — agents wake up with zero context, always include the project goal
+- **Context injection** — orchestrator loads memory ONCE, injects relevant parts per agent (saves 60-80% tokens)
+
+### Shutdown Protocol
+
+Clean shutdown prevents lost work and dangling state:
+
+```
+1. SendMessage({type: "shutdown_request"}) to each teammate
+2. Wait for shutdown_response from each (max 60s)
+3. If teammate rejects (approve: false, reason: "still working"):
+   → Wait 30s, retry shutdown_request (max 2 retries)
+4. Only after ALL teammates confirm → TeamDelete
+5. If any teammate times out after retries → log warning, force TeamDelete
+```
+
+Never force-kill teammates mid-work — they may have uncommitted changes.
+
+### Plan Approval Mode (deep tier only)
+
+For deep tier Agent Teams, spawn teammates with `mode: "plan"`:
+- Teammate first writes a plan → sends to lead for approval
+- Lead reviews via `plan_approval_response` (approve/reject with feedback)
+- Only after approval does teammate execute
+- Prevents expensive rework — catches misunderstandings before code is written
+- Skip for standard tier — the overhead isn't worth it for smaller tasks
 
 **Rules for Agent Teams:**
 - Lead = Opus (orchestrator), teammates = Sonnet (cheaper execution)
 - `teammateMode: "in-process"` on Windows (no tmux)
 - TeammateIdle hook enforces quality gates — exit 2 sends feedback
-- Max 8 teammates per team (deep tier budget limit)
+- Max teammates: 4 (standard) / 8 (deep) per team
 - If task status lags (known limitation), nudge teammate via SendMessage
 - No nested teams — teammates cannot spawn their own teams
 - **Always use `subagent_type: "general-purpose"` for teammates** — Explore/Plan agents lack SendMessage tool, so they can't respond to shutdown_request and TeamDelete will fail
 
 **When NOT to use Agent Teams:**
-- Standard/light tier (overhead not worth it for 1-2 agents)
+- Light tier (always use plain Agent() calls)
+- Standard tier with 1-2 subtasks (Agent() is simpler and cheaper)
 - Tasks with tight sequential dependencies (no parallelism benefit)
 - Quick fixes where Agent() + result is faster
 
