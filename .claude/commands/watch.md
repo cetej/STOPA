@@ -1,6 +1,5 @@
 ---
 name: watch
-description: Scan AI/ML ecosystem and Claude Code news weekly. Use when the user asks "what's new", "check for updates", or when last scan in news.md is >7 days old. Do NOT use for project-specific dependency checks (use /dependency-audit) or general web research unrelated to AI/ML ecosystem.
 argument-hint: [full / quick / topic:specific-topic]
 user-invocable: true
 allowed-tools: Read, Write, Edit, WebSearch, WebFetch, Agent

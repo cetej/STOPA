@@ -1,6 +1,5 @@
 ---
 name: tdd
-description: Use when implementing any feature or bugfix where tests exist or should exist. Trigger on 'tdd', 'test first', 'red green refactor', 'write test', 'napiš test'. Do NOT use for exploratory code, prototypes, one-off scripts, or projects without test infrastructure. Do NOT use when user just wants to run existing tests (use Bash directly).
 argument-hint: [feature or bug to implement with TDD — e.g. 'add validation to Phase 7 captions', 'fix photo_offset indexing']
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Edit, Write, Agent

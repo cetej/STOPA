@@ -23,15 +23,8 @@ case "$TOOL" in
     echo '{"behavior":"allow","suppressOutput":true}'
     ;;
   Bash)
-    # Check if it's a safe bash command (read-only)
-    INPUT="${CLAUDE_TOOL_INPUT:-}"
-    if echo "$INPUT" | grep -qiE "^(ls |cat |head |tail |wc |grep |find |git status|git log|git diff|git branch|echo |pwd|which |type |file )"; then
-      echo "- $TS | AUTO-APPROVED | Bash (read-only)" >> "$LOG"
-      echo '{"behavior":"allow","suppressOutput":true}'
-    else
-      echo "- $TS | USER-PROMPTED | Bash" >> "$LOG"
-      echo '{"behavior":"ask","suppressOutput":true}'
-    fi
+    # Bash commands handled by Dippy (PreToolUse hook) — skip here
+    exit 0
     ;;
   *)
     # All other tools — normal approval flow

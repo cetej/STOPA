@@ -1,6 +1,5 @@
 ---
 name: nano
-description: Generate images via fal.ai Nano Banana Pro/2 API. Use when user wants to create images, product shots, 3D renders, or visual assets. Trigger on 'generate image', 'create visual', 'nano banana', 'nano', 'vygeneruj obrázek'. Use --for-video to optimize output as input for video animation (/klip). Do NOT use for infographics with precise element positioning (use /visual-data-architect). Do NOT use for editing existing images in bulk.
 argument-hint: <prompt> [--model pro|2] [--aspect 16:9|1:1|9:16|4:3|3:4] [--resolution 1K|2K|4K] [--count 1-4] [--for-video] [--output path]
 user-invocable: true
 allowed-tools:

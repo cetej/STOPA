@@ -1,6 +1,5 @@
 ---
 name: systematic-debugging
-description: Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes. Trigger on 'debug this', 'why is this failing', 'root cause', 'systematic debug', 'proč to padá', 'najdi příčinu'. Do NOT use for planned changes or feature requests (use /orchestrate). Do NOT use for known failure patterns (use /incident-runbook first). Do NOT use when the fix is obvious and single-line.
 argument-hint: [error message, symptom, or 'last failure' to investigate]
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Agent

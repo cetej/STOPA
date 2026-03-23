@@ -1,6 +1,5 @@
 ---
 name: youtube-transcript
-description: Download and clean YouTube video transcripts using yt-dlp. Use when user shares a YouTube URL and wants the transcript text, analysis, or summary. Trigger on YouTube links, 'get transcript', 'stáhni přepis', 'co říká to video'. Do NOT use for non-YouTube video sources or when user just wants to watch/embed a video.
 argument-hint: <YouTube URL(s)> [--lang cs,en] [--analyze] [--output path]
 user-invocable: true
 allowed-tools: Bash, Read, Write, Glob

@@ -1,6 +1,5 @@
 ---
 name: skill-generator
-description: Create, update, or improve Claude Code skills. Use when asked to generate a new skill, modify an existing one, or for a new slash command. Trigger on 'create a skill', 'new slash command', 'improve skill X', 'update skill'. Do NOT use for editing non-skill files, creating harnesses, one-off scripts, or iterative automated optimization with scoring (use /autoloop for that).
 argument-hint: [description of the skill to create]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep
@@ -71,7 +70,6 @@ Create `.claude/skills/<name>/SKILL.md` following this template:
 ```markdown
 ---
 name: <name>
-description: <when to use - be specific, Claude matches on this>
 argument-hint: <expected args>
 disable-model-invocation: <true for side-effects, false otherwise>
 allowed-tools: <comma-separated minimal tool list>

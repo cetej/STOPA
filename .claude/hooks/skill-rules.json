@@ -1,0 +1,47 @@
+{
+  "orchestrate": {
+    "keywords": ["plan this", "break this down", "complex task", "rozlož", "naplánuj", "orchestrate"],
+    "patterns": ["(implement|add|create|build).{5,40}(feature|system|module|pipeline)"],
+    "tier": "critical"
+  },
+  "scout": {
+    "keywords": ["what do we have", "map this", "scope this", "co máme", "prozkoumej", "scout"],
+    "patterns": ["(explore|understand|find|where).{5,40}(codebase|code|architecture|structure)"],
+    "tier": "critical"
+  },
+  "critic": {
+    "keywords": ["review this", "check quality", "zkontroluj", "is this correct", "critic"],
+    "patterns": ["(review|check|audit|evaluate).{3,30}(code|changes|implementation|quality)"],
+    "tier": "critical"
+  },
+  "checkpoint": {
+    "keywords": ["save progress", "continue later", "checkpoint", "ulož stav", "done for today"],
+    "patterns": [],
+    "tier": "high"
+  },
+  "verify": {
+    "keywords": ["verify", "prove it", "test end-to-end", "dokaž to", "funguje to"],
+    "patterns": ["(does|did).{3,20}(work|run|pass)"],
+    "tier": "high"
+  },
+  "fix-issue": {
+    "keywords": ["fix issue", "resolve issue", "github issue", "oprav issue"],
+    "patterns": ["(fix|resolve|close).{3,20}(issue|bug|#[0-9]+)"],
+    "tier": "high"
+  },
+  "incident-runbook": {
+    "keywords": ["not working", "crashed", "error", "broken", "nefunguje", "padá to", "chyba"],
+    "patterns": ["(why|what).{3,20}(fail|crash|error|break|broken)"],
+    "tier": "high"
+  },
+  "systematic-debugging": {
+    "keywords": ["debug this", "root cause", "proč to padá", "najdi příčinu"],
+    "patterns": ["(debug|diagnose|investigate).{3,30}(bug|failure|issue|problem)"],
+    "tier": "medium"
+  },
+  "tdd": {
+    "keywords": ["tdd", "test first", "red green refactor", "write test", "napiš test"],
+    "patterns": [],
+    "tier": "medium"
+  }
+}

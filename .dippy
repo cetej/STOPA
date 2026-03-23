@@ -1,0 +1,16 @@
+# STOPA project Dippy config
+# AST-based bash command auto-approve rules
+
+# Allow common STOPA development operations
+allow git log **
+allow git diff **
+allow git status **
+allow git branch **
+allow git show **
+allow python -c "import *"
+allow python -m dippy **
+
+# Block dangerous operations
+deny rm -rf / "Never delete root"
+deny-redirect **/.env* "Never write to .env files"
+deny-redirect **/.claude/settings.json "Use /update-config skill instead"

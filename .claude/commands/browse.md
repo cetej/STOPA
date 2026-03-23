@@ -1,6 +1,5 @@
 ---
 name: browse
-description: >
   Browse web pages in the user's authenticated Chrome session. Use for extracting data from logged-in sites,
   filling forms, testing UI, or monitoring page state. Trigger on 'browse', 'open page', 'extract from site',
   'fill form', 'test UI', 'check page'. Do NOT use for simple web search (use WebSearch directly),

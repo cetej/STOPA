@@ -1,6 +1,5 @@
 ---
 name: security-review
-description: >
   Use when reviewing code for security concerns, before deploying to production, or when the user
   asks about security posture. Trigger on 'security review', 'security audit', 'is this secure',
   'check for vulnerabilities', 'bezpečnostní review'.

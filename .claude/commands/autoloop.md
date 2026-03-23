@@ -1,6 +1,5 @@
 ---
 name: autoloop
-description: Run autonomous optimization loop on a file (Karpathy Loop pattern). Use when asked to iteratively improve a skill, prompt, or config with a measurable metric. Trigger on 'optimize this', 'iterate on', 'improve until', 'make this better'. Do NOT use for one-time edits, quick fixes, when there is no measurable metric to optimize against, or when /skill-generator is sufficient for a one-shot improvement.
 context:
   - gotchas.md
 argument-hint: <target file path> [goal description]
