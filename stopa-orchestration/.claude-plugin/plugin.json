@@ -1,7 +1,7 @@
 {
   "name": "stopa-orchestration",
-  "description": "Multi-agent orchestration system with budget control, session continuity, harness engine, and self-improvement. Includes /orchestrate, /scout, /critic, /scribe, /budget, /checkpoint, /watch, /skill-generator, /dependency-audit, /autoloop, /project-init, /harness, /nano, /klip, and /verify.",
-  "version": "1.5.0",
+  "description": "Multi-agent orchestration system with budget control, session continuity, harness engine, and self-improvement. 23 skills including /orchestrate, /scout, /critic, /brainstorm, /prp, /security-review, /fix-issue, /pr-review, /verify, and more.",
+  "version": "1.6.0",
   "author": {
     "name": "cetej"
   },

@@ -1,0 +1,43 @@
+# Skill Tiers — Progressive Disclosure
+
+Skills are organized into 3 tiers by frequency of use. This helps Claude prioritize which skills to suggest.
+
+## Tier 1 — Core (always suggest when relevant)
+Daily-use skills that should be triggered proactively:
+- `/orchestrate` — multi-step task decomposition
+- `/scout` — codebase exploration before changes
+- `/critic` — quality review after edits
+- `/checkpoint` — session state management
+- `/scribe` — decision and learning capture
+
+## Tier 2 — Extended (suggest when task matches)
+Specialized skills for specific workflows:
+- `/fix-issue` — GitHub issue resolution
+- `/pr-review` — multi-persona PR review
+- `/brainstorm` — spec refinement from vague ideas
+- `/prp` — context packet for handoffs
+- `/verify` — end-to-end proof of correctness
+- `/harness` — deterministic pipelines
+- `/security-review` — vulnerability analysis
+- `/dependency-audit` — outdated/risky packages
+- `/incident-runbook` — failure diagnosis
+
+## Tier 3 — Advanced (only on explicit request)
+Generative/creative tools and meta-skills:
+- `/nano` — image generation (requires FAL_KEY)
+- `/klip` — video generation (requires FAL_KEY)
+- `/skill-generator` — create/modify skills
+- `/autoloop` — iterative optimization
+- `/project-init` — new project setup
+- `/watch` — ecosystem news scan
+- `/budget` — cost tracking
+- `/browse` — Chrome automation
+- `/youtube-transcript` — video transcripts
+
+## How to Apply
+
+When the user describes a task:
+1. Check Tier 1 skills first — these cover 80% of workflows
+2. If task is specialized, suggest the matching Tier 2 skill
+3. Only mention Tier 3 skills when user explicitly asks or when the specific capability is clearly needed
+4. Never list all skills unprompted — suggest 1-2 most relevant ones

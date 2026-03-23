@@ -20,12 +20,23 @@ Multi-agent orchestration system for Claude Code. Decomposes complex tasks, dele
 | `/stopa-orchestration:harness` | Runner — deterministic multi-phase processes with validation |
 | `/stopa-orchestration:nano` | Image gen — fal.ai Nano Banana Pro/2 (requires FAL_KEY) |
 | `/stopa-orchestration:klip` | Video gen — fal.ai Kling 3.0 text/image-to-video (requires FAL_KEY) |
+| `/stopa-orchestration:verify` | Prover — end-to-end verification on real data |
+| `/stopa-orchestration:fix-issue` | GitHub issue → fix → tests → commit (6 phases) |
+| `/stopa-orchestration:pr-review` | Multi-persona PR review (6 expert perspectives) |
+| `/stopa-orchestration:browse` | Browse authenticated Chrome sessions |
+| `/stopa-orchestration:incident-runbook` | Diagnose and resolve failures via runbooks |
+| `/stopa-orchestration:youtube-transcript` | Download and clean YouTube transcripts |
 
 ## Hooks included
 
-- **SessionStart**: Checks for active checkpoint, warns about memory file sizes
-- **PostCompact**: Reminds to checkpoint after context compaction
+- **SessionStart**: Checks for active checkpoint, memory health, loads memory brief
+- **PostToolUse**: Activity logging + ruff-lint for Python files (Write/Edit)
+- **PermissionRequest**: Auto-approve Read/Glob/Grep, log all permission decisions
+- **PostCompact**: Auto-saves checkpoint after context compaction
 - **Stop**: Reminds to record decisions via `/scribe` when a task is active
+- **TaskCompleted**: Checks for learnings after task completion
+- **TeammateIdle**: Quality gate for teammate output
+- **StopFailure**: API error recovery
 
 ## Installation
 
