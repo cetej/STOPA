@@ -17,6 +17,9 @@ Multi-agent orchestration system for Claude Code. Decomposes complex tasks, dele
 | `/stopa-orchestration:dependency-audit` | Auditor — checks outdated dependencies |
 | `/stopa-orchestration:autoloop` | Optimizer — Karpathy Loop pattern for iterative file improvement |
 | `/stopa-orchestration:project-init` | Initializer — sets up new project with .claude/ structure |
+| `/stopa-orchestration:harness` | Runner — deterministic multi-phase processes with validation |
+| `/stopa-orchestration:nano` | Image gen — fal.ai Nano Banana Pro/2 (requires FAL_KEY) |
+| `/stopa-orchestration:klip` | Video gen — fal.ai Kling 3.0 text/image-to-video (requires FAL_KEY) |
 
 ## Hooks included
 
@@ -72,6 +75,18 @@ The plugin uses `.claude/memory/` in the project directory for persistent state:
 | `budget.md` | Cost tracking and budget limits |
 | `checkpoint.md` | Session snapshot for continuity |
 | `news.md` | Results from /watch scans |
+
+## Harnesses
+
+Deterministic multi-phase pipelines with programmatic validation. Unlike `/orchestrate` (LLM decides steps), harnesses have **fixed phases in fixed order**.
+
+| Harness | Phases | Purpose |
+|---------|--------|---------|
+| `skill-audit` | 5 | Audit all skills for description quality, tool permissions, integration |
+
+Run with `/stopa-orchestration:harness skill-audit` or just `/stopa-orchestration:harness` to list available harnesses.
+
+Custom harnesses: create `harnesses/<name>/HARNESS.md` following the engine spec in `harnesses/_engine.md`.
 
 ## Budget tiers
 

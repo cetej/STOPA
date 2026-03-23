@@ -4,6 +4,8 @@ Tracked findings from `/watch` scans. Only ACTION and WATCH items are recorded h
 
 ## Last Scan
 
+**2026-03-23** — full scan (all tiers — žádné nové action items, 2 watch)
+
 **2026-03-22** — quick scan (Tier 1 only — 1 den od posledního full scanu)
 
 **2026-03-21 (2)** — full scan (AI/ML ecosystem: PyTorch, Diffusers, video gen, Czech NLP)
@@ -147,6 +149,15 @@ Tracked findings from `/watch` scans. Only ACTION and WATCH items are recorded h
 7. **Seedance 2.0** (ByteDance) — nový video generation model, neoficiální API přístup dostupný na GitHubu
    - Relevance: alternativa k Pyramid Flow pro test1, mít na paměti
 
+12. **Claude Code Channels** (v2.1.81) — Telegram/Discord integration přes `/telegram:configure`
+    - Async push trigger model — uživatel může poslat instrukce z telefonu do CC session
+    - Relevance: potenciální mobile/async trigger pro STOPA orchestraci, notification layer pro deep tier runs
+    - Status: WATCH — sledovat stabilizaci, pak evaluovat pro STOPA
+
+13. **MagCache + TaylorSeer** (Diffusers 0.37.0) — inference caching metody pro video gen pipelines
+    - Relevance: zrychlení inference pro test1/Pyramid Flow
+    - Status: WATCH — evaluovat při příštím test1 update
+
 8. **PyTorch 2.10.0** (Jan 21, 2026) + MXFP8/MoE blog (Mar 15) — NG-ROBOT může benefitovat ze zrychlení
    - Relevance: dependency check pro NG-ROBOT (aktuálně na jaké verzi PyTorch?)
 
@@ -180,6 +191,15 @@ Tracked findings from `/watch` scans. Only ACTION and WATCH items are recorded h
 4. ~~Token limit increase~~ — **CONFIRMED** (Opus 4.6: 64k default, 128k max output)
 
 ## Scan History
+
+### 2026-03-23 — full scan (all tiers)
+- CC: stále v2.1.81 — žádná nová verze, žádné nové API release notes
+- **NEW WATCH**: Claude Code Channels (Telegram/Discord async triggers) — #12
+- **NEW WATCH**: MagCache + TaylorSeer caching v diffusers 0.37.0 — #13
+- Video gen landscape: Wan 2.2 + HunyuanVideo-1.5 vedou open-source, MAGI-1 + SkyReels emerging
+- PyTorch blog: TorchSpec (speculative decoding), GDPA kernels — low relevance
+- timm/einops: beze změn
+- Czech NLP: nic nového
 
 ### 2026-03-22 — quick scan (Tier 1)
 - CC: stále v2.1.81 — žádná nová verze
