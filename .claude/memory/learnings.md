@@ -106,3 +106,12 @@ Accumulated knowledge from all tasks. Used by all skills/agents to improve over 
 - **Recommendation**: For audit/research tasks, use `subagent_type: "general-purpose"` instead of Explore, so teammates can respond to shutdown and use SendMessage.
 - **Fix applied (2026-03-19)**: All Explore references in orchestrate + scout skills replaced with general-purpose. Warning notes added.
 - **Source**: Live test — skill-audit team with 2 Sonnet teammates
+
+### fal.ai API Integration (2026-03-23)
+- **Python path**: On this Windows system, use `python` (C:\Python313) not `python3` (WindowsApps stub) — fal-client is installed only under C:\Python313
+- **fal_client.subscribe()**: Blocking call, works for images (fast). For video (1-3 min), use `fal_client.submit()` + `iter_events()` for progress tracking
+- **fal_client.upload_file()**: Uploads local file and returns URL — needed for image-to-video with local images
+- **URL expiry**: fal.ai result URLs expire in ~1 hour — download immediately after generation
+- **FAL_KEY**: Stored in `~/.claude/settings.json` env section (user-level, not committed to git)
+- **Pricing**: Nano Banana Pro ~$0.15/image (1K), Kling v3 standard ~$0.084/s, pro ~$0.112/s
+- **Source**: End-to-end test of /nano-banana and /kling skills
