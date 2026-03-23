@@ -4,6 +4,18 @@ Poučení z práce, externích zdrojů a analýz. Řazeno od nejnovějšího.
 
 ---
 
+## 2026-03-23: Auto-summary pattern (inspirace claude-peers-mcp)
+
+**Zdroj:** Analýza `louislva/claude-peers-mcp` — ad-hoc messaging MCP pro Claude Code instance.
+
+**Poučení:** Agenti by měli při startu oznámit co dělají (auto-summary), místo aby orchestrátor musel pollovat. V claude-peers to řeší `set_summary` tool + volitelný gpt-5.4-nano pro generování popisu. V STOPA stačí přidat "FIRST ACTION: update task status" instrukci do promptu každého spawnutého agenta.
+
+**Implementováno:** Přidáno do `/orchestrate` Phase 4 — každý Agent() prompt obsahuje instrukci pro auto-summary jako první akci. Platí i pro Agent Teams teammates.
+
+**Verdict k claude-peers:** Nezavádět do STOPA — řeší jiný use case (ad-hoc cross-terminal chat vs. strukturovaná orchestrace). Vyžaduje Bun + experimentální channel API + `--dangerously-skip-permissions`. Ale auto-summary koncept je cenný.
+
+---
+
 ## 2026-03-22 — Harness Engineering & Claude Certified Architect (video analýza)
 
 ### Zdroj

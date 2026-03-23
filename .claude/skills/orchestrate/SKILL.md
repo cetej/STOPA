@@ -132,8 +132,18 @@ Agent(subagent_type: "general-purpose", prompt: "
   Task: <specific deliverable>
   Constraints: <quality standards, conventions>
   Output: <what to return>
+
+  FIRST ACTION: Update your task status to in_progress with a 1-sentence
+  summary of your approach (e.g. 'Scanning auth middleware for token storage patterns').
+  This lets the orchestrator and other agents see what you're doing without asking.
 ")
 ```
+
+### Auto-summary rule:
+Every spawned agent MUST set a status summary as its first action. This applies to:
+- Agent() calls: include the "FIRST ACTION" instruction in the prompt (shown above)
+- Agent Teams teammates: they should call `TaskUpdate` with a description of their approach before starting work
+- This replaces the need for orchestrator polling — agents announce themselves
 
 ### If using a Skill:
 Invoke the appropriate `/skill-name` with arguments.
