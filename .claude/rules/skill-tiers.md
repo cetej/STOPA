@@ -1,6 +1,6 @@
 # Skill Tiers — Progressive Disclosure
 
-Skills are organized into 3 tiers by frequency of use. This helps Claude prioritize which skills to suggest.
+Skills are organized into 4 tiers by frequency of use. This helps Claude prioritize which skills to suggest.
 
 ## Tier 1 — Core (always suggest when relevant)
 Daily-use skills that should be triggered proactively:
@@ -34,10 +34,16 @@ Generative/creative tools and meta-skills:
 - `/browse` — Chrome automation
 - `/youtube-transcript` — video transcripts
 
+## Tier 4 — Methodology (suggest when development discipline matters)
+Engineering methodology skills inspired by superpowers patterns:
+- `/tdd` — RED-GREEN-REFACTOR enforcer for test-driven development
+- `/systematic-debugging` — 4-phase root cause methodology (no guessing)
+
 ## How to Apply
 
 When the user describes a task:
 1. Check Tier 1 skills first — these cover 80% of workflows
 2. If task is specialized, suggest the matching Tier 2 skill
 3. Only mention Tier 3 skills when user explicitly asks or when the specific capability is clearly needed
-4. Never list all skills unprompted — suggest 1-2 most relevant ones
+4. Suggest Tier 4 skills when user is debugging (→ /systematic-debugging) or implementing with tests (→ /tdd)
+5. Never list all skills unprompted — suggest 1-2 most relevant ones
