@@ -150,6 +150,14 @@ Agent(subagent_type: "general-purpose", prompt: "
   FIRST ACTION: Update your task status to in_progress with a 1-sentence
   summary of your approach (e.g. 'Scanning auth middleware for token storage patterns').
   This lets the orchestrator and other agents see what you're doing without asking.
+
+  LAST ACTION: End your response with a Status block:
+  ## Status
+  - code: DONE | DONE_WITH_CONCERNS | NEEDS_CONTEXT | BLOCKED
+  - concerns: <if DONE_WITH_CONCERNS — what worries you>
+  - blocked_on: <if BLOCKED — what you need>
+
+  Deviation rules: fix bugs/imports inline (max 3 attempts). STOP and report if architectural change needed. Pre-existing bugs go to deferred, don't fix them.
 ")
 ```
 
@@ -224,13 +232,27 @@ Independent subtasks?
 - Use extended thinking `display: "omitted"` on API-level agent calls when available — strips thinking blocks from response, saves context tokens while preserving multi-turn signatures
 - Prefer returning structured summaries from agents over raw output — reduces context consumption in the orchestrator
 
+### Agent Status Code Protocol
+
+Every spawned agent MUST end its response with a Status block (included in the prompt template above).
+
+**Orchestrator handling:**
+
+| Status | Action |
+|--------|--------|
+| DONE | Accept, proceed to critic (if tier warrants) |
+| DONE_WITH_CONCERNS | Accept, pass concerns as extra context to critic |
+| NEEDS_CONTEXT | Re-dispatch with requested context (doesn't count as retry) |
+| BLOCKED | Attempt resolution. If unresolvable → 3-fix escalation applies |
+
 ### After each subtask:
-1. Update `.claude/memory/budget.md` — increment counters for any agents/critics used
-2. Update `.claude/memory/state.md` — mark subtask status
-3. **Budget gate**: Check if any counter hit its limit. If yes → stop and report to user
-4. Invoke `/critic` if tier allows another round. For **light tier**, skip critic on individual subtasks — only run once at the end
-5. If critic returns FAIL → re-execute ONCE. If FAIL again → **circuit breaker** → escalate to user with findings
-6. Log decisions to `.claude/memory/decisions.md` via scribe pattern
+1. Parse agent Status block. Handle per the table above.
+2. Update `.claude/memory/budget.md` — increment counters for any agents/critics used
+3. Update `.claude/memory/state.md` — mark subtask status + note concerns if DONE_WITH_CONCERNS
+4. **Budget gate**: Check if any counter hit its limit. If yes → stop and report to user
+5. Invoke `/critic` if tier allows another round. For **light tier**, skip critic on individual subtasks — only run once at the end. If agent reported DONE_WITH_CONCERNS, pass those concerns as extra context to critic.
+6. If critic returns FAIL → re-execute ONCE. If FAIL again → **circuit breaker** → escalate to user with findings
+7. Log decisions to `.claude/memory/decisions.md` via scribe pattern
 
 ### Context health check (after each subtask):
 
@@ -261,7 +283,10 @@ Score the session context load. Each signal adds points:
 
 Once all subtasks are done:
 1. Verify the combined result makes sense
-2. Run `/critic` on the full output
+2. Run critic with tier-appropriate depth:
+   - **Light tier**: `/critic` (single combined pass)
+   - **Standard/deep tier**: `/critic --spec` first → fix spec issues → then `/critic --quality` (two-stage review)
+   - If any agent reported DONE_WITH_CONCERNS, pass those concerns as extra context to the critic
 3. If issues found → iterate (go back to Phase 4 for specific subtasks)
 4. If clean → proceed to Phase 6
 
@@ -304,7 +329,17 @@ When a spawned agent encounters issues during execution, it has pre-granted auth
 | Architectural change (new DB table, new service) | **STOP** — return to orchestrator | — |
 | Pre-existing bug (not caused by current task) | Log to deferred, do NOT fix | — |
 
-After 3 failed fix attempts on the same issue → document the problem and move on. Do not restart hoping it resolves itself.
+After 3 failed fix attempts on the same issue → **STOP symptom fixing**. This is an architectural concern:
+1. Agent documents all 3 attempts and why each failed
+2. Agent reports: "3 fixes failed on [X]. Likely architectural — [hypothesis]"
+3. Orchestrator escalates to user with the pattern and asks for direction
+Do NOT try a 4th fix. Do not restart hoping it resolves itself.
+
+**Agent deviation red flags** (orchestrator watches for these in agent reports):
+- Agent reports DONE but diff shows no changes → reject, re-dispatch
+- Agent fixed a "pre-existing bug" despite rules → reject fix, revert
+- Agent reports "small architectural change was needed" → that's a STOP, not a deviation
+- Agent says "one more attempt should fix it" after 2 failures → trigger 3-fix escalation
 
 Include these rules in every Agent() prompt: "Deviation rules: fix bugs/imports inline (max 3 attempts). STOP and report if architectural change needed. Pre-existing bugs go to deferred, don't fix them."
 
@@ -319,6 +354,7 @@ These CANNOT be overridden without user approval:
 5. **Memory bloat**: Any `.claude/memory/` file exceeds 500 lines → trigger scribe maintenance first
 6. **Analysis paralysis**: Agent made 5+ consecutive read-only operations (Read/Grep/Glob) without any Write/Edit/Bash → agent must either write code or report "blocked" with reason
 7. **No-progress loop**: After each wave, check `git diff --stat` against the pre-wave state. If 3 consecutive waves produce zero file changes → STOP with "No progress detected — 3 waves without file changes. Agent may be stuck." This is more precise than iteration counting — it detects actual work, not just activity.
+8. **Fix-quality escalation**: Same subtask gets 3 different fix approaches, all fail critic → STOP. Present to user: "3 approaches failed for [subtask]. Requirement or architecture may need revisiting."
 
 ## Rules
 

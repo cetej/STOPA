@@ -1,8 +1,7 @@
 ---
 name: brainstorm
 description: >
-  Socratic spec refinement — iteratively refine a vague idea into an actionable spec through structured questioning.
-  Use when the user has an idea but hasn't defined scope, constraints, or acceptance criteria.
+  Use when the user has a vague idea but hasn't defined scope, constraints, or acceptance criteria.
   Trigger on 'brainstorm', 'let's think about', 'I have an idea', 'what should we build', 'spec this out'.
   Do NOT use when the user already has a clear spec or actionable task — use /orchestrate or /scout instead.
   Do NOT use for code review (/critic), debugging (/incident-runbook), or research (/watch).

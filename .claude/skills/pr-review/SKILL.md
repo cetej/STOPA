@@ -1,6 +1,6 @@
 ---
 name: pr-review
-description: Multi-persona code review of a pull request — 6 expert perspectives (Developer, Security, QA, DevOps, Product, UX). Use when reviewing PRs for thoroughness beyond what /critic provides. Trigger on 'review PR', 'review pull request', 'zkontroluj PR', PR URLs. Do NOT use for reviewing local code changes (use /critic), for creating PRs (use git), or for simple style checks (use linter).
+description: Use when reviewing a pull request and /critic alone is not thorough enough — provides 6 expert perspectives. Trigger on 'review PR', 'review pull request', 'zkontroluj PR', PR URLs. Do NOT use for reviewing local code changes (use /critic), for creating PRs (use git), or for simple style checks (use linter).
 argument-hint: <PR number or URL> [--post]
 context:
   - gotchas.md
