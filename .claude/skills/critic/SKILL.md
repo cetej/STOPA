@@ -46,18 +46,32 @@ If target is "last changes":
 ### Step 1: Load context
 Read shared memory and understand the active task.
 
-### Step 2: Identify target and phase
+### Step 2: Complexity Triage
+
+Before doing anything, assess scope to pick the right review depth:
+
+| Path | Trigger | What to do |
+|------|---------|------------|
+| **QUICK** | Single file, <20 lines changed, no API/DB/auth changes | Inline check: scan diff, report 1-3 sentences. No subagents. Skip rubric. |
+| **STANDARD** | 2-5 files, logic changes, new functions/classes | Full review with all dimensions. Fill rubric. One pass. |
+| **DEEP** | 6+ files, security/auth/payment, cross-cutting, or `--deep` flag | Multi-pass review. Spawn Explore agent for dependency analysis if needed. Fill rubric with evidence per criterion. |
+
+Default to QUICK unless evidence of higher complexity. Upgrade mid-review if you discover the scope is larger than expected.
+
+### Step 3: Identify target and phase
 Parse arguments, determine review type, load the target content.
 - `--spec` → Spec Compliance phase only
 - `--quality` → Code Quality phase only
+- `--deep` → Force DEEP triage path
 - No flag → run both phases sequentially (default, backward compatible)
 
-### Step 3: Review
+### Step 4: Review
 Apply the appropriate review dimensions (see below) systematically.
 - If running both phases: run Spec Compliance first, then Code Quality. Combine into single report.
+- Scale depth to the triage path (QUICK skips minor dimensions).
 
-### Step 4: Report
-Generate the structured report with verdict, issues, and recommendations.
+### Step 5: Score & Report
+Fill the Scoring Rubric (STANDARD/DEEP paths), then generate the structured report with verdict, issues, and recommendations.
 
 ## Review Dimensions
 
@@ -103,10 +117,40 @@ Quality review — is the implementation well-built?
 
 ## Output Format
 
+### For QUICK path:
+```
+✓ PASS — <1-3 sentence summary of what was checked and why it's ok>
+```
+or
+```
+✗ WARN/FAIL — <issue description> at <location>
+```
+
+### For STANDARD / DEEP path:
+
 ```markdown
 ## Critic Report: <target>
+**Triage path**: STANDARD / DEEP
+
+### Scoring Rubric
+
+| Criteria | Weight | Score (1-5) | Evidence |
+|----------|--------|-------------|----------|
+| Correctness (logic, edge cases) | 0.30 | ? | <brief evidence or "not assessed"> |
+| Completeness (all requirements met) | 0.25 | ? | |
+| Code Quality (readability, patterns) | 0.20 | ? | |
+| Safety (no regressions, no security holes) | 0.15 | ? | |
+| Test Coverage (adequate tests exist) | 0.10 | ? | |
+| **Weighted Average** | | **?.?** | |
+
+**Default score: 2** — require concrete evidence to score higher.
+**Scoring rules**: 1=broken, 2=functional but concerns, 3=solid, 4=good with minor nits, 5=exemplary.
 
 ### Verdict: PASS / WARN / FAIL
+
+- **PASS**: weighted avg ≥ 3.5 AND no criterion below 2
+- **WARN**: weighted avg 3.0-3.4 OR exactly one criterion at 2
+- **FAIL**: weighted avg < 3.0 OR any criterion at 1
 
 ### Issues Found
 
@@ -125,7 +169,7 @@ Quality review — is the implementation well-built?
 ...
 
 ### Verdict Rationale
-<why PASS/WARN/FAIL — what's the overall quality?>
+<why PASS/WARN/FAIL — what drove the scores?>
 ```
 
 ## Severity Levels
@@ -154,20 +198,26 @@ Before reviewing, check `.claude/memory/budget.md`:
 
 Before submitting your report, check yourself against these common traps:
 
-| Rationalization | Reality | Do Instead |
-|----------------|---------|------------|
+| Rationalization | Why It's Wrong | Required Action |
+|----------------|----------------|-----------------|
+| "The change is too small to review thoroughly" | Small changes cause 40% of production incidents | Review ALL changes, no exceptions — use QUICK path, but still review |
 | "Minor style issue, not worth reporting" | Style issues compound into unreadable code | Report as low severity — let the author decide |
 | "The author probably had a reason" | Maybe, but reviewer's job is to question | Ask explicitly or flag as question |
 | "It works in tests so it's fine" | Tests may not cover the failing path | Check coverage, note untested paths |
-| "Fixing this would be a big refactor" | That's information the team needs | Report as medium + note the scope |
-| "I've found enough issues already" | Completeness matters more than comfort | Finish the full review dimensions |
+| "Fixing this would be a big refactor" | That's information the team needs | Report as medium + note the refactor scope |
+| "I've found enough issues already" | Completeness matters more than comfort | Finish ALL review dimensions before reporting |
 | "Outside my review scope" | If you see it, report it | Report with note "outside primary scope" |
+| "It's just a refactor, no behavior change" | Refactors introduce subtle regressions | Verify with before/after test equivalence |
+| "Similar code exists elsewhere in the project" | Existing code may also be wrong | Evaluate on merit, not precedent |
+| "We're under time pressure, skip deep review" | Rushed reviews miss critical issues | Flag time pressure in report, don't reduce quality |
 
-**Red flags** (if you catch yourself thinking these, STOP):
+**Red flags** (if you catch yourself thinking ANY of these, STOP and re-evaluate):
 - Skipping a dimension because "it's probably fine"
 - Softening severity because the code "mostly works"
 - Not checking conventions because "it looks standard"
 - Writing "no issues" without reading every changed line
+- Scoring rubric above 3 without concrete evidence
+- Claiming PASS without filling the rubric (STANDARD/DEEP paths)
 
 ## Rules
 

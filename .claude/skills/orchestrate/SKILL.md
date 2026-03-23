@@ -376,6 +376,21 @@ These CANNOT be overridden without user approval:
 7. **No-progress loop**: After each wave, check `git diff --stat` against the pre-wave state. If 3 consecutive waves produce zero file changes → STOP with "No progress detected — 3 waves without file changes. Agent may be stuck." This is more precise than iteration counting — it detects actual work, not just activity.
 8. **Fix-quality escalation**: Same subtask gets 3 different fix approaches, all fail critic → STOP. Present to user: "3 approaches failed for [subtask]. Requirement or architecture may need revisiting."
 
+## Anti-Rationalization Defense
+
+Before making orchestration decisions, check yourself against these traps:
+
+| Rationalization | Why It's Wrong | Required Action |
+|----------------|----------------|-----------------|
+| "This is simple, skip scout phase" | Skipping scout causes 50% of re-work | At minimum: Glob/Grep the affected files before planning |
+| "One agent can handle everything" | Monolithic agents lose context and quality | Decompose if task has 3+ distinct concerns |
+| "Deep tier needed — this is complex" | Over-tiering wastes budget | Start light, upgrade only with evidence from scout |
+| "Agent reported DONE, move on" | DONE without diff = nothing happened | Verify git diff shows actual changes |
+| "Skip critic, we're running low on budget" | Skipping quality gate is the most expensive shortcut | Run at least QUICK critic, even at budget limit |
+| "Pre-existing bug, ignore it" | Logging it matters for future sessions | Log to deferred list, never silently ignore |
+| "One more retry should fix it" | After 2 failures, pattern is architectural | Trigger 3-fix escalation, ask user |
+| "Subtasks are independent, max parallelism" | Shared files cause merge conflicts | Check file overlap before parallel launch |
+
 ## Rules
 
 1. **Budget first** — check `.claude/memory/budget.md` before every agent spawn or critic invocation

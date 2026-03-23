@@ -114,6 +114,19 @@ Write to `.claude/memory/checkpoint.md`:
 >  Write in English (for Claude). Keep under 300 words.>
 ```
 
+### Step 3b: Git Cross-Reference
+
+After determining what's done vs. remaining, cross-reference with actual git state:
+
+1. Run `git log --oneline --since="8 hours ago"` to list commits from this session
+2. Run `git status --short` to identify uncommitted changes
+3. In the checkpoint, clearly separate:
+   - **Committed work**: list of commits with one-line descriptions (proven, safe)
+   - **Uncommitted WIP**: list of modified/untracked files (at risk if session crashes)
+   - **Discrepancy check**: if state.md says "subtask X done" but no matching commit exists → flag it
+
+This prevents the "I thought it was committed" problem where work exists only in context.
+
 ### Step 4: Notify User
 
 After saving, output:
