@@ -112,7 +112,9 @@ Accumulated knowledge from all tasks. Used by all skills/agents to improve over 
 - **Deviation rules**: Sub-agenti mají pre-granted autoritu fixovat bugy inline (max 3 pokusy), ale STOP při architektonické změně. Pre-existing bugy jen logovat, nefixovat.
 - **Analysis-paralysis guard**: 5+ po sobě jdoucích read-only operací bez Write/Edit = agent je stuck → musí jednat nebo reportovat blocked.
 - **Goal-backward verification**: 4 úrovně ověření: L1 Exists → L2 Substantive (ne stub) → L3 Wired (importován) → L4 Flows (reálná data). Stub detection: `return []`, `return null`, `preventDefault()` only, state never rendered.
+- **Assumptions pre-flight**: Před plánováním přečíst 5-15 souborů, formulovat předpoklady s confidence level (Confident/Likely/Unclear), nechat uživatele opravit → locked constraints pro plánování. Implementováno jako `--assumptions` flag ve `/scout`.
 - **Context monitor**: Vyhodnoceno jako redundantní — STOPA už má PostCompact hook + orchestrate context health scoring. GSD řeší dual-bridge přes temp soubory, což je over-engineered pro náš setup.
+- **Co NEadoptovat z GSD**: XML task format (YAML stačí), celý lifecycle workflow (STOPA je modulární toolbox), artefaktová soustava PROJECT/ROADMAP/REQUIREMENTS (duplikuje memory systém), requirements traceability IDs (over-engineering pro current scope).
 - **Source**: Analýza gsd-build/get-shit-done v1.28
 
 ### fal.ai API Integration (2026-03-23)
