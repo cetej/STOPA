@@ -1,77 +1,83 @@
 # Session Checkpoint
 
 **Saved**: 2026-03-23
-**Task**: Superpowers adoption + plugin v1.7.0
+**Task**: Awesome Claude Code competitive analysis + pattern adoption (Wave 1-2)
 **Branch**: main
 **Repo**: https://github.com/cetej/STOPA
-**Status**: 5 patterns z obra/superpowers adoptováno. Plugin v1.7.0. Pushed to origin.
+**Status**: Wave 1 + Wave 2 kompletní. Wave 3 pending.
 
-## Aktuální stav systému
+## What Was Done This Session
 
-### Skills: 23
-autoloop, brainstorm, browse, budget, checkpoint, critic, dependency-audit, fix-issue, harness, incident-runbook, klip, nano, orchestrate, pr-review, project-init, prp, scout, scribe, security-review, skill-generator, verify, watch, youtube-transcript
+- Competitive analysis 7 projektů z awesome-claude-code (30.7k★) — 7 paralelních research agentů
+- Research dokument: `research/awesome-claude-code-analysis.md` (8 patterns, 3 waves)
+- **Wave 1** (4 skill improvements):
+  - Complexity Triage (QUICK/STANDARD/DEEP) v `/critic`
+  - Weighted Rubric Scoring (5 criteria, PASS ≥ 3.5) v `/critic`
+  - Rozšířené Rationalizations to Reject v `/critic` (10), `/verify` (8), `/orchestrate` (8)
+  - Git Cross-Reference v `/checkpoint` (committed vs WIP)
+- **Wave 2** (3 structural changes):
+  - Dippy v0.2.7 AST-based bash auto-approve (PreToolUse hook)
+  - Skill Auto-Suggest hook (UserPromptSubmit, Python, keyword+regex)
+  - Commands-over-Skills split: 8 skills + 17 commands (~60% token reduction)
 
-### Hooks: 12
-checkpoint-check, memory-brief, memory-maintenance, activity-log, post-compact, scribe-reminder, task-completed, teammate-idle, stop-failure, ruff-lint, permission-auto-approve
+## What Remains
 
-### Rules: 4
-python-files.md, skill-files.md (updated — trigger-only), memory-files.md, skill-tiers.md
+| # | Subtask | Status | Method |
+|---|---------|--------|--------|
+| 1 | Wave 3: Schema-Enforced Learnings | pending | Migration learnings.md → per-file YAML + grep-first retrieval |
+| 2 | Plugin sync (v2.0.0) | pending | Sync commands + skills to stopa-orchestration plugin |
+| 3 | Reálné testování na NG-ROBOT/ADOBE-AUTOMAT | pending | Deploy + verify on target projects |
 
-### Plugin: v1.7.0 (23 skills, fully synced)
+## Immediate Next Action
 
-## Dokončené milníky
+Wave 3: Migrate `learnings.md` (flat, ~142 řádků) to `learnings/` directory with per-learning YAML frontmatter files. Create `critical-patterns.md` always-read file. Update `/scribe` skill for new format.
 
-| Datum | Co | Commit |
-|-------|-----|--------|
-| 2026-03-18 | Initial system (9 skills, memory, budget) | `874a43d` |
-| 2026-03-19 | Agent Teams + AutoLoop | `96cc1c7` |
-| 2026-03-20 | Plugin distribution | — |
-| 2026-03-22 | Fáze A+B: rules, harness engine, plugin v1.5.0 | `be9774f` |
-| 2026-03-23 | Auto-summary, smart context, news archivace | `59471eb` |
-| 2026-03-23 | GSD patterns: wave exec, deviation rules, verify | `6f598be` |
-| 2026-03-23 | Ecosystem scan + Tier 1-2: hooks, fix-issue, pr-review | `e2aa20f` |
-| 2026-03-23 | Tier 3 + plugin v1.6.0 | `1b773f9` |
-| 2026-03-23 | Superpowers adoption (5 patterns) + plugin v1.7.0 | `96b7f6d` |
+## Key Context
 
-## Co bylo adoptováno z obra/superpowers
+- Commands-over-Skills z CEK — skills auto-load descriptions, commands don't
+- Dippy install: `pip install git+https://github.com/ldayton/Dippy.git` (PyPI "dippy" je jiný!)
+- Skill-suggest hook: `.claude/hooks/skill-suggest.py` + `skill-rules.json`
+- Plugin NENÍ synchronizován s Wave 2 změnami
+- Parry (injection scanner) přeskočen — Windows nepodporuje
 
-1. **Two-stage review** — `/critic --spec` + `/critic --quality`, orchestrátor dispatchuje dle tieru
-2. **Agent status codes** — DONE/DONE_WITH_CONCERNS/NEEDS_CONTEXT/BLOCKED v agent prompt template
-3. **Anti-rationalization tables** — critic (6 položek), verify (5), orchestrate (4 red flags)
-4. **Trigger-only descriptions** — 5 skills přepsáno, rule aktualizován
-5. **3-fix escalation** — circuit breaker #8, architectural concern flagging
+## Committed Work
 
-## Otevřené body pro další session
+```
+0a1a1f8 feat: Wave 2 — Dippy, skill-suggest hook, commands-over-skills split
+aae9789 feat: Wave 1 — 4 patterns z awesome-claude-code analýzy
+```
 
-### Údržba:
-- **learnings.md**: ~142 řádků (blíží se limitu, `/scribe maintenance` brzy)
-- **Reálné testování**: spustit `/orchestrate` na NG-ROBOT nebo ADOBE-AUTOMAT — ověřit two-stage review a status codes v praxi
+## Uncommitted WIP
 
-### Tier 4 — Nice-to-have (nízká priorita):
-1. `/tdd` — RED-GREEN-REFACTOR enforcer (inspirace superpowers, máme /verify)
-2. `/systematic-debugging` — 4-phase root cause methodology (inspirace superpowers)
-3. `model:` field v skill frontmatter (CC zatím nepodporuje)
-4. Reusable agent prompt templates jako soubory (inspirace superpowers implementer-prompt.md)
+3 unrelated research files (cascade-monitor, claude-thinking, crucix-integration)
 
-### Strategické:
-- Multi-agent observability dashboard
-- Competitor monitoring (Claude Code Flow 23.3k★, Task Master 26.1k★, Superpowers 5.0.5)
+## System State
+
+- **8 skills**: checkpoint, critic, fix-issue, incident-runbook, orchestrate, scout, scribe, verify
+- **17 commands**: autoloop, brainstorm, browse, budget, dependency-audit, harness, klip, nano, pr-review, project-init, prp, security-review, skill-generator, systematic-debugging, tdd, watch, youtube-transcript
+- **14 hooks**: +dippy (PreToolUse/Bash), +skill-suggest (UserPromptSubmit)
+- **4 rules**: python-files, skill-files, memory-files, skill-tiers
 
 ## Resume Prompt
 
 > STOPA — orchestrační systém, source of truth.
-> Repo: STOPA (branch main), working dir: `C:\Users\stock\Documents\000_NGM\STOPA`
+> Repo: cetej/STOPA (branch main), dir: `C:\Users\stock\Documents\000_NGM\STOPA`
 >
-> Systém: 23 skills, 12 hooks, 4 rules, harness engine, plugin v1.7.0.
-> Tier 1-3 kompletní. 5 patterns z obra/superpowers adoptováno. Pushed to origin.
+> Systém: 8 skills, 17 commands, 14 hooks, 4 rules.
+> Wave 1+2 z awesome-claude-code analýzy kompletní (commit `0a1a1f8`).
 >
-> **Nové features (v1.7.0):**
-> - Two-stage review (`/critic --spec` + `--quality`)
-> - Agent status codes (DONE_WITH_CONCERNS, NEEDS_CONTEXT, BLOCKED)
-> - Anti-rationalization tables v critic, verify, orchestrate
-> - 3-fix escalation (circuit breaker #8)
+> **Nové od v1.9.0:**
+> - Complexity Triage + Weighted Rubric Scoring v `/critic`
+> - Rationalizations to Reject rozšířeny (critic, verify, orchestrate)
+> - Git Cross-Reference v `/checkpoint`
+> - Dippy v0.2.7 AST bash auto-approve (PreToolUse hook)
+> - Skill Auto-Suggest hook (UserPromptSubmit)
+> - Commands-over-Skills split (8 skills + 17 commands, ~60% token reduction)
 >
 > **Další kroky:**
-> 1. learnings.md maintenance (~142 řádků, blíží se limitu)
-> 2. Reálné testování na cílovém projektu (NG-ROBOT / ADOBE-AUTOMAT)
-> 3. Tier 4 nice-to-have: /tdd, /systematic-debugging (inspirace superpowers)
+> 1. **Wave 3**: Schema-Enforced Learnings — migrate learnings.md → per-file YAML frontmatter + grep-first retrieval + critical-patterns.md
+> 2. **Plugin sync v2.0.0** — sync commands + skills structure to stopa-orchestration plugin
+> 3. **Reálné testování** na NG-ROBOT nebo ADOBE-AUTOMAT
+>
+> Viz: `research/awesome-claude-code-analysis.md` pro kompletní roadmap.
+> Viz: `.claude/memory/checkpoint.md` pro detailní stav.
