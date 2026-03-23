@@ -4,6 +4,11 @@ Accumulated knowledge from all tasks. Used by all skills/agents to improve over 
 
 ## Patterns
 
+### Superpowers Adoption (2026-03-23)
+- **Context**: Analýza obra/superpowers (v5.0.5) pro adopci patterns do STOPA
+- **Pattern**: 5 adoptovaných patterns: two-stage review, agent status codes, anti-rationalization tables, trigger-only descriptions, 3-fix escalation. Klíčový insight: skill description summary → Claude shortcuts místo čtení full body (testováním prokázáno). DONE_WITH_CONCERNS status je nejhodnotnější — předchází silent shipping.
+- **Source**: obra/superpowers, commit da13ce7
+
 ### Budget-First Orchestration
 - **Context**: When orchestrating any multi-step task
 - **Pattern**: Assign complexity tier BEFORE scouting. Start with lowest viable tier. Upgrade only if scout reveals higher complexity.
