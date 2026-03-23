@@ -32,6 +32,7 @@ Parse `$ARGUMENTS` to determine:
 - **Target**: What to explore (feature, bug, module, concept)
 - **Depth**: Quick scan or thorough deep-dive?
 - **Scope**: Specific files, module, or entire codebase?
+- **Flag `--assumptions`**: If present, add Assumptions Analysis to the output (Step 5 below). Use this before planning a complex change to surface what you'd assume about the implementation and let the user correct you before you start.
 
 ## Cost Awareness
 
@@ -101,6 +102,37 @@ Produce a structured report:
 ### Recommendations
 - <suggested approach based on findings>
 ```
+
+### Step 5: Assumptions Analysis (when `--assumptions` flag is present)
+
+After completing the standard exploration, formulate structured assumptions about how the planned change should be implemented. Read 5-15 relevant files before forming opinions — never invent assumptions about code you haven't read.
+
+For each assumption:
+- **What you assume**: concrete technical statement
+- **Confidence**: `Confident` (read the code, clear evidence) / `Likely` (pattern-based inference) / `Unclear` (insufficient evidence)
+- **Evidence**: file paths where you found support
+- **If wrong**: consequence — what breaks or changes if this assumption is incorrect
+
+Add to the Scout Report output:
+
+```markdown
+### Assumptions (for user review)
+
+| # | Assumption | Confidence | Evidence | If wrong |
+|---|-----------|------------|----------|----------|
+| A1 | Auth uses JWT stored in httpOnly cookies | Confident | `src/auth/middleware.ts:23` | Session handling needs redesign |
+| A2 | DB migrations run via Prisma | Likely | `prisma/schema.prisma` exists | Need different migration approach |
+| A3 | No existing rate limiting | Unclear | Didn't find any middleware | May conflict with existing limits |
+
+### Needs external research
+- [topic]: [why — couldn't determine from codebase alone]
+```
+
+**Rules for assumptions:**
+- Only assume things relevant to the planned change
+- Distinguish between "I read this" (Confident) and "I infer this" (Likely)
+- Flag gaps where you'd need web research or user input as "Needs external research"
+- Present to user for correction — locked assumptions become constraints for `/orchestrate`
 
 ## After Exploration
 

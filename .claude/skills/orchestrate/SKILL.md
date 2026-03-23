@@ -77,6 +77,7 @@ Scale exploration to the assigned tier:
 
 ### Standard tier:
 - Use `/scout` skill for structured exploration
+- For complex changes: use `/scout --assumptions` to surface implementation assumptions before planning — user-confirmed assumptions become locked constraints in Phase 3
 - Or a single `Agent(subagent_type: "general-purpose")` if cross-module
 
 ### Deep tier:
