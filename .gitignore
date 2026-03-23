@@ -3,3 +3,8 @@
 .claude/compact_reminder.txt
 .claude/launch.json
 .claude/agent-memory/
+.claude/memory/permission-log.md
+.playwright-mcp/
+input/
+output/
+watchlist-drawer.png
