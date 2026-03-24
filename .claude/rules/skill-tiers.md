@@ -21,6 +21,7 @@ Specialized skills for specific workflows:
 - `/security-review` — vulnerability analysis
 - `/dependency-audit` — outdated/risky packages
 - `/incident-runbook` — failure diagnosis
+- `/scenario` — edge case & failure mode explorer (pre-implementation)
 
 ## Tier 3 — Advanced (only on explicit request)
 Generative/creative tools and meta-skills:

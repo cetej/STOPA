@@ -2,54 +2,81 @@
 name: autoloop
 context:
   - gotchas.md
-argument-hint: <target file path> [goal description]
+argument-hint: <target file/scope> [goal] [verify:<command>] [guard:<command>] [budget:N]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 model: sonnet
 effort: high
-maxTurns: 30
+maxTurns: 50
 disallowedTools: Agent
 ---
 
 # AutoLoop — Autonomous Optimization Loop
 
-You run the Karpathy Loop pattern: read target → propose change → measure → keep/revert → repeat.
+Karpathy autoresearch pattern for Claude Code: constrain scope → define metric → iterate autonomously → keep/revert → compound gains.
 
-## Core Principle
+## Two Modes
 
-**One file, one metric, autonomous iteration, git rollback.**
+| Mode | Trigger | Metric source |
+|------|---------|---------------|
+| **File mode** | Target is a file path | Built-in structural scorer (SKILL.md) or LLM-as-judge |
+| **Metric mode** | `verify:<command>` provided | External command output (test coverage, benchmark, bundle size...) |
 
-You are both the proposer AND the executor. Each iteration:
-1. Read the target file + goal
-2. Think about what would improve the score
-3. Make ONE focused edit
-4. Measure the new score
-5. If score improved → git commit. If not → git revert.
-6. Repeat until budget exhausted or score plateaus.
+## 8 Critical Rules (from Karpathy's autoresearch)
+
+| # | Rule |
+|---|------|
+| 1 | **Loop until done** — run all iterations, never ask "should I continue?" |
+| 2 | **Read before write** — understand full context before modifying |
+| 3 | **One change per iteration** — atomic changes. If it breaks, you know why |
+| 4 | **Mechanical verification only** — no subjective "looks good." Use metrics |
+| 5 | **Automatic rollback** — failed changes revert instantly via git |
+| 6 | **Simplicity wins** — equal results + less code = KEEP |
+| 7 | **Git is memory** — read `git log` + `git diff` before each iteration to learn from history |
+| 8 | **When stuck, think harder** — re-read, combine near-misses, try radical changes |
 
 ## Phase 0: Setup
 
 ### Parse input
 
 From `$ARGUMENTS`, extract:
-- **target**: file path to optimize (required)
+- **target**: file path OR scope glob (required)
 - **goal**: what to optimize for (optional — inferred from file type if missing)
+- **verify**: command that outputs the metric number (optional — triggers metric mode)
+- **guard**: command that must always pass — safety net (optional)
+- **budget**: iteration count (default: 10, override with `budget:N`)
+- **direction**: `higher` or `lower` is better (auto-detected from goal keywords, or ask)
 
-If target is not provided, ask the user.
+Examples:
+```
+/autoloop src/api/*.ts verify:"npm test -- --coverage | grep All | awk '{print $4}'" guard:"npm run typecheck" budget:20
+/autoloop .claude/skills/critic/SKILL.md
+/autoloop src/index.ts "reduce bundle size" verify:"npx esbuild src/index.ts --bundle --minify | wc -c" direction:lower
+```
 
-### Detect target type
+### Precondition checks
 
-| Pattern | Type | Default goal |
-|---------|------|-------------|
-| `*/SKILL.md` | skill | Improve structure, description quality, and integration |
-| `*.md` (other) | prompt/doc | Improve clarity, specificity, and completeness |
-| `*.py` | script | Improve readability and efficiency |
-| `*.json` | config | Improve structure and completeness |
-| Other | generic | Ask user for goal |
+```bash
+# 1. Git repo exists?
+git rev-parse --git-dir 2>/dev/null || echo "FAIL: not a git repo"
 
-### Set budget
+# 2. Clean working tree?
+git status --porcelain
+# → If dirty: warn and ask to stash/commit first
 
-Default: **10 iterations** (override with `budget:N` in arguments).
+# 3. Stale lock files?
+ls .git/index.lock 2>/dev/null && rm .git/index.lock
+```
+
+If any FAIL: stop and inform user. Do not enter the loop with broken preconditions.
+
+### Detect mode
+
+| Condition | Mode |
+|-----------|------|
+| `verify:` provided | **Metric mode** — use external command |
+| Target is `*/SKILL.md` | **File mode** — built-in structural scorer |
+| Target is other file | **File mode** — LLM-as-judge or custom scorer |
 
 ### Create feature branch
 
@@ -57,54 +84,126 @@ Default: **10 iterations** (override with `budget:N` in arguments).
 git checkout -b autoloop/$(basename <target> .md)-$(date +%s)
 ```
 
-If git is not initialized or branch creation fails, warn user and continue without git (no rollback safety — reduce budget to 5).
+### Initialize TSV results log
 
-### Calculate baseline score
+```bash
+echo "# metric_direction: <higher_is_better|lower_is_better>" > autoloop-results.tsv
+echo -e "iteration\tcommit\tmetric\tdelta\tguard\tstatus\tdescription" >> autoloop-results.tsv
+```
 
-Run the scoring function (see Scoring section below) on the unmodified target. Record as `baseline_score`.
+### Establish baseline (iteration 0)
+
+Run verify/scorer on unmodified state. Record as baseline in TSV:
+```
+0	a1b2c3d	85.2	0.0	pass	baseline	initial state
+```
 
 ## Phase 1: Iteration Loop
 
 For each iteration (1 to budget):
 
-### Step 1: Analyze
+### Step 1: Review (git as memory)
 
-Read the target file. Identify the **lowest-scoring dimension** from the last score breakdown. Focus your edit there — don't scatter changes.
+**MUST complete ALL steps** — git history is the primary learning mechanism:
 
-### Step 2: Propose & Apply
+1. Read current state of in-scope files
+2. Read last 10-20 entries from `autoloop-results.tsv`
+3. Run `git log --oneline -10` — see recent experiments (kept vs reverted)
+4. If last iteration was "keep": run `git diff HEAD~1` — understand WHAT worked
+5. Decide: exploit success (variant of what worked) or explore new approach
 
-Make ONE focused edit using the Edit tool. Rules:
-- **One change per iteration** — don't rewrite the whole file
-- **Small, targeted edits** — like Karpathy: "a hypothesis, not a rewrite"
-- **Never delete content that scores points** — only add, improve, or restructure
-- **Preserve frontmatter** — never break YAML frontmatter structure
+**Priority order for next change:**
+1. Fix crashes/failures from previous iteration
+2. Exploit successes — try variants in same direction
+3. Explore new approaches — untried in git history
+4. Combine near-misses — two changes that individually didn't help
+5. Simplify — remove code while maintaining metric
+6. Radical experiment — when incremental changes stall
 
-### Step 3: Measure
+### Step 2: Modify (one atomic change)
 
-Run the scoring function on the modified file. Record as `new_score`.
+Make ONE focused edit. The one-sentence test: if you need "and" to describe it, it's two changes — split them.
 
-### Step 4: Decide
+Rules:
+- **One change per iteration** — don't rewrite
+- **Small, targeted edits** — a hypothesis, not a rewrite
+- **Preserve structure** — never break YAML frontmatter or file format
+- **In-scope only** — never modify guard/test files
 
-```
-If new_score > current_score:
-  → KEEP: git add <target> && git commit -m "autoloop: +<delta> (<what changed>)"
-  → Update current_score = new_score
-  → Log: "✓ Iteration N: score X → Y (+delta) — <what changed>"
+### Step 3: Commit (before verification)
 
-If new_score <= current_score:
-  → REVERT: git checkout -- <target>
-  → Log: "✗ Iteration N: score stayed at X — <what was tried> (reverted)"
-```
-
-If git is not available, use a backup copy for revert:
 ```bash
-cp <target> <target>.backup  # before edit
-cp <target>.backup <target>  # to revert
+# Stage ONLY in-scope files (never git add -A)
+git add <specific-files>
+
+# Check if there's actually something to commit
+git diff --cached --quiet && echo "no-op" || \
+git commit -m "experiment(<scope>): <one-sentence description>"
 ```
 
-### Step 5: Check exit conditions
+If nothing to commit: log as `no-op`, skip verify, next iteration.
+If pre-commit hook blocks: fix issue and retry (max 2 attempts), then log as `hook-blocked`.
 
-After each iteration, emit a structured status block:
+### Step 4: Verify (mechanical only)
+
+**Metric mode:** Run the verify command, extract the metric number.
+**File mode:** Run the built-in scorer (see Scoring section).
+
+Timeout: if verify exceeds 2x normal time, kill and treat as crash.
+
+### Step 5: Guard (regression check)
+
+**Only if `guard:` was configured.** Run guard command after successful verify.
+
+- **Verify** = "Did the metric improve?" (the goal)
+- **Guard** = "Did anything else break?" (the safety net)
+
+Guard is pass/fail only (exit code 0 = pass). If guard fails:
+1. Revert the change
+2. Read guard output to understand WHAT broke
+3. Rework the optimization to avoid the regression
+4. Re-commit, re-verify, re-guard
+5. Max 2 rework attempts, then discard
+
+**NEVER modify guard/test files** — always adapt the implementation instead.
+
+### Step 6: Decide
+
+```
+IF metric improved AND (no guard OR guard passed):
+    STATUS = "keep"
+    # Commit stays. Update current_best.
+
+ELIF metric improved AND guard failed:
+    # Rework (max 2 attempts) — see Step 5
+    IF rework succeeded: STATUS = "keep (reworked)"
+    ELSE: STATUS = "discard" — revert
+
+ELIF metric same or worse:
+    STATUS = "discard"
+    git revert HEAD --no-edit  # prefer revert (preserves history)
+    # Fallback: git revert --abort && git reset --hard HEAD~1
+
+ELIF crashed:
+    # See Crash Recovery below
+```
+
+**Simplicity override:** If metric barely improved (+<0.1%) but adds complexity → discard.
+If metric unchanged but code is simpler → keep.
+
+### Step 7: Log to TSV
+
+Append to `autoloop-results.tsv`:
+```
+iteration	commit	metric	delta	guard	status	description
+5	c3d4e5f	88.3	+1.2	pass	keep	add error handling tests
+6	-	87.1	-1.2	-	discard	refactor helpers (broke 2 tests)
+7	-	0.0	0.0	-	crash	add integration tests (DB failed)
+```
+
+Valid statuses: `baseline`, `keep`, `keep (reworked)`, `discard`, `crash`, `no-op`, `hook-blocked`
+
+### Step 8: Check exit + status block
 
 ```
 AUTOLOOP_STATUS:
@@ -115,58 +214,67 @@ AUTOLOOP_STATUS:
   EXIT_SIGNAL: <true|false>
 ```
 
-Set `EXIT_SIGNAL: true` when ANY of these conditions is met:
-- **Plateau**: 3 consecutive reverts (no improvement found)
-- **Max score**: All scoring dimensions are maxed out
-- **Budget**: Iteration count hit the limit
+Exit when ANY:
+- **Plateau**: 5 consecutive discards (raised from 3 — gives more room with guard)
+- **Max score**: metric can't improve further
+- **Budget**: iteration count hit limit
+- **Crash loop**: 3 crashes in a row
 
-The loop ONLY terminates when `EXIT_SIGNAL: true` — never based on narrative text alone.
-This dual-condition gate (heuristic check + explicit signal) prevents premature exits.
+Every 5 iterations, print progress summary:
+```
+=== AutoLoop Progress (iteration 15) ===
+Baseline: 85.2 → Current: 92.1 (+6.9)
+Keeps: 8 | Discards: 5 | Crashes: 2
+```
+
+## Crash Recovery Protocol
+
+| Failure | Response | Count as iteration? |
+|---------|----------|-------------------|
+| Syntax error | Fix immediately, re-commit | No |
+| Runtime error | Attempt fix (max 3 tries), then revert + next | Yes |
+| Resource exhaustion (OOM) | Revert, try smaller variant | Yes |
+| Infinite loop / hang | Kill after timeout, revert | Yes |
+| External dependency | Skip, log, try different approach | Yes |
+
+On crash: always revert to last known-good state before continuing.
 
 ## Phase 2: Final Validation (LLM-as-judge)
 
-After the loop ends, do ONE semantic validation. Read the optimized file and evaluate:
+After loop ends, ONE semantic validation:
 
-For **skill** targets:
-> "Read this SKILL.md. Evaluate on 3 dimensions (1-10 each):
-> 1. **Trigger clarity**: Would Claude reliably know WHEN to invoke this skill based on the description?
-> 2. **Instruction completeness**: Are the instructions clear enough that Claude can execute without guessing?
-> 3. **Integration quality**: Does the skill properly use shared memory and follow orchestration patterns?
-> Overall score (average of 3)."
+**Skill targets:**
+> Evaluate on 3 dimensions (1-10): Trigger clarity, Instruction completeness, Integration quality.
 
-For **other** targets:
-> "Read this file. Does it achieve its stated purpose clearly and completely? Score 1-10."
+**Other targets:**
+> Does this file achieve its stated purpose clearly and completely? Score 1-10.
 
-Record the validation score. If it dropped below 5 on any dimension, warn — the structural improvements may have hurt semantic quality.
+If validation score dropped below 5: warn — structural improvements may have hurt semantic quality.
 
 ## Phase 3: Report
-
-Output the experiment log:
 
 ```markdown
 ## AutoLoop Report: <target>
 
 **Goal**: <goal>
+**Mode**: file | metric (verify: <command>, guard: <command>)
 **Iterations**: <used> / <budget>
 **Branch**: autoloop/<name>
 
-### Score Progression
+### Results Log
 
-| Iter | Score | Delta | Change | Status |
-|------|-------|-------|--------|--------|
-| 0 | <baseline> | — | baseline | — |
-| 1 | ... | +N | <what> | ✓ kept |
-| 2 | ... | 0 | <what> | ✗ reverted |
-| ... | | | | |
+| Iter | Metric | Delta | Guard | Status | Description |
+|------|--------|-------|-------|--------|-------------|
+| 0 | 85.2 | — | pass | baseline | initial state |
+| 1 | 87.1 | +1.9 | pass | keep | add auth edge case tests |
+| ... |
 
 ### Summary
 - **Baseline**: <score> → **Final**: <score> (+<total delta>)
-- **Kept changes**: N / M iterations
+- **Kept**: N | **Discarded**: M | **Crashes**: K
 - **Validation score**: X/10
-- **Exit reason**: budget | plateau | max score
-
-### Accepted Changes (cumulative diff)
-<show git diff from baseline to final>
+- **Exit reason**: budget | plateau | max score | crash loop
+- **Guard failures**: N (reworked: M, discarded: K)
 ```
 
 Ask the user: "Merge branch `autoloop/<name>` into current branch, or discard?"
@@ -203,88 +311,38 @@ For `*/SKILL.md` files, use this structural heuristic. Run each check and sum po
 
 ### Scoring implementation
 
-Run these bash commands and sum the results. Use this exact pattern:
+Run these bash commands and sum the results:
 
 ```bash
-# Extract description from frontmatter
 DESC=$(sed -n '/^---$/,/^---$/p' <target> | grep '^description:' | sed 's/^description: *//')
-
-# S1: trigger words in description (+2)
 echo "$DESC" | grep -iE 'when|use (this|when)|after|before|trigger' > /dev/null && echo "S1:+2" || echo "S1:0"
-
-# S2: description length 50-200 (+1)
 LEN=$(echo -n "$DESC" | wc -c)
 [ "$LEN" -ge 50 ] && [ "$LEN" -le 200 ] && echo "S2:+1" || echo "S2:0"
-
-# S3: argument-hint present (+1)
 sed -n '/^---$/,/^---$/p' <target> | grep -q '^argument-hint:.\+.' && echo "S3:+1" || echo "S3:0"
-
-# S4: effort field (+1)
 sed -n '/^---$/,/^---$/p' <target> | grep -q '^effort:' && echo "S4:+1" || echo "S4:0"
-
-# S5: process/steps section (+1)
 grep -qiE '^##.*(process|step|phase)' <target> && echo "S5:+1" || echo "S5:0"
-
-# S6: error handling section (+1)
 grep -qiE '^##.*(error|fail|wrong)|circuit.breaker' <target> && echo "S6:+1" || echo "S6:0"
-
-# S7: references .claude/memory/ (+2)
 grep -q '.claude/memory/' <target> && echo "S7:+2" || echo "S7:0"
-
-# S8: logs to decisions/learnings (+1)
 grep -qE 'decisions\.md|learnings\.md' <target> && echo "S8:+1" || echo "S8:0"
-
-# S9: under 500 lines (+1)
 [ "$(wc -l < <target>)" -lt 500 ] && echo "S9:+1" || echo "S9:0"
-
-# S10: output format section (+1)
 grep -qiE '^##.*(output|format|template)|```markdown' <target> && echo "S10:+1" || echo "S10:0"
-
-# S11: rules section (+1)
 grep -qiE '^##.*(rule|guideline)' <target> && echo "S11:+1" || echo "S11:0"
-
-# S12: shared memory read instruction (+2)
 grep -qiE 'read first|read.*memory|before anything.*read|shared memory' <target> && echo "S12:+2" || echo "S12:0"
-
-# N1: vague description (-2)
 echo "$DESC" | grep -iE 'useful|helpful|general.purpose|various|miscellaneous' > /dev/null && echo "N1:-2" || echo "N1:0"
-
-# N2: missing name (-1)
 sed -n '/^---$/,/^---$/p' <target> | grep -q '^name:' && echo "N2:0" || echo "N2:-1"
-
-# N3: missing description (-2)
 sed -n '/^---$/,/^---$/p' <target> | grep -q '^description:' && echo "N3:0" || echo "N3:-2"
-
-# N4: over 500 lines (-1)
 [ "$(wc -l < <target>)" -ge 500 ] && echo "N4:-1" || echo "N4:0"
 ```
 
-Parse all S/N outputs and sum. This is the structural score.
-
 ## Scoring: Generic files
 
-For non-SKILL.md files, create a custom scoring function based on the goal. Ask yourself:
-- What structural properties indicate quality for this file type?
-- What can be checked with grep/wc/regex?
-- Design 8-12 checks worth ~15 points total.
-
-If you can't design automated checks for the target type, fall back to **LLM-as-judge for every iteration** (warn user about higher cost).
+For non-SKILL.md files without `verify:`, create a custom scoring function based on the goal:
+- Design 8-12 checks worth ~15 points total using grep/wc/regex
+- If automated checks aren't possible, fall back to LLM-as-judge (warn about higher cost)
 
 ## Budget Awareness
 
-Before starting:
-1. Read `.claude/memory/budget.md`
-2. This skill does NOT count as an agent spawn (it runs in the main context)
+1. Read `.claude/memory/budget.md` before starting
+2. This does NOT count as an agent spawn (runs in main context)
 3. Log the autoloop run to budget event log when done
-4. Estimated cost: ~2-5k tokens per iteration (edit + grep scoring) + ~5k for final validation
-
-## Rules
-
-1. **One change per iteration** — isolation of effects, like Karpathy's single-variable experiments
-2. **Never break the file** — if an edit makes the file unparseable (broken YAML, broken markdown), revert immediately
-3. **Diminishing returns** — if 3 consecutive iterations are reverted, STOP (plateau detected)
-4. **Preserve semantics** — structural score is a proxy; never sacrifice meaning for points
-5. **Git safety** — always work on a feature branch, never on main/master
-6. **Report everything** — log kept AND reverted experiments (the failures are informative)
-7. **Ask before merge** — never auto-merge the branch; let the user decide
-8. **Respect budget** — default 10 iterations, user can override
+4. Estimated cost: ~2-5k tokens per iteration + ~5k for final validation
