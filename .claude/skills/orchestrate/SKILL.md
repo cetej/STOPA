@@ -196,6 +196,11 @@ Agent(subagent_type: "general-purpose", prompt: "
   - concerns: <if DONE_WITH_CONCERNS — what worries you>
   - blocked_on: <if BLOCKED — what you need>
 
+  RESULT HANDLING (standard 3+ / deep tier): Write your full output to
+  .claude/memory/intermediate/<subtask-id>.json using the Findings Ledger schema.
+  The orchestrator will auto-summarize your output — you do NOT need to self-summarize.
+  Just write complete, detailed results.
+
   Deviation rules: fix bugs/imports inline (max 3 attempts). STOP and report if architectural change needed. Pre-existing bugs go to deferred, don't fix them.
 ")
 ```
@@ -230,7 +235,26 @@ Wave N: Continue until all waves done
 - If a wave has 4+ subtasks, split into sub-waves of 3
 - Budget: each parallel agent counts toward the tier agent limit
 - If any agent in a wave fails → handle it before launching next wave
-- Pass relevant outputs from previous waves as context to next wave agents
+- Pass relevant outputs from previous waves as context to next wave agents (see Wave Context Handoff below)
+
+### Wave Context Handoff via Scratchpad
+
+When launching Wave N+1 agents, inject context efficiently using the scratchpad:
+
+1. **Read the scratchpad**: Read `.claude/memory/intermediate/scratchpad.md` to get accumulated summaries of all previous waves' work.
+
+2. **Inject scratchpad, not raw results**: Include the scratchpad table in Wave N+1 agent prompts under a "Previous Work" section:
+   ```
+   ## Previous Work (from waves 1-N)
+   <paste scratchpad table here>
+
+   Full details for any entry are in .claude/memory/intermediate/<id>.json
+   — read ONLY if you need specific implementation details for your task.
+   ```
+
+3. **Selective full-load**: If a Wave N+1 agent's task explicitly depends on a specific Wave N result (e.g., "use the API schema from subtask-2"), load ONLY that specific JSON file's `details` field and inject it. Never load all previous wave details into one agent.
+
+4. **Scratchpad size check**: If scratchpad exceeds 30 entries, spawn a Haiku agent to condense older entries into a "Waves 1-N summary" paragraph before injecting into new agents.
 
 ### Agent Teams (standard 3+ / deep tier):
 
@@ -370,6 +394,49 @@ End with Status block as usual.
 
 **Context savings:** ~60-70% reduction in orchestrator context usage for deep tier tasks. Each agent's full output stays on disk instead of in the conversation.
 
+### Auto-Summarization of Agent Results (context compaction)
+
+After an agent completes and writes to `.claude/memory/intermediate/<subtask-id>.json`:
+
+1. **Read status**: Check `status` and `concerns` fields from the JSON (lightweight read).
+
+2. **Spawn Haiku summarizer** (skip if agent output was <20 lines):
+   ```
+   Agent(model: "haiku", prompt: "
+     Summarize this agent's work in 1-2 factual sentences.
+     Focus on: what files changed, what was accomplished, any concerns.
+     Include specific filenames and numbers.
+
+     Agent: <agent name>
+     Status: <status code>
+     Files changed: <filesChanged array>
+     Details: <first 3000 chars of details field>
+
+     Return ONLY the summary, nothing else.
+   ")
+   ```
+
+3. **Update the JSON**: Write the Haiku summary to a new `compactSummary` field in the intermediate JSON.
+
+4. **Append to scratchpad**: Add a row to `.claude/memory/intermediate/scratchpad.md`:
+   ```
+   | <next #> | <HH:MM> | <agent name> | <compactSummary> |
+   ```
+   Create the scratchpad with header if it doesn't exist:
+   ```markdown
+   # Scratchpad — Accumulated Context
+
+   | # | Time | Source | Summary |
+   |---|------|--------|---------|
+   ```
+
+5. **Context rule**: The orchestrator's decision-making uses ONLY `compactSummary` + `status` + `concerns` fields. Never load `details` unless debugging a failure or performing final synthesis (Phase 5).
+
+**When to skip auto-summarization:**
+- Light tier (≤2 agents) — direct return is fine, no need for disk overhead
+- Agent output is trivially short (<20 lines)
+- Agent returned BLOCKED — read the full output immediately to understand the blocker
+
 ### Deep tier token optimization:
 - When spawning agents in deep tier, use `model: "sonnet"` for implementation agents (save opus for planning/coordination)
 - Use extended thinking `display: "omitted"` on API-level agent calls when available — strips thinking blocks from response, saves context tokens while preserving multi-turn signatures
@@ -505,6 +572,16 @@ Score the session context load. Each signal adds points:
 ## Phase 5: Integrate & Verify
 
 Once all subtasks are done:
+
+### Full Context Reload for Synthesis (standard 3+ / deep tier)
+
+Before running the critic, reload context selectively:
+1. Read `.claude/memory/intermediate/scratchpad.md` for the full overview of work done
+2. For subtasks that had DONE_WITH_CONCERNS or are critical to the final result, load full details: read the `details` field from their `.claude/memory/intermediate/<subtask-id>.json`
+3. Skip full-load for DONE subtasks with no concerns — the compactSummary is sufficient
+4. This "expand on demand" approach keeps context lean during execution but provides full fidelity for the quality gate
+
+### Critic pass:
 1. Verify the combined result makes sense
 2. Run critic with tier-appropriate depth:
    - **Light tier**: `/critic` (single combined pass)

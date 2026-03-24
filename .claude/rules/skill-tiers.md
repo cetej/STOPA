@@ -31,6 +31,7 @@ Generative/creative tools and meta-skills:
 - `/autoloop` — iterative optimization
 - `/project-init` — new project setup
 - `/watch` — ecosystem news scan
+- `/compact` — context compaction (save results to disk, auto-summarize with Haiku)
 - `/budget` — cost tracking
 - `/browse` — Chrome automation
 - `/youtube-transcript` — video transcripts
