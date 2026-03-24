@@ -319,6 +319,42 @@ For deep tier Agent Teams, spawn teammates with `mode: "plan"`:
 - Tasks with tight sequential dependencies (no parallelism benefit)
 - Quick fixes where Agent() + result is faster
 
+### Findings Ledger (standard 3+ / deep tier):
+
+When 3+ agents produce results, raw output floods the orchestrator's context. Use a findings ledger — agents write results to disk, orchestrator reads back only what's needed.
+
+**How it works:**
+1. Create `.claude/memory/intermediate/` directory at task start
+2. Each agent writes its output to `.claude/memory/intermediate/<subtask-id>.json`:
+   ```json
+   {
+     "subtaskId": "1",
+     "agent": "auth-implementer",
+     "status": "DONE",
+     "summary": "Added JWT middleware to 3 routes",
+     "filesChanged": ["src/auth/jwt.ts", "src/routes/api.ts"],
+     "concerns": [],
+     "details": "<full output if needed>"
+   }
+   ```
+3. Orchestrator reads only `summary` + `status` + `concerns` fields for decision-making
+4. Full `details` field read only when debugging failures or concerns
+5. At task close (Phase 6): delete `.claude/memory/intermediate/` directory
+
+**Agent prompt addition** (add to agent spawn prompts in deep/standard 3+ tier):
+```
+Write your results to .claude/memory/intermediate/<subtask-id>.json using this schema:
+{"subtaskId": "<id>", "agent": "<your-name>", "status": "DONE|DONE_WITH_CONCERNS|BLOCKED", "summary": "<2-3 sentences>", "filesChanged": [...], "concerns": [...], "details": "<full output>"}
+End with Status block as usual.
+```
+
+**When to use:**
+- Always in deep tier (5+ agents)
+- In standard tier when 3+ agents run in parallel
+- Skip for light tier and standard with ≤2 agents (direct return is fine)
+
+**Context savings:** ~60-70% reduction in orchestrator context usage for deep tier tasks. Each agent's full output stays on disk instead of in the conversation.
+
 ### Deep tier token optimization:
 - When spawning agents in deep tier, use `model: "sonnet"` for implementation agents (save opus for planning/coordination)
 - Use extended thinking `display: "omitted"` on API-level agent calls when available — strips thinking blocks from response, saves context tokens while preserving multi-turn signatures

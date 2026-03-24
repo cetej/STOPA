@@ -46,7 +46,33 @@ If target is "last changes":
 ### Step 1: Load context
 Read shared memory and understand the active task.
 
-### Step 2: Complexity Triage
+### Step 2: Diff Impact Trace (auto for code reviews)
+
+When reviewing code changes (not plans or skills), automatically trace the blast radius:
+
+1. **Get changed files**: `git diff --name-only HEAD~1` (or `--cached` for staged changes)
+2. **For each changed file**, grep for who imports/requires it:
+   - `grep -r "from ['\"].*<filename>" --include="*.ts" --include="*.py" --include="*.js" -l`
+   - `grep -r "import.*<module_name>" --include="*.ts" --include="*.py" --include="*.js" -l`
+3. **Build impact map**: changed files → 1-hop dependents (files that import them)
+4. **Flag high-risk dependents**: files in auth/, payment/, api/ paths get automatic `high` severity mention
+5. **Include in report** as "Impact Radius" section (before Issues Found)
+
+**Impact Radius output format:**
+```markdown
+### Impact Radius
+
+| Changed File | Direct Dependents | Risk |
+|-------------|-------------------|------|
+| src/auth/jwt.ts | src/routes/api.ts, src/middleware/auth.ts | high (auth path) |
+| src/utils/format.ts | src/components/Table.tsx | low |
+
+**Blast radius**: 2 files changed → 3 dependents affected
+```
+
+**When to skip:** QUICK path with single-file change that has 0 dependents (pure leaf file). Always run for STANDARD/DEEP.
+
+### Step 3: Complexity Triage
 
 Before doing anything, assess scope to pick the right review depth:
 
@@ -58,19 +84,19 @@ Before doing anything, assess scope to pick the right review depth:
 
 Default to QUICK unless evidence of higher complexity. Upgrade mid-review if you discover the scope is larger than expected.
 
-### Step 3: Identify target and phase
+### Step 4: Identify target and phase
 Parse arguments, determine review type, load the target content.
 - `--spec` → Spec Compliance phase only
 - `--quality` → Code Quality phase only
 - `--deep` → Force DEEP triage path
 - No flag → run both phases sequentially (default, backward compatible)
 
-### Step 4: Review
+### Step 5: Review
 Apply the appropriate review dimensions (see below) systematically.
 - If running both phases: run Spec Compliance first, then Code Quality. Combine into single report.
 - Scale depth to the triage path (QUICK skips minor dimensions).
 
-### Step 5: Score & Report
+### Step 6: Score & Report
 Fill the Scoring Rubric (STANDARD/DEEP paths), then generate the structured report with verdict, issues, and recommendations.
 
 ## Review Dimensions
