@@ -2,13 +2,13 @@
 
 ## Current Task
 
-_No active task._
+**Phase 1 Hygiene** — light tier (direct work, no delegation)
 
 ### Counters
 
 | Metric | Used | Limit | Status |
 |--------|------|-------|--------|
-| Agent spawns | 0 | — | — |
+| Agent spawns | 3 | — | Audit agents (config, plugin, memory) |
 | Critic iterations | 0 | — | — |
 | Scout depth | 0 | — | — |
 | Skill creations | 0 | — | — |
@@ -17,6 +17,8 @@ _No active task._
 
 | Time | Event | Cost | Running Total |
 |------|-------|------|---------------|
+| 2026-03-24 16:22 | 3× Explore agents (audit) | ~$0.70 | $0.70 |
+| 2026-03-24 16:35 | Phase 1 hygiene (7 fixes) | ~$0.30 | $1.00 |
 
 ## History
 

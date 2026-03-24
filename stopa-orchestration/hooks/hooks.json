@@ -36,17 +36,6 @@
             "statusMessage": ""
           }
         ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash hooks/observe.sh",
-            "timeout": 3,
-            "statusMessage": ""
-          }
-        ]
       }
     ],
     "PostToolUse": [

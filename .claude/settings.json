@@ -40,17 +40,6 @@
             "statusMessage": ""
           }
         ]
-      },
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/observe.sh",
-            "timeout": 3,
-            "statusMessage": ""
-          }
-        ]
       }
     ],
     "PostToolUse": [

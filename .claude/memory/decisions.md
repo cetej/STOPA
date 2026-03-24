@@ -2,6 +2,14 @@
 
 Decisions made during task execution. Each entry captures WHAT was decided, WHY, and by WHOM.
 
+### 2026-03-24 — Voting Pattern: Known Gap, Future Option
+- **Context**: Analýza 7 Anthropic agent patterns vs. STOPA odhalila chybějící "voting" subtype parallelization — N nezávislých agentů na stejný task, konsensus výsledků
+- **Options considered**: (A) Implementovat hned jako `/critic --voting`, (B) Zapsat jako future option
+- **Decision**: Option B — zatím neimplementovat, zapsat jako nápad do budoucna
+- **Rationale**: +83% cost per review (~$0.10 navíc), ale reálný benefit jen pro high-stakes (PR merge, architektura). Současný `/critic` + `/verify` dvoustupňový model pokrývá většinu use-cases. Dává smysl jako volitelný mód, ne default.
+- **Possible implementation**: Flag `--voting` pro `/critic` nebo `/pr-review`, 3× paralelní Sonnet critic + Haiku aggregátor. Paradoxně rychlejší (paralelní) i přes vyšší cost.
+- **Decided by**: user
+
 ### 2026-03-22 — Skill Audit Findings: Integration Gaps in Utility Skills
 - **Context**: skill-audit harness ran across all 15 skills, revealing 4 skills with integration score 2/5
 - **Decision**: Utility skills (youtube-transcript, verify) should add "After Completion" sections writing to learnings.md/state.md; scout should add explicit disallowedTools

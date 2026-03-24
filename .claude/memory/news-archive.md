@@ -4,6 +4,17 @@ Archived items from `news.md`. Read-only reference — not actively loaded into 
 
 ## Archived Action Items
 
+<!-- Archived 2026-03-24 Phase 1 hygiene cleanup -->
+
+- **Modular Diffusers v0.37.0** (2026-03-05) — EVALUATED 2026-03-24: SKIP. Pyramid Flow incompatible (no DiffusionPipeline, PyTorch ≥2.3 conflict). Build on 0.37 paralelně s novým modelem.
+- **HTTP hooks v CC** — EVALUATED 2026-03-24: GA od v2.1.63. Merged with ACTION #6 in news.md.
+
+<!-- Archived 2026-03-24 quick scan cleanup -->
+
+- **`effort` frontmatter pro skills** (v2.1.80) — DONE: verify→high, scout→low (critic/orchestrate/scribe set)
+- **PreToolUse security fix** (v2.1.77) — DONE: Dippy funguje, fix se týká `deny` rules, STOPA nepoužívá
+- **GitHub Spec Kit** (81k★) — ARCHIVED: analýza hotova v competitive-spec-kit.md, vzory adoptovány
+
 <!-- Archived 2026-03-23 batch 2 — all remaining action items processed -->
 
 7. ~~**Diffusers 0.37.0** (Mar 5)~~ — Modular Diffusers, FIBO Edit, Cosmos Predict2.5

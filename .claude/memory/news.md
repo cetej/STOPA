@@ -30,19 +30,17 @@ Archived items: `.claude/memory/news-archive.md`
    - Migrate to: `claude-haiku-4-5-20251001`
    - Akce: zkontrolovat NG-ROBOT, ADOBE-AUTOMAT, test1 pro hardcoded Haiku 3 model ID
 
-6. **Modular Diffusers v0.37.0** (2026-03-05) — composable diffusion pipeline blocks + Mellon visual workflow GUI
-   - LTX-2.3 + Kandinsky 5 nativně v Diffusers
-   - Akce: evaluate pro test1 Pyramid Flow upgrade
+6. **HTTP hooks implementace** (CC v2.1.63+, GA) — webhook notifikace pro STOPA
+   - Config: `"type": "http"` v hooks settings, POST s custom headers
+   - ⚠️ TLS SNI bug (#30613) — HTTPS selhává, workaround: localhost proxy
+   - ⚠️ URL nepodporuje env vars (#31653) — hardcode v `settings.local.json`
+   - Akce: implementovat TaskCompleted → Slack webhook (localhost proxy + 10 řádků Python)
 
 ### Watch List
 
 1. **Claude Code Channels** (v2.1.81) — Telegram/Discord integration přes `/telegram:configure`
    - Async push trigger model — potenciální mobile/async trigger pro STOPA orchestraci
    - Sloučeno: `--channels` MCP preview (v2.1.80) — proaktivní push zprávy do session
-
-2. **HTTP hooks v CC** — HTTP POST hooks pro external service integration (JSON in/out, bez lokálních skriptů)
-   - Potenciální použití: STOPA hook → Slack/webhook notifikace, external state sync
-   - Sledovat: přesná verze CC, kdy přidáno (nezachyceno v CHANGELOG fetchi)
 
 2. **`/context` actionable suggestions** (v2.1.74) — identifikuje memory bloat a context-heavy tools
    - Relevance: STOPA memory maintenance — CC nám řekne co zabírá kontext
@@ -80,8 +78,11 @@ Archived items: `.claude/memory/news-archive.md`
 11. **`Elicitation` + `ElicitationResult` hooks** (v2.1.76) — MCP interactive dialogs
     - MCP servery mohou zobrazovat strukturované formuláře uživateli mid-task
 
-12. **PyTorch 2.11** (released 2026-03-23) — **features potvrzeny**: FlexAttention + FlashAttention-4 + Differentiable Collectives for Distributed Training
-    - Relevance: NG-ROBOT závisí na PyTorch — evaluate FlexAttention pro video gen attention layers
+12. **PyTorch 2.11** (released 2026-03-23) — **EVALUATED 2026-03-24**
+    - FlexAttention = compiler-driven API pro arbitrary attention patterns, FA4 backend jen H100/B200
+    - FA4 backend explicitně "expect breaking changes" — není production-safe
+    - Migrace z SDPA = 1-2 dny (dynamic=False, block_mask caching, no dropout)
+    - **Verdict: WAIT do PyTorch 2.12 (~květen 2026). Prototypovat attention patterns na Triton path teď.**
 
 13. **MagCache + TaylorSeer** (Diffusers 0.37.0) — inference caching pro video gen
 
@@ -99,6 +100,11 @@ Archived items: `.claude/memory/news-archive.md`
     - Relevance: sledovat pro video gen pipeline upgrade
 
 ## Scan History
+
+### 2026-03-24 — hands-on research (3 items evaluated)
+- Modular Diffusers 0.37.0 → SKIP (Pyramid Flow incompatible, 2 hard env konflikty)
+- HTTP hooks v CC → IMPLEMENT NOW (GA od v2.1.63, TLS bug workaround via localhost proxy)
+- PyTorch 2.11 FlexAttention → WAIT (FA4 backend nestabilní, H100/B200 only)
 
 ### 2026-03-24 — full scan (all tiers)
 - Tier 1: API — 3 nové ACTION (1M GA, thinking.display, Models capabilities) + urgent Haiku 3 retirement (Apr 19)

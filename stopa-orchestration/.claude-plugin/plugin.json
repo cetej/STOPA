@@ -1,7 +1,7 @@
 {
   "name": "stopa-orchestration",
-  "description": "Multi-agent orchestration system with budget control, Agent Teams, session continuity, harness engine, and self-improvement. 8 skills + 17 commands. Schema-enforced learnings with grep-first retrieval. Agent Teams for standard tier (3+ subtasks).",
-  "version": "2.1.0",
+  "description": "Multi-agent orchestration system with budget control, Agent Teams, session continuity, harness engine, and self-improvement. 11 skills + 17 commands. Schema-enforced learnings with grep-first retrieval. Agent Teams for standard tier (3+ subtasks).",
+  "version": "2.1.1",
   "author": {
     "name": "cetej"
   },
