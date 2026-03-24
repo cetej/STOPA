@@ -176,21 +176,26 @@ Scheduled task: daily 9:00
 
 **Cíl**: Agent běží 24/7, spravuje projekty proaktivně, učí se implicit preferences.
 
-| # | Úkol | Effort | Impact | Popis |
-|---|------|--------|--------|-------|
-| 5.1 | 24/7 daemon (cloud scheduled tasks nebo OpenClaw) | 4-8h | VERY HIGH | Non-stop availability |
-| 5.2 | Multi-project orchestrace | Výzkum | HIGH | Jedna session koordinuje práci na N projektech |
-| 5.3 | Implicit preference learning | Výzkum | MEDIUM | Sleduje styl, čas práce, rozhodovací vzorce |
-| 5.4 | Weekly digest report | 2h | HIGH | Automatický týdenní report: co se stalo, co je potřeba |
-| 5.5 | Voice interface (Whisper + TTS) | Výzkum | LOW | Hands-free interakce |
-| 5.6 | Self-evolving skills | Výzkum | MEDIUM | Agent navrhuje vylepšení vlastních skills na základě usage dat |
+| # | Úkol | Effort | Impact | Popis | Status |
+|---|------|--------|--------|-------|--------|
+| 5.1 | 24/7 daemon (cloud scheduled tasks nebo OpenClaw) | 4-8h | VERY HIGH | Non-stop availability | BACKLOG |
+| 5.2 | Multi-project orchestrace | Výzkum | HIGH | /project-sweep skill — health, deps, git cleanup | DONE |
+| 5.3 | Implicit preference learning | Výzkum | MEDIUM | Bi-weekly preference-learner scheduled task | DONE |
+| 5.4 | Weekly digest report | 2h | HIGH | weekly-digest scheduled task (Po 8:04) | DONE |
+| 5.5 | Voice interface (Whisper + TTS) | Výzkum | LOW | Hands-free interakce | BACKLOG |
+| 5.6 | Self-evolving skills | Výzkum | MEDIUM | skill-usage-tracker hook + skill-evolution monthly task | DONE |
 
-### Doporučení
+### Implementováno (2026-03-24)
 
-- **Phase 5 je long-term vision** — nejdřív stabilizovat Phase 1-4
-- **Cloud scheduled tasks** jsou nejpraktičtější cesta k 24/7 (Anthropic infra, bez WSL2)
-- **Weekly digest** je low-effort high-impact — už teď máš /watch, stačí agregovat
-- **Voice interface závisí** na externím tooling (zatím nízká priorita)
+- **5.4 Weekly digest**: Scheduled task `weekly-digest` (Po 8:04) — project activity, news summary, learnings, memory health, priorities
+- **5.2 Multi-project orchestrace**: `/project-sweep` skill — health checks, dependency audit, git cleanup, lint-config, custom commands across all registered projects
+- **5.3 Preference learning**: Scheduled task `preference-learner` (1. a 15. v měsíci) — analyzuje git patterns, skill usage, decisions; navrhuje (neauto-zapisuje) nové preference
+- **5.6 Self-evolving skills**: Hook `skill-usage-tracker.sh` loguje skill invocations do JSONL + scheduled task `skill-evolution` (1. v měsíci) analyzuje usage a navrhuje archivaci/optimalizaci
+
+### Zbývá (backlog)
+
+- **5.1 24/7 daemon** — vyžaduje cloud infra (Anthropic scheduled tasks, OpenClaw, nebo vlastní server)
+- **5.5 Voice interface** — závisí na externím tooling (Whisper + TTS), nízká priorita
 
 ### Jarvis milestone po Phase 5
 > "Good morning sir. While you slept, I resolved 3 dependabot PRs, NG-ROBOT build is green, and CascadeWatch found an interesting signal I'd like to discuss. Your schedule today has a 2-hour gap at 14:00 — shall I use it for the ADOBE-AUTOMAT refactor?"
