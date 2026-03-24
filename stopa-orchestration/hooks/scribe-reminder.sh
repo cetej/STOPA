@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # Stop hook: remind about /scribe if there's an active task
 # Only outputs if state.md has an active task (not placeholder)
+# Profile: standard+
+
+source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standard
 
 STATE=".claude/memory/state.md"
 
@@ -21,6 +24,6 @@ TASK="none"
 if [ -f "$STATE" ] && grep -q "## Current Task" "$STATE" 2>/dev/null; then
   TASK=$(grep -m1 '^\*\*Goal\*\*:' "$STATE" 2>/dev/null | sed 's/\*\*Goal\*\*: *//' || echo "none")
 fi
-python hooks/slack-notify.py session_stop task="$TASK" &
+python .claude/hooks/slack-notify.py session_stop task="$TASK" &
 
 exit 0

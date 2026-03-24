@@ -36,6 +36,17 @@
             "statusMessage": ""
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash hooks/observe.sh",
+            "timeout": 3,
+            "statusMessage": ""
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -45,6 +56,18 @@
           {
             "type": "command",
             "command": "bash hooks/activity-log.sh",
+            "timeout": 3,
+            "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "bash hooks/suggest-compact.sh",
+            "timeout": 3,
+            "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "bash hooks/observe.sh",
             "timeout": 3,
             "statusMessage": ""
           }
@@ -96,6 +119,12 @@
             "type": "command",
             "command": "bash hooks/scribe-reminder.sh",
             "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "bash hooks/cost-tracker.sh",
+            "timeout": 5,
+            "statusMessage": ""
           }
         ]
       }

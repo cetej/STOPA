@@ -1,6 +1,7 @@
 {
   "env": {
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "STOPA_HOOK_PROFILE": "standard"
   },
   "hooks": {
     "SessionStart": [
@@ -39,6 +40,17 @@
             "statusMessage": ""
           }
         ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/observe.sh",
+            "timeout": 3,
+            "statusMessage": ""
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -48,6 +60,18 @@
           {
             "type": "command",
             "command": "bash .claude/hooks/activity-log.sh",
+            "timeout": 3,
+            "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/suggest-compact.sh",
+            "timeout": 3,
+            "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/observe.sh",
             "timeout": 3,
             "statusMessage": ""
           }
@@ -99,6 +123,12 @@
             "type": "command",
             "command": "bash .claude/hooks/scribe-reminder.sh",
             "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/cost-tracker.sh",
+            "timeout": 5,
+            "statusMessage": ""
           }
         ]
       }

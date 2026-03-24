@@ -2,6 +2,9 @@
 # PostToolUse hook: Run ruff linter on Python files after Write/Edit
 # Returns additionalContext on errors (Claude sees and auto-fixes)
 # Returns suppressOutput:true on success (silent)
+# Profile: strict+
+
+source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile strict
 
 TOOL="${CLAUDE_TOOL_NAME:-unknown}"
 
