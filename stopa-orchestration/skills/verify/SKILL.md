@@ -5,7 +5,7 @@ argument-hint: [what to verify — pipeline name, feature, endpoint, or 'last ch
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Agent
 model: sonnet
-effort: medium
+effort: high
 maxTurns: 15
 disallowedTools: Write, Edit
 context:

@@ -82,7 +82,8 @@ The plugin uses `.claude/memory/` in the project directory for persistent state:
 |------|---------|
 | `state.md` | Current task status |
 | `decisions.md` | Decision log with rationale |
-| `learnings.md` | Patterns, anti-patterns, skill gaps |
+| `learnings/` | Per-file YAML learnings (grep-first retrieval) |
+| `learnings/critical-patterns.md` | Top 8-10 patterns, always-read |
 | `budget.md` | Cost tracking and budget limits |
 | `checkpoint.md` | Session snapshot for continuity |
 | `news.md` | Results from /watch scans |
@@ -101,11 +102,11 @@ Custom harnesses: create `harnesses/<name>/HARNESS.md` following the engine spec
 
 ## Budget tiers
 
-| Tier | Agents | Critic rounds | When |
-|------|--------|---------------|------|
-| light | 0-1 | 1 | Single file, quick fix |
-| standard | 2-4 | 2 | Multi-file changes |
-| deep | 5-8 | 3 | Cross-cutting features |
+| Tier | Agents | Critic | Teams | When |
+|------|--------|--------|-------|------|
+| light | 0-1 | 1× | — | Single file, quick fix |
+| standard | 2-4 | 2× | TeamCreate (3+ subtasks) | Multi-file changes |
+| deep | 5-8 | 3× | Full teams + QA + plan approval | Cross-cutting features |
 
 ## Quick start
 

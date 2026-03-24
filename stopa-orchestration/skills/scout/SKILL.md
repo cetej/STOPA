@@ -7,7 +7,7 @@ argument-hint: [what to explore]
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Agent
 model: haiku
-effort: medium
+effort: low
 maxTurns: 10
 disallowedTools: Write, Edit, Bash
 ---
