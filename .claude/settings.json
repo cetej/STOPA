@@ -118,6 +118,12 @@
             "command": "bash .claude/hooks/cost-tracker.sh",
             "timeout": 5,
             "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/telegram-notify.sh \"🏁 Session dokončena\"",
+            "timeout": 5,
+            "statusMessage": ""
           }
         ]
       }

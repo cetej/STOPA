@@ -1,75 +1,87 @@
 # Session Checkpoint
 
 **Saved**: 2026-03-24
-**Task**: Agent Teams upgrade z videa Nate Herk (Wave 1-2 continuity)
+**Task**: Jarvis Gap Analysis + Phase 1 Hygiene
 **Branch**: main
-**Commits**: 5e69118 (pushed)
-**Status**: COMPLETE ✓
+**Commits**: 40599d4 (pushed)
+**Status**: Phase 1 COMPLETE, Phase 2-5 planned
 
 ## What Was Done This Session
 
-- **YouTube transkript**: "How to Build Claude Agent Teams Better Than 99% of People" (Nate Herk, 16:29)
-  - Extracted 3 praktické vzory: TeamCreate standard tier, spawn template, clean shutdown
-  - Transkript: `input/vDVSGVpB2vc_transcript.txt` (22K znaků)
+### Kompletní audit systému (3 paralelní agenti)
+- **Config audit**: 11 skills, 17 commands, 15 hooks, 4 rules, 12 learnings
+- **Plugin sync**: skills 100%, hooks ~76% (1 záměrný drift: permission-auto-approve)
+- **Memory health**: B+ → A (po cleanup)
 
-- **Agent Teams upgrade v `/orchestrate` skill**:
-  - TeamCreate pro standard tier (3+ subtasks) — decision tree rozšířen
-  - **Spawn template**: Goal → Role → Owns → Produces → Communication (30+ řádků)
-  - **Clean shutdown protocol**: 5 kroků s retry + timeout (15 řádků)
-  - **Plan Approval Mode**: deep tier teammates plánují → lead schvaluje (8 řádků)
-  - **Lite vs Full varianta**: tabulka pro standard (4 teammates, bez QA) vs deep (8 teammates, QA)
+### Jarvis Gap Analysis
+- 5 dimenzí: Proaktivita, Paměť, Komunikace, Multi-domain, Autonomie
+- 3 největší gapy: always-on, cross-project, reaktivní
+- Dokumenty: `research/jarvis-gap-analysis-2026-03-24.md`, `research/jarvis-implementation-plan.md`
 
-- **Gotchas +2**: file ownership conflicts, idle agent waste
+### Phase 1 Hygiene (7 fixů)
+1. permission-log.md archivace (642→4 řádků)
+2. news.md cleanup (2 stale items archivovány)
+3. Stale memory: 5 souborů přesunuto do research/ nebo learnings/
+4. plugin.json: "8 skills"→"11 skills", version 2.1.1
+5. observe.sh: odstraněna duplikace z PreToolUse
+6. budget.md: aktualizován
+7. hooks.json (plugin): synced
 
-- **Learning**: MCP youtube-transcript broken → vždy `/youtube-transcript` skill (yt-dlp)
+## What Remains (5-Phase Jarvis Roadmap)
 
-- **Feedback updated**: auto-commit+push po práci, bez potvrzování
+| Phase | Název | Effort | Status |
+|-------|-------|--------|--------|
+| 1 | Hygiene + Bug Fixes | 30 min | DONE |
+| 2 | Always-On Agent | 2h | READY (research hotový) |
+| 3 | Cross-Project Intelligence | 4h | PLANNED |
+| 4 | Proaktivní Partner | 8h | PLANNED |
+| 5 | Plná Autonomie | 15h+ | VISION |
 
-**Files**: orchestrate/SKILL.md + gotchas.md × 2 (source + plugin), learnings/2026-03-23-youtube-transcript-yt-dlp.md
+## Immediate Next Action — Phase 2: Always-On (zbývající 3 kroky)
 
-## What Remains (Wave 3 roadmap)
+Telegram plugin JIŽ NAINSTALOVANÝ a funkční (channels běží).
+Bun nainstalovaný.
 
-| # | Subtask | Tier | Method |
-|---|---------|------|--------|
-| 1 | Plugin sync v2.0.0 | low | Agent Teams config do stopa-orchestration plugin |
-| 2 | Real-world testing | medium | Deploy na NG-ROBOT / ADOBE-AUTOMAT, test standard tier |
-| 3 | Wave 3 learnings | medium | Per-file YAML learnings schema + grep-first retrieval |
-
-## Immediate Next Action
-
-Pokud pokračuješ: **Wave 3 learnings migration**. Migruj `learnings.md` (flat, ~142 řádků) do `learnings/` directory s per-learning YAML frontmatter. Vytvoř `critical-patterns.md` (always-read, 10 entries max). Update `/scribe` skill pro nový formát.
+**Zbývá:**
+1. Zapnout Remote Control pro všechny sessions (`/config`)
+2. Scheduled task: daily /watch quick (ranní briefing)
+3. Push notifikace přes Telegram po dokončení tasku (hook → telegram reply)
 
 ## Git State
 
 - **Branch**: main
-- **Last commit**: `5e69118 feat: Agent Teams upgrade — standard tier, spawn template, shutdown protocol` ✓ PUSHED
-- **Uncommitted**: 4 research files (unrelated z Wave 1-2, ignoruj)
+- **Last commit**: `40599d4 chore: Phase 1 hygiene — memory cleanup, plugin fix, Jarvis analysis` PUSHED
+- **Clean**: ano
 
 ## Key Context
 
-- **Video learnings**: CC v2.1.77+ má Agent Teams nativně, jsou powerful pro 3+ paralelních subtasks
-- **Sync status**: `.claude/skills/orchestrate/` ← → `stopa-orchestration/skills/orchestrate/` obě synced
-- **Budget intuice**: light (1) < standard (2-4, now 3+ teams) < deep (5-8, teams + QA + plan approval)
-- **Approval fatigue**: uživatel chce autonomní commit+push bez otázky po hotové práci
+- **Memory health**: A (95+) — žádný soubor nad 500 řádků
+- **Plugin**: v2.1.1, skills 100% synced, hooks.json synced
+- **permission-auto-approve**: záměrně rozdílná (v2 source, v1 plugin)
+- **Research files**: 13 souborů v research/
+- **Learnings**: 12 YAML files (přidáno checkpoint-versioning)
 
 ## Resume Prompt
 
 > STOPA — orchestrační systém (source of truth)
 > Repo: cetej/STOPA (branch main)
 >
-> **Poslední session (2026-03-24)**: Agent Teams upgrade z videa Nate Herk ✓ DONE
-> - TeamCreate nově pro standard tier (3+ subtasks)
-> - Spawn template + clean shutdown protocol + Plan Approval Mode
-> - Commit 5e69118 (pushed)
+> **Poslední session (2026-03-24)**: Jarvis Gap Analysis + Phase 1 Hygiene ✓
+> - Kompletní audit: 11 skills, 17 commands, 15 hooks, memory A (95+)
+> - Jarvis roadmap: 5 fází od hygieny po plnou autonomii
+> - Phase 1 done (7 fixů), commit 40599d4 pushed
 >
-> **Zbývá** (Wave 3 roadmap):
-> 1. Plugin sync — Agent Teams config do plugin
-> 2. Real-world testing — NG-ROBOT / ADOBE-AUTOMAT deployment
-> 3. Wave 3 learnings — schema-enforced YAML per-file learnings
+>> **Příští krok — Phase 2: Always-On (3 zbývající kroky)**
+> - Telegram plugin UŽ FUNGUJE (neinstalovaz znovu!)
+> - Zbývá: Remote Control, scheduled /watch, push notifikace
+> - Plan: `research/jarvis-implementation-plan.md` → Phase 2 sekce
 >
-> **Když resumeš**:
-> - Přečti `.claude/CLAUDE.md` + `CLAUDE.md` (projektu)
-> - Zkontroluj `.claude/memory/state.md` (aktivní task?)
-> - Pokud pokračuješ Wave 3: `research/awesome-claude-code-analysis.md` → Wave 3 sekce
+> **Zbývá (Phase 3-5):**
+> 3. Cross-Project Intelligence — globální memory, project registry
+> 4. Proaktivní Partner — post-commit analyzer, priority rebalancer
+> 5. Plná Autonomie — 24/7 daemon, weekly digest
 >
-> Viz: `research/awesome-claude-code-analysis.md` (kompletní 3-wave roadmap)
+> **Když resumeš:**
+> - Přečti `.claude/CLAUDE.md` + `CLAUDE.md`
+> - Zkontroluj `.claude/memory/checkpoint.md`
+> - Phase 2 vyžaduje manuální prereq uživatele (Bun + BotFather)
