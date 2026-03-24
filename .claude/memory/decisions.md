@@ -27,6 +27,12 @@ Decisions made during task execution. Each entry captures WHAT was decided, WHY,
 - **Rationale**: Least-privilege principle.
 - **Decided by**: orchestrator (self-assessment)
 
+### 2026-03-24 — /fix-issue workflow: Direct main commits (solo project)
+- **Context**: /fix-issue skill vytváří feature branch → merge → push, ale uživatel je sólo vývojář bez need na PR review
+- **Decision**: Commitovat přímo na main (bez feature branch, bez PR workflow)
+- **Rationale**: Zjednodušuje workflow — 3 kroky (commit + push) místo 5+ (branch + push + merge + push + delete). PR workflow není potřeba bez code review.
+- **Decided by**: user
+
 ### 2026-03-18 — STOPA as Source of Truth
 - **Context**: Orchestrační systém se vyvíjel v test1, kopíroval do ng-robot a ADOBE-AUTOMAT. Vznikal chaos.
 - **Decision**: Vytvořit STOPA jako samostatný meta-projekt — source of truth pro orchestraci
