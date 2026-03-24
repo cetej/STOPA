@@ -77,6 +77,8 @@ Based on scope, classify the task:
 | **standard** | Multi-file, some exploration needed | 2-4 | 2 | sonnet/default |
 | **deep** | Cross-cutting, unknown scope, major feature | 5-8 | 3 | opus for planning |
 
+**Model capability check** (optional, for API consumers): `GET /v1/models/{model_id}` returns `max_input_tokens`, `max_tokens`, and `capabilities` object. Use this to validate model choices dynamically when building external tools that call the Claude API.
+
 Write the tier to `.claude/memory/budget.md` and set the counters.
 
 **Cost-first rule**: Always start with the lowest tier that might work. Upgrade only if the scout phase reveals higher complexity than expected — and tell the user when upgrading.

@@ -102,6 +102,19 @@ Report the estimate:
 - **Risk of overrun**: low / medium / high
 ```
 
+## Cost Optimization Levers
+
+When operating in **deep tier** or thinking-heavy workflows, consider these API-level optimizations:
+
+| Lever | How | Savings | When to Use |
+|-------|-----|---------|-------------|
+| `thinking.display: "omitted"` | Set in API call — omits thinking content from streaming (signature preserved for multi-turn) | Faster streaming, no billing change | Deep tier agents with extended thinking; reduces latency |
+| `effort: "low"` | Reduce thinking depth for mechanical subtasks | ~50-70% fewer thinking tokens | Light tier, validation, template fills |
+| Model downgrade | Use haiku for mechanical work, sonnet for reasoning | ~5-10× cheaper per token | See tier table above |
+| Automatic caching | Single `cache_control` field — system auto-caches last cacheable block | Up to 90% on repeated prompts | Multi-turn conversations, repeated context |
+
+**Note**: `thinking.display: "omitted"` does NOT reduce cost — it reduces streaming latency by omitting thinking text while preserving the signature for conversation continuity. Use `effort` parameter to actually reduce thinking token usage.
+
 ## Circuit Breakers
 
 These are hard stops that cannot be overridden without user approval:
