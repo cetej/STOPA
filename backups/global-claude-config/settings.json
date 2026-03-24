@@ -1,0 +1,150 @@
+{
+  "env": {
+    "FAL_KEY": "<<REDACTED-FAL-KEY>>"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -m dippy --claude",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -m dippy --claude",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"C:/Users/stock/.claude/hooks/permission-auto-approve.sh\"",
+            "timeout": 3,
+            "statusMessage": ""
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"C:/Users/stock/.claude/hooks/push-reminder.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"C:/Users/stock/Documents/000_NGM/NG-ROBOT/.claude/hooks/auto_commit.sh\"",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell.exe -NoProfile -Command \"Add-Type -AssemblyName System.Windows.Forms; [System.Windows.Forms.MessageBox]::Show('Claude Code potĹ™ebuje pozornost', 'NG-ROBOT', 'OK', 'Information') | Out-Null\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'cat \"C:/Users/stock/Documents/000_NGM/NG-ROBOT/.claude/compact_reminder.txt\" 2>/dev/null || true'",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"C:/Users/stock/Documents/000_NGM/NG-ROBOT/.claude/hooks/skill-suggest.sh\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash /c/Users/stock/.claude/statusline-command.sh"
+  },
+  "enabledPlugins": {
+    "pyright-lsp@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "commit-commands@claude-plugins-official": true,
+    "playground@claude-plugins-official": true
+  },
+  "mcpServers": {
+    "brave-search": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-brave-search"
+      ],
+      "env": {
+        "BRAVE_API_KEY": "<<REDACTED-BRAVE-KEY>>"
+      }
+    },
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp@latest"
+      ]
+    },
+    "context7": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp"
+      ]
+    },
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer <<REDACTED-GITHUB-PAT>>"
+      }
+    },
+    "scheduled-tasks": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-scheduled-tasks"
+      ]
+    }
+  }
+}

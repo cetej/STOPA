@@ -8,3 +8,5 @@
 input/
 output/
 watchlist-drawer.png
+*.local.txt
+SECRETS*
