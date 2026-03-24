@@ -1,0 +1,30 @@
+{
+  "hooks": {
+    "TaskCompleted": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "http",
+            "url": "http://localhost:9090/webhook",
+            "timeout": 10,
+            "statusMessage": "Notifying webhook..."
+          }
+        ]
+      }
+    ],
+    "StopFailure": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "http",
+            "url": "http://localhost:9090/webhook",
+            "timeout": 10,
+            "statusMessage": "Reporting error..."
+          }
+        ]
+      }
+    ]
+  }
+}
