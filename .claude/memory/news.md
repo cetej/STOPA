@@ -5,74 +5,121 @@ Archived items: `.claude/memory/news-archive.md`
 
 ## Last Scan
 
-**2026-03-23** — full scan #2 (CHANGELOG deep-dive)
+**2026-03-24** — full scan (all tiers)
 
 ## Active Items
 
 ### Action Items
 
-1. **`effort` frontmatter pro skills** (2026-03-23, v2.1.80) — nový YAML klíč v SKILL.md
-   - Status: DONE — verify→high, scout→low (critic/orchestrate/scribe already set)
-
-2. **PreToolUse security fix — ověřit Dippy** (2026-03-23, v2.1.77)
-   - Status: DONE — Dippy funguje. Fix se týká `deny` rules, které STOPA nepoužívá.
-
-3. **`${CLAUDE_PLUGIN_DATA}` proměnná** (2026-03-23, v2.1.78) — plugin persistent state
+1. **`${CLAUDE_PLUGIN_DATA}` proměnná** (2026-03-23, v2.1.78) — plugin persistent state
    - stopa-orchestration plugin může ukládat state (budget, session data) bez souborů
    - Akce: zvážit při Plugin sync v2.0.0
 
-### Watch List
+2. **1M context window GA** (API, 2026-03-13) — Opus 4.6 + Sonnet 4.6, no beta header needed
+   - Media limit raised 100→600 images per request
+   - Akce: audit STOPA skills pro lingering `1m-context-beta` header references
 
-7. **GitHub Spec Kit** (github/spec-kit, 81k★) — Spec-Driven Development toolkit
-   - Official GitHub repo, 27 AI agents supported, extension/preset marketplace
-   - Pipeline: specify → clarify → plan → tasks → analyze → implement
-   - Relevance: direct competitor to STOPA orchestration, faster growth (81k★ in 7 months)
-   - Key differentiator: spec-centric (documents drive code) vs STOPA execution-centric
-   - Adopted patterns: constitution, handoff metadata, checklist reframe
-   - Full analysis: `.claude/memory/competitive-spec-kit.md`
+3. **`thinking.display: "omitted"`** (API, 2026-03-16) — omit thinking blocks from streaming
+   - Signature preserved for multi-turn, billing unchanged; up to 2.5× faster streaming
+   - Akce: přidat do `/budget` skill jako cost-reduction lever pro thinking-heavy tasks
+
+4. **Models API `capabilities` object** (API, 2026-03-18) — `GET /v1/models` vrací max_input_tokens, max_tokens, capabilities
+   - Akce: zvážit v `/orchestrate` pro dynamic model selection
+
+5. **⚠️ Haiku 3 retires April 19, 2026** — `claude-3-haiku-20240307` vrátí chybu za 3 týdny
+   - Migrate to: `claude-haiku-4-5-20251001`
+   - Akce: zkontrolovat NG-ROBOT, ADOBE-AUTOMAT, test1 pro hardcoded Haiku 3 model ID
+
+6. **Modular Diffusers v0.37.0** (2026-03-05) — composable diffusion pipeline blocks + Mellon visual workflow GUI
+   - LTX-2.3 + Kandinsky 5 nativně v Diffusers
+   - Akce: evaluate pro test1 Pyramid Flow upgrade
+
+### Watch List
 
 1. **Claude Code Channels** (v2.1.81) — Telegram/Discord integration přes `/telegram:configure`
    - Async push trigger model — potenciální mobile/async trigger pro STOPA orchestraci
    - Sloučeno: `--channels` MCP preview (v2.1.80) — proaktivní push zprávy do session
 
-2. **LTX-2.3** (Lightricks, Mar 5) — open-weights 4K video model, Diffusers compatible
-   - Relevance: potenciální upgrade Pyramid Flow pro test1, video output pro NG-ROBOT
-   - GitHub: https://github.com/Lightricks/LTX-Video
+2. **HTTP hooks v CC** — HTTP POST hooks pro external service integration (JSON in/out, bez lokálních skriptů)
+   - Potenciální použití: STOPA hook → Slack/webhook notifikace, external state sync
+   - Sledovat: přesná verze CC, kdy přidáno (nezachyceno v CHANGELOG fetchi)
 
-3. **Czech ABSA benchmarks** (arxiv 2602.22730, Feb 2026) — `ufal/robeczech-base`
+2. **`/context` actionable suggestions** (v2.1.74) — identifikuje memory bloat a context-heavy tools
+   - Relevance: STOPA memory maintenance — CC nám řekne co zabírá kontext
+   - Vyzkoušet: `/context` v session se zatíženou pamětí
+
+3. **Memory file timestamps** (v2.1.75) — CC nyní uvažuje o "freshness" memory souborů
+   - STOPA learnings mají `date:` v YAML frontmatter — to by mělo stačit
+   - Sledovat: co přesně CC kontroluje (filename timestamp vs. frontmatter date)
+
+4. **`autoMemoryDirectory` setting** (v2.1.74) — custom cesta pro memory storage
+   - Relevance: plugin distribuce — memory mimo `.claude/` adresář
+   - Zvážit pro stopa-orchestration plugin (spolu s `CLAUDE_PLUGIN_DATA`)
+
+5. **`/remote-control`** (v2.1.79) — bridge CC session do claude.ai/code + VS Code tabs
+   - Auto-generované AI tituly pro VS Code session tabs
+   - Relevance: STOPA orchestrace napříč prostředími (desktop ↔ web IDE)
+
+6. **GitHub Spec Kit** (github/spec-kit, 81k★) — Spec-Driven Development toolkit
+   - Direct competitor to STOPA, spec-centric vs. STOPA execution-centric
+   - Full analysis: `.claude/memory/competitive-spec-kit.md`
+
+7. **LTX-2.3** (Lightricks, Mar 5) — open-weights 4K video model, Diffusers compatible
+   - Relevance: potenciální upgrade Pyramid Flow pro test1, video output pro NG-ROBOT
+
+8. **Czech ABSA benchmarks** (arxiv 2602.22730, Feb 2026) — `ufal/robeczech-base`
    - Relevance: potenciální upgrade ZACHVEV sentiment pipeline
 
-4. **OpenClaw / NemoClaw** — messaging-first AI agent runtime, 250k+ stars
-   - NemoClaw = NVIDIA wrapper (OpenShell runtime + guardrails), announced GTC 2026-03-16, early preview
-   - Sledovat: NemoClaw GA release, MCP server integrace, opravy CVE
-   - Zájem: autonomous 24/7 agenti mimo Claude Code sessions
+9. **OpenClaw / NemoClaw** — messaging-first AI agent runtime, 250k+ stars
+   - NemoClaw = NVIDIA wrapper (OpenShell runtime + guardrails), GTC 2026-03-16, early preview
+   - Sledovat: NemoClaw GA release, MCP server integrace
 
-5. **Seedance 2.0** (ByteDance) — video generation model
+10. **`PostCompact` hook** (v2.1.76) — fires after context compaction
+    - Potenciální použití: cleanup memory nebo refresh state po automatické kompakci
 
-6. **MagCache + TaylorSeer** (Diffusers 0.37.0) — inference caching pro video gen
+11. **`Elicitation` + `ElicitationResult` hooks** (v2.1.76) — MCP interactive dialogs
+    - MCP servery mohou zobrazovat strukturované formuláře uživateli mid-task
 
-8. **`PostCompact` hook** (v2.1.76) — fires after context compaction
-   - Potenciální použití: cleanup memory nebo refresh state po automatické kompakci
-   - Zatím bez akce, sledovat
+12. **PyTorch 2.11** (released 2026-03-23) — **features potvrzeny**: FlexAttention + FlashAttention-4 + Differentiable Collectives for Distributed Training
+    - Relevance: NG-ROBOT závisí na PyTorch — evaluate FlexAttention pro video gen attention layers
 
-9. **`Elicitation` + `ElicitationResult` hooks** (v2.1.76) — MCP interactive dialogs
-   - MCP servery mohou zobrazovat strukturované formuláře uživateli mid-task
-   - Sledovat: může nahradit některé skill prompting vzory
+13. **MagCache + TaylorSeer** (Diffusers 0.37.0) — inference caching pro video gen
 
-10. **PyTorch 2.11** (released 2026-03-23) — dnes vydáno, features zatím neznámé
-    - Relevance: NG-ROBOT závisí na PyTorch — sledovat release notes
+14. **Seedance 2.0** (ByteDance) — video generation model
+
+15. **Mistral Small 4** (Apache 2.0, 119B, 2026-03-17) — unifikovaný model: reasoning (Magistral) + multimodal (Pixtral) + agentic coding (Devstral)
+    - Potenciální open-weights alternativa pro STOPA standard/deep tier subagenty
+
+16. **Flowception + Direction-Magnitude Decoupling** (ICLR 2026) — dvě paper na rychlejší/lepší flow matching video gen
+    - Flowception: non-autoregressive, variable-length, 3× méně FLOPs vs AR
+    - DMD: lightweight magnitude capture + directional caching
+    - Relevance: potenciální upgrade Pyramid Flow na test1
+
+17. **Veo 3.1** (Google) — video generation model, dostupný přes ComfyUI custom nodes + fal.ai/muapi
+    - Relevance: sledovat pro video gen pipeline upgrade
 
 ## Scan History
+
+### 2026-03-24 — full scan (all tiers)
+- Tier 1: API — 3 nové ACTION (1M GA, thinking.display, Models capabilities) + urgent Haiku 3 retirement (Apr 19)
+- Tier 2: PyTorch 2.11 features potvrzeny (FlexAttention + FA4), Modular Diffusers 0.37.0 → ACTION
+- Tier 3/4: Mistral Small 4, Flowception, Veo 3.1, HTTP hooks → WATCH
+- INFO: Cursor Composer 2, MALUS satire (Willison), AI dev productivity stats (19% slowdown)
+
+### 2026-03-24 — quick scan (desktop claude updates)
+- Verze: stále v2.1.81 (Mar 21) — žádná nová verze
+- DONE items archivovány (effort frontmatter, PreToolUse fix, Spec Kit)
+- NEW WATCH: /context suggestions, memory timestamps, autoMemoryDirectory, /remote-control
+- INFO: effort "max" odstraněn v v2.1.72 — STOPA nepoužívá "max" → bez dopadu
 
 ### 2026-03-23 — full scan #2 (CHANGELOG deep-dive)
 - CC CHANGELOG fetched — nalezeny 3 nové ACTION items (effort, PreToolUse fix, PLUGIN_DATA)
 - NEW WATCH: PostCompact hook, Elicitation hooks, PyTorch 2.11
-- DONE item (spec-kit) zůstává pro kontext, přesunout do archivu při dalším cleanup
 
 ### 2026-03-23 — full scan (all tiers)
 - CC: stále v2.1.81 — žádná nová verze, žádné nové API release notes
 - NEW WATCH: Claude Code Channels, MagCache + TaylorSeer
-- **Batch cleanup**: 7 action items zpracováno a archivováno, watch list přečíslován (10→6 items)
+- **Batch cleanup**: 7 action items zpracováno a archivováno
 
 ## Skipped Sources
 
