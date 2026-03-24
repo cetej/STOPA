@@ -2,6 +2,30 @@
 
 Decisions made during task execution. Each entry captures WHAT was decided, WHY, and by WHOM.
 
+### 2026-03-24 — Server pro 24/7 agent infrastrukturu (PENDING)
+- **Context**: Jarvis Phase 5 kompletní mimo 5.1 (24/7 daemon) a 5.5 (voice). Obojí vyžaduje always-on server.
+- **Decision**: PENDING — uživatel plánuje pronajmout server, nutno probrat požadavky
+- **Požadavky na infrastrukturu**:
+  - **Claude Code CLI** běžící persistentně (ne jen desktop app)
+  - **Scheduled tasks**: 6 úloh (morning-watch, daily-rebalancer, weekly-digest, memory-maintenance, skill-evolution, preference-learner) — potřebují běžet i když je desktop vypnutý
+  - **Telegram plugin**: Bun runtime + persistentní polling pro příjem zpráv 24/7
+  - **Git přístup**: SSH klíče ke všem 8 projektům (cetej/*)
+  - **Node.js/Bun**: pro Telegram plugin a MCP servery
+  - **Python 3.11+**: pro hook skripty (ruff, dippy, skill-suggest)
+  - **Paměť**: sdílená ~/.claude/memory/ — buď sync nebo NFS mount z desktopu
+  - **OS**: Linux preferovaný (levnější, stabilnější pro daemon), Windows možný
+  - **Anthropic API klíč**: pro Claude Code CLI (ANTHROPIC_API_KEY nebo Max plan token)
+- **Otevřené otázky**:
+  - VPS vs dedicated? (VPS stačí — low CPU, hlavně API calls)
+  - Jak synchronizovat memory mezi desktop a server? (git push/pull? rsync? shared storage?)
+  - Budget: kolik API tokenů denně generují scheduled tasks? (~$1-3/den odhad)
+  - Fallback: co když server spadne? Desktop jako backup?
+- **Možnosti**:
+  - (A) Levný VPS (Hetzner/DigitalOcean, ~€5-10/měsíc) + Claude Code CLI + cron
+  - (B) Anthropic hosted scheduled tasks (pokud bude GA — zatím preview)
+  - (C) Raspberry Pi doma (nulové měsíční náklady, ale údržba)
+- **Decided by**: user (rozhodnutí pending)
+
 ### 2026-03-24 — Voting Pattern: Known Gap, Future Option
 - **Context**: Analýza 7 Anthropic agent patterns vs. STOPA odhalila chybějící "voting" subtype parallelization — N nezávislých agentů na stejný task, konsensus výsledků
 - **Options considered**: (A) Implementovat hned jako `/critic --voting`, (B) Zapsat jako future option
