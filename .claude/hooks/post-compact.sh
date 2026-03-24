@@ -41,3 +41,6 @@ Review and update manually if needed.
 CKEOF
 
 echo "Auto-checkpoint saved to $CHECKPOINT after context compaction."
+
+# Slack notify — fire-and-forget
+python .claude/hooks/slack-notify.py post_compact branch="$BRANCH" task="$TASK" &

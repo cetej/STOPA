@@ -14,6 +14,15 @@ if [ -f "$BUDGET_FILE" ] && grep -q "in_progress\|standard\|deep\|light" "$BUDGE
 fi
 
 # Check if checkpoint exists
+HAS_CHECKPOINT="no"
 if [ -f "$CHECKPOINT_FILE" ] && [ -s "$CHECKPOINT_FILE" ]; then
     echo "Checkpoint exists — next session can resume from where you left off."
+    HAS_CHECKPOINT="yes"
 fi
+
+# Slack notify — fire-and-forget
+TASK="none"
+if [ -f "$BUDGET_FILE" ]; then
+  TASK=$(grep -m1 '^\*\*Goal\*\*:' ".claude/memory/state.md" 2>/dev/null | sed 's/\*\*Goal\*\*: *//' || echo "none")
+fi
+python hooks/slack-notify.py stop_failure checkpoint="$HAS_CHECKPOINT" task="$TASK" &

@@ -16,4 +16,11 @@ if grep -q "Status: in_progress\|Status: active\|## Current Task" "$STATE" 2>/de
   fi
 fi
 
+# Slack notify — fire-and-forget (always notify on session stop)
+TASK="none"
+if [ -f "$STATE" ] && grep -q "## Current Task" "$STATE" 2>/dev/null; then
+  TASK=$(grep -m1 '^\*\*Goal\*\*:' "$STATE" 2>/dev/null | sed 's/\*\*Goal\*\*: *//' || echo "none")
+fi
+python hooks/slack-notify.py session_stop task="$TASK" &
+
 exit 0
