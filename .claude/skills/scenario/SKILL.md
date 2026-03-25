@@ -109,6 +109,10 @@ Generation strategies (rotate):
 4. **Amplification** — take existing situation, push one parameter to extreme
 5. **Persona shift** — same scenario, different actor
 6. **Temporal shift** — same scenario at different time (peak load, maintenance)
+7. **Semi-formal reasoning** (arXiv:2603.01896) — construct explicit premises from preconditions, then derive implications:
+   - List known premises (P1: "user is authenticated", P2: "cart has items", P3: "payment gateway is reachable")
+   - Negate one premise and trace the logical consequence through the flow
+   - This catches failures that intuitive generation misses because it forces explicit reasoning about invariants
 
 ### Step 4: Classify
 

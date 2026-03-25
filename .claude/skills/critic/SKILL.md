@@ -197,6 +197,12 @@ Synthesize the full evidence chain: milestones → verification results → revi
 - If refinement was needed (DEEP path) or verification was borderline → tilt conservative
 - Reviewer concerns that weren't resolved count against the verdict
 
+**Confounder-Aware Scoring** (inspired by CARE, arXiv:2603.00039):
+- Separate **substance** from **style** — verbose code is not necessarily better, terse code is not necessarily worse
+- Do NOT reward or penalize: comment density, docstring length, variable name length, formatting choices (unless they violate project conventions)
+- Score based on **what the code does**, not how it looks — a 3-line function can score 5, a 50-line function can score 2
+- If two milestones conflict in impression (one looks messy but works, one looks clean but has a bug), trust the Verifier evidence over visual impression
+
 **Diff Impact Trace** (run before scoring):
 
 1. Get changed files: `git diff --name-only HEAD~1` (or `--cached`)
@@ -323,6 +329,14 @@ Before reviewing, check `.claude/memory/budget.md`:
 4. If FAIL → orchestrator must re-plan/re-execute
 5. If 2nd FAIL on same target → escalate to user, do NOT loop
 6. If SAME issue persists across 3+ reviews → flag as **architectural concern**
+
+## Reasoning Isolation (BOULDER principle)
+
+Multi-turn dialogue degrades LLM reasoning accuracy (arXiv:2603.20133). Each phase in the pipeline accumulates context that can bias later phases. Mitigate:
+
+- **Phase 2 (Verifier)**: Evaluate each milestone independently — do not let the outcome of M1 influence your assessment of M2
+- **Phase 4 (Judge)**: Re-read the milestone table and evidence fresh before scoring — do not rely on your "impression" from earlier phases
+- **For DEEP path**: If spawning a sub-agent for Reviewer, give it ONLY the milestone table + verification results, not the full conversation history
 
 ## Anti-Rationalization Defense
 

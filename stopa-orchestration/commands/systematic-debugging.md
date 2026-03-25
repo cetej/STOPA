@@ -1,5 +1,6 @@
 ---
 name: systematic-debugging
+description: Use when debugging with root-cause-first methodology. Trigger on 'debug this', 'find root cause', 'systematic debug'. Do NOT use for quick fixes or known issues.
 argument-hint: [error message, symptom, or 'last failure' to investigate]
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Agent
@@ -65,9 +66,13 @@ If you haven't completed Phase 1, you cannot propose fixes.
 
 ### Phase 3: Hypothesis and Testing
 
-1. **Form single hypothesis**
-   - State clearly: "Root cause is X because evidence Y shows Z"
-   - Be specific, not vague
+1. **Form single hypothesis using structured premises** (semi-formal reasoning, arXiv:2603.01896)
+   - List explicit premises from Phase 1 evidence:
+     - P1: "Error occurs at line X" (from stack trace)
+     - P2: "Input value is Y" (from data flow trace)
+     - P3: "This worked before commit Z" (from git bisect)
+   - Derive hypothesis from premises: "Given P1+P2+P3, root cause is X because..."
+   - Be specific, not vague — premises force specificity
 
 2. **Test minimally**
    - SMALLEST possible change to test hypothesis

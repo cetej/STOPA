@@ -1,6 +1,6 @@
 ---
 name: scenario
-description: "Use when exploring edge cases, failure modes, and use cases for a feature or system before implementation. Trigger on 'what could go wrong', 'edge cases', 'explore scenarios', 'stress test this'. Do NOT use for actual bug hunting (use /systematic-debugging) or security audit (use /security-review)."
+description: Use when exploring edge cases and failure modes before implementation. Trigger on what could go wrong, edge cases, explore scenarios. Not for bug hunting.
 argument-hint: <scenario description> [--domain software|product|business|security] [--depth shallow|standard|deep] [--format test-scenarios|use-cases|user-stories|threat-scenarios]
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, AskUserQuestion
@@ -109,6 +109,10 @@ Generation strategies (rotate):
 4. **Amplification** — take existing situation, push one parameter to extreme
 5. **Persona shift** — same scenario, different actor
 6. **Temporal shift** — same scenario at different time (peak load, maintenance)
+7. **Semi-formal reasoning** (arXiv:2603.01896) — construct explicit premises from preconditions, then derive implications:
+   - List known premises (P1: "user is authenticated", P2: "cart has items", P3: "payment gateway is reachable")
+   - Negate one premise and trace the logical consequence through the flow
+   - This catches failures that intuitive generation misses because it forces explicit reasoning about invariants
 
 ### Step 4: Classify
 
@@ -156,12 +160,19 @@ Gaps: scale, temporal, recovery — unexplored
 
 ## Phase 8: Output
 
-Create `scenario/{YYMMDD}-{scenario-slug}/` with:
+Print all output to stdout in clearly delimited sections (this skill has no Write permission):
 
-- **scenarios.md** — all situations grouped by dimension, full format
-- **edge-cases.md** — edge cases and failure modes with severity
-- **scenario-results.tsv** — iteration log
-- **summary.md** — coverage matrix, dimension heatmap, recommendations
+### Scenarios
+All situations grouped by dimension, full format.
+
+### Edge Cases
+Edge cases and failure modes with severity rating.
+
+### Iteration Log (TSV)
+Full iteration log in TSV format.
+
+### Summary
+Coverage matrix, dimension heatmap, recommendations.
 
 ### Output format by domain
 
@@ -199,3 +210,8 @@ After scenario exploration:
 4. **Log everything** — kept AND discarded situations (failures are informative)
 5. **Dimension coverage** — aim for breadth first, depth second
 6. **Domain-aware** — prioritize dimensions based on domain context
+
+## Error Handling
+
+- If no edge cases found: expand scope or challenge assumptions
+- Log discovered anti-patterns to `.claude/memory/learnings/<date>-<desc>.md` with YAML frontmatter

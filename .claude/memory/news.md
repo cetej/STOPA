@@ -5,7 +5,7 @@ Archived items: `.claude/memory/news-archive.md`
 
 ## Last Scan
 
-**2026-03-24** — full scan (all tiers)
+**2026-03-25** — papers scan (Tier 1 + Tier 2b)
 
 ## Active Items
 
@@ -110,6 +110,38 @@ Archived items: `.claude/memory/news-archive.md`
 8. **Czech ABSA benchmarks** (arxiv 2602.22730, Feb 2026) — `ufal/robeczech-base`
    - Relevance: potenciální upgrade ZACHVEV sentiment pipeline
 
+22. **BOULDER** (arxiv 2603.20133, Mar 20) — LLM reasoning degrades in multi-turn dialogue vs. single-shot
+    - CoT benchmarks overestimate real agent performance; gap driven by role conditioning + tool-use context
+    - Relevance: STOPA sub-agents run multi-turn → consider single-shot calls for reasoning-heavy evals
+
+23. **MCPAgentBench** (arxiv 2512.24565, Jan 2026) — first MCP tool-use benchmark with distractor tools
+    - Measures tool discrimination ability in sandbox environment
+    - Relevance: external validation for STOPA MCP setup; test `/scout` + `/orchestrate` tool selection
+    - Code: GitHub ✅
+
+24. **CARE** (arxiv 2603.00039, Mar 2026) — confounder-aware LLM-as-judge, 26.8% error reduction
+    - Separates verbosity/style bias from actual quality signal across 12 benchmarks
+    - Relevance: upgrade `/critic` scoring to remove judge bias
+    - Code: GitHub ✅ (SprocketLab/CARE)
+
+25. **ToolTree** (arxiv 2603.12740) — MCTS for tool planning, ~10% gain on benchmarks
+    - Dual-feedback evaluator + bidirectional pruning of tool sequences
+    - Relevance: STOPA orchestrate uses sequential planning → tree search could help complex tasks
+
+26. **3× flow matching papers** (Mar 2026) — FastLightGen (2603.01685), Warm-Start FM (2603.19360), Transition FM (2603.15689)
+    - FastLightGen: 30% param reduction + 4-step sampling
+    - Warm-Start: draft samples instead of noise → guaranteed speedup
+    - Transition FM: global transition flow → single-step generation
+    - Relevance: collectively advancing faster video gen for test1 Pyramid Flow upgrade
+
+27. **SWE-CI** (arxiv 2603.03823) — CI-loop benchmark for long-term codebase maintenance
+    - 100 tasks, 233-day histories, 71 consecutive commits — tests maintainability not just one-shot fixes
+    - Relevance: better eval framework for `/fix-issue` and `/tdd` skills
+
+28. **ClarEval** (arxiv 2603.00187) — benchmark for agent ambiguity detection / clarification questions
+    - Tests whether code agents ask vs. guess on ambiguous instructions
+    - Relevance: `/brainstorm` skill should detect vague input and ask rather than assume
+
 9. **OpenClaw / NemoClaw** — messaging-first AI agent runtime, 250k+ stars
    - NemoClaw = NVIDIA wrapper (OpenShell runtime + guardrails), GTC 2026-03-16, early preview
    - Sledovat: NemoClaw GA release, MCP server integrace
@@ -142,6 +174,13 @@ Archived items: `.claude/memory/news-archive.md`
     - Relevance: sledovat pro video gen pipeline upgrade
 
 ## Scan History
+
+### 2026-03-25 — papers scan (Tier 1 + Tier 2b)
+- Tier 1: žádné nové CC/API updates od včerejšího full scanu
+- Tier 2b: 7 nových papers — 3 ACTION (BOULDER, MCPAgentBench, CARE), 4 WATCH
+- Key insight: BOULDER shows multi-turn dialogue degrades reasoning → review STOPA sub-agent architecture
+- Code gen: SWE-CI (CI-loop benchmark), ClarEval (ambiguity detection), ToolTree (MCTS planning)
+- Video gen: 3× flow matching papers (FastLightGen, Warm-Start, Transition FM)
 
 ### 2026-03-25 — full scan (all tiers)
 - **🔥 AUTO MODE** — nový CC permission mode (research preview, 2026-03-24), safeguard classifier

@@ -90,6 +90,14 @@ Create checklist with level per check:
 - [ ] L1: [Config file] exists → glob
 ```
 
+### Reasoning Isolation (BOULDER principle)
+
+Multi-turn dialogue degrades LLM reasoning accuracy (arXiv:2603.20133). For complex milestones requiring logical inference (e.g., verifying auth flows, data consistency, race conditions):
+
+- Evaluate each milestone with fresh reasoning — do not let the outcome of earlier milestones bias your assessment
+- If spawning a sub-agent for verification, give it ONLY the milestone + relevant code, not the full conversation
+- For critical milestones (security, data integrity): explicitly re-read the code before judging — do not rely on earlier impressions
+
 ### Step 5: Execute
 Run each check **milestone by milestone** (not level by level). Complete all levels for M1 before moving to M2. This ensures critical milestones get full attention even if budget runs out.
 
