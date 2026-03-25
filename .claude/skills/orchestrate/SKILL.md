@@ -9,7 +9,6 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
 model: opus
 effort: high
 maxTurns: 40
-disallowedTools: ""
 handoffs:
   - skill: /critic
     when: "After implementation — quality gate before declaring done"
@@ -34,7 +33,7 @@ Before anything, read the shared memory:
 2. `.claude/memory/decisions.md` — past decisions
 3. `.claude/memory/learnings/critical-patterns.md` — top patterns (always-read)
 4. **Grep-first learnings**: Based on the task, grep for relevant learnings:
-   - `grep -r "component: <relevant>" .claude/memory/learnings/` (e.g., `component: orchestration`, `component: skill`)
+   - `Use the Grep tool with pattern and path .claude/memory/learnings/ (do NOT use bash grep on Windows)` (e.g., `component: orchestration`, `component: skill`)
    - `grep -r "tags:.*<keyword>" .claude/memory/learnings/` (match task keywords)
    - Read only matched files — don't load the entire directory
 
