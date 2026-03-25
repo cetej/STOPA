@@ -2,6 +2,7 @@
 name: xsearch
 description: Use when searching for code or patterns across all registered projects. Trigger on search across projects, cross-project search. Not for single-project.
 argument-hint: <search pattern> [--type py|ts|md] [--project name]
+effort: low
 user-invocable: true
 allowed-tools: ["Read", "Grep", "Glob", "Bash", "Agent"]
 ---
