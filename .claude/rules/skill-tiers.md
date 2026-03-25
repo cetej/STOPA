@@ -16,6 +16,7 @@ Specialized skills for specific workflows:
 - `/pr-review` — multi-persona PR review
 - `/brainstorm` — spec refinement from vague ideas
 - `/prp` — context packet for handoffs
+- `/handoff` — capture findings from completed/remote sessions into persistent memory
 - `/verify` — end-to-end proof of correctness
 - `/harness` — deterministic pipelines
 - `/security-review` — vulnerability analysis
