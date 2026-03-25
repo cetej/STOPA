@@ -1,6 +1,6 @@
 ---
 name: verify
-description: Run end-to-end verification of a pipeline, feature, or deployment. Use when you need to prove something works, not just that it compiles. Trigger on 'verify this works', 'prove it', 'test end-to-end', 'does it actually work', 'dokaž to', 'funguje to?'. Do NOT use for unit tests or syntax checks — only for end-to-end proof on real data or production-like conditions.
+description: Use when you need to prove something works end-to-end on real data. Trigger on verify this, prove it, funguje to. Do NOT use for unit tests only.
 argument-hint: [what to verify — pipeline name, feature, endpoint, or 'last changes']
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Agent
@@ -125,3 +125,16 @@ Run each check. Capture output. For each:
 - Prefer real execution over static analysis
 - Run with minimal side effects (read-only queries, test data, dry-run flags where available)
 - Report in the user's language (Czech if context is Czech)
+
+## Shared Memory
+
+Read first:
+- .claude/memory/state.md - current task context for verification scope
+
+## Output Format
+
+```markdown
+## Verification: <target>
+**Status**: PASS / FAIL
+**Evidence**: <what was tested and result>
+```

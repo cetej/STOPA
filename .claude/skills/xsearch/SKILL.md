@@ -1,6 +1,7 @@
 ---
 name: xsearch
-description: "Use when searching for code, patterns, or learnings across all registered projects. Trigger on 'search across projects', 'find in all repos', 'where is this used', 'cross-project search'. Do NOT use for searching within the current project only — use Grep/Glob directly."
+description: Use when searching for code or patterns across all registered projects. Trigger on search across projects, cross-project search. Not for single-project.
+argument-hint: <search pattern> [--type py|ts|md] [--project name]
 user-invocable: true
 allowed-tools: ["Read", "Grep", "Glob", "Bash", "Agent"]
 ---
@@ -47,3 +48,25 @@ Search across all registered projects for code patterns, learnings, and configur
 - If no matches found: suggest alternative search terms
 - If pattern is too broad (100+ matches): ask user to narrow down
 - If project path doesn't exist: skip silently, note in summary
+
+## Process
+
+1. Load project registry from ~/.claude/memory/projects.json
+2. Run grep/glob across each registered project directory
+3. Aggregate and deduplicate results
+4. Present findings grouped by project
+
+## Error Handling
+
+- If project directory not found: skip with warning
+- If no results: suggest broader search terms
+
+## Output Format
+
+Results grouped by project with file paths and line numbers.
+
+## Rules
+
+1. Never modify files in other projects - read-only
+2. Skip projects not cloned locally
+3. Report which projects were searched vs skipped

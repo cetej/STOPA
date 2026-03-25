@@ -10,6 +10,7 @@ allowed-tools:
   - Glob
 model: sonnet
 maxTurns: 8
+effort: medium
 ---
 
 # Nano Banana — Image Generation via fal.ai

@@ -1,9 +1,10 @@
 ---
 name: compact
-description: "Use when a long-running workflow accumulates large tool results or agent outputs that bloat context. Trigger on 'context is getting large', 'save and summarize results', 'compact context'. Do NOT use for small tasks with <3 tool results or when context is healthy."
+description: Use when context is bloated with large tool results or agent outputs. Trigger on compact, save results, context too large. Not for small tasks.
 argument-hint: "save-and-summarize <id> | save <id> | summarize <id> | load <id> | scratchpad | cleanup"
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
+effort: medium
 ---
 
 # Context Compaction — Save, Summarize, Reload
@@ -144,3 +145,16 @@ Any skill or workflow can use compaction:
 - Data you need to reference verbatim in the next step
 - Already-summarized agent status blocks
 - Simple Grep/Glob results with few matches
+
+## Process
+
+1. Identify large tool results and agent outputs in context
+2. Save critical results to disk files
+3. Summarize remaining context with Haiku
+4. Report what was compacted and where files were saved
+
+## Rules
+
+1. Never discard results without saving to disk first
+2. Always report what was compacted and file locations
+3. Log compaction event to .claude/memory/learnings.md if pattern discovered

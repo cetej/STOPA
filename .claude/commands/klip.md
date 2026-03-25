@@ -10,6 +10,7 @@ allowed-tools:
   - Glob
 model: sonnet
 maxTurns: 12
+effort: medium
 ---
 
 # Kling — Video Generation via fal.ai

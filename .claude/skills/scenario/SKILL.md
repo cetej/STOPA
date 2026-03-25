@@ -1,6 +1,6 @@
 ---
 name: scenario
-description: "Use when exploring edge cases, failure modes, and use cases for a feature or system before implementation. Trigger on 'what could go wrong', 'edge cases', 'explore scenarios', 'stress test this'. Do NOT use for actual bug hunting (use /systematic-debugging) or security audit (use /security-review)."
+description: Use when exploring edge cases and failure modes before implementation. Trigger on what could go wrong, edge cases, explore scenarios. Not for bug hunting.
 argument-hint: <scenario description> [--domain software|product|business|security] [--depth shallow|standard|deep] [--format test-scenarios|use-cases|user-stories|threat-scenarios]
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, AskUserQuestion
@@ -199,3 +199,8 @@ After scenario exploration:
 4. **Log everything** — kept AND discarded situations (failures are informative)
 5. **Dimension coverage** — aim for breadth first, depth second
 6. **Domain-aware** — prioritize dimensions based on domain context
+
+## Error Handling
+
+- If no edge cases found: expand scope or challenge assumptions
+- Log discovered anti-patterns to .claude/memory/learnings.md

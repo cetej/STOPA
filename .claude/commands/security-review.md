@@ -1,6 +1,7 @@
 ---
 name: security-review
 description: Use when reviewing code for security concerns before deploy. Trigger on 'security review', 'is this secure', 'check vulnerabilities'. Do NOT use for code review (/critic) or deps (/dependency-audit).
+argument-hint: [file/directory to review] [--scope full|focused]
 user-invocable: true
 allowed-tools:
   - Read
@@ -8,6 +9,7 @@ allowed-tools:
   - Grep
   - Agent
   - TodoWrite
+effort: medium
 ---
 
 # /security-review — Trust Boundary Analysis

@@ -1,6 +1,7 @@
 ---
 name: prp
 description: Use when preparing task context for handoff between sessions or sub-agents. Trigger on 'prp', 'context packet', 'prepare handoff'. Do NOT use for brainstorming or documenting completed work.
+argument-hint: <task description> [--scope file|module|project]
 user-invocable: true
 allowed-tools:
   - Read
@@ -9,6 +10,7 @@ allowed-tools:
   - Agent
   - Write
   - TodoWrite
+effort: medium
 ---
 
 # /prp — Prompt-Ready Packet Generator

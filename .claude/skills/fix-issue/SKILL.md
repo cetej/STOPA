@@ -124,3 +124,9 @@ Unless `--no-commit` flag was passed:
 3. **Never force-push** — always ask user
 4. **Branch safety** — always work on a feature branch
 5. **Attribution** — reference the issue number in the commit
+
+## Error Handling
+
+- If issue cannot be reproduced: document attempts, ask for more info
+- If fix breaks existing tests: revert and try alternative approach
+- If issue is actually a feature request: suggest /brainstorm instead

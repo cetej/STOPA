@@ -1,6 +1,6 @@
 ---
 name: seo-audit
-description: "Use when analyzing SEO performance from GSC data to find ranking opportunities, content gaps, and optimization priorities. Trigger on 'SEO audit', 'keyword opportunities', 'ranking analysis', 'co zlepšit v SEO'. Do NOT use for generating SEO metadata (that's Phase 7) or for technical site audits (crawlability, schema.org)."
+description: Use when analyzing SEO performance from GSC data for ranking opportunities. Trigger on SEO audit, keyword opportunities. Not for technical site audits.
 context:
   - gotchas.md
 argument-hint: "[focus: opportunities|intent|gaps|full] [timerange: 30d|90d]"
@@ -275,3 +275,11 @@ If only 1 snapshot exists, skip this module and report "insufficient data for tr
 5. **Impact-ordered** — sort everything by estimated impact (impressions × CTR gap)
 6. **Czech-aware** — keywords will be in Czech. Intent classification must handle Czech signal words (co, proč, jak, kde, nejlepší, srovnání, etc.)
 7. **Phase 7 integration** — when recommending title/meta rewrites, note that user can re-run Phase 7 on the article
+
+## Process
+
+1. Load GSC data (queries, pages, impressions, clicks, position)
+2. Identify ranking opportunities (position 4-20 with high impressions)
+3. Find content gaps and cannibalization
+4. Generate prioritized recommendations
+5. Log key findings to .claude/memory/learnings.md

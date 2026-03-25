@@ -1,6 +1,7 @@
 ---
 name: brainstorm
 description: Use when user has a vague idea without clear spec. Trigger on 'brainstorm', 'I have an idea', 'spec this out'. Do NOT use for clear tasks (/orchestrate) or review (/critic).
+argument-hint: <idea or topic to explore>
 user-invocable: true
 allowed-tools:
   - Read
@@ -20,6 +21,7 @@ handoffs:
   - skill: /prp
     when: "Handing off to another session or sub-agent"
     prompt: "Create PRP for: <feature name>"
+effort: medium
 ---
 
 # /brainstorm — Socratic Spec Refinement

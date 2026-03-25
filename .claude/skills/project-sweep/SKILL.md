@@ -1,8 +1,10 @@
 ---
 name: project-sweep
-description: "Use when performing the same operation across all registered projects. Trigger on 'sweep all projects', 'run across repos', 'update all projects', 'multi-project', 'project sweep'. Do NOT use for single-project tasks or cross-project search (use /xsearch)."
+description: Use when performing the same operation across all registered projects. Trigger on sweep all projects, project sweep. Not for single-project tasks.
+argument-hint: [operation description] [--dry-run]
 user-invocable: true
 allowed-tools: ["Read", "Grep", "Glob", "Bash", "Agent", "Write", "Edit"]
+effort: medium
 ---
 
 # Project Sweep — Multi-Project Orchestration
@@ -87,3 +89,23 @@ When operation is `health`, check for each project:
 - If a project path doesn't exist, skip it and note in results
 - If an operation fails for one project, continue with others
 - Rate limit: max 8 parallel agents (one per project)
+
+## Process
+
+1. Load project registry from ~/.claude/memory/projects.json
+2. For each project, execute the requested operation
+3. Collect results and report per-project status
+4. Log sweep results to .claude/memory/learnings.md if patterns found
+
+## Error Handling
+
+- If a project fails: continue with remaining, report failures at end
+- Never force-push or destructive operations without confirmation
+
+## Output Format
+
+```markdown
+## Sweep Report: <operation>
+| Project | Status | Notes |
+|---------|--------|-------|
+```

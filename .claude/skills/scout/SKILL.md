@@ -1,6 +1,6 @@
 ---
 name: scout
-description: Explore and map codebase context for a given topic or task. Use before implementing changes to understand what exists, what patterns are used, and what the scope of work is. Trigger on 'what do we have for X', 'map this area', 'scope this', or before any multi-file change. Do NOT use when you already know the file/location — use Read/Grep directly. Not for implementing changes (scout only maps).
+description: Use before implementing changes to map existing code and patterns. Trigger on map this area, scope this, what do we have. Not for known file locations.
 context:
   - gotchas.md
 argument-hint: [what to explore]
@@ -152,3 +152,7 @@ Add to the Scout Report output:
 3. **Report facts, not opinions** — the critic judges quality, you report structure
 4. **Map dependencies** — always note what depends on what
 5. **Flag unknowns** — if something is unclear, say so explicitly rather than guessing
+
+## After Scout
+
+- Log architectural discoveries to .claude/memory/learnings.md if significant
