@@ -25,7 +25,7 @@ You diagnose problems fast using known patterns. You DON'T fix things — you id
 
 ### Step 1: Read context
 1. Read `runbook.md` (in this skill's directory) for known patterns
-2. Read `.claude/memory/learnings.md` — check Anti-patterns section for project-specific failure patterns that may help diagnosis
+2. Read `.claude/memory/learnings/critical-patterns.md` — check for failure patterns; Grep `learnings/` by error keyword
 
 ### Step 2: Match symptom
 Compare user's error/symptom against runbook entries. If match found → report solution immediately.

@@ -16,5 +16,5 @@ Known failure modes. Add a line each time Claude trips on something.
 - **Circular feedback** — critic says "add error handling" → implementer adds → critic says "too much error handling" → STOP, ask user
 
 ## Context
-- **Missing project context** — always read state.md and learnings.md before reviewing. Without context, reviews are generic and useless
+- **Missing project context** — always read state.md and learnings/critical-patterns.md before reviewing. Without context, reviews are generic and useless
 - **Reviewing generated code** — auto-generated files (migrations, lockfiles) should be skipped

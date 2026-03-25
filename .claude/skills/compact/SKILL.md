@@ -157,4 +157,11 @@ Any skill or workflow can use compaction:
 
 1. Never discard results without saving to disk first
 2. Always report what was compacted and file locations
-3. Log compaction event to .claude/memory/learnings.md if pattern discovered
+3. Log compaction pattern to `.claude/memory/learnings/<date>-<desc>.md` with YAML frontmatter if discovered
+
+## Error Handling
+
+- **ID already exists**: append `-v2`, `-v3` etc. to avoid overwriting
+- **Haiku agent returns empty**: use placeholder `[No summary generated — content preserved in JSON]`
+- **File not found in `load`**: list available IDs from `.claude/memory/intermediate/` directory
+- **Content too small (<20 lines)**: skip with message "Content too small to compact"

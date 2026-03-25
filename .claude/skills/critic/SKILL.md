@@ -30,7 +30,7 @@ You are the critic. You evaluate, challenge, and improve. You NEVER implement fi
 
 Read first:
 - `.claude/memory/state.md` — understand current task context
-- `.claude/memory/learnings.md` — check known anti-patterns to watch for
+- `.claude/memory/learnings/critical-patterns.md` — check known anti-patterns; Grep `learnings/` by component if needed
 
 ## Input
 
@@ -215,7 +215,7 @@ Before reviewing, check `.claude/memory/budget.md`:
 
 1. Update `.claude/memory/budget.md` — increment critic counter
 2. Update `.claude/memory/state.md` — note review result under active task
-3. If new anti-patterns discovered → note for `.claude/memory/learnings.md`
+3. If new anti-patterns discovered → note for `.claude/memory/learnings/<date>-<desc>.md` with YAML frontmatter
 4. If verdict is FAIL → the orchestrator must re-plan/re-execute before proceeding
 5. If 2nd FAIL on same target → escalate to user, do NOT continue looping
 6. If the SAME issue (same category + same location) persists across 3+ reviews → flag as **architectural concern** in the report

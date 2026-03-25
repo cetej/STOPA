@@ -3,93 +3,62 @@
 **Saved**: 2026-03-25
 **Task**: Autoloop — skill quality audit & improvement
 **Branch**: main
-**Last commit**: e6178ae (not pushed, 5 commits total)
-**Status**: IN PROGRESS — 7/30 skills functionally tested (avg 9.7/10)
+**Status**: IN PROGRESS — 11/30 skills functionally tested
 
-## What Was Done This Session
+## Eval Results (all sessions combined)
 
-### 1. Autoloop demo on critic skill
-- Ran `/autoloop` on critic/SKILL.md: 14/15 → 15/15
-- Description shortened 349 → 184 chars
+| Skill | Tier | Score | Key Issues Fixed |
+|-------|------|-------|-----------------|
+| critic | T1 | 9.5 | 6 real issues found on test data |
+| scout | T1 | 10.0 | clean |
+| scribe | T1 | 10.0 | clean |
+| orchestrate | T1 | 9.0 | removed broken disallowedTools, fixed Windows grep |
+| verify | T2 | 7.0 | removed duplicate output format, fixed learnings path |
+| checkpoint | T2 | 7.5 | moved Step 3b before Step 3 (ordering bug) |
+| fix-issue | T2 | 6.5 | removed broken context: gotchas.md, fixed learnings path |
+| compact | T2 | 5.0 | added default mode, error handling, fixed threshold 20->50 |
+| brainstorm | T2 | 6.5 | (no error handling — lower priority) |
+| pr-review | T2 | 6.5 | (Agent unused but declared — needs parallel refactor) |
+| scenario | T2 | 6.0 | fixed Write contradiction (stdout output), added domain heuristics |
 
-### 2. Structural batch fix — ALL 30 skills
-- **Before**: 351/450 (78%) → **After**: 395/450 (87%)
-- 17 commands: added `description:` to YAML frontmatter
-- 11 skills: shortened descriptions to ≤200 chars
-- Added Process, Error Handling, Output Format, Rules, Shared Memory sections where missing
-- 3 commits merged to main
+**Averages**: T1=9.6/10, T2=6.5/10, Overall=7.6/10
 
-### 3. Functional eval — critic + scout
-- **critic** on compact/SKILL.md: **9.5/10** — found 6 real issues
-- **scout** on "memory system": **10/10** — found 5 real risks
+## Cross-Cutting Fixes Applied
 
-### 4. Bug fixes from eval findings
-- orchestrate: removed broken `disallowedTools: ""`
-- orchestrate: fixed Windows grep path in Phase 0
-- Created `.claude/memory/intermediate/` with .gitkeep
+1. **Stale learnings.md path** — 11 files updated to use `learnings/critical-patterns.md` + grep-first
+2. **Scenario Write contradiction** — output changed to stdout (skill is read-only)
+3. **Compact missing defaults** — added default mode, error handling, threshold consistency
+4. **Checkpoint ordering** — Step 3b moved before Step 3
+5. **Fix-issue broken context** — removed non-existent gotchas.md reference
 
-### 5. Functional eval — scribe (completed)
-- **scribe** on "record decision": **10/10** — all fields correct, cross-referenced learnings
+## What Remains
 
-### 6. Functional eval — orchestrate (completed)
-- **orchestrate** on "add error handling to all skills": **9/10** — correct tier, wave plan, agent prompts
-- Minor: per-subtask success criteria could be more explicit
-- Found doc gap: farm tier boundary (20 files) vs example text ambiguity
+### Priority 1: Eval Tier 3 skills (if desired)
+autoloop, watch, harness, tdd, systematic-debugging, browse, budget
 
-### 7. Functional eval — verify (LOST — re-run next session)
-- Agent output was empty, needs re-run
-- Test scenario: "Verify autoloop scoring heuristic correctly scores all SKILL.md files"
+### Priority 2: Deeper fixes for low-scoring T2 skills
+- **pr-review (6.5)**: refactor to use parallel Agent per persona instead of sequential
+- **brainstorm (6.5)**: add error handling, memory save format spec
+- **compact (5.0)**: add verbatim-preservation hint to Haiku prompt
 
-## What Remains — Next Session
-
-### Priority 1: Re-run verify eval
-Test: "Verify autoloop scoring heuristic correctly scores all SKILL.md files"
-
-### Priority 2: Eval remaining Tier 1-2 skills
-
-| Skill | Tier | Test scenario |
-|-------|------|---------------|
-| checkpoint | T1 | Simulate saving session state |
-| fix-issue | T2 | Simulate resolving a GitHub issue |
-| compact | T2 | Simulate compacting bloated context |
-| brainstorm | T2 | Simulate refining a vague idea |
-| pr-review | T2 | Simulate reviewing a PR |
-| scenario | T2 | Simulate exploring edge cases |
-
-### Priority 3: Fix compact cleanup/scratchpad issue
-Critic found cleanup deletes JSON files but not scratchpad.md → stale refs.
-
-### Priority 4: Eval Tier 3 commands (if time)
-autoloop, watch, harness, tdd, systematic-debugging
-
-## Learnings
-
-1. **Batch via Python > Read→Edit cycle** — avoids approval fatigue
-2. **Structural heuristic is proxy, not measure** — form, not function
-3. **Skills find bugs in the system** — eval output > scores
-4. **sed fails on smart quotes on Windows** — use Python with UTF-8
+### Priority 3: Commit and push
 
 ## Git State
 
-- **Branch**: main (5 unpushed commits)
-- **Untracked**: backups/, scripts/__pycache__/
+- 12 files changed (uncommitted)
+- 5 unpushed commits from previous sessions
+- Untracked: backups/, scripts/__pycache__/
 
 ## Resume Prompt
 
 > STOPA — skill quality audit (continuing)
-> Repo: cetej/STOPA (branch main, 4 unpushed commits)
+> Branch main, 12 uncommitted changes + 5 unpushed commits
 >
-> **Last session**: Autoloop skill audit
-> - Structural: 78% → 87% (30 skills fixed)
-> - Functional: critic 9.5, scout 10, scribe 10, orchestrate 9 (avg 9.7/10)
-> - verify eval needs re-run (agent output lost)
+> **Completed**: 11/30 skills evaluated (T1 avg 9.6, T2 avg 6.5)
+> **Cross-cutting fixes applied**: learnings path (11 files), scenario Write fix, compact defaults
 >
 > **Next:**
-> 1. Re-run verify eval (orchestrate + scribe done)
-> 2. Fix issues found
-> 3. Eval remaining: checkpoint, fix-issue, compact, brainstorm, pr-review, scenario
-> 4. Fix compact cleanup/scratchpad bug
-> 5. Push when done
->
-> **Pattern:** Agent simulates skill on real data → 10-question checklist → fix issues found
-> **Rule:** Use Python for batch edits, not Read→Edit (approval fatigue)
+> 1. Commit current fixes
+> 2. Optionally eval Tier 3 skills
+> 3. Deeper refactors: pr-review parallel agents, brainstorm error handling
+> 4. Push when done

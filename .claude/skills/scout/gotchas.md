@@ -12,7 +12,7 @@ Known failure modes. Add a line each time Claude trips on something.
 - **Missing scope estimate** — always include: how many files affected, complexity tier suggestion, dependencies
 
 ## Context
-- **Not reading learnings.md first** — previous sessions may have already explored this area. Check before re-exploring
+- **Not reading learnings/critical-patterns.md first** — previous sessions may have already explored this area. Check before re-exploring
 - **Ignoring git history** — `git log --oneline -20` reveals recent changes and intent. Use it
 
 ## Performance

@@ -282,4 +282,4 @@ If only 1 snapshot exists, skip this module and report "insufficient data for tr
 2. Identify ranking opportunities (position 4-20 with high impressions)
 3. Find content gaps and cannibalization
 4. Generate prioritized recommendations
-5. Log key findings to .claude/memory/learnings.md
+5. Log key findings to `.claude/memory/learnings/<date>-<desc>.md` with YAML frontmatter

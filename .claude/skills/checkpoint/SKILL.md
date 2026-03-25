@@ -46,7 +46,7 @@ Collect from all available sources:
    git log --oneline -5
    git diff --stat
    ```
-5. **Learnings this session**: Read `.claude/memory/learnings.md` — check for entries from today
+5. **Learnings this session**: Glob `.claude/memory/learnings/` for today's entries (pattern: `YYYY-MM-DD-*.md`)
 6. **Implementation plan**: Read `.claude/memory/implementation-plan.md` if it exists
 
 ### Step 2: Determine What's Done and What Remains
@@ -55,6 +55,20 @@ From the task state:
 - List completed subtasks (with one-line summaries)
 - List remaining subtasks (with dependencies and method)
 - Identify the **immediate next action** — the very first thing the next session should do
+
+### Step 3b: Git Cross-Reference
+
+After determining what's done vs. remaining, cross-reference with actual git state:
+
+1. Run `git log --oneline --since="8 hours ago"` to list commits from this session
+2. Run `git status --short` to identify uncommitted changes
+3. In the checkpoint, clearly separate:
+   - **Committed work**: list of commits with one-line descriptions (proven, safe)
+   - **Uncommitted WIP**: list of modified/untracked files (at risk if session crashes)
+   - **Discrepancy check**: if state.md says "subtask X done" but no matching commit exists → flag it
+
+This prevents the "I thought it was committed" problem where work exists only in context.
+
 
 ### Step 3: Write Checkpoint
 
@@ -113,19 +127,6 @@ Write to `.claude/memory/checkpoint.md`:
 >     .claude/memory/checkpoint.md
 >  Write in English (for Claude). Keep under 300 words.>
 ```
-
-### Step 3b: Git Cross-Reference
-
-After determining what's done vs. remaining, cross-reference with actual git state:
-
-1. Run `git log --oneline --since="8 hours ago"` to list commits from this session
-2. Run `git status --short` to identify uncommitted changes
-3. In the checkpoint, clearly separate:
-   - **Committed work**: list of commits with one-line descriptions (proven, safe)
-   - **Uncommitted WIP**: list of modified/untracked files (at risk if session crashes)
-   - **Discrepancy check**: if state.md says "subtask X done" but no matching commit exists → flag it
-
-This prevents the "I thought it was committed" problem where work exists only in context.
 
 ### Step 4: Notify User
 

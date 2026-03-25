@@ -156,12 +156,19 @@ Gaps: scale, temporal, recovery — unexplored
 
 ## Phase 8: Output
 
-Create `scenario/{YYMMDD}-{scenario-slug}/` with:
+Print all output to stdout in clearly delimited sections (this skill has no Write permission):
 
-- **scenarios.md** — all situations grouped by dimension, full format
-- **edge-cases.md** — edge cases and failure modes with severity
-- **scenario-results.tsv** — iteration log
-- **summary.md** — coverage matrix, dimension heatmap, recommendations
+### Scenarios
+All situations grouped by dimension, full format.
+
+### Edge Cases
+Edge cases and failure modes with severity rating.
+
+### Iteration Log (TSV)
+Full iteration log in TSV format.
+
+### Summary
+Coverage matrix, dimension heatmap, recommendations.
 
 ### Output format by domain
 
@@ -203,4 +210,4 @@ After scenario exploration:
 ## Error Handling
 
 - If no edge cases found: expand scope or challenge assumptions
-- Log discovered anti-patterns to .claude/memory/learnings.md
+- Log discovered anti-patterns to `.claude/memory/learnings/<date>-<desc>.md` with YAML frontmatter

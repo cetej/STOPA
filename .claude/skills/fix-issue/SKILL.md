@@ -2,8 +2,6 @@
 name: fix-issue
 description: Use when user provides a GitHub issue to resolve with code fix and commit. Trigger on 'fix issue', 'resolve issue', 'close issue #N'. Do NOT use for feature requests without criteria.
 argument-hint: <issue number or URL> [--no-commit]
-context:
-  - gotchas.md
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
 model: sonnet

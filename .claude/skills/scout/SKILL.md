@@ -155,4 +155,4 @@ Add to the Scout Report output:
 
 ## After Scout
 
-- Log architectural discoveries to .claude/memory/learnings.md if significant
+- Log architectural discoveries to `.claude/memory/learnings/<date>-<desc>.md` with YAML frontmatter if significant

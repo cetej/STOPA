@@ -94,7 +94,7 @@ Run each check. Capture output. For each:
 ## After Completion
 
 1. Update `.claude/memory/state.md` — append verification result under active task
-2. If FAIL: write failure pattern to `.claude/memory/learnings.md` under Anti-patterns (what failed, why, how to avoid)
+2. If FAIL: write failure pattern to `.claude/memory/learnings/<YYYY-MM-DD>-<short-desc>.md` with YAML frontmatter (type: anti_pattern)
 3. If PASS: note successful verification in state.md (which component, what evidence)
 4. Check `.claude/memory/budget.md` before spawning agents — increment agent counter after each spawn
 
@@ -130,10 +130,6 @@ Run each check. Capture output. For each:
 
 Read first:
 - .claude/memory/state.md - current task context for verification scope
-
-## Output Format
-
-```markdown
 ## Verification: <target>
 **Status**: PASS / FAIL
 **Evidence**: <what was tested and result>

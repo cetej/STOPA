@@ -95,7 +95,7 @@ When operation is `health`, check for each project:
 1. Load project registry from ~/.claude/memory/projects.json
 2. For each project, execute the requested operation
 3. Collect results and report per-project status
-4. Log sweep results to .claude/memory/learnings.md if patterns found
+4. Log sweep results to `.claude/memory/learnings/<date>-<desc>.md` with YAML frontmatter if patterns found
 
 ## Error Handling
 
