@@ -24,6 +24,17 @@ Archived items: `.claude/memory/news-archive.md`
      - Scheduled tasks (morning-watch, daily-rebalancer) by mohly běžet bez pre-approve
      - Zvážit doporučení auto mode jako default pro STOPA orchestraci
 
+0b. **Claude Computer Use on Mac** (2026-03-24, research preview) — Claude ovládá Mac (klik, psaní, scroll, apps)
+   - Funguje v Claude Code i Cowork; nejdřív zkusí konektory (Gmail, Drive, Slack), pak screen control
+   - Dostupné Pro/Max subscribers, jen macOS
+   - ⚠️ My jsme Windows — zatím nepoužitelné, sledovat Windows podporu
+   - Relevance: potenciální alternativa k MCP pro ovládání desktop aplikací (Adobe, browser)
+
+0c. **Claude Dispatch** (~2026-03-17, research preview) — remote task assignment z iPhonu na Mac
+   - QR párování, textuješ instrukce z telefonu → Claude vykonává na desktopu
+   - Mac musí běžet s Claude app, Max/Pro subscribers
+   - Relevance: alternativa k Telegram kanálu pro STOPA remote control (ale Mac only)
+
 1. **`${CLAUDE_PLUGIN_DATA}` proměnná** (2026-03-23, v2.1.78) — plugin persistent state
    - stopa-orchestration plugin může ukládat state (budget, session data) bez souborů
    - Akce: zvážit při Plugin sync v2.0.0
@@ -134,6 +145,8 @@ Archived items: `.claude/memory/news-archive.md`
 
 ### 2026-03-25 — full scan (all tiers)
 - **🔥 AUTO MODE** — nový CC permission mode (research preview, 2026-03-24), safeguard classifier
+- **Computer Use on Mac** — Claude ovládá desktop (klik, psaní, apps), research preview, macOS only
+- **Dispatch** (~Mar 17) — remote tasks z iPhonu na Mac, QR párování, Pro/Max
 - CC: v2.1.81 stále nejnovější verze; auto mode je feature, ne nová verze CC
 - SECURITY: malicious litellm 1.82.7/1.82.8 (credential stealer) → naše projekty litellm nepoužívají → SAFE
 - NEW ACTION: Opus 4.6 64k default output / 128k upper bound
