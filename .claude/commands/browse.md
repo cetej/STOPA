@@ -1,9 +1,6 @@
 ---
 name: browse
-  Browse web pages in the user's authenticated Chrome session. Use for extracting data from logged-in sites,
-  filling forms, testing UI, or monitoring page state. Trigger on 'browse', 'open page', 'extract from site',
-  'fill form', 'test UI', 'check page'. Do NOT use for simple web search (use WebSearch directly),
-  static page fetch (use WebFetch), or YouTube transcripts (use /youtube-transcript).
+description: Use when browsing authenticated Chrome pages for data extraction or form filling. Trigger on 'browse', 'open page', 'extract from site'. Do NOT use for web search or static fetch.
 user-invocable: true
 argument-hint: "[extract|fill|test|monitor] <url> [what to do]"
 model: sonnet

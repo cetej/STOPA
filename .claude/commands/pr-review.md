@@ -1,5 +1,6 @@
 ---
 name: pr-review
+description: Use when reviewing a PR with multiple expert perspectives. Trigger on 'review PR', 'PR review', 'multi-persona review'. Do NOT use for simple code review (/critic).
 argument-hint: <PR number or URL> [--post]
 context:
   - gotchas.md

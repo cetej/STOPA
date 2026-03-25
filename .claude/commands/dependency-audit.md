@@ -1,5 +1,6 @@
 ---
 name: dependency-audit
+description: Use when checking for outdated or vulnerable dependencies. Trigger on 'audit deps', 'outdated packages', 'check dependencies'. Do NOT use for general code review.
 argument-hint: [full / quick / package-name]
 user-invocable: true
 allowed-tools: Read, Glob, Grep, WebSearch, WebFetch

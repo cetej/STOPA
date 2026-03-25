@@ -1,10 +1,6 @@
 ---
 name: security-review
-  Use when reviewing code for security concerns, before deploying to production, or when the user
-  asks about security posture. Trigger on 'security review', 'security audit', 'is this secure',
-  'check for vulnerabilities', 'bezpečnostní review'.
-  Do NOT use for general code review (/critic or /pr-review), for dependency updates (/dependency-audit),
-  or for incident response (/incident-runbook).
+description: Use when reviewing code for security concerns before deploy. Trigger on 'security review', 'is this secure', 'check vulnerabilities'. Do NOT use for code review (/critic) or deps (/dependency-audit).
 user-invocable: true
 allowed-tools:
   - Read

@@ -1,5 +1,6 @@
 ---
 name: autoloop
+description: Use when iteratively optimizing a file or metric via Karpathy loop. Trigger on 'autoloop', 'optimize skill', 'auto-improve'. Do NOT use for one-shot edits.
 context:
   - gotchas.md
 argument-hint: <target file/scope> [goal] [verify:<command>] [guard:<command>] [budget:N]

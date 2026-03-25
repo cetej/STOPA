@@ -1,5 +1,6 @@
 ---
 name: klip
+description: Use when generating video via Kling on fal.ai. Trigger on 'generate video', 'klip', 'video clip'. Requires FAL_KEY env var. Do NOT use for images (/nano).
 argument-hint: <prompt> [--image path/url] [--duration 5|10|15] [--aspect 16:9|9:16|1:1] [--tier standard|pro] [--output path]
 user-invocable: true
 allowed-tools:

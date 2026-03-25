@@ -1,9 +1,6 @@
 ---
 name: brainstorm
-  Use when the user has a vague idea but hasn't defined scope, constraints, or acceptance criteria.
-  Trigger on 'brainstorm', 'let's think about', 'I have an idea', 'what should we build', 'spec this out'.
-  Do NOT use when the user already has a clear spec or actionable task — use /orchestrate or /scout instead.
-  Do NOT use for code review (/critic), debugging (/incident-runbook), or research (/watch).
+description: Use when user has a vague idea without clear spec. Trigger on 'brainstorm', 'I have an idea', 'spec this out'. Do NOT use for clear tasks (/orchestrate) or review (/critic).
 user-invocable: true
 allowed-tools:
   - Read

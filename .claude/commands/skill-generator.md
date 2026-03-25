@@ -1,5 +1,6 @@
 ---
 name: skill-generator
+description: Use when creating or modifying Claude Code skills. Trigger on 'create skill', 'new skill', 'modify skill'. Do NOT use for running existing skills.
 argument-hint: [description of the skill to create]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep

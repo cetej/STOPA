@@ -1,5 +1,6 @@
 ---
 name: tdd
+description: Use when implementing features via test-driven development cycle. Trigger on 'TDD', 'test first', 'red-green-refactor'. Do NOT use when tests already exist and pass.
 argument-hint: [feature or bug to implement with TDD — e.g. 'add validation to Phase 7 captions', 'fix photo_offset indexing']
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Edit, Write, Agent

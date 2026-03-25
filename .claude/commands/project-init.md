@@ -1,5 +1,6 @@
 ---
 name: project-init
+description: Use when setting up a new project with optimal Claude Code config. Trigger on 'init project', 'new project', 'project setup'. Do NOT use for existing projects.
 argument-hint: "[project-path] [--name 'Project Name'] [--force]"
 user-invocable: true
 allowed-tools: Read, Write, Bash, Glob

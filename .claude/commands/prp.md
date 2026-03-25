@@ -1,11 +1,6 @@
 ---
 name: prp
-  Generate a Prompt-Ready Packet (PRP) — an AI-optimized task context document that gives any Claude session
-  everything it needs to execute a task without re-reading the entire codebase.
-  Use when handing off work between sessions, delegating to sub-agents, or preparing context for /orchestrate.
-  Trigger on 'prp', 'context packet', 'prepare handoff', 'task brief', 'připrav kontext'.
-  Do NOT use for brainstorming (use /brainstorm), for simple tasks that don't need context prep, or for
-  documenting completed work (use /scribe).
+description: Use when preparing task context for handoff between sessions or sub-agents. Trigger on 'prp', 'context packet', 'prepare handoff'. Do NOT use for brainstorming or documenting completed work.
 user-invocable: true
 allowed-tools:
   - Read

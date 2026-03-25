@@ -1,5 +1,6 @@
 ---
 name: budget
+description: Use when checking or managing task budget and cost tracking. Trigger on 'budget', 'cost check', 'how much'. Do NOT use for billing or payments.
 argument-hint: [check / report / reset]
 user-invocable: true
 allowed-tools: Read, Write, Edit

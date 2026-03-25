@@ -1,6 +1,6 @@
 ---
 name: fix-issue
-description: Use when user provides a GitHub issue number/URL and wants it fully resolved with code fix, tests, and commit. Trigger on 'fix issue', 'resolve #123', 'oprav issue', GitHub issue URLs. Do NOT use for feature requests (use /orchestrate), for issues without a clear bug (use /scout first), or when user just wants to read an issue (use gh CLI directly).
+description: Use when user provides a GitHub issue to resolve with code fix and commit. Trigger on 'fix issue', 'resolve issue', 'close issue #N'. Do NOT use for feature requests without criteria.
 argument-hint: <issue number or URL> [--no-commit]
 context:
   - gotchas.md

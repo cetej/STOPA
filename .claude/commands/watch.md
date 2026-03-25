@@ -1,5 +1,6 @@
 ---
 name: watch
+description: Use when scanning for AI/ML ecosystem news and Claude Code updates. Trigger on 'watch', 'news', "what's new", 'novinky'. Do NOT use for web browsing (/browse).
 argument-hint: [full / quick / voices / topic:specific-topic]
 user-invocable: true
 allowed-tools: Read, Write, Edit, WebSearch, WebFetch, Agent
