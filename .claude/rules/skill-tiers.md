@@ -23,6 +23,7 @@ Specialized skills for specific workflows:
 - `/dependency-audit` — outdated/risky packages
 - `/incident-runbook` — failure diagnosis
 - `/scenario` — edge case & failure mode explorer (pre-implementation)
+- `/liveprompt` — live community prompt intelligence (what works RIGHT NOW for a topic)
 
 ## Tier 3 — Advanced (only on explicit request)
 Generative/creative tools and meta-skills:
