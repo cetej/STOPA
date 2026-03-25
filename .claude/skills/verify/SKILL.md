@@ -3,11 +3,11 @@ name: verify
 description: Use when you need to prove something works end-to-end on real data. Trigger on verify this, prove it, funguje to. Do NOT use for unit tests only.
 argument-hint: [what to verify — pipeline name, feature, endpoint, or 'last changes']
 user-invocable: true
-allowed-tools: Read, Glob, Grep, Bash, Agent
+allowed-tools: Read, Write, Glob, Grep, Bash, Agent
 model: sonnet
 effort: high
 maxTurns: 15
-disallowedTools: Write, Edit
+disallowedTools: Edit
 context:
   - gotchas.md
 ---
