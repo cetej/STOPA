@@ -1,6 +1,6 @@
 ---
 name: watch
-description: Use when scanning for AI/ML ecosystem news and Claude Code updates. Trigger on 'watch', 'news', "what's new", 'novinky'. Do NOT use for web browsing (/browse).
+description: Use when scanning for AI/ML ecosystem news, Claude Code updates, or arXiv research papers. Trigger on 'watch', 'news', "what's new", 'novinky', 'papers', 'arXiv'. Do NOT use for web browsing (/browse).
 argument-hint: [full / quick / papers / voices / topic:specific-topic]
 user-invocable: true
 allowed-tools: Read, Write, Edit, WebSearch, WebFetch, Agent
