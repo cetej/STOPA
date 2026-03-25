@@ -179,8 +179,23 @@ For each subtask (respecting dependencies):
 Agent(subagent_type: "general-purpose", prompt: "
   Context: <what the agent needs to know — include relevant learnings, decisions, conventions>
   Task: <specific deliverable>
-  Constraints: <quality standards, conventions>
   Output: <what to return>
+
+  ## Your Process Frame
+  ### MUST (obligations)
+  - <task-specific obligations — e.g., 'Run tests before marking done'>
+  - <convention obligations — e.g., 'Use pathlib.Path() for all file paths'>
+  ### MUST NOT (prohibitions)
+  - Do NOT edit files outside your scope: <list specific files/directories>
+  - Do NOT install new dependencies without reporting back
+  - Do NOT change public API signatures or architectural patterns
+  ### AUTONOMY SCOPE
+  - Can: fix own bugs (max 3 attempts), add missing imports, refactor within scope
+  - Cannot: architectural changes, new abstractions, scope expansion
+  - On uncertainty: STOP and report with NEEDS_CONTEXT status
+  ### GOALS
+  - Primary: <subtask goal>
+  - Process: <overall task goal — why this matters>
 
   IMPORTANT: All project context you need is provided above. Do NOT read .claude/memory/ files
   — the orchestrator has already loaded and filtered the relevant information for you.
@@ -199,8 +214,6 @@ Agent(subagent_type: "general-purpose", prompt: "
   .claude/memory/intermediate/<subtask-id>.json using the Findings Ledger schema.
   The orchestrator will auto-summarize your output — you do NOT need to self-summarize.
   Just write complete, detailed results.
-
-  Deviation rules: fix bugs/imports inline (max 3 attempts). STOP and report if architectural change needed. Pre-existing bugs go to deferred, don't fix them.
 ")
 ```
 
@@ -298,6 +311,19 @@ Role: {specialization}
 Owns: {specific files/directories — ONLY you edit these}
 Produces: {concrete deliverable}
 
+## Your Process Frame
+### MUST (obligations)
+- {task-specific obligations}
+- {convention obligations from CLAUDE.md}
+### MUST NOT (prohibitions)
+- Do NOT edit files outside your ownership scope
+- Do NOT install new dependencies without reporting to lead
+- Do NOT change public API signatures or architectural patterns
+### AUTONOMY SCOPE
+- Can: fix own bugs (max 3 attempts), add missing imports, refactor within owned files
+- Cannot: architectural changes, new abstractions, scope expansion
+- On uncertainty: STOP and report via SendMessage to lead
+
 ## Communication
 - Send results to: {named teammate(s)} via SendMessage
 - Receive from: {named teammate(s)} — what to expect
@@ -307,7 +333,6 @@ Produces: {concrete deliverable}
 {injected context from orchestrator — relevant code, decisions, constraints}
 
 ## Rules
-- Do NOT edit files outside your ownership scope
 - Include Status block (DONE/DONE_WITH_CONCERNS/NEEDS_CONTEXT/BLOCKED) in final message to lead
 - If blocked for 3+ attempts → STOP and report to lead via SendMessage
 ```

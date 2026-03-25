@@ -35,9 +35,35 @@ Parse ARGUMENTS to determine what to verify:
 - Read state.md for current task context
 - Check if project has existing test scripts (`tests/`, `scripts/`, `Makefile`)
 
-### Step 3: Design verification plan (Goal-Backward)
+### Step 3: Milestone Extraction (before planning)
 
-Start from the **goal** (what must be TRUE from user's perspective), not from task completion.
+Before jumping to verification, extract **milestones** — the critical state transitions that must be true for the change to succeed. This prevents evidence dilution (checking everything equally instead of focusing on what matters).
+
+**Ask:** "From the user's perspective, what are the 3-7 things that MUST be true?"
+
+For each milestone, define an **assignment goal** — an explicit, verifiable pass/fail criterion:
+
+```markdown
+## Milestones
+
+| # | What Must Be True | Assignment Goal | Priority |
+|---|-------------------|-----------------|----------|
+| M1 | User can log in | POST /auth/login returns 200 with valid JWT, 401 with wrong password | critical |
+| M2 | Dashboard shows data | GET /api/dashboard returns non-empty array with correct schema | critical |
+| M3 | Export works | CSV download contains all visible rows, not empty file | high |
+```
+
+**Rules for milestones:**
+- 3-7 milestones (fewer = focused verification, not shallow verification)
+- Each milestone has a specific, testable assignment goal — not "it works" but "returns 200 with JWT"
+- Priority: critical (must pass) > high (should pass) > medium (nice to verify)
+- If verifying "last changes": extract milestones from the diff, not from the whole system
+
+### Step 4: Design verification plan (Goal-Backward)
+
+Start from the **milestones** (what must be TRUE from user's perspective), not from task completion.
+
+Map each milestone to verification levels — not every milestone needs all 4 levels:
 
 For each component, verify at 4 levels:
 
@@ -64,14 +90,16 @@ Create checklist with level per check:
 - [ ] L1: [Config file] exists → glob
 ```
 
-### Step 4: Execute
-Run each check. Capture output. For each:
+### Step 5: Execute
+Run each check **milestone by milestone** (not level by level). Complete all levels for M1 before moving to M2. This ensures critical milestones get full attention even if budget runs out.
+
+For each check, capture output:
 - **PASS**: show key output proving it works (with verification level)
 - **FAIL**: show error, suggest root cause, note which level failed
 - **STUB**: component exists but is not substantive (L1 pass, L2 fail)
 - **SKIP**: explain why (missing dependency, requires external service)
 
-### Step 5: Report
+### Step 6: Report
 ```
 ## Verification Report
 **Target**: [what was verified]
