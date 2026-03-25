@@ -1,6 +1,6 @@
 ---
 name: critic
-description: Use after implementation or planning to catch quality and correctness issues before finalization. Trigger on 'review this', 'check quality', 'is this correct', 'zkontroluj', or auto-invoked after code edits. Do NOT use for syntax-only checks (use linter), for implementing fixes (critic only reports), or when budget critic iterations are exhausted.
+description: Use after implementation to catch quality issues. Trigger on 'review this', 'check quality', 'zkontroluj', auto-invoked after edits. Do NOT use for syntax checks or implementing fixes.
 context:
   - gotchas.md
 argument-hint: [what to review — file path, skill name, or "last changes"]
