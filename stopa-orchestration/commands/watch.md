@@ -1,6 +1,7 @@
 ---
 name: watch
-argument-hint: [full / quick / voices / topic:specific-topic]
+description: Use when scanning for AI/ML ecosystem news and Claude Code updates. Trigger on 'watch', 'news', "what's new", 'novinky'. Do NOT use for web browsing (/browse).
+argument-hint: [full / quick / papers / voices / topic:specific-topic]
 user-invocable: true
 allowed-tools: Read, Write, Edit, WebSearch, WebFetch, Agent
 model: sonnet
@@ -24,6 +25,7 @@ You scan external sources for news, updates, and changes relevant to this projec
 Parse `$ARGUMENTS`:
 - **"full"** (default) → Scan all source tiers (1-4)
 - **"quick"** → Tier 1 only (Claude Code + API). Cheapest option.
+- **"papers"** → Tier 1 + Tier 2b only (Claude updates + arXiv research). Good for "co je nového ve výzkumu".
 - **"voices"** → Tier 1 + Tier 4 only (Claude updates + Influencer Pulse). Good for "co je nového ve světě".
 - **"topic:X"** → Focus scan on specific topic (e.g., "topic:pytorch", "topic:flow-matching")
 
@@ -46,12 +48,45 @@ Use `WebSearch` for each:
 6. **Flow matching / video generation** — search: `"flow matching" OR "video generation" model paper {current_year}`
 7. **timm / einops** — search: `timm OR einops release {current_year}` (skip if no results)
 
+### Tier 2b: Research Papers — arXiv & Academic (scan on "full" or "papers")
+
+Fresh research papers are the earliest signal — new models, techniques, and benchmarks appear on arXiv days to weeks before they hit Reddit or blogs. Focus on papers with practical impact, not pure theory.
+
+Use `WebSearch` for each:
+8. **LLM & agents** — search: `site:arxiv.org "large language model" OR "LLM agent" OR "tool use" {current_month} {current_year}`
+9. **Prompting & reasoning** — search: `site:arxiv.org "chain of thought" OR "prompt engineering" OR "in-context learning" OR reasoning {current_month} {current_year}`
+10. **Code generation** — search: `site:arxiv.org "code generation" OR "program synthesis" OR "coding agent" {current_month} {current_year}`
+11. **Video & image generation** — search: `site:arxiv.org "flow matching" OR "video generation" OR "diffusion" OR "image generation" new model {current_month} {current_year}`
+12. **Benchmarks & evaluations** — search: `site:arxiv.org benchmark evaluation LLM OR "foundation model" {current_month} {current_year}`
+
+For promising results (high relevance to our stack), `WebFetch` the arXiv abstract page (max 2 fetches). Read abstract + introduction only — don't attempt full paper.
+
+#### Paper Relevance Filter
+
+| Include | Exclude |
+|---------|---------|
+| New model architectures we could use | Pure math/theory with no practical application |
+| Training techniques applicable to our models | Hardware-specific optimizations (TPU clusters) |
+| Agent/tool-use patterns | Papers about models we don't use and can't switch to |
+| Prompting/reasoning improvements | Marginal benchmark improvements (<2%) |
+| New benchmarks relevant to our use cases | Domain-specific papers (medical, legal) unless user's domain |
+| Open-source model releases with weights | Papers without code or reproducibility |
+
+#### Paper Signal Strength
+
+Prioritize papers by practical impact:
+- **Code available** (GitHub link in paper) → higher priority
+- **HuggingFace model/dataset** released → higher priority
+- **Cited by Papers With Code** trending → higher priority
+- **Multiple citations within first week** → emerging consensus
+- **Author is known (from Voice Registry or major lab)** → credibility boost
+
 ### Tier 3: Community (scan on "full")
 
 Use `WebSearch` for each:
-8. **GitHub trending** — search: `github trending python machine learning video generation {current_month} {current_year}`
-9. **Reddit** — search: `site:reddit.com (r/LocalLLaMA OR r/StableDiffusion) "flow matching" OR "video generation" OR "pyramid" {current_year}`
-10. **General AI news** — search: `AI tools developer productivity {current_month} {current_year}`
+13. **GitHub trending** — search: `github trending python machine learning video generation {current_month} {current_year}`
+14. **Reddit** — search: `site:reddit.com (r/LocalLLaMA OR r/StableDiffusion) "flow matching" OR "video generation" OR "pyramid" {current_year}`
+15. **General AI news** — search: `AI tools developer productivity {current_month} {current_year}`
 
 ### Tier 4: Influencer Pulse (scan on "full" or "voices")
 
@@ -78,10 +113,10 @@ WebSearch cannot reliably scrape X/Twitter directly. Use **indirect discovery** 
 
 For each voice group, run ONE combined search (not per-person — too expensive):
 
-11. **AI Leaders — announcements** — search: `(karpathy OR "simon willison" OR "jim fan" OR "alex albert") (announced OR released OR "new model" OR "new tool") {current_month} {current_year}`
-12. **AI Practitioners — techniques** — search: `(swyx OR "riley goodside" OR "jeremy howard" OR "harrison chase") (technique OR pattern OR framework OR "prompt engineering") {current_month} {current_year}`
-13. **Paper scouts** — search: `akhaliq OR "papers with code" trending AI model {current_month} {current_year}`
-14. **Aggregator catch-all** — search: `site:simonwillison.net OR site:swyx.io OR site:karpathy.ai {current_year} {current_month}`
+16. **AI Leaders — announcements** — search: `(karpathy OR "simon willison" OR "jim fan" OR "alex albert") (announced OR released OR "new model" OR "new tool") {current_month} {current_year}`
+17. **AI Practitioners — techniques** — search: `(swyx OR "riley goodside" OR "jeremy howard" OR "harrison chase") (technique OR pattern OR framework OR "prompt engineering") {current_month} {current_year}`
+18. **Paper scouts** — search: `akhaliq OR "papers with code" trending AI model {current_month} {current_year}`
+19. **Aggregator catch-all** — search: `site:simonwillison.net OR site:swyx.io OR site:karpathy.ai {current_year} {current_month}`
 
 If a search returns a promising blog post or newsletter, `WebFetch` it (max 2 fetches for this tier).
 
@@ -126,8 +161,9 @@ For each source that returns results:
 To minimize cost, use parallel WebSearch calls:
 - Launch Tier 1 searches (items 1-3) in parallel
 - If "full" mode, launch Tier 2 (items 4-7) in parallel
-- If "full" or "voices" mode, launch Tier 3 (items 8-10) in parallel for "full", skip for "voices"
-- If "full" or "voices" mode, launch Tier 4 (items 11-14) in parallel
+- If "full" or "papers" mode, launch Tier 2b (items 8-12) in parallel
+- If "full" mode, launch Tier 3 (items 13-15) in parallel
+- If "full" or "voices" mode, launch Tier 4 (items 16-19) in parallel
 - Fetch detailed pages only for promising results
 
 ## Output Format
@@ -150,7 +186,14 @@ To minimize cost, use parallel WebSearch calls:
 
 | # | Source | Finding | Why It Matters |
 |---|--------|---------|---------------|
-| 1 | arxiv | New flow matching technique | Could improve generation quality |
+| 1 | HuggingFace | New scheduler API | Could improve generation quality |
+
+### Research Papers (arXiv)
+
+| # | Paper | Area | Key Insight | Code? | Impact |
+|---|-------|------|-------------|-------|--------|
+| 1 | "Title" (arxiv:XXXX.XXXXX) | LLM agents | New tool-use architecture outperforms ReAct by 15% | GitHub ✅ | [ACTION] |
+| 2 | "Title" (arxiv:XXXX.XXXXX) | Prompting | Chain-of-draft reduces tokens 80% vs CoT | No code | [WATCH] |
 
 ### Influencer Pulse
 
@@ -191,8 +234,9 @@ To minimize cost, use parallel WebSearch calls:
 ## Cost Control
 
 - **Quick mode**: ~5-8k tokens (3 searches, 1-2 fetches)
+- **Papers mode**: ~20-35k tokens (3+5 searches, 2-4 fetches)
 - **Voices mode**: ~15-25k tokens (3+4 searches, 2-4 fetches)
-- **Full mode**: ~60-90k tokens (14 searches, 5-12 fetches)
+- **Full mode**: ~80-120k tokens (19 searches, 7-14 fetches)
 - Use `haiku` model for agent spawns if deeper analysis needed
 - Never spawn more than 1 agent — do the search/fetch work directly
 - If a source consistently returns nothing useful, skip it in future scans (note in news.md)
