@@ -11,6 +11,19 @@ Archived items: `.claude/memory/news-archive.md`
 
 ### Action Items
 
+0. **🔥 Auto Mode** (CC, 2026-03-24, research preview) — nový permission mode `auto`
+   - Claude sám rozhoduje o povolení tool calls, safeguard classifier kontroluje každou akci
+   - Střední cesta mezi `default` (vše schvalovat) a `bypassPermissions` (vše přeskočit)
+   - Enable: `claude --enable-auto-mode`, pak Shift+Tab pro přepnutí
+   - Config: `autoMode.environment` (trusted infra), `autoMode.allow/soft_deny` (pravidla)
+   - CLI: `claude auto-mode defaults`, `claude auto-mode config`, `claude auto-mode critique`
+   - Dostupné na Team plan (research preview), Enterprise + API brzy
+   - **Akce pro STOPA:**
+     - Vyzkoušet auto mode v session — potenciálně nahradí manuální permission approvals
+     - Nastavit `autoMode.environment` pro naše projekty (GitHub cetej/*, lokální cesty)
+     - Scheduled tasks (morning-watch, daily-rebalancer) by mohly běžet bez pre-approve
+     - Zvážit doporučení auto mode jako default pro STOPA orchestraci
+
 1. **`${CLAUDE_PLUGIN_DATA}` proměnná** (2026-03-23, v2.1.78) — plugin persistent state
    - stopa-orchestration plugin může ukládat state (budget, session data) bez souborů
    - Akce: zvážit při Plugin sync v2.0.0
@@ -30,13 +43,31 @@ Archived items: `.claude/memory/news-archive.md`
    - Migrate to: `claude-haiku-4-5-20251001`
    - Akce: zkontrolovat NG-ROBOT, ADOBE-AUTOMAT, test1 pro hardcoded Haiku 3 model ID
 
-6. **HTTP hooks implementace** (CC v2.1.63+, GA) — webhook notifikace pro STOPA
+6. **Opus 4.6 max output zvýšen** (CC, 2026-03-25) — default 64k tokens, upper bound 128k
+   - Opus + Sonnet 4.6 obě na 128k upper bound
+   - Akce: přezkoumat `/budget` skill — výchozí max_tokens pro Opus může být vyšší než předpoklad
+   - Akce: zkontrolovat, zda STOPA skills explicitně limitují output (mohly by využít vyšší limit)
+
+7. **HTTP hooks implementace** (CC v2.1.63+, GA) — webhook notifikace pro STOPA
    - Config: `"type": "http"` v hooks settings, POST s custom headers
    - ⚠️ TLS SNI bug (#30613) — HTTPS selhává, workaround: localhost proxy
    - ⚠️ URL nepodporuje env vars (#31653) — hardcode v `settings.local.json`
    - Akce: implementovat TaskCompleted → Slack webhook (localhost proxy + 10 řádků Python)
 
 ### Watch List
+
+18. **Gemini 3.1 Pro** (2026-03-16) — 77.1% ARC-AGI-2, $2/$12 pricing (stejné jako Gemini 3 Pro)
+    - Competitor benchmark benchmark leader — sledovat pro multi-provider srovnání
+    - GATE: 1 ✅ 3 ✅, 2 ❌ → [WATCH]
+
+19. **Papers with Code sunsetted** → HF Trending Papers — nová adresa: huggingface.co/papers/trending
+    - Aktualizovat bookmarky a /watch skill references
+
+20. **MCP lazy loading** (CC) — reduces context usage by up to 95% for MCP-heavy setups
+    - Relevance: STOPA sessions s mnoha MCP servery — potenciálně velká úspora
+
+21. **Wan2.1 + LTX Video 0.9.5** (Diffusers 0.37.0) — nové video modely v Diffusers
+    - LTX Video 0.9.5 = upgrade LTX-2.3 (Watch #7) — sledovat pro test1 upgrade
 
 1. **Claude Code Channels** (v2.1.81) — Telegram/Discord integration přes `/telegram:configure`
    - Async push trigger model — potenciální mobile/async trigger pro STOPA orchestraci
@@ -100,6 +131,15 @@ Archived items: `.claude/memory/news-archive.md`
     - Relevance: sledovat pro video gen pipeline upgrade
 
 ## Scan History
+
+### 2026-03-25 — full scan (all tiers)
+- **🔥 AUTO MODE** — nový CC permission mode (research preview, 2026-03-24), safeguard classifier
+- CC: v2.1.81 stále nejnovější verze; auto mode je feature, ne nová verze CC
+- SECURITY: malicious litellm 1.82.7/1.82.8 (credential stealer) → naše projekty litellm nepoužívají → SAFE
+- NEW ACTION: Opus 4.6 64k default output / 128k upper bound
+- NEW WATCH: Gemini 3.1 Pro (ARC-AGI-2 77.1%), Wan2.1 v diffusers, LTX Video 0.9.5
+- NEW WATCH: Papers with Code sunsetted → HF Trending Papers, MCP lazy loading (95% context reduction)
+- INFO: Karpathy autoresearch scaled to 910 experiments/8h on Kubernetes
 
 ### 2026-03-24 — hands-on research (3 items evaluated)
 - Modular Diffusers 0.37.0 → SKIP (Pyramid Flow incompatible, 2 hard env konflikty)
