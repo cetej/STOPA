@@ -4,7 +4,7 @@
 **Task**: Autoloop — skill quality audit & improvement
 **Branch**: main
 **Last commit**: e6178ae (not pushed, 5 commits total)
-**Status**: IN PROGRESS — 6/30 skills functionally tested
+**Status**: IN PROGRESS — 7/30 skills functionally tested (avg 9.7/10)
 
 ## What Was Done This Session
 
@@ -31,14 +31,19 @@
 ### 5. Functional eval — scribe (completed)
 - **scribe** on "record decision": **10/10** — all fields correct, cross-referenced learnings
 
-### 6. Functional eval — orchestrate + verify (NEED RE-RUN)
-- Agents ran but results were delivered in-context (not persisted to files)
-- Must re-run in next session
+### 6. Functional eval — orchestrate (completed)
+- **orchestrate** on "add error handling to all skills": **9/10** — correct tier, wave plan, agent prompts
+- Minor: per-subtask success criteria could be more explicit
+- Found doc gap: farm tier boundary (20 files) vs example text ambiguity
+
+### 7. Functional eval — verify (LOST — re-run next session)
+- Agent output was empty, needs re-run
+- Test scenario: "Verify autoloop scoring heuristic correctly scores all SKILL.md files"
 
 ## What Remains — Next Session
 
-### Priority 1: Re-run orchestrate + verify evals
-Scribe done (10/10). Orchestrate and verify need re-running — use same test scenarios from this checkpoint.
+### Priority 1: Re-run verify eval
+Test: "Verify autoloop scoring heuristic correctly scores all SKILL.md files"
 
 ### Priority 2: Eval remaining Tier 1-2 skills
 
@@ -76,11 +81,11 @@ autoloop, watch, harness, tdd, systematic-debugging
 >
 > **Last session**: Autoloop skill audit
 > - Structural: 78% → 87% (30 skills fixed)
-> - Functional: critic 9.5/10, scout 10/10
-> - orchestrate/scribe/verify evals may need re-running
+> - Functional: critic 9.5, scout 10, scribe 10, orchestrate 9 (avg 9.7/10)
+> - verify eval needs re-run (agent output lost)
 >
 > **Next:**
-> 1. Re-run evals for orchestrate, scribe, verify if results lost
+> 1. Re-run verify eval (orchestrate + scribe done)
 > 2. Fix issues found
 > 3. Eval remaining: checkpoint, fix-issue, compact, brainstorm, pr-review, scenario
 > 4. Fix compact cleanup/scratchpad bug
