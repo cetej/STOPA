@@ -133,6 +133,23 @@ Scale exploration to the assigned tier:
 
 **After scouting**: Re-evaluate the tier. If scope is smaller than expected, **downgrade**. If larger, propose upgrade to user.
 
+### Tier Auto-Escalation (runtime adaptation)
+
+During execution, automatically escalate the tier when evidence warrants it — don't wait for the user to notice:
+
+| Trigger | From → To | Action |
+|---------|-----------|--------|
+| Scout reveals 5+ files need changes (planned ≤3) | light → standard | Log: "Scope larger than expected (N files). Escalating to standard tier." |
+| Critic FAIL 2× on same target | any → next tier up | Log: "Repeated critic failures. Escalating tier for deeper analysis." |
+| Agent reports BLOCKED 2× on different subtasks | standard → deep | Log: "Multiple blockers suggest hidden complexity. Escalating to deep." |
+| Wave produces 0 file changes (no-progress) | — | Don't escalate — trigger circuit breaker #7 instead |
+
+**Rules:**
+- Escalate at most **once per task** (light→standard→deep, never light→deep in one jump)
+- Always log the escalation reason to `.claude/memory/budget.md`
+- Update agent/critic limits to match the new tier
+- Never **downgrade** mid-execution — only at scout phase
+
 Update `.claude/memory/budget.md` — increment scout counter.
 
 ## Phase 3: Analyze & Plan

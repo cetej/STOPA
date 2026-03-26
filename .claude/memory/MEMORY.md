@@ -15,6 +15,9 @@
 - [czech_corrector_plan.md](czech_corrector_plan.md) — Czech corrector: Variant A (prompts) → Variant B (hybrid MorphoDiTa+Hunspell)
 - [feedback_checkpoints.md](feedback_checkpoints.md) — Checkpoint pravidla: nemixovat, verzovat, častěji ukládat
 
+## Ideas (low priority)
+- [ideas-memory-upgrade.md](ideas-memory-upgrade.md) — Memory upgrade patterns (sabmemory, FTS5 index, token budgeting) — trigger: 500+ souborů
+
 ## Archives
 - [implementation-plan.md](implementation-plan.md) — Orchestration v2 plan (all items DONE)
 - [budget-archive.md](budget-archive.md) — Archived budget history

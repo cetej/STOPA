@@ -5,11 +5,22 @@ Archived items: `.claude/memory/news-archive.md`
 
 ## Last Scan
 
-**2026-03-26** — full scan (all tiers)
+**2026-03-26** — full scan (evening, all tiers)
 
 ## Active Items
 
 ### Action Items
+
+30. **CC 2.1.84** (2026-03-26, dnes) — `TaskCreated` hook, `WorktreeCreate` hook (HTTP), PowerShell tool (Windows opt-in preview), MCP tool descriptions capped 2KB
+    - `TaskCreated` hook: automatický trigger při vytvoření tasku → budget tracking
+    - `WorktreeCreate` hook: HTTP type s `worktreePath` → orchestrace worktree agentů
+    - **Akce:** Přidat nové hooks do STOPA hook registru; implementovat TaskCreated → budget auto-tracking
+
+31. **CC 2.1.83** (2026-03-25) — `managed-settings.d/` drop-in, `CwdChanged`+`FileChanged` hooks, `initialPrompt` v agent frontmatter
+    - `initialPrompt`: agenti mohou deklarovat bootstrap kontext v YAML frontmatter → zásadní zjednodušení sub-agent spawning
+    - `FileChanged` hook: auto-trigger po editaci souboru → potenciální auto-critic
+    - `managed-settings.d/`: drop-in directory pro enterprise managed settings
+    - **Akce:** Experimentovat s `initialPrompt` pro STOPA sub-agenty; implementovat FileChanged → auto-critic hook
 
 29. **Codified Context** (arXiv 2602.20478, Feb 2026) — infrastructure pro AI agenty v komplexním codebase
     - 3 komponenty: Hot-Memory Constitution (konvence + retrieval hooks), 19 domain agentů, Cold-Memory KB (34 on-demand docs)
@@ -86,6 +97,18 @@ Archived items: `.claude/memory/news-archive.md`
     - ICL zlepšuje výkon snížením prompt ambiguity (ne jen přidáváním příkladů)
     - CoT aktivuje task decomposition capabilities
     - Validuje STOPA `skill-files.md` design: jasné trigger conditions = lepší ICL
+
+29h. **Workflow Optimization for LLM Agents** (arXiv 2603.22386, Mar 23) — taxonomie static vs. dynamic workflow structures
+    - IBM Research + Rensselaer; unified taxonomy: predetermined vs. runtime-adaptive workflows
+    - Evaluation criteria beyond simple task metrics
+    - Relevance: přímo validuje STOPA static tier přiřazení, navrhuje dynamic runtime adaptation
+    - Kód: ne
+
+29i. ~~**Hyperagents**~~ → INFO (metacognitive agents, no code, covered by /autoloop)
+
+29j. **Clinejection Attack** (Willison, Mar 6) — prompt injection přes GitHub issue titles → `claude-code-action`
+    - Attack vector: issue titles → cache poisoning → code execution
+    - Anti-pattern pro STOPA hooks dotýkající se GitHub Actions
 
 29e. **Mem0** (trending Mar 19, 2026) — graph-based memory architektura pro LLM
     - Enhances long-term conversational coherence; z UCL
@@ -207,7 +230,15 @@ Archived items: `.claude/memory/news-archive.md`
 
 ## Scan History
 
-### 2026-03-26 — full scan (all tiers)
+### 2026-03-26 — full scan (evening)
+- **🔥 CC 2.1.84 released today** — TaskCreated hook, WorktreeCreate hook (HTTP), PowerShell tool (Windows), MCP tool desc 2KB cap
+- **CC 2.1.83 (yesterday)** — initialPrompt in agent frontmatter, CwdChanged+FileChanged hooks, managed-settings.d/
+- Tier 2b: 2603.22386 Workflow Optimization (IBM) — static vs. dynamic workflow taxonomy; BenchBench (2603.20807)
+- Tier 3/4: Clinejection attack pattern (Willison), Hyperagents paper (metacognitive agents)
+- Diffusers 0.37.1 patch (bugfix), timm 1.0.26 (ROPE support)
+- Key insight: CC 2.1.83 `initialPrompt` + `FileChanged` hooks = significant STOPA orchestration upgrade potential
+
+### 2026-03-26 — full scan (morning)
 - Tier 1: žádné nové CC/API updates od včerejšího scanu; Agent SDK repos (python/typescript) identifikovány
 - Tier 2: PyTorch/Diffusers — žádné nové verze od 2.11/0.37.0; Gemini 3.1 Flash-Lite ($0.25/M) jako nový WATCH
 - Tier 2b: 3 nové WATCH papers — Codified Context (ACTION, open-source), Foveated Diffusion, FSVideo
