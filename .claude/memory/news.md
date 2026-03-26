@@ -5,11 +5,23 @@ Archived items: `.claude/memory/news-archive.md`
 
 ## Last Scan
 
-**2026-03-26** — full scan (evening, all tiers)
+**2026-03-26** — targeted scan (Claude Desktop, Code, dreamer/autodream)
 
 ## Active Items
 
 ### Action Items
+
+32. **🔥 AutoDream / `/dream`** (CC, v2.1.81+, PR #39299 stále open) — **EVALUATED 2026-03-26**
+    - 4-phase background subagent (Orient, Gather Signal, Consolidate, Prune+Index), trigger: 24h + 5 sessions
+    - Feature flag `tengu_onyx_plover` (rolling out), manuální `/dream` stále broken (PR #39299 not merged)
+    - Known bugs: nepravdivé sumarizace (#38493), žádný log změn, identity confusion
+    - **Verdict: KOEXISTENCE** — dream jako "janitor", STOPA `/scribe` jako "architekt" (YAML frontmatter, grep-first, archivace)
+    - Ochranný HTML komentář přidán do MEMORY.md; eskalace: `autoDreamEnabled: false` pokud rozbíjí STOPA formát
+    - Sledovat: PR #39299 merge → otestovat manuální `/dream` s STOPA strukturou
+
+33. **Claude Mobile — Interactive Apps** (2026-03-25) — live charts, diagramy, shareable assets v konverzaci
+    - Claude mobile teď renderuje interaktivní vizualizace přímo v chatu
+    - Relevance: UI upgrade pro mobilní přístup k STOPA výstupům (watch reporty, scans)
 
 30. **CC 2.1.84** (2026-03-26, dnes) — `TaskCreated` hook, `WorktreeCreate` hook (HTTP), PowerShell tool (Windows opt-in preview), MCP tool descriptions capped 2KB
     - `TaskCreated` hook: automatický trigger při vytvoření tasku → budget tracking
@@ -236,6 +248,12 @@ Archived items: `.claude/memory/news-archive.md`
     - Cost reality: 22× expense for quality (solo $9 vs harness $200), but functional result
     - Harness simplification principle: every component encodes model limitation assumption
     - **Akce (implemented):** Anti-leniency protocol + adaptive weight profiles v /critic
+
+### 2026-03-26 — targeted scan (Claude Desktop, dreamer/autodream)
+- **🔥 AutoDream `/dream`** — nativní CC memory konsolidace (v2.1.81+, bug opraveno PR #39299). Překrývá se s STOPA `/scribe` + `/checkpoint`.
+- **Interactive Apps for Mobile** (Mar 25) — live charts + diagramy v Claude mobile
+- Clarifikace: "dreamer" (Karpathy) = DreamerV3 RL agenti (nesouvisí); "autoresearch" = Karpathy overnight LLM experiments (github.com/karpathy/autoresearch)
+- CC CHANGELOG a API platform notes: vše již zachyceno v předchozích scanech (CC 2.1.84, 1M GA, extended thinking)
 
 ### 2026-03-26 — full scan (evening)
 - **🔥 CC 2.1.84 released today** — TaskCreated hook, WorktreeCreate hook (HTTP), PowerShell tool (Windows), MCP tool desc 2KB cap

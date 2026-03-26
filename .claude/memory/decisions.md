@@ -2,6 +2,23 @@
 
 Decisions made during task execution. Each entry captures WHAT was decided, WHY, and by WHOM.
 
+### 2026-03-26 — AutoDream vs STOPA memory: KOEXISTENCE
+- **Context**: CC v2.1.81+ má nativní AutoDream (`/dream`) — background konsolidace memory souborů (deduplikace, staleness check, index rewrite). Překrývá se s STOPA `/scribe` + memory systémem.
+- **Decision**: KOEXISTENCE — AutoDream jako "janitor" (čištění, deduplikace), STOPA `/scribe` jako "architekt" (strukturované zápisy, YAML frontmatter, grep-first retrieval, archivace)
+- **Why**:
+  - AutoDream nemá YAML frontmatter → nemůže nahradit grep-first retrieval
+  - AutoDream maže stale záznamy místo archivace → ztráta historie
+  - AutoDream dělá nepravdivé sumarizace (issue #38493) → nespolehlivý pro rozhodovací záznamy
+  - AutoDream je black box (žádný log změn) → STOPA transparentnější
+  - Index formát kompatibilní (`- [Title](file.md) — hook`)
+- **Ochranná opatření**:
+  1. HTML komentář v MEMORY.md instruující dream nemazat learnings/, archive soubory
+  2. Monitorovat po dream runech zda STOPA struktura zůstala intact
+  3. Pokud dream rozbíjí formát → `"autoDreamEnabled": false` v settings.json
+  4. Future: FileChanged hook na `.claude/memory/` pro validaci YAML frontmatter
+- **Sledovat**: PR #39299 (manuální `/dream` command) — až merged, otestovat chování
+- **Decided by**: user (schválil doporučení)
+
 ### 2026-03-24 — Server pro 24/7 agent infrastrukturu (PENDING)
 - **Context**: Jarvis Phase 5 kompletní mimo 5.1 (24/7 daemon) a 5.5 (voice). Obojí vyžaduje always-on server.
 - **Decision**: PENDING — uživatel plánuje pronajmout server, nutno probrat požadavky
