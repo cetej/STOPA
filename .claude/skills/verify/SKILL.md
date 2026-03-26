@@ -29,6 +29,7 @@ Parse ARGUMENTS to determine what to verify:
 - `api` → hit API endpoints and check responses
 - `last changes` → `git diff HEAD~1` to find changed files, verify those
 - Specific file/module → import it, run it, check output
+- `--sources <file>` → **Source Verification Mode** (see below)
 
 ### Step 2: Read project context
 - Read CLAUDE.md for project structure and run commands
@@ -126,6 +127,60 @@ For each check, capture output:
 - [suggested fixes or improvements]
 - If stubs found: recommend specific implementation needed (not just "finish it")
 ```
+
+---
+
+## Source Verification Mode (`--sources`)
+
+When `$ARGUMENTS` contains `--sources <file>`, switch to **citation verification** mode. This verifies that a document's claims are properly sourced and URLs are live.
+
+### Process
+
+1. **Read the document** — identify all inline citations `[N]` and the Sources section
+2. **Check each URL** — use WebFetch to verify the URL resolves (not 404/timeout)
+3. **Verify claim-source alignment** — for the top 10 most critical claims, check that the cited source actually supports the specific claim (not just the general topic)
+4. **Check for orphans:**
+   - Orphan citations: `[N]` in text with no matching Sources entry
+   - Orphan sources: Sources entry never cited in text
+5. **Flag unsourced claims** — factual assertions with no citation attached
+
+### Output
+
+```markdown
+## Source Verification: <document>
+**Result**: VERIFIED / PARTIAL / FAILED
+
+### URL Check
+
+| # | Source | URL | Status |
+|---|--------|-----|--------|
+| 1 | ... | ... | live / dead / redirect / timeout |
+
+### Claim-Source Alignment
+
+| Claim | Citation | Alignment | Issue |
+|-------|----------|-----------|-------|
+| "X achieves 94% accuracy" | [3] | MATCH / MISMATCH / WEAK | Source says 91%, not 94% |
+
+### Issues
+
+- Dead links: [list]
+- Orphan citations: [list]
+- Orphan sources: [list]
+- Unsourced claims: [list]
+- Misattributed claims: [list]
+
+### Recommendations
+1. <specific fix per issue>
+```
+
+### Rules for Source Verification
+- A citation is valid ONLY if the source supports the **specific** claim (number, quote, conclusion), not just the general topic
+- "Verified" means you fetched the URL and confirmed the content — not that the citation exists
+- Dead link ≠ false claim — search for archived/updated URL before flagging as unsourced
+- Do not add citations yourself — report what's missing for the author to fix
+
+---
 
 ## After Completion
 

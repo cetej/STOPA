@@ -13,7 +13,8 @@ Daily-use skills that should be triggered proactively:
 ## Tier 2 — Extended (suggest when task matches)
 Specialized skills for specific workflows:
 - `/fix-issue` — GitHub issue resolution
-- `/pr-review` — multi-persona PR review
+- `/deepresearch` — multi-agent evidence-based research with citations
+- `/peer-review` — adversarial review of research artifacts and documents
 - `/brainstorm` — spec refinement from vague ideas
 - `/prp` — context packet for handoffs
 - `/handoff` — capture findings from completed/remote sessions into persistent memory

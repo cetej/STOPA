@@ -304,6 +304,25 @@ Apply these during Phase 2 (Verifier) alongside assignment goals:
 |---|----------|----------|-------------|----------|
 | 1 | high | correctness | ... | file:line |
 
+### Inline Annotations
+
+Quote specific code and annotate with issue IDs from the Issues table:
+
+> `if (user.role === "admin") return true;`  (auth.ts:42)
+**[#1] high/correctness:** This bypasses all permission checks for admins.
+Missing granular permission validation — admin role should still check
+specific resource access.
+
+> `const data = await fetch(url)`  (api.ts:15)
+**[#2] medium/safety:** No timeout or error handling on external fetch.
+Network failure will crash the handler.
+
+Rules for annotations:
+- Every issue from the Issues table SHOULD have a corresponding annotation
+- Quote the exact code being critiqued (with file:line)
+- Reference the issue ID so annotations link back to the summary table
+- Keep annotations concise — problem + why it matters
+
 ### What's Good
 - <positive observations — always include>
 
@@ -350,6 +369,7 @@ Before submitting your report, check yourself:
 | "Works in tests" | Tests may not cover failing path | Check coverage |
 | "Big refactor needed to fix" | Team needs to know | Report medium + note scope |
 | "Found enough issues" | Completeness > comfort | Finish ALL phases |
+| "Tests pass" | Tests may be stubs or check trivial conditions | Inspect actual test assertions for meaning |
 | "Outside review scope" | If you see it, report it | Note "outside primary scope" |
 | "Just a refactor" | Refactors introduce subtle regressions | Verify before/after |
 | "Similar code elsewhere" | Existing code may be wrong too | Evaluate on merit |
