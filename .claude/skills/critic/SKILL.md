@@ -169,6 +169,14 @@ Now switch to **strict auditor mode**. Your job is to catch what the Selector mi
 - Be a **strict auditor**, not a collaborative advisor — precision over recall
 - If everything genuinely checks out, say so — don't invent concerns
 
+**Anti-Leniency Protocol** (ref: Anthropic harness design, 2026-03-24):
+Evaluators have a documented tendency to "identify legitimate issues, then talk themselves into deciding they weren't a big deal." Guard against this:
+- Every issue you identify MUST result in a concrete severity rating — never dismiss with "minor, acceptable"
+- If you wrote down a concern and then feel like softening it: **keep the original severity**. The impulse to soften is the bias.
+- Do NOT use hedge phrases: "probably fine", "likely not an issue", "shouldn't matter in practice"
+- If a milestone barely passes: score it FAIL, not PASS-with-caveats. Borderline = FAIL.
+- Re-read your concerns list before Phase 4. If any concern was identified but not reflected in the final verdict, explain why in Verdict Rationale — forced accountability.
+
 **Output format:**
 
 ```markdown
@@ -210,15 +218,29 @@ Synthesize the full evidence chain: milestones → verification results → revi
 3. Flag high-risk dependents: files in auth/, payment/, api/ paths get automatic `high` severity
 4. Include as "Impact Radius" in report
 
-**Fill the Scoring Rubric:**
+**Adaptive Weight Selection** (ref: Anthropic harness design grading criteria):
+
+Select the weight profile matching the task type. The principle: **upweight areas where Claude typically underperforms**, downweight areas where it's naturally strong.
+
+| Criteria | Default | Security/Auth | Refactor | New Feature | Skill/Config |
+|----------|---------|---------------|----------|-------------|--------------|
+| Correctness (logic, edge cases) | 0.30 | 0.35 | 0.25 | 0.25 | 0.20 |
+| Completeness (all requirements) | 0.25 | 0.20 | 0.15 | 0.30 | 0.30 |
+| Code Quality (readability) | 0.20 | 0.10 | 0.35 | 0.15 | 0.15 |
+| Safety (regressions, security) | 0.15 | 0.30 | 0.15 | 0.15 | 0.10 |
+| Test Coverage | 0.10 | 0.05 | 0.10 | 0.15 | 0.25 |
+
+**How to select:** Match the task type from `.claude/memory/state.md` or infer from the diff. If unclear, use Default.
+
+**Fill the Scoring Rubric** (using selected weight profile):
 
 | Criteria | Weight | Score (1-5) | Evidence |
 |----------|--------|-------------|----------|
-| Correctness (logic, edge cases) | 0.30 | ? | <from Verifier results + Reviewer concerns> |
-| Completeness (all requirements met) | 0.25 | ? | <from Selector coverage + missing milestones> |
-| Code Quality (readability, patterns) | 0.20 | ? | <from quality dimensions check> |
-| Safety (no regressions, no security holes) | 0.15 | ? | <from Impact Radius + security milestones> |
-| Test Coverage (adequate tests exist) | 0.10 | ? | <from test file check> |
+| Correctness (logic, edge cases) | ? | ? | <from Verifier results + Reviewer concerns> |
+| Completeness (all requirements met) | ? | ? | <from Selector coverage + missing milestones> |
+| Code Quality (readability, patterns) | ? | ? | <from quality dimensions check> |
+| Safety (no regressions, no security holes) | ? | ? | <from Impact Radius + security milestones> |
+| Test Coverage (adequate tests exist) | ? | ? | <from test file check> |
 | **Weighted Average** | | **?.?** | |
 
 **Scoring rules:** 1=broken, 2=functional but concerns, 3=solid, 4=good with minor nits, 5=exemplary.

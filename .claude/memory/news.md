@@ -230,6 +230,13 @@ Archived items: `.claude/memory/news-archive.md`
 
 ## Scan History
 
+32. **Harness Design for Long-Running Apps** (Anthropic Engineering Blog, 2026-03-24)
+    - GAN-inspired generator/evaluator separation; evaluator leniency = #1 failure mode
+    - Sprint contracts: explicit deliverables + testable success criteria per phase
+    - Cost reality: 22× expense for quality (solo $9 vs harness $200), but functional result
+    - Harness simplification principle: every component encodes model limitation assumption
+    - **Akce (implemented):** Anti-leniency protocol + adaptive weight profiles v /critic
+
 ### 2026-03-26 — full scan (evening)
 - **🔥 CC 2.1.84 released today** — TaskCreated hook, WorktreeCreate hook (HTTP), PowerShell tool (Windows), MCP tool desc 2KB cap
 - **CC 2.1.83 (yesterday)** — initialPrompt in agent frontmatter, CwdChanged+FileChanged hooks, managed-settings.d/
