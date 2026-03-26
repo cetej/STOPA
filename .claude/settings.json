@@ -41,6 +41,17 @@
             "statusMessage": ""
           }
         ]
+      },
+      {
+        "matcher": "Write|Edit|mcp__filesystem__write_file|mcp__filesystem__edit_file",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/config-protection.sh",
+            "timeout": 3,
+            "statusMessage": ""
+          }
+        ]
       }
     ],
     "PostToolUse": [
