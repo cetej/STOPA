@@ -5,11 +5,17 @@ Archived items: `.claude/memory/news-archive.md`
 
 ## Last Scan
 
-**2026-03-25** — papers scan (Tier 1 + Tier 2b)
+**2026-03-26** — full scan (all tiers)
 
 ## Active Items
 
 ### Action Items
+
+29. **Codified Context** (arXiv 2602.20478, Feb 2026) — infrastructure pro AI agenty v komplexním codebase
+    - 3 komponenty: Hot-Memory Constitution (konvence + retrieval hooks), 19 domain agentů, Cold-Memory KB (34 on-demand docs)
+    - Testováno 283 sessions, 108k řádků C#; open-source
+    - STOPA analogy: `critical-patterns.md` = Hot-Memory, `learnings/` = Cold-Memory, ale chybí "retrieval hooks" vrstva
+    - **Akce:** Přidat "Context Bootstrap" do `/orchestrate` skill — explicitní instrukce co číst pro daný task type
 
 0. **🔥 Auto Mode** (CC, 2026-03-24, research preview) — nový permission mode `auto`
    - Claude sám rozhoduje o povolení tool calls, safeguard classifier kontroluje každou akci
@@ -66,6 +72,32 @@ Archived items: `.claude/memory/news-archive.md`
    - Akce: implementovat TaskCompleted → Slack webhook (localhost proxy + 10 řádků Python)
 
 ### Watch List
+
+29b. **Foveated Diffusion** (arXiv 2603.23491, 2026-03-24) — spatially adaptive video/image gen
+    - Neuniformní token alokace (fovea = high-res, periferie = low-res), perceptually indistinguishable od full-res
+    - Řeší quadratic complexity growth — praktická efektivita pro video gen
+    - Kód nepotvrzený; sledovat pro test1 pipeline upgrade
+
+29c. **FSVideo** (arXiv 2602.02092) — 14B DIT base + 14B upsampler, image-to-video
+    - "Order of magnitude faster" než existující modely
+    - Sledovat jako potenciální alternativa Pyramid Flow pro test1
+
+29d. **"Beyond the Prompt"** (arXiv 2603.10000, Mar 2026) — ICL a CoT mechanismy
+    - ICL zlepšuje výkon snížením prompt ambiguity (ne jen přidáváním příkladů)
+    - CoT aktivuje task decomposition capabilities
+    - Validuje STOPA `skill-files.md` design: jasné trigger conditions = lepší ICL
+
+29e. **Mem0** (trending Mar 19, 2026) — graph-based memory architektura pro LLM
+    - Enhances long-term conversational coherence; z UCL
+    - Potenciální inspirace pro STOPA memory: graph relationships mezi learnings files
+
+29f. **claude-agent-sdk-python + claude-agent-sdk-typescript** — oddělené SDK repos s CHANGELOGy
+    - github.com/anthropics/claude-agent-sdk-python (+ typescript verze)
+    - Building blocks pro custom multi-agent orchestraci mimo CC
+
+29g. **Gemini 3.1 Flash-Lite** — $0.25/M input, 1/8 ceny Gemini 3.1 Pro
+    - Competitor ultra-cheap inference tier
+    - Referenční bod pro STOPA cost tiers (Haiku $1/M vs Flash-Lite $0.25/M)
 
 18. **Gemini 3.1 Pro** (2026-03-16) — 77.1% ARC-AGI-2, $2/$12 pricing (stejné jako Gemini 3 Pro)
     - Competitor benchmark benchmark leader — sledovat pro multi-provider srovnání
@@ -174,6 +206,15 @@ Archived items: `.claude/memory/news-archive.md`
     - Relevance: sledovat pro video gen pipeline upgrade
 
 ## Scan History
+
+### 2026-03-26 — full scan (all tiers)
+- Tier 1: žádné nové CC/API updates od včerejšího scanu; Agent SDK repos (python/typescript) identifikovány
+- Tier 2: PyTorch/Diffusers — žádné nové verze od 2.11/0.37.0; Gemini 3.1 Flash-Lite ($0.25/M) jako nový WATCH
+- Tier 2b: 3 nové WATCH papers — Codified Context (ACTION, open-source), Foveated Diffusion, FSVideo
+- Tier 2b: Beyond the Prompt (2603.10000) — validuje STOPA skill description design
+- Tier 3: žádné nové trending repos nad rámec OpenClaw (known); Reddit bez výsledků
+- Tier 4: Mem0 trending (graph-based memory); Gemini Flash-Lite; prompt injection awareness (Karpathy+Willison)
+- Key insight: Codified Context paper potvrzuje STOPA architekturu, ale identifikuje mezeru — chybějící retrieval hooks
 
 ### 2026-03-25 — papers scan (Tier 1 + Tier 2b)
 - Tier 1: žádné nové CC/API updates od včerejšího full scanu

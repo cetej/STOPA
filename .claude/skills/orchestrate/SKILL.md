@@ -1,8 +1,6 @@
 ---
 name: orchestrate
 description: Use when a task requires multiple steps or touches 3+ files. Trigger on plan this, break this down, orchestrate. Do NOT use for single-file edits.
-context:
-  - gotchas.md
 argument-hint: [task description]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
@@ -94,6 +92,26 @@ See **Phase 4: Farm Execution** for the farm-specific workflow.
 Write the tier to `.claude/memory/budget.md` and set the counters.
 
 **Cost-first rule**: Always start with the lowest tier that might work. Upgrade only if the scout phase reveals higher complexity than expected — and tell the user when upgrading.
+
+### Context Bootstrap (retrieval hooks)
+
+After classifying the task, load targeted context based on **Type** and **Scope**. This replaces generic memory reads with precise, type-specific retrieval — ensuring agents get the right patterns without loading everything.
+
+| Task Type | Grep patterns for `learnings/` | Also load |
+|-----------|-------------------------------|-----------|
+| Bug fix | `type: bug_fix`, `component: <affected>` | `docs/TROUBLESHOOTING.md` (grep error message) |
+| Feature | `type: best_practice`, `component: <affected>` | Constitution check (Phase 3) |
+| Refactor | `type: architecture`, `type: anti_pattern` | Recent decisions in `decisions.md` for the area |
+| Pipeline/workflow | `type: workflow`, `tags:.*pipeline` | `docs/RLM_WORKFLOW_OPTIMIZER.md` (if exists) |
+| Skill edit | `component: skill`, `type: best_practice` | `rules/skill-files.md`, `rules/skill-tiers.md` |
+| Memory/state | `component: memory`, `component: orchestration` | `rules/memory-files.md` |
+| Hook/config | `component: hook`, `tags:.*settings` | `.claude/settings.json` structure |
+
+**Rules:**
+- Run max 2 grep queries from this table (most tasks match 1-2 rows)
+- Pass matched learnings as context to Phase 4 agent prompts — agents do NOT re-read memory
+- If no learnings match, that's fine — proceed without. Don't widen the search.
+- This table supplements Phase 0 memory reads (critical-patterns.md is always loaded regardless)
 
 ## Phase 2: Scout (scaled to tier)
 
