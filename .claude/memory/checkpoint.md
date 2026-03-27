@@ -1,9 +1,9 @@
 # Session Checkpoint
 
-**Saved**: 2026-03-25
-**Task**: Autoloop — skill quality audit & improvement
+**Saved**: 2026-03-27
+**Task**: Skill quality audit & improvement
 **Branch**: main
-**Status**: IN PROGRESS — 11/30 skills functionally tested
+**Status**: 20/30 skills evaluated, all committed
 
 ## Eval Results (all sessions combined)
 
@@ -20,8 +20,17 @@
 | brainstorm | T2 | 6.5 | (no error handling — lower priority) |
 | pr-review | T2 | 6.5 | (Agent unused but declared — needs parallel refactor) |
 | scenario | T2 | 6.0 | fixed Write contradiction (stdout output), added domain heuristics |
+| autofix | T2 | 7.0 | (Bash scope broad, missing memory reads — low priority) |
+| deepresearch | T2 | 8.0 | (integrity rules embedded in prompt — could extract to shared file) |
+| handoff | T2 | 9.0 | clean |
+| incident-runbook | T2 | 7.0 | removed duplicate output format, clarified priority |
+| liveprompt | T2 | 7.0 | (date placeholders, fetch counter — low priority) |
+| peer-review | T2 | 9.0 | clean |
+| project-sweep | T2 | 7.0 | projects.json fallback, fixed Write contradiction |
+| seo-audit | T2 | 8.0 | removed broken context: gotchas.md, fixed grep-first |
+| xsearch | T2 | 6.0 | projects.json fallback, removed stale refs, added edge case rule |
 
-**Averages**: T1=9.6/10, T2=6.5/10, Overall=7.6/10
+**Averages**: T1=9.6/10, T2=7.1/10, Overall=7.6/10
 
 ## Cross-Cutting Fixes Applied
 
@@ -30,35 +39,22 @@
 3. **Compact missing defaults** — added default mode, error handling, threshold consistency
 4. **Checkpoint ordering** — Step 3b moved before Step 3
 5. **Fix-issue broken context** — removed non-existent gotchas.md reference
+6. **seo-audit broken context** — removed non-existent gotchas.md reference
+7. **projects.json fallback** — xsearch + project-sweep now fall back to CLAUDE.md if registry missing
+8. **Memory maintenance** — decisions.md archived 5 resolved entries, news.md archived 8 stale items
 
 ## What Remains
 
-### Priority 1: Eval Tier 3 skills (if desired)
-autoloop, watch, harness, tdd, systematic-debugging, browse, budget
-
-### Priority 2: Deeper fixes for low-scoring T2 skills
-- **pr-review (6.5)**: refactor to use parallel Agent per persona instead of sequential
-- **brainstorm (6.5)**: add error handling, memory save format spec
+### Deeper fixes for low-scoring skills (optional)
 - **compact (5.0)**: add verbatim-preservation hint to Haiku prompt
+- **pr-review (6.5)**: refactor to use parallel Agent per persona
+- **brainstorm (6.5)**: add error handling, memory save format spec
 
-### Priority 3: Commit and push
-
-## Git State
-
-- 12 files changed (uncommitted)
-- 5 unpushed commits from previous sessions
-- Untracked: backups/, scripts/__pycache__/
+### T3 skills NOT in STOPA
+autoloop, watch, budget exist in target projects (NG-ROBOT, ADOBE-AUTOMAT) but not centralized in STOPA.
+harness, tdd, systematic-debugging, browse — location unknown (possibly user-global or other projects).
 
 ## Resume Prompt
 
-> STOPA — skill quality audit (continuing)
-> Branch main, 12 uncommitted changes + 5 unpushed commits
->
-> **Completed**: 11/30 skills evaluated (T1 avg 9.6, T2 avg 6.5)
-> **Cross-cutting fixes applied**: learnings path (11 files), scenario Write fix, compact defaults
->
-> **Next:**
-> 1. Commit current fixes
-> 2. Optionally eval Tier 3 skills
-> 3. Deeper refactors: pr-review parallel agents, brainstorm error handling
-> 4. Push when done
+> STOPA — skill audit complete (20/30 evaluated, all committed)
+> Remaining: 3 deeper refactors (compact, pr-review, brainstorm) + T3 skill centralization
