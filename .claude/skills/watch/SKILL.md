@@ -23,8 +23,9 @@ You scan external sources for news, updates, and changes relevant to this projec
 ## Input
 
 Parse `$ARGUMENTS`:
-- **"full"** (default) → Scan all source tiers (1-3)
+- **"full"** (default) → Scan all source tiers (1-3) + Tier 2b (papers)
 - **"quick"** → Tier 1 only (Claude Code + API). Cheapest option.
+- **"papers"** → Tier 2b only (arXiv last 30 days). For research-focused scans.
 - **"topic:X"** → Focus scan on specific topic (e.g., "topic:pytorch", "topic:flow-matching")
 
 ## Source Tiers
@@ -46,12 +47,23 @@ Use `WebSearch` for each:
 6. **Flow matching / video generation** — search: `"flow matching" OR "video generation" model paper {current_year}`
 7. **timm / einops** — search: `timm OR einops release {current_year}` (skip if no results)
 
+### Tier 2b: Research Papers (scan on "full" or "papers")
+
+Use `WebSearch` for arXiv papers from last 30 days:
+8. **Agent/orchestration papers** — search: `site:arxiv.org "LLM agent" OR "tool use" OR "multi-agent" {current_year} {current_month}`
+9. **Code generation / SWE papers** — search: `site:arxiv.org "code generation" OR "software engineering" LLM benchmark {current_year}`
+10. **Prompt engineering papers** — search: `site:arxiv.org "prompt engineering" OR "chain of thought" OR "in-context learning" {current_year} {current_month}`
+
+Also check: `WebFetch` on `https://huggingface.co/papers` for trending papers.
+
+For each paper: note title, arxiv ID, key finding, relevance to STOPA, and whether code is available.
+
 ### Tier 3: Community (scan on "full")
 
 Use `WebSearch` for each:
-8. **GitHub trending** — search: `github trending python machine learning video generation {current_month} {current_year}`
-9. **Reddit** — search: `site:reddit.com (r/LocalLLaMA OR r/StableDiffusion) "flow matching" OR "video generation" OR "pyramid" {current_year}`
-10. **General AI news** — search: `AI tools developer productivity {current_month} {current_year}`
+11. **GitHub trending** — search: `github trending python machine learning video generation {current_month} {current_year}`
+12. **Reddit** — search: `site:reddit.com (r/LocalLLaMA OR r/StableDiffusion) "flow matching" OR "video generation" OR "pyramid" {current_year}`
+13. **General AI news** — search: `AI tools developer productivity {current_month} {current_year}`
 
 ## Processing
 
