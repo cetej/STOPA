@@ -13,7 +13,7 @@ Search across all registered projects for code patterns, learnings, and configur
 
 ## Instructions
 
-1. **Read project registry**: `~/.claude/memory/projects.json`
+1. **Read project registry**: Check if `~/.claude/memory/projects.json` exists. If not, fall back to known project paths from CLAUDE.md (Cílové projekty section).
 2. **Parse search query** from user input — extract:
    - Pattern (regex or keyword)
    - Optional filters: project name, file type, component
@@ -26,8 +26,7 @@ Search across all registered projects for code patterns, learnings, and configur
    - Show file path, line number, matching line
    - Limit to 5 matches per project (show count if more)
 5. **Cross-reference with learnings**:
-   - Also search `~/.claude/memory/cross-project-learnings.md`
-   - Also search `~/.claude/memory/learnings/` in current project
+   - Grep `.claude/memory/learnings/` in current project for the search pattern
 6. **Output format**:
 
 ```
@@ -50,24 +49,9 @@ Search across all registered projects for code patterns, learnings, and configur
 - If pattern is too broad (100+ matches): ask user to narrow down
 - If project path doesn't exist: skip silently, note in summary
 
-## Process
-
-1. Load project registry from ~/.claude/memory/projects.json
-2. Run grep/glob across each registered project directory
-3. Aggregate and deduplicate results
-4. Present findings grouped by project
-
-## Error Handling
-
-- If project directory not found: skip with warning
-- If no results: suggest broader search terms
-
-## Output Format
-
-Results grouped by project with file paths and line numbers.
-
 ## Rules
 
-1. Never modify files in other projects - read-only
-2. Skip projects not cloned locally
+1. Never modify files in other projects — read-only
+2. Skip projects not cloned locally (note in summary)
 3. Report which projects were searched vs skipped
+4. If 100+ matches: ask user to narrow the query before showing results

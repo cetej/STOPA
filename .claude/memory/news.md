@@ -246,108 +246,15 @@ Archived items: `.claude/memory/news-archive.md`
    - NemoClaw = NVIDIA wrapper (OpenShell runtime + guardrails), GTC 2026-03-16, early preview
    - Sledovat: NemoClaw GA release, MCP server integrace
 
-10. **`PostCompact` hook** (v2.1.76) — fires after context compaction
-    - Potenciální použití: cleanup memory nebo refresh state po automatické kompakci
-
-11. **`Elicitation` + `ElicitationResult` hooks** (v2.1.76) — MCP interactive dialogs
-    - MCP servery mohou zobrazovat strukturované formuláře uživateli mid-task
-
-12. **PyTorch 2.11** (released 2026-03-23) — **EVALUATED 2026-03-24**
-    - FlexAttention = compiler-driven API pro arbitrary attention patterns, FA4 backend jen H100/B200
-    - FA4 backend explicitně "expect breaking changes" — není production-safe
-    - Migrace z SDPA = 1-2 dny (dynamic=False, block_mask caching, no dropout)
-    - **Verdict: WAIT do PyTorch 2.12 (~květen 2026). Prototypovat attention patterns na Triton path teď.**
-
-13. **MagCache + TaylorSeer** (Diffusers 0.37.0) — inference caching pro video gen
-
-14. **Seedance 2.0** (ByteDance) — video generation model
-
-15. **Mistral Small 4** (Apache 2.0, 119B, 2026-03-17) — unifikovaný model: reasoning (Magistral) + multimodal (Pixtral) + agentic coding (Devstral)
-    - Potenciální open-weights alternativa pro STOPA standard/deep tier subagenty
-
-16. **Flowception + Direction-Magnitude Decoupling** (ICLR 2026) — dvě paper na rychlejší/lepší flow matching video gen
-    - Flowception: non-autoregressive, variable-length, 3× méně FLOPs vs AR
-    - DMD: lightweight magnitude capture + directional caching
-    - Relevance: potenciální upgrade Pyramid Flow na test1
-
-17. **Veo 3.1** (Google) — video generation model, dostupný přes ComfyUI custom nodes + fal.ai/muapi
-    - Relevance: sledovat pro video gen pipeline upgrade
-
 ## Scan History
 
-32. **Harness Design for Long-Running Apps** (Anthropic Engineering Blog, 2026-03-24)
-    - GAN-inspired generator/evaluator separation; evaluator leniency = #1 failure mode
-    - Sprint contracts: explicit deliverables + testable success criteria per phase
-    - Cost reality: 22× expense for quality (solo $9 vs harness $200), but functional result
-    - Harness simplification principle: every component encodes model limitation assumption
-    - **Akce (implemented):** Anti-leniency protocol + adaptive weight profiles v /critic
+### 2026-03-27 — targeted scan (Claude Desktop update, CC v2.1.85)
+### 2026-03-26 — targeted + full scans (AutoDream eval, CC 2.1.83-84, papers)
+### 2026-03-25 — papers scan + full scan (Auto Mode, Opus 128k output, 7 papers)
+### 2026-03-24 — hands-on research + full scan (Diffusers SKIP, PyTorch WAIT, HTTP hooks GA)
+### 2026-03-23 — 2× full scan (CHANGELOG deep-dive, batch cleanup of 7 items)
 
-### 2026-03-26 — targeted scan (Claude Desktop, dreamer/autodream)
-- **🔥 AutoDream `/dream`** — nativní CC memory konsolidace (v2.1.81+, bug opraveno PR #39299). Překrývá se s STOPA `/scribe` + `/checkpoint`.
-- **Interactive Apps for Mobile** (Mar 25) — live charts + diagramy v Claude mobile
-- Clarifikace: "dreamer" (Karpathy) = DreamerV3 RL agenti (nesouvisí); "autoresearch" = Karpathy overnight LLM experiments (github.com/karpathy/autoresearch)
-- CC CHANGELOG a API platform notes: vše již zachyceno v předchozích scanech (CC 2.1.84, 1M GA, extended thinking)
-
-### 2026-03-26 — full scan (evening)
-- **🔥 CC 2.1.84 released today** — TaskCreated hook, WorktreeCreate hook (HTTP), PowerShell tool (Windows), MCP tool desc 2KB cap
-- **CC 2.1.83 (yesterday)** — initialPrompt in agent frontmatter, CwdChanged+FileChanged hooks, managed-settings.d/
-- Tier 2b: 2603.22386 Workflow Optimization (IBM) — static vs. dynamic workflow taxonomy; BenchBench (2603.20807)
-- Tier 3/4: Clinejection attack pattern (Willison), Hyperagents paper (metacognitive agents)
-- Diffusers 0.37.1 patch (bugfix), timm 1.0.26 (ROPE support)
-- Key insight: CC 2.1.83 `initialPrompt` + `FileChanged` hooks = significant STOPA orchestration upgrade potential
-
-### 2026-03-26 — full scan (morning)
-- Tier 1: žádné nové CC/API updates od včerejšího scanu; Agent SDK repos (python/typescript) identifikovány
-- Tier 2: PyTorch/Diffusers — žádné nové verze od 2.11/0.37.0; Gemini 3.1 Flash-Lite ($0.25/M) jako nový WATCH
-- Tier 2b: 3 nové WATCH papers — Codified Context (ACTION, open-source), Foveated Diffusion, FSVideo
-- Tier 2b: Beyond the Prompt (2603.10000) — validuje STOPA skill description design
-- Tier 3: žádné nové trending repos nad rámec OpenClaw (known); Reddit bez výsledků
-- Tier 4: Mem0 trending (graph-based memory); Gemini Flash-Lite; prompt injection awareness (Karpathy+Willison)
-- Key insight: Codified Context paper potvrzuje STOPA architekturu, ale identifikuje mezeru — chybějící retrieval hooks
-
-### 2026-03-25 — papers scan (Tier 1 + Tier 2b)
-- Tier 1: žádné nové CC/API updates od včerejšího full scanu
-- Tier 2b: 7 nových papers — 3 ACTION (BOULDER, MCPAgentBench, CARE), 4 WATCH
-- Key insight: BOULDER shows multi-turn dialogue degrades reasoning → review STOPA sub-agent architecture
-- Code gen: SWE-CI (CI-loop benchmark), ClarEval (ambiguity detection), ToolTree (MCTS planning)
-- Video gen: 3× flow matching papers (FastLightGen, Warm-Start, Transition FM)
-
-### 2026-03-25 — full scan (all tiers)
-- **🔥 AUTO MODE** — nový CC permission mode (research preview, 2026-03-24), safeguard classifier
-- **Computer Use on Mac** — Claude ovládá desktop (klik, psaní, apps), research preview, macOS only
-- **Dispatch** (~Mar 17) — remote tasks z iPhonu na Mac, QR párování, Pro/Max
-- CC: v2.1.81 stále nejnovější verze; auto mode je feature, ne nová verze CC
-- SECURITY: malicious litellm 1.82.7/1.82.8 (credential stealer) → naše projekty litellm nepoužívají → SAFE
-- NEW ACTION: Opus 4.6 64k default output / 128k upper bound
-- NEW WATCH: Gemini 3.1 Pro (ARC-AGI-2 77.1%), Wan2.1 v diffusers, LTX Video 0.9.5
-- NEW WATCH: Papers with Code sunsetted → HF Trending Papers, MCP lazy loading (95% context reduction)
-- INFO: Karpathy autoresearch scaled to 910 experiments/8h on Kubernetes
-
-### 2026-03-24 — hands-on research (3 items evaluated)
-- Modular Diffusers 0.37.0 → SKIP (Pyramid Flow incompatible, 2 hard env konflikty)
-- HTTP hooks v CC → IMPLEMENT NOW (GA od v2.1.63, TLS bug workaround via localhost proxy)
-- PyTorch 2.11 FlexAttention → WAIT (FA4 backend nestabilní, H100/B200 only)
-
-### 2026-03-24 — full scan (all tiers)
-- Tier 1: API — 3 nové ACTION (1M GA, thinking.display, Models capabilities) + urgent Haiku 3 retirement (Apr 19)
-- Tier 2: PyTorch 2.11 features potvrzeny (FlexAttention + FA4), Modular Diffusers 0.37.0 → ACTION
-- Tier 3/4: Mistral Small 4, Flowception, Veo 3.1, HTTP hooks → WATCH
-- INFO: Cursor Composer 2, MALUS satire (Willison), AI dev productivity stats (19% slowdown)
-
-### 2026-03-24 — quick scan (desktop claude updates)
-- Verze: stále v2.1.81 (Mar 21) — žádná nová verze
-- DONE items archivovány (effort frontmatter, PreToolUse fix, Spec Kit)
-- NEW WATCH: /context suggestions, memory timestamps, autoMemoryDirectory, /remote-control
-- INFO: effort "max" odstraněn v v2.1.72 — STOPA nepoužívá "max" → bez dopadu
-
-### 2026-03-23 — full scan #2 (CHANGELOG deep-dive)
-- CC CHANGELOG fetched — nalezeny 3 nové ACTION items (effort, PreToolUse fix, PLUGIN_DATA)
-- NEW WATCH: PostCompact hook, Elicitation hooks, PyTorch 2.11
-
-### 2026-03-23 — full scan (all tiers)
-- CC: stále v2.1.81 — žádná nová verze, žádné nové API release notes
-- NEW WATCH: Claude Code Channels, MagCache + TaylorSeer
-- **Batch cleanup**: 7 action items zpracováno a archivováno
+Older scan history: see `news-archive.md`
 
 ## Skipped Sources
 

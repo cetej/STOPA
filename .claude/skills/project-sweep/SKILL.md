@@ -14,7 +14,7 @@ Execute a batch operation across all registered projects in parallel.
 ## Instructions
 
 ### 1. Load Registry
-Read `~/.claude/memory/projects.json` — get list of projects with status "active".
+Check if `~/.claude/memory/projects.json` exists — get list of projects with status "active". If not found, fall back to known project paths from CLAUDE.md (Cílové projekty section).
 
 ### 2. Parse Operation
 Determine what to do from user input. Common sweep operations:
@@ -92,10 +92,10 @@ When operation is `health`, check for each project:
 
 ## Process
 
-1. Load project registry from ~/.claude/memory/projects.json
+1. Load project registry (projects.json or CLAUDE.md fallback)
 2. For each project, execute the requested operation
 3. Collect results and report per-project status
-4. Log sweep results to `.claude/memory/learnings/<date>-<desc>.md` with YAML frontmatter if patterns found
+4. If cross-project patterns found, tell user to record via `/scribe` (you may not have Write access in deep mode)
 
 ## Error Handling
 

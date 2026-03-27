@@ -73,6 +73,19 @@ Archived items from `news.md`. Read-only reference — not actively loaded into 
 14. **Claude Haiku 3 odchod** (April 19, 2026) — STOPA safe (aliases)
     - Status: SAFE
 
+## Archived Watch List (2026-03-27 maintenance)
+
+<!-- Archived 2026-03-27 — evaluated/stale watch items -->
+
+- **PyTorch 2.11** — EVALUATED 2026-03-24: WAIT do PyTorch 2.12 (~květen 2026). FA4 backend nestabilní.
+- **PostCompact hook** (v2.1.76) — NOTED, no immediate use case
+- **Elicitation hooks** (v2.1.76) — NOTED, no MCP auth needs yet
+- **MagCache + TaylorSeer** (Diffusers 0.37.0) — inference caching, relevant for test1 only
+- **Seedance 2.0** (ByteDance) — video gen model, no API
+- **Mistral Small 4** (119B, Apache 2.0) — potenciální open-weights alternative, no action
+- **Flowception + DMD** (ICLR 2026) — video gen speedup, relevant for test1
+- **Veo 3.1** (Google) — video gen, ComfyUI + fal.ai
+
 ## Archived Watch List
 
 <!-- Archived 2026-03-23 batch 2 — informational items, no action needed -->
@@ -91,6 +104,17 @@ Archived items from `news.md`. Read-only reference — not actively loaded into 
 6. **Hook-enforced orchestration** — `barkain/claude-code-workflow-orchestration`
 7. **MCP Memory Servers** — persistent memory via MCP instead of file-based
 8. **PyTorch 2.10.0** (Jan 21, 2026)
+
+## Archived Scan History (2026-03-27 maintenance)
+
+### 2026-03-27 — targeted scan (CC v2.1.85 hooks conditions)
+### 2026-03-26 — targeted (AutoDream eval) + evening full (CC 2.1.83-84, papers) + morning full (Agent SDK repos, Codified Context)
+- Key: initialPrompt + FileChanged hooks = significant STOPA upgrade potential
+- Key: Codified Context paper validates STOPA architecture, identifies missing retrieval hooks
+### 2026-03-25 — papers (BOULDER, MCPAgentBench, CARE, 3× flow matching) + full (Auto Mode, Computer Use Mac, Dispatch)
+- Key: BOULDER shows multi-turn degrades reasoning → single-shot for reasoning-heavy evals
+### 2026-03-24 — hands-on (3 items: Diffusers SKIP, PyTorch WAIT, HTTP hooks GA) + full + quick desktop
+- Key: Harness Design blog → anti-leniency protocol implemented in /critic
 
 ## Archived Scan History
 

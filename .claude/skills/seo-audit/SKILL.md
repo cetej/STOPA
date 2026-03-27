@@ -1,8 +1,7 @@
 ---
 name: seo-audit
 description: Use when analyzing SEO performance from GSC data for ranking opportunities. Trigger on SEO audit, keyword opportunities. Not for technical site audits.
-context:
-  - gotchas.md
+context: []
 argument-hint: "[focus: opportunities|intent|gaps|full] [timerange: 30d|90d]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Agent
@@ -25,9 +24,9 @@ You are the SEO analyst. You read GSC data, find opportunities, and produce acti
 
 ## Shared Memory — Learnings Retrieval
 
-1. **Always read** `.claude/memory/learnings/critical-patterns.md` — top patterns that apply to most tasks
-2. **Grep-first**: `grep -r "component: pipeline\|component: general\|tags:.*seo" .claude/memory/learnings/`
-3. **Read only matched files** — don't read the entire learnings directory
+1. **Grep-first**: Grep `.claude/memory/learnings/` for `component: pipeline`, `component: general`, or `tags:.*seo`
+2. **Read only matched files** — don't read the entire learnings directory
+3. If grep finds nothing, check if `critical-patterns.md` exists and read it
 
 ## Input
 

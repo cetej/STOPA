@@ -46,19 +46,10 @@ Output structured diagnosis:
 ```
 
 ### Step 5: Update runbook
-If this was a NEW pattern not in runbook.md, tell the user to add it (you can't write).
+If this was a NEW pattern not in runbook.md, tell the user to add it (you can't write). Suggest the exact entry to append.
 
 ## Rules
-- Speed over thoroughness — give the 80% answer fast
 - Always check the runbook FIRST before investigating
+- Speed over thoroughness — give the 80% answer fast
 - Don't guess — if you can't diagnose, say so
 - Report in Czech if user's error/symptom is in Czech
-
-## Output Format
-
-```markdown
-## Incident Report
-**Root Cause**: <description>
-**Resolution**: <what was done>
-**Prevention**: <how to avoid recurrence>
-```
