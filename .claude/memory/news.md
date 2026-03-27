@@ -5,11 +5,27 @@ Archived items: `.claude/memory/news-archive.md`
 
 ## Last Scan
 
-**2026-03-27** — targeted scan (Claude Desktop update, CC v2.1.85)
+**2026-03-28** — quick scan (Claude Desktop v1.1.1931 Windows, CC v2.1.86)
 
 ## Active Items
 
 ### Action Items
+
+37. **CC v2.1.86 (2026-03-27)** — Windows config corruption fix
+    - Windows settings.json corruption fix (zbytečné disk writes)
+    - `X-Claude-Code-Session-Id` header pro proxy agregaci
+    - Fix: `--resume` s tool_use blocks; Write/Edit mimo project root
+    - **Akce:** Spustit `npm update -g @anthropic-ai/claude-code` pro update na v2.1.86
+
+38. **CC v2.1.84 — PowerShell tool (Windows opt-in preview)**
+    - Claude Code umí spouštět PowerShell na Windows (vedle Bash)
+    - Enable: `"powershellEnabled": true` v settings.json
+    - **Akce:** Vyzkoušet pro Windows STOPA workflow
+
+39. **Claude Desktop Windows — aktuální stav** (2026-03-28)
+    - User má v1.1.1931 — relativně aktuální (Chocolatey má 1.1.1520, Mac je 1.1.8629 ale oddělená větev)
+    - Computer Use v Cowork zatím **Mac only** — Windows pending
+    - **Sledovat:** Computer Use na Windows → STOPA remote control potenciál
 
 35. **CC v2.1.85** (2026-03-26 večer) — hooks podmínky + MCP vylepšení
     - **`if` podmínky v hooks** — `permission rule` syntax pro podmíněné spouštění (`if: "branch == 'main'"` apod.)
@@ -125,6 +141,15 @@ Archived items: `.claude/memory/news-archive.md`
    - Akce: implementovat TaskCompleted → Slack webhook (localhost proxy + 10 řádků Python)
 
 ### Watch List
+
+29k. **Luma AI Uni-1** (2026-03-05, API waitlist) — unified understanding+generation image model
+    - Decoder-only autoregressive transformer (ne diffusion) — reasoning before rendering
+    - #1 human preference Elo (Overall, Style & Editing, Reference-Based), #1 RISEBench (reasoning)
+    - ~$0.09/image @ 2K (vs Nano Banana 2 $0.10, NB Pro $0.13)
+    - Multi-reference (až 9 obrázků), manga/webtoon, novel view synthesis, multilingual text
+    - API: waitlist na lumalabs.ai/uni-1, token pricing: input $0.50/M text, output $45.45/M images
+    - Enterprise: Publicis, Adidas, Mazda; integrováno do Luma Agents (creative AI assistant)
+    - Relevance: kandidát pro `/nano` skill až bude API veřejné; autoregressive přístup zásadně odlišný od Flux/SDXL/Gemini
 
 29b. **Foveated Diffusion** (arXiv 2603.23491, 2026-03-24) — spatially adaptive video/image gen
     - Neuniformní token alokace (fovea = high-res, periferie = low-res), perceptually indistinguishable od full-res
