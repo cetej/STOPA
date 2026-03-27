@@ -27,6 +27,7 @@ Read `.claude/memory/learnings.md` — apply relevant patterns to harness execut
 
 From `$ARGUMENTS`, extract:
 - **harness name**: which harness to run (e.g., `skill-audit`, `zachvev-pipeline`)
+- **`--dry-run`**: if present, preview execution plan without running phases (see Phase 1b)
 - If empty: list available harnesses and let user choose
 
 ### List available harnesses
@@ -55,6 +56,28 @@ Read `.claude/harnesses/<name>/HARNESS.md` — this contains the specific phases
 Check if `.harness/` directory exists with prior results:
 - If yes: find last valid phase output, offer to resume from next phase
 - If no: start fresh, create `.harness/` directory
+
+## Phase 1b: Dry-run preview (only if `--dry-run`)
+
+If `--dry-run` was passed in `$ARGUMENTS`, show the execution plan and STOP:
+
+1. Parse all phases from HARNESS.md
+2. For each phase, display:
+   ```
+   Phase N/M: <name> (<type>)
+     inputs:  <expected input files/data from prior phases>
+     outputs: <output file path>
+     model:   <model to use>
+   ```
+3. Validate phase connectivity: each phase's expected inputs must match a prior phase's output
+4. Estimate total cost: count phases × model tier (haiku ≈ $0.05, sonnet ≈ $0.15, opus ≈ $0.50 per phase)
+5. Print summary:
+   ```
+   Phases: N total (M deterministic, K llm, J parallel)
+   Estimated cost: ~$X.XX
+   Resume point: <phase N if .harness/ exists, otherwise "fresh start">
+   ```
+6. **STOP** — do not proceed to Phase 2. Exit with message: "Dry run complete. Run without --dry-run to execute."
 
 ## Phase 2: Execute phases sequentially
 

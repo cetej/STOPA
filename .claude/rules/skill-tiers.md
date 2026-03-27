@@ -9,6 +9,7 @@ Daily-use skills that should be triggered proactively:
 - `/critic` — quality review after edits
 - `/checkpoint` — session state management
 - `/scribe` — decision and learning capture
+- `/status` — system state dashboard (task, budget, checkpoint, health)
 
 ## Tier 2 — Extended (suggest when task matches)
 Specialized skills for specific workflows:
