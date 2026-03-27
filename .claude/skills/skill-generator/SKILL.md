@@ -71,7 +71,6 @@ Create `.claude/skills/<name>/SKILL.md` following this template:
 ```markdown
 ---
 name: <name>
-description: <when to use - be specific, Claude matches on this>
 argument-hint: <expected args>
 disable-model-invocation: <true for side-effects, false otherwise>
 allowed-tools: <comma-separated minimal tool list>
