@@ -1,97 +1,110 @@
 ---
 name: harness
-description: Use when running a deterministic multi-step process that must complete reliably. Trigger on 'harness', 'run pipeline', 'deterministic process'. Do NOT use for exploratory tasks or one-shot edits.
-argument-hint: <pipeline name or description> [--dry-run]
+description: Use when running a deterministic, repeatable process from a harness definition. Trigger on 'run harness', 'execute pipeline'. Do NOT use for ad-hoc tasks.
+argument-hint: [harness-name] or leave empty to list available harnesses
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
 model: sonnet
 effort: high
-maxTurns: 30
+maxTurns: 50
 ---
 
 # Harness — Deterministic Process Runner
 
-You run multi-step pipelines where each phase has explicit deliverables, success criteria, and rollback points. Inspired by Anthropic's harness design pattern (generator/evaluator separation).
+You are the harness dispatcher. You run fixed-phase processes with programmatic validation.
 
-## Core Principle
+## How it works
 
-**Sprint contracts, not open-ended loops.** Each phase defines WHAT must be delivered, HOW to verify it, and WHAT to do if it fails.
+Unlike `/orchestrate` (dynamic plans, LLM decides steps), harnesses have **fixed phases in fixed order**. Each phase has clear inputs, actions, validation criteria, and outputs. No phase can be skipped.
 
-## Shared Memory
+## Phase 0: Dispatch
 
-1. Read `.claude/memory/budget.md` — check current tier and remaining budget
-2. Grep `.claude/memory/learnings/` for the pipeline topic — past failures inform current run
+### Read shared context
 
-## Process
+Read `.claude/memory/learnings.md` — apply relevant patterns to harness execution. Known anti-patterns may affect phase ordering or validation strategy.
 
-### Phase 0: Define the Pipeline
+### Parse input
 
-Parse `$ARGUMENTS` to determine the pipeline. If not clear, ask the user.
+From `$ARGUMENTS`, extract:
+- **harness name**: which harness to run (e.g., `skill-audit`, `zachvev-pipeline`)
+- If empty: list available harnesses and let user choose
 
-Create a **Pipeline Contract**:
+### List available harnesses
 
-```markdown
-## Pipeline: <name>
-**Phases**: N
-**Estimated cost**: <tier>
-**Rollback strategy**: git branch / file backup
-
-| Phase | Deliverable | Success Criteria | Timeout |
-|-------|-------------|------------------|---------|
-| 1 | ... | ... | N turns |
-| 2 | ... | ... | N turns |
+```bash
+# Scan for harnesses
+ls .claude/harnesses/*/HARNESS.md
 ```
 
-### Phase N: Execute
+For each found harness, display:
+- Name (from frontmatter)
+- Description
+- Number of phases
+- Estimated token cost
 
-For each phase in the pipeline:
+### Load engine
 
-1. **Announce**: "Phase N: <deliverable>"
-2. **Execute**: Do the work (directly or via Agent with model: haiku)
-3. **Verify**: Check success criteria — not "looks good" but measurable checks
-4. **Gate**:
-   - PASS → proceed to next phase
-   - FAIL → attempt ONE fix, then re-verify
-   - FAIL twice → STOP, report to user, suggest rollback
+Read `.claude/harnesses/_engine.md` — this contains shared execution logic.
 
-### Final: Report
+### Load harness
 
-```markdown
-## Harness Report: <pipeline>
+Read `.claude/harnesses/<name>/HARNESS.md` — this contains the specific phases.
 
-| Phase | Status | Deliverable | Attempts |
-|-------|--------|-------------|----------|
-| 1 | PASS | ... | 1 |
-| 2 | PASS | ... | 2 (1 retry) |
-| 3 | FAIL | ... | 2 (stopped) |
+## Phase 1: Check for resume
 
-**Result**: N/M phases completed
-**Rollback**: <branch name or backup location>
-```
+Check if `.harness/` directory exists with prior results:
+- If yes: find last valid phase output, offer to resume from next phase
+- If no: start fresh, create `.harness/` directory
 
-## Anti-Leniency Protocol
+## Phase 2: Execute phases sequentially
 
-The evaluator (verification step) MUST be strict:
-- "It compiles" is NOT a pass criterion for code quality
-- "No errors in output" is NOT sufficient — check for expected positive signals
-- If success criteria are vague, make them concrete BEFORE executing
+For each phase in HARNESS.md:
 
-## Error Handling
+1. **Announce**: "Phase N/M: <name> (<type>)"
+2. **Load inputs**: Read outputs from previous phases in `.harness/`
+3. **Set model**: Use model specified in phase, or default per engine rules
+4. **Execute**: Run the phase action (deterministic, LLM, parallel, template)
+5. **Save**: Write output to `.harness/phaseN_<name>.json`
+6. **Validate**: Run validation checks
+7. **Report**: "Phase N: PASS ✓" or "Phase N: FAIL ✗ — <reason>"
 
-- Phase timeout (too many turns without progress) → STOP that phase, report
-- Budget exceeded mid-pipeline → checkpoint progress, ask user
-- Git conflict or file lock → retry once with 2s delay, then report
+If validation fails:
+- Save error context to `.harness/error.md`
+- Retry once with adjusted approach
+- If 2nd fail: STOP, report to user with diagnosis
 
-## Circuit Breakers
+## Phase 3: Generate output
 
-- Same phase fails 2× → STOP
-- Total pipeline exceeds budget tier → STOP
-- Agent spawned 3× for same subtask → STOP
+If harness has `output_template`:
+- Load template from harness directory
+- Fill with data from all phases
+- Validate no `{{MISSING}}` placeholders remain
+- Save final output
+
+## Phase 4: Cleanup and report
+
+1. Update `.claude/memory/state.md` — harness completed
+2. Report summary: phases passed/failed, key findings, output location
+3. If issues found: suggest next actions
+
+## Parallel sub-agents
+
+When a phase specifies `- **Parallelism**: max N`:
+- Spawn up to N sub-agents via Agent tool
+- Each gets context from prior phases + their specific slice of work
+- Collect and merge results
+- Validate merged output
+
+## Cost control
+
+- Track tokens per phase
+- If budget from `.claude/memory/budget.md` would be exceeded: WARN before expensive phases
+- Prefer haiku for mechanical work, sonnet for reasoning
 
 ## Rules
 
-1. **Contract first** — never start executing without a pipeline contract
-2. **Verify, don't trust** — every phase must have measurable success criteria
-3. **Fail fast** — 2 failures = stop, don't burn tokens hoping
-4. **Log everything** — each phase outcome recorded for learning
-5. **Rollback ready** — always know how to undo the current phase
+1. **Never skip phases** — execute in order, even if a phase seems unnecessary
+2. **Always validate** — every phase output must pass its validation
+3. **Save everything** — all intermediate results go to `.harness/`
+4. **Fail fast** — don't continue past a failed validation without user consent
+5. **Be transparent** — show progress after each phase

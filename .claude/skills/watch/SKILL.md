@@ -1,96 +1,33 @@
 ---
 name: watch
 description: Use when scanning for AI/ML ecosystem news, Claude Code updates, or arXiv research papers. Trigger on 'watch', 'news', "what's new", 'novinky', 'papers', 'arXiv'. Do NOT use for web browsing (/browse).
-argument-hint: [full / quick / papers / topic:specific-topic]
+argument-hint: [full / quick / papers / voices / topic:specific-topic]
 user-invocable: true
 allowed-tools: Read, Write, Edit, WebSearch, WebFetch, Agent
 model: sonnet
 effort: medium
-maxTurns: 20
-disallowedTools: ""
+maxTurns: 25
+disallowedTools: Bash, Glob, Grep
 ---
 
 # Watch — News & Updates Scanner
 
 You scan external sources for news, updates, and changes relevant to this project and its orchestration system. You report findings and suggest actionable improvements.
 
-## Decision Tree — /watch vs alternatives
-
-Use this tree when you're unsure whether to invoke `/watch` or do something simpler:
-
-```
-Do I need broad situational awareness about the AI ecosystem?
-├── YES → /watch (full or quick)
-│
-└── NO — Is it a specific, targeted question?
-    ├── "What's the latest version of library X?" → WebSearch directly (1 call, no overhead)
-    ├── "Is there a breaking change in diffusers 0.33?" → WebFetch the changelog directly
-    ├── "Check if Claude Code has new hooks" → /watch quick (Tier 1 only)
-    └── "What changed since last Monday?" → /watch full (checks news.md last-scan date)
-```
-
-**Concrete examples:**
-
-| Situation | Right choice | Reason |
-|-----------|-------------|--------|
-| Start of week, no recent scan | `/watch` or `/watch full` | Broad sweep needed |
-| Investigating a specific import error | Direct `WebSearch` | Targeted — `/watch` overhead not worth it |
-| `/watch` just ran 2 days ago but you want Claude API news only | `/watch quick` | Narrow scope, cheap |
-| Planning a major dependency upgrade | `/watch topic:pytorch` then `/dependency-audit` | Focused research + deep audit |
-| User asks "anything new?" with no context | `/watch quick` first, upgrade to `full` if Tier 1 returns nothing | Progressive cost escalation |
-| Already have recent news.md with relevant findings | Re-read `news.md` directly | Don't re-scan what's already cached |
-| Need latest research papers only | `/watch papers` | Tier 2b only, ~10k tokens |
-
 ## Shared Memory
 
 1. Read `.claude/memory/news.md` — previous findings and last scan date
-2. Grep `.claude/memory/learnings/` for keywords related to current scan topics — spot relevant existing patterns
+2. Read `.claude/memory/learnings.md` — current patterns (to spot relevant updates)
 3. Read `CLAUDE.md` — project dependencies and tech stack (to know what to watch)
 
 ## Input
 
-Parse `$ARGUMENTS` using the following logic:
-
-```
-raw = strip($ARGUMENTS)
-
-if raw is empty or raw == "full":
-    mode = "full"
-    topic = null
-
-elif raw == "quick":
-    mode = "quick"
-    topic = null
-
-elif raw == "papers":
-    mode = "papers"
-    topic = null
-
-elif raw starts with "topic:":
-    mode = "topic"
-    topic = raw.split("topic:")[1].strip()
-    if topic is empty → default to "full" mode, warn user
-
-else:
-    # Treat unrecognized input as a free-form topic
-    mode = "topic"
-    topic = raw
-```
-
-**Edge cases:**
-- `$ARGUMENTS` not provided → treat as `full`
-- `topic:` with no value → fall back to `full` and note the missing topic
-- Multiple arguments (e.g., `full topic:pytorch`) → ignore second token, use first recognized mode; note ambiguity in report header
-- Numeric or invalid input → treat as `full`, add note to report
-
-**Mode summary:**
-
-| Argument | Mode | Tiers scanned | Approx. cost |
-|----------|------|---------------|-------------|
-| _(empty)_ or `full` | full | 1 + 2 + 2b + 3 | ~50–75k tokens |
-| `quick` | quick | 1 only | ~5–8k tokens |
-| `papers` | papers | 2b only | ~10–15k tokens |
-| `topic:X` | topic | 1 + filtered 2/3 | ~10–20k tokens |
+Parse `$ARGUMENTS`:
+- **"full"** (default) → Scan all source tiers (1-4)
+- **"quick"** → Tier 1 only (Claude Code + API). Cheapest option.
+- **"papers"** → Tier 1 + Tier 2b only (Claude updates + arXiv research). Good for "co je nového ve výzkumu".
+- **"voices"** → Tier 1 + Tier 4 only (Claude updates + Influencer Pulse). Good for "co je nového ve světě".
+- **"topic:X"** → Focus scan on specific topic (e.g., "topic:pytorch", "topic:flow-matching")
 
 ## Source Tiers
 
@@ -111,23 +48,101 @@ Use `WebSearch` for each:
 6. **Flow matching / video generation** — search: `"flow matching" OR "video generation" model paper {current_year}`
 7. **timm / einops** — search: `timm OR einops release {current_year}` (skip if no results)
 
-### Tier 2b: Research Papers (scan on "full" or "papers")
+### Tier 2b: Research Papers — arXiv & Academic (scan on "full" or "papers")
 
-Use `WebSearch` for arXiv papers from last 30 days:
-8. **Agent/orchestration papers** — search: `site:arxiv.org "LLM agent" OR "tool use" OR "multi-agent" {current_year} {current_month}`
-9. **Code generation / SWE papers** — search: `site:arxiv.org "code generation" OR "software engineering" LLM benchmark {current_year}`
-10. **Prompt engineering papers** — search: `site:arxiv.org "prompt engineering" OR "chain of thought" OR "in-context learning" {current_year} {current_month}`
+Fresh research papers are the earliest signal — new models, techniques, and benchmarks appear on arXiv days to weeks before they hit Reddit or blogs. Focus on papers with practical impact, not pure theory.
 
-Also check: `WebFetch` on `https://huggingface.co/papers` for trending papers.
+Use `WebSearch` for each:
+8. **LLM & agents** — search: `site:arxiv.org "large language model" OR "LLM agent" OR "tool use" {current_month} {current_year}`
+9. **Prompting & reasoning** — search: `site:arxiv.org "chain of thought" OR "prompt engineering" OR "in-context learning" OR reasoning {current_month} {current_year}`
+10. **Code generation** — search: `site:arxiv.org "code generation" OR "program synthesis" OR "coding agent" {current_month} {current_year}`
+11. **Video & image generation** — search: `site:arxiv.org "flow matching" OR "video generation" OR "diffusion" OR "image generation" new model {current_month} {current_year}`
+12. **Benchmarks & evaluations** — search: `site:arxiv.org benchmark evaluation LLM OR "foundation model" {current_month} {current_year}`
 
-For each paper: note title, arxiv ID, key finding, relevance to STOPA, and whether code is available.
+For promising results (high relevance to our stack), `WebFetch` the arXiv abstract page (max 2 fetches). Read abstract + introduction only — don't attempt full paper.
+
+#### Paper Relevance Filter
+
+| Include | Exclude |
+|---------|---------|
+| New model architectures we could use | Pure math/theory with no practical application |
+| Training techniques applicable to our models | Hardware-specific optimizations (TPU clusters) |
+| Agent/tool-use patterns | Papers about models we don't use and can't switch to |
+| Prompting/reasoning improvements | Marginal benchmark improvements (<2%) |
+| New benchmarks relevant to our use cases | Domain-specific papers (medical, legal) unless user's domain |
+| Open-source model releases with weights | Papers without code or reproducibility |
+
+#### Paper Signal Strength
+
+Prioritize papers by practical impact:
+- **Code available** (GitHub link in paper) → higher priority
+- **HuggingFace model/dataset** released → higher priority
+- **Cited by Papers With Code** trending → higher priority
+- **Multiple citations within first week** → emerging consensus
+- **Author is known (from Voice Registry or major lab)** → credibility boost
 
 ### Tier 3: Community (scan on "full")
 
 Use `WebSearch` for each:
-11. **GitHub trending** — search: `github trending python machine learning video generation {current_month} {current_year}`
-12. **Reddit** — search: `site:reddit.com (r/LocalLLaMA OR r/StableDiffusion) "flow matching" OR "video generation" OR "pyramid" {current_year}`
-13. **General AI news** — search: `AI tools developer productivity {current_month} {current_year}`
+13. **GitHub trending** — search: `github trending python machine learning video generation {current_month} {current_year}`
+14. **Reddit** — search: `site:reddit.com (r/LocalLLaMA OR r/StableDiffusion) "flow matching" OR "video generation" OR "pyramid" {current_year}`
+15. **General AI news** — search: `AI tools developer productivity {current_month} {current_year}`
+
+### Tier 4: Influencer Pulse (scan on "full" or "voices")
+
+Curated voices who consistently signal what's coming next. The goal is NOT to follow their daily chatter — it's to catch **announcements, demos, and directional shifts** that affect our stack.
+
+#### Voice Registry
+
+| # | Person | Handle | Watch For | Relevance |
+|---|--------|--------|-----------|-----------|
+| 1 | Andrej Karpathy | @karpathy | New training techniques, model architecture insights, educational content on LLMs/transformers | ML fundamentals, model understanding |
+| 2 | Simon Willison | @simonw | Claude Code tips, LLM tooling patterns, prompt engineering, new AI dev tools | Direct — Claude Code + orchestration |
+| 3 | Andrej Karpathy / Jim Fan | @DrJimFan | Embodied AI, foundation models, agent architectures | Agent patterns for orchestration |
+| 4 | AK (@_akhaliq) | @_akhaliq | Daily paper roundups — new models, techniques, benchmarks | Early signal on breakthroughs |
+| 5 | Swyx (Shawn Wang) | @swyx | AI engineering patterns, "AI Engineer" movement, tooling trends | Orchestration + dev workflow |
+| 6 | Riley Goodside | @goodaboreside | Prompt engineering techniques, jailbreaks, capability discoveries | Prompt craft for skills |
+| 7 | Yann LeCun | @ylecun | Architecture debates, meta-learning directions, contrarian takes on AGI | Strategic — where the field is heading |
+| 8 | Alex Albert | @alexalbert__ | Anthropic insider — Claude capabilities, system prompt tips, feature previews | Direct — Claude features |
+| 9 | Jeremy Howard | @jeremyphoward | Fast.ai, practical ML, new training recipes | Practical ML patterns |
+| 10 | Harrison Chase | @hwchase17 | LangChain/LangGraph, agent frameworks, RAG patterns | Agent orchestration patterns |
+
+#### Search Strategy
+
+WebSearch cannot reliably scrape X/Twitter directly. Use **indirect discovery** — search for their insights as they propagate to blogs, newsletters, and aggregators:
+
+For each voice group, run ONE combined search (not per-person — too expensive):
+
+16. **AI Leaders — announcements** — search: `(karpathy OR "simon willison" OR "jim fan" OR "alex albert") (announced OR released OR "new model" OR "new tool") {current_month} {current_year}`
+17. **AI Practitioners — techniques** — search: `(swyx OR "riley goodside" OR "jeremy howard" OR "harrison chase") (technique OR pattern OR framework OR "prompt engineering") {current_month} {current_year}`
+18. **Paper scouts** — search: `akhaliq OR "papers with code" trending AI model {current_month} {current_year}`
+19. **Aggregator catch-all** — search: `site:simonwillison.net OR site:swyx.io OR site:karpathy.ai {current_year} {current_month}`
+
+If a search returns a promising blog post or newsletter, `WebFetch` it (max 2 fetches for this tier).
+
+#### Filtering Sieve (CRITICAL — prevents noise)
+
+For EACH result from Tier 4, apply this 3-gate filter before including in report:
+
+```
+GATE 1: Relevance — Does it affect our stack?
+  ✅ Claude/Anthropic features, agent patterns, prompt techniques,
+     ML training, video generation, Python tooling, MCP
+  ❌ General AI philosophy, AGI debates, hiring news, company drama,
+     hardware announcements, unrelated frameworks (Rust ML, iOS ML)
+
+GATE 2: Actionability — Can we do something with it?
+  ✅ New tool we could adopt, technique to try, pattern to apply,
+     breaking change to prepare for, capability we didn't know about
+  ❌ "Interesting" but no clear next step, pure opinion/commentary,
+     announcements of things not yet available
+
+GATE 3: Freshness — Is it new since last scan?
+  ✅ Published after last scan date (check news.md)
+  ❌ Already covered in previous scans, old news resurfacing
+```
+
+Only items that pass ALL 3 gates get included. Items passing Gate 1+3 but failing Gate 2 → classify as [WATCH] (monitor, don't act).
 
 ## Processing
 
@@ -146,8 +161,9 @@ For each source that returns results:
 To minimize cost, use parallel WebSearch calls:
 - Launch Tier 1 searches (items 1-3) in parallel
 - If "full" mode, launch Tier 2 (items 4-7) in parallel
-- If "full" or "papers" mode, launch Tier 2b (items 8-10) in parallel
-- If "full" mode, launch Tier 3 (items 11-13) in parallel
+- If "full" or "papers" mode, launch Tier 2b (items 8-12) in parallel
+- If "full" mode, launch Tier 3 (items 13-15) in parallel
+- If "full" or "voices" mode, launch Tier 4 (items 16-19) in parallel
 - Fetch detailed pages only for promising results
 
 ## Output Format
@@ -155,7 +171,7 @@ To minimize cost, use parallel WebSearch calls:
 ```markdown
 ## Watch Report — <date>
 
-**Mode**: full / quick / papers / topic:X
+**Mode**: full / quick / topic:X
 **Sources scanned**: N
 **Items found**: N (X action, Y watch, Z info)
 
@@ -170,7 +186,21 @@ To minimize cost, use parallel WebSearch calls:
 
 | # | Source | Finding | Why It Matters |
 |---|--------|---------|---------------|
-| 1 | arxiv | New flow matching technique | Could improve generation quality |
+| 1 | HuggingFace | New scheduler API | Could improve generation quality |
+
+### Research Papers (arXiv)
+
+| # | Paper | Area | Key Insight | Code? | Impact |
+|---|-------|------|-------------|-------|--------|
+| 1 | "Title" (arxiv:XXXX.XXXXX) | LLM agents | New tool-use architecture outperforms ReAct by 15% | GitHub ✅ | [ACTION] |
+| 2 | "Title" (arxiv:XXXX.XXXXX) | Prompting | Chain-of-draft reduces tokens 80% vs CoT | No code | [WATCH] |
+
+### Influencer Pulse
+
+| # | Voice | Signal | Gate | Classification |
+|---|-------|--------|------|---------------|
+| 1 | Simon Willison | New Claude Code workflow pattern for X | 1+2+3 ✅ | [ACTION] |
+| 2 | Karpathy | Blog post on efficient fine-tuning | 1+3 ✅, 2 ❌ | [WATCH] |
 
 ### Info
 
@@ -191,9 +221,11 @@ To minimize cost, use parallel WebSearch calls:
    - Record scan date and mode
    - Append ACTION and WATCH items (not INFO — too noisy)
    - If an ACTION item from a previous scan is now resolved, mark it done
+   - **Clean up DONE items**: Remove ~~strikethrough~~ / Status: DONE / SAFE items from Active Items — move them to `news-archive.md` with archival date
+   - **Deduplicate**: If a Watch List item already exists (same topic), update existing entry instead of adding duplicate
 
 2. **If ACTION items found for orchestration system**:
-   - Add to `.claude/memory/learnings/` as a new file with YAML frontmatter (date, type, component, tags)
+   - Add to `.claude/memory/learnings.md` under appropriate section
    - If a new skill is suggested, add to Skill Gaps
 
 3. **If ACTION items found for project dependencies**:
@@ -202,26 +234,13 @@ To minimize cost, use parallel WebSearch calls:
 ## Cost Control
 
 - **Quick mode**: ~5-8k tokens (3 searches, 1-2 fetches)
-- **Papers mode**: ~10-15k tokens (3 searches, 1-2 fetches)
-- **Full mode**: ~50-75k tokens (13 searches, 5-10 fetches)
+- **Papers mode**: ~20-35k tokens (3+5 searches, 2-4 fetches)
+- **Voices mode**: ~15-25k tokens (3+4 searches, 2-4 fetches)
+- **Full mode**: ~80-120k tokens (19 searches, 7-14 fetches)
 - Use `haiku` model for agent spawns if deeper analysis needed
 - Never spawn more than 1 agent — do the search/fetch work directly
 - If a source consistently returns nothing useful, skip it in future scans (note in news.md)
-
-## When NOT to Use /watch
-
-Skip `/watch` in these situations — use a more targeted tool instead:
-
-| Situation | Better alternative |
-|-----------|-------------------|
-| Need to check a **specific library version** right now | `WebSearch` or `WebFetch` directly |
-| Running a **quick bug-fix session** (no time for news) | Skip — run `/watch` at the next natural pause |
-| Last scan was **< 3 days ago** | Nothing meaningful will have changed; skip |
-| Working **offline or with limited tokens** | Use `/watch quick` only, or defer to next session |
-| Need news **outside the project's tech stack** | Manual search — `/watch` is filtered to CLAUDE.md dependencies |
-| The task is urgent and news context isn't needed | Start the task, run `/watch` afterwards |
-
-**Don't invoke `/watch` just to fill context** — it costs 5–75k tokens and adds noise if the task is already well-defined.
+- Tier 4 blog fetches: max 2 pages — prefer search snippets over full articles
 
 ## Scheduling Guidance
 
@@ -238,16 +257,8 @@ How to trigger:
 - **WebFetch fails on a page**: Use the search snippet summary instead. Don't block the whole scan for one broken URL.
 - **All sources return nothing new**: Report "No significant updates since last scan" — this is a valid result, not a failure.
 - **news.md is missing or empty**: Create it with the standard template (see Output Format). First scan initializes the file.
-
-## Related Skills
-
-| Skill | When to chain with /watch |
-|-------|--------------------------|
-| `/budget` | Run `/budget check` **before** a full scan to confirm you have token headroom — full mode costs up to 75k tokens. If budget is tight, downgrade to `quick` mode. |
-| `/orchestrate` | If `/watch` surfaces multiple [ACTION] items that require coordinated changes across files or services, hand off to `/orchestrate` with a summary of the action items. `/watch` finds; `/orchestrate` acts. |
-| `/dependency-audit` | When `/watch` flags a version bump for a library in the stack, follow up with `/dependency-audit` for a deep compatibility check before upgrading. |
-| `/checkpoint` | After a `/watch full` scan that produces multiple action items, run `/checkpoint save` to preserve the findings across session boundaries. |
-| `/scribe` | After acting on a `/watch` [ACTION] item, use `/scribe` to record the decision in `decisions.md` and the learning in `learnings.md`. |
+- **Tier 4 returns only noise (opinions, drama, no substance)**: This is expected — most influencer output fails the 3-gate filter. Report "Tier 4: No actionable signals this week" and move on. Don't loosen the gates.
+- **A voice consistently returns nothing**: After 3 consecutive empty scans, move them to a "dormant" note in news.md. Re-check quarterly or when user mentions them.
 
 ## Rules
 

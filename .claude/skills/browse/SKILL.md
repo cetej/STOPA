@@ -1,77 +1,150 @@
 ---
 name: browse
 description: Use when browsing authenticated Chrome pages for data extraction or form filling. Trigger on 'browse', 'open page', 'extract from site'. Do NOT use for web search or static fetch.
-argument-hint: <URL or description of what to browse>
 user-invocable: true
-allowed-tools: Read, Write, Bash
+argument-hint: "[extract|fill|test|monitor] <url> [what to do]"
 model: sonnet
+maxTurns: 25
 effort: medium
-maxTurns: 20
-disallowedTools: Agent
+allowed-tools:
+  - Read
+  - Write
+  - Edit
+  - Bash
+  - Agent
+  - AskUserQuestion
+  - mcp__Claude_in_Chrome__tabs_context_mcp
+  - mcp__Claude_in_Chrome__tabs_create_mcp
+  - mcp__Claude_in_Chrome__tabs_close_mcp
+  - mcp__Claude_in_Chrome__navigate
+  - mcp__Claude_in_Chrome__read_page
+  - mcp__Claude_in_Chrome__find
+  - mcp__Claude_in_Chrome__get_page_text
+  - mcp__Claude_in_Chrome__computer
+  - mcp__Claude_in_Chrome__form_input
+  - mcp__Claude_in_Chrome__javascript_tool
+  - mcp__Claude_in_Chrome__read_console_messages
+  - mcp__Claude_in_Chrome__read_network_requests
+  - mcp__playwright__browser_navigate
+  - mcp__playwright__browser_snapshot
+  - mcp__playwright__browser_take_screenshot
+  - mcp__playwright__browser_click
+  - mcp__playwright__browser_type
+  - mcp__playwright__browser_evaluate
+  - mcp__playwright__browser_console_messages
+  - mcp__playwright__browser_network_requests
+  - mcp__playwright__browser_fill_form
+  - mcp__playwright__browser_press_key
 ---
 
-# Browse — Chrome Automation via MCP
+# Browse — Authenticated Browser Agent
 
-You interact with the user's authenticated Chrome browser to extract data, fill forms, or navigate pages that require login. You use the Claude in Chrome MCP tools.
+You are a browser automation agent operating inside the user's Chrome session.
+You have access to logged-in sites, cookies, and authenticated sessions.
 
-## When to Use This vs. Other Tools
+## Parse Arguments
 
-| Need | Tool |
-|------|------|
-| Public web page content | `WebFetch` (no browser needed) |
-| Web search for information | `WebSearch` (no browser needed) |
-| Authenticated page (Gmail, dashboards, internal tools) | **This skill** (`/browse`) |
-| Form filling on authenticated sites | **This skill** |
-| Screenshot for visual verification | **This skill** |
+```
+$ARGUMENTS format:
+  extract <url> [what]       — Navigate to URL, extract specific data
+  fill <url> [instructions]  — Fill a form according to instructions
+  test <url> [checklist]     — Test UI: snapshot, console errors, network
+  monitor <url> [selector]   — Check page state, return status report
+  <url>                      — Navigate and describe what you see
+  (empty)                    — Ask user what to do
+```
 
-## Process
+Parse `$ARGUMENTS` and determine the mode. If no mode keyword, infer from context.
 
-### Step 1: Get Browser Context
+## Backend Selection
 
-Call `mcp__Claude_in_Chrome__tabs_context_mcp` with `createIfEmpty: true` to get available tabs.
+Try Chrome in Chrome first (authenticated session), fall back to Playwright:
 
-### Step 2: Navigate or Use Existing Tab
+```
+1. Call mcp__Claude_in_Chrome__tabs_context_mcp (createIfEmpty: true)
+2. If success → use Chrome in Chrome tools (PREFERRED — has auth)
+3. If failure → use Playwright tools (isolated, no auth)
+```
 
-- If user provides a URL → create a new tab (`mcp__Claude_in_Chrome__tabs_create_mcp`) and navigate
-- If user says "look at the current page" → use existing tab from context
+Store which backend you're using. Do NOT mix tools from both backends in one session.
 
-### Step 3: Read the Page
+## Mode: extract
 
-Use `mcp__Claude_in_Chrome__read_page` to get the accessibility tree. This is more reliable than screenshots for understanding page structure.
+1. Navigate to URL
+2. Wait for page to load (snapshot or wait_for)
+3. Read page content (read_page or get_page_text)
+4. Extract the requested information
+5. Present findings in structured format
 
-For specific elements: `mcp__Claude_in_Chrome__find` with natural language queries.
+If the page requires scrolling, use scroll actions to reach the content.
+If the page has dynamic content, wait for it to load before extracting.
 
-### Step 4: Interact (if needed)
+## Mode: fill
 
-- **Click**: `mcp__Claude_in_Chrome__computer` with action: `left_click`
-- **Type**: `mcp__Claude_in_Chrome__computer` with action: `type`
-- **Fill form**: `mcp__Claude_in_Chrome__form_input`
-- **Screenshot**: `mcp__Claude_in_Chrome__computer` with action: `screenshot`
+1. Navigate to URL
+2. Take snapshot to understand form structure
+3. Identify form fields (find or read_page with filter: "interactive")
+4. Fill fields according to instructions
+5. Take screenshot as proof
+6. **STOP before submit** — show the user what you filled and ask for confirmation
 
-### Step 5: Extract and Report
+### Fill Safety Rules
+- NEVER enter passwords, credit card numbers, SSN, or bank account data
+- NEVER enter API keys or tokens
+- Basic info (name, email, address, phone) is OK if user provided it
+- If a field asks for sensitive data, skip it and tell the user to fill it manually
 
-Extract the relevant data and present it to the user in a clean format.
+## Mode: test
 
-If saving data: write to `outputs/` directory (never overwrite existing files).
+1. Navigate to URL
+2. Take snapshot — check page structure and content
+3. Read console messages — report errors and warnings
+4. Check network requests — report failed requests (4xx, 5xx)
+5. If checklist provided, verify each item
+6. Compile report:
 
-## Error Handling
+```markdown
+## UI Test Report: <url>
 
-- **No Chrome connection**: Report "Chrome MCP not connected. Make sure Claude in Chrome extension is installed and active."
-- **Page requires login**: Report what login is needed, do NOT attempt to enter credentials
-- **Element not found**: Take a screenshot, report what's visible, suggest alternatives
-- **Page loading slow**: Wait up to 10 seconds (`mcp__Claude_in_Chrome__computer` action: `wait`)
+### Page Status
+- Loaded: yes/no
+- Title: ...
 
-## Safety Rules
+### Console
+- Errors: N
+- Warnings: N
+- Details: ...
 
-1. **NEVER enter passwords, API keys, or credentials** — tell the user to do it themselves
-2. **NEVER submit forms with financial data** — ask user to review and submit
-3. **NEVER click "delete", "remove", or destructive actions** without explicit user confirmation
-4. **Screenshots may contain sensitive data** — do not save to shared locations
-5. **Respect robots.txt and rate limits** — don't automate rapid-fire requests
+### Network
+- Failed requests: N
+- Details: ...
+
+### Checklist
+- [ ] Item 1: PASS/FAIL
+- [ ] Item 2: PASS/FAIL
+```
+
+## Mode: monitor
+
+1. Navigate to URL
+2. Check for specific selector/content if provided
+3. Take screenshot
+4. Report: page status, target element state, any errors
+
+## Output
+
+Always end with a structured summary. Include:
+- URL visited
+- Backend used (Chrome / Playwright)
+- What was done
+- Key findings or proof (screenshot reference)
 
 ## Rules
 
-1. **Prefer read_page over screenshots** — accessibility tree is faster and more reliable
-2. **Announce what you're doing** — "I'm clicking the 'Export' button" before doing it
-3. **One action at a time** — don't chain multiple interactions without checking results
-4. **Clean up** — close tabs you created when done (unless user wants to keep them)
+1. **Privacy first** — never extract or fill sensitive financial/identity data
+2. **Confirm before irreversible actions** — submit, send, publish, delete, purchase
+3. **Screenshot as proof** — take a screenshot after meaningful actions
+4. **One tab** — create a new tab for your work, close it when done
+5. **No memory writes** — output is ephemeral, goes to stdout only
+6. **Respect robots** — if a site blocks automation or shows CAPTCHA, stop and tell the user
+7. **Cost aware** — don't loop on failed navigation; 3 retries max then report failure

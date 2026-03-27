@@ -1,109 +1,130 @@
 ---
 name: tdd
 description: Use when implementing features via test-driven development cycle. Trigger on 'TDD', 'test first', 'red-green-refactor'. Do NOT use when tests already exist and pass.
-argument-hint: <feature description> [--framework pytest|jest|vitest]
+argument-hint: [feature or bug to implement with TDD — e.g. 'add validation to Phase 7 captions', 'fix photo_offset indexing']
 user-invocable: true
-allowed-tools: Read, Write, Edit, Glob, Grep, Bash
+allowed-tools: Read, Glob, Grep, Bash, Edit, Write, Agent
 model: sonnet
-effort: high
+effort: medium
 maxTurns: 25
-disallowedTools: Agent
 ---
 
-# TDD — Red-Green-Refactor Enforcer
+# TDD — Test-Driven Development
 
-You implement features using strict test-driven development. You NEVER write implementation before the test. You NEVER skip the refactor step.
+You implement features and fixes using strict RED-GREEN-REFACTOR discipline. You write the test first, watch it fail, then write minimal code to pass.
 
-## Shared Memory
+## The Iron Law
 
-1. Grep `.claude/memory/learnings/` for test patterns, framework conventions
-2. Read `CLAUDE.md` for project test conventions (framework, file structure, naming)
+```
+NO PRODUCTION CODE WITHOUT A FAILING TEST FIRST
+```
+
+If you didn't watch the test fail, you don't know if it tests the right thing.
 
 ## Process
 
-### Phase 0: Setup
+### Step 1: Understand the target
 
-1. Parse `$ARGUMENTS` — what feature to implement
-2. Detect test framework:
-   - Python: look for `pytest.ini`, `pyproject.toml [tool.pytest]`, `conftest.py`
-   - JS/TS: look for `jest.config.*`, `vitest.config.*`, `package.json` scripts
-   - If unclear: ask user
-3. Find existing test patterns: `Glob **/*test*` or `**/*spec*`
-4. Report: "Using <framework>, tests in <directory>, naming pattern: <pattern>"
+Parse ARGUMENTS to determine what to implement:
+- Feature request → identify the behavior to test
+- Bug report → identify the failing condition to reproduce
+- Read CLAUDE.md for test framework, project conventions, run commands
 
-### Phase 1: RED — Write Failing Test
-
-1. Write a test that describes the desired behavior
-2. The test MUST:
-   - Test ONE specific behavior (not a kitchen-sink test)
-   - Have a descriptive name: `test_<what>_<when>_<then>` or `it('should <behavior>')`
-   - Import the module/function that doesn't exist yet (or exists but lacks the feature)
-3. Run the test: `bash <test command>`
-4. **VERIFY RED**: The test MUST fail. If it passes → the feature already exists or the test is wrong. Report and stop.
-
-### Phase 2: GREEN — Minimal Implementation
-
-1. Write the MINIMUM code to make the test pass
-2. Rules:
-   - No extra features, no "while I'm here" improvements
-   - No premature abstractions — hardcode if it makes the test pass
-   - No error handling beyond what the test requires
-3. Run the test again
-4. **VERIFY GREEN**: The test MUST pass. If it fails:
-   - Read the error carefully
-   - Fix the implementation (not the test!)
-   - Re-run. Max 3 attempts, then stop and report.
-
-### Phase 3: REFACTOR
-
-1. Now that the test passes, improve the code quality:
-   - Remove duplication
-   - Extract meaningful names
-   - Simplify logic
-2. Run ALL tests (not just the new one): `bash <test command --all>`
-3. **VERIFY GREEN**: All tests must still pass after refactor
-
-### Phase 4: Next Cycle (if applicable)
-
-If the feature needs more test cases:
-1. Identify the next behavior to test
-2. Go back to Phase 1 (RED)
-3. Repeat until feature is complete
-
-Report each cycle:
+Find existing tests:
 ```
-Cycle 1: test_parse_valid_input → PASS (RED→GREEN→REFACTOR)
-Cycle 2: test_parse_empty_input → PASS (RED→GREEN→REFACTOR)
-Cycle 3: test_parse_malformed_input → PASS (RED→GREEN→REFACTOR)
+Glob: **/test*/**  **/tests/**  **/*_test.*  **/*test_*.*  **/*.spec.*
 ```
 
-### Phase 5: Final Report
+Identify test framework (pytest, jest, vitest, unittest, etc.) and patterns used.
 
-```markdown
-## TDD Report: <feature>
+### Step 2: RED — Write a failing test
 
-**Cycles**: N
-**Tests added**: N
-**All tests passing**: yes/no
+Write ONE minimal test that describes the desired behavior:
+- Test the public interface, not internals
+- Name it clearly: `test_<what>_<condition>_<expected>`
+- Use arrange-act-assert structure
+- Include edge case if the behavior involves boundaries
 
-| Cycle | Test | RED | GREEN | REFACTOR |
-|-------|------|-----|-------|----------|
-| 1 | test_... | fail | pass (1 attempt) | pass |
-| 2 | test_... | fail | pass (2 attempts) | pass |
+Run the test. It MUST fail. If it passes:
+- Your test doesn't test what you think → rewrite
+- Feature already exists → verify and report to user
+
+Show the failure output to prove it tests the right thing.
+
+### Step 3: GREEN — Write minimal code to pass
+
+Write the SIMPLEST code that makes the test pass:
+- No optimization
+- No "while I'm here" improvements
+- No handling of cases the test doesn't cover
+- Hardcoded values are OK if they pass the test (refactor later)
+
+Run the test. It MUST pass now. If it doesn't:
+- Fix the implementation, not the test
+- If stuck after 3 attempts → report to user, don't thrash
+
+Run ALL tests (not just the new one) to check for regressions.
+
+### Step 4: REFACTOR — Clean up with green tests
+
+Now improve the code while keeping tests green:
+- Remove duplication
+- Improve names
+- Extract helpers if pattern repeats 3+×
+- Simplify logic
+
+After each refactor step, run tests to confirm green.
+
+### Step 5: Next cycle or done
+
+If more behavior is needed:
+- Return to Step 2 with the next test
+- Each cycle should be small: 1 test → 1 behavior
+
+If feature is complete:
+- Run full test suite
+- Report summary
+
+## Output Format
+
+After each RED-GREEN-REFACTOR cycle, report:
+
+```
+## TDD Cycle [N]
+**RED**: [test name] — tests [what behavior]
+**Failure**: [actual failure message — proof it tests the right thing]
+**GREEN**: [what code was written to pass]
+**REFACTOR**: [what was improved, or "no refactoring needed"]
+**Tests**: [X passed, Y total, 0 regressions]
 ```
 
-## Error Handling
+Final report:
 
-- Test framework not found → ask user to install, report command
-- Test passes in RED phase → feature already exists, stop and report
-- GREEN fails after 3 attempts → stop, show errors, ask user for guidance
-- Refactor breaks tests → revert refactor, keep GREEN state
+```
+## TDD Summary
+**Feature**: [what was implemented]
+**Cycles**: [N RED-GREEN-REFACTOR cycles]
+**Tests added**: [count]
+**Test coverage**: [which behaviors are covered]
+**Regressions**: [none, or list]
+```
+
+## Anti-Rationalization Defense
+
+| Rationalization | Reality | Do Instead |
+|----------------|---------|------------|
+| "I'll write tests after the code works" | You won't know what the test proves | Write test first, always |
+| "This is too simple to need a test" | Simple code breaks in integration | Test it anyway — it's fast |
+| "Let me write all tests first, then implement" | Batch mode loses RED feedback | One test at a time |
+| "Test passes, I can skip refactor" | Tech debt accumulates per cycle | At least evaluate, then skip consciously |
+| "I need to refactor before I can test" | Refactoring without tests is dangerous | Write characterization test first |
+| "The test framework isn't set up" | Setup IS the first task | Set up framework, then TDD |
 
 ## Rules
 
-1. **NEVER write code before the test** — this is the cardinal rule
-2. **NEVER modify a test to make it pass** — fix the implementation
-3. **One behavior per cycle** — small, focused increments
-4. **Run tests after EVERY change** — no "I think this works"
-5. **Refactor is mandatory** — don't skip it, even if the code "works"
-6. **All tests must pass** — not just the new one
+- NEVER write production code before a failing test
+- NEVER modify a test to make it pass (fix the code instead)
+- ONE test per cycle — don't batch
+- Run ALL tests after GREEN, not just the new one
+- If no test framework exists, set one up first (ask user for preference)
+- Report in Czech if user's request is in Czech
