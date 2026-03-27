@@ -2,6 +2,15 @@
 
 Decisions made during task execution. Each entry captures WHAT was decided, WHY, and by WHOM.
 
+### 2026-03-27 — Cloud Auto-Fix integration: 3-layer approach
+- **Context**: CC Web nově nabízí auto-fix PRs (sleduje CI failures + review comments, pushuje fixy autonomně v cloudu). Také scheduled tasks (rekurentní cloud prompty) a `--remote` flag pro spuštění cloud session z terminálu.
+- **Decision**: 3-vrstvá implementace:
+  1. **`/autofix` skill** (DONE) — thin wrapper, diagnostikuje PR stav, spustí cloud auto-fix nebo fixne lokálně
+  2. **`/fix-issue` rozšíření** (DONE) — Phase 7: push+PR+autofix tail jako volba po commitu
+  3. **Scheduled cloud tasks** (PLANNED) — daily PR triage, weekly dep audit, hourly CI monitoring
+- **Prerequisite**: Nainstalovat Claude GitHub App na cetej/STOPA, cetej/NG-ROBOT
+- **Why**: Eliminuje manuální cyklus push→CI fail→fix→push. Cloud sessions běží i bez zapnutého PC. Komplementární s existujícím `/critic` (lokální kvalita) a `/verify` (E2E proof).
+
 ### 2026-03-26 — AutoDream vs STOPA memory: KOEXISTENCE
 - **Context**: CC v2.1.81+ má nativní AutoDream (`/dream`) — background konsolidace memory souborů (deduplikace, staleness check, index rewrite). Překrývá se s STOPA `/scribe` + memory systémem.
 - **Decision**: KOEXISTENCE — AutoDream jako "janitor" (čištění, deduplikace), STOPA `/scribe` jako "architekt" (strukturované zápisy, YAML frontmatter, grep-first retrieval, archivace)
@@ -19,7 +28,7 @@ Decisions made during task execution. Each entry captures WHAT was decided, WHY,
 - **Sledovat**: PR #39299 (manuální `/dream` command) — až merged, otestovat chování
 - **Decided by**: user (schválil doporučení)
 
-### 2026-03-24 — Server pro 24/7 agent infrastrukturu (PENDING)
+### 2026-03-24 — Server pro 24/7 agent infrastrukturu (PENDING — updated 2026-03-26)
 - **Context**: Jarvis Phase 5 kompletní mimo 5.1 (24/7 daemon) a 5.5 (voice). Obojí vyžaduje always-on server.
 - **Decision**: PENDING — uživatel plánuje pronajmout server, nutno probrat požadavky
 - **Požadavky na infrastrukturu**:
@@ -34,13 +43,28 @@ Decisions made during task execution. Each entry captures WHAT was decided, WHY,
   - **Anthropic API klíč**: pro Claude Code CLI (ANTHROPIC_API_KEY nebo Max plan token)
 - **Otevřené otázky**:
   - VPS vs dedicated? (VPS stačí — low CPU, hlavně API calls)
-  - Jak synchronizovat memory mezi desktop a server? (git push/pull? rsync? shared storage?)
+  - ~~Jak synchronizovat memory mezi desktop a server?~~ → ANSWERED: SyncThing ($0/měsíc, P2P sync)
   - Budget: kolik API tokenů denně generují scheduled tasks? (~$1-3/den odhad)
   - Fallback: co když server spadne? Desktop jako backup?
 - **Možnosti**:
   - (A) Levný VPS (Hetzner/DigitalOcean, ~€5-10/měsíc) + Claude Code CLI + cron
   - (B) Anthropic hosted scheduled tasks (pokud bude GA — zatím preview)
   - (C) Raspberry Pi doma (nulové měsíční náklady, ale údržba)
+  - (D) **Mac Mini setup** (viral pattern, 2026-03-26) — viz níže
+- **Update 2026-03-26 — Channels 24/7 Architecture (viral Mac Mini pattern)**:
+  - Zdroj: Instagram reel + podrobný článek o nahrazení OpenClaw Claude Channels
+  - **CRITICAL: Channels nemá message queue** — pokud session neběží, zprávy se nenávratně ztratí
+  - **SyncThing** ($0/měsíc) pro sync dev laptop ↔ server: P2P, žádný cloud, od 2013
+  - **Co syncovat**: `~/.claude/skills/`, `~/.claude/commands/`, `settings.json`, knowledge base, MCP configs
+  - **Co NE-syncovat (.stignore)**: `settings.local.json`, `history.jsonl`, `projects/` (path-dependent), `node_modules`, `.git`, `.env`
+  - **Path trick**: stejný username na obou strojích — Claude trackuje projekty dle absolutní cesty
+  - **LaunchAgent > cron**: cron nemá přístup k user session credentials → Claude Code auth selže
+  - **Crash recovery**: LaunchAgent + restart script (tmux session), daily restart v 4:00 AM
+  - **Naše situace**: My jsme Windows → LaunchAgent nepoužitelný, ale principy platí:
+    - SyncThing funguje cross-platform (Windows ↔ Linux VPS)
+    - Ekvivalent LaunchAgent na Linuxu = systemd user service
+    - Na Windows = Task Scheduler nebo NSSM (Non-Sucking Service Manager)
+    - Message queue absence platí univerzálně → session MUSÍ běžet 24/7
 - **Decided by**: user (rozhodnutí pending)
 
 ### 2026-03-24 — Voting Pattern: Known Gap, Future Option

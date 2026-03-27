@@ -11,6 +11,20 @@ Archived items: `.claude/memory/news-archive.md`
 
 ### Action Items
 
+34. **🔥 Cloud Auto-Fix PRs + Scheduled Tasks** (CC Web, 2026-03-27) — Claude Code on the web auto-fix
+    - Claude subscribes to GitHub events on a PR (CI failures, review comments), pushes fixes autonomously
+    - Requires Claude GitHub App installed on repo
+    - Trigger: web UI "Auto-fix" button, mobile command, or paste any PR URL
+    - Behavior: clear fixes → auto-push; ambiguous → asks user; duplicates → skip
+    - Replies to review comments under user's GitHub account (labeled "Claude Code")
+    - **Scheduled Tasks** (cloud): recurring prompts on cron (hourly/daily/weekly), runs in isolated VM
+      - Repos cloned fresh, pushes only to `claude/` branches by default
+      - MCP connectors (Slack, Linear, Drive) available per-task
+      - CLI: `/schedule`, web: claude.ai/code/scheduled
+    - **`--remote` flag**: `claude --remote "prompt"` → creates cloud session, monitor via `/tasks`
+    - **`/teleport`**: pull cloud session back to local terminal
+    - **Akce:** Implementovat `/autofix` skill wrapper + přidat do `/fix-issue` flow
+
 32. **🔥 AutoDream / `/dream`** (CC, v2.1.81+, PR #39299 stále open) — **EVALUATED 2026-03-26**
     - 4-phase background subagent (Orient, Gather Signal, Consolidate, Prune+Index), trigger: 24h + 5 sessions
     - Feature flag `tengu_onyx_plover` (rolling out), manuální `/dream` stále broken (PR #39299 not merged)
@@ -150,6 +164,9 @@ Archived items: `.claude/memory/news-archive.md`
 1. **Claude Code Channels** (v2.1.81) — Telegram/Discord integration přes `/telegram:configure`
    - Async push trigger model — potenciální mobile/async trigger pro STOPA orchestraci
    - Sloučeno: `--channels` MCP preview (v2.1.80) — proaktivní push zprávy do session
+   - **Update 2026-03-26**: Virální Mac Mini 24/7 pattern — SyncThing sync, LaunchAgent crash recovery
+   - **CRITICAL**: Channels nemá message queue — zprávy ztraceny pokud session neběží
+   - Detailed architecture zaznamenána v `learnings/2026-03-26-channels-24x7-architecture.md`
 
 2. **`/context` actionable suggestions** (v2.1.74) — identifikuje memory bloat a context-heavy tools
    - Relevance: STOPA memory maintenance — CC nám řekne co zabírá kontext

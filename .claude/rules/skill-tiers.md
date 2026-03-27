@@ -13,6 +13,7 @@ Daily-use skills that should be triggered proactively:
 ## Tier 2 — Extended (suggest when task matches)
 Specialized skills for specific workflows:
 - `/fix-issue` — GitHub issue resolution
+- `/autofix` — PR CI failure & review comment fixer (cloud or local)
 - `/deepresearch` — multi-agent evidence-based research with citations
 - `/peer-review` — adversarial review of research artifacts and documents
 - `/brainstorm` — spec refinement from vague ideas

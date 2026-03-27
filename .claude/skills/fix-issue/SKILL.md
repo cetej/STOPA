@@ -105,7 +105,29 @@ Unless `--no-commit` flag was passed:
    <what was wrong and why>
    ```
 
-3. Show the user the diff and ask if they want to push
+3. Show the user the diff and ask which path they want:
+   - **a) Push only** — `git push -u origin fix/issue-<number>`
+   - **b) Push + PR** — push and `gh pr create`
+   - **c) Push + PR + AutoFix** — push, create PR, then launch cloud auto-fix to watch CI
+   - **d) Merge locally** — `git checkout main && git merge fix/issue-<number>`
+
+## Phase 7: AutoFix Tail (optional, if user chose option c)
+
+After PR is created:
+
+1. Launch cloud auto-fix:
+   ```bash
+   claude --remote "Watch PR #<pr_number> on <owner>/<repo> and auto-fix any CI failures or review comments. Branch: fix/issue-<number>."
+   ```
+
+2. Report session ID for monitoring:
+   ```
+   Cloud auto-fix activated for PR #<pr_number>.
+   Monitor via /tasks or claude.ai/code.
+   You can walk away — CI failures and review comments will be fixed automatically.
+   ```
+
+If `claude --remote` is not available (no web access), fall back to option b) and suggest user runs `/autofix <pr_number>` manually later.
 
 ## Output
 
@@ -122,6 +144,7 @@ Unless `--no-commit` flag was passed:
 ### Next steps
 - [ ] Push and create PR: `git push -u origin fix/issue-<number>`
 - [ ] Or merge locally: `git checkout main && git merge fix/issue-<number>`
+- [ ] Enable auto-fix: `/autofix <pr_number>` (watches CI + review comments)
 ```
 
 ## Rules
