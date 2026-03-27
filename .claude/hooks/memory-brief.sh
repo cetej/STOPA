@@ -59,6 +59,15 @@ if [ -f "$MEMORY_DIR/activity-log.md" ]; then
   fi
 fi
 
+# 6. PATTERNS — count of tracked session patterns
+if [ -f "$MEMORY_DIR/patterns.md" ]; then
+  pattern_count=$(grep -c "^### " "$MEMORY_DIR/patterns.md" 2>/dev/null | tr -d '[:space:]')
+  pattern_count=${pattern_count:-0}
+  if [ "$pattern_count" -gt 0 ] 2>/dev/null; then
+    brief="${brief}\nSession patterns: $pattern_count tracked (see .claude/memory/patterns.md)\n"
+  fi
+fi
+
 # Output brief to stdout → injected into Claude's context
 if [ -n "$brief" ]; then
   echo "=== MEMORY BRIEF ==="

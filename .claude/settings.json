@@ -23,6 +23,12 @@
           },
           {
             "type": "command",
+            "command": "python .claude/hooks/auto-scribe.py",
+            "timeout": 15,
+            "statusMessage": "Analyzing previous session..."
+          },
+          {
+            "type": "command",
             "command": "bash .claude/hooks/memory-brief.sh",
             "timeout": 5,
             "statusMessage": "Loading memory brief..."
@@ -164,6 +170,12 @@
             "command": "bash .claude/hooks/telegram-notify.sh \"🏁 Session dokončena\"",
             "timeout": 5,
             "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/session-summary.sh",
+            "timeout": 5,
+            "statusMessage": ""
           }
         ]
       }
@@ -214,6 +226,12 @@
           {
             "type": "command",
             "command": "python .claude/hooks/skill-suggest.py",
+            "timeout": 3,
+            "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "python .claude/hooks/memory-whisper.py",
             "timeout": 3,
             "statusMessage": ""
           }
