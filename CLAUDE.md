@@ -17,7 +17,9 @@ STOPA/
 │   ├── hooks/                  # Hook skripty + hooks.json
 │   └── README.md
 ├── .claude/
-│   ├── skills/                 # Zdrojové skills (source of truth)
+│   ├── commands/               # KANONICKÉ skill soubory (flat: watch.md, autoloop.md...)
+│   ├── skills/                 # KOPIE pro kompatibilitu (dirs: watch/SKILL.md...)
+│   │                           # ⚠️ commands/ a skills/ MUSÍ být identické!
 │   ├── hooks/                  # Zdrojové hook skripty
 │   ├── settings.json           # Hooks config pro lokální vývoj
 │   └── memory/                 # Sdílená paměť systému
