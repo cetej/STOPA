@@ -5,11 +5,27 @@ Archived items: `.claude/memory/news-archive.md`
 
 ## Last Scan
 
-**2026-03-26** — targeted scan (Claude Desktop, Code, dreamer/autodream)
+**2026-03-27** — targeted scan (Claude Desktop update, CC v2.1.85)
 
 ## Active Items
 
 ### Action Items
+
+35. **CC v2.1.85** (2026-03-26 večer) — hooks podmínky + MCP vylepšení
+    - **`if` podmínky v hooks** — `permission rule` syntax pro podmíněné spouštění (`if: "branch == 'main'"` apod.)
+    - **`/compact` fix** — opraven crash "context exceeded" → přímý dopad na náš `/compact` skill
+    - **`deniedMcpServers` fix** — správně blokuje claude.ai MCP servery
+    - Timestamp markery v transkriptech pro scheduled tasks (`/loop`, `CronCreate`)
+    - Deep link queries rozšířeny na 5 000 znaků
+    - MCP OAuth: RFC 9728 Protected Resource Metadata discovery
+    - Org policy blokuje zakázané pluginy
+    - Memory leak fix v remote sessions
+    - **Akce:** Prozkoumat `if` podmínky v hooks — mohlo by zjednodušit STOPA hook logiku (např. `FileChanged` jen pro `.py` soubory)
+
+36. **⚠️ Haiku 3 deprecace** (deadline: 2026-04-19)
+    - `claude-3-haiku-20240307` → retirement April 19, 2026
+    - Migrovat na Haiku 4.5 (`claude-haiku-4-5-20251001`)
+    - **Akce:** Zkontrolovat STOPA skills/hooks, kde je Haiku 3 hardcoded → nahradit Haiku 4.5
 
 34. **🔥 Cloud Auto-Fix PRs + Scheduled Tasks** (CC Web, 2026-03-27) — Claude Code on the web auto-fix
     - Claude subscribes to GitHub events on a PR (CI failures, review comments), pushes fixes autonomously
