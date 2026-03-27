@@ -79,6 +79,18 @@ If any FAIL: stop and inform user. Do not enter the loop with broken preconditio
 | Target is `*/SKILL.md` | **File mode** — built-in structural scorer |
 | Target is other file | **File mode** — LLM-as-judge or custom scorer |
 
+**Scalar fitness nudge:** If target is NOT `*/SKILL.md` AND no `verify:` provided, print:
+
+> ⚠ No scalar metric defined. Autoloop works best with `verify:<command>` that outputs a number. Falling back to LLM-as-judge (higher cost, weaker signal).
+>
+> Common verify commands by file type:
+> - `.py` → `pytest --tb=no -q | tail -1` or `python <script> | grep -oP '\d+\.?\d*'`
+> - `.ts/.js` → `npm test 2>&1 | grep -oP '\d+ passing'`
+> - `.md` → `wc -w < <file>` (word count as proxy)
+> - bundle → `npx esbuild src/index.ts --bundle --minify 2>&1 | grep -oP '\d+' | tail -1`
+
+Ask user once: "Provide a verify command, or continue with LLM-as-judge?" Then proceed with their choice.
+
 ### Create feature branch
 
 ```bash
@@ -239,6 +251,35 @@ Keeps: 8 | Discards: 5 | Crashes: 2
 | External dependency | Skip, log, try different approach | Yes |
 
 On crash: always revert to last known-good state before continuing.
+
+## Reward Hacking Detection
+
+Track secondary signals alongside the primary metric. Check after every "keep" iteration:
+
+### Divergence signals
+
+| Signal | Check | Threshold | How to detect |
+|--------|-------|-----------|---------------|
+| **Complexity creep** | `wc -l` of target files | >30% growth from baseline | `baseline_loc` recorded in Phase 0, compare each iteration |
+| **Churn cycling** | Last 3 iterations alternate keep→revert→keep on similar changes | 3 consecutive flip-flops | Parse TSV for status pattern + `git diff` similarity |
+| **Metric spike** | Delta suddenly >3× the running average delta | Anomalous jump | Compare current delta to mean of prior positive deltas |
+
+### On divergence detected
+
+1. **Pause the loop** — do not auto-continue
+2. Print warning with evidence:
+   ```
+   ⚠ REWARD HACKING SUSPECTED
+   Signal: <which signal triggered>
+   Evidence: <e.g., "LOC grew 85→142 (+67%) while metric improved only +0.3">
+   Recommendation: inspect last 3 commits manually
+   ```
+3. Ask user: "Continue, rollback last N, or stop?"
+4. Log `divergence` as TSV status for the flagged iteration
+
+### TSV extension
+
+Add `divergence` to valid statuses: `baseline`, `keep`, `keep (reworked)`, `discard`, `crash`, `no-op`, `hook-blocked`, `divergence`
 
 ## Phase 2: Final Validation (LLM-as-judge)
 
