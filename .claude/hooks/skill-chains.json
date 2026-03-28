@@ -1,0 +1,66 @@
+{
+  "_version": "1.0",
+  "_description": "Reactive skill chain definitions. After a skill completes, the chain engine checks these rules and injects context for the next step.",
+  "chains": [
+    {
+      "trigger": { "skill": "critic", "status_pattern": "PASS|passed|no.*(issues|problems)|clean|approved|all good" },
+      "next": "/verify last changes",
+      "condition": "auto",
+      "description": "After critic passes, verify changes work end-to-end"
+    },
+    {
+      "trigger": { "skill": "brainstorm", "status_pattern": "DONE|done|complete|spec ready|handoff" },
+      "next": "/orchestrate",
+      "condition": "suggest",
+      "description": "After brainstorm produces a spec, suggest orchestrating implementation"
+    },
+    {
+      "trigger": { "skill": "orchestrate", "status_pattern": "DONE|done|complete|all subtasks" },
+      "next": "/checkpoint save",
+      "condition": "auto",
+      "description": "After orchestration completes, save progress automatically"
+    },
+    {
+      "trigger": { "skill": "verify", "status_pattern": "PASS|passed|verified|works|proven" },
+      "next": "/scribe learning",
+      "condition": "auto",
+      "description": "After verification passes, record what worked as a learning"
+    },
+    {
+      "trigger": { "skill": "deepresearch", "status_pattern": "DONE|done|complete|report ready" },
+      "next": "/peer-review",
+      "condition": "suggest",
+      "description": "After deep research, suggest peer review for evidence quality"
+    },
+    {
+      "trigger": { "skill": "project-init", "status_pattern": "DONE|done|created|initialized" },
+      "next": "Register project in ~/.claude/memory/projects.json",
+      "condition": "auto",
+      "description": "After initializing a project, register it in the project registry"
+    },
+    {
+      "trigger": { "skill": "fix-issue", "status_pattern": "DONE|done|committed|fixed" },
+      "next": "/critic",
+      "condition": "auto",
+      "description": "After fixing an issue, run quality review"
+    },
+    {
+      "trigger": { "skill": "autofix", "status_pattern": "DONE|done|pushed|fixed" },
+      "next": "/verify",
+      "condition": "suggest",
+      "description": "After autofix, suggest verification"
+    },
+    {
+      "trigger": { "skill": "tdd", "status_pattern": "GREEN|green|all tests pass" },
+      "next": "/critic",
+      "condition": "suggest",
+      "description": "After TDD green phase, suggest quality review"
+    },
+    {
+      "trigger": { "skill": "build-project", "status_pattern": "DONE|done|complete" },
+      "next": "/checkpoint save",
+      "condition": "auto",
+      "description": "After building a project, checkpoint the state"
+    }
+  ]
+}

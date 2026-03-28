@@ -66,7 +66,9 @@ If unclear, ask the user before proceeding. Never guess on ambiguous requirement
 
 ### Assign Complexity Tier
 
-Based on scope, classify the task:
+**First, check learned heuristics:** Read `.claude/skills/orchestrate/tier-heuristics.md` for patterns extracted from past task traces. If the current task matches a heuristic, use its recommended tier.
+
+**If no heuristic matches,** classify the task based on scope:
 
 | Tier | Criteria | Agent limit | Critic limit | Model |
 |------|----------|-------------|--------------|-------|

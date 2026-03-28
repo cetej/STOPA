@@ -86,9 +86,39 @@ def call_haiku(prompt: str) -> dict | None:
         return None
 
 
+def is_duplicate(learning: dict) -> bool:
+    """Check if a similar learning already exists (3+ overlapping keywords)."""
+    tags = set(t.lower() for t in learning.get("tags", []))
+    title_words = set(re.findall(r"[a-z]+", learning.get("title", "").lower()))
+    keywords = tags | title_words
+
+    if len(keywords) < 2:
+        return False
+
+    for existing in LEARNINGS_DIR.glob("*.md"):
+        try:
+            text = existing.read_text(encoding="utf-8", errors="replace").lower()
+            overlap = sum(1 for kw in keywords if kw in text)
+            if overlap >= 3:
+                return True
+        except OSError:
+            continue
+    return False
+
+
 def write_learning(learning: dict) -> bool:
     """Write a learning entry to learnings/ directory."""
     LEARNINGS_DIR.mkdir(parents=True, exist_ok=True)
+
+    # Quality gate: summary must be substantive (15+ words in description)
+    desc = learning.get("description", "")
+    if len(desc.split()) < 15:
+        return False
+
+    # Dedup gate: skip if 3+ keyword overlap with existing learnings
+    if is_duplicate(learning):
+        return False
+
     today = date.today().isoformat()
     slug = learning.get("title", "unknown")[:50]
     slug = re.sub(r"[^a-z0-9-]", "-", slug.lower()).strip("-")
@@ -143,6 +173,22 @@ def main():
 
     # Clean up pending snapshot (processed successfully)
     PENDING_PATH.unlink(missing_ok=True)
+
+    # Log extraction results for observability
+    log_path = MEMORY_DIR / "intermediate" / "extraction-log.jsonl"
+    try:
+        import json as _json
+        log_entry = _json.dumps({
+            "ts": date.today().isoformat(),
+            "source": "mid-session",
+            "proposed": len(learnings),
+            "written": written,
+            "skipped_quality": sum(1 for l in learnings if len(l.get("description", "").split()) < 15),
+        })
+        with open(log_path, "a", encoding="utf-8") as f:
+            f.write(log_entry + "\n")
+    except OSError:
+        pass
 
     if written > 0:
         print(f"[Mid-session capture] Extracted {written} learnings", file=sys.stderr)

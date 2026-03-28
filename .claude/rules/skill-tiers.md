@@ -29,6 +29,7 @@ Specialized skills for specific workflows:
 - `/liveprompt` — live community prompt intelligence (what works RIGHT NOW for a topic)
 - `/autoresearch` — experimental code iteration with measurable outcomes (Claudini-inspired)
 - `/autoharness` — auto-generate validators from observed failure patterns (AutoHarness-inspired)
+- `/build-project` — end-to-end autonomous project builder from requirements
 
 ## Tier 3 — Advanced (only on explicit request)
 Generative/creative tools and meta-skills:

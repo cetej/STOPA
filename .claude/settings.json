@@ -103,6 +103,12 @@
             "command": "bash .claude/hooks/skill-usage-tracker.sh",
             "timeout": 3,
             "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/skill-chain-engine.sh",
+            "timeout": 5,
+            "statusMessage": ""
           }
         ]
       },
@@ -124,6 +130,12 @@
           {
             "type": "command",
             "command": "bash .claude/hooks/eval-trigger.sh",
+            "timeout": 3,
+            "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/auto-checkpoint-suggest.sh",
             "timeout": 3,
             "statusMessage": ""
           }
