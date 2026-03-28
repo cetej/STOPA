@@ -7,6 +7,7 @@
 .playwright-mcp/
 input/
 output/
+outputs/.research/
 watchlist-drawer.png
 *.local.txt
 SECRETS*

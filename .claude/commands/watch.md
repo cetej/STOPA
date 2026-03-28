@@ -177,14 +177,14 @@ To minimize cost, use parallel WebSearch calls:
 
 ### Action Items
 
-| # | Source | Finding | Suggested Action |
+| # | Source | Finding | URL | Suggested Action |
 |---|--------|---------|-----------------|
 | 1 | Claude Code v1.X | New skill hooks API | Update orchestration to use new hooks |
 | 2 | diffusers 0.32 | Breaking change in scheduler API | Check compatibility with our schedulers |
 
 ### Watch List
 
-| # | Source | Finding | Why It Matters |
+| # | Source | Finding | URL | Why It Matters |
 |---|--------|---------|---------------|
 | 1 | HuggingFace | New scheduler API | Could improve generation quality |
 
@@ -197,7 +197,7 @@ To minimize cost, use parallel WebSearch calls:
 
 ### Influencer Pulse
 
-| # | Voice | Signal | Gate | Classification |
+| # | Voice | Signal | URL | Gate | Classification |
 |---|-------|--------|------|---------------|
 | 1 | Simon Willison | New Claude Code workflow pattern for X | 1+2+3 ✅ | [ACTION] |
 | 2 | Karpathy | Blog post on efficient fine-tuning | 1+3 ✅, 2 ❌ | [WATCH] |
@@ -217,9 +217,9 @@ To minimize cost, use parallel WebSearch calls:
 
 ## After Scanning
 
-1. **Update `.claude/memory/news.md`**:
-   - Record scan date and mode
-   - Append ACTION and WATCH items (not INFO — too noisy)
+1. **Update `.claude/memory/news.md`** (with provenance):
+   - Record scan date, mode, and throughput: `**YYYY-MM-DD** — <mode> scan | Searches: N | Fetches: N | Items: N action, N watch, N info`
+   - Append ACTION and WATCH items — each entry MUST include source URL: `N. **Title** (url) — description` (not INFO — too noisy)
    - If an ACTION item from a previous scan is now resolved, mark it done
    - **Clean up DONE items**: Remove ~~strikethrough~~ / Status: DONE / SAFE items from Active Items — move them to `news-archive.md` with archival date
    - **Deduplicate**: If a Watch List item already exists (same topic), update existing entry instead of adding duplicate

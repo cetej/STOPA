@@ -175,6 +175,27 @@ When `$ARGUMENTS` contains `--sources <file>`, switch to **citation verification
 1. <specific fix per issue>
 ```
 
+### Marker Audit
+
+If the document uses uncertainty markers (`[VERIFIED]`, `[INFERRED]`, `[UNVERIFIED]`, `[SINGLE-SOURCE]`), include a marker audit section:
+
+```markdown
+### Marker Audit
+
+| Marker | Count | Sample Claim |
+|--------|-------|-------------|
+| [VERIFIED] | N | "..." |
+| [INFERRED] | N | "..." |
+| [UNVERIFIED] | N | "..." |
+| [SINGLE-SOURCE] | N | "..." |
+| Unmarked | N | "..." (these need markers) |
+```
+
+Flag inconsistencies:
+- `[VERIFIED]` on claims with dead URLs or MISMATCH alignment
+- Unmarked factual assertions (should have a marker)
+- >30% `[UNVERIFIED]` triggers a warning
+
 ### Rules for Source Verification
 - A citation is valid ONLY if the source supports the **specific** claim (number, quote, conclusion), not just the general topic
 - "Verified" means you fetched the URL and confirmed the content — not that the citation exists

@@ -32,6 +32,25 @@ These are non-negotiable. Violation of any commandment invalidates the entire ou
 6. **Mark status honestly.** Distinguish: `read directly` | `inferred from multiple sources` | `unresolved`.
 7. **Refuse fake certainty.** Do not use words like "verified", "confirmed", or "proven" unless you performed the check and can point to the source.
 
+## Uncertainty Markers
+
+Every factual claim in the final brief MUST carry an inline marker **after** the claim and **before** the citation:
+
+| Marker | Meaning | When to use |
+|--------|---------|-------------|
+| `[VERIFIED]` | Directly checked — URL fetched, content confirmed | You read the source and it says exactly this |
+| `[INFERRED]` | Derived from multiple sources, not directly stated | Logical conclusion from 2+ sources, none says it verbatim |
+| `[UNVERIFIED]` | Present in sources but not yet checked | Source exists but you haven't read its full content |
+| `[SINGLE-SOURCE]` | Only one source supports this claim | True but fragile — one retraction kills it |
+
+**Usage:** `"GPT-4 achieves 86.4% on MMLU [VERIFIED][3]"` or `"This suggests a trend toward... [INFERRED][2,5]"`
+
+**Rules:**
+- Every factual assertion in Detailed Findings gets a marker
+- Executive Summary uses markers only for the 3-5 most important claims
+- A brief with >30% `[UNVERIFIED]` claims triggers a warning to the user
+- Evidence Table Confidence column maps: high → VERIFIED, medium → INFERRED or SINGLE-SOURCE, low → UNVERIFIED
+
 ## Shared Memory
 
 Before starting:
@@ -66,7 +85,7 @@ Present the plan to the user. Wait for confirmation before proceeding.
 Spawn **2-4 researcher subagents** (Sonnet model) in parallel using the Agent tool. Each agent gets:
 - One disjoint sub-question
 - The integrity commandments (copy them into the agent prompt)
-- Instructions to write results to a specific file: `outputs/<slug>-research-<N>.md`
+- Instructions to write results to a specific file: `outputs/.research/<slug>-research-<N>.md`
 
 **Agent prompt template:**
 ```
@@ -88,7 +107,7 @@ SOURCE QUALITY (prefer → accept → reject):
 - Accept with caveats: well-cited secondary sources, trade publications
 - Reject: SEO listicles, undated blogs, AI-generated content without primary backing
 
-OUTPUT FORMAT — write to file <output-path>:
+OUTPUT FORMAT — write to file <output-path> (in outputs/.research/ directory):
 
 ## Evidence Table
 
@@ -115,20 +134,67 @@ OUTPUT FORMAT — write to file <output-path>:
 ### Step 3: Synthesis
 
 After all agents complete:
-1. Read all `outputs/<slug>-research-<N>.md` files
+1. Read all `outputs/.research/<slug>-research-<N>.md` files
 2. Merge evidence tables — deduplicate, unify source numbering starting from [1]
 3. Identify: **consensus** (multiple sources agree), **disagreements** (sources conflict), **gaps** (nobody covers this)
-4. Write synthesis to `outputs/<slug>-synthesis.md`
+4. Write synthesis to `outputs/.research/<slug>-synthesis.md`
 
 ### Step 4: Verification Pass
 
-For the top 5-10 most important claims:
-1. Check that the cited URL actually supports the specific claim (not just the topic)
-2. Flag dead links — search for alternatives (archived versions, mirrors)
-3. Remove or hedge any claim where the source doesn't actually say what we attributed to it
-4. Ensure no orphan citations (every [N] in text has a matching Sources entry and vice versa)
+**For `comparison`, `survey`, and `complex` scales:** Spawn a dedicated **verifier sub-agent** for adversarial citation checking:
 
-### Step 5: Write Final Brief
+```
+Agent(subagent_type: "verifier", prompt: "
+  Verify the research synthesis at: outputs/.research/<slug>-synthesis.md
+  Write your verification report to: outputs/.research/<slug>-verification.md
+  Focus on: URL liveness, claim-source alignment (top 10), orphan detection, marker audit.
+  INTEGRITY: Do not invent alternative sources. Report what you find.
+")
+```
+
+After the verifier completes:
+1. Read `outputs/.research/<slug>-verification.md`
+2. Fix MISMATCH claims — re-read source or remove claim
+3. Handle dead links — search for archived/updated URL, or mark claim as `[UNVERIFIED]`
+4. Fix orphan numbering (renumber citations + sources to close gaps)
+5. If DONE_WITH_CONCERNS: address each concern before proceeding to Step 5
+
+**For `direct` scale:** Do a quick self-check: verify the top 3 claims and ensure no orphan citations. No verifier agent needed.
+
+### Step 5: Write Provenance Sidecar
+
+**Skip for `direct` scale.** For all other scales, write `outputs/<slug>-research.provenance.md`:
+
+```markdown
+# Provenance: <topic>
+
+**Date:** <YYYY-MM-DD>
+**Question:** <research question>
+**Scale:** direct | comparison | survey | complex
+**Rounds:** <N research rounds>
+**Sources:** <N consulted> / <N accepted> / <N rejected>
+**Verification:** verified | partial | unverified
+
+## Research Files
+
+| File | Agent | Purpose |
+|------|-------|---------|
+| outputs/.research/<slug>-research-1.md | researcher-1 | <sub-question> |
+| outputs/.research/<slug>-research-2.md | researcher-2 | <sub-question> |
+| outputs/.research/<slug>-synthesis.md | lead | Merged evidence |
+| outputs/.research/<slug>-verification.md | verifier | Citation audit |
+
+## Uncertainty Summary
+
+| Marker | Count |
+|--------|-------|
+| [VERIFIED] | N |
+| [INFERRED] | N |
+| [UNVERIFIED] | N |
+| [SINGLE-SOURCE] | N |
+```
+
+### Step 6: Write Final Brief
 
 Produce the final research brief in `outputs/<slug>-research.md`:
 
@@ -147,10 +213,10 @@ Produce the final research brief in `outputs/<slug>-research.md`:
 ## Detailed Findings
 
 ### <Theme 1>
-<findings with inline citations [1], [2]>
+<findings with inline uncertainty markers and citations, e.g. "X achieves 94% [VERIFIED][3]", "This suggests... [INFERRED][2,5]">
 
 ### <Theme 2>
-<findings with inline citations>
+<findings with inline markers and citations>
 
 ## Disagreements & Open Questions
 
@@ -169,27 +235,38 @@ Produce the final research brief in `outputs/<slug>-research.md`:
 
 ## Coverage Status
 
-- **Directly verified:** <list>
-- **Inferred (multi-source):** <list>
-- **Unresolved:** <list>
+- **[VERIFIED]:** <claims directly checked against sources>
+- **[INFERRED]:** <conclusions derived from multiple sources>
+- **[SINGLE-SOURCE]:** <claims backed by only one source>
+- **[UNVERIFIED]:** <claims present but not yet checked>
 ```
 
-### Step 6: Deliver
+### Step 7: Deliver
 
 1. Present the Executive Summary to the user in chat
-2. Point to the full brief file path
-3. Clean up intermediate files (`outputs/<slug>-research-<N>.md`, `outputs/<slug>-synthesis.md`)
+2. Point to the full brief file path and provenance sidecar path
+3. Keep intermediate files in `outputs/.research/` — they serve as provenance evidence. Only clean up if user explicitly requests it.
 4. Update `.claude/memory/budget.md` with search/agent costs
 
-## Depth Tiers
+## Scale Decision Matrix
 
-| Tier | Sub-agents | Searches | When |
-|------|-----------|----------|------|
-| **quick** | 1 | 5-10 | Simple factual question |
-| **standard** | 2-3 | 15-25 | Multi-faceted topic |
-| **deep** | 3-4 | 30-50 | Comprehensive investigation |
+Classify the research question **before** Step 2 to determine execution scale:
 
-Default to **standard**. Use **quick** for narrow questions, **deep** only when user requests thorough coverage or topic is complex.
+| Query Type | Scale | Sub-agents | Verifier? | Provenance? |
+|-----------|-------|-----------|-----------|-------------|
+| Narrow factual question | **direct** | 0 (you search directly, 3-10 tool calls) | No | No |
+| Comparison (2-3 items) | **comparison** | 2 parallel researchers | Yes (top 5 claims) | Yes |
+| Broad survey / overview | **survey** | 3-4 parallel researchers | Yes (top 10 claims) | Yes |
+| Complex multi-domain | **complex** | 4-6 parallel researchers | Yes (full) | Yes |
+
+**Classification rules:**
+- Default to **comparison** when unsure
+- Use **direct** for questions answerable in ≤5 tool calls — saves 80% cost vs spawning agents
+- Use **survey** for "landscape", "overview", "state of the art" queries
+- Use **complex** only when 3+ distinct domains or disciplines are involved
+- Never spawn subagents for work you can do in 5 tool calls
+
+**Budget mapping:** direct → light tier, comparison → standard tier, survey/complex → deep tier.
 
 ## Error Handling
 
