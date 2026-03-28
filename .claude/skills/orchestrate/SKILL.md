@@ -123,15 +123,18 @@ Before planning, check if similar tasks were solved before:
 
 2. **If matches found**, extract the approach/outcome and inject as planning context:
    - Read the matched learning file(s) — focus on "What happened" and "Prevention/fix"
+   - For decisions.md matches: extract the **Decision**, **Why**, and **Possible implementation** fields — these are precedents that should inform the current approach
    - Include as `## Past Approaches` section when briefing Phase 4 agents
    - Example: "Previous similar task used light tier with single agent — worked well"
+   - Example: "Decision from 2026-03-24: direct main commits for solo projects — skip PR workflow"
 
 3. **Decision rule:**
    - Match found with `outcome: success` → prefer same approach unless scope differs
    - Match found with `outcome: failure` or `type: anti_pattern` → explicitly avoid that approach
+   - Decision precedent found → follow unless current context materially differs (explain why if deviating)
    - No match → proceed normally (first-time task)
 
-This is few-shot learning from personal history — the agent gets better with every task.
+This is few-shot learning from personal history — the agent gets better with every task. Decisions serve as precedents: once a pattern is decided, it should be reused unless context changes.
 
 ## Phase 2: Scout (scaled to tier)
 

@@ -2,6 +2,19 @@
 
 Decisions made during task execution. Each entry captures WHAT was decided, WHY, and by WHOM.
 
+### 2026-03-28 — Structured dissent (devil's advocate agent): APPROVED, LOW PRIORITY
+- **Context**: Paper "Agentic AI and the Next Intelligence Explosion" (arXiv:2603.20639) popisuje "strukturovaný nesouhlas" jako first-class feature multi-agentních systémů. Inspirace pro rozšíření /critic.
+- **Decision**: Odložit implementaci dokud nebude reálný use case kde /critic (9.5/10) selže kvůli confirmation bias. Pak implementovat jako `--adversarial` mód.
+- **Why**: Critic funguje dobře. Přidávat devil's advocate bez evidence potřeby = premature abstraction. Paper je teoretický (žádné experimenty).
+- **Possible implementation**: Flag `--adversarial` pro `/critic` — druhý agent aktivně hledá důvody proč řešení nefunguje (opak běžného review).
+- **Decided by**: user
+
+### 2026-03-28 — Precedentní systém v decisions.md: IMPLEMENTED
+- **Context**: Stejný paper naznačuje nutnost precedentního systému — minulá rozhodnutí informují budoucí.
+- **Decision**: Přidat grep decisions.md do orchestrate Phase 3 (Episodic Recall). Minimální změna, decisions.md už existuje.
+- **Why**: Orchestrator už grepuje learnings pro past approaches, ale decisions.md ignoruje. Přitom decisions obsahují přesně ty precedenty které paper zmiňuje.
+- **Decided by**: user
+
 ### 2026-03-27 — Cloud Auto-Fix integration: 3-layer approach
 - **Context**: CC Web nově nabízí auto-fix PRs (sleduje CI failures + review comments, pushuje fixy autonomně v cloudu). Také scheduled tasks (rekurentní cloud prompty) a `--remote` flag pro spuštění cloud session z terminálu.
 - **Decision**: 3-vrstvá implementace:
