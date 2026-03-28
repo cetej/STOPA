@@ -113,6 +113,26 @@ After classifying the task, load targeted context based on **Type** and **Scope*
 - If no learnings match, that's fine — proceed without. Don't widen the search.
 - This table supplements Phase 0 memory reads (critical-patterns.md is always loaded regardless)
 
+### Episodic Recall — Past Approaches
+
+Before planning, check if similar tasks were solved before:
+
+1. **Grep learnings** for 1-2 keywords from the current task goal:
+   - `Grep pattern="<goal_keyword>" path=".claude/memory/learnings/"` (e.g., "pipeline", "skill", "hook")
+   - Also check: `Grep pattern="<goal_keyword>" path=".claude/memory/decisions.md"`
+
+2. **If matches found**, extract the approach/outcome and inject as planning context:
+   - Read the matched learning file(s) — focus on "What happened" and "Prevention/fix"
+   - Include as `## Past Approaches` section when briefing Phase 4 agents
+   - Example: "Previous similar task used light tier with single agent — worked well"
+
+3. **Decision rule:**
+   - Match found with `outcome: success` → prefer same approach unless scope differs
+   - Match found with `outcome: failure` or `type: anti_pattern` → explicitly avoid that approach
+   - No match → proceed normally (first-time task)
+
+This is few-shot learning from personal history — the agent gets better with every task.
+
 ## Phase 2: Scout (scaled to tier)
 
 Scale exploration to the assigned tier:

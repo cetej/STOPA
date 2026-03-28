@@ -16,11 +16,30 @@ if [ -f "$MEMORY_DIR/state.md" ]; then
   fi
 fi
 
-# 2. RECENT LEARNINGS — last 5 section headings from learnings.md
-if [ -f "$MEMORY_DIR/learnings.md" ]; then
-  entries=$(grep "^### " "$MEMORY_DIR/learnings.md" 2>/dev/null | tail -5)
-  if [ -n "$entries" ]; then
-    brief="${brief}\nRecent learnings (5 newest):\n$entries\n(Full: .claude/memory/learnings.md)\n"
+# 2. LEARNINGS — critical patterns count + recent learnings from L2 indexes
+LEARNINGS_DIR="$MEMORY_DIR/learnings"
+if [ -d "$LEARNINGS_DIR" ]; then
+  # Count critical patterns (always-loaded)
+  cp_count=0
+  if [ -f "$LEARNINGS_DIR/critical-patterns.md" ]; then
+    cp_count=$(grep -cE "^\*\*|^[0-9]+\." "$LEARNINGS_DIR/critical-patterns.md" 2>/dev/null || echo 0)
+  fi
+  # Count total learnings files (excluding indexes and critical-patterns)
+  total_learnings=$(find "$LEARNINGS_DIR" -maxdepth 1 -name "202*.md" 2>/dev/null | wc -l | tr -d ' ')
+  # Get 3 most recent learnings by filename (YYYY-MM-DD prefix sorts naturally)
+  recent=$(ls -1 "$LEARNINGS_DIR"/202*.md 2>/dev/null | sort -r | head -3 | while read -r f; do
+    # Extract summary from YAML frontmatter
+    summary=$(grep "^summary:" "$f" 2>/dev/null | head -1 | sed "s/^summary:[[:space:]]*//" | sed "s/^['\"]//;s/['\"]$//" | head -c 80)
+    if [ -n "$summary" ]; then
+      echo "  - $summary"
+    fi
+  done)
+  if [ "$cp_count" -gt 0 ] || [ "$total_learnings" -gt 0 ]; then
+    brief="${brief}\nLearnings: $cp_count critical patterns, $total_learnings total"
+    if [ -n "$recent" ]; then
+      brief="${brief}\nRecent:\n$recent"
+    fi
+    brief="${brief}\n"
   fi
 fi
 

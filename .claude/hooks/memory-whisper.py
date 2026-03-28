@@ -63,6 +63,54 @@ if AUTOMEMORY_DIR is None:
     AUTOMEMORY_DIR = _projects_dir / "nonexistent"  # will fail exists() check gracefully
 
 # Stopwords to filter from prompt keywords
+# Synonym expansion table — maps keywords to additional search terms
+# Covers: CZ↔EN pairs, technical aliases, conceptual synonyms
+# Each key maps to a list of synonyms that will be searched alongside the original
+SYNONYM_MAP: dict[str, list[str]] = {
+    # CZ↔EN pairs
+    "skill": ["dovednost", "command", "příkaz"],
+    "dovednost": ["skill", "command"],
+    "memory": ["paměť", "context", "kontext"],
+    "paměť": ["memory", "context"],
+    "hook": ["háček", "trigger", "event"],
+    "háček": ["hook", "trigger"],
+    "budget": ["cost", "rozpočet", "token", "náklady"],
+    "rozpočet": ["budget", "cost", "token"],
+    "cost": ["budget", "rozpočet", "náklady"],
+    "pipeline": ["workflow", "proces", "tok"],
+    "workflow": ["pipeline", "proces"],
+    "error": ["chyba", "bug", "failure", "selhání"],
+    "chyba": ["error", "bug", "failure"],
+    "bug": ["error", "chyba", "defect"],
+    "test": ["ověření", "verify", "validace"],
+    "verify": ["test", "ověření", "validate"],
+    # Technical aliases
+    "trigger": ["description", "matcher", "activation"],
+    "description": ["trigger", "popis", "frontmatter"],
+    "retrieval": ["search", "recall", "vyhledávání", "matching"],
+    "search": ["retrieval", "grep", "hledání", "find"],
+    "deploy": ["distribute", "sync", "nasazení", "distribuce"],
+    "orchestrate": ["plan", "decompose", "rozložit"],
+    "checkpoint": ["save", "resume", "snapshot", "uložení"],
+    "compact": ["compress", "summarize", "context"],
+    "agent": ["subagent", "worker", "teammate"],
+    "learning": ["poznatek", "lesson", "pattern", "vzor"],
+    "pattern": ["vzor", "learning", "convention"],
+    "decision": ["rozhodnutí", "choice", "volba"],
+    "confidence": ["score", "ranking", "důvěra"],
+    "decay": ["recency", "staleness", "stárnutí"],
+    "embedding": ["vector", "semantic", "similarity"],
+    "semantic": ["embedding", "meaning", "význam"],
+    "consolidation": ["merge", "dedup", "sloučení"],
+    "episode": ["history", "log", "event", "záznam"],
+    # Domain-specific
+    "critic": ["review", "quality", "kontrola"],
+    "scout": ["explore", "map", "průzkum"],
+    "scribe": ["record", "capture", "zapiš"],
+    "watch": ["news", "novinky", "scan"],
+    "harness": ["deterministic", "pipeline", "runner"],
+}
+
 STOPWORDS = frozenset({
     "the", "a", "an", "is", "are", "was", "were", "be", "been", "being",
     "have", "has", "had", "do", "does", "did", "will", "would", "could",
@@ -116,6 +164,22 @@ def compute_confidence(source: str, severity: str = "", date_str: str = "") -> f
             pass
 
     return round(min(1.0, max(0.1, base)), 2)
+
+
+def expand_synonyms(keywords: list[str], max_expanded: int = 8) -> list[str]:
+    """Expand keywords with synonyms from SYNONYM_MAP.
+
+    Original keywords come first (higher priority), synonyms appended.
+    Total capped at max_expanded to avoid noise.
+    """
+    expanded = list(keywords)  # originals first
+    seen = set(keywords)
+    for kw in keywords:
+        for syn in SYNONYM_MAP.get(kw, []):
+            if syn not in seen and syn not in STOPWORDS:
+                expanded.append(syn)
+                seen.add(syn)
+    return expanded[:max_expanded]
 
 
 def extract_keywords(text: str, max_keywords: int = 5) -> list[str]:
@@ -467,13 +531,16 @@ def main():
     if not keywords:
         return
 
+    # Expand with synonyms for broader recall (originals score higher naturally)
+    search_keywords = expand_synonyms(keywords)
+
     # Search all sources
     all_matches = []
-    all_matches.extend(search_critical_patterns(keywords))
-    all_matches.extend(search_learnings(keywords, build_learnings_index()))
-    all_matches.extend(search_decisions(keywords))
-    all_matches.extend(search_feedback(keywords))
-    all_matches.extend(search_patterns(keywords))
+    all_matches.extend(search_critical_patterns(search_keywords))
+    all_matches.extend(search_learnings(search_keywords, build_learnings_index()))
+    all_matches.extend(search_decisions(search_keywords))
+    all_matches.extend(search_feedback(search_keywords))
+    all_matches.extend(search_patterns(search_keywords))
 
     if not all_matches:
         return

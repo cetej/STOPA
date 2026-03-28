@@ -142,6 +142,16 @@ Archived items: `.claude/memory/news-archive.md`
 
 ### Watch List
 
+29l. **AgentScope** (Alibaba DAMO Academy, 2026-03-28) — open-source Agent-Oriented Programming framework
+    - Apache 2.0, Python + Java SDK, K8s-ready, OpenTelemetry observability
+    - Built-in: ReAct agent, MCP + A2A protocol support, RAG pipeline, MsgHub (multi-agent orchestration)
+    - ReMe memory module (compression + long-term persistence) — analogie k STOPA `.claude/memory/`
+    - AgentScope Studio: vizuální prostředí pro prototyping/debugging agentů
+    - CoPaw: personal assistant (Docker, lokální LLM, integrace DingTalk/Discord/iMessage)
+    - Model-agnostic (OpenAI, Anthropic, DashScope, Ollama, local)
+    - Relevance: validuje STOPA architektonické vzory (message-passing, memory, tool protocols); Java SDK + K8s deployment = oblasti kde STOPA nemá coverage
+    - **Sledovat:** MsgHub orchestration patterns, ReMe memory compression (inspirace pro STOPA memory archivaci)
+
 29k. **Luma AI Uni-1** (2026-03-05, API waitlist) — unified understanding+generation image model
     - Decoder-only autoregressive transformer (ne diffusion) — reasoning before rendering
     - #1 human preference Elo (Overall, Style & Editing, Reference-Based), #1 RISEBench (reasoning)

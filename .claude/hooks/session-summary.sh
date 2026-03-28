@@ -33,8 +33,9 @@ bash_sig=$(count_matches "\| Bash \(significant\) \|" "$LOG")
 errors=$(count_matches "exit=[^0]" "$LOG")
 total=$((writes + agents + skills + bash_sig))
 
-# Skip trivial sessions (< 3 significant operations)
-if [ "$total" -lt 3 ]; then
+# Skip trivial sessions (< 2 significant operations)
+# Lowered from 3 to 2 to bootstrap the auto-scribe pipeline
+if [ "$total" -lt 2 ]; then
   exit 0
 fi
 
@@ -43,9 +44,11 @@ error_lines=$(grep "exit=[^0]" "$LOG" 2>/dev/null | head -5 | sed 's/^- //' | wh
   printf '"%s",' "$line"
 done | sed 's/,$//')
 
-# Skills — activity log doesn't capture skill name, just "| Skill |"
-# Leave empty for now; auto-scribe can infer from context
-skill_names=""
+# Skills — extract skill names from activity log (Skill:name format from fixed hook)
+skill_names=$(grep -oE "Skill:[a-zA-Z_-]+" "$LOG" 2>/dev/null | sort -u | sed 's/Skill://' | while IFS= read -r name; do
+  printf '"%s",' "$name"
+done | sed 's/,$//')
+skill_names="${skill_names:-}"
 
 # State snapshot (one-liner)
 state_snapshot="none"
