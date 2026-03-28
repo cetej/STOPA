@@ -11,6 +11,9 @@ handoffs:
   - skill: /scribe
     when: "Experiments produced reusable findings or architectural decisions"
     prompt: "Record: <key finding from autoresearch>"
+  - skill: /scribe
+    when: "PIVOT decision made or 3+ crashes of same failure category"
+    prompt: "Record failure learning: <failure category + what was tried + why it failed>"
   - skill: /deepresearch
     when: "Need deeper literature review before more experiments"
     prompt: "Research: <topic that emerged from experiments>"
@@ -121,6 +124,10 @@ Quick web search to seed hypotheses — NOT a full deepresearch run.
 
 ## Phase 2: Experiment Loop
 
+The loop runs in **batches**. After each batch, a strategic ASSESS step decides the next action.
+
+**Batch size**: `ceil(budget / 3)` iterations per batch (e.g., budget 10 → batches of 4, 3, 3).
+
 For each iteration (1 to budget):
 
 ### Step 1: Review (git as memory)
@@ -228,6 +235,7 @@ Exit when ANY:
 - **Plateau**: 6 consecutive discards (raised from 4 — mid-loop rescue fires at 3, giving 3 more after rescue)
 - **Solved**: metric hit theoretical maximum or user-defined target
 - **Crash loop**: 3 crashes in a row
+- **ASSESS decision**: PROCEED issued (skip remaining budget, go to synthesis)
 
 Every 3 iterations, print progress:
 ```
@@ -237,9 +245,55 @@ Baseline: 0.72 → Best: 0.85 (+0.13)  [hypothesis: semantic-chunking]
 Keeps: 3 | Discards: 2 | Crashes: 1
 ```
 
+### Step 10: Batch ASSESS — Strategic Decision Point
+
+**Trigger:** After each batch completes (every `ceil(budget/3)` iterations), pause and assess.
+
+Review the experiment log holistically:
+
+```
+=== BATCH ASSESS (after iteration <N>/<budget>) ===
+Baseline: <baseline> → Best: <best> (+<delta>)
+Kept: <K> | Discarded: <D> | Crashed: <C>
+Improvement trend: <improving | flat | declining>
+Remaining budget: <remaining> iterations
+```
+
+**Decision matrix:**
+
+| Condition | Decision | Action |
+|-----------|----------|--------|
+| Best metric meets target OR improvement trend strong | **PROCEED** | Exit loop → Phase 3 synthesis. Remaining budget saved. |
+| Some improvement but plateauing, AND approaches remain untested | **REFINE** | Keep current best. Narrow focus: try variations of best-performing hypothesis only. Continue next batch. |
+| No meaningful improvement AND >50% budget spent | **PIVOT** | Keep current best as fallback. Spawn research rescue agent (see below). Reset hypothesis queue with new direction. Continue next batch. |
+| All experiments crash or produce garbage | **ABORT** | Exit loop → Phase 3 with failure analysis. |
+
+**On PIVOT:**
+1. Version current artifacts: rename `autoresearch-log.tsv` → `autoresearch-log-v<N>.tsv`
+2. Spawn research rescue agent (Sonnet) with WebSearch:
+   - Prompt: "We're trying to improve <metric> for <question>. Approaches tried: <list from TSV>. All scored ≤<best>. Find fundamentally different approaches."
+3. Agent writes to `outputs/autoresearch-rescue-<N>.md`
+4. Create new experiment log, carry over baseline = current best
+5. Continue loop with fresh hypotheses
+
+**On REFINE:**
+1. Log the refinement decision to run diary
+2. Generate hypothesis variations: parameter tuning, combination of top-2 approaches, edge case optimization
+3. Continue next batch with narrowed focus
+
+**Forced PROCEED:** If 2 consecutive PIVOTs produced no improvement, force PROCEED with whatever best exists. Don't waste remaining budget.
+
+**Run Diary**: Log each ASSESS decision with rationale:
+```
+## ASSESS after batch <N>
+**Decision**: PROCEED | REFINE | PIVOT | ABORT
+**Rationale**: <why this decision>
+**Best so far**: <metric> via <hypothesis>
+```
+
 ### Mid-loop research agent (escape hatch)
 
-If stuck (3+ consecutive discards) AND budget remains:
+Automatically triggered by PIVOT decision (see Step 10 above). Can also trigger independently if stuck (3+ consecutive discards within a batch):
 1. Spawn ONE research sub-agent (Sonnet) with WebSearch
 2. Prompt: "We're trying to improve <metric> for <question>. Approaches tried: <list from TSV>. All scored ≤<best>. Find alternative approaches we haven't tried."
 3. Agent writes suggestions to `outputs/autoresearch-rescue-<N>.md`
@@ -322,6 +376,27 @@ After loop ends, write to `outputs/autoresearch-<slug>.md`:
 
 Default to **standard**. Infer from budget argument if provided.
 
+## Failure Taxonomy
+
+Classify every crash/error into a category. This enables smarter recovery decisions.
+
+| Category | Pattern | Recovery | Repairable? |
+|----------|---------|----------|-------------|
+| **DEPENDENCY** | ImportError, ModuleNotFoundError | `pip install` missing package, retry | Yes (1 attempt) |
+| **RESOURCE** | OOM, CUDA out of memory, disk full | Reduce batch size / data size, retry | Yes (1 attempt) |
+| **TIMEOUT** | Eval exceeds 5× baseline time | Kill, reduce scope, retry | Yes (1 attempt) |
+| **DATA** | FileNotFoundError, empty dataset, corrupt input | Check paths, verify data exists | Yes (if path issue) |
+| **DIVERGENCE** | NaN, Inf, metric outside expected range | Revert, flag for manual review | No — revert only |
+| **SYNTAX** | SyntaxError, IndentationError | Fix and retry | Yes (1 attempt) |
+| **LOGIC** | Assertion failed, wrong output shape | Revert, log as "approach incompatible" | No — revert only |
+| **EVAL_BROKEN** | Eval script itself errors | STOP — ground truth corrupted | No — STOP |
+| **ENVIRONMENT** | Permission denied, port in use, antivirus lock | Retry with delay | Yes (2 attempts) |
+| **UNKNOWN** | Unclassified error | Revert, log full stderr | No — revert only |
+
+**Repairability rule:** If the same failure category occurs 3+ times across the run, mark it as **non-repairable** for remaining iterations. Don't waste budget retrying a systemic issue.
+
+**Auto-classification:** Parse stderr/stdout against category patterns. Log category in TSV `notes` column.
+
 ## Error Handling
 
 | Failure | Response |
@@ -329,6 +404,7 @@ Default to **standard**. Infer from budget argument if provided.
 | Eval command fails on baseline | STOP — user must fix eval before experiments begin |
 | Eval produces no number | STOP — show raw output, ask user to fix grep pattern |
 | All experiments crash | STOP after 3rd crash, report what happened |
+| 3+ crashes of same category | Mark category non-repairable, skip similar hypotheses |
 | Agent rescue returns nothing | Continue with random perturbation strategy |
 | Budget exceeded | Stop, synthesize what you have, note truncation |
 | Git conflict on revert | `git revert --abort && git reset --hard <best_commit>` |

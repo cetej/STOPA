@@ -20,6 +20,7 @@ globs: ".claude/memory/**"
 - Learnings bez counterů (starší záznamy) zůstávají validní — countery jsou volitelné
 - `critical-patterns.md` = always-read (max 10 entries, top patterns)
 - Retrieval: grep-first přes component/tags, pak čti jen matched soubory
+- **Time-weighted relevance**: When multiple learnings match, prefer recent ones. Score: `severity_weight × (1 / (1 + days_since_date / 60))`. Weights: critical=4, high=3, medium=2, low=1. A 30-day-old critical (2.67) beats a fresh low (2.0), but a 90-day-old medium (0.8) loses to a fresh low.
 - Filename konvence: `<date>-<short-description>.md`
 - Staleness: záznamy starší 90 dní ověřit při maintenance
 - Type hodnoty: bug_fix | architecture | anti_pattern | best_practice | workflow

@@ -109,6 +109,27 @@ When recording "complete":
 2. Clear the Active Task section
 3. Summarize what was accomplished
 
+## Auto-Capture from Failures
+
+Skills that encounter failures SHOULD trigger `/scribe` automatically via handoff. The following failure events warrant automatic learning capture:
+
+| Source Event | Learning Type | Severity | Component |
+|-------------|---------------|----------|-----------|
+| `/autoresearch` experiment crash (3+ same category) | bug_fix | high | pipeline |
+| `/autoresearch` PIVOT decision | architecture | medium | pipeline |
+| `/autoloop` plateau (6+ discards) | anti_pattern | medium | pipeline |
+| `/critic` FATAL finding | bug_fix | high | (from context) |
+| `/verify` end-to-end failure | bug_fix | high | (from context) |
+| `/incident-runbook` root cause found | bug_fix | critical | (from context) |
+
+**Auto-capture format**: When receiving a handoff from a skill with failure context, extract:
+1. **What failed** → Problém section
+2. **Why it failed** → Root Cause section (from skill's diagnosis)
+3. **What fixed it / what to avoid** → Řešení + Prevence sections
+4. **Tags** → derive from skill name + error category
+
+**Dedup check**: Before creating a new learning, grep `learnings/` for similar `summary:` or matching `tags:`. If a match exists, update the existing entry instead of creating a duplicate.
+
 ## Maintenance
 
 Triggered automatically when any memory file exceeds 500 lines (circuit breaker from `memory-maintenance.sh` hook), or manually via `/scribe maintenance`:

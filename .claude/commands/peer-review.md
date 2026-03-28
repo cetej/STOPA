@@ -42,6 +42,7 @@ Evaluate systematically. Do not stop after finding the first issue.
 - **Claims vs evidence gap:** Do conclusions use stronger language than the evidence warrants?
 - **Ghost artifacts:** Sections, figures, or references that appear to survive from earlier drafts without current support
 - **Statistical evidence:** Sample sizes, confidence intervals, significance tests where appropriate
+- **Numeric provenance:** Every specific number (metrics, percentages, counts) should trace to a source. Flag "orphan numbers" — values stated as fact without citation, experiment reference, or derivation. Especially strict in Results/Experiments sections; lenient in Introduction/Related Work.
 
 ## Severity Classification
 
