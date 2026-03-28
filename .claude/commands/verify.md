@@ -37,9 +37,46 @@ Parse ARGUMENTS to determine what to verify:
 - Read state.md for current task context
 - Check if project has existing test scripts (`tests/`, `scripts/`, `Makefile`)
 
-### Step 3: Milestone Extraction (before planning)
+### Step 2.5: Deterministic Scan (ground truth before reasoning)
+
+Before any LLM interpretation, run ALL available deterministic checks. These produce ground truth — no hallucination risk.
+
+| Check | Command | When to run |
+|-------|---------|-------------|
+| Python imports | `python -c "import <module>"` for each changed module | Python project |
+| Type check | `mypy <changed_files>` or `pyright` | If type checker configured in project |
+| Lint | `ruff check <changed_files>` or project linter | If linter exists |
+| Tests | `pytest <test_files> -x --tb=short` | If tests exist for changed code |
+| Build | Project build command from CLAUDE.md | If build step is defined |
+| API health | `curl -s -o /dev/null -w "%{http_code}" <endpoint>` | If API project with running server |
+
+**Rules:**
+- Run ALL applicable checks — detect what's available from project structure (package.json, pyproject.toml, Makefile, CLAUDE.md)
+- Collect ALL results before interpreting — do NOT stop at first failure
+- Do NOT interpret yet — just capture stdout/stderr and exit codes
+- Store as structured ground truth for Step 3:
+
+```
+## Deterministic Scan Results
+| Check | Exit Code | Passed | Key Output |
+|-------|-----------|--------|------------|
+| ruff | 1 | NO | `src/api.py:42: E501 line too long` |
+| pytest | 0 | YES | `12 passed in 3.2s` |
+| import | 0 | YES | (clean) |
+```
+
+**How downstream steps use this:**
+- Step 3 (Milestone Extraction): if tests fail, that's an automatic critical milestone — don't let LLM miss it
+- Step 4 (Verification Plan): skip L1-L2 for components already covered by passing deterministic checks
+- Step 5 (Execute): focus L3-L4 effort on areas where deterministic checks can't reach (integration, real data flow)
+
+**If NO deterministic checks are available** (no tests, no linter, no build): note this as a risk in the report and proceed to Step 3 — this is common for early-stage projects.
+
+### Step 3: Milestone Extraction (informed by deterministic results)
 
 Before jumping to verification, extract **milestones** — the critical state transitions that must be true for the change to succeed. This prevents evidence dilution (checking everything equally instead of focusing on what matters).
+
+**If Step 2.5 produced results:** Use them to seed milestones. Failed checks become automatic critical milestones. Passed checks reduce the verification burden (skip L1-L2 for those areas).
 
 **Ask:** "From the user's perspective, what are the 3-7 things that MUST be true?"
 

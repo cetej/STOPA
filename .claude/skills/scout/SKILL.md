@@ -49,9 +49,22 @@ After any agent spawn, update budget counters in `.claude/memory/budget.md`.
 
 ## Exploration Process
 
-### Step 0: Codebase Map Check (all tiers)
+### Step 0: Precomputed Check (all tiers)
 
-Before scanning, check if `.claude/memory/codebase-map.md` exists:
+Before scanning, check for reusable cached results:
+
+**0a. Intermediate cache check:**
+1. Glob for `.claude/memory/intermediate/scout-*.json`
+2. If found: read `savedAt` field — if < 2 hours old AND `git log --oneline --since="<savedAt>" | head -1` returns empty (no newer commits):
+   - Load the cached `summary` field
+   - Present to caller: "Scout results from [time] available — reusing cached exploration."
+   - Skip Steps 1-2, jump to Step 3 (Context Map) with loaded data as context
+   - If caller requests fresh scan (`--refresh-map`), ignore cache and proceed normally
+3. If no cache or cache is stale → continue to 0b
+
+**0b. Codebase Map Check:**
+
+Check if `.claude/memory/codebase-map.md` exists:
 
 1. **If file exists AND `Updated:` timestamp is <24h old AND no git commits newer than timestamp**:
    - Read the map, use it as context for Steps 1-4

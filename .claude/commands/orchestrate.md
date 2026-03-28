@@ -140,6 +140,20 @@ This is few-shot learning from personal history — the agent gets better with e
 
 ## Phase 2: Scout (scaled to tier)
 
+### Precomputed Results Check (before spawning agents)
+
+Before launching scout or researcher agents, check if usable results already exist:
+
+1. `Glob` for `.claude/memory/intermediate/scout-*.json` and `.claude/memory/intermediate/research-*.json`
+2. For each match: read `savedAt` and `agentRole` fields (first 5 lines of JSON)
+3. **Reuse condition**: `savedAt` is within the current session (< 2 hours old) AND no git commits newer than `savedAt`
+   - Check with: `git log --oneline --since="<savedAt>" | head -1` — if empty, cache is fresh
+4. If fresh cache found → inject its `summary` as pre-loaded context for the current phase, skip the matching agent spawn
+5. Log reuse in budget.md: `"Reused cached <agentRole> result (<id>)"`
+6. If no cache or cache is stale → proceed with normal agent spawning below
+
+This saves budget on re-runs, multi-wave scenarios, and session restarts from checkpoint.
+
 Scale exploration to the assigned tier:
 
 ### Light tier:
@@ -307,7 +321,27 @@ Wave N: Continue until all waves done
 - If a wave has 4+ subtasks, split into sub-waves of 3
 - Budget: each parallel agent counts toward the tier agent limit
 - If any agent in a wave fails → handle it before launching next wave
+- **Validate agent outputs** before passing to next wave (see Agent Output Validation below)
 - Pass relevant outputs from previous waves as context to next wave agents (see Wave Context Handoff below)
+
+### Agent Output Validation (Structured Contract)
+
+After each agent completes and its result is saved via `/compact save-and-summarize`, validate the intermediate JSON:
+
+1. **Status check**: `status` field must be one of: `complete` | `partial` | `failed`
+   - If `status: "failed"` → log failure to `decisions.md`, skip downstream dependents that depend on this agent's output, alert user
+   - If `status: "partial"` → check `outputs.needs_followup` — inject these items into next wave agents' context as explicit requirements
+   - If `status: "complete"` → proceed normally
+
+2. **Output coherence**: If agent was an `implementer` (made code changes):
+   - `outputs.files_changed` should be non-empty — if empty but agent claimed success, flag as suspicious
+   - Quick sanity: `git diff --name-only` should include the claimed files
+
+3. **Handoff propagation**: Collect all `outputs.needs_followup` items from completed wave — these become **mandatory context** for Wave N+1 agents (inject under "Handoff from Wave N" section in their prompts)
+
+4. **Circuit breaker**: If 2+ agents in the same wave return `status: "failed"` → STOP, present failures to user, ask for guidance before continuing
+
+This validation prevents garbage-in-garbage-out between waves. Ground truth (git diff) trumps agent self-report.
 
 ### Wave Context Handoff via Scratchpad
 

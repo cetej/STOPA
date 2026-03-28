@@ -41,10 +41,27 @@ The combined operation — use this by default.
      "id": "<id>",
      "savedAt": "<ISO 8601 timestamp>",
      "source": "<tool name, agent name, or 'manual'>",
+     "agentRole": "<scout | researcher | implementer | reviewer | null>",
+     "status": "<complete | partial | failed>",
      "summary": null,
+     "outputs": {
+       "files_changed": [],
+       "decisions_made": [],
+       "issues_found": [],
+       "needs_followup": []
+     },
      "fullContent": "<the complete result>"
    }
    ```
+
+   **Field rules:**
+   - `agentRole`: set when result comes from an orchestrated agent; `null` for direct tool results
+   - `status`: `complete` = agent finished successfully; `partial` = useful output but incomplete; `failed` = error or no useful output
+   - `outputs.files_changed`: list of file paths the agent modified (empty for read-only agents)
+   - `outputs.decisions_made`: key decisions made during execution (1-liner each)
+   - `outputs.issues_found`: problems discovered (for downstream agents/critic)
+   - `outputs.needs_followup`: explicit handoff items for next wave agents
+   - When saving direct tool results (not agent outputs), set `agentRole: null`, `status: "complete"`, and leave `outputs` arrays empty
 
 3. **Generate summary**: Spawn a Haiku sub-agent:
    ```
