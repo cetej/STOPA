@@ -13,8 +13,11 @@ globs: ".claude/memory/**"
 ## Learnings (per-file YAML format)
 
 - Uloženy v `.claude/memory/learnings/` jako jednotlivé soubory
-- Každý soubor má YAML frontmatter: date, type, severity, component, tags, summary
+- Každý soubor má YAML frontmatter: date, type, severity, component, tags, summary, uses, harmful_uses
 - `summary:` = 1-2 věty popisující co se stalo a co dělat (generuje /scribe automaticky)
+- `uses:` = kolikrát byl learning retrieven a aplikován (počáteční hodnota 0, inkrementuje se při použití)
+- `harmful_uses:` = kolikrát vedl learning ke špatnému výsledku (počáteční hodnota 0, inkrementuje /critic)
+- Learnings bez counterů (starší záznamy) zůstávají validní — countery jsou volitelné
 - `critical-patterns.md` = always-read (max 10 entries, top patterns)
 - Retrieval: grep-first přes component/tags, pak čti jen matched soubory
 - Filename konvence: `<date>-<short-description>.md`

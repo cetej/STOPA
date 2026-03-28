@@ -64,6 +64,8 @@ severity: critical | high | medium | low
 component: skill | hook | memory | orchestration | pipeline | general
 tags: [tag1, tag2]
 summary: "1-2 sentence summary: what happened + what to do. Used by memory-whisper for semantic matching."
+uses: 0
+harmful_uses: 0
 ---
 
 ## Problém
@@ -79,7 +81,20 @@ What helped or what to do.
 How to prevent this in the future.
 ```
 
+**Counter semantics (ACE-inspired):**
+- `uses` — incremented when this learning is retrieved and applied in a session
+- `harmful_uses` — incremented when /critic identifies this learning led to a bad outcome
+- Learnings with `harmful_uses >= uses` are flagged as "problematic" during maintenance
+- Learnings with `uses > 5` and `harmful_uses < 2` are considered "high-performing"
+- Old learnings without counters remain valid (backward compatible — treat as `uses: 0`)
+
 **Critical patterns**: If severity is `critical` or the pattern applies across most sessions, also add a condensed entry (2-3 lines) to `.claude/memory/learnings/critical-patterns.md` (max 10 entries). Bump the least important entry if at capacity.
+
+**From /critic Reflector Summary**: When recording a learning from a critic handoff, check if the critic report includes a "Reflector Summary" section. If present, use it directly:
+- `error_type` → map to `type:` (logic bug → bug_fix, missing case → bug_fix, wrong abstraction → architecture, spec misread → anti_pattern)
+- `root_cause` → "Root Cause" section content
+- `key_insight` → `summary:` field
+- `learnings_activated` → increment `uses` counter on each listed learning file
 
 **Retrieval**: Other skills find learnings via `grep -r "component: <X>" learnings/` or `grep -r "tags:.*<keyword>" learnings/`, then read matched files. Only `critical-patterns.md` is always-read.
 
@@ -103,8 +118,9 @@ Triggered automatically when any memory file exceeds 500 lines (circuit breaker 
 1. **Read all memory files** — decisions.md, `learnings/critical-patterns.md`, budget.md, state.md
 2. **Count entries** — decisions (### headers), learnings (files in `learnings/`), budget rows
 3. **Deduplicate learnings (text-based)** — grep for duplicate `tags:` across `learnings/` files. Merge overlapping entries (same component + similar tags). Keep the more specific version.
-3b. **Semantic dedup (DeerFlow-inspired)** — Collect all `summary:` fields from `learnings/` YAML frontmatter. Group by `component:`. Within each component group, compare summaries pairwise: if two summaries describe the same insight (same root cause, same fix), merge them — keep the entry with higher severity, delete the other. Report: "N semantic duplicates found, M merged."
+3b. **Semantic dedup (DeerFlow-inspired)** — Collect all `summary:` fields from `learnings/` YAML frontmatter. Group by `component:`. Within each component group, compare summaries pairwise: if two summaries describe the same insight (same root cause, same fix), merge them — keep the entry with higher severity, delete the other. **When merging, sum `uses` and `harmful_uses` counters from both entries** (ACE-inspired additive counter merge). Report: "N semantic duplicates found, M merged."
 4. **Staleness check** — list all files in `learnings/`. Any file with `date:` older than 90 days: verify it's still accurate. If outdated, update or delete. Report: "N learnings checked, M stale, K updated/removed."
+4b. **Counter health check (ACE-inspired)** — scan `learnings/` files for `uses:` and `harmful_uses:` fields. Flag as "problematic" any entry where `harmful_uses >= uses` and `harmful_uses > 0`. Flag as "high-performing" any entry where `uses > 5` and `harmful_uses < 2`. Report: "N entries with counters, M high-performing, K problematic." Suggest removal of problematic entries to user.
 5. **Archive old decisions** — if decisions.md has >10 entries, move the oldest (by date) to `decisions-archive.md`. Keep newest 10.
 5. **Prune state history** — keep last 5 completed tasks in state.md Task History. Delete older entries (they're derivable from git).
 6. **Consolidate patterns** — group related learnings under shared headers (e.g., "Cost Management" for budget-related patterns)
