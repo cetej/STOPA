@@ -5,6 +5,9 @@
 - [budget.md](budget.md) — Budget ledger (counters, event log, history)
 - [checkpoint.md](checkpoint.md) — Session checkpoint with resume prompt
 
+## Performance
+- [performance/](performance/) — Per-run JSON metrics from /autoloop and /autoresearch (grep-first retrieval)
+
 ## Knowledge Base
 - [learnings.md](learnings.md) — Patterns, anti-patterns, cross-repo setup, skill gaps
 - [decisions.md](decisions.md) — Decision log (what, why, who)

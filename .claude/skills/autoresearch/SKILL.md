@@ -148,6 +148,12 @@ APPROACH: <what code changes to make>
 EXPECTED EFFECT: <prediction — helps detect reward hacking later>
 ```
 
+**Run Diary**: Append to `.claude/memory/intermediate/run-diary-<slug>.md`:
+```
+## Experiment <N>: <hypothesis-name>
+**Tried**: <approach and rationale>
+```
+
 ### Step 3: Implement
 
 Make code changes. Rules:
@@ -213,11 +219,13 @@ iteration	hypothesis	commit	metric	delta	status	notes
 
 Valid statuses: `baseline`, `keep`, `discard`, `crash`, `no-op`, `divergence`
 
+**Run Diary**: Update current experiment entry with `**Result**`, `**Analysis**`, `**Next**`.
+
 ### Step 9: Check exit conditions
 
 Exit when ANY:
 - **Budget exhausted**: iteration count hit limit
-- **Plateau**: 4 consecutive discards (nothing works anymore)
+- **Plateau**: 6 consecutive discards (raised from 4 — mid-loop rescue fires at 3, giving 3 more after rescue)
 - **Solved**: metric hit theoretical maximum or user-defined target
 - **Crash loop**: 3 crashes in a row
 
@@ -288,9 +296,21 @@ After loop ends, write to `outputs/autoresearch-<slug>.md`:
 ## Phase 4: Handoff
 
 1. Present the report summary in chat (best result, key finding, branch name)
-2. Ask user: "Merge branch `autoresearch/<slug>` into current, or keep for review?"
-3. Update `.claude/memory/budget.md` with experiment costs
-4. If significant findings: suggest `/scribe` to record learnings
+2. Write performance record to `.claude/memory/performance/autoresearch-<slug>-<timestamp>.json`:
+   ```json
+   {
+     "skill": "autoresearch", "runId": "autoresearch-<slug>-<timestamp>",
+     "timestamp": "<ISO 8601>", "target": "<target dir>",
+     "score_start": <baseline>, "score_end": <best>,
+     "delta": <improvement>, "tokens_est": <iterations × 5000>,
+     "iterations": <used>, "kept": <count>, "discarded": <count>, "crashed": <count>,
+     "parent_run": null, "exit_reason": "<budget|plateau|solved|crash_loop>",
+     "mode": "research", "branch": "autoresearch/<slug>"
+   }
+   ```
+3. Ask user: "Merge branch `autoresearch/<slug>` into current, or keep for review?"
+4. Update `.claude/memory/budget.md` with experiment costs
+5. If significant findings: suggest `/scribe` to record learnings
 
 ## Budget Tiers
 

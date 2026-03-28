@@ -109,7 +109,8 @@ Triggered automatically when any memory file exceeds 500 lines (circuit breaker 
 5. **Prune state history** — keep last 5 completed tasks in state.md Task History. Delete older entries (they're derivable from git).
 6. **Consolidate patterns** — group related learnings under shared headers (e.g., "Cost Management" for budget-related patterns)
 7. **Archive budget history** — if budget.md History table has >10 rows, move oldest to `budget-archive.md`. Keep newest 10.
-8. **Rebuild L2 component indexes** — run `python scripts/build-component-indexes.py` to regenerate `learnings/index-*.md` files from current YAML frontmatter. These are auto-generated and safe to overwrite.
+8. **Archive performance records** — if `.claude/memory/performance/` has more than 30 JSON files, move the oldest to `performance/archive/`. Keep newest 30.
+9. **Rebuild L2 component indexes** — run `python scripts/build-component-indexes.py` to regenerate `learnings/index-*.md` files from current YAML frontmatter. These are auto-generated and safe to overwrite.
 9. **Report** — output what was archived/merged/pruned with counts
 
 ### Archive files

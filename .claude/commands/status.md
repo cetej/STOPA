@@ -23,6 +23,7 @@ Read these files (silently, don't show contents to user):
 - `.claude/memory/budget.md`
 - `.claude/memory/checkpoint.md`
 - `.claude/memory/news.md` (first 10 lines only — just need the last scan date)
+- `.claude/memory/performance/*.json` — Glob for files, read last 3 by filename sort (newest first)
 
 If any file is missing, report that field as "n/a".
 
@@ -36,6 +37,7 @@ From each file, extract ONLY:
 | budget.md | Current tier + agent spawn count from Counters table |
 | checkpoint.md | Saved date + task name + status line |
 | news.md | Date of last scan (from most recent entry heading) |
+| performance/*.json | Last 3 runs: skill name, delta, exit_reason |
 
 ### Step 3: Check memory health
 
@@ -51,6 +53,7 @@ task:          <active task + progress, or "none">
 budget:        <tier>, <N> agent spawns
 checkpoint:    <date> — <task> (<status>)
 last_watch:    <date> (<N days ago>)
+perf_trend:    <skill1: +delta1> | <skill2: +delta2> | ... (last 3 runs, or "no data")
 memory_health: <"ok" or list of warnings>
 ```
 

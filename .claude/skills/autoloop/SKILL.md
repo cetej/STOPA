@@ -3,7 +3,9 @@ name: autoloop
 description: Use when iteratively optimizing a file or metric via Karpathy loop. Trigger on 'autoloop', 'optimize skill', 'auto-improve'. Do NOT use for one-shot edits.
 context:
   - gotchas.md
-argument-hint: <target file/scope> [goal] [verify:<command>] [guard:<command>] [budget:N]
+  - tree-mode.md
+  - meta-mode.md
+argument-hint: <target file/scope> [goal] [verify:<command>] [guard:<command>] [budget:N] [mode:linear|tree] [meta:true]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 model: sonnet
@@ -47,6 +49,10 @@ From `$ARGUMENTS`, extract:
 - **guard**: command that must always pass — safety net (optional)
 - **budget**: iteration count (default: 10, override with `budget:N`)
 - **direction**: `higher` or `lower` is better (auto-detected from goal keywords, or ask)
+- **mode**: `linear` (default) or `tree` — tree enables branching exploration (see `tree-mode.md`)
+- **meta**: `true` enables metacognitive self-modification of scoring params (see `meta-mode.md`). Requires `mode:linear`.
+
+If `meta:true` AND `mode:tree`: reject with error — these modes are mutually exclusive.
 
 Examples:
 ```
@@ -137,6 +143,12 @@ For each iteration (1 to budget):
 
 Make ONE focused edit. The one-sentence test: if you need "and" to describe it, it's two changes — split them.
 
+**Run Diary**: Append to `.claude/memory/intermediate/run-diary-<slug>.md`:
+```
+## Iteration <N>
+**Tried**: <what changed and why>
+```
+
 Rules:
 - **One change per iteration** — don't rewrite
 - **Small, targeted edits** — a hypothesis, not a rewrite
@@ -216,6 +228,13 @@ iteration	commit	metric	delta	guard	status	description
 
 Valid statuses: `baseline`, `keep`, `keep (reworked)`, `discard`, `crash`, `no-op`, `hook-blocked`
 
+**Run Diary**: Update the current iteration entry:
+```
+**Result**: <metric delta, status>
+**Analysis**: <why it worked or didn't>
+**Next**: <what to try next based on this>
+```
+
 ### Step 8: Check exit + status block
 
 ```
@@ -224,11 +243,23 @@ AUTOLOOP_STATUS:
   score: <current>
   delta: <+/-N or 0>
   consecutive_reverts: <count>
+  exploration_weight: <1.0|1.4|1.7|2.0>
   EXIT_SIGNAL: <true|false>
 ```
 
 Exit when ANY:
-- **Plateau**: 5 consecutive discards (raised from 3 — gives more room with guard)
+- **Adaptive plateau** (Hyperagents-inspired): instead of hard stop, ramp exploration first:
+
+  | consecutive_discards | exploration_weight | Strategy shift |
+  |---------------------|-------------------|----------------|
+  | 3 | 1.4 | Prioritize radical experiments over incremental |
+  | 4 | 1.7 | Combine two prior near-misses into one attempt |
+  | 5 | 2.0 | Try approach opposite to all prior keeps |
+  | 6 | 2.0 | One last radical attempt |
+  | 7 | **HARD STOP** | Adaptive exploration exhausted |
+
+  When `exploration_weight > 1.0`: Step 1 (Review) MUST list ALL prior keep descriptions, identify common direction, and propose something structurally different.
+
 - **Max score**: metric can't improve further
 - **Budget**: iteration count hit limit
 - **Crash loop**: 3 crashes in a row
@@ -319,16 +350,33 @@ If validation score dropped below 5: warn — structural improvements may have h
 - **Guard failures**: N (reworked: M, discarded: K)
 ```
 
+**Run Diary Summary**: Append `## Summary` section to `run-diary-<slug>.md` with key insight, best approach, dead ends. If significant findings: suggest `/scribe learning` with diary path.
+
+### Performance Record
+
+Write a JSON file to `.claude/memory/performance/autoloop-<slug>-<timestamp>.json`:
+```json
+{
+  "skill": "autoloop",
+  "runId": "autoloop-<slug>-<timestamp>",
+  "timestamp": "<ISO 8601>",
+  "target": "<target file/scope>",
+  "score_start": <baseline>,
+  "score_end": <final>,
+  "delta": <total delta>,
+  "tokens_est": <iterations × 3500>,
+  "iterations": <used>,
+  "kept": <count>,
+  "discarded": <count>,
+  "crashed": <count>,
+  "parent_run": <runId of parent if mode:tree, else null>,
+  "exit_reason": "<budget|plateau|max_score|crash_loop>",
+  "mode": "<linear|tree>",
+  "branch": "autoloop/<name>"
+}
+```
+
 Ask the user: "Merge branch `autoloop/<name>` into current branch, or discard?"
-
-### Auto-Eval Chain (SKILL.md targets only)
-
-If the target was a `*/SKILL.md` file AND `.claude/evals/<skill-name>/` directory exists with case files:
-1. After merge (not on discard), automatically run eval cases for that skill
-2. Use `/harness eval-runner --skill <skill-name>` silently
-3. If any eval case FAIL → report to user: "Optimization improved structural score but behavioral eval failed on case X. Consider reverting or fixing."
-4. If all PASS → append to report: "Behavioral evals: all N cases PASS"
-5. Skip this step if no eval cases exist for the skill
 
 ## Scoring: SKILL.md (built-in)
 
@@ -397,3 +445,12 @@ For non-SKILL.md files without `verify:`, create a custom scoring function based
 2. This does NOT count as an agent spawn (runs in main context)
 3. Log the autoloop run to budget event log when done
 4. Estimated cost: ~2-5k tokens per iteration + ~5k for final validation
+
+### Auto-Eval Chain (SKILL.md targets only)
+
+If the target was a `*/SKILL.md` file AND `.claude/evals/<skill-name>/` directory exists with case files:
+1. After merge (not on discard), automatically run eval cases for that skill
+2. Use `/harness eval-runner --skill <skill-name>` silently
+3. If any eval case FAIL → report to user: "Optimization improved structural score but behavioral eval failed on case X. Consider reverting or fixing."
+4. If all PASS → append to report: "Behavioral evals: all N cases PASS"
+5. Skip this step if no eval cases exist for the skill

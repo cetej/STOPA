@@ -24,6 +24,7 @@ Read these files (silently, don't show contents to user):
 - `.claude/memory/checkpoint.md`
 - `.claude/memory/news.md` (first 10 lines only — just need the last scan date)
 - `.claude/memory/eval-baseline.tsv` (last 3 lines only — for regression trend)
+- `.claude/memory/performance/*.json` — Glob for files, read last 3 by filename sort (newest first)
 
 If any file is missing, report that field as "n/a".
 
@@ -38,6 +39,7 @@ From each file, extract ONLY:
 | checkpoint.md | Saved date + task name + status line |
 | news.md | Date of last scan (from most recent entry heading) |
 | eval-baseline.tsv | Last 2 data rows: compute health_score delta, format trend arrow (↑ if delta > 0.1, ↓ if < -0.1, → if within ±0.1) |
+| performance/*.json | Last 3 runs: skill name, delta, exit_reason |
 
 ### Step 3: Check memory health
 
@@ -54,6 +56,7 @@ budget:        <tier>, <N> agent spawns
 checkpoint:    <date> — <task> (<status>)
 last_watch:    <date> (<N days ago>)
 eval_trend:    <health_score> <arrow> (<delta> vs <previous_date>)
+perf_trend:    <skill1: +delta1> | <skill2: +delta2> | ... (last 3 runs, or "no data")
 memory_health: <"ok" or list of warnings>
 ```
 
