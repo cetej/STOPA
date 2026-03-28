@@ -2,6 +2,16 @@
 
 Decisions made during task execution. Each entry captures WHAT was decided, WHY, and by WHOM.
 
+### 2026-03-28 — Workflow Optimization Roadmap (IBM paper-inspired): PHASE 1 IMPLEMENTED
+- **Context**: IBM survey "From Static Templates to Dynamic Runtime Graphs" (arXiv:2603.22386) mapuje static→dynamic spektrum pro LLM agent workflows. Identifikovány 3 mezery v STOPA orchestrate.
+- **Decision**: 3-fázový roadmap, Phase 1 implementována ihned:
+  1. **Phase 1: Enriched Trace Capture** (DONE) — rozšířená budget history o Type, Files, Critic Score, Agent Graph. Orchestrate Phase 6 teď zapisuje strukturované traces.
+  2. **Phase 2: Tier Selection Heuristics** (TRIGGER: 20+ traces) — analyzovat traces, extrahovat vzory (např. "bug_fix <5 files = vždy light tier"). Implementovat jako lookup tabulku v orchestrate Phase 1.
+  3. **Phase 3: Verifier-Guided Restructuring** (TRIGGER: první reálný critic FAIL loop) — místo circuit breaker STOP, zkusit alternativní workflow strukturu. Prerekvizita: `--adversarial` mód pro critic (viz rozhodnutí výše).
+- **Why**: Paper potvrzuje, že principled middle ground mezi static templates a dynamic graphs existuje. STOPA je na statickém konci — traces jsou datový základ pro posun. Ale bez dat je premature optimalizovat.
+- **Milestone reminders**: Orchestrate Phase 6 Step 7 automaticky připomene po 20+ traces. Scheduled task kontroluje weekly.
+- **Decided by**: user
+
 ### 2026-03-28 — Structured dissent (devil's advocate agent): APPROVED, LOW PRIORITY
 - **Context**: Paper "Agentic AI and the Next Intelligence Explosion" (arXiv:2603.20639) popisuje "strukturovaný nesouhlas" jako first-class feature multi-agentních systémů. Inspirace pro rozšíření /critic.
 - **Decision**: Odložit implementaci dokud nebude reálný use case kde /critic (9.5/10) selže kvůli confirmation bias. Pak implementovat jako `--adversarial` mód.

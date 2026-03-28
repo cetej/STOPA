@@ -1,15 +1,12 @@
 ---
 name: orchestrate
-description: Orchestrate complex tasks by decomposing into subtasks and delegating to agents/skills. Use when a task requires multiple steps, coordination, or is too complex for a single action. Trigger on 'plan this', 'break this down', 'complex task', or when task touches 3+ files. Do NOT use for single-file edits, simple questions, or tasks with fewer than 3 steps. For known repeatable processes use /harness instead.
-context:
-  - gotchas.md
+description: Use when a task requires multiple steps or touches 3+ files. Trigger on plan this, break this down, orchestrate. Do NOT use for single-file edits.
 argument-hint: [task description]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
 model: opus
 effort: high
 maxTurns: 40
-disallowedTools: ""
 handoffs:
   - skill: /critic
     when: "After implementation — quality gate before declaring done"
@@ -34,7 +31,7 @@ Before anything, read the shared memory:
 2. `.claude/memory/decisions.md` — past decisions
 3. `.claude/memory/learnings/critical-patterns.md` — top patterns (always-read)
 4. **Grep-first learnings**: Based on the task, grep for relevant learnings:
-   - `grep -r "component: <relevant>" .claude/memory/learnings/` (e.g., `component: orchestration`, `component: skill`)
+   - `Use the Grep tool with pattern and path .claude/memory/learnings/ (do NOT use bash grep on Windows)` (e.g., `component: orchestration`, `component: skill`)
    - `grep -r "tags:.*<keyword>" .claude/memory/learnings/` (match task keywords)
    - Read only matched files — don't load the entire directory
 
@@ -96,6 +93,49 @@ Write the tier to `.claude/memory/budget.md` and set the counters.
 
 **Cost-first rule**: Always start with the lowest tier that might work. Upgrade only if the scout phase reveals higher complexity than expected — and tell the user when upgrading.
 
+### Context Bootstrap (retrieval hooks)
+
+After classifying the task, load targeted context based on **Type** and **Scope**. This replaces generic memory reads with precise, type-specific retrieval — ensuring agents get the right patterns without loading everything.
+
+| Task Type | Grep patterns for `learnings/` | Also load |
+|-----------|-------------------------------|-----------|
+| Bug fix | `type: bug_fix`, `component: <affected>` | `docs/TROUBLESHOOTING.md` (grep error message) |
+| Feature | `type: best_practice`, `component: <affected>` | Constitution check (Phase 3) |
+| Refactor | `type: architecture`, `type: anti_pattern` | Recent decisions in `decisions.md` for the area |
+| Pipeline/workflow | `type: workflow`, `tags:.*pipeline` | `docs/RLM_WORKFLOW_OPTIMIZER.md` (if exists) |
+| Skill edit | `component: skill`, `type: best_practice` | `rules/skill-files.md`, `rules/skill-tiers.md` |
+| Memory/state | `component: memory`, `component: orchestration` | `rules/memory-files.md` |
+| Hook/config | `component: hook`, `tags:.*settings` | `.claude/settings.json` structure |
+
+**Rules:**
+- Run max 2 grep queries from this table (most tasks match 1-2 rows)
+- Pass matched learnings as context to Phase 4 agent prompts — agents do NOT re-read memory
+- If no learnings match, that's fine — proceed without. Don't widen the search.
+- This table supplements Phase 0 memory reads (critical-patterns.md is always loaded regardless)
+
+### Episodic Recall — Past Approaches
+
+Before planning, check if similar tasks were solved before:
+
+1. **Grep learnings** for 1-2 keywords from the current task goal:
+   - `Grep pattern="<goal_keyword>" path=".claude/memory/learnings/"` (e.g., "pipeline", "skill", "hook")
+   - Also check: `Grep pattern="<goal_keyword>" path=".claude/memory/decisions.md"`
+
+2. **If matches found**, extract the approach/outcome and inject as planning context:
+   - Read the matched learning file(s) — focus on "What happened" and "Prevention/fix"
+   - For decisions.md matches: extract the **Decision**, **Why**, and **Possible implementation** fields — these are precedents that should inform the current approach
+   - Include as `## Past Approaches` section when briefing Phase 4 agents
+   - Example: "Previous similar task used light tier with single agent — worked well"
+   - Example: "Decision from 2026-03-24: direct main commits for solo projects — skip PR workflow"
+
+3. **Decision rule:**
+   - Match found with `outcome: success` → prefer same approach unless scope differs
+   - Match found with `outcome: failure` or `type: anti_pattern` → explicitly avoid that approach
+   - Decision precedent found → follow unless current context materially differs (explain why if deviating)
+   - No match → proceed normally (first-time task)
+
+This is few-shot learning from personal history — the agent gets better with every task. Decisions serve as precedents: once a pattern is decided, it should be reused unless context changes.
+
 ## Phase 2: Scout (scaled to tier)
 
 Scale exploration to the assigned tier:
@@ -115,6 +155,23 @@ Scale exploration to the assigned tier:
 - **If 3+ independent subtasks**: Consider Agent Teams instead of manual Agent() calls (see Phase 4 Agent Teams section)
 
 **After scouting**: Re-evaluate the tier. If scope is smaller than expected, **downgrade**. If larger, propose upgrade to user.
+
+### Tier Auto-Escalation (runtime adaptation)
+
+During execution, automatically escalate the tier when evidence warrants it — don't wait for the user to notice:
+
+| Trigger | From → To | Action |
+|---------|-----------|--------|
+| Scout reveals 5+ files need changes (planned ≤3) | light → standard | Log: "Scope larger than expected (N files). Escalating to standard tier." |
+| Critic FAIL 2× on same target | any → next tier up | Log: "Repeated critic failures. Escalating tier for deeper analysis." |
+| Agent reports BLOCKED 2× on different subtasks | standard → deep | Log: "Multiple blockers suggest hidden complexity. Escalating to deep." |
+| Wave produces 0 file changes (no-progress) | — | Don't escalate — trigger circuit breaker #7 instead |
+
+**Rules:**
+- Escalate at most **once per task** (light→standard→deep, never light→deep in one jump)
+- Always log the escalation reason to `.claude/memory/budget.md`
+- Update agent/critic limits to match the new tier
+- Never **downgrade** mid-execution — only at scout phase
 
 Update `.claude/memory/budget.md` — increment scout counter.
 
@@ -180,8 +237,23 @@ For each subtask (respecting dependencies):
 Agent(subagent_type: "general-purpose", prompt: "
   Context: <what the agent needs to know — include relevant learnings, decisions, conventions>
   Task: <specific deliverable>
-  Constraints: <quality standards, conventions>
   Output: <what to return>
+
+  ## Your Process Frame
+  ### MUST (obligations)
+  - <task-specific obligations — e.g., 'Run tests before marking done'>
+  - <convention obligations — e.g., 'Use pathlib.Path() for all file paths'>
+  ### MUST NOT (prohibitions)
+  - Do NOT edit files outside your scope: <list specific files/directories>
+  - Do NOT install new dependencies without reporting back
+  - Do NOT change public API signatures or architectural patterns
+  ### AUTONOMY SCOPE
+  - Can: fix own bugs (max 3 attempts), add missing imports, refactor within scope
+  - Cannot: architectural changes, new abstractions, scope expansion
+  - On uncertainty: STOP and report with NEEDS_CONTEXT status
+  ### GOALS
+  - Primary: <subtask goal>
+  - Process: <overall task goal — why this matters>
 
   IMPORTANT: All project context you need is provided above. Do NOT read .claude/memory/ files
   — the orchestrator has already loaded and filtered the relevant information for you.
@@ -200,8 +272,6 @@ Agent(subagent_type: "general-purpose", prompt: "
   .claude/memory/intermediate/<subtask-id>.json using the Findings Ledger schema.
   The orchestrator will auto-summarize your output — you do NOT need to self-summarize.
   Just write complete, detailed results.
-
-  Deviation rules: fix bugs/imports inline (max 3 attempts). STOP and report if architectural change needed. Pre-existing bugs go to deferred, don't fix them.
 ")
 ```
 
@@ -299,6 +369,19 @@ Role: {specialization}
 Owns: {specific files/directories — ONLY you edit these}
 Produces: {concrete deliverable}
 
+## Your Process Frame
+### MUST (obligations)
+- {task-specific obligations}
+- {convention obligations from CLAUDE.md}
+### MUST NOT (prohibitions)
+- Do NOT edit files outside your ownership scope
+- Do NOT install new dependencies without reporting to lead
+- Do NOT change public API signatures or architectural patterns
+### AUTONOMY SCOPE
+- Can: fix own bugs (max 3 attempts), add missing imports, refactor within owned files
+- Cannot: architectural changes, new abstractions, scope expansion
+- On uncertainty: STOP and report via SendMessage to lead
+
 ## Communication
 - Send results to: {named teammate(s)} via SendMessage
 - Receive from: {named teammate(s)} — what to expect
@@ -308,7 +391,6 @@ Produces: {concrete deliverable}
 {injected context from orchestrator — relevant code, decisions, constraints}
 
 ## Rules
-- Do NOT edit files outside your ownership scope
 - Include Status block (DONE/DONE_WITH_CONCERNS/NEEDS_CONTEXT/BLOCKED) in final message to lead
 - If blocked for 3+ attempts → STOP and report to lead via SendMessage
 ```
@@ -593,14 +675,39 @@ Before running the critic, reload context selectively:
 ## Phase 6: Learn & Close
 
 1. **Budget report**: Update `.claude/memory/budget.md` — generate summary, move to history, reset counters. Show the user: agents used / limit, critic rounds / limit, overall verdict.
-2. Update `.claude/memory/state.md` — mark task complete
-3. Record learnings via `/scribe learning` to `.claude/memory/learnings/` (per-file YAML format):
+
+2. **Execution trace capture** — append a structured trace row to the Budget History table:
+
+   | Field | Source | Example |
+   |-------|--------|---------|
+   | Task | Phase 1 goal | "Add JWT auth to API" |
+   | Type | Phase 1 classification | feature / bug_fix / refactor / research |
+   | Planned→Actual Tier | Phase 1 vs. final tier (note if escalated) | standard→deep |
+   | Agents | budget.md counter | 4/4 |
+   | Critics | budget.md counter | 2/2 |
+   | Files | `git diff --stat` count | 7 |
+   | Critic Verdict | Final critic result | PASS 8/10 |
+   | Agent Graph | Actual execution order | scout→plan→2×exec→critic→fix→critic |
+   | Duration | Approximate wall time | ~25min |
+   | Verdict | Overall outcome | complete / partial / escalated |
+
+   Write the trace as a new row in the Budget History table. Use the **extended format**:
+   ```markdown
+   | <Task> | <Type> | <Planned→Actual> | <Agents> | <Critics> | <Files> | <Critic Score> | <Duration> | <Verdict> |
+   ```
+
+   **Why:** These traces enable future tier selection heuristics. After 20+ traces, patterns emerge (e.g., "bug_fix tasks with <5 files never need deep tier").
+
+3. Update `.claude/memory/state.md` — mark task complete
+4. Record learnings via `/scribe learning` to `.claude/memory/learnings/` (per-file YAML format):
    - What patterns emerged? (type: best_practice)
    - What didn't work? (type: anti_pattern)
    - Was a skill missing? (type: workflow, tags: [skill-gap])
    - Was the tier accurate? (note if over/under-estimated for future calibration)
-4. If a new repeatable pattern was discovered → suggest creating a skill via `/skill-generator`
-5. Summarize results to the user, **including cost summary**
+5. If a new repeatable pattern was discovered → suggest creating a skill via `/skill-generator`
+6. Summarize results to the user, **including cost summary**
+7. **Trace milestone check**: If Budget History now has 20+ rows → suggest running trace analysis:
+   "20+ orchestration traces collected. Consider analyzing tier accuracy: which task types were over/under-tiered? Run `/deepresearch` on budget history to extract tier selection heuristics."
 
 ## Decision Framework: Agent vs. Skill vs. Direct
 

@@ -8,7 +8,7 @@
 
 | Metric | Used | Limit | Status |
 |--------|------|-------|--------|
-| Agent spawns | 11 | — | Audit agents (config, plugin, memory) |
+| Agent spawns | 20 | — | Audit agents (config, plugin, memory) |
 | Critic iterations | 0 | — | — |
 | Scout depth | 0 | — | — |
 | Skill creations | 0 | — | — |
@@ -20,11 +20,14 @@
 | 2026-03-24 16:22 | 3× Explore agents (audit) | ~$0.70 | $0.70 |
 | 2026-03-24 16:35 | Phase 1 hygiene (7 fixes) | ~$0.30 | $1.00 |
 
-## History
+## History (Enriched Traces)
 
-| Task | Tier | Agents | Critics | Duration | Verdict |
-|------|------|--------|---------|----------|---------|
-| Czech Corrector audit+quickwins | standard | 4/4 | 0/2 | 2026-03-20 | partial (3/5 done) |
-| Karpathy AutoResearch research | standard | 3/4 | 0/2 | 2026-03-19 | complete |
-| Attention Residuals analýza | standard | 4/4 | 1/2 | 2026-03-19 | complete (PASS) |
-| Initial System Build | deep | 7 | 0 | 2026-03-18 | complete |
+<!-- Schema: Task | Type | Planned→Actual Tier | Agents | Critics | Files | Critic Score | Duration | Verdict -->
+<!-- After 20+ rows → run trace analysis for tier selection heuristics -->
+
+| Task | Type | Tier | Agents | Critics | Files | Score | Duration | Verdict |
+|------|------|------|--------|---------|-------|-------|----------|---------|
+| Czech Corrector audit+quickwins | refactor | standard | 4/4 | 0/2 | ~10 | — | 2026-03-20 | partial (3/5 done) |
+| Karpathy AutoResearch research | research | standard | 3/4 | 0/2 | ~5 | — | 2026-03-19 | complete |
+| Attention Residuals analýza | research | standard | 4/4 | 1/2 | ~3 | PASS | 2026-03-19 | complete |
+| Initial System Build | feature | deep | 7 | 0 | ~30 | — | 2026-03-18 | complete |
