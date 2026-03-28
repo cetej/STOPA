@@ -4,6 +4,7 @@ type: architecture
 severity: high
 component: skill
 tags: [critic, verify, evaluation, os-themis, apm]
+summary: "Decomposed evaluation (per-dimension scoring) catches 3x more issues than holistic review. Use in /critic and /verify."
 ---
 
 # Decomposed evaluation beats holistic review

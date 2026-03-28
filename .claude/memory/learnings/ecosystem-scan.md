@@ -4,6 +4,7 @@ type: best_practice
 severity: low
 component: general
 tags: [competitive-analysis, ecosystem, positioning]
+summary: "STOPA ecosystem positioning: unique in combining skill system + shared memory + orchestration. Competitors lack memory layer."
 ---
 
 ## Problém

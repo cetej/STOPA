@@ -4,6 +4,7 @@ type: architecture
 severity: critical
 component: skill
 tags: [commands, skills, structure, source-of-truth, destructive-error]
+summary: "STOPA has TWO skill locations: commands/ (flat) and skills/ (dirs). They MUST stay identical. Edit commands/ as source, sync to skills/."
 ---
 
 # STOPA has TWO skill locations — commands/ AND skills/

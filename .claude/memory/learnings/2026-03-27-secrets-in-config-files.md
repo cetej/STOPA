@@ -4,6 +4,7 @@ type: anti_pattern
 severity: critical
 component: general
 tags: [security, tokens, secrets, claude-desktop, env-vars]
+summary: "NEVER write API keys/tokens into JSON config files. Use environment variables or .env files excluded from git."
 ---
 
 # Tokeny a API klíče nesmí být přímo v config souborech

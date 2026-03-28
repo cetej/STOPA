@@ -4,6 +4,7 @@ type: architecture
 severity: high
 component: memory
 tags: [autodream, dream, memory-consolidation, coexistence, cc-native]
+summary: "AutoDream (/dream) coexists with STOPA memory: dream=janitor (cleanup), scribe=architect (structured writes). Protect YAML frontmatter."
 ---
 
 # AutoDream (`/dream`) — koexistence s STOPA memory systémem

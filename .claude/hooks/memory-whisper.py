@@ -16,6 +16,7 @@ sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 MEMORY_DIR = Path(".claude/memory")
 LEARNINGS_DIR = MEMORY_DIR / "learnings"
 PATTERNS_PATH = MEMORY_DIR / "patterns.md"
+DECISIONS_PATH = MEMORY_DIR / "decisions.md"
 CACHE_PATH = MEMORY_DIR / "intermediate" / "learnings-index.json"
 
 # Resolve auto-memory feedback dir (project-scoped)
@@ -116,7 +117,7 @@ def build_learnings_index() -> list[dict]:
             if not lines or lines[0].strip() != "---":
                 continue
 
-            entry = {"file": f.name, "tags": [], "component": "", "description": ""}
+            entry = {"file": f.name, "tags": [], "component": "", "description": "", "summary": ""}
             for line in lines[1:10]:
                 if line.strip() == "---":
                     break
@@ -129,6 +130,8 @@ def build_learnings_index() -> list[dict]:
                     entry["component"] = line.split(":", 1)[1].strip()
                 elif line.startswith("date:"):
                     entry["date"] = line.split(":", 1)[1].strip()
+                elif line.startswith("summary:"):
+                    entry["summary"] = line.split(":", 1)[1].strip().strip("'\"")[:200]
 
             # Extract first meaningful content line after frontmatter
             # Need to find second --- (closing frontmatter), then first non-empty non-heading line
@@ -169,6 +172,7 @@ def search_learnings(keywords: list[str], index: list[dict]) -> list[dict]:
         component = entry.get("component", "").lower()
         slug = entry.get("slug", "")
         desc = entry.get("description", "").lower()
+        summary = entry.get("summary", "").lower()
 
         for kw in keywords:
             if kw in tags_lower:
@@ -177,13 +181,17 @@ def search_learnings(keywords: list[str], index: list[dict]) -> list[dict]:
                 score += 2
             elif kw in slug:
                 score += 2
+            elif kw in summary:
+                score += 2  # summary match: higher than desc, equal to slug
             elif kw in desc:
                 score += 1
 
         if score > 0:
+            # Prefer summary over first-line description
+            display = entry.get("summary") or entry.get("description") or entry.get("slug", "?")
             matches.append({
                 "source": "learning",
-                "text": entry.get("description", entry.get("slug", "?")),
+                "text": display,
                 "date": entry.get("date", ""),
                 "score": score,
             })
@@ -274,6 +282,59 @@ def search_patterns(keywords: list[str]) -> list[dict]:
     return sorted(matches, key=lambda x: -x["score"])
 
 
+def search_decisions(keywords: list[str]) -> list[dict]:
+    """Search decisions.md entries by title, context, and decision text."""
+    if not DECISIONS_PATH.exists():
+        return []
+
+    try:
+        text = DECISIONS_PATH.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return []
+
+    matches = []
+    current_title = ""
+    current_date = ""
+    current_text = []
+
+    for line in text.split("\n"):
+        if line.startswith("### "):
+            # Score previous decision block
+            if current_title:
+                searchable = (current_title + " " + " ".join(current_text)).lower()
+                score = sum(2 for kw in keywords if kw in searchable)
+                if score > 0:
+                    matches.append({
+                        "source": "decision",
+                        "text": f"{current_title}"[:120],
+                        "date": current_date,
+                        "score": score,
+                    })
+            # Parse new header: ### 2026-03-27 — Title
+            header = line[4:].strip()
+            parts = header.split("—", 1) if "—" in header else header.split("-", 1)
+            current_date = parts[0].strip() if len(parts) > 1 else ""
+            current_title = parts[1].strip() if len(parts) > 1 else header
+            current_text = []
+        elif line.startswith("- **"):
+            # Capture Decision/Context/Rationale lines
+            current_text.append(line.split(":", 1)[1].strip() if ":" in line else line)
+
+    # Don't forget last entry
+    if current_title:
+        searchable = (current_title + " " + " ".join(current_text)).lower()
+        score = sum(2 for kw in keywords if kw in searchable)
+        if score > 0:
+            matches.append({
+                "source": "decision",
+                "text": f"{current_title}"[:120],
+                "date": current_date,
+                "score": score,
+            })
+
+    return sorted(matches, key=lambda x: -x["score"])
+
+
 def search_critical_patterns(keywords: list[str]) -> list[dict]:
     """Search critical-patterns.md titles/content."""
     cp_path = LEARNINGS_DIR / "critical-patterns.md"
@@ -312,6 +373,7 @@ def format_snippet(match: dict) -> str:
     source_label = {
         "critical": "critical",
         "learning": "learning",
+        "decision": "decision",
         "feedback": "feedback",
         "pattern": "pattern",
     }.get(match["source"], match["source"])
@@ -341,6 +403,7 @@ def main():
     all_matches = []
     all_matches.extend(search_critical_patterns(keywords))
     all_matches.extend(search_learnings(keywords, build_learnings_index()))
+    all_matches.extend(search_decisions(keywords))
     all_matches.extend(search_feedback(keywords))
     all_matches.extend(search_patterns(keywords))
 

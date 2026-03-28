@@ -4,6 +4,7 @@ type: anti_pattern
 severity: high
 component: memory
 tags: [checkpoint, versioning, session-continuity]
+summary: "Never overwrite checkpoints without archiving. Version frequently, especially before scope changes."
 ---
 
 # Checkpoint Versioning — Never Overwrite Without Archive

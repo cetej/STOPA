@@ -4,6 +4,7 @@ type: best_practice
 severity: high
 component: workflow
 tags: [autoloop, batch-edit, approval-fatigue, python]
+summary: "Editing 30+ files via Read/Edit causes approval fatigue. Use Python batch scripts with --dry-run for bulk mechanical changes."
 ---
 
 ## Problém

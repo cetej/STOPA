@@ -4,6 +4,7 @@ type: bug_fix
 severity: critical
 component: general
 tags: [playwright, mcp, chrome, downloads, claude-desktop, claude-code, security]
+summary: "Playwright MCP hijacks Chrome downloads to temp folder, breaking all browser downloads. NEVER add to Claude Desktop."
 ---
 
 # Playwright MCP unáší Chrome downloads — post-mortem

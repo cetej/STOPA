@@ -4,6 +4,7 @@ type: best_practice
 severity: medium
 component: orchestration
 tags: [competitive-analysis, spec-kit, constitution, handoff]
+summary: "spec-kit patterns worth adopting: constitution files, structured handoffs, role separation. Already partially in STOPA."
 ---
 
 ## Problém

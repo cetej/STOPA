@@ -4,6 +4,7 @@ type: best_practice
 severity: high
 component: skill
 tags: [reasoning, BOULDER, CARE, multi-turn, debiasing, arXiv]
+summary: "BOULDER/CARE patterns: isolate reasoning from output generation to reduce bias. Apply in multi-turn skill prompts."
 ---
 
 # Reasoning Isolation & Judge Debiasing in Skills

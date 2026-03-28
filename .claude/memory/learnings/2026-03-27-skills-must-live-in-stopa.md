@@ -4,6 +4,7 @@ type: architecture
 severity: high
 component: skill
 tags: [source-of-truth, distribution, anti-pattern]
+summary: "Skills must be developed in STOPA first, then distributed. Never create skills directly in target projects."
 ---
 
 # Skills MUST be developed in STOPA first, then distributed

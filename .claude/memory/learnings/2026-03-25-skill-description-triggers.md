@@ -4,6 +4,7 @@ type: bug_fix
 severity: high
 component: skill
 tags: [skill-matching, description, frontmatter, trigger-words]
+summary: "Skill description MUST contain all trigger words — CC matches skills by description text, not by skill name or body."
 ---
 
 # Skill description MUSÍ obsahovat všechny trigger words

@@ -4,6 +4,7 @@ type: best_practice
 severity: medium
 component: orchestration
 tags: [gsd, wave-execution, deviation-rules, verification]
+summary: "GSD wave execution: batch independent tasks, verify after each wave, deviation rules for agent coordination."
 ---
 
 ## Problém

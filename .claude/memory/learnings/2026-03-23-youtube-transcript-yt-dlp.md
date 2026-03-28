@@ -4,6 +4,7 @@ type: anti_pattern
 severity: high
 component: skill
 tags: [youtube, transcript, yt-dlp, mcp]
+summary: "MCP youtube-transcript server broken since 2026-03. Use yt-dlp CLI as primary, MCP only as fallback."
 ---
 
 # MCP youtube-transcript je broken — vždy použij /youtube-transcript skill (yt-dlp)
