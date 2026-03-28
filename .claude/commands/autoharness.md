@@ -1,0 +1,326 @@
+---
+name: autoharness
+description: Use when a skill or command repeatedly fails with the same error patterns. Trigger on 'autoharness', 'generate validator', 'auto-constraint'. Do NOT use for one-off fixes or manual validation.
+argument-hint: <target-skill> [iterations:N] [scope:action-filter|action-verifier|policy]
+user-invocable: true
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
+model: sonnet
+effort: high
+maxTurns: 30
+---
+
+# AutoHarness — Automatic Constraint Synthesis
+
+Inspired by AutoHarness (arXiv:2603.03329): instead of telling LLM "don't do X", generate **code that prevents X**. Observes failures, synthesizes a Python validator, iterates until 100% pass rate.
+
+## Three Harness Types
+
+| Type | How it works | When to use |
+|------|-------------|-------------|
+| **action-filter** | Generates set of legal outputs; skill picks from them | Output is one of N known-good options |
+| **action-verifier** | Skill proposes output; code validates + returns feedback on invalid | Most common — catches format/schema/logic errors |
+| **policy** | Deterministic code replaces LLM entirely | Simple transforms where LLM is overkill |
+
+Default: `action-verifier` (most broadly useful).
+
+## Phase 0: Setup
+
+### Parse input
+
+From `$ARGUMENTS`, extract:
+- **target**: skill name or command to generate harness for (required)
+- **iterations**: max refinement rounds (default: 5)
+- **scope**: harness type — `action-filter`, `action-verifier`, or `policy` (default: `action-verifier`)
+
+If target is empty → list skills with known failure patterns (grep learnings for `type: bug_fix`).
+
+### Understand target
+
+1. Read the target skill file:
+   ```
+   Glob: .claude/commands/<target>.md
+   Glob: .claude/skills/<target>/SKILL.md
+   ```
+2. Extract: expected inputs, outputs, validation criteria, tool permissions
+3. If target is a bash command (not a skill): note its expected stdin/stdout format
+
+### Create working directory
+
+```bash
+mkdir -p .autoharness/<target>
+```
+
+Initialize state file `.autoharness/<target>/state.json`:
+```json
+{
+  "target": "<target>",
+  "scope": "action-verifier",
+  "iteration": 0,
+  "max_iterations": 5,
+  "failures_collected": 0,
+  "pass_rate": 0.0,
+  "status": "collecting"
+}
+```
+
+## Phase 1: Failure Collection
+
+Gather evidence of what goes wrong. **Minimum 3 failures required** to proceed.
+
+### Sources (check all, in order)
+
+1. **Learnings** — grep for target-related failures:
+   ```
+   Grep: component:<target> in .claude/memory/learnings/
+   Grep: tags:.*<target> in .claude/memory/learnings/
+   ```
+   Extract: what failed, error message, expected vs actual
+
+2. **Git history** — reverted/fixed commits:
+   ```bash
+   git log --oneline --all --grep="<target>" --grep="fix" --grep="revert" --all-match | head -20
+   git log --oneline --all --grep="<target>" | head -20
+   ```
+   For each relevant commit: `git show <sha>` to extract the error pattern
+
+3. **Troubleshooting docs** — if `docs/TROUBLESHOOTING.md` exists:
+   ```
+   Grep: <target> in docs/TROUBLESHOOTING.md
+   ```
+
+4. **Eval failures** — if `.claude/evals/<target>/` exists:
+   ```
+   Glob: .claude/evals/<target>/*.md
+   ```
+   Extract failed test cases
+
+### Failure taxonomy
+
+Classify each failure using standard categories (from autoresearch):
+
+| Category | Examples |
+|----------|---------|
+| SYNTAX | Invalid JSON, broken YAML, malformed output |
+| SCHEMA | Missing required fields, wrong types |
+| LOGIC | Valid format but semantically wrong |
+| DEPENDENCY | Missing imports, undefined references |
+| FORMAT | Wrong encoding, line endings, whitespace |
+| CONSTRAINT | Violated business rules (too long, out of range) |
+
+### Output
+
+Save to `.autoharness/<target>/failures.json`:
+```json
+[
+  {
+    "id": 1,
+    "source": "learning|git|troubleshooting|eval",
+    "category": "SYNTAX|SCHEMA|LOGIC|...",
+    "input_summary": "what was the input",
+    "expected": "what should have happened",
+    "actual": "what actually happened",
+    "error_message": "exact error text",
+    "severity": "critical|high|medium|low"
+  }
+]
+```
+
+**Gate**: If fewer than 3 failures collected → STOP. Report: "Not enough failure data for `<target>`. Found N failures. Need at least 3 to synthesize a reliable harness. Try running the skill more, or manually add failure cases to `.autoharness/<target>/failures.json`."
+
+## Phase 2: Harness Generation (Iterative Refinement)
+
+### Initialize validator
+
+Generate first version of `.autoharness/<target>/validator.py`:
+
+**For action-verifier** (default):
+```python
+"""
+Auto-generated validator for: <target>
+Scope: action-verifier
+Generated: <date>
+Failures addressed: <N>
+"""
+import sys
+import json
+
+def validate(output: str) -> tuple[bool, str]:
+    """
+    Validate output from <target>.
+    Returns (is_valid, feedback_message).
+    If invalid, feedback explains WHY and suggests fix.
+    """
+    # Check 1: <derived from failure #1>
+    # Check 2: <derived from failure #2>
+    # ...
+    return True, "OK"
+
+if __name__ == "__main__":
+    data = sys.stdin.read()
+    valid, msg = validate(data)
+    print(json.dumps({"valid": valid, "message": msg}))
+    sys.exit(0 if valid else 1)
+```
+
+**For action-filter**:
+```python
+def legal_actions(context: str) -> list[str]:
+    """Return all legal outputs given the current context."""
+    # Derived from failure patterns
+    return [...]
+```
+
+**For policy**:
+```python
+def decide(input_data: str) -> str:
+    """Deterministic decision — replaces LLM call entirely."""
+    # Derived from observed input→output patterns
+    return output
+```
+
+### Critical rules for generated code
+
+1. **No try-except blocks** — errors must surface explicitly (from paper)
+2. **No LLM calls** — validator must be pure Python, zero inference cost
+3. **No external dependencies** — stdlib only (json, re, pathlib, sys)
+4. **Explicit feedback** — on failure, message MUST explain what's wrong and how to fix
+5. **One check per failure** — each captured failure maps to exactly one validation check
+
+### Refinement loop
+
+For each iteration (1 to max_iterations):
+
+1. **Test** — run validator against ALL captured failures:
+   ```bash
+   python .autoharness/<target>/validator.py < test_input_N.txt
+   ```
+   Record: pass/fail for each test case
+
+2. **Score** — pass_rate = passed / total
+
+3. **Exit check** — if pass_rate == 1.0 → proceed to Phase 3
+
+4. **Refine** — spawn Haiku sub-agent with:
+   - Current validator code
+   - Failed test cases (max 5, sampled)
+   - Error messages from failed runs
+   - Instruction: "Fix the validator to catch these failures. Keep existing passing checks. Add ONE new check per failed case."
+
+5. **Save** — write updated validator, increment iteration
+
+6. **Log** — append to `.autoharness/<target>/refinement.tsv`:
+   ```
+   iteration	pass_rate	checks_added	changes_summary
+   1	0.33	2	Added JSON schema check, field presence check
+   2	0.67	1	Added string length constraint
+   3	1.00	0	All checks passing
+   ```
+
+### Circuit breaker
+
+If after max_iterations, pass_rate < 0.8 → STOP with analysis:
+- Which failures remain uncaught?
+- Are they LLM-judgment-dependent (can't be coded deterministically)?
+- Suggest: split into codeable vs judgment-dependent checks
+
+## Phase 3: Validation on Novel Data
+
+Prevent overfitting to captured failures.
+
+### Generate test cases
+
+Spawn Haiku sub-agent to generate 3-5 **novel** test inputs that:
+- Are similar to but distinct from captured failures
+- Include 1-2 valid inputs (should pass) and 2-3 invalid inputs (should fail)
+- Cover edge cases not in training set
+
+### Run validation
+
+```bash
+for f in .autoharness/<target>/novel_*.txt; do
+  python .autoharness/<target>/validator.py < "$f"
+done
+```
+
+### Assess
+
+- **False positives** (valid input rejected): validator is too strict → refine
+- **False negatives** (invalid input passed): validator is too lenient → refine
+- Threshold: >80% accuracy on novel data → PASS
+- One refinement round allowed if close (60-80%)
+- Below 60% → STOP, report that failures are too diverse for automated synthesis
+
+## Phase 4: Integration
+
+### Save artifacts
+
+1. **Validator script** → `.autoharness/<target>/validator.py` (already saved)
+2. **Test suite** → `.autoharness/<target>/tests/` (failures + novel cases)
+3. **Metadata** → update `state.json` with final pass_rate, iteration count
+
+### Integration options (present to user)
+
+**Option A: Hook integration** (for action-verifier scope)
+Propose adding to `.claude/settings.json`:
+```json
+{
+  "hooks": {
+    "PostToolUse": [{
+      "matcher": "tool == 'Write' || tool == 'Edit'",
+      "command": "python .autoharness/<target>/validator.py",
+      "description": "Auto-validate <target> output"
+    }]
+  }
+}
+```
+
+**Option B: Standalone script** (for all scopes)
+Keep as utility: `python .autoharness/<target>/validator.py < input.txt`
+
+**Option C: Inline in skill** (for policy scope)
+Replace the relevant LLM step in the skill with the generated code.
+
+### Log learning
+
+Write to `.claude/memory/learnings/`:
+```yaml
+---
+date: <today>
+type: best_practice
+severity: medium
+component: <target>
+tags: [autoharness, validator, constraint-synthesis]
+summary: "Auto-generated validator for <target> catches <N> failure patterns with <pass_rate>% accuracy. <scope> type."
+uses: 0
+harmful_uses: 0
+---
+```
+
+### Report
+
+Output to user:
+
+```
+## AutoHarness Report: <target>
+
+| Metric | Value |
+|--------|-------|
+| Failures collected | N |
+| Refinement iterations | M |
+| Final pass rate (training) | X% |
+| Novel data accuracy | Y% |
+| Harness type | action-verifier |
+| Checks generated | K |
+
+### Failure Categories Covered
+- SYNTAX: N checks (JSON validation, format)
+- SCHEMA: N checks (required fields, types)
+- LOGIC: N checks (semantic constraints)
+
+### Integration
+Validator saved to: `.autoharness/<target>/validator.py`
+Recommended integration: [Hook / Standalone / Inline]
+
+### Uncovered Patterns
+- [Any failures that couldn't be automated]
+```

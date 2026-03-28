@@ -3,6 +3,8 @@
 When `mode:tree` is specified, autoloop uses branching exploration instead of linear iteration.
 Each "keep" variant becomes a potential parent for future experiments.
 
+Inspired by AutoHarness (arXiv:2603.03329): uses **Thompson sampling** with Beta distribution for parent selection instead of deterministic formula. This naturally balances exploration (uncertain nodes get high-variance samples) with exploitation (proven nodes converge).
+
 ## Archive Structure
 
 Initialize `autoloop-archive.json` alongside the TSV:
@@ -20,6 +22,8 @@ Initialize `autoloop-archive.json` alongside the TSV:
       "score": <baseline>,
       "generation": 0,
       "successful_children": 0,
+      "failed_children": 0,
+      "total_attempts": 0,
       "description": "baseline",
       "status": "baseline"
     }
@@ -29,23 +33,68 @@ Initialize `autoloop-archive.json` alongside the TSV:
 
 Tag baseline commit: `git tag autoloop-keep-0`.
 
-## Parent Selection
+## Parent Selection — Thompson Sampling
 
-Before each iteration, select a parent variant from the archive:
+Before each iteration, select a parent variant using Thompson sampling with Beta distribution.
+
+### Why Thompson sampling (not deterministic)
+
+The old formula `score × (1 / (1 + children))` is deterministic — it always picks the same node, which causes the search to get stuck in local optima. Thompson sampling draws a **random sample** from each variant's Beta distribution, so:
+
+- **Uncertain nodes** (few attempts) → high variance → occasionally sampled high → explored
+- **Proven nodes** (many successes) → low variance, high mean → reliably selected
+- **Failed nodes** (many failures) → low mean → rarely selected but not impossible
+
+This is the same algorithm that achieved 100% legal action rates across 145 games in the AutoHarness paper.
+
+### Algorithm
+
+For each eligible variant `v`:
 
 ```
-selection_score(v) = v.score × (1 / (1 + v.successful_children))
+α = 1 + v.successful_children    # prior + observed successes
+β = 1 + v.failed_children         # prior + observed failures
+thompson_sample = Beta(α, β)       # random draw from Beta distribution
+selection_score = thompson_sample × v.score
 ```
 
-This balances exploitation (high score) with exploration (penalizes over-breeding).
-A variant with score 90 and 3 children scores **lower** than one with score 88 and 0 children.
+**Implementation** — run via Bash (Python stdlib, no deps):
 
-**Selection process:**
+```bash
+python -c "
+import json, random
+with open('autoloop-archive.json') as f:
+    archive = json.load(f)
+eligible = [v for v in archive['variants'] if v['status'] in ('baseline', 'keep')]
+scores = []
+for v in eligible:
+    alpha = 1 + v.get('successful_children', 0)
+    beta = 1 + v.get('failed_children', 0)
+    sample = random.betavariate(alpha, beta) * v['score']
+    scores.append((sample, v['id']))
+    print(f'  id={v[\"id\"]} α={alpha} β={beta} sample={sample:.2f} (score={v[\"score\"]})')
+best = max(scores, key=lambda x: x[0])
+print(f'SELECTED: {best[1]}')
+"
+```
+
+### Selection process
+
 1. Collect all variants with status `baseline` or `keep`
-2. Compute `selection_score` for each
-3. Pick the highest-scoring variant
+2. Run Thompson sampling (Bash command above) to get selected parent id
+3. Read the selected variant's commit SHA
 4. Reset working tree to that variant's commit: `git checkout <commit> -- .`
-5. Record the parent_id for the new iteration
+5. Increment selected parent's `total_attempts`
+6. Record the parent_id for the new iteration
+
+### Intuition for typical scenarios
+
+| Scenario | α | β | Beta mean | Behavior |
+|----------|---|---|-----------|----------|
+| Fresh node (no children) | 1 | 1 | 0.50 | Uniform — high exploration |
+| 2 successes, 0 failures | 3 | 1 | 0.75 | Skewed right — likely selected |
+| 1 success, 3 failures | 2 | 4 | 0.33 | Skewed left — rarely selected |
+| 5 successes, 5 failures | 6 | 6 | 0.50 | Centered but low variance — stable |
 
 ## Modified Loop Steps
 
@@ -58,14 +107,15 @@ Tree mode changes these steps from the main autoloop loop:
 
 ### Step 6 (Decide) — archive updates
 On **keep**:
-1. Add new variant to `variants[]` with incremented id, parent_id, score, generation
+1. Add new variant to `variants[]` with incremented id, parent_id, score, generation, `failed_children: 0`, `total_attempts: 0`
 2. Increment parent's `successful_children`
 3. Tag commit: `git tag autoloop-keep-<id>`
 4. If score > `best_score`: update `best_id` and `best_score`
 
 On **discard**:
 1. Still add to `variants[]` (with status `discard`) — dead ends are data
-2. Revert to parent's commit, NOT to the linear predecessor
+2. Increment parent's `failed_children`
+3. Revert to parent's commit, NOT to the linear predecessor
 
 ### Step 8 (Exit) — tree-specific conditions
 In addition to standard exit conditions:
