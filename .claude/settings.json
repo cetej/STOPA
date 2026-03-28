@@ -240,6 +240,12 @@
             "command": "python .claude/hooks/memory-whisper.py",
             "timeout": 3,
             "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "python .claude/hooks/mid-session-capture.py",
+            "timeout": 1,
+            "statusMessage": ""
           }
         ]
       }

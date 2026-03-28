@@ -4,6 +4,10 @@
 Lazy evaluation pattern: Stop hook captures session-summary.json, this hook processes it
 at next session start. If Haiku call fails, summary is kept for retry.
 
+DeerFlow-inspired improvements (2026-03-28):
+- Smart eviction for patterns: frequency × recency instead of FIFO
+- Summary field auto-generated for learnings
+
 Output (stdout): Injected into Claude's context as system message.
 """
 import json
@@ -11,7 +15,7 @@ import os
 import re
 import subprocess
 import sys
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -141,23 +145,76 @@ def write_learning(learning: dict) -> bool:
         return False
 
     tags_str = ", ".join(learning.get("tags", []))
+    # Auto-generate summary from description + prevention (for memory-whisper matching)
+    desc = learning.get('description', 'N/A')
+    prevention = learning.get('prevention', '')
+    summary = desc[:120]
+    if prevention and len(summary) < 100:
+        summary += f" Fix: {prevention[:60]}"
+    summary = summary.replace('"', "'").replace("\n", " ").strip()
+
     content = f"""---
 date: {today}
 type: {learning.get('type', 'workflow')}
 severity: {learning.get('severity', 'medium')}
 component: {learning.get('component', 'general')}
 tags: [{tags_str}]
+summary: "{summary}"
 source: auto-scribe
 ---
 
 ## Description
-{learning.get('description', 'N/A')}
+{desc}
 
 ## Prevention
-{learning.get('prevention', 'N/A')}
+{prevention or 'N/A'}
 """
     filepath.write_text(content, encoding="utf-8")
     return True
+
+
+def compute_eviction_score(frequency: int, last_seen: str) -> float:
+    """Compute eviction score: lower = more likely to be evicted.
+
+    DeerFlow-inspired: combines frequency with recency decay.
+    Score = frequency × recency_factor, where recency_factor decays over time.
+    """
+    try:
+        last_date = datetime.strptime(last_seen, "%Y-%m-%d")
+        days_ago = (datetime.now() - last_date).days
+    except (ValueError, TypeError):
+        days_ago = 90  # assume old if unparseable
+
+    recency_factor = 1.0 / (1.0 + days_ago / 30.0)  # halves every 30 days
+    return frequency * recency_factor
+
+
+def evict_weakest_pattern(content: str) -> str | None:
+    """Remove the pattern with lowest eviction score. Returns updated content or None."""
+    pattern_blocks = re.findall(
+        r"(### .+?)(?=### |\Z)",
+        content,
+        re.DOTALL,
+    )
+    if not pattern_blocks:
+        return None
+
+    worst_score = float("inf")
+    worst_block = None
+
+    for block in pattern_blocks:
+        freq_match = re.search(r"\*\*Frequency\*\*:\s*(\d+)", block)
+        date_match = re.search(r"\*\*Last seen\*\*:\s*(\d{4}-\d{2}-\d{2})", block)
+        freq = int(freq_match.group(1)) if freq_match else 1
+        last_seen = date_match.group(1) if date_match else ""
+        score = compute_eviction_score(freq, last_seen)
+        if score < worst_score:
+            worst_score = score
+            worst_block = block
+
+    if worst_block:
+        return content.replace(worst_block, "")
+    return None
 
 
 def update_patterns(new_patterns: list, existing_content: str) -> int:
@@ -200,8 +257,13 @@ def update_patterns(new_patterns: list, existing_content: str) -> int:
             # Count existing patterns
             existing_count = len(existing_names)
             if existing_count >= 20:
-                # Skip — at max capacity. Auto-prune can happen in /scribe maintenance.
-                continue
+                # Smart eviction: remove the pattern with lowest frequency × recency score
+                evicted = evict_weakest_pattern(updated_content)
+                if evicted:
+                    updated_content = evicted
+                    changes += 1
+                else:
+                    continue
 
             # Add new pattern
             new_block = f"""

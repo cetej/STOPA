@@ -102,7 +102,8 @@ Triggered automatically when any memory file exceeds 500 lines (circuit breaker 
 
 1. **Read all memory files** — decisions.md, `learnings/critical-patterns.md`, budget.md, state.md
 2. **Count entries** — decisions (### headers), learnings (files in `learnings/`), budget rows
-3. **Deduplicate learnings** — grep for duplicate `tags:` across `learnings/` files. Merge overlapping entries (same component + similar tags). Keep the more specific version.
+3. **Deduplicate learnings (text-based)** — grep for duplicate `tags:` across `learnings/` files. Merge overlapping entries (same component + similar tags). Keep the more specific version.
+3b. **Semantic dedup (DeerFlow-inspired)** — Collect all `summary:` fields from `learnings/` YAML frontmatter. Group by `component:`. Within each component group, compare summaries pairwise: if two summaries describe the same insight (same root cause, same fix), merge them — keep the entry with higher severity, delete the other. Report: "N semantic duplicates found, M merged."
 4. **Staleness check** — list all files in `learnings/`. Any file with `date:` older than 90 days: verify it's still accurate. If outdated, update or delete. Report: "N learnings checked, M stale, K updated/removed."
 5. **Archive old decisions** — if decisions.md has >10 entries, move the oldest (by date) to `decisions-archive.md`. Keep newest 10.
 5. **Prune state history** — keep last 5 completed tasks in state.md Task History. Delete older entries (they're derivable from git).
@@ -125,6 +126,16 @@ When news.md exceeds 150 lines (or during regular maintenance):
 4. **Deduplicate Watch List** — if an item exists as both short and expanded version, keep only the expanded one
 5. **Archive old Scan History** — keep only the last 3 scans in news.md. Move older scans to `news-archive.md` → Archived Scan History
 6. **Report**: "news.md: X lines → Y lines. Archived: N action, M watch, K scans"
+
+### Pattern eviction (DeerFlow-inspired)
+
+When `patterns.md` reaches 20 entries and a new pattern needs to be added, auto-scribe.py automatically evicts the weakest pattern using:
+
+```
+eviction_score = frequency × (1 / (1 + days_since_last_seen / 30))
+```
+
+Lowest score gets evicted. During manual maintenance, review patterns with score < 0.5 and consider removing them.
 
 ### Thresholds
 - **Warning**: any memory file >100 lines → suggest maintenance (news.md: >150 lines)

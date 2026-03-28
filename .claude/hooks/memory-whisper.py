@@ -2,13 +2,19 @@
 """UserPromptSubmit hook: inject relevant memory context before each user prompt.
 
 Keyword-matches user prompt against learnings, feedback, and patterns.
-Outputs additionalContext JSON with top 3 relevant memory snippets.
+Outputs additionalContext JSON with memory snippets within a token budget.
 Must complete in <3s — no LLM calls, pure keyword matching.
+
+DeerFlow-inspired improvements (2026-03-28):
+- Token-budget injection (1500 tokens) instead of fixed top-3
+- Confidence scoring: keyword_score × confidence for ranking
+- Confidence derived from severity, recency, and source quality
 """
 import json
 import os
 import re
 import sys
+import time
 from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -18,6 +24,25 @@ LEARNINGS_DIR = MEMORY_DIR / "learnings"
 PATTERNS_PATH = MEMORY_DIR / "patterns.md"
 DECISIONS_PATH = MEMORY_DIR / "decisions.md"
 CACHE_PATH = MEMORY_DIR / "intermediate" / "learnings-index.json"
+
+# Token budget for memory injection (DeerFlow-inspired)
+TOKEN_BUDGET = 1500  # ~1500 tokens max injected per prompt
+WORD_TO_TOKEN_RATIO = 1.3  # rough estimate: 1 word ≈ 1.3 tokens
+
+# Confidence mappings
+SEVERITY_CONFIDENCE = {
+    "critical": 0.95,
+    "high": 0.80,
+    "medium": 0.60,
+    "low": 0.40,
+}
+SOURCE_CONFIDENCE = {
+    "critical": 0.95,  # critical-patterns.md — battle-tested
+    "learning": 0.75,  # learnings/ — verified during session
+    "decision": 0.85,  # decisions.md — explicit choices
+    "feedback": 0.90,  # user corrections — high signal
+    "pattern": 0.50,   # auto-detected patterns — lower confidence
+}
 
 # Resolve auto-memory feedback dir (project-scoped)
 # Claude Code stores per-project memory in ~/.claude/projects/<mangled-path>/memory/
@@ -58,6 +83,39 @@ STOPWORDS = frozenset({
     "ten", "ta", "to", "ty", "tato", "tyto", "ale", "nebo", "ani",
     "tak", "jiz", "jen", "mit", "mam", "chci", "zkus", "udelej",
 })
+
+
+def estimate_tokens(text: str) -> float:
+    """Estimate token count from text (word count × 1.3)."""
+    return len(text.split()) * WORD_TO_TOKEN_RATIO
+
+
+def compute_confidence(source: str, severity: str = "", date_str: str = "") -> float:
+    """Compute confidence score (0.0-1.0) combining source quality, severity, and recency.
+
+    Inspired by DeerFlow's confidence scoring but adapted for STOPA's
+    structured memory (severity levels, dated learnings).
+    """
+    # Base confidence from source type
+    base = SOURCE_CONFIDENCE.get(source, 0.60)
+
+    # Severity boost (for learnings)
+    if severity:
+        severity_factor = SEVERITY_CONFIDENCE.get(severity, 0.60)
+        # Blend: 60% source, 40% severity
+        base = base * 0.6 + severity_factor * 0.4
+
+    # Recency decay: facts older than 60 days lose confidence
+    if date_str:
+        try:
+            days_ago = (time.time() - time.mktime(time.strptime(date_str, "%Y-%m-%d"))) / 86400
+            if days_ago > 60:
+                decay = max(0.7, 1.0 - (days_ago - 60) / 300)  # slow decay, floor at 0.7
+                base *= decay
+        except (ValueError, OverflowError):
+            pass
+
+    return round(min(1.0, max(0.1, base)), 2)
 
 
 def extract_keywords(text: str, max_keywords: int = 5) -> list[str]:
@@ -117,7 +175,7 @@ def build_learnings_index() -> list[dict]:
             if not lines or lines[0].strip() != "---":
                 continue
 
-            entry = {"file": f.name, "tags": [], "component": "", "description": "", "summary": ""}
+            entry = {"file": f.name, "tags": [], "component": "", "description": "", "summary": "", "severity": ""}
             for line in lines[1:10]:
                 if line.strip() == "---":
                     break
@@ -130,6 +188,8 @@ def build_learnings_index() -> list[dict]:
                     entry["component"] = line.split(":", 1)[1].strip()
                 elif line.startswith("date:"):
                     entry["date"] = line.split(":", 1)[1].strip()
+                elif line.startswith("severity:"):
+                    entry["severity"] = line.split(":", 1)[1].strip()
                 elif line.startswith("summary:"):
                     entry["summary"] = line.split(":", 1)[1].strip().strip("'\"")[:200]
 
@@ -189,11 +249,13 @@ def search_learnings(keywords: list[str], index: list[dict]) -> list[dict]:
         if score > 0:
             # Prefer summary over first-line description
             display = entry.get("summary") or entry.get("description") or entry.get("slug", "?")
+            confidence = compute_confidence("learning", entry.get("severity", ""), entry.get("date", ""))
             matches.append({
                 "source": "learning",
                 "text": display,
                 "date": entry.get("date", ""),
                 "score": score,
+                "confidence": confidence,
             })
 
     return sorted(matches, key=lambda x: -x["score"])
@@ -230,6 +292,7 @@ def search_feedback(keywords: list[str]) -> list[dict]:
                     "source": "feedback",
                     "text": description[:120],
                     "score": score,
+                    "confidence": compute_confidence("feedback"),
                 })
         except OSError:
             continue
@@ -262,6 +325,7 @@ def search_patterns(keywords: list[str]) -> list[dict]:
                         "source": "pattern",
                         "text": f"{current_name}: {current_desc}"[:120],
                         "score": score,
+                        "confidence": compute_confidence("pattern"),
                     })
             current_name = line[4:].strip()
             current_desc = ""
@@ -277,6 +341,7 @@ def search_patterns(keywords: list[str]) -> list[dict]:
                 "source": "pattern",
                 "text": f"{current_name}: {current_desc}"[:120],
                 "score": score,
+                "confidence": compute_confidence("pattern"),
             })
 
     return sorted(matches, key=lambda x: -x["score"])
@@ -309,6 +374,7 @@ def search_decisions(keywords: list[str]) -> list[dict]:
                         "text": f"{current_title}"[:120],
                         "date": current_date,
                         "score": score,
+                        "confidence": compute_confidence("decision", date_str=current_date),
                     })
             # Parse new header: ### 2026-03-27 — Title
             header = line[4:].strip()
@@ -330,6 +396,7 @@ def search_decisions(keywords: list[str]) -> list[dict]:
                 "text": f"{current_title}"[:120],
                 "date": current_date,
                 "score": score,
+                "confidence": compute_confidence("decision", date_str=current_date),
             })
 
     return sorted(matches, key=lambda x: -x["score"])
@@ -363,6 +430,7 @@ def search_critical_patterns(keywords: list[str]) -> list[dict]:
                     "source": "critical",
                     "text": text_clean[:120],
                     "score": score,
+                    "confidence": compute_confidence("critical"),
                 })
 
     return sorted(matches, key=lambda x: -x["score"])
@@ -410,17 +478,30 @@ def main():
     if not all_matches:
         return
 
-    # Sort by score, take top 3
-    all_matches.sort(key=lambda x: -x["score"])
-    top = all_matches[:3]
+    # Sort by effective score: keyword_score × confidence (DeerFlow-inspired)
+    for m in all_matches:
+        m["effective_score"] = m["score"] * m.get("confidence", 0.60)
+    all_matches.sort(key=lambda x: -x["effective_score"])
 
-    # Only output if best match has score >= 2 (avoid noise)
-    if top[0]["score"] < 2:
+    # Only output if best match has raw score >= 2 (avoid noise)
+    if all_matches[0]["score"] < 2:
         return
 
-    snippets = [format_snippet(m) for m in top]
-    output = "\n".join(snippets)
+    # Token-budget injection: fill up to TOKEN_BUDGET tokens (DeerFlow-inspired)
+    selected = []
+    tokens_used = 0.0
+    for m in all_matches:
+        snippet = format_snippet(m)
+        snippet_tokens = estimate_tokens(snippet)
+        if tokens_used + snippet_tokens > TOKEN_BUDGET:
+            if not selected:
+                # Always include at least one result
+                selected.append(snippet)
+            break
+        selected.append(snippet)
+        tokens_used += snippet_tokens
 
+    output = "\n".join(selected)
     print(json.dumps({"additionalContext": output}))
 
 
