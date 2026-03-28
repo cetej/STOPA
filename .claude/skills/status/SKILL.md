@@ -23,6 +23,7 @@ Read these files (silently, don't show contents to user):
 - `.claude/memory/budget.md`
 - `.claude/memory/checkpoint.md`
 - `.claude/memory/news.md` (first 10 lines only — just need the last scan date)
+- `.claude/memory/eval-baseline.tsv` (last 3 lines only — for regression trend)
 
 If any file is missing, report that field as "n/a".
 
@@ -36,6 +37,7 @@ From each file, extract ONLY:
 | budget.md | Current tier + agent spawn count from Counters table |
 | checkpoint.md | Saved date + task name + status line |
 | news.md | Date of last scan (from most recent entry heading) |
+| eval-baseline.tsv | Last 2 data rows: compute health_score delta, format trend arrow (↑ if delta > 0.1, ↓ if < -0.1, → if within ±0.1) |
 
 ### Step 3: Check memory health
 
@@ -51,8 +53,11 @@ task:          <active task + progress, or "none">
 budget:        <tier>, <N> agent spawns
 checkpoint:    <date> — <task> (<status>)
 last_watch:    <date> (<N days ago>)
+eval_trend:    <health_score> <arrow> (<delta> vs <previous_date>)
 memory_health: <"ok" or list of warnings>
 ```
+
+For `eval_trend`: read last 2 data rows from `eval-baseline.tsv`. Compute `delta = current_health_score - previous_health_score`. Arrow: `↑` if delta > 0.1, `↓` if delta < -0.1, `→` if within ±0.1. If fewer than 2 rows: `n/a (baseline not established)`. If file missing: `n/a`.
 
 ## Rules
 

@@ -1,0 +1,3 @@
+# skill-audit regression baseline — append only
+run_date	skills_count	health_score	description_avg	tools_avg	integration_avg	notes
+2026-03-27	20	7.60	4.20	4.50	3.80	skill audit session — 20/30 skills evaluated, T1=9.6 T2=7.1

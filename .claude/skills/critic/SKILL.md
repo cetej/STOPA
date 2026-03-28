@@ -10,6 +10,7 @@ model: sonnet
 effort: high
 maxTurns: 15
 disallowedTools: Write, Edit
+eval-tags: [quality_review, codebase_search, file_operations]
 handoffs:
   - skill: /orchestrate
     when: "FAIL verdict — orchestrator must re-plan or re-execute"
@@ -20,6 +21,10 @@ handoffs:
   - skill: /scribe
     when: "New anti-patterns discovered during review"
     prompt: "Record learning: <pattern description>"
+  - skill: /harness eval-runner
+    when: "PASS verdict on a SKILL.md file that has eval cases in .claude/evals/<skill-name>/"
+    prompt: "Auto-chain: run behavioral evals for the reviewed skill to confirm behavior matches quality"
+    auto: true
 ---
 
 # Critic — Decomposed Quality Gate

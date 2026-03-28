@@ -8,6 +8,7 @@ model: sonnet
 effort: high
 maxTurns: 15
 disallowedTools: Edit
+eval-tags: [codebase_search, file_operations, quality_review]
 context:
   - gotchas.md
 ---

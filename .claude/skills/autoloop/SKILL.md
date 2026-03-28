@@ -321,6 +321,15 @@ If validation score dropped below 5: warn — structural improvements may have h
 
 Ask the user: "Merge branch `autoloop/<name>` into current branch, or discard?"
 
+### Auto-Eval Chain (SKILL.md targets only)
+
+If the target was a `*/SKILL.md` file AND `.claude/evals/<skill-name>/` directory exists with case files:
+1. After merge (not on discard), automatically run eval cases for that skill
+2. Use `/harness eval-runner --skill <skill-name>` silently
+3. If any eval case FAIL → report to user: "Optimization improved structural score but behavioral eval failed on case X. Consider reverting or fixing."
+4. If all PASS → append to report: "Behavioral evals: all N cases PASS"
+5. Skip this step if no eval cases exist for the skill
+
 ## Scoring: SKILL.md (built-in)
 
 For `*/SKILL.md` files, use this structural heuristic. Run each check and sum points:

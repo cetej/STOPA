@@ -10,6 +10,7 @@ model: haiku
 effort: low
 maxTurns: 10
 disallowedTools: Write, Edit, Bash
+eval-tags: [codebase_search, file_operations]
 ---
 
 # Scout — Explorer & Researcher

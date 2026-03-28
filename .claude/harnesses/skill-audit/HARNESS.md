@@ -138,3 +138,28 @@ Comprehensive audit of all SKILL.md files in the project. Checks description qua
 - **Validation**: All `{{PLACEHOLDER}}` filled, no missing data, report ≤ 500 lines
 - **Output file**: `.harness/report.md`
 - **Model**: haiku
+
+### Phase 5b: Regression Baseline (deterministic)
+
+- **Action**: After report generation, compute aggregate scores from Phase 2-4 JSON outputs:
+  - `description_avg` = mean of all `quality_score` from `phase2_descriptions.json`
+  - `tools_avg` = mean where ok=5, over-permissioned=2, under-permissioned=3 from `phase3_tools.json`
+  - `integration_avg` = mean of all `integration_score` from `phase4_integration.json`
+  - `health_score` = mean of (description_avg, tools_avg, integration_avg)
+  - `skills_count` = from `phase1_inventory.json`
+- **TSV Append**: Append one row to `.claude/memory/eval-baseline.tsv`. Create file with header if it doesn't exist.
+- **TSV format**:
+  ```
+  # skill-audit regression baseline — append only
+  run_date	skills_count	health_score	description_avg	tools_avg	integration_avg	notes
+  ```
+- **Validation**: TSV row count increased by 1 (count)
+- **Model**: haiku
+
+### Phase 5c: Auto-Eval Chain (optional)
+
+- **Action**: If `.claude/evals/` directory exists with case files, automatically chain into eval-runner harness.
+- **Trigger**: Always, unless `--skip-evals` argument was passed
+- **Execution**: Run `/harness eval-runner` (all cases). Append eval summary to the skill-audit report.
+- **Model**: (delegated to eval-runner harness)
+- **Purpose**: After auditing skill quality statically, verify behavioral correctness automatically. No user action needed.
