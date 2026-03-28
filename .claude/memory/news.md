@@ -5,11 +5,29 @@ Archived items: `.claude/memory/news-archive.md`
 
 ## Last Scan
 
-**2026-03-28** — quick scan (Claude Desktop v1.1.1931 Windows, CC v2.1.86)
+**2026-03-28** — full scan | Searches: 17 | Fetches: 2 | Items: 3 action, 3 watch, 5 info
 
 ## Active Items
 
 ### Action Items
+
+40. **🔥 Claude Mythos / Capybara** (leaked 2026-03-26, Fortune/The Decoder) — next Anthropic model tier above Opus
+    - Leaked via unsecured data store; Anthropic confirmed "early drafts" leaked
+    - "Step change" capabilities vs Opus 4.6 — dramatically higher on coding, academic reasoning, cybersecurity
+    - Two draft names: "Mythos" (v1) and "Capybara" (v2); new product tier planned
+    - Cybersecurity risk flagged internally (vulnerability discovery acceleration)
+    - Rollout: small early-access group first, then API expansion
+    - **Akce:** Sledovat GA datum → přeplánovat STOPA model selection tiers (orchestrate: Opus → Mythos/Capybara)
+
+41. **⚠️ LiteLLM supply chain attack** (2026-03-25, Simon Willison) — litellm==1.82.8 malware on PyPI
+    - Malicious `.pth` file in wheel executes base64-encoded subprocess commands on install
+    - Patched — avoid 1.82.8, upgrade to latest clean version
+    - **Akce:** Zkontrolovat, zda STOPA/NG-ROBOT/ADOBE-AUTOMAT používají LiteLLM → pokud ano, audit
+
+42. **`${CLAUDE_SKILL_DIR}` proměnná** (CC, Mar 2026) — portable skill-relative paths
+    - Skills v `~/.claude/skills/` mohou odkazovat na vlastní assety přes `${CLAUDE_SKILL_DIR}`
+    - Umožňuje distribuovatelné, portabilní skills (marketplace ready)
+    - **Akce:** Použít v STOPA plugin skills pro reference na sdílené soubory (learnings, memory)
 
 37. **CC v2.1.86 (2026-03-27)** — Windows config corruption fix
     - Windows settings.json corruption fix (zbytečné disk writes)
@@ -141,6 +159,22 @@ Archived items: `.claude/memory/news-archive.md`
    - Akce: implementovat TaskCompleted → Slack webhook (localhost proxy + 10 řádků Python)
 
 ### Watch List
+
+29m. **MCP Elicitation** (CC v2.1.76) — MCP servers mohou pausovat task a požádat o strukturovaný user input
+    - Interaktivní formuláře/dialogy mid-task; `Elicitation` + `ElicitationResult` hooks pro intercept
+    - Relevance: STOPA MCP servery mohou klást doplňující otázky bez přerušení flow
+    - Sledovat: praktické use cases pro `/orchestrate` dynamické dotazy
+
+29n. **SWAP** (arXiv 2603.00296, Mar 2026) — stepwise penalization pro length-efficient CoT
+    - RL framework, asymetricky penalizuje zbytečné reasoning kroky
+    - Zachovává kroky s vysokým přínosem pro správnost, redukuje ostatní
+    - Relevance: aplikovatelné na STOPA thinking-heavy Opus calls (cost reduction)
+
+29o. **FinMCP-Bench** (arXiv 2603.24943, Mar 2026) — benchmark pro LLM agenty s MCP tool use
+    - 613 vzorků, 10 scénářů, 33 pod-scénářů (finanční domain, ale metodologie generická)
+    - Měří tool discrimination ability s distractory
+    - Relevance: první robustní benchmark pro MCP tool use — použít pro STOPA skill eval
+    - Kód: GitHub ✅
 
 29l. **AgentScope** (Alibaba DAMO Academy, 2026-03-28) — open-source Agent-Oriented Programming framework
     - Apache 2.0, Python + Java SDK, K8s-ready, OpenTelemetry observability
@@ -283,6 +317,7 @@ Archived items: `.claude/memory/news-archive.md`
 
 ## Scan History
 
+### 2026-03-28 — full scan (Mythos leak, LiteLLM supply chain, ${CLAUDE_SKILL_DIR}, MCP Elicitation, papers)
 ### 2026-03-27 — targeted scan (Claude Desktop update, CC v2.1.85)
 ### 2026-03-26 — targeted + full scans (AutoDream eval, CC 2.1.83-84, papers)
 ### 2026-03-25 — papers scan + full scan (Auto Mode, Opus 128k output, 7 papers)

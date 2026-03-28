@@ -64,6 +64,8 @@ Parse `$ARGUMENTS` and determine:
 
 If unclear, ask the user before proceeding. Never guess on ambiguous requirements.
 
+> **MCP Elicitation** (CC v2.1.76+): If the project uses MCP servers that support Elicitation, structured input can be collected mid-task via interactive dialogs instead of plain-text questions. Consider this for tasks that need structured parameters (e.g., target environment, feature flags, deployment options).
+
 ### Assign Complexity Tier
 
 Based on scope, classify the task:

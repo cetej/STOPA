@@ -64,9 +64,11 @@ Parse `$ARGUMENTS` and determine:
 
 If unclear, ask the user before proceeding. Never guess on ambiguous requirements.
 
+> **MCP Elicitation** (CC v2.1.76+): If the project uses MCP servers that support Elicitation, structured input can be collected mid-task via interactive dialogs instead of plain-text questions. Consider this for tasks that need structured parameters (e.g., target environment, feature flags, deployment options).
+
 ### Assign Complexity Tier
 
-**First, check learned heuristics:** Read `.claude/skills/orchestrate/tier-heuristics.md` for patterns extracted from past task traces. If the current task matches a heuristic, use its recommended tier.
+**First, check learned heuristics:** Read `${CLAUDE_SKILL_DIR}/tier-heuristics.md` for patterns extracted from past task traces. If the current task matches a heuristic, use its recommended tier.
 
 **If no heuristic matches,** classify the task based on scope:
 
