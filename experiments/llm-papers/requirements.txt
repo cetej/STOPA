@@ -1,0 +1,5 @@
+# PyTorch with CUDA 12.x — install separately:
+# pip install torch --index-url https://download.pytorch.org/whl/cu124
+torch>=2.2.0
+tiktoken>=0.6.0
+tqdm>=4.66.0
