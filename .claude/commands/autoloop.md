@@ -4,7 +4,7 @@ description: Use when iteratively optimizing a file or metric via Karpathy loop.
 context:
   - tree-mode.md
   - meta-mode.md
-argument-hint: <target file/scope> [goal] [verify:<command>] [guard:<command>] [budget:N] [mode:linear|tree] [meta:true]
+argument-hint: <target file/scope> [goal] [verify:<command>] [guard:<command>] [budget:N] [mode:linear|tree] [meta:true] [escalate:true]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 model: sonnet
@@ -50,6 +50,7 @@ From `$ARGUMENTS`, extract:
 - **direction**: `higher` or `lower` is better (auto-detected from goal keywords, or ask)
 - **mode**: `linear` (default) or `tree` — tree enables branching exploration (see `tree-mode.md`)
 - **meta**: `true` enables metacognitive self-modification of scoring params (see `meta-mode.md`). Requires `mode:linear`.
+- **escalate**: `true` enables Agent0-inspired escalation — on plateau, raise the bar instead of just exploring harder (see Escalation Phase)
 
 If `meta:true` AND `mode:tree`: reject with error — these modes are mutually exclusive.
 
@@ -252,12 +253,47 @@ Exit when ANY:
   | consecutive_discards | exploration_weight | Strategy shift |
   |---------------------|-------------------|----------------|
   | 3 | 1.4 | Prioritize radical experiments over incremental |
+  | 3 + `escalate:true` | **ESCALATE** | Trigger Escalation Phase (see below) instead of continuing |
   | 4 | 1.7 | Combine two prior near-misses into one attempt |
   | 5 | 2.0 | Try approach opposite to all prior keeps |
   | 6 | 2.0 | One last radical attempt |
   | 7 | **HARD STOP** | Adaptive exploration exhausted |
 
   When `exploration_weight > 1.0`: Step 1 (Review) MUST list ALL prior keep descriptions, identify common direction, and propose something structurally different.
+
+### Escalation Phase (Agent0-inspired, optional)
+
+**Trigger:** `escalate:true` flag AND 3 consecutive discards (plateau detected).
+**Concept:** Instead of just ramping exploration weight, raise the bar — add harder constraints or tighter metrics. Inspired by Agent0's co-evolutionary curriculum: when the optimizer plateaus, the challenge must escalate.
+
+**How it works:**
+
+1. **Analyze current state**: Read all "keep" iterations from TSV — what has already been optimized?
+
+2. **Generate escalation** based on mode:
+
+   | Mode | Escalation method |
+   |------|-------------------|
+   | **Metric mode** | Tighten target: if metric plateaued at 92%, set new floor at 90% and add a SECOND metric as guard (e.g., complexity, coverage, latency) |
+   | **File mode (SKILL.md)** | Add 2-3 NEW scoring checks beyond the original 15-point heuristic, derived from what's NOT yet covered (e.g., "has examples section", "has edge case handling") |
+   | **File mode (other)** | Switch from current scorer to a stricter one: add new constraints derived from the goal (e.g., "under 100 LOC" + "no nested loops") |
+
+3. **Reset plateau counter** to 0, keep budget running
+4. **Log escalation** in TSV as special row:
+   ```
+   E1	-	92.0	0.0	-	escalation	added guard: complexity < 150 LOC
+   ```
+5. **Resume loop** with new constraints — the bar is now higher
+6. **Max 2 escalations** per run — after 2nd escalation plateaus → HARD STOP
+
+**Escalation status in status block:**
+```
+AUTOLOOP_STATUS:
+  escalation_level: <0|1|2>
+  escalation_desc: "<what was added>"
+```
+
+Valid TSV statuses (updated): `baseline`, `keep`, `keep (reworked)`, `discard`, `crash`, `no-op`, `hook-blocked`, `divergence`, `escalation`
 
 - **Max score**: metric can't improve further
 - **Budget**: iteration count hit limit

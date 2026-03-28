@@ -1,7 +1,7 @@
 ---
 name: autoharness
 description: Use when a skill or command repeatedly fails with the same error patterns. Trigger on 'autoharness', 'generate validator', 'auto-constraint'. Do NOT use for one-off fixes or manual validation.
-argument-hint: <target-skill> [iterations:N] [scope:action-filter|action-verifier|policy]
+argument-hint: <target-skill> [iterations:N] [scope:action-filter|action-verifier|policy] [escalate:true]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
 model: sonnet
@@ -249,6 +249,52 @@ done
 - Threshold: >80% accuracy on novel data → PASS
 - One refinement round allowed if close (60-80%)
 - Below 60% → STOP, report that failures are too diverse for automated synthesis
+
+## Phase 3.5: Adversarial Escalation (Agent0-inspired, optional)
+
+**Trigger:** `escalate:true` flag AND Phase 3 passed (>80% novel data accuracy).
+**Concept:** After the validator passes all tests, a "red team" agent tries to break it. Inspired by Agent0's co-evolutionary curriculum: when the executor masters current challenges, the curriculum must escalate.
+
+### Red Team Generation
+
+Spawn a Sonnet sub-agent as adversarial curriculum generator with this prompt:
+
+> You are a red team tester. Your goal is to find inputs that BYPASS the validator — inputs that are INVALID but the validator incorrectly accepts (false negatives).
+>
+> Here is the validator code: [include validator.py]
+> Here are the failure categories it checks: [include failures.json categories]
+>
+> Generate 5 adversarial test cases that:
+> 1. Are structurally similar to valid inputs (pass basic format checks)
+> 2. But contain subtle errors the validator might miss (edge cases, boundary values, Unicode, empty strings, extreme lengths)
+> 3. Each targets a DIFFERENT weakness in the validator
+>
+> For each test case, explain WHY you think it will bypass the validator.
+
+### Red Team Evaluation
+
+1. Run each adversarial input through the validator
+2. Score: `bypass_rate = bypassed / total_adversarial`
+
+| bypass_rate | Action |
+|-------------|--------|
+| 0% | Validator is robust — proceed to Phase 4 |
+| 1-40% | Refinement round: add checks for bypassed cases, re-test |
+| 41-100% | Validator has fundamental gaps — back to Phase 2 with adversarial cases added to failures.json |
+
+### Escalation Loop
+
+- Max 2 escalation rounds (red team → refine → red team again)
+- Each round, the red team agent sees PREVIOUS bypasses and must find NEW weaknesses
+- After 2nd round: proceed to Phase 4 regardless (diminishing returns)
+
+### Log
+
+Append to `refinement.tsv`:
+```
+adversarial_1	0.60	3	Red team found 3/5 bypasses: Unicode normalization, empty array, negative index
+adversarial_2	0.20	2	Red team found 1/5 bypasses: nested null in optional field
+```
 
 ## Phase 4: Integration
 
