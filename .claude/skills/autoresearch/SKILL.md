@@ -29,6 +29,29 @@ Claudini-inspired pattern: given a research question + evaluation script, autono
 - `/deepresearch` — "What does the literature say?" (evidence gathering, no code)
 - `/autoloop` — "Make this file better" (optimize one target, not explore approaches)
 
+## Four Roles — All Required
+
+The loop works because these four roles are strictly separated. Blur any boundary and the loop fails.
+
+| Role | What you provide | What the agent controls |
+|------|-----------------|------------------------|
+| **Mutable target** | `target:` path (one file) | Yes — edited every iteration |
+| **Locked eval** | `eval:` command | NEVER — agent cannot touch this |
+| **Direction** | research question + hypotheses | Reads only, does not modify |
+| **Memory** | git history + TSV log | Commits wins, resets losses |
+
+**The locked eval is the most commonly skipped and most important part.** Without it, the agent optimizes the test instead of optimizing the target.
+
+## Three Non-Negotiable Conditions
+
+The loop only functions when ALL THREE hold simultaneously:
+
+1. **Numeric scoring** — output must be measurable as a single number (binary yes/no questions aggregated into a percentage work well)
+2. **Automated evaluation** — scoring runs without human intervention; no "looks good to me"
+3. **Single-file mutation** — only the target file changes per iteration; everything else locked
+
+If any condition is missing: **stop and fix it before starting the loop.**
+
 ## 8 Experiment Rules
 
 | # | Rule |
@@ -67,6 +90,28 @@ Examples:
 /autoresearch "fastest JSON parser for our schema" eval:"python bench.py" hypotheses:"orjson,ujson,msgspec"
 /autoresearch "optimal prompt structure for classification" eval:"python eval_prompt.py --metric accuracy"
 ```
+
+### Eval criteria design (if user needs help)
+
+If `eval:` command is a grading script that the user wants help designing, apply these rules:
+
+- **3-6 binary questions** — below 3 creates loopholes, above 6 causes checklist gaming
+- Every question must be answerable yes/no without subjective judgment
+- Strong: "Does headline include a specific number?" — testable
+- Weak: "Is the copy compelling?" — subjective, unscoreable
+- Test on 3 samples before starting the loop; scoring must be consistent
+
+Example for landing page copy:
+```
+1. Does headline include specific number or measurable result? (y/n)
+2. Completely free of buzzwords? (y/n)
+3. CTA uses specific action verb tied to product outcome? (y/n)
+4. First sentence names specific pain point? (y/n)
+5. Total copy between 80-150 words? (y/n)
+Score = count(yes) / 5
+```
+
+Score = percentage of yes answers. 5 questions = 0.2 increments, making progress visible.
 
 ### Precondition checks
 
@@ -166,9 +211,8 @@ EXPECTED EFFECT: <prediction — helps detect reward hacking later>
 
 Make code changes. Rules:
 - **One hypothesis per iteration** — atomic changes
-- **In-scope only** — only modify files in target directory
-- **Never modify the eval script** — that's the ground truth
-- May create new files (unlike autoloop which edits one target)
+- **Single-file mutation** — only ONE target file changes per iteration; everything else locked. This is non-negotiable. If a hypothesis requires changing 2+ files, split it into sequential hypotheses.
+- **Never modify the eval script** — that's the ground truth. If you modify it, the entire experiment history is invalidated.
 
 ### Step 4: Commit (before running)
 
@@ -417,5 +461,16 @@ Classify every crash/error into a category. This enables smarter recovery decisi
 | "Let me try 5 things at once" | Can't attribute improvement | One hypothesis per iteration |
 | "The metric went up, ship it" | Might be reward hacking | Check secondary signals |
 | "This approach is obviously better" | Subjective ≠ measured | Run the eval |
-| "Let me tweak the eval script" | Destroys ground truth | Never modify eval |
+| "Let me tweak the eval script" | Destroys ground truth — all prior rounds invalidated | Never modify eval |
 | "I'll clean up the code while I'm at it" | Conflates optimization with refactoring | Stay in scope |
+| "I'll add a 2nd file to this iteration" | Violates single-file mutation, can't isolate cause | Split into two sequential hypotheses |
+
+## Known Failure Modes (Karpathy Loop-Specific)
+
+| Mode | Signal | Mitigation |
+|------|--------|------------|
+| **Goodharting** | Metric improves but output quality degrades; agent finds technical pass without real improvement | Reduce criterion count, tighten definitions, review outputs manually after 5+ keeps |
+| **Eval brittleness** | Scoring produces inconsistent results for same input; crashes on edge cases | Harden eval script before loop starts; test on 3 diverse samples |
+| **Convergence plateau** | Improvement slows dramatically after 20-30 rounds; marginal gains < 0.01 per iteration | This is a natural ceiling — synthesize results rather than continuing. Consider redesigning eval criteria or running a new loop with different constraints |
+| **Eval over-specification** | 7+ criteria → agent games the checklist, output passes but reads mechanically | Keep to 3-6 binary questions |
+| **Criterion vagueness** | Subjective criteria ("compelling", "good") → inconsistent scores across samples | Replace with testable yes/no questions |
