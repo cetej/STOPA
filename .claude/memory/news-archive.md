@@ -4,6 +4,21 @@ Archived items from `news.md`. Read-only reference — not actively loaded into 
 
 ## Archived Action Items
 
+<!-- Archived 2026-03-29 routine maintenance — DONE items -->
+
+- **Claude web search — light Research auto-depth mode** (Alex Albert, Mar 2026) — Status: DONE 2026-03-29
+  - Web search automaticky nastavuje hloubku vyhledávání dle query complexity
+  - Implementováno: přidáno do `/deepresearch` SEARCH STRATEGY + `/watch` Tier 2b intro
+
+- **`${CLAUDE_SKILL_DIR}` proměnná** (CC, Mar 2026) — Status: DONE 2026-03-29
+  - Implementováno: přidán `${CLAUDE_SKILL_DIR}/tier-heuristics.md` do plugin orchestrate + zkopírován tier-heuristics.md
+
+- **CC v2.1.85 hook conditions** (2026-03-26) — `if` podmínky — Status: DONE 2026-03-29
+  - Přidáno `if: "Edit(*.py)|Write(*.py)"` na ruff-lint hook, `if: "Bash(git commit*)"` na post-commit-analyzer
+
+- **CC 2.1.83 `initialPrompt` v agent frontmatter** (2026-03-25) — Status: DONE 2026-03-29
+  - stopa-worker již měl, přidáno do watchdog agenta
+
 <!-- Archived 2026-03-24 Phase 1 hygiene cleanup -->
 
 - **Modular Diffusers v0.37.0** (2026-03-05) — EVALUATED 2026-03-24: SKIP. Pyramid Flow incompatible (no DiffusionPipeline, PyTorch ≥2.3 conflict). Build on 0.37 paralelně s novým modelem.
@@ -105,7 +120,12 @@ Archived items from `news.md`. Read-only reference — not actively loaded into 
 7. **MCP Memory Servers** — persistent memory via MCP instead of file-based
 8. **PyTorch 2.10.0** (Jan 21, 2026)
 
-## Archived Scan History (2026-03-27 maintenance)
+## Archived Scan History (2026-03-29 maintenance)
+
+### 2026-03-26 — targeted + full scans (AutoDream eval, CC 2.1.83-84, papers)
+### 2026-03-25 — papers scan + full scan (Auto Mode, Opus 128k output, 7 papers)
+### 2026-03-24 — hands-on research + full scan (Diffusers SKIP, PyTorch WAIT, HTTP hooks GA)
+### 2026-03-23 — 2× full scan (CHANGELOG deep-dive, batch cleanup of 7 items)
 
 ### 2026-03-27 — targeted scan (CC v2.1.85 hooks conditions)
 ### 2026-03-26 — targeted (AutoDream eval) + evening full (CC 2.1.83-84, papers) + morning full (Agent SDK repos, Codified Context)

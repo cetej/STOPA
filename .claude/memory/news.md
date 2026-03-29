@@ -9,13 +9,8 @@ Archived items: `.claude/memory/news-archive.md`
 
 ## Active Items
 
-### Action Items
 
-43. ~~**Claude web search — light Research auto-depth mode**~~ (Alex Albert, Mar 2026) — Status: DONE 2026-03-29
-    - Web search automaticky nastavuje hloubku vyhledávání dle query complexity
-    - Implementováno: přidáno do `/deepresearch` SEARCH STRATEGY + `/watch` Tier 2b intro
-
-### Watch List (nové — 2026-03-29)
+### Action Items (aktivní)
 
 29t. **Bootleg — Self-Distillation of Hidden Layers** (arXiv:2603.15553, Lowe et al., Graham Taylor group)
     - SSL pretraining pro vision: predikuje latenty z více skrytých vrstev teacher sítě, +10% nad I-JEPA na ImageNet
@@ -47,8 +42,6 @@ Archived items: `.claude/memory/news-archive.md`
     - Papers with Code nástupce; pozicováno jako "biggest infra for AI agents to retrieve arXiv papers"
     - Relevance: upgrade `/watch` Tier 2b strategy — `hf papers` CLI místo `site:arxiv.org` searches
 
-### Action Items
-
 40. **🔥 Claude Mythos / Capybara** (leaked 2026-03-26, Fortune/The Decoder) — next Anthropic model tier above Opus
     - Leaked via unsecured data store; Anthropic confirmed "early drafts" leaked
     - "Step change" capabilities vs Opus 4.6 — dramatically higher on coding, academic reasoning, cybersecurity
@@ -62,8 +55,6 @@ Archived items: `.claude/memory/news-archive.md`
     - Patched — avoid 1.82.8, upgrade to latest clean version
     - **Akce:** Zkontrolovat, zda STOPA/NG-ROBOT/ADOBE-AUTOMAT používají LiteLLM → pokud ano, audit
 
-42. ~~**`${CLAUDE_SKILL_DIR}` proměnná**~~ (CC, Mar 2026) — Status: DONE 2026-03-29
-    - Implementováno: přidán `${CLAUDE_SKILL_DIR}/tier-heuristics.md` do plugin orchestrate + zkopírován tier-heuristics.md
 
 37. **CC v2.1.86 (2026-03-27)** — Windows config corruption fix
     - Windows settings.json corruption fix (zbytečné disk writes)
@@ -82,7 +73,6 @@ Archived items: `.claude/memory/news-archive.md`
     - **Sledovat:** Computer Use na Windows → STOPA remote control potenciál
 
 35. **CC v2.1.85** (2026-03-26 večer) — hooks podmínky + MCP vylepšení
-    - ~~**`if` podmínky v hooks**~~ — Status: DONE 2026-03-29. Přidáno `if: "Edit(*.py)|Write(*.py)"` na ruff-lint hook, `if: "Bash(git commit*)"` na post-commit-analyzer.
     - **`/compact` fix** — opraven crash "context exceeded" → přímý dopad na náš `/compact` skill
     - **`deniedMcpServers` fix** — správně blokuje claude.ai MCP servery
     - Timestamp markery v transkriptech pro scheduled tasks (`/loop`, `CronCreate`)
@@ -127,8 +117,7 @@ Archived items: `.claude/memory/news-archive.md`
     - `WorktreeCreate` hook: HTTP type s `worktreePath` → orchestrace worktree agentů
     - **Akce:** Přidat nové hooks do STOPA hook registru; implementovat TaskCreated → budget auto-tracking
 
-31. **CC 2.1.83** (2026-03-25) — `managed-settings.d/` drop-in, `CwdChanged`+`FileChanged` hooks, `initialPrompt` v agent frontmatter
-    - ~~`initialPrompt`~~ — Status: DONE 2026-03-29. stopa-worker již měl, přidáno do watchdog agenta.
+31. **CC 2.1.83** (2026-03-25) — `managed-settings.d/` drop-in, `CwdChanged`+`FileChanged` hooks
     - `FileChanged` hook: auto-trigger po editaci souboru → potenciální auto-critic
     - `managed-settings.d/`: drop-in directory pro enterprise managed settings
 
@@ -192,7 +181,7 @@ Archived items: `.claude/memory/news-archive.md`
    - ⚠️ URL nepodporuje env vars (#31653) — hardcode v `settings.local.json`
    - Akce: implementovat TaskCompleted → Slack webhook (localhost proxy + 10 řádků Python)
 
-### Watch List
+### Watch List (aktivní)
 
 29m. **MCP Elicitation** (CC v2.1.76) — MCP servers mohou pausovat task a požádat o strukturovaný user input
     - Interaktivní formuláře/dialogy mid-task; `Elicitation` + `ElicitationResult` hooks pro intercept
@@ -354,10 +343,6 @@ Archived items: `.claude/memory/news-archive.md`
 ### 2026-03-29 — full scan (Claude web search Research mode, PyTorch 2.11, Modular Diffusers, hf papers CLI)
 ### 2026-03-28 — full scan (Mythos leak, LiteLLM supply chain, ${CLAUDE_SKILL_DIR}, MCP Elicitation, papers)
 ### 2026-03-27 — targeted scan (Claude Desktop update, CC v2.1.85)
-### 2026-03-26 — targeted + full scans (AutoDream eval, CC 2.1.83-84, papers)
-### 2026-03-25 — papers scan + full scan (Auto Mode, Opus 128k output, 7 papers)
-### 2026-03-24 — hands-on research + full scan (Diffusers SKIP, PyTorch WAIT, HTTP hooks GA)
-### 2026-03-23 — 2× full scan (CHANGELOG deep-dive, batch cleanup of 7 items)
 
 Older scan history: see `news-archive.md`
 
