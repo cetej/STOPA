@@ -98,4 +98,37 @@ EOF
 
 mv "${OUTPUT}.tmp" "$OUTPUT" 2>/dev/null
 
+# --- Append to persistent sessions.jsonl scorecard ---
+SESSIONS_LOG="$MEMORY_DIR/sessions.jsonl"
+CORRECTIONS_LOG="$MEMORY_DIR/corrections.jsonl"
+VIOLATIONS_LOG="$MEMORY_DIR/violations.jsonl"
+
+# Count corrections logged this session (entries within last ~2 hours by timestamp prefix)
+TODAY=$(date +"%Y-%m-%dT")
+corrections_today=0
+if [ -f "$CORRECTIONS_LOG" ]; then
+  corrections_today=$(grep -c "\"timestamp\":\"$TODAY" "$CORRECTIONS_LOG" 2>/dev/null) || true
+  corrections_today="${corrections_today:-0}"
+fi
+
+# Count violations caught this session
+violations_today=0
+if [ -f "$VIOLATIONS_LOG" ]; then
+  violations_today=$(grep -c "\"timestamp\":\"$TODAY" "$VIOLATIONS_LOG" 2>/dev/null) || true
+  violations_today="${violations_today:-0}"
+fi
+
+# Append session scorecard (keep only last 100 entries)
+cat >> "$SESSIONS_LOG" <<EOF
+{"timestamp":"$ts","activity":{"writes":$writes,"agents":$agents,"skills":$skills,"errors":$errors},"corrections_today":$corrections_today,"violations_today":$violations_today,"state":"$(echo "$state_snapshot" | sed 's/"/\\"/g' | head -c 100)"}
+EOF
+
+# Prune sessions.jsonl to last 100 entries
+if [ -f "$SESSIONS_LOG" ]; then
+  lines=$(wc -l < "$SESSIONS_LOG" 2>/dev/null) || true
+  if [ "${lines:-0}" -gt 100 ]; then
+    tail -100 "$SESSIONS_LOG" > "${SESSIONS_LOG}.tmp" && mv "${SESSIONS_LOG}.tmp" "$SESSIONS_LOG"
+  fi
+fi
+
 exit 0

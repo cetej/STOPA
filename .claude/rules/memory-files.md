@@ -31,6 +31,7 @@ globs: ".claude/memory/**"
 - `related:` = array filenames souvisejících learnings pro multi-hop retrieval (volitelné, max 3). Pouze 1-hop — žádné řetězení
 - Learnings bez counterů (starší záznamy) zůstávají validní — countery jsou volitelné
 - Learnings bez `supersedes:`/`related:` polí jsou plně zpětně kompatibilní
+- `verify_check:` = volitelné pole — machine-checkable grep/glob assertion. Format: `"Grep('pattern', path='path') → N+ matches"` nebo `"Glob('pattern') → 1+ matches"` nebo `"manual"` pro behaviorální pravidla. Soubory s `verify_check:` jsou auditovány při SessionStart hookem `verify-sweep.py`. Každý learning by měl mít verify_check — rules without checks are wishes, rules with checks are guardrails.
 - `critical-patterns.md` = always-read (max 10 entries, top patterns)
 - Retrieval: grep-first přes component/tags, pak čti jen matched soubory. **Supersedes-aware**: pokud learning A má `supersedes: B`, přeskoč B. **Related expansion**: pokud match má `related: [X, Y]`, čti i X a Y (1-hop, max 3 extra per learning)
 - **Synonym fallback** (ref: arXiv:2603.19138 — P4 knowledge-guided retrieval misses semantically similar patterns under different keywords): If initial grep returns 0 matches, generate 2-3 synonyms/related terms from the task context and retry. Example: "validation" miss → retry with "sanitization", "input checking". Max 2 retry rounds. This prevents early pruning of relevant learnings due to keyword mismatch.

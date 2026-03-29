@@ -1,0 +1,164 @@
+---
+name: evolve
+description: >
+  Use when reviewing accumulated corrections, violations, and session trends to propose
+  rule graduations, pruning, and promotions. Trigger on: "run /evolve", "analyze corrections",
+  "review what I've been correcting", "promote to critical patterns", "prune old rules",
+  "cleanup learnings". Run periodically (every 10+ sessions) or when violations.jsonl
+  shows recurring patterns. NOT for daily use — only when signals have accumulated.
+user-invocable: true
+allowed-tools: Read, Write, Edit, Grep, Glob, Bash
+tags: [memory, documentation, session, orchestration]
+---
+
+# /evolve — Learning Evolution Audit
+
+You are the meta-engineer improving the system that runs you.
+Read accumulated signals → propose concrete changes → wait for approval → apply.
+
+---
+
+## Step 1: Load All Signals
+
+Read these files silently:
+
+```
+.claude/memory/corrections.jsonl     — user corrections (most valuable signal)
+.claude/memory/violations.jsonl      — failed rule checks from verify-sweep
+.claude/memory/sessions.jsonl        — session scorecards (trend data)
+.claude/memory/learnings/critical-patterns.md  — current always-read patterns
+.claude/memory/learnings/            — all learning files (for graduation candidates)
+```
+
+If a file doesn't exist, note it and continue.
+
+---
+
+## Step 2: Analyze Corrections
+
+Group corrections.jsonl entries by semantic similarity (keyword overlap):
+- Same pattern corrected **2+ times** → **must** be in critical-patterns.md. If not: PROMOTE.
+- Correction clusters pointing to a **missing rule** → CREATE new learning.
+- Correction that **contradicts** an existing learning → UPDATE (the rule was wrong, not you).
+
+Show groupings:
+```
+CORRECTION CLUSTER: [pattern description]
+  Occurrences: N times
+  Examples: [correction 1], [correction 2]
+  Action: PROMOTE | CREATE | UPDATE | ALREADY_COVERED
+```
+
+---
+
+## Step 3: Analyze Violations
+
+Group violations.jsonl entries by rule source:
+- Same rule failing **3+ sessions** → rule not being followed → needs to graduate to `core-invariants.md` or become a linter hook
+- Rule failing but already in `core-invariants.md` → implementation issue, not rule placement
+- Zero violations across all rules → healthy; note this
+
+Show:
+```
+VIOLATION PATTERN: [rule]
+  Failed: N times across M sessions
+  Action: ESCALATE_TO_CORE | ESCALATE_TO_HOOK | INVESTIGATE | OK
+```
+
+---
+
+## Step 4: Analyze Session Trends (sessions.jsonl)
+
+If 5+ entries in sessions.jsonl, calculate:
+- Average corrections per session (last 5 vs. previous 5) — is it decreasing?
+- Most violated rules (recurring in violations)
+- Skills with highest error correlation
+
+Output one-line trend:
+```
+TREND: Corrections X→Y (↓ improving | → flat | ↑ worsening)
+       Most violated: [rule name]
+       Healthy sessions: N/M (last M sessions)
+```
+
+---
+
+## Step 5: Audit critical-patterns.md
+
+For each of the 8 patterns:
+- **Still accurate?** Does codebase/workflow still follow this?
+- **Has verify: annotation?** If not → add one (required)
+- **Graduation candidate?** If referenced 0 times in violations/corrections → might be internalized, could prune
+- **Redundant?** Now covered by core-invariants.md? → PRUNE from critical-patterns
+
+Show for each:
+```
+PATTERN: [name]
+  Has verify: [yes/no]  Violations: [N]  Corrections: [N]
+  Action: KEEP | ADD_VERIFY | PRUNE | UPDATE
+```
+
+---
+
+## Step 6: Check Evolution Log
+
+Read `.claude/memory/evolution-log.md` (or decisions.md if no evolution-log).
+**Never re-propose a previously rejected change** unless user explicitly asks.
+
+---
+
+## Step 7: Propose Changes
+
+For each proposed change, show:
+
+```
+PROPOSE: [action type]
+  Target: [file:section or learning filename]
+  Change: [exact text to add/remove/update]
+  Evidence: [corrections/violations/sessions data behind this]
+  Destination: critical-patterns.md | core-invariants.md | learnings/ | DELETE
+```
+
+Action types:
+- **PROMOTE**: Add correction pattern to critical-patterns.md (with verify: check)
+- **GRADUATE**: Move from critical-patterns.md to core-invariants.md (persists through compaction)
+- **ADD_VERIFY**: Add verify: annotation to existing pattern that lacks one
+- **PRUNE**: Remove pattern that's now redundant or internalized
+- **UPDATE**: Modify existing rule based on new evidence
+- **CREATE**: New learning file for observed but uncaptured pattern
+- **ESCALATE_TO_HOOK**: Pattern violated so often it needs a hook, not just a rule
+
+---
+
+## Step 8: Wait for Approval
+
+Present ALL proposals in a numbered list before making ANY changes.
+For each: user says **approve**, **reject**, or **modify [text]**.
+
+Apply ONLY approved changes.
+
+After applying, append to `.claude/memory/evolution-log.md`:
+```markdown
+## Evolution Run — [DATE]
+### Proposals
+- [N] approved, [N] rejected
+
+### Applied
+- PROMOTE: [description]
+- PRUNE: [description]
+
+### Rejected
+- [action]: [reason user gave]
+```
+
+---
+
+## Constraints
+
+- Never remove security rules (core-invariants items 4+)
+- Never weaken the 3-Fix Escalation rule
+- Never add rules that contradict CLAUDE.md or core-invariants.md
+- critical-patterns.md max 10 entries — if full, graduation or pruning required before adding
+- core-invariants.md max 7 entries — same
+- Every new rule must have a **verify: annotation** (or "verify: manual" if behavioral)
+- Bias toward specificity: "never use X" > "be careful with X"

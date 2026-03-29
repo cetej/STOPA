@@ -32,6 +32,12 @@
             "command": "bash .claude/hooks/memory-brief.sh",
             "timeout": 5,
             "statusMessage": "Loading memory brief..."
+          },
+          {
+            "type": "command",
+            "command": "python .claude/hooks/verify-sweep.py",
+            "timeout": 10,
+            "statusMessage": "Verifying rules..."
           }
         ]
       }
@@ -265,6 +271,12 @@
             "type": "command",
             "command": "python .claude/hooks/mid-session-capture.py",
             "timeout": 1,
+            "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "python .claude/hooks/correction-tracker.py",
+            "timeout": 3,
             "statusMessage": ""
           }
         ]
