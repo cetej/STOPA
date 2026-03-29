@@ -5,9 +5,30 @@ Archived items: `.claude/memory/news-archive.md`
 
 ## Last Scan
 
-**2026-03-28** — full scan | Searches: 17 | Fetches: 2 | Items: 3 action, 3 watch, 5 info
+**2026-03-29** — full scan | Searches: 19 | Fetches: 0 | Items: 1 action, 3 watch, 2 info
 
 ## Active Items
+
+### Action Items
+
+43. ~~**Claude web search — light Research auto-depth mode**~~ (Alex Albert, Mar 2026) — Status: DONE 2026-03-29
+    - Web search automaticky nastavuje hloubku vyhledávání dle query complexity
+    - Implementováno: přidáno do `/deepresearch` SEARCH STRATEGY + `/watch` Tier 2b intro
+
+### Watch List (nové — 2026-03-29)
+
+29p. **PyTorch 2.11** (March 23, 2026) — FlexAttention + FlashAttention-4, Differentiable Collectives
+    - Relevance: test1 / Pyramid Flow dependency — potenciální speedup
+    - Sledovat: release date pro upgrade test1
+
+29q. **Modular Diffusers** (diffusers 0.37.0+, March 2026) — composable pipeline architecture
+    - Architektonická změna — existující test1 pipelines mohou vyžadovat refactor po upgradu
+    - 0.37.1 patch: March 25, 2026
+    - Sledovat: migration guide pro composable API
+
+29r. **`hf papers` CLI by AK** (2026-03-?) — sémantické vyhledávání + markdown retrieval arXiv paperů
+    - Papers with Code nástupce; pozicováno jako "biggest infra for AI agents to retrieve arXiv papers"
+    - Relevance: upgrade `/watch` Tier 2b strategy — `hf papers` CLI místo `site:arxiv.org` searches
 
 ### Action Items
 
@@ -24,10 +45,8 @@ Archived items: `.claude/memory/news-archive.md`
     - Patched — avoid 1.82.8, upgrade to latest clean version
     - **Akce:** Zkontrolovat, zda STOPA/NG-ROBOT/ADOBE-AUTOMAT používají LiteLLM → pokud ano, audit
 
-42. **`${CLAUDE_SKILL_DIR}` proměnná** (CC, Mar 2026) — portable skill-relative paths
-    - Skills v `~/.claude/skills/` mohou odkazovat na vlastní assety přes `${CLAUDE_SKILL_DIR}`
-    - Umožňuje distribuovatelné, portabilní skills (marketplace ready)
-    - **Akce:** Použít v STOPA plugin skills pro reference na sdílené soubory (learnings, memory)
+42. ~~**`${CLAUDE_SKILL_DIR}` proměnná**~~ (CC, Mar 2026) — Status: DONE 2026-03-29
+    - Implementováno: přidán `${CLAUDE_SKILL_DIR}/tier-heuristics.md` do plugin orchestrate + zkopírován tier-heuristics.md
 
 37. **CC v2.1.86 (2026-03-27)** — Windows config corruption fix
     - Windows settings.json corruption fix (zbytečné disk writes)
@@ -46,7 +65,7 @@ Archived items: `.claude/memory/news-archive.md`
     - **Sledovat:** Computer Use na Windows → STOPA remote control potenciál
 
 35. **CC v2.1.85** (2026-03-26 večer) — hooks podmínky + MCP vylepšení
-    - **`if` podmínky v hooks** — `permission rule` syntax pro podmíněné spouštění (`if: "branch == 'main'"` apod.)
+    - ~~**`if` podmínky v hooks**~~ — Status: DONE 2026-03-29. Přidáno `if: "Edit(*.py)|Write(*.py)"` na ruff-lint hook, `if: "Bash(git commit*)"` na post-commit-analyzer.
     - **`/compact` fix** — opraven crash "context exceeded" → přímý dopad na náš `/compact` skill
     - **`deniedMcpServers` fix** — správně blokuje claude.ai MCP servery
     - Timestamp markery v transkriptech pro scheduled tasks (`/loop`, `CronCreate`)
@@ -54,7 +73,6 @@ Archived items: `.claude/memory/news-archive.md`
     - MCP OAuth: RFC 9728 Protected Resource Metadata discovery
     - Org policy blokuje zakázané pluginy
     - Memory leak fix v remote sessions
-    - **Akce:** Prozkoumat `if` podmínky v hooks — mohlo by zjednodušit STOPA hook logiku (např. `FileChanged` jen pro `.py` soubory)
 
 36. **⚠️ Haiku 3 deprecace** (deadline: 2026-04-19)
     - `claude-3-haiku-20240307` → retirement April 19, 2026
@@ -93,10 +111,9 @@ Archived items: `.claude/memory/news-archive.md`
     - **Akce:** Přidat nové hooks do STOPA hook registru; implementovat TaskCreated → budget auto-tracking
 
 31. **CC 2.1.83** (2026-03-25) — `managed-settings.d/` drop-in, `CwdChanged`+`FileChanged` hooks, `initialPrompt` v agent frontmatter
-    - `initialPrompt`: agenti mohou deklarovat bootstrap kontext v YAML frontmatter → zásadní zjednodušení sub-agent spawning
+    - ~~`initialPrompt`~~ — Status: DONE 2026-03-29. stopa-worker již měl, přidáno do watchdog agenta.
     - `FileChanged` hook: auto-trigger po editaci souboru → potenciální auto-critic
     - `managed-settings.d/`: drop-in directory pro enterprise managed settings
-    - **Akce:** Experimentovat s `initialPrompt` pro STOPA sub-agenty; implementovat FileChanged → auto-critic hook
 
 29. **Codified Context** (arXiv 2602.20478, Feb 2026) — infrastructure pro AI agenty v komplexním codebase
     - 3 komponenty: Hot-Memory Constitution (konvence + retrieval hooks), 19 domain agentů, Cold-Memory KB (34 on-demand docs)
@@ -317,6 +334,7 @@ Archived items: `.claude/memory/news-archive.md`
 
 ## Scan History
 
+### 2026-03-29 — full scan (Claude web search Research mode, PyTorch 2.11, Modular Diffusers, hf papers CLI)
 ### 2026-03-28 — full scan (Mythos leak, LiteLLM supply chain, ${CLAUDE_SKILL_DIR}, MCP Elicitation, papers)
 ### 2026-03-27 — targeted scan (Claude Desktop update, CC v2.1.85)
 ### 2026-03-26 — targeted + full scans (AutoDream eval, CC 2.1.83-84, papers)

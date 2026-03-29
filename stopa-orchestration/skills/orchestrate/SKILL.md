@@ -68,6 +68,8 @@ If unclear, ask the user before proceeding. Never guess on ambiguous requirement
 
 ### Assign Complexity Tier
 
+**First, check learned heuristics:** Read `${CLAUDE_SKILL_DIR}/tier-heuristics.md` for patterns extracted from past task traces. If the current task matches a heuristic, use its recommended tier.
+
 Based on scope, classify the task:
 
 | Tier | Criteria | Agent limit | Critic limit | Model |

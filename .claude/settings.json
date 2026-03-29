@@ -89,6 +89,7 @@
         "hooks": [
           {
             "type": "command",
+            "if": "Bash(git commit*)",
             "command": "bash .claude/hooks/post-commit-analyzer.sh",
             "timeout": 10,
             "statusMessage": "Analyzing commit..."
@@ -117,6 +118,7 @@
         "hooks": [
           {
             "type": "command",
+            "if": "Edit(*.py)|Write(*.py)",
             "command": "bash .claude/hooks/ruff-lint.sh",
             "timeout": 10,
             "statusMessage": "Linting Python..."

@@ -99,6 +99,7 @@ INTEGRITY RULES (non-negotiable):
 
 SEARCH STRATEGY:
 1. Start with 2-4 broad WebSearch queries to map the landscape
+   - Note: Claude's web search has auto-depth Research mode — it automatically adjusts search depth based on query complexity. For complex research questions, phrase queries as full questions rather than keyword lists to trigger deeper search.
 2. Progressively narrow based on findings
 3. Use WebFetch on the most important results for full content
 4. Cross-reference claims across sources

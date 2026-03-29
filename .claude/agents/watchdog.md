@@ -2,6 +2,7 @@
 name: watchdog
 description: System health monitor — checks memory integrity, hook execution, scheduled tasks, project registry staleness
 model: haiku
+initialPrompt: "Run all 5 health checks now and report findings."
 allowed-tools:
   - Read
   - Glob

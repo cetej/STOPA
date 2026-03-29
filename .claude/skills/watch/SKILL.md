@@ -53,6 +53,8 @@ Use `WebSearch` for each:
 
 Fresh research papers are the earliest signal — new models, techniques, and benchmarks appear on arXiv days to weeks before they hit Reddit or blogs. Focus on papers with practical impact, not pure theory.
 
+> **Alternative: `hf papers` CLI** (2026-03+) — HuggingFace Trending Papers (Papers with Code successor) offers semantic paper search via `hf papers` CLI. If available as a tool/MCP, prefer it over `site:arxiv.org` WebSearch queries for better recall. Fallback: use WebSearch as below.
+
 Use `WebSearch` for each:
 8. **LLM & agents** — search: `site:arxiv.org "large language model" OR "LLM agent" OR "tool use" {current_month} {current_year}`
 9. **Prompting & reasoning** — search: `site:arxiv.org "chain of thought" OR "prompt engineering" OR "in-context learning" OR reasoning {current_month} {current_year}`
