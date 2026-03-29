@@ -111,6 +111,11 @@ Generation strategies (rotate):
 5. **Persona shift** — same scenario, different actor
 6. **Temporal shift** — same scenario at different time (peak load, maintenance)
 7. **Semi-formal reasoning** (arXiv:2603.01896) — construct explicit premises from preconditions, then derive implications:
+8. **Leverage point shift** (Meadows) — identify which leverage level the scenario touches, then generate scenarios at adjacent levels:
+   - Current scenario affects a parameter (#12)? Generate a scenario where the same failure propagates to an information flow (#6) — who stops seeing critical data?
+   - Current scenario affects rules (#5)? Generate a scenario where the rule change reshapes the system goal (#3)
+   - Use leverage hierarchy: 12-Parameters → 9-Delays → 6-Information → 5-Rules → 3-Goals → 2-Paradigm
+   - This catches cascading failures that single-level analysis misses
    - List known premises (P1: "user is authenticated", P2: "cart has items", P3: "payment gateway is reachable")
    - Negate one premise and trace the logical consequence through the flow
    - This catches failures that intuitive generation misses because it forces explicit reasoning about invariants

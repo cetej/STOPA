@@ -60,6 +60,13 @@ If you haven't completed Phase 1, you cannot propose fixes.
 
 ### Phase 2: Pattern Analysis
 
+0. **Level of analysis** (Meadows): before diving into comparisons, classify what you're seeing:
+   - **Event** — what happened this specific time (a log entry, a crash, a bad value)
+   - **Pattern** — what keeps happening (same error 3× this week, same module always fails under load)
+   - **Structure** — why it keeps happening (missing retry logic, incentive to skip validation, no feedback loop to the caller)
+   - Fix at the **structure** level. Fixing events is level #12 (parameters). Fixing structures is level #5-6.
+   - If you can only fix the event: say so explicitly — flag it as a symptom fix, not a root cause fix.
+
 1. **Find working examples** — locate similar working code in same codebase
 2. **Compare against references** — read reference implementation COMPLETELY, don't skim
 3. **Identify differences** — list every difference, however small. Don't assume "that can't matter"

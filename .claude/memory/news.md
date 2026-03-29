@@ -17,6 +17,23 @@ Archived items: `.claude/memory/news-archive.md`
 
 ### Watch List (nové — 2026-03-29)
 
+29t. **Bootleg — Self-Distillation of Hidden Layers** (arXiv:2603.15553, Lowe et al., Graham Taylor group)
+    - SSL pretraining pro vision: predikuje latenty z více skrytých vrstev teacher sítě, +10% nad I-JEPA na ImageNet
+    - Nepotřebuje domain-specific augmentace → teoreticky přenositelné na 1D data (time series, audio)
+    - Slabší na syntetických obrazech (Clevr, dSprites) → KARTOGRAF nevhodný
+    - **Sledovat v kontextu ORAKULUM/ZACHVEV:** pokud bude potřeba vlastní SSL encoder na neoznačených 1D datech a Chronos-2 nebude stačit
+    - Teď: nulová využitelnost (všechny projekty konzumují API modely, netrénují vlastní encoder)
+
+29s. **Attention innovations — adoption status** (research 2026-03-29, `outputs/attention-research.md`)
+    - XSA, AttnRes, Value Residual Learning, Differential Attention: **žádná není v produkci**
+    - Produkce = MLA (DeepSeek), GQA (vše ostatní), iRoPE (Llama 4), DSA (DeepSeek exp.)
+    - **Pro naše projekty (API-based):** nerelevantní — attention layer nedostupný přes API
+    - Sledovat: **DiffAttn DEX adapter** (arXiv:2505.16333) — post-hoc konverze Llama/Mistral bez přetrénování; až se dostane do HF jako drop-in, může být zajímavé
+    - Sledovat: **TransMLA** (arXiv:2502.07864) — GQA→MLA konverze lokálních modelů pro KV cache úsporu
+    - Sledovat: Llama/Mistral release notes — kdy DiffAttn nebo MLA konverze přistanou v mainstreamu
+
+
+
 29p. **PyTorch 2.11** (March 23, 2026) — FlexAttention + FlashAttention-4, Differentiable Collectives
     - Relevance: test1 / Pyramid Flow dependency — potenciální speedup
     - Sledovat: release date pro upgrade test1

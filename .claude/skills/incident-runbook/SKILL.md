@@ -25,7 +25,7 @@ You diagnose problems fast using known patterns. You DON'T fix things — you id
 ## Process
 
 ### Step 1: Read context
-1. Read `${CLAUDE_SKILL_DIR}/runbook.md` for known patterns
+1. Read `runbook.md` (in this skill's directory) for known patterns
 2. Read `.claude/memory/learnings/critical-patterns.md` — check for failure patterns; Grep `learnings/` by error keyword
 
 ### Step 2: Match symptom
@@ -41,9 +41,10 @@ Output structured diagnosis:
 ```
 ## Diagnóza
 **Symptom**: [what user reported]
+**Úroveň**: Událost (poprvé) | Vzor (opakuje se) | Struktura (systémová příčina)
 **Příčina**: [root cause identified]
 **Řešení**: [step-by-step fix]
-**Prevence**: [how to avoid in future]
+**Prevence**: [how to avoid in future — pokud Vzor/Struktura: navrhni systémovou opravu, ne jen patch]
 ```
 
 ### Step 5: Update runbook

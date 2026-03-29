@@ -447,3 +447,4 @@ Before submitting your report, check yourself:
 8. **Separate session for self-review** — recommend new session for unbiased perspective
 9. **Assignment goals must be specific** — "auth works" is useless, "expired tokens rejected" is verifiable
 10. **Reviewer is strict auditor** — precision over recall, every concern needs evidence
+11. **Never accept single-cause explanations — find the loop** (Meadows): if an issue appears in 2+ places or has recurred before, it is not an isolated event — it is a pattern driven by structure. Escalate: identify the feedback loop, information gap, or incentive rule that keeps producing it. Surface-level fixes on structural problems = Meadows leverage level #12 (parameters). Flag explicitly when that's all you can recommend.

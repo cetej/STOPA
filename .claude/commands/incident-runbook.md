@@ -41,9 +41,10 @@ Output structured diagnosis:
 ```
 ## Diagnóza
 **Symptom**: [what user reported]
+**Úroveň**: Událost (poprvé) | Vzor (opakuje se) | Struktura (systémová příčina)
 **Příčina**: [root cause identified]
 **Řešení**: [step-by-step fix]
-**Prevence**: [how to avoid in future]
+**Prevence**: [how to avoid in future — pokud Vzor/Struktura: navrhni systémovou opravu, ne jen patch]
 ```
 
 ### Step 5: Update runbook
