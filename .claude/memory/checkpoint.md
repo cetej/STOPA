@@ -1,9 +1,9 @@
 # Session Checkpoint
 
-**Saved**: 2026-03-29 (automate session)
-**Task**: Security follow-ups + STOPA improvements + research brief
+**Saved**: 2026-03-29 (automate session — continued)
+**Task**: ZÁCHVĚV UI bloky 7-8
 **Branch**: main
-**Progress**: 3 security/infra fixes done, 2 STOPA skills upgraded, research brief saved
+**Progress**: Bloky 7+8 implementovány (Knowledge graph tab + Intervence formulář tab)
 
 ---
 
@@ -29,13 +29,16 @@
 
 ## What Remains
 
-| # | Subtask | Status | Priority | Deadline |
-|---|---------|--------|----------|----------|
-| 1 | Změnit CMS Aqua heslo (`Webmistr102025` → nové) | KRITICKÉ | CRITICAL | April 1, 2026 |
-| 2 | ZÁCHVĚV UI — dokončit bloky 4-9 (app.py, 854 řádků) | Pending | HIGH | — |
-| 3 | KARTOGRAF font name sanitization v tileserver.py | Pending | LOW | — |
-| 4 | Verify podcast generation post-key-rotation | Pending | LOW | — |
-| 5 | Commit + push security fixes do všech projektů | Pending | MEDIUM | — |
+| # | Subtask | Status |
+|---|---------|--------|
+| 1 | CMS Aqua heslo změněno | DONE 2026-03-29 |
+| 2 | ZÁCHVĚV UI bloky 4-8 | DONE (Session 8-9) |
+| 3 | KARTOGRAF font sanitization | DONE 2026-03-29 |
+| 4 | Podcast Gemini key verify | DONE 2026-03-29 |
+| 5 | Security fixes committed/pushed | DONE |
+
+### Tech debt
+— žádný otevřený
 
 ---
 
