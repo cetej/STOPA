@@ -219,8 +219,8 @@
           {
             "type": "command",
             "command": "bash .claude/hooks/task-completed.sh",
-            "timeout": 3,
-            "statusMessage": "Task completed — checking for learnings..."
+            "timeout": 15,
+            "statusMessage": "Task completed — auto-compound analyzing..."
           }
         ]
       }

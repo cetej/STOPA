@@ -112,6 +112,31 @@ Write the tier to `.claude/memory/budget.md` and set the counters.
 
 **Cost-first rule**: Always start with the lowest tier that might work. Upgrade only if the scout phase reveals higher complexity than expected — and tell the user when upgrading.
 
+### Phase 1b: Decision Gates
+
+**Trigger:** tier == `deep` OR `$ARGUMENTS` contains `--gate`
+
+Advisory challenge before scouting begins. Display both gates, then continue — don't wait for a response. If the user responds within the same conversation turn, incorporate their answers into Phase 3 planning.
+
+```
+⚠️ DEEP TIER — Decision Gates (advisory)
+
+Product gate: What exactly does success look like here? Is there a simpler solution
+that achieves 80% of the goal with half the complexity?
+→ My read: [1-sentence assessment of goal clarity + any simpler alternatives spotted]
+
+Engineering gate: Where could this fail? What are the side-effects on existing code?
+→ My read: [1-2 specific risks identified from codebase scan / task description]
+
+Respond to challenge these before work begins, or proceed — I'll continue in 10s.
+```
+
+Rules:
+- The "My read:" lines are NOT optional — always fill them in based on what you know from the task description and any codebase context loaded so far
+- If user responds with "stop" or "cancel" → halt and ask what to reconsider
+- If user responds with answers → update the plan in Phase 3 accordingly
+- Light and standard tiers: skip entirely unless `--gate` flag is present
+
 ### Context Bootstrap (retrieval hooks)
 
 After classifying the task, load targeted context based on **Type** and **Scope**. This replaces generic memory reads with precise, type-specific retrieval — ensuring agents get the right patterns without loading everything.
