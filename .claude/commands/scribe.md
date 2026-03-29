@@ -67,6 +67,8 @@ tags: [tag1, tag2]
 summary: "1-2 sentence summary: what happened + what to do. Used by memory-whisper for semantic matching."
 uses: 0
 harmful_uses: 0
+supersedes: ""          # optional — filename of older learning this one replaces (max 1)
+related: []             # optional — filenames of related learnings for multi-hop retrieval (max 3)
 ---
 
 ## Problém
@@ -97,7 +99,7 @@ How to prevent this in the future.
 - `key_insight` → `summary:` field
 - `learnings_activated` → increment `uses` counter on each listed learning file
 
-**Retrieval**: Other skills find learnings via `grep -r "component: <X>" learnings/` or `grep -r "tags:.*<keyword>" learnings/`, then read matched files. Only `critical-patterns.md` is always-read.
+**Retrieval**: Other skills find learnings via `grep -r "component: <X>" learnings/` or `grep -r "tags:.*<keyword>" learnings/`, then read matched files. **Supersedes-aware**: after collecting matches, check each for `supersedes:` — if file B is superseded by file A (which is also in the match set or exists), skip B. **Related expansion**: if a matched learning has `related: [X, Y]`, also read X and Y (1-hop, max 3 extras per learning). Only `critical-patterns.md` is always-read.
 
 ### State Update (state.md)
 
@@ -131,6 +133,18 @@ Skills that encounter failures SHOULD trigger `/scribe` automatically via handof
 
 **Dedup check**: Before creating a new learning, grep `learnings/` for similar `summary:` or matching `tags:`. If a match exists, update the existing entry instead of creating a duplicate.
 
+### Contradiction Check (before writing a learning)
+
+Before creating a new learning file, check for conflicts with existing knowledge:
+
+1. **Grep for overlap**: Search `learnings/` for files with same `component:` AND overlapping `tags:` (2+ shared tags)
+2. **Compare summaries**: For each match, compare the new learning's insight with the existing `summary:`
+3. **Detect contradiction**: If the new learning recommends the OPPOSITE of an existing one (e.g., "always do X" vs "never do X"), resolve:
+   - **Update** (same situation, better solution): set `supersedes: <old-filename>` in the new file's frontmatter
+   - **Context-dependent** (both valid in different contexts): add a `## Context Boundary` section to the new learning explaining when each applies, and set `related: [<old-filename>]`
+   - **Unclear**: output WARNING to user — "Potential contradiction with `<old-filename>`: *<old-summary>* vs *<new-summary>*. Resolve manually."
+4. **Never auto-delete**: The superseded file stays on disk — it's just skipped during retrieval
+
 ## Maintenance
 
 Triggered automatically when any memory file exceeds 500 lines (circuit breaker from `memory-maintenance.sh` hook), or manually via `/scribe maintenance`:
@@ -141,6 +155,8 @@ Triggered automatically when any memory file exceeds 500 lines (circuit breaker 
 2. **Count entries** — decisions (### headers), learnings (files in `learnings/`), budget rows
 3. **Deduplicate learnings (text-based)** — grep for duplicate `tags:` across `learnings/` files. Merge overlapping entries (same component + similar tags). Keep the more specific version.
 3b. **Semantic dedup (DeerFlow-inspired)** — Collect all `summary:` fields from `learnings/` YAML frontmatter. Group by `component:`. Within each component group, compare summaries pairwise: if two summaries describe the same insight (same root cause, same fix), merge them — keep the entry with higher severity, delete the other. **When merging, sum `uses` and `harmful_uses` counters from both entries** (ACE-inspired additive counter merge). Report: "N semantic duplicates found, M merged."
+3c. **Supersedes chain validation** — scan all `learnings/` files for `supersedes:` field. For each: verify the referenced file exists. If not (deleted or renamed), remove the `supersedes:` line. Report: "N supersedes links, M broken (cleaned)."
+3d. **Contradiction scan** — for each component group, compare all active (non-superseded) learnings' summaries pairwise. Flag pairs where summaries recommend opposing actions. Report: "N potential contradictions found" with file pairs listed.
 4. **Staleness check** — list all files in `learnings/`. Any file with `date:` older than 90 days: verify it's still accurate. If outdated, update or delete. Report: "N learnings checked, M stale, K updated/removed."
 4b. **Counter health check (ACE-inspired)** — scan `learnings/` files for `uses:` and `harmful_uses:` fields. Flag as "problematic" any entry where `harmful_uses >= uses` and `harmful_uses > 0`. Flag as "high-performing" any entry where `uses > 5` and `harmful_uses < 2`. Report: "N entries with counters, M high-performing, K problematic." Suggest removal of problematic entries to user.
 5. **Archive old decisions** — if decisions.md has >10 entries, move the oldest (by date) to `decisions-archive.md`. Keep newest 10.
