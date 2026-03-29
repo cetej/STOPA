@@ -279,6 +279,16 @@ Apply these during Phase 2 (Verifier) alongside assignment goals:
 4. **Conventions** — Follows project patterns? (check CLAUDE.md)
 5. **Simplicity** — Simpler way to achieve the same result?
 6. **Dependencies** — Breaks dependents?
+7. **AI Slop** — Detect AI-generated filler patterns:
+   - Unnecessary comments restating the code (`# increment counter` above `counter += 1`)
+   - Filler docstrings on trivial/internal functions
+   - Over-explained variable names (`user_authentication_token_string` → `auth_token`)
+   - Unnecessary abstractions for one-time operations (helper wrapping single call site)
+   - Defensive error handling for impossible cases (catching errors that can't throw)
+   - Empty except/catch blocks with `pass` or `TODO`
+   - Boilerplate imports that aren't used
+   - Type annotations added to untouched internal code "just in case"
+   - Severity: low (filler comments) to medium (unnecessary abstractions adding maintenance burden)
 
 ### For Plans:
 1. Completeness, 2. Feasibility, 3. Dependencies, 4. Risks, 5. Efficiency
@@ -413,6 +423,7 @@ Before submitting your report, check yourself:
 | "Outside review scope" | If you see it, report it | Note "outside primary scope" |
 | "Just a refactor" | Refactors introduce subtle regressions | Verify before/after |
 | "Similar code elsewhere" | Existing code may be wrong too | Evaluate on merit |
+| "AI generated it, probably fine" | AI output needs MORE scrutiny, not less | Check for slop patterns |
 | "Time pressure" | Rushed reviews miss critical issues | Flag in report, don't reduce quality |
 
 **Red flags** (STOP and re-evaluate if you catch yourself):

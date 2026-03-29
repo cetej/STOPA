@@ -220,6 +220,13 @@ Based on scout results:
    - Subtask with dependencies → Wave = max(dependency waves) + 1
    - Two subtasks modifying the same file → CANNOT be in the same wave
 5. **Assess risks** — what could go wrong?
+6. **Define acceptance criteria** — each subtask MUST have a verifiable criterion:
+   - Criterion = specific, testable pass/fail statement (not "works correctly")
+   - Good: "API returns 200 with valid token and 401 without"
+   - Good: "File parses without errors on test-data.json"
+   - Good: "Ruff reports 0 violations in changed files"
+   - Bad: "Auth is implemented", "Code is clean", "Tests pass"
+   - If criterion can't be made specific, subtask is too vague — decompose further
 
 Write the plan to `.claude/memory/state.md` using this format:
 
@@ -232,12 +239,12 @@ Write the plan to `.claude/memory/state.md` using this format:
 
 ### Subtasks
 
-| # | Subtask | Depends on | Wave | Method | Status |
-|---|---------|-----------|------|--------|--------|
-| 1 | ... | — | 1 | Agent:general | done |
-| 2 | ... | — | 1 | Skill:/review | pending |
-| 3 | ... | 1 | 2 | Agent:general | pending |
-| 4 | ... | 2,3 | 3 | Skill:/test | pending |
+| # | Subtask | Criterion | Depends on | Wave | Method | Status |
+|---|---------|-----------|-----------|------|--------|--------|
+| 1 | ... | <verifiable pass/fail> | — | 1 | Agent:general | done |
+| 2 | ... | <verifiable pass/fail> | — | 1 | Skill:/review | pending |
+| 3 | ... | <verifiable pass/fail> | 1 | 2 | Agent:general | pending |
+| 4 | ... | <verifiable pass/fail> | 2,3 | 3 | Skill:/test | pending |
 ```
 
 **Wave planning rules:**
@@ -693,6 +700,19 @@ Score the session context load. Each signal adds points:
 ## Phase 5: Integrate & Verify
 
 Once all subtasks are done:
+
+### Acceptance Criteria Check (before critic)
+
+For each subtask marked "done":
+1. Read its **Criterion** from `state.md`
+2. **Verify the criterion is met** — run the specific check:
+   - If criterion mentions a command → run it (e.g., `ruff check`, `python -c "import ..."`)
+   - If criterion mentions behavior → test it (curl, dry-run, import check)
+   - If criterion is about file content → grep/read to confirm
+3. If criterion **FAILS** → mark subtask back to "in_progress", log the failure reason
+4. Only proceed to critic when ALL criteria pass
+
+This prevents the critic from reviewing incomplete work and catches "declared done but not actually done" subtasks.
 
 ### Full Context Reload for Synthesis (standard 3+ / deep tier)
 
