@@ -33,6 +33,22 @@ Claudini-inspired pattern: given a research question + evaluation script, autono
 - `/deepresearch` — "What does the literature say?" (evidence gathering, no code)
 - `/autoloop` — "Make this file better" (optimize one target, not explore approaches)
 
+## Non-Code Applications
+
+The loop works for anything measurable — not just code. The three files stay the same, only the content changes:
+
+| Domain | Mutable target (`train.py`) | Locked eval (`prepare.py`) | Metric |
+|--------|---------------------------|--------------------------|--------|
+| **Prompt engineering** | `system-prompt.txt` | `eval_prompt.py` (LLM-as-judge or regex) | accuracy % |
+| **Marketing copy** | `landing-page.md` | `eval_copy.py` (5 binary questions) | score 0–1 |
+| **Config tuning** | `config.yaml` | `bench.py` | latency ms |
+| **Trading strategy** | `strategy_params.json` | `backtest.py` | Sharpe ratio |
+| **ML hyperparams** | `hparams.yaml` | `train_eval.py` | validation loss |
+
+Real-world results: Shopify Liquid engine +53% parse speed (93 commits), portfolio site 50ms→25ms (4 minutes), baseball pitch velocity R² 0.44→0.78.
+
+> **The edge is in picking the right metric.** Give the loop a bad metric and it will confidently optimize the wrong thing. Anything where "better" is subjective (brand design, UX) doesn't work — skip it.
+
 ## Four Roles — All Required
 
 The loop works because these four roles are strictly separated. Blur any boundary and the loop fails.
@@ -95,7 +111,31 @@ Examples:
 /autoresearch "optimal prompt structure for classification" eval:"python eval_prompt.py --metric accuracy"
 ```
 
+### program.md fallback
+
+If `program.md` exists in the target directory, read it before parsing `$ARGUMENTS`. Use it as the source of truth for question, hypotheses, and constraints. CLI arguments override `program.md` values (CLI takes precedence). This enables "setup once, run many" workflow.
+
+Expected `program.md` format:
+```markdown
+# Goal
+Optimize JSON parsing throughput for our schema (MB/s, higher is better)
+
+# Hypotheses
+- orjson (drop-in replacement)
+- msgspec with schema validation
+- ujson for pure speed
+
+# Rules
+- Only edit src/parsers/json_handler.py
+- Do not change the public API
+- Keep Python 3.11 compatibility
+```
+
+Parse: first heading text or "Goal:" line → `question`; bulleted list under "Hypotheses:" or "Approaches:" → `hypotheses`; list under "Rules:" or "Constraints:" → constraints logged to TSV notes.
+
 ### Eval criteria design (if user needs help)
+
+**The edge is in the metric.** A precise, measurable metric compounds over 50+ iterations. A vague one wastes every experiment. Before designing criteria, ask: "Can I write a unit test for this?" If yes, it's a good criterion.
 
 If `eval:` command is a grading script that the user wants help designing, apply these rules:
 
@@ -422,6 +462,7 @@ After loop ends, write to `outputs/autoresearch-<slug>.md`:
 | **quick** | 3-5 | skip | Few known approaches to compare |
 | **standard** | 8-12 | 2-3 searches | Open question, moderate search space |
 | **deep** | 15-20 | full scout + mid-loop rescue | Complex problem, large search space |
+| **industrial** | 50-100+ | minimal (known approaches) | Shopify-style bulk optimization; eval is fast (<1s), target is a single file, approach space is large |
 
 Default to **standard**. Infer from budget argument if provided.
 
