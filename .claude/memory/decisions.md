@@ -110,3 +110,19 @@ Decisions made during task execution. Each entry captures WHAT was decided, WHY,
 - **Decision**: Commitovat přímo na main (bez feature branch, bez PR workflow)
 - **Rationale**: Zjednodušuje workflow — 3 kroky (commit + push) místo 5+ (branch + push + merge + push + delete). PR workflow není potřeba bez code review.
 - **Decided by**: user
+
+### 2026-03-29 — AI Papers W13 Research Brief: 3 Medium-Term Opportunities
+- **Context**: Análýza top 10 AI papersů týdne (23-29/3, Hyperagents, BIGMAS, Claudini, MemCollab, IBM workflow survey, atd.) pro relevanci k STOPA/NGM stack
+- **Decision**: Uložit brief do `docs/ai-papers-2026-W13.md` + zaznamenat 3 Medium-term learnings do learnings/
+  1. **Claudini** (autoresearch loop) → learning: white-box domains + existing baselines = success formula
+  2. **BIGMAS** (directed graph orchestration) → learning: task complexity → dynamic graph structure (3-9 nodes)
+  3. **MemCollab** (agent-agnostic memory) → learning: contrastive trajectory distillation for cross-tier memory sharing
+- **Rationale**:
+  - Papers validují existující STOPA ideas (multi-agent orchestration, shared memory, dynamic workflows)
+  - Claudini + MemCollab jsou HIGH relevance, BIGMAS je MEDIUM (already have linear sequential orchestration, but flexible for future)
+  - IBM workflow survey (já vlastní reference: `reference_ibm_workflow_optimization.md`) potvrzuje Phase 1 approach (trace enrichment)
+- **Next steps** (low priority):
+  - Phase 2: analyzovat 20+ orchestrate traces, extrahovat heuristiky pro tier selection (viz. IBM Phase 2 decision výše)
+  - Phase 3: BIGMAS pattern zkusit na complex multi-file refactor (future feedback loop design)
+  - Contrastive memory: pilotní projekt během Phase 2 / Phase 3 (když budeme mít multi-agent traces)
+- **Decided by**: user (prostřednictvím CLI `/scribe`)

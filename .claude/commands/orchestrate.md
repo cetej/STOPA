@@ -886,8 +886,19 @@ Before running the critic, reload context selectively:
    - Was the tier accurate? (note if over/under-estimated for future calibration)
 5. If a new repeatable pattern was discovered → suggest creating a skill via `/skill-generator`
 6. Summarize results to the user, **including cost summary**
-7. **Trace milestone check**: If Budget History now has 20+ rows → suggest running trace analysis:
-   "20+ orchestration traces collected. Consider analyzing tier accuracy: which task types were over/under-tiered? Run `/deepresearch` on budget history to extract tier selection heuristics."
+7. **Trace milestone check**: Count rows in Budget History table of `.claude/memory/budget.md`.
+   - **If >= 20 rows**: automatically run trace analysis inline (do NOT just suggest — execute it):
+     1. Read all Budget History rows
+     2. Group by Type: for each type (bug_fix, feature, refactor, research), compute:
+        - Most common planned tier
+        - % of tasks where planned == actual tier (accuracy)
+        - Average files changed per tier
+        - Average critic score per tier
+     3. Generate heuristics table: e.g., "bug_fix < 5 files → always light tier"
+     4. Write heuristics to `.claude/skills/orchestrate/tier-heuristics.md` (create if not exists)
+     5. Report to user: "Trace analysis complete — N heuristics extracted. See `tier-heuristics.md`."
+   - **If 15-19 rows**: note "N/20 traces collected — approaching Phase 2 milestone."
+   - **If < 15 rows**: no action needed.
 
 ## Decision Framework: Agent vs. Skill vs. Direct
 

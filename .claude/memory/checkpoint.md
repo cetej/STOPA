@@ -1,91 +1,95 @@
 # Session Checkpoint
 
-**Saved**: 2026-03-29 (session continuation)
-**Task**: Security audit & hardening of 8 NG-ROBOT portfolio projects + follow-up code reviews
+**Saved**: 2026-03-29 (automate session)
+**Task**: Security follow-ups + STOPA improvements + research brief
 **Branch**: main
-**Progress**: Security fixes complete, follow-up review cycle initiated
+**Progress**: 3 security/infra fixes done, 2 STOPA skills upgraded, research brief saved
 
 ---
 
 ## What Was Done This Session
 
-**Previous session (Session 1):**
-- Comprehensive security audit across 8 projects (MONITOR, ZÁCHVĚV, NG-ROBOT, ADOBE-AUTOMAT, KARTOGRAF, GRAFIK, POLYBOT, ORAKULUM)
-- Identified 5 critical categories: XSS, path traversal, CORS misconfiguration, network binding, secrets management
-- API key rotation: Generated 4 new Anthropic keys (NG-ROBOT1-4), updated all project `.env` files
-- Code fixes applied (6 projects committed):
-  - MONITOR: Fixed XSS in `dashboard/public/jarvis.html`, server bind to localhost
-  - ZÁCHVĚV: Fixed path traversal in `/api/load` and `/api/sessions/`
-  - NG-ROBOT: Fixed CORS wildcard, server bind, consolidated secrets
-  - ADOBE-AUTOMAT: Fixed path traversal in upload endpoints
-  - GRAFIK: Fixed server bind, CORS wildcard
-  - KARTOGRAF: Verified localhost binding (already secure)
-- Troubleshot podcast generation 401 auth error: Screenshot-based key transcription error → resolved via JavaScript DOM extraction
-- Killed and restarted NG-ROBOT server process, verified security fixes in place
+### AI Papers Week 13 Brief
+- Brief uložen: `docs/ai-papers-2026-W13.md` (10 papersů s relevance rating + links)
+- 3 learnings zapsány do `learnings/`:
+  - `2026-03-29-claudini-autoresearch-loop.md` — white-box autoresearch formula
+  - `2026-03-29-memcollab-agent-agnostic-memory.md` — cross-tier memory sharing
+  - `2026-03-29-bigmas-directed-graph-orchestration.md` — dynamic agent graph pattern
+- Decision zapsán do `decisions.md` — W13 papers → 3 medium-term opportunities
 
-**This session (Session 2):**
-- Security review of KARTOGRAF `tileserver.py`:
-  - ✅ Path traversal protection (line 128-132) validated
-  - ⚠️ LOW: Font name path injection in MapLibre fallback (caught by later validation)
-  - Recommendations provided for font name sanitization
-- Security review of NG-ROBOT `start_server.bat`:
-  - ⚠️ MEDIUM: Process detection via window title (spoofable)
-  - Recommended netstat-based approach for robustness
-  - Identified PID tracking gap for operational convenience
+### STOPA Improvements
+- **orchestrate Phase 6 auto-trigger**: Oba soubory (`skills/orchestrate/SKILL.md` + `commands/orchestrate.md`) upgradovány — při 20+ traces se automaticky spustí analýza a zapíše `tier-heuristics.md`. Dříve jen "suggest", teď "execute".
+
+### Security / Infra fixes
+- **NG-ROBOT** `start_server.bat`: window title check → netstat port 5001 check (anti-spoofing)
+- **MONITOR** `npm audit fix`: path-to-regexp ReDoS HIGH → 0 vulnerabilities
+- **CMS heslo**: stále nezměněno — deadline April 1, 2026 (**KRITICKÉ**)
 
 ---
 
 ## What Remains
 
-| # | Subtask | Status | Depends on | Priority |
-|---|---------|--------|-----------|----------|
-| 1 | Fix NG-ROBOT start_server.bat — replace window title check with netstat | Pending | None | MEDIUM |
-| 2 | Improve KARTOGRAF tileserver.py font validation — explicit sanitization | Pending | None | LOW |
-| 3 | Run `npm audit fix` in MONITOR project | Pending | None | MEDIUM |
-| 4 | Change CMS Aqua password from `Webmistr102025` to new value | Pending | None | CRITICAL (deadline: April 1) |
-| 5 | Verify podcast generation fully working post-key-rotation | Pending | Item 4 (if password needed for podcast service) | LOW |
+| # | Subtask | Status | Priority | Deadline |
+|---|---------|--------|----------|----------|
+| 1 | Změnit CMS Aqua heslo (`Webmistr102025` → nové) | KRITICKÉ | CRITICAL | April 1, 2026 |
+| 2 | ZÁCHVĚV UI — dokončit bloky 4-9 (app.py, 854 řádků) | Pending | HIGH | — |
+| 3 | KARTOGRAF font name sanitization v tileserver.py | Pending | LOW | — |
+| 4 | Verify podcast generation post-key-rotation | Pending | LOW | — |
+| 5 | Commit + push security fixes do všech projektů | Pending | MEDIUM | — |
 
 ---
 
-## Immediate Next Action
+## ZÁCHVĚV UI — stav pro pokračování
 
-**Option A (Security hardening)**: Edit `C:\Users\stock\Documents\000_NGM\NG-ROBOT\start_server.bat` line 8-11. Replace window title detection with netstat-based approach (prevents spoofing attacks).
+**Backend**: kompletní (ingest, process, detect, analyze, intervene, knowledge)
+**UI soubor**: `C:\Users\stock\Documents\000_NGM\ZACHVEV\ui\app.py` — 854 řádků
+**Architektura**: Streamlit, 2 režimy (Průzkumný / Cílený) → topic dashboard → drill-down
+**API base**: `http://localhost:8000/api`
 
-**Option B (NPM audit)**: Change to `C:\Users\stock\Documents\000_NGM\MONITOR` and run `npm audit fix` to fix path-to-regexp ReDoS.
+Z memory (Session 6 v6.3): bloky 1-3 částečně hotové. Chybí bloky 4-9:
+- Blok 4: Topic dashboard (EWS indikátory per topic)
+- Blok 5: Drill-down (CRI detail, targeting, campaign)
+- Blok 6: Vizuály (Nano prompty)
+- Blok 7: Knowledge graph query UI
+- Blok 8: Intervence formulář
+- Blok 9: Export a sdílení
 
-**Option C (Password rotation)**: Access NG-ROBOT dashboard → Settings → Change Aqua CMS password before April 1, 2026.
+**Doporučený přístup**: Přečíst celý app.py (854 ř) na začátku session, identifikovat TODO komentáře, pak implementovat chybějící bloky sekvenčně.
+
+---
+
+## Orchestrate Traces — stav
+
+Aktuálně **4/20** traces. Phase 2 (tier heuristics) trigger až při 20. Typ bias: research (2×), feature (1×), refactor (1×). Chybí: bug_fix, security, docs.
 
 ---
 
 ## Key Context
 
-- **API Key Rotation Strategy**: Screenshot transcription is brittle. For future rotations, use JavaScript DOM extraction method instead.
-- **Server Binding Security Fix**: All 4 projects now bind to `127.0.0.1` instead of `0.0.0.0` — prevents external network exposure
-- **Path Traversal Pattern**: Fixed across projects using `.resolve()` + `relative_to()` validation
-- **CMS Password Deadline**: User stated "musím změnit před 1. dubnem" — 3 days remaining (April 1, 2026)
+- **API Key Rotation**: Pro příští rotaci použij JavaScript DOM extraction (ne screenshot transcription)
+- **Server Binding**: Všechny 4 projekty nyní bind na 127.0.0.1
+- **NG-ROBOT port**: 5001 (run_server.py:27)
+- **ZÁCHVĚV dir**: `C:\Users\stock\Documents\000_NGM\ZACHVEV` (bez háčku)
 
 ---
 
-## Git State
+## Immediate Next Action (příští session)
 
-- **Branch**: `main`
-- **Uncommitted changes**: `.claude/memory/activity-log.md`, `.claude/memory/budget.md`, `.claude/memory/checkpoint.md` (cache files)
-- **Last commit**: "feat: Meadows systems thinking framework — 6 skills enriched"
-- **Status**: 6 security commits in target projects (MONITOR, ZÁCHVĚV, NG-ROBOT, ADOBE-AUTOMAT, GRAFIK)
+**KRITICKÉ** (do April 1): Změnit Aqua CMS heslo
+→ Otevři NG-ROBOT dashboard → Settings → Change password
+
+**ZÁCHVĚV UI**: `streamlit run ui/app.py` + `uvicorn zachvev.api.app:app --port 8000`, pak implementuj bloky 4-9
 
 ---
 
 ## Resume Prompt
 
-> **Task**: Continue NG-ROBOT security hardening and follow-up fixes
+> **Task**: Dokončit ZÁCHVĚV UI (bloky 4-9) + změnit CMS heslo (deadline April 1)
 >
-> **Current state**: Security audit complete (8 projects hardened). Two follow-up code reviews done. Identified 3 remaining fixes: (1) NG-ROBOT start_server.bat netstat-based process detection (MEDIUM), (2) KARTOGRAF font name sanitization (LOW), (3) MONITOR npm audit (MEDIUM), (4) CMS password rotation (CRITICAL — deadline April 1).
+> **Stav**: Security hardening 8 projektů kompletní. STOPA orchestrate auto-trigger přidán (20 traces → tier analysis). NG-ROBOT bat + MONITOR npm audit hotové.
 >
-> **Immediate next action**: Choose priority:
-> - Option A: Fix NG-ROBOT batch script (5 min)
-> - Option B: Run npm audit in MONITOR (10 min)
-> - Option C: Change CMS password (interactive, deadline-driven)
+> **ZÁCHVĚV**: app.py na 854 řádcích, backend kompletní, UI bloky 4-9 chybí. Přečíst celý app.py, identifikovat TODO, implementovat postupně.
 >
-> **Critical deadline**: CMS password change must complete before April 1, 2026 (3 days remaining).
+> **KRITICKÉ**: Aqua CMS heslo musí být změněno před April 1, 2026.
 >
-> Execute autonomously once you choose priority.
+> **Traces**: 4/20 — zbývá 16 do Phase 2 tier heuristics.
