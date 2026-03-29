@@ -2,6 +2,7 @@
 name: verify
 description: Use when you need to prove something works end-to-end on real data. Trigger on verify this, prove it, funguje to. Do NOT use for unit tests only.
 argument-hint: [what to verify — pipeline name, feature, endpoint, or 'last changes']
+tags: [testing, code-quality]
 user-invocable: true
 allowed-tools: Read, Write, Glob, Grep, Bash, Agent
 model: sonnet

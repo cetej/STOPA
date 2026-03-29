@@ -2,6 +2,7 @@
 name: status
 description: Use when checking current system state — active task, budget, checkpoint, last news scan, memory health. Trigger on 'status', 'what's the state', 'kde jsem', 'stav'. Do NOT use for budget details (/budget) or checkpoint management (/checkpoint).
 argument-hint: (no arguments)
+tags: [session, orchestration]
 user-invocable: true
 allowed-tools: Read, Grep, Glob
 model: haiku

@@ -2,6 +2,7 @@
 name: peer-review
 description: "Use when reviewing research artifacts, technical documents, or draft papers for evidence quality and rigor. Trigger on 'peer review', 'review paper', 'audit claims', 'review draft', 'recenze'. Do NOT use for code review (/critic) or PR review."
 argument-hint: <file path or topic to review>
+tags: [review, research]
 user-invocable: true
 allowed-tools: Read, Write, Glob, Grep, Bash, Agent, WebSearch, WebFetch
 model: sonnet

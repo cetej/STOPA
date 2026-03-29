@@ -1,6 +1,7 @@
 ---
 name: build-project
 description: "Use when building a new project from requirements end-to-end. Trigger on 'build project', 'create project', 'postav projekt'. Do NOT use for single features or existing project modifications."
+tags: [planning, orchestration]
 user-invocable: true
 model: opus
 maxTurns: 60

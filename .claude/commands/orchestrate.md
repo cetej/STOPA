@@ -2,6 +2,7 @@
 name: orchestrate
 description: Use when a task requires multiple steps or touches 3+ files. Trigger on plan this, break this down, orchestrate. Do NOT use for single-file edits.
 argument-hint: [task description]
+tags: [orchestration, planning]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
 model: opus

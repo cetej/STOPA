@@ -49,6 +49,31 @@ Engineering methodology skills inspired by superpowers patterns:
 - `/tdd` — RED-GREEN-REFACTOR enforcer for test-driven development
 - `/systematic-debugging` — 4-phase root cause methodology (no guessing)
 
+## Tag-Based Discovery (alternative to tier browsing)
+
+Every skill has `tags:` in frontmatter. Use tags to find skills by capability instead of tier:
+
+| Need | Tags to search | Top matches |
+|------|---------------|-------------|
+| Code quality | `code-quality`, `review` | critic, verify, tdd |
+| Research | `research`, `osint` | deepresearch, scout, liveprompt, watch |
+| Testing | `testing` | verify, harness, tdd, scenario |
+| Debugging | `debugging` | systematic-debugging, incident-runbook |
+| Session mgmt | `session`, `memory` | checkpoint, handoff, compact, scribe |
+| DevOps/PRs | `devops` | fix-issue, autofix, pr-review, harness |
+| Planning | `planning` | orchestrate, brainstorm, scenario, build-project |
+| Security | `security` | security-review, dependency-audit |
+| Media gen | `generation`, `media` | nano, klip |
+| Web/OSINT | `web`, `osint` | browse, seo-audit, deepresearch, watch |
+
+### Pre-flight: `requires` check
+Skills with `requires:` in frontmatter need external dependencies:
+- `FAL_KEY` → nano, klip
+- `gh` CLI → fix-issue, autofix, pr-review
+- `mcp:claude-in-chrome` → browse
+
+Orchestrátor by měl ověřit dostupnost PŘED spuštěním skillu.
+
 ## How to Apply
 
 When the user describes a task:
@@ -56,4 +81,5 @@ When the user describes a task:
 2. If task is specialized, suggest the matching Tier 2 skill
 3. Only mention Tier 3 skills when user explicitly asks or when the specific capability is clearly needed
 4. Suggest Tier 4 skills when user is debugging (→ /systematic-debugging) or implementing with tests (→ /tdd)
-5. Never list all skills unprompted — suggest 1-2 most relevant ones
+5. **Tag search**: if no tier match, grep `tags:` across skills for the user's need
+6. Never list all skills unprompted — suggest 1-2 most relevant ones

@@ -2,6 +2,7 @@
 name: harness
 description: Use when running a deterministic, repeatable process from a harness definition. Trigger on 'run harness', 'execute pipeline'. Do NOT use for ad-hoc tasks.
 argument-hint: [harness-name] or leave empty to list available harnesses
+tags: [testing, devops]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
 model: sonnet

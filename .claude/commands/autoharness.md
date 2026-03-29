@@ -2,6 +2,7 @@
 name: autoharness
 description: Use when a skill or command repeatedly fails with the same error patterns. Trigger on 'autoharness', 'generate validator', 'auto-constraint'. Do NOT use for one-off fixes or manual validation.
 argument-hint: <target-skill> [iterations:N] [scope:action-filter|action-verifier|policy] [escalate:true]
+tags: [testing, orchestration]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
 model: sonnet

@@ -2,6 +2,7 @@
 name: systematic-debugging
 description: Use when debugging with root-cause-first methodology. Trigger on 'debug this', 'find root cause', 'systematic debug'. Do NOT use for quick fixes or known issues.
 argument-hint: [error message, symptom, or 'last failure' to investigate]
+tags: [debugging, code-quality]
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Agent
 model: sonnet

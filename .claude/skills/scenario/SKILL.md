@@ -2,6 +2,7 @@
 name: scenario
 description: Use when exploring edge cases and failure modes before implementation. Trigger on what could go wrong, edge cases, explore scenarios. Not for bug hunting.
 argument-hint: <scenario description> [--domain software|product|business|security] [--depth shallow|standard|deep] [--format test-scenarios|use-cases|user-stories|threat-scenarios]
+tags: [planning, testing]
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, AskUserQuestion
 model: sonnet

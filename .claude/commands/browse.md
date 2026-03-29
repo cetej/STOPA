@@ -3,6 +3,8 @@ name: browse
 description: Use when browsing authenticated Chrome pages for data extraction or form filling. Trigger on 'browse', 'open page', 'extract from site'. Do NOT use for web search or static fetch.
 user-invocable: true
 argument-hint: "[extract|fill|test|monitor] <url> [what to do]"
+tags: [web, osint]
+requires: [mcp:claude-in-chrome]
 model: sonnet
 maxTurns: 25
 effort: medium

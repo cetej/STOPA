@@ -2,6 +2,7 @@
 name: compact
 description: Use when context is bloated with large tool results or agent outputs. Trigger on compact, save results, context too large. Not for small tasks.
 argument-hint: "save-and-summarize <id> | save <id> | summarize <id> | load <id> | scratchpad | cleanup"
+tags: [session, memory]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
 effort: medium

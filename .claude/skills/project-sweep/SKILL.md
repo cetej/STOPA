@@ -2,6 +2,7 @@
 name: project-sweep
 description: Use when performing the same operation across all registered projects. Trigger on sweep all projects, project sweep. Not for single-project tasks.
 argument-hint: [operation description] [--dry-run]
+tags: [orchestration, devops]
 user-invocable: true
 allowed-tools: ["Read", "Grep", "Glob", "Bash", "Agent", "Write", "Edit"]
 effort: medium

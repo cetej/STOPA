@@ -4,6 +4,7 @@ description: Use when ending a session or saving progress. Trigger on checkpoint
 context:
   - gotchas.md
 argument-hint: [save / resume / status]
+tags: [session, memory]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 model: haiku

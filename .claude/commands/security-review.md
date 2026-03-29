@@ -2,6 +2,7 @@
 name: security-review
 description: Use when reviewing code for security concerns before deploy. Trigger on 'security review', 'is this secure', 'check vulnerabilities'. Do NOT use for code review (/critic) or deps (/dependency-audit).
 argument-hint: [file/directory to review] [--scope full|focused]
+tags: [security, review]
 user-invocable: true
 allowed-tools:
   - Read

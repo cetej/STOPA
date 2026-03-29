@@ -5,6 +5,7 @@ context:
   - tree-mode.md
   - meta-mode.md
 argument-hint: <target file/scope> [goal] [verify:<command>] [guard:<command>] [budget:N] [mode:linear|tree] [meta:true] [escalate:true]
+tags: [orchestration, testing]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 model: sonnet

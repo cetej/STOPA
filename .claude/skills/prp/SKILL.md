@@ -2,6 +2,7 @@
 name: prp
 description: Use when preparing task context for handoff between sessions or sub-agents. Trigger on 'prp', 'context packet', 'prepare handoff'. Do NOT use for brainstorming or documenting completed work.
 argument-hint: <task description> [--scope file|module|project]
+tags: [session, orchestration]
 user-invocable: true
 allowed-tools:
   - Read

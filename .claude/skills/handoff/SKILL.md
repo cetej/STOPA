@@ -2,6 +2,7 @@
 name: handoff
 description: Use when capturing findings from completed sessions (especially remote/mobile) into persistent memory. Trigger on 'handoff', 'zapiš z session', 'capture findings'. Do NOT use for active session checkpoints (/checkpoint).
 argument-hint: <paste session output, summary, or describe what was done>
+tags: [session, memory]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep
 model: haiku

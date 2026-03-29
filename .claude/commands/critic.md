@@ -4,6 +4,7 @@ description: Use after implementation to catch quality issues. Trigger on 'revie
 context:
   - gotchas.md
 argument-hint: [what to review — file path, skill name, or "last changes"]
+tags: [code-quality, review, post-edit]
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Agent
 model: sonnet

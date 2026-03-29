@@ -2,6 +2,7 @@
 name: scout
 description: Use before implementing changes to map existing code and patterns. Trigger on map this area, scope this, what do we have. Not for known file locations.
 argument-hint: [what to explore] [--refresh-map]
+tags: [exploration, research]
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Agent
 model: haiku

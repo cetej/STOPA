@@ -2,6 +2,8 @@
 name: nano
 description: Use when generating images via fal.ai Banana Pro. Trigger on 'generate image', 'nano', 'create picture'. Requires FAL_KEY. Do NOT use for video (/klip).
 argument-hint: <prompt> [--model pro|2] [--aspect 16:9|1:1|9:16|4:3|3:4] [--resolution 1K|2K|4K] [--count 1-4] [--for-video] [--output path]
+tags: [generation, media]
+requires: [FAL_KEY]
 user-invocable: true
 allowed-tools:
   - Bash

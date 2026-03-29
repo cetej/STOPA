@@ -2,6 +2,8 @@
 name: autofix
 description: "Use when a PR has CI failures or review comments that need fixing. Trigger on 'autofix', 'fix CI', 'fix PR', 'watch PR'. Do NOT use for creating new PRs (/fix-issue) or code review (/critic)."
 argument-hint: "<PR number or URL> [--local]"
+tags: [devops, code-quality]
+requires: [gh]
 user-invocable: true
 allowed-tools: Bash, Read, Grep, Glob, Agent
 model: sonnet

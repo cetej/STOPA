@@ -2,6 +2,7 @@
 name: scribe
 description: Use after making decisions or discovering patterns worth remembering. Trigger on record this, remember that, update state. Not for ephemeral notes.
 argument-hint: [what to record — "decision", "learning", "state", or free text]
+tags: [memory, documentation]
 user-invocable: true
 allowed-tools: Read, Write, Edit
 model: haiku

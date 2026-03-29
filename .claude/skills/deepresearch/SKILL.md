@@ -2,6 +2,7 @@
 name: deepresearch
 description: "Use when investigating a topic requiring multiple sources, evidence synthesis, and citations. Trigger on 'research', 'investigate', 'deep dive', 'prozkoumej', 'find out about'. Do NOT use for codebase search (/scout) or ecosystem news (/watch)."
 argument-hint: <topic or research question>
+tags: [research, osint]
 user-invocable: true
 allowed-tools: Read, Write, Glob, Grep, Bash, Agent, WebSearch, WebFetch
 model: sonnet

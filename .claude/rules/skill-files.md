@@ -11,6 +11,36 @@ globs: "**/skills/*/SKILL.md"
 - Bad: "Multi-persona code review — 6 expert perspectives (Developer, Security, QA...)"
 - Good: "Use when reviewing a PR and /critic alone is not thorough enough. Trigger on 'review PR'..."
 - `allowed-tools`: least privilege — jen tools které skill skutečně potřebuje
+- `tags`: array of cross-cutting capability tags for discovery (viz taxonomie níže)
+- `requires`: array of runtime dependencies — env vars (UPPER_CASE), CLI tools (lowercase), MCP servers (`mcp:name`)
+  - Orchestrátor by měl ověřit dostupnost PŘED spuštěním skillu
+  - Vynechej pokud skill nemá žádné externí závislosti
+- `supported-os`: array of supported platforms (`windows`, `linux`, `macos`). Vynechej pokud skill funguje všude (default = all)
 - Pokud skill zapisuje do memory: musí to být uvedeno v instructions
 - Pokud skill spouští sub-agenty: musí specifikovat model (haiku/sonnet/opus) a důvod
 - Konvence: anglicky pro technické instrukce, česky pro user-facing texty
+
+## Tag taxonomie (používej konzistentně)
+
+| Tag | Popis |
+|-----|-------|
+| `code-quality` | Review, linting, refactoring |
+| `review` | Explicit review/audit workflow |
+| `testing` | Tests, validation, verification |
+| `debugging` | Root cause analysis, incident response |
+| `research` | Information gathering, analysis |
+| `osint` | Open source intelligence, web scraping |
+| `web` | Browser automation, web interaction |
+| `memory` | Persistent state, learnings, decisions |
+| `session` | Checkpoints, handoffs, context management |
+| `orchestration` | Multi-step coordination, sub-agents |
+| `generation` | AI-generated media (images, video) |
+| `media` | Multimedia processing (images, video, audio) |
+| `ai-tools` | AI/ML ecosystem tools and prompts |
+| `devops` | CI/CD, PRs, issues, deployment |
+| `security` | Vulnerability analysis, trust boundaries |
+| `dependencies` | Package management, auditing |
+| `planning` | Architecture, specs, brainstorming |
+| `exploration` | Codebase navigation, search |
+| `documentation` | Docs, learnings, knowledge capture |
+| `post-edit` | Auto-triggered after code changes |
