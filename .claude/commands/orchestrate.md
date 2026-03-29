@@ -137,25 +137,70 @@ Rules:
 - If user responds with answers → update the plan in Phase 3 accordingly
 - Light and standard tiers: skip entirely unless `--gate` flag is present
 
-### Context Bootstrap (retrieval hooks)
+### Context Bootstrap — Block-Scored Selection
 
-After classifying the task, load targeted context based on **Type** and **Scope**. This replaces generic memory reads with precise, type-specific retrieval — ensuring agents get the right patterns without loading everything.
+After classifying the task, select context blocks using a scored manifest instead of grepping full files. This is the **lazy allocation** approach: read metadata first, fetch content only for top-scoring blocks.
 
-| Task Type | Grep patterns for `learnings/` | Also load |
-|-----------|-------------------------------|-----------|
-| Bug fix | `type: bug_fix`, `component: <affected>` | `docs/TROUBLESHOOTING.md` (grep error message) |
-| Feature | `type: best_practice`, `component: <affected>` | Constitution check (Phase 3) |
-| Refactor | `type: architecture`, `type: anti_pattern` | Recent decisions in `decisions.md` for the area |
-| Pipeline/workflow | `type: workflow`, `tags:.*pipeline` | `docs/RLM_WORKFLOW_OPTIMIZER.md` (if exists) |
-| Skill edit | `component: skill`, `type: best_practice` | `rules/skill-files.md`, `rules/skill-tiers.md` |
-| Memory/state | `component: memory`, `component: orchestration` | `rules/memory-files.md` |
-| Hook/config | `component: hook`, `tags:.*settings` | `.claude/settings.json` structure |
+#### Step 1 — Read block manifest (page table)
+
+Check if `.claude/memory/learnings/block-manifest.json` exists.
+- **If yes**: read it — it's lightweight metadata only (no full file content). Use it for Steps 2-4.
+- **If no**: fall back to grep-based retrieval from the table below. Run `python scripts/build-component-indexes.py` during next maintenance.
+
+#### Step 2 — Score blocks against current task
+
+From the manifest `blocks` dict, filter `active: true` entries only. For each, compute a **context score**:
+
+```
+context_score = retrieval_score × keyword_match_bonus
+```
+
+Where:
+- `retrieval_score` = precomputed in manifest (severity × recency)
+- `keyword_match_bonus` = 2.0 if any tag or component matches the task type below, else 1.0
+
+| Task Type | Match these tags/components |
+|-----------|----------------------------|
+| Bug fix | `type: bug_fix`, component matches affected module |
+| Feature | `type: best_practice`, component matches affected module |
+| Refactor | `type: architecture`, `anti_pattern` |
+| Pipeline/workflow | tags: `pipeline`, `workflow` |
+| Skill edit | component: `skill`, tags: `skill` |
+| Memory/state | component: `memory`, `orchestration` |
+| Hook/config | component: `hook`, tags: `settings` |
+
+Also apply **synonym expansion**: if no matches on primary keywords, retry with 2-3 related terms (e.g., "validation" → "sanitization", "input checking"). Max 2 rounds.
+
+#### Step 3 — Apply token budget
+
+Context budget for learnings: **~2 000 tokens** (standard tier), **~4 000 tokens** (deep tier).
+
+Sort filtered blocks by `context_score` descending. Greedily add blocks until `sum(token_estimate)` would exceed budget. Stop there — **do NOT read lower-scoring blocks**.
+
+This is the paged allocation: only top-N blocks get fetched, the rest stay on disk.
+
+#### Step 4 — Fetch selected blocks
+
+Read the actual files for the selected top-N block IDs. Expand `related:` links (1-hop, max 3 extras per block) if budget allows.
+
+Pass fetched content directly in Phase 4 agent prompts. Agents do NOT re-read memory.
+
+#### Step 5 — Also load (per task type)
+
+| Task Type | Also load |
+|-----------|-----------|
+| Bug fix | `docs/TROUBLESHOOTING.md` (grep error message only) |
+| Feature | Constitution check (Phase 3) |
+| Refactor | Recent entries in `decisions.md` for the area |
+| Pipeline/workflow | `docs/RLM_WORKFLOW_OPTIMIZER.md` (if exists) |
+| Skill edit | `rules/skill-files.md`, `rules/skill-tiers.md` |
+| Memory/state | `rules/memory-files.md` |
 
 **Rules:**
-- Run max 2 grep queries from this table (most tasks match 1-2 rows)
-- Pass matched learnings as context to Phase 4 agent prompts — agents do NOT re-read memory
-- If no learnings match, that's fine — proceed without. Don't widen the search.
-- This table supplements Phase 0 memory reads (critical-patterns.md is always loaded regardless)
+- `critical-patterns.md` is always in the stable prefix — don't count it against the budget
+- If manifest missing: run max 2 grep queries from the task type table (fallback)
+- If no blocks score above 1.0: proceed without — don't force-load irrelevant context
+- Agents receive the fetched content inline — they do NOT re-read memory files
 
 ### Episodic Recall — Past Approaches
 

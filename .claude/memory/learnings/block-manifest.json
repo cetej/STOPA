@@ -1,0 +1,835 @@
+{
+  "generated": "2026-03-29",
+  "total_blocks": 23,
+  "active_blocks": 23,
+  "blocks": {
+    "2026-03-27-commands-vs-skills-structure.md": {
+      "id": "2026-03-27-commands-vs-skills-structure.md",
+      "component": "skill",
+      "date": "2026-03-27",
+      "type": "architecture",
+      "severity": "critical",
+      "tags": [
+        "commands",
+        "skills",
+        "structure",
+        "source-of-truth",
+        "destructive-error"
+      ],
+      "summary": "STOPA has TWO skill locations: commands/ (flat) and skills/ (dirs). They MUST stay identical. Edit commands/ as source, sync to skills/.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 404,
+      "retrieval_score": 3.871,
+      "active": true
+    },
+    "2026-03-27-skills-must-live-in-stopa.md": {
+      "id": "2026-03-27-skills-must-live-in-stopa.md",
+      "component": "skill",
+      "date": "2026-03-27",
+      "type": "architecture",
+      "severity": "high",
+      "tags": [
+        "source-of-truth",
+        "distribution",
+        "anti-pattern"
+      ],
+      "summary": "Skills must be developed in STOPA first, then distributed. Never create skills directly in target projects.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 396,
+      "retrieval_score": 2.903,
+      "active": true
+    },
+    "2026-03-25-decomposed-evaluation.md": {
+      "id": "2026-03-25-decomposed-evaluation.md",
+      "component": "skill",
+      "date": "2026-03-25",
+      "type": "architecture",
+      "severity": "high",
+      "tags": [
+        "critic",
+        "verify",
+        "evaluation",
+        "os-themis",
+        "apm"
+      ],
+      "summary": "Decomposed evaluation (per-dimension scoring) catches 3x more issues than holistic review. Use in /critic and /verify.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 394,
+      "retrieval_score": 2.812,
+      "active": true
+    },
+    "2026-03-25-reasoning-isolation.md": {
+      "id": "2026-03-25-reasoning-isolation.md",
+      "component": "skill",
+      "date": "2026-03-25",
+      "type": "best_practice",
+      "severity": "high",
+      "tags": [
+        "reasoning",
+        "BOULDER",
+        "CARE",
+        "multi-turn",
+        "debiasing",
+        "arXiv"
+      ],
+      "summary": "BOULDER/CARE patterns: isolate reasoning from output generation to reduce bias. Apply in multi-turn skill prompts.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 407,
+      "retrieval_score": 2.812,
+      "active": true
+    },
+    "2026-03-25-skill-description-triggers.md": {
+      "id": "2026-03-25-skill-description-triggers.md",
+      "component": "skill",
+      "date": "2026-03-25",
+      "type": "bug_fix",
+      "severity": "high",
+      "tags": [
+        "skill-matching",
+        "description",
+        "frontmatter",
+        "trigger-words"
+      ],
+      "summary": "Skill description MUST contain all trigger words — CC matches skills by description text, not by skill name or body.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 265,
+      "retrieval_score": 2.812,
+      "active": true
+    },
+    "2026-03-24-fix-issue-solo-workflow.md": {
+      "id": "2026-03-24-fix-issue-solo-workflow.md",
+      "component": "skill",
+      "date": "2026-03-24",
+      "type": "workflow",
+      "severity": "medium",
+      "tags": [
+        "fix-issue",
+        "git",
+        "solo-development",
+        "workflow-simplification"
+      ],
+      "summary": "Solo dev projects should commit directly to main, skip branch/PR workflow in /fix-issue.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 215,
+      "retrieval_score": 1.846,
+      "active": true
+    },
+    "2026-03-23-youtube-transcript-yt-dlp.md": {
+      "id": "2026-03-23-youtube-transcript-yt-dlp.md",
+      "component": "skill",
+      "date": "2026-03-23",
+      "type": "anti_pattern",
+      "severity": "high",
+      "tags": [
+        "youtube",
+        "transcript",
+        "yt-dlp",
+        "mcp"
+      ],
+      "summary": "MCP youtube-transcript server broken since 2026-03. Use yt-dlp CLI as primary, MCP only as fallback.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 214,
+      "retrieval_score": 2.727,
+      "active": true
+    },
+    "karpathy-loop-autoloop.md": {
+      "id": "karpathy-loop-autoloop.md",
+      "component": "skill",
+      "date": "2026-03-23",
+      "type": "best_practice",
+      "severity": "medium",
+      "tags": [
+        "autoloop",
+        "optimization",
+        "llm-as-judge",
+        "structural-heuristic"
+      ],
+      "summary": "Karpathy optimization loop: edit → measure → score → iterate. Use structural heuristics + LLM-as-judge for scoring.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 205,
+      "retrieval_score": 1.818,
+      "active": true
+    },
+    "superpowers-adoption.md": {
+      "id": "superpowers-adoption.md",
+      "component": "skill",
+      "date": "2026-03-23",
+      "type": "best_practice",
+      "severity": "high",
+      "tags": [
+        "competitive-analysis",
+        "superpowers",
+        "anti-rationalization",
+        "trigger-description"
+      ],
+      "summary": "superpowers v5 insight: skill description triggers matching — CC reads description, not body. Anti-rationalization prompts improve quality.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 220,
+      "retrieval_score": 2.727,
+      "active": true
+    },
+    "2026-03-29-paged-context-protocol.md": {
+      "id": "2026-03-29-paged-context-protocol.md",
+      "component": "orchestration",
+      "date": "2026-03-29",
+      "type": "architecture",
+      "severity": "medium",
+      "tags": [
+        "context",
+        "memory",
+        "retrieval",
+        "budget",
+        "lazy-allocation",
+        "block-manifest"
+      ],
+      "summary": "Paged context protocol: read block-manifest.json (metadata) first, fetch only top-scored blocks by budget — prevents loading irrelevant learnings into agent context.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [
+        "gsd-patterns.md",
+        "2026-03-26-harness-simplification.md"
+      ],
+      "token_estimate": 535,
+      "retrieval_score": 2.0,
+      "active": true
+    },
+    "2026-03-26-channels-24x7-architecture.md": {
+      "id": "2026-03-26-channels-24x7-architecture.md",
+      "component": "orchestration",
+      "date": "2026-03-26",
+      "type": "architecture",
+      "severity": "high",
+      "tags": [
+        "channels",
+        "telegram",
+        "24x7",
+        "syncthing",
+        "launchagent",
+        "infrastructure",
+        "mac-mini"
+      ],
+      "summary": "Claude Channels has no message queue — messages lost if session not running. Use SyncThing for cross-device sync, LaunchAgent/systemd for persistence.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 491,
+      "retrieval_score": 2.857,
+      "active": true
+    },
+    "2026-03-26-harness-simplification.md": {
+      "id": "2026-03-26-harness-simplification.md",
+      "component": "orchestration",
+      "date": "2026-03-26",
+      "type": "best_practice",
+      "severity": "high",
+      "tags": [
+        "harness",
+        "simplification",
+        "model-capability",
+        "architecture"
+      ],
+      "summary": "Modern Claude models handle multi-step reasoning natively. Simplify harnesses — remove unnecessary scaffolding, trust model capability.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 521,
+      "retrieval_score": 2.857,
+      "active": true
+    },
+    "2026-03-24-openclaw-postmortem-patterns.md": {
+      "id": "2026-03-24-openclaw-postmortem-patterns.md",
+      "component": "orchestration",
+      "date": "2026-03-24",
+      "type": "best_practice",
+      "severity": "high",
+      "tags": [
+        "agent-identity",
+        "memory-hygiene",
+        "scheduled-maintenance",
+        "budget",
+        "browser"
+      ],
+      "summary": "OpenClaw $12K burn postmortem: 5 agent degradation patterns — identity collapse, memory bloat, budget blindness, browser loops, session amnesia.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 413,
+      "retrieval_score": 2.769,
+      "active": true
+    },
+    "gsd-patterns.md": {
+      "id": "gsd-patterns.md",
+      "component": "orchestration",
+      "date": "2026-03-23",
+      "type": "best_practice",
+      "severity": "medium",
+      "tags": [
+        "gsd",
+        "wave-execution",
+        "deviation-rules",
+        "verification"
+      ],
+      "summary": "GSD wave execution: batch independent tasks, verify after each wave, deviation rules for agent coordination.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 250,
+      "retrieval_score": 1.818,
+      "active": true
+    },
+    "spec-kit-adoption.md": {
+      "id": "spec-kit-adoption.md",
+      "component": "orchestration",
+      "date": "2026-03-23",
+      "type": "best_practice",
+      "severity": "medium",
+      "tags": [
+        "competitive-analysis",
+        "spec-kit",
+        "constitution",
+        "handoff"
+      ],
+      "summary": "spec-kit patterns worth adopting: constitution files, structured handoffs, role separation. Already partially in STOPA.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 251,
+      "retrieval_score": 1.818,
+      "active": true
+    },
+    "2026-03-25-batch-edit-pattern.md": {
+      "id": "2026-03-25-batch-edit-pattern.md",
+      "component": "workflow",
+      "date": "2026-03-25",
+      "type": "best_practice",
+      "severity": "high",
+      "tags": [
+        "autoloop",
+        "batch-edit",
+        "approval-fatigue",
+        "python"
+      ],
+      "summary": "Editing 30+ files via Read/Edit causes approval fatigue. Use Python batch scripts with --dry-run for bulk mechanical changes.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 265,
+      "retrieval_score": 2.812,
+      "active": true
+    },
+    "2026-03-26-autodream-coexistence.md": {
+      "id": "2026-03-26-autodream-coexistence.md",
+      "component": "memory",
+      "date": "2026-03-26",
+      "type": "architecture",
+      "severity": "high",
+      "tags": [
+        "autodream",
+        "dream",
+        "memory-consolidation",
+        "coexistence",
+        "cc-native"
+      ],
+      "summary": "AutoDream (/dream) coexists with STOPA memory: dream=janitor (cleanup), scribe=architect (structured writes). Protect YAML frontmatter.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 316,
+      "retrieval_score": 2.857,
+      "active": true
+    },
+    "checkpoint-versioning.md": {
+      "id": "checkpoint-versioning.md",
+      "component": "memory",
+      "date": "2026-03-18",
+      "type": "anti_pattern",
+      "severity": "high",
+      "tags": [
+        "checkpoint",
+        "versioning",
+        "session-continuity"
+      ],
+      "summary": "Never overwrite checkpoints without archiving. Version frequently, especially before scope changes.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 175,
+      "retrieval_score": 2.535,
+      "active": true
+    },
+    "2026-03-27-playwright-mcp-download-hijack.md": {
+      "id": "2026-03-27-playwright-mcp-download-hijack.md",
+      "component": "general",
+      "date": "2026-03-27",
+      "type": "bug_fix",
+      "severity": "critical",
+      "tags": [
+        "playwright",
+        "mcp",
+        "chrome",
+        "downloads",
+        "claude-desktop",
+        "claude-code",
+        "security"
+      ],
+      "summary": "Playwright MCP hijacks Chrome downloads to temp folder, breaking all browser downloads. NEVER add to Claude Desktop.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 771,
+      "retrieval_score": 3.871,
+      "active": true
+    },
+    "2026-03-27-secrets-in-config-files.md": {
+      "id": "2026-03-27-secrets-in-config-files.md",
+      "component": "general",
+      "date": "2026-03-27",
+      "type": "anti_pattern",
+      "severity": "critical",
+      "tags": [
+        "security",
+        "tokens",
+        "secrets",
+        "claude-desktop",
+        "env-vars"
+      ],
+      "summary": "NEVER write API keys/tokens into JSON config files. Use environment variables or .env files excluded from git.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 308,
+      "retrieval_score": 3.871,
+      "active": true
+    },
+    "ecosystem-scan.md": {
+      "id": "ecosystem-scan.md",
+      "component": "general",
+      "date": "2026-03-23",
+      "type": "best_practice",
+      "severity": "low",
+      "tags": [
+        "competitive-analysis",
+        "ecosystem",
+        "positioning"
+      ],
+      "summary": "STOPA ecosystem positioning: unique in combining skill system + shared memory + orchestration. Competitors lack memory layer.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 211,
+      "retrieval_score": 0.909,
+      "active": true
+    },
+    "environment-falai.md": {
+      "id": "environment-falai.md",
+      "component": "general",
+      "date": "2026-03-23",
+      "type": "best_practice",
+      "severity": "medium",
+      "tags": [
+        "fal-ai",
+        "python",
+        "windows",
+        "environment"
+      ],
+      "summary": "fal.ai on Windows: use fal-client not fal, handle async properly, set FAL_KEY env var, retry on timeouts.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 192,
+      "retrieval_score": 1.818,
+      "active": true
+    },
+    "harness-engineering.md": {
+      "id": "harness-engineering.md",
+      "component": "pipeline",
+      "date": "2026-03-23",
+      "type": "best_practice",
+      "severity": "high",
+      "tags": [
+        "harness",
+        "deterministic",
+        "python",
+        "validation"
+      ],
+      "summary": "Deterministic harnesses (Python scripts) for processes needing >90% reliability. Skills are best-effort, harnesses are guaranteed.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 216,
+      "retrieval_score": 2.727,
+      "active": true
+    }
+  },
+  "superseded_ids": [],
+  "tag_index": {
+    "24x7": [
+      "2026-03-26-channels-24x7-architecture.md"
+    ],
+    "BOULDER": [
+      "2026-03-25-reasoning-isolation.md"
+    ],
+    "CARE": [
+      "2026-03-25-reasoning-isolation.md"
+    ],
+    "agent-identity": [
+      "2026-03-24-openclaw-postmortem-patterns.md"
+    ],
+    "anti-pattern": [
+      "2026-03-27-skills-must-live-in-stopa.md"
+    ],
+    "anti-rationalization": [
+      "superpowers-adoption.md"
+    ],
+    "apm": [
+      "2026-03-25-decomposed-evaluation.md"
+    ],
+    "approval-fatigue": [
+      "2026-03-25-batch-edit-pattern.md"
+    ],
+    "arXiv": [
+      "2026-03-25-reasoning-isolation.md"
+    ],
+    "architecture": [
+      "2026-03-26-harness-simplification.md"
+    ],
+    "autodream": [
+      "2026-03-26-autodream-coexistence.md"
+    ],
+    "autoloop": [
+      "2026-03-25-batch-edit-pattern.md",
+      "karpathy-loop-autoloop.md"
+    ],
+    "batch-edit": [
+      "2026-03-25-batch-edit-pattern.md"
+    ],
+    "block-manifest": [
+      "2026-03-29-paged-context-protocol.md"
+    ],
+    "browser": [
+      "2026-03-24-openclaw-postmortem-patterns.md"
+    ],
+    "budget": [
+      "2026-03-24-openclaw-postmortem-patterns.md",
+      "2026-03-29-paged-context-protocol.md"
+    ],
+    "cc-native": [
+      "2026-03-26-autodream-coexistence.md"
+    ],
+    "channels": [
+      "2026-03-26-channels-24x7-architecture.md"
+    ],
+    "checkpoint": [
+      "checkpoint-versioning.md"
+    ],
+    "chrome": [
+      "2026-03-27-playwright-mcp-download-hijack.md"
+    ],
+    "claude-code": [
+      "2026-03-27-playwright-mcp-download-hijack.md"
+    ],
+    "claude-desktop": [
+      "2026-03-27-playwright-mcp-download-hijack.md",
+      "2026-03-27-secrets-in-config-files.md"
+    ],
+    "coexistence": [
+      "2026-03-26-autodream-coexistence.md"
+    ],
+    "commands": [
+      "2026-03-27-commands-vs-skills-structure.md"
+    ],
+    "competitive-analysis": [
+      "superpowers-adoption.md",
+      "spec-kit-adoption.md",
+      "ecosystem-scan.md"
+    ],
+    "constitution": [
+      "spec-kit-adoption.md"
+    ],
+    "context": [
+      "2026-03-29-paged-context-protocol.md"
+    ],
+    "critic": [
+      "2026-03-25-decomposed-evaluation.md"
+    ],
+    "debiasing": [
+      "2026-03-25-reasoning-isolation.md"
+    ],
+    "description": [
+      "2026-03-25-skill-description-triggers.md"
+    ],
+    "destructive-error": [
+      "2026-03-27-commands-vs-skills-structure.md"
+    ],
+    "deterministic": [
+      "harness-engineering.md"
+    ],
+    "deviation-rules": [
+      "gsd-patterns.md"
+    ],
+    "distribution": [
+      "2026-03-27-skills-must-live-in-stopa.md"
+    ],
+    "downloads": [
+      "2026-03-27-playwright-mcp-download-hijack.md"
+    ],
+    "dream": [
+      "2026-03-26-autodream-coexistence.md"
+    ],
+    "ecosystem": [
+      "ecosystem-scan.md"
+    ],
+    "env-vars": [
+      "2026-03-27-secrets-in-config-files.md"
+    ],
+    "environment": [
+      "environment-falai.md"
+    ],
+    "evaluation": [
+      "2026-03-25-decomposed-evaluation.md"
+    ],
+    "fal-ai": [
+      "environment-falai.md"
+    ],
+    "fix-issue": [
+      "2026-03-24-fix-issue-solo-workflow.md"
+    ],
+    "frontmatter": [
+      "2026-03-25-skill-description-triggers.md"
+    ],
+    "git": [
+      "2026-03-24-fix-issue-solo-workflow.md"
+    ],
+    "gsd": [
+      "gsd-patterns.md"
+    ],
+    "handoff": [
+      "spec-kit-adoption.md"
+    ],
+    "harness": [
+      "2026-03-26-harness-simplification.md",
+      "harness-engineering.md"
+    ],
+    "infrastructure": [
+      "2026-03-26-channels-24x7-architecture.md"
+    ],
+    "launchagent": [
+      "2026-03-26-channels-24x7-architecture.md"
+    ],
+    "lazy-allocation": [
+      "2026-03-29-paged-context-protocol.md"
+    ],
+    "llm-as-judge": [
+      "karpathy-loop-autoloop.md"
+    ],
+    "mac-mini": [
+      "2026-03-26-channels-24x7-architecture.md"
+    ],
+    "mcp": [
+      "2026-03-27-playwright-mcp-download-hijack.md",
+      "2026-03-23-youtube-transcript-yt-dlp.md"
+    ],
+    "memory": [
+      "2026-03-29-paged-context-protocol.md"
+    ],
+    "memory-consolidation": [
+      "2026-03-26-autodream-coexistence.md"
+    ],
+    "memory-hygiene": [
+      "2026-03-24-openclaw-postmortem-patterns.md"
+    ],
+    "model-capability": [
+      "2026-03-26-harness-simplification.md"
+    ],
+    "multi-turn": [
+      "2026-03-25-reasoning-isolation.md"
+    ],
+    "optimization": [
+      "karpathy-loop-autoloop.md"
+    ],
+    "os-themis": [
+      "2026-03-25-decomposed-evaluation.md"
+    ],
+    "playwright": [
+      "2026-03-27-playwright-mcp-download-hijack.md"
+    ],
+    "positioning": [
+      "ecosystem-scan.md"
+    ],
+    "python": [
+      "2026-03-25-batch-edit-pattern.md",
+      "harness-engineering.md",
+      "environment-falai.md"
+    ],
+    "reasoning": [
+      "2026-03-25-reasoning-isolation.md"
+    ],
+    "retrieval": [
+      "2026-03-29-paged-context-protocol.md"
+    ],
+    "scheduled-maintenance": [
+      "2026-03-24-openclaw-postmortem-patterns.md"
+    ],
+    "secrets": [
+      "2026-03-27-secrets-in-config-files.md"
+    ],
+    "security": [
+      "2026-03-27-playwright-mcp-download-hijack.md",
+      "2026-03-27-secrets-in-config-files.md"
+    ],
+    "session-continuity": [
+      "checkpoint-versioning.md"
+    ],
+    "simplification": [
+      "2026-03-26-harness-simplification.md"
+    ],
+    "skill-matching": [
+      "2026-03-25-skill-description-triggers.md"
+    ],
+    "skills": [
+      "2026-03-27-commands-vs-skills-structure.md"
+    ],
+    "solo-development": [
+      "2026-03-24-fix-issue-solo-workflow.md"
+    ],
+    "source-of-truth": [
+      "2026-03-27-commands-vs-skills-structure.md",
+      "2026-03-27-skills-must-live-in-stopa.md"
+    ],
+    "spec-kit": [
+      "spec-kit-adoption.md"
+    ],
+    "structural-heuristic": [
+      "karpathy-loop-autoloop.md"
+    ],
+    "structure": [
+      "2026-03-27-commands-vs-skills-structure.md"
+    ],
+    "superpowers": [
+      "superpowers-adoption.md"
+    ],
+    "syncthing": [
+      "2026-03-26-channels-24x7-architecture.md"
+    ],
+    "telegram": [
+      "2026-03-26-channels-24x7-architecture.md"
+    ],
+    "tokens": [
+      "2026-03-27-secrets-in-config-files.md"
+    ],
+    "transcript": [
+      "2026-03-23-youtube-transcript-yt-dlp.md"
+    ],
+    "trigger-description": [
+      "superpowers-adoption.md"
+    ],
+    "trigger-words": [
+      "2026-03-25-skill-description-triggers.md"
+    ],
+    "validation": [
+      "harness-engineering.md"
+    ],
+    "verification": [
+      "gsd-patterns.md"
+    ],
+    "verify": [
+      "2026-03-25-decomposed-evaluation.md"
+    ],
+    "versioning": [
+      "checkpoint-versioning.md"
+    ],
+    "wave-execution": [
+      "gsd-patterns.md"
+    ],
+    "windows": [
+      "environment-falai.md"
+    ],
+    "workflow-simplification": [
+      "2026-03-24-fix-issue-solo-workflow.md"
+    ],
+    "youtube": [
+      "2026-03-23-youtube-transcript-yt-dlp.md"
+    ],
+    "yt-dlp": [
+      "2026-03-23-youtube-transcript-yt-dlp.md"
+    ]
+  },
+  "component_index": {
+    "general": [
+      "2026-03-27-playwright-mcp-download-hijack.md",
+      "2026-03-27-secrets-in-config-files.md",
+      "environment-falai.md",
+      "ecosystem-scan.md"
+    ],
+    "memory": [
+      "2026-03-26-autodream-coexistence.md",
+      "checkpoint-versioning.md"
+    ],
+    "orchestration": [
+      "2026-03-26-channels-24x7-architecture.md",
+      "2026-03-26-harness-simplification.md",
+      "2026-03-24-openclaw-postmortem-patterns.md",
+      "2026-03-29-paged-context-protocol.md",
+      "gsd-patterns.md",
+      "spec-kit-adoption.md"
+    ],
+    "pipeline": [
+      "harness-engineering.md"
+    ],
+    "skill": [
+      "2026-03-27-commands-vs-skills-structure.md",
+      "2026-03-27-skills-must-live-in-stopa.md",
+      "2026-03-25-decomposed-evaluation.md",
+      "2026-03-25-reasoning-isolation.md",
+      "2026-03-25-skill-description-triggers.md",
+      "2026-03-23-youtube-transcript-yt-dlp.md",
+      "superpowers-adoption.md",
+      "2026-03-24-fix-issue-solo-workflow.md",
+      "karpathy-loop-autoloop.md"
+    ],
+    "workflow": [
+      "2026-03-25-batch-edit-pattern.md"
+    ]
+  }
+}

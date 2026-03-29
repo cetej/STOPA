@@ -2,9 +2,9 @@
 
 Auto-generated L2 index. 1 learnings.
 
-| Date | File | Severity | Summary |
-|------|------|----------|---------|
-| 2026-03-25 | [2026-03-25-batch-edit-pattern.md](2026-03-25-batch-edit-pattern.md) | high | Editing 30+ files via Read/Edit causes approval fatigue. Use Python batch scr... |
+| Date | File | Severity | Score | Summary |
+|------|------|----------|-------|---------|
+| 2026-03-25 | [2026-03-25-batch-edit-pattern.md](2026-03-25-batch-edit-pattern.md) | high | 2.81 | Editing 30+ files via Read/Edit causes approval fatigue. Use Python batc... |
 
 ## Tags in this component
 
