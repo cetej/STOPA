@@ -162,12 +162,13 @@ For each milestone from Phase 1, verify the assignment goal against the actual c
 
 Now switch to **strict auditor mode**. Your job is to catch what the Selector missed and what the Verifier was too lenient on.
 
-**Check for these 4 failure categories:**
+**Check for these 5 failure categories:**
 
 1. **Missing milestones** — Are there changes not covered by any milestone? Requirements left unverified?
 2. **Weak criteria** — Did any assignment goal accept intermediate progress as success? (e.g., "endpoint exists" when it should be "endpoint returns correct data")
 3. **Hidden failure modes** — Scenarios where PASS milestones could still fail at runtime (race conditions, error paths, integration issues)
 4. **Weak evidence** — Did the Verifier cite action descriptions instead of actual code? Any "seems fine" without line references?
+5. **Unintended side effects** — What does the code do BESIDES the stated goal? Look for: logging sensitive data, modifying shared state, adding implicit dependencies, changing behavior of unrelated code paths. (ref: arXiv:2603.19138 — P4 knowledge-guided prioritization causes false confidence when verification only checks positive criteria)
 
 **Rules for Reviewer:**
 - Every concern MUST be supported by observable signals in the code or diff

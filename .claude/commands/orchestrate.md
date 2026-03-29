@@ -259,6 +259,13 @@ For each subtask (respecting dependencies):
 
 **Hierarchical context injection**: The orchestrator loads shared memory ONCE (Phase 0). When spawning agents, pass the relevant context directly in the prompt — do NOT instruct agents to re-read memory files. This saves 60-80% of token usage on memory loading across agents.
 
+**Diversity framing** (deep tier only, ref: arXiv:2603.19138 — P2 lock-in at 97.6% means parallel agents independently converge on identical solutions):
+When spawning 2+ agents in the same wave for the **deep** tier, vary their reasoning frame to reduce convergence:
+- Agent 1: default framing (as below)
+- Agent 2: add `Approach constraint: prefer the simplest possible solution — minimize abstractions and dependencies`
+- Agent 3: add `Approach constraint: consider what could go wrong first — design for failure modes, then build the happy path`
+This is NOT about different tasks — each agent still has its own subtask. It's about preventing identical reasoning patterns when agents share similar context.
+
 ```
 Agent(subagent_type: "general-purpose", prompt: "
   Context: <what the agent needs to know — include relevant learnings, decisions, conventions>
@@ -352,6 +359,21 @@ After each agent completes and its result is saved via `/compact save-and-summar
 4. **Circuit breaker**: If 2+ agents in the same wave return `status: "failed"` → STOP, present failures to user, ask for guidance before continuing
 
 This validation prevents garbage-in-garbage-out between waves. Ground truth (git diff) trumps agent self-report.
+
+### Wave Re-open Protocol (ref: arXiv:2603.19138)
+
+If a Wave N+1 agent reports `BLOCKED` or `DONE_WITH_CONCERNS` where the root cause traces back to a Wave N output:
+
+1. **Identify the upstream subtask** that produced the problematic output
+2. **Re-open it**: mark status back to `in_progress` in state.md, log the re-open reason
+3. **Re-assign**: spawn a new agent for the re-opened subtask with additional context:
+   - Original subtask prompt + original agent's output summary
+   - The downstream agent's concern (what broke and why)
+   - Instruction: "Your previous implementation caused [issue]. Fix the root cause, don't patch around it."
+4. **Re-validate downstream**: after the re-opened subtask completes, re-run the blocked Wave N+1 agent
+5. **Circuit breaker**: max 1 wave re-open per task. If a second re-open is needed → STOP, escalate to user
+
+This prevents silent failures from propagating forward through waves. Without it, 46.5% of recovery attempts happen too late (final phase) when the cost of backtracking is highest.
 
 ### Wave Context Handoff via Scratchpad
 
@@ -713,6 +735,16 @@ For each subtask marked "done":
 4. Only proceed to critic when ALL criteria pass
 
 This prevents the critic from reviewing incomplete work and catches "declared done but not actually done" subtasks.
+
+### Late-Phase Recovery Check (ref: arXiv:2603.19138)
+
+LLM agents concentrate 46.5% of backtracking in the final 10% of a session. Before proceeding to critic, perform a structured re-evaluation:
+
+1. **Pruned path review**: List any subtask approaches that were considered but rejected during Phase 3 planning. Given the completed work, would any rejected approach have been better?
+2. **Cross-subtask side effects**: Do any completed subtasks silently conflict with each other? (e.g., two agents both modified a shared config file, one overwriting the other's changes)
+3. **Assumption decay**: Were any Phase 0 assumptions (from learnings/decisions) invalidated by what was discovered during execution?
+
+If any issue is found → fix it before critic. This is cheaper than a critic FAIL + re-implementation cycle.
 
 ### Full Context Reload for Synthesis (standard 3+ / deep tier)
 

@@ -33,6 +33,7 @@ globs: ".claude/memory/**"
 - Learnings bez `supersedes:`/`related:` polí jsou plně zpětně kompatibilní
 - `critical-patterns.md` = always-read (max 10 entries, top patterns)
 - Retrieval: grep-first přes component/tags, pak čti jen matched soubory. **Supersedes-aware**: pokud learning A má `supersedes: B`, přeskoč B. **Related expansion**: pokud match má `related: [X, Y]`, čti i X a Y (1-hop, max 3 extra per learning)
+- **Synonym fallback** (ref: arXiv:2603.19138 — P4 knowledge-guided retrieval misses semantically similar patterns under different keywords): If initial grep returns 0 matches, generate 2-3 synonyms/related terms from the task context and retry. Example: "validation" miss → retry with "sanitization", "input checking". Max 2 retry rounds. This prevents early pruning of relevant learnings due to keyword mismatch.
 - **Time-weighted relevance**: When multiple learnings match, prefer recent ones. Score: `severity_weight × (1 / (1 + days_since_date / 60))`. Weights: critical=4, high=3, medium=2, low=1. A 30-day-old critical (2.67) beats a fresh low (2.0), but a 90-day-old medium (0.8) loses to a fresh low.
 - Filename konvence: `<date>-<short-description>.md`
 - Staleness: záznamy starší 90 dní ověřit při maintenance

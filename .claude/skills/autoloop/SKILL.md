@@ -262,6 +262,11 @@ Exit when ANY:
 
   When `exploration_weight > 1.0`: Step 1 (Review) MUST list ALL prior keep descriptions, identify common direction, and propose something structurally different.
 
+- **Late-phase recovery** (ref: arXiv:2603.19138 — LLM agents concentrate 46.5% of backtracking in the final 10% of a session):
+  When iteration ≥ 70% of budget, inject this self-check into Step 1 (Review):
+  > "Re-evaluate early decisions: List paths you pruned or dismissed in iterations 1-3. Are any of them worth revisiting given what you now know? If yes, try one before continuing with incremental improvements."
+  This counters the P1↔P2 lock-in loop where early pruning + path commitment prevent exploring viable alternatives.
+
 ### Escalation Phase (Agent0-inspired, optional)
 
 **Trigger:** `escalate:true` flag AND 3 consecutive discards (plateau detected).
