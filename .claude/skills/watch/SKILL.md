@@ -40,6 +40,7 @@ Use `WebSearch` for each:
 3. **Claude skills/hooks** — search: `"claude code" skills OR hooks OR MCP new {current_year}`
 
 For each result, `WebFetch` the most relevant 1-2 pages.
+- Prefer Jina Reader for cleaner text: `WebFetch("https://r.jina.ai/{url}", ...)` — removes nav/ads, better for LLM parsing. Fall back to direct URL if Jina returns < 200 chars.
 
 ### Tier 2: AI/ML Ecosystem (scan on "full")
 
@@ -121,7 +122,7 @@ For each voice group, run ONE combined search (not per-person — too expensive)
 18. **Paper scouts** — search: `akhaliq OR "papers with code" trending AI model {current_month} {current_year}`
 19. **Aggregator catch-all** — search: `site:simonwillison.net OR site:swyx.io OR site:karpathy.ai {current_year} {current_month}`
 
-If a search returns a promising blog post or newsletter, `WebFetch` it (max 2 fetches for this tier).
+If a search returns a promising blog post or newsletter, `WebFetch` it via Jina Reader (`https://r.jina.ai/{url}`) for clean text (max 2 fetches for this tier).
 
 #### Filtering Sieve (CRITICAL — prevents noise)
 

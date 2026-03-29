@@ -2,6 +2,13 @@
 
 Decisions made during task execution. Each entry captures WHAT was decided, WHY, and by WHOM.
 
+### 2026-03-29 — bird CLI pro Twitter: OPTION, NEIMPLEMENTOVAT ZATÍM
+- **Context**: Agent-Reach používá `@steipete/bird` (npm) pro čtení Twitteru přes cookies bez API poplatků. Balíček je deprecated, kommunikuje přes neoficiální GraphQL API.
+- **Decision**: Neuložit jako závislost. Zmapovat jako možnost pro budoucí Twitter kanál v ZÁCHVĚV/MONITOR.
+- **Why**: Deprecated stav + riziko banu accountu. Použití jen na dedikovaném alt-accountu. Jako produkční vrstva nevhodné.
+- **Possible implementation**: `bird read URL` / `bird search "keyword"` — wrappovat jako /twitter-fetch skill nebo ZÁCHVĚV data source. Prerekvizita: ověřit, že balíček stále funguje (Twitter mění GraphQL endpointy).
+- **Decided by**: user
+
 ### 2026-03-28 — Workflow Optimization Roadmap (IBM paper-inspired): PHASE 1 IMPLEMENTED
 - **Context**: IBM survey "From Static Templates to Dynamic Runtime Graphs" (arXiv:2603.22386) mapuje static→dynamic spektrum pro LLM agent workflows. Identifikovány 3 mezery v STOPA orchestrate.
 - **Decision**: 3-fázový roadmap, Phase 1 implementována ihned:

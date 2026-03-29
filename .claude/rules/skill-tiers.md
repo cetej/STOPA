@@ -30,6 +30,7 @@ Specialized skills for specific workflows:
 - `/autoresearch` — experimental code iteration with measurable outcomes (Claudini-inspired)
 - `/autoharness` — auto-generate validators from observed failure patterns (AutoHarness-inspired)
 - `/build-project` — end-to-end autonomous project builder from requirements
+- `/fetch` — clean URL reader via Jina Reader (no API key, no browser needed)
 
 ## Tier 3 — Advanced (only on explicit request)
 Generative/creative tools and meta-skills:
@@ -64,7 +65,7 @@ Every skill has `tags:` in frontmatter. Use tags to find skills by capability in
 | Planning | `planning` | orchestrate, brainstorm, scenario, build-project |
 | Security | `security` | security-review, dependency-audit |
 | Media gen | `generation`, `media` | nano, klip |
-| Web/OSINT | `web`, `osint` | browse, seo-audit, deepresearch, watch |
+| Web/OSINT | `web`, `osint` | fetch, browse, seo-audit, deepresearch, watch |
 
 ### Pre-flight: `requires` check
 Skills with `requires:` in frontmatter need external dependencies:

@@ -116,6 +116,8 @@ SEARCH STRATEGY:
    - Note: Claude's web search has auto-depth Research mode — it automatically adjusts search depth based on query complexity. For complex research questions, phrase queries as full questions rather than keyword lists to trigger deeper search.
 2. Progressively narrow based on findings
 3. Use WebFetch on the most important results for full content
+   - For cleaner article text, use Jina Reader: `WebFetch("https://r.jina.ai/{url}", ...)`
+   - Jina removes ads/nav/clutter — prefer it for news articles, docs, blog posts
 4. Cross-reference claims across sources
 
 SOURCE QUALITY (prefer → accept → reject):
