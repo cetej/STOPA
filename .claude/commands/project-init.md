@@ -1,7 +1,7 @@
 ---
 name: project-init
 description: Use when setting up a new project with optimal Claude Code config. Trigger on 'init project', 'new project', 'project setup'. Do NOT use for existing projects.
-argument-hint: "[project-path] [--name 'Project Name'] [--force]"
+argument-hint: "[project-path] [--name 'Project Name'] [--force] [--skip-agents-md]"
 tags: [planning, devops]
 user-invocable: true
 allowed-tools: Read, Write, Bash, Glob
@@ -34,6 +34,7 @@ Parse `$ARGUMENTS`:
 - **project-path**: Path to the project root (required). Can be `.` for current directory.
 - **--name "Name"**: Project name for CLAUDE.md (optional, defaults to directory name)
 - **--force**: Overwrite existing `.claude/` structure (optional, default: fail if exists)
+- **--skip-agents-md**: Skip AGENTS.md generation (optional, default: always generate)
 
 If no arguments provided, use current working directory and ask user for project name.
 
@@ -189,6 +190,49 @@ Dostupné skills: `/orchestrate`, `/scout`, `/critic`, `/scribe`, `/budget`, `/c
 - Staging: konkrétní soubory, ne `git add -A`
 ```
 
+## Step 4b: Create AGENTS.md (if not exists and --skip-agents-md not set)
+
+AGENTS.md is a cross-platform standard for repo-local agent instructions, read by OpenAI Codex, Cursor, Gemini CLI, Windsurf, and other AI tools alongside CLAUDE.md.
+
+Only create if `AGENTS.md` does not already exist in project root AND `--skip-agents-md` was NOT passed.
+
+Use this template — replace `{{PROJECT_NAME}}` with the project name:
+
+```markdown
+# {{PROJECT_NAME}} — Agent Instructions
+
+## Project Overview
+
+<!-- Short description of what this project does -->
+
+## Repository Structure
+
+<!-- Key directories and their purpose -->
+
+## How to Run
+
+<!-- Commands to build, test, and run the project -->
+
+## Coding Conventions
+
+- Keep changes minimal — implement only what was requested
+- Prefer simple solutions over abstractions
+- No error handling for impossible scenarios
+- UTF-8 encoding everywhere; use forward slashes in paths
+
+## Testing
+
+<!-- How to run tests; what to verify before marking a task done -->
+
+## Important Files
+
+<!-- List of files agents should check first for context -->
+
+## Off-limits
+
+<!-- Files or directories that should never be modified by agents -->
+```
+
 ## Step 5: Create settings.json
 
 Create `.claude/settings.json` with minimal config:
@@ -206,9 +250,10 @@ Create `.claude/settings.json` with minimal config:
 
 Display to the user:
 
-1. **Tree of created files** — show what was created
+1. **Tree of created files** — show what was created (including AGENTS.md if generated)
 2. **Next steps**:
    - "Uprav `CLAUDE.md` — doplň popis projektu a specifické konvence"
+   - "Uprav `AGENTS.md` — doplň strukturu projektu a jak spustit testy (čtou to Codex, Cursor, Gemini CLI)"
    - "Nainstaluj orchestraci: `claude --plugin-dir /path/to/stopa-orchestration`"
    - "Nebo sync: `./scripts/sync-orchestration.sh <tento-projekt> --commit`"
 3. **Quick start**: "Použij `/orchestrate` pro komplexní úkoly, `/scout` pro průzkum"
@@ -216,6 +261,7 @@ Display to the user:
 ## Rules
 
 - NEVER overwrite existing CLAUDE.md — it contains project-specific instructions
+- NEVER overwrite existing AGENTS.md — it may contain custom instructions
 - NEVER delete existing files in `.claude/` even with `--force`
 - Memory templates must match exactly — orchestration skills parse these formats
 - Keep output in Czech for the user

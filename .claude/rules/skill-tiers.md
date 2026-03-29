@@ -29,6 +29,7 @@ Specialized skills for specific workflows:
 - `/liveprompt` — live community prompt intelligence (what works RIGHT NOW for a topic)
 - `/autoresearch` — experimental code iteration with measurable outcomes (Claudini-inspired)
 - `/autoharness` — auto-generate validators from observed failure patterns (AutoHarness-inspired)
+- `/eval` — grade and replay harness JSONL traces, detect regressions, compare harness configurations
 - `/build-project` — end-to-end autonomous project builder from requirements
 - `/fetch` — clean URL reader via Jina Reader (no API key, no browser needed)
 
@@ -58,7 +59,7 @@ Every skill has `tags:` in frontmatter. Use tags to find skills by capability in
 |------|---------------|-------------|
 | Code quality | `code-quality`, `review` | critic, verify, tdd |
 | Research | `research`, `osint` | deepresearch, scout, liveprompt, watch |
-| Testing | `testing` | verify, harness, tdd, scenario |
+| Testing | `testing` | verify, harness, eval, tdd, scenario |
 | Debugging | `debugging` | systematic-debugging, incident-runbook |
 | Session mgmt | `session`, `memory` | checkpoint, handoff, compact, scribe |
 | DevOps/PRs | `devops` | fix-issue, autofix, pr-review, harness |

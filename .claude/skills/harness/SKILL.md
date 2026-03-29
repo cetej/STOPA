@@ -1,7 +1,7 @@
 ---
 name: harness
 description: Use when running a deterministic, repeatable process from a harness definition. Trigger on 'run harness', 'execute pipeline'. Do NOT use for ad-hoc tasks.
-argument-hint: [harness-name] or leave empty to list available harnesses
+argument-hint: "[harness-name] [--dry-run] [--trace]"
 context-required:
   - "harness name — required; use /harness with no args to list available"
   - "input parameters — specific to the harness; check harness definition for required fields"
@@ -41,6 +41,7 @@ Read `.claude/memory/learnings.md` — apply relevant patterns to harness execut
 From `$ARGUMENTS`, extract:
 - **harness name**: which harness to run (e.g., `skill-audit`, `zachvev-pipeline`)
 - **`--dry-run`**: if present, preview execution plan without running phases (see Phase 1b)
+- **`--trace`**: if present, save per-phase JSONL trace to `.harness/traces/` for eval/replay
 - If empty: list available harnesses and let user choose
 
 ### List available harnesses
@@ -63,6 +64,49 @@ Read `.claude/harnesses/_engine.md` — this contains shared execution logic.
 ### Load harness
 
 Read `.claude/harnesses/<name>/HARNESS.md` — this contains the specific phases.
+
+### Trace initialization (only if `--trace`)
+
+If `--trace` was passed:
+1. Create `.harness/traces/` directory if not exists
+2. Set trace path: `.harness/traces/<YYYY-MM-DD>-<harness-name>.jsonl`
+3. Write header record (one JSON per line):
+   ```json
+   {"ts": "<ISO-8601>", "phase": 0, "phase_name": "dispatch", "event": "start", "harness": "<name>", "model": "<model>", "flags": {"dry_run": false, "trace": true}}
+   ```
+
+## Phase 0.5: Pre-flight Quality Check
+
+Before execution, assess harness setup quality. This score measures **harness infrastructure quality** independent of model quality — runtime config can shift results more than model differences.
+
+Run each check and record result:
+
+| # | Check | How | Points |
+|---|-------|-----|--------|
+| 1 | CLAUDE.md or AGENTS.md present | `Glob CLAUDE.md` / `Glob AGENTS.md` | +1 |
+| 2 | Harness has `requires:` section with env vars listed | Grep `requires:` in HARNESS.md | +1 |
+| 3 | Every phase has `validation:` criteria defined | Count phases with validation block | +1 |
+| 4 | Every phase has `outputs:` schema or path defined | Check output definitions per phase | +1 |
+| 5 | Context budget OK (session-stats.json < 70%, or file absent = assume OK) | Read `.claude/memory/session-stats.json` | +1 |
+
+Display result before proceeding:
+
+```
+Harness Quality: N/5
+✓ CLAUDE.md present
+✓ 3/3 phases have validation criteria
+⚠ Phase 2 missing output schema → results may be unparseable by /eval
+✓ Context budget: 42% (session-stats.json)
+```
+
+**Gate:**
+- Score **< 3**: WARN — "Harness quality is low (N/5). Results may be unreliable or unrepeateable. Continue? (y/n)"
+- Score **≥ 3**: proceed silently (just show the score block)
+
+If `--trace` active: append quality check record:
+```json
+{"ts": "<ISO>", "phase": "0.5", "phase_name": "preflight", "event": "quality_check", "score": N, "checks": {"claude_md": true, "requires": true, "validation": true, "output_schema": false, "context_budget": true}}
+```
 
 ## Phase 1: Check for resume
 
@@ -103,6 +147,11 @@ For each phase in HARNESS.md:
 5. **Save**: Write output to `.harness/phaseN_<name>.json`
 6. **Validate**: Run validation checks
 7. **Report**: "Phase N: PASS ✓" or "Phase N: FAIL ✗ — <reason>"
+8. **Trace** (only if `--trace` active): append record to trace JSONL:
+   ```json
+   {"ts": "<ISO>", "phase": N, "phase_name": "<name>", "type": "<deterministic|llm|parallel|template>", "event": "complete", "validation": "PASS|FAIL", "tool_calls": ["Read:path/file.py", "Bash:pytest"], "output_path": ".harness/phaseN_<name>.json", "retry": false, "tokens_est": null}
+   ```
+   If retry occurred, set `"retry": true` and add `"retry_reason": "<brief reason>"`.
 
 If validation fails:
 - Save error context to `.harness/error.md`
@@ -122,6 +171,12 @@ If harness has `output_template`:
 1. Update `.claude/memory/state.md` — harness completed
 2. Report summary: phases passed/failed, key findings, output location
 3. If issues found: suggest next actions
+4. **Trace finalization** (only if `--trace` active):
+   - Append final record:
+     ```json
+     {"ts": "<ISO>", "phase": "final", "event": "end", "status": "complete|partial|failed", "phases_passed": N, "phases_failed": M, "harness": "<name>"}
+     ```
+   - Report to user: `Trace saved → .harness/traces/<date>-<name>.jsonl  (use /eval to grade or replay)`
 
 ## Parallel sub-agents
 
@@ -144,3 +199,4 @@ When a phase specifies `- **Parallelism**: max N`:
 3. **Save everything** — all intermediate results go to `.harness/`
 4. **Fail fast** — don't continue past a failed validation without user consent
 5. **Be transparent** — show progress after each phase
+6. **Trace is append-only** — never overwrite or delete trace records
