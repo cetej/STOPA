@@ -26,6 +26,7 @@ STOPA/
 │       ├── state.md            # Stav aktuálního úkolu
 │       ├── budget.md           # Rozpočtový ledger
 │       ├── decisions.md        # Log rozhodnutí
+│       ├── key-facts.md        # Referenční data projektu (stack, endpointy, env vars)
 │       ├── learnings.md        # Pointer → learnings/ directory
 │       ├── learnings/          # Per-file YAML learnings (grep-first retrieval)
 │       ├── checkpoint.md       # Snapshot session

@@ -10,6 +10,16 @@ globs: ".claude/memory/**"
 - Datum ve formátu YYYY-MM-DD (absolutní, ne relativní)
 - Checkpoint: vždy obsahuje resume prompt pro další session
 - Budget: vždy obsahuje aktuální zůstatek a tier
+
+## Key Facts (project reference data)
+
+- `key-facts.md` = factual constants: stack, services, endpoints, env vars, conventions
+- NOT for decisions (→ decisions.md) or bug patterns (→ learnings/)
+- Updated when infrastructure changes, not per-session
+- Skills should check key-facts.md before guessing configs or suggesting libraries
+- Format: tables grouped by category (Stack, Services, Env Vars, Dependencies, Conventions)
+- Max 200 řádků — pokud roste, rozděl na sekce nebo extrahuj do per-project facts
+
 ## Learnings (per-file YAML format)
 
 - Uloženy v `.claude/memory/learnings/` jako jednotlivé soubory
