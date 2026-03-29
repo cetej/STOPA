@@ -2,6 +2,10 @@
 name: orchestrate
 description: Use when a task requires multiple steps or touches 3+ files. Trigger on plan this, break this down, orchestrate. Do NOT use for single-file edits.
 argument-hint: [task description]
+context-required:
+  - "task description — what to accomplish and why"
+  - "success criteria — what 'done' looks like (prevents open-ended delivery)"
+  - "constraints — what must NOT change (modules, APIs, interfaces)"
 tags: [orchestration, planning]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
@@ -37,6 +41,16 @@ Before anything, read the shared memory:
    - Read only matched files — don't load the entire directory
 
 Apply any relevant learnings to the current task.
+
+## Context Checklist
+
+If any item below is missing from `$ARGUMENTS`, ask **one question** before proceeding. One clarification upfront beats three rounds of guessing.
+
+| Item | Why it matters |
+|------|---------------|
+| **Task description** | Without it, you decompose the wrong problem |
+| **Success criteria** | Without it, delivery is open-ended and iterates forever |
+| **Constraints** | Without it, you may break things the user considers locked |
 
 ## Phase 0: Budget & Checkpoint Check
 

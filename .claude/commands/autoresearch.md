@@ -2,6 +2,10 @@
 name: autoresearch
 description: "Use when experimentally verifying hypotheses through code iteration with measurable outcomes. Trigger on 'autoresearch', 'experiment', 'try approaches'. Do NOT use for literature review (/deepresearch) or file optimization (/autoloop)."
 argument-hint: <research question> eval:<command> [target:<dir>] [budget:N] [hypotheses:<list>]
+context-required:
+  - "research question — specific and answerable, not vague topic"
+  - "eval command — locked scoring script; without it the loop cannot start"
+  - "target path — one file or directory to mutate"
 tags: [research, testing]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent, WebSearch, WebFetch

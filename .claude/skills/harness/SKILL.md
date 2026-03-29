@@ -2,6 +2,9 @@
 name: harness
 description: Use when running a deterministic, repeatable process from a harness definition. Trigger on 'run harness', 'execute pipeline'. Do NOT use for ad-hoc tasks.
 argument-hint: [harness-name] or leave empty to list available harnesses
+context-required:
+  - "harness name — required; use /harness with no args to list available"
+  - "input parameters — specific to the harness; check harness definition for required fields"
 tags: [testing, devops]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
@@ -17,6 +20,15 @@ You are the harness dispatcher. You run fixed-phase processes with programmatic 
 ## How it works
 
 Unlike `/orchestrate` (dynamic plans, LLM decides steps), harnesses have **fixed phases in fixed order**. Each phase has clear inputs, actions, validation criteria, and outputs. No phase can be skipped.
+
+## Context Checklist
+
+If any item below is missing from `$ARGUMENTS`, ask **one question** before proceeding.
+
+| Item | Why it matters |
+|------|---------------|
+| **Harness name** | Without it, dispatch cannot route — run with no args to list available harnesses |
+| **Input parameters** | Each harness has required inputs; check its definition before running |
 
 ## Phase 0: Dispatch
 

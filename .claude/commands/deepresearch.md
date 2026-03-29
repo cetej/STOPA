@@ -2,6 +2,10 @@
 name: deepresearch
 description: "Use when investigating a topic requiring multiple sources, evidence synthesis, and citations. Trigger on 'research', 'investigate', 'deep dive', 'prozkoumej', 'find out about'. Do NOT use for codebase search (/scout) or ecosystem news (/watch)."
 argument-hint: <topic or research question>
+context-required:
+  - "research question — specific and answerable, not a vague topic"
+  - "output format — brief, analysis, comparison table, or raw evidence"
+  - "scope constraints — time range, domain, credibility bar (optional but saves iterations)"
 tags: [research, osint]
 user-invocable: true
 allowed-tools: Read, Write, Glob, Grep, Bash, Agent, WebSearch, WebFetch
@@ -51,6 +55,16 @@ Every factual claim in the final brief MUST carry an inline marker **after** the
 - Executive Summary uses markers only for the 3-5 most important claims
 - A brief with >30% `[UNVERIFIED]` claims triggers a warning to the user
 - Evidence Table Confidence column maps: high → VERIFIED, medium → INFERRED or SINGLE-SOURCE, low → UNVERIFIED
+
+## Context Checklist
+
+If any item below is missing from `$ARGUMENTS`, ask **one question** before proceeding.
+
+| Item | Why it matters |
+|------|---------------|
+| **Research question** | Vague topic → unfocused output → user asks for revision |
+| **Output format** | Wrong format (e.g. deep analysis when user wanted a quick comparison) wastes budget |
+| **Scope** | Unconstrained time range or domain → too broad to synthesize usefully |
 
 ## Shared Memory
 

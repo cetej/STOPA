@@ -2,6 +2,9 @@
 name: verify
 description: Use when you need to prove something works end-to-end on real data. Trigger on verify this, prove it, funguje to. Do NOT use for unit tests only.
 argument-hint: [what to verify — pipeline name, feature, endpoint, or 'last changes']
+context-required:
+  - "what to verify — pipeline name, feature, endpoint, or 'last changes'"
+  - "expected behavior — what PASS looks like (prevents false positives)"
 tags: [testing, code-quality]
 user-invocable: true
 allowed-tools: Read, Write, Glob, Grep, Bash, Agent
@@ -17,6 +20,15 @@ context:
 # Verify — Product Verification
 
 You prove things work. Not "it compiles" — it actually does what it's supposed to do. You run real commands, check real output, and report pass/fail with evidence.
+
+## Context Checklist
+
+If any item below is missing from `$ARGUMENTS`, ask **one question** before proceeding.
+
+| Item | Why it matters |
+|------|---------------|
+| **What to verify** | Without scope, verification is unfocused and may miss the actual change |
+| **Expected behavior** | Without a PASS definition, any output can be rationalized as correct |
 
 ## Error Handling
 - Script fails → capture error output, report it, suggest fix (don't implement)

@@ -5,6 +5,10 @@ context:
   - tree-mode.md
   - meta-mode.md
 argument-hint: <target file/scope> [goal] [verify:<command>] [guard:<command>] [budget:N] [mode:linear|tree] [meta:true] [escalate:true]
+context-required:
+  - "target file or scope — one file to optimize (single-file mutation rule)"
+  - "optimization goal — what to improve and in which direction"
+  - "verify command — how to measure improvement; without it loop uses LLM-as-judge only"
 tags: [orchestration, testing]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
@@ -37,6 +41,16 @@ Karpathy autoresearch pattern for Claude Code: constrain scope → define metric
 | 6 | **Simplicity wins** — equal results + less code = KEEP |
 | 7 | **Git is memory** — read `git log` + `git diff` before each iteration to learn from history |
 | 8 | **When stuck, think harder** — re-read, combine near-misses, try radical changes |
+
+## Context Checklist
+
+If any item below is missing from `$ARGUMENTS`, ask **one question** before proceeding.
+
+| Item | Why it matters |
+|------|---------------|
+| **Target file** | Without it, scope is undefined and loop mutates the wrong thing |
+| **Goal** | Without direction, loop optimizes for arbitrary structural signals |
+| **Verify command** | Without a metric, improvement is LLM-judged (less reliable; state this explicitly) |
 
 ## Phase 0: Setup
 

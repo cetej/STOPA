@@ -2,6 +2,9 @@
 name: fix-issue
 description: Use when user provides a GitHub issue to resolve with code fix and commit. Trigger on 'fix issue', 'resolve issue', 'close issue #N'. Do NOT use for feature requests without criteria.
 argument-hint: <issue number or URL> [--no-commit]
+context-required:
+  - "issue number or URL — required; without it there is nothing to fix"
+  - "reproduction steps — if not in the issue body, ask before diving into code"
 tags: [devops, code-quality]
 requires: [gh]
 user-invocable: true
@@ -20,6 +23,15 @@ You resolve a GitHub issue end-to-end: understand → find → fix → test → 
 Before starting, read:
 1. `.claude/memory/learnings.md` — check for known patterns related to this area
 2. `.claude/memory/decisions.md` — check for relevant past decisions
+
+## Context Checklist
+
+If any item below is missing, ask **one question** before proceeding.
+
+| Item | Why it matters |
+|------|---------------|
+| **Issue number or URL** | Cannot start without it |
+| **Reproduction steps** | If missing from issue body, ask — guessing doubles the fix time |
 
 ## Phase 1: Understand the Issue
 
