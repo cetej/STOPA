@@ -53,6 +53,42 @@ Parse `$ARGUMENTS`:
 
 ### Learning Entry (learnings/ directory)
 
+#### Write-Time Salience Gate (ref: arXiv:2603.15994 — write-time gating)
+
+Before writing ANY new learning, compute salience score from 3 factors:
+
+```
+SALIENCE = source_reputation × novelty × reliability
+
+source_reputation:
+  1.0 = user_correction (user explicitly said "no, do X instead")
+  0.8 = critic_finding (/critic or /verify identified the issue)
+  0.6 = auto_pattern (automatically detected from session activity)
+  0.4 = agent_generated (sub-agent proposed the learning)
+  0.5 = external_research (from paper, article, external source)
+
+novelty (run dedup check FIRST — see Mandatory Dedup below):
+  1.0 = no match in learnings/ (grep component + tags: 0 hits)
+  0.5 = related but distinct (same component, <2 shared tags)
+  0.1 = near-duplicate (same component + 2+ shared tags + >60% summary overlap)
+
+reliability:
+  1.0 = verify_check exists AND passes
+  0.7 = verify_check defined (not yet tested)
+  0.5 = manual/behavioral rule
+  0.3 = unverifiable claim
+```
+
+**Decision thresholds:**
+- SALIENCE >= 0.4 → **WRITE** normally
+- SALIENCE 0.2–0.4 → **WRITE as `severity: low`** (auto-expire candidate at 60 days)
+- SALIENCE < 0.2 → **DO NOT WRITE** — log to activity-log.md: `[GATED] <summary> (salience=X.XX)`
+
+Example: user correction (1.0) × novel (1.0) × manual rule (0.5) = 0.50 → WRITE.
+Example: agent-generated (0.4) × near-duplicate (0.1) × unverifiable (0.3) = 0.012 → GATE (don't write).
+
+#### Learning File Format
+
 Create a new file in `.claude/memory/learnings/` with kebab-case name and YAML frontmatter:
 
 **Filename**: `<date>-<short-description>.md` (e.g., `2026-03-23-skill-description-shortcut.md`)
@@ -65,6 +101,7 @@ severity: critical | high | medium | low
 component: skill | hook | memory | orchestration | pipeline | general
 tags: [tag1, tag2]
 summary: "1-2 sentence summary: what happened + what to do. Used by memory-whisper for semantic matching."
+source: user_correction | critic_finding | auto_pattern | agent_generated | external_research
 uses: 0
 harmful_uses: 0
 supersedes: ""          # optional — filename of older learning this one replaces (max 1)
@@ -116,14 +153,16 @@ When recording "complete":
 
 Skills that encounter failures SHOULD trigger `/scribe` automatically via handoff. The following failure events warrant automatic learning capture:
 
-| Source Event | Learning Type | Severity | Component |
-|-------------|---------------|----------|-----------|
-| `/autoresearch` experiment crash (3+ same category) | bug_fix | high | pipeline |
-| `/autoresearch` PIVOT decision | architecture | medium | pipeline |
-| `/autoloop` plateau (6+ discards) | anti_pattern | medium | pipeline |
-| `/critic` FATAL finding | bug_fix | high | (from context) |
-| `/verify` end-to-end failure | bug_fix | high | (from context) |
-| `/incident-runbook` root cause found | bug_fix | critical | (from context) |
+| Source Event | Learning Type | Severity | Source | Component |
+|-------------|---------------|----------|--------|-----------|
+| `/autoresearch` experiment crash (3+ same category) | bug_fix | high | auto_pattern | pipeline |
+| `/autoresearch` PIVOT decision | architecture | medium | auto_pattern | pipeline |
+| `/autoloop` plateau (6+ discards) | anti_pattern | medium | auto_pattern | pipeline |
+| `/critic` FATAL finding | bug_fix | high | critic_finding | (from context) |
+| `/verify` end-to-end failure | bug_fix | high | critic_finding | (from context) |
+| `/incident-runbook` root cause found | bug_fix | critical | auto_pattern | (from context) |
+| User correction ("ne takhle", "stop doing X") | varies | high | user_correction | (from context) |
+| External paper/article insight | varies | medium | external_research | (from context) |
 
 **Auto-capture format**: When receiving a handoff from a skill with failure context, extract:
 1. **What failed** → Problém section
@@ -131,7 +170,11 @@ Skills that encounter failures SHOULD trigger `/scribe` automatically via handof
 3. **What fixed it / what to avoid** → Řešení + Prevence sections
 4. **Tags** → derive from skill name + error category
 
-**Dedup check**: Before creating a new learning, grep `learnings/` for similar `summary:` or matching `tags:`. If a match exists, update the existing entry instead of creating a duplicate.
+**Mandatory Dedup Gate** (part of Salience Gate — novelty factor): Before creating a new learning, you MUST:
+1. Grep `learnings/` for same `component:` AND 2+ shared `tags:`
+2. For each match, compare `summary:` — if >60% word overlap, this is a near-duplicate (novelty=0.1)
+3. If near-duplicate found: update the existing entry (bump `uses`, merge tags) instead of creating a new file
+4. This check is MANDATORY, not optional. Skip = salience gate violation.
 
 ### Contradiction Check (before writing a learning)
 

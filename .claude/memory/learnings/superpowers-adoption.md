@@ -5,6 +5,7 @@ severity: high
 component: skill
 tags: [competitive-analysis, superpowers, anti-rationalization, trigger-description]
 summary: "superpowers v5 insight: skill description triggers matching — CC reads description, not body. Anti-rationalization prompts improve quality."
+source: external_research
 ---
 
 ## Problém

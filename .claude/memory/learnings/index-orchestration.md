@@ -1,9 +1,10 @@
 # Component Index: orchestration
 
-Auto-generated L2 index. 6 learnings.
+Auto-generated L2 index. 7 learnings.
 
 | Date | File | Severity | Score | Summary |
 |------|------|----------|-------|---------|
+| 2026-03-29 | [2026-03-29-slopcodebench-iterative-degradation.md](2026-03-29-slopcodebench-iterative-degradation.md) | high | 3.00 | AI coding agents: 2.2× verbosity drift + structural erosion při iteratív... |
 | 2026-03-29 | [2026-03-29-paged-context-protocol.md](2026-03-29-paged-context-protocol.md) | medium | 2.00 | Paged context protocol: read block-manifest.json (metadata) first, fetch... |
 | 2026-03-26 | [2026-03-26-channels-24x7-architecture.md](2026-03-26-channels-24x7-architecture.md) | high | 2.86 | Claude Channels has no message queue — messages lost if session not runn... |
 | 2026-03-26 | [2026-03-26-harness-simplification.md](2026-03-26-harness-simplification.md) | high | 2.86 | Modern Claude models handle multi-step reasoning natively. Simplify harn... |

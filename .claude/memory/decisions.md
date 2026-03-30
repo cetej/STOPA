@@ -2,6 +2,13 @@
 
 Decisions made during task execution. Each entry captures WHAT was decided, WHY, and by WHOM.
 
+### 2026-03-30 — Write-Time Gating pro STOPA memory (arXiv:2603.15994)
+- **Context**: Paper od Cambridge ukazuje, že write-time filtrování je strukturálně nadřazené read-time filtrování při vysokém šumu
+- **Options considered**: (A) Pouze read-time vylepšení, (B) Write-time salience gate + source tracking, (C) Plná reimplementace memory jako vector store
+- **Decision**: Varianta B — salience gate v /scribe, `source:` pole, zpřísnění dedup
+- **Rationale**: Minimální effort (3 soubory), plně zpětně kompatibilní, adresuje hlavní gap (nekontrolovaný write-path). Varianta C je overengineering pro 34 learnings.
+- **Decided by**: user + orchestrator
+
 ### 2026-03-29 — bird CLI pro Twitter: OPTION, NEIMPLEMENTOVAT ZATÍM
 - **Context**: Agent-Reach používá `@steipete/bird` (npm) pro čtení Twitteru přes cookies bez API poplatků. Balíček je deprecated, kommunikuje přes neoficiální GraphQL API.
 - **Decision**: Neuložit jako závislost. Zmapovat jako možnost pro budoucí Twitter kanál v ZÁCHVĚV/MONITOR.

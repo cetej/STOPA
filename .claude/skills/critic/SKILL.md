@@ -43,6 +43,8 @@ Diff/Changes
     ↓  output: milestones with assignment goals
 [VERIFIER]  — verify each milestone against spec/conventions
     ↓  output: pass/fail per milestone with grounded evidence
+[DYNAMIC VERIFIER]  — run non-mutating checks on changed files (Agent0-VL pattern)
+    ↓  output: runtime check results, milestone overrides
 [REVIEWER as CRITIC]  — audit for missed milestones, weak criteria, hidden failures
     ↓  output: concerns indexed to milestones
 [JUDGE]  — synthesize full evidence chain into verdict
@@ -158,6 +160,56 @@ For each milestone from Phase 1, verify the assignment goal against the actual c
 | M3 | Callers get same type | PASS | Return type `UserProfile` unchanged, all 3 callers verified |
 ```
 
+### Phase 2.5: DYNAMIC VERIFIER — Tool-Grounded Runtime Checks
+
+**Inspiration:** Agent0-VL (arXiv:2603.xxxxx) — verification uses tools not just for finding code, but for testing it. Static code reading can miss import errors, type mismatches, and syntax issues that 5-second runtime checks would catch instantly.
+
+**Scope:** ONLY files from `git diff --name-only` (or `--cached`). Never run checks on unchanged files.
+
+**When to run:** STANDARD and DEEP paths only. Skip for QUICK path. Skip entirely if no changed files have runnable checks.
+
+**Check table** — run only applicable checks, skip unavailable tools silently:
+
+| Check | Command | When | Timeout |
+|-------|---------|------|---------|
+| Python import | `python -c "import <module>"` for each changed .py module | .py files changed | 10s |
+| Python syntax | `python -m py_compile <file>` | .py files changed | 10s |
+| Type check | `mypy --no-error-summary --no-color <files>` | .py files, mypy available | 30s |
+| Lint | `ruff check --no-fix <files>` | .py files, ruff available | 15s |
+| Test discovery | `pytest --collect-only -q <test_files>` | test_*.py or *_test.py changed | 15s |
+| JS/TS syntax | `node --check <file>` | .js/.ts files changed | 10s |
+| JSON validity | `python -m json.tool <file> > /dev/null` | .json files changed | 5s |
+
+**Constraints:**
+- Total time cap: **3 minutes** for all dynamic checks combined
+- Per-check timeout: as listed above
+- **READ-ONLY enforcement**: no Write/Edit, no `--fix` flags, no file modification
+- If a tool is not installed (mypy, ruff, pytest): skip silently, do not fail
+- If ALL checks are skipped (no applicable tools): note "Dynamic verification: no applicable checks" and proceed
+
+**Override rule — Dynamic FAIL overrides Static PASS:**
+If Phase 2 (Verifier) marked a milestone as PASS based on code reading, but Phase 2.5 reveals a runtime failure (import error, type error, syntax error) in the same code: **override the milestone to FAIL**. Runtime evidence is stronger than static reading.
+
+Update the Phase 2 results table with overrides:
+
+```markdown
+### Dynamic Verification Results
+
+| Check | Files | Status | Output |
+|-------|-------|--------|--------|
+| Python import | src/auth.py | PASS | — |
+| Type check | src/auth.py, src/api.py | FAIL | src/api.py:15: error: Argument 1 has incompatible type "str"; expected "int" |
+| Lint | src/auth.py | PASS | — |
+
+**Milestone overrides:** M2 PASS → FAIL (type error in endpoint handler confirms unprotected path)
+```
+
+**Anti-patterns for Dynamic Verifier:**
+- Do NOT run full test suites — only `--collect-only` or targeted single-test runs
+- Do NOT install missing tools — use what's available
+- Do NOT chase transient failures (network, timing) — only deterministic checks
+- Do NOT re-run failed checks hoping for different results
+
 ### Phase 3: REVIEWER as CRITIC — Audit the Evidence Chain
 
 Now switch to **strict auditor mode**. Your job is to catch what the Selector missed and what the Verifier was too lenient on.
@@ -169,6 +221,7 @@ Now switch to **strict auditor mode**. Your job is to catch what the Selector mi
 3. **Hidden failure modes** — Scenarios where PASS milestones could still fail at runtime (race conditions, error paths, integration issues)
 4. **Weak evidence** — Did the Verifier cite action descriptions instead of actual code? Any "seems fine" without line references?
 5. **Unintended side effects** — What does the code do BESIDES the stated goal? Look for: logging sensitive data, modifying shared state, adding implicit dependencies, changing behavior of unrelated code paths. (ref: arXiv:2603.19138 — P4 knowledge-guided prioritization causes false confidence when verification only checks positive criteria)
+6. **Static-dynamic mismatch** — Did Phase 2.5 (Dynamic Verifier) contradict Phase 2 (Static Verifier)? If a milestone was overridden from PASS to FAIL by runtime checks, investigate WHY static analysis missed it. Common causes: stale imports, conditional logic hiding dead code, type coercion masking errors.
 
 **Rules for Reviewer:**
 - Every concern MUST be supported by observable signals in the code or diff
@@ -211,6 +264,7 @@ Synthesize the full evidence chain: milestones → verification results → revi
 - Weigh the evidence chain holistically — one FAIL on a security milestone outweighs five PASS on formatting milestones
 - If refinement was needed (DEEP path) or verification was borderline → tilt conservative
 - Reviewer concerns that weren't resolved count against the verdict
+- **Dynamic verification overrides are decisive** — if Phase 2.5 overrode a milestone from PASS to FAIL, that FAIL is grounded in runtime evidence and cannot be softened by static reasoning
 
 **Confounder-Aware Scoring** (inspired by CARE, arXiv:2603.00039):
 - Separate **substance** from **style** — verbose code is not necessarily better, terse code is not necessarily worse
@@ -311,6 +365,15 @@ Apply these during Phase 2 (Verifier) alongside assignment goals:
 | src/auth/jwt.ts | src/routes/api.ts, src/middleware/auth.ts | high (auth path) |
 
 **Blast radius**: N files changed → M dependents affected
+
+### Dynamic Verification Results
+
+| Check | Files | Status | Output |
+|-------|-------|--------|--------|
+| Python import | src/auth.py | PASS | — |
+| Type check | src/auth.py, src/api.py | FAIL | src/api.py:15: incompatible type |
+
+**Milestone overrides:** (list any Phase 2 PASS→FAIL overrides, or "none")
 
 ### Milestone Summary
 

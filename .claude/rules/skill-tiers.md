@@ -45,6 +45,7 @@ Generative/creative tools and meta-skills:
 - `/budget` — cost tracking
 - `/browse` — Chrome automation
 - `/youtube-transcript` — video transcripts
+- `/self-evolve` — adversarial co-evolution loop for skill improvement (Agent0-inspired)
 
 ## Tier 4 — Methodology (suggest when development discipline matters)
 Engineering methodology skills inspired by superpowers patterns:
@@ -57,7 +58,7 @@ Every skill has `tags:` in frontmatter. Use tags to find skills by capability in
 
 | Need | Tags to search | Top matches |
 |------|---------------|-------------|
-| Code quality | `code-quality`, `review` | critic, verify, tdd |
+| Code quality | `code-quality`, `review` | critic, verify, tdd, self-evolve |
 | Research | `research`, `osint` | deepresearch, scout, liveprompt, watch |
 | Testing | `testing` | verify, harness, eval, tdd, scenario |
 | Debugging | `debugging` | systematic-debugging, incident-runbook |

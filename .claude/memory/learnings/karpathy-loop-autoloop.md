@@ -5,6 +5,7 @@ severity: medium
 component: skill
 tags: [autoloop, optimization, llm-as-judge, structural-heuristic]
 summary: "Karpathy optimization loop: edit → measure → score → iterate. Use structural heuristics + LLM-as-judge for scoring."
+source: external_research
 ---
 
 ## Problém

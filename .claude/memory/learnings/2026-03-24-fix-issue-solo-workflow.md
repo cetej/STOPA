@@ -5,6 +5,7 @@ severity: medium
 component: skill
 tags: [fix-issue, git, solo-development, workflow-simplification]
 summary: "Solo dev projects should commit directly to main, skip branch/PR workflow in /fix-issue."
+source: auto_pattern
 ---
 
 ## Problém
