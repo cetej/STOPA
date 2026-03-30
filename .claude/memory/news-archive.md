@@ -4,6 +4,49 @@ Archived items from `news.md`. Read-only reference — not actively loaded into 
 
 ## Archived Action Items
 
+<!-- Archived 2026-03-30 — CALM-inspired compression maintenance -->
+
+- **Cloud Auto-Fix PRs + Scheduled Tasks** (#34, CC Web, 2026-03-27) — Status: DONE 2026-03-29
+  - `/autofix` skill implemented, `/fix-issue` Phase 7 added
+  - Scheduled cloud tasks: PLANNED (needs Claude GitHub App)
+
+- **AutoDream / `/dream`** (#32, CC v2.1.81+) — Status: EVALUATED 2026-03-26
+  - Verdict: KOEXISTENCE — dream=janitor, scribe=architekt. PR #39299 stále open.
+
+- **CC v2.1.86** (#37, 2026-03-27) — Windows settings.json corruption fix
+  - Akce: update CLI — Status: PENDING (low priority)
+
+- **CC v2.1.84 PowerShell** (#38) — Status: NOTED (opt-in preview)
+
+- **Claude Desktop Windows** (#39, 2026-03-28) — v1.1.1931, Computer Use Mac only
+
+- **CC 2.1.84** (#30) — TaskCreated + WorktreeCreate hooks — Status: NOTED
+
+- **CC 2.1.83** (#31) — FileChanged hook, managed-settings.d/ — Status: NOTED
+
+- **Auto Mode** (#0, 2026-03-24) — `claude --enable-auto-mode` research preview
+  - Relevance: nahradí manuální permission approvals. Team plan only.
+
+- **Computer Use Mac** (#0b) — macOS only, Windows pending
+
+- **Claude Dispatch** (#0c) — QR párování iPhone→Mac, Max/Pro subscribers
+
+- **Claude Mobile Interactive Apps** (#33) — live charts v mobile konverzaci
+
+- **Codified Context** (#29, arXiv 2602.20478) — Context Bootstrap do /orchestrate — PENDING
+
+- **`${CLAUDE_PLUGIN_DATA}`** (#1) — plugin persistent state — deferred
+
+- **1M context GA** (#2) — Opus+Sonnet 4.6, no beta header — NOTED
+
+- **`thinking.display: "omitted"`** (#3) — omit thinking blocks, 2.5× faster streaming — NOTED
+
+- **Models API capabilities** (#4) — dynamic model selection — NOTED
+
+- **Opus 4.6 max output 128k** (#6) — default 64k, upper 128k — NOTED
+
+- **HTTP hooks** (#7) — GA od v2.1.63, TLS SNI bug workaround — NOTED
+
 <!-- Archived 2026-03-29 routine maintenance — DONE items -->
 
 - **Claude web search — light Research auto-depth mode** (Alex Albert, Mar 2026) — Status: DONE 2026-03-29

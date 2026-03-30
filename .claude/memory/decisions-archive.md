@@ -2,6 +2,32 @@
 
 Decisions older than 10 tasks, moved here by `/scribe maintenance`.
 
+<!-- Archived 2026-03-30 — resolved/stable/foundational decisions -->
+
+### 2026-03-27 — Cloud Auto-Fix integration: 3-layer approach
+- **Decision**: `/autofix` skill (DONE) + `/fix-issue` Phase 7 (DONE) + Scheduled cloud tasks (PLANNED)
+- **Status**: DONE (skill + integration), PLANNED (scheduled tasks need Claude GitHub App)
+
+### 2026-03-26 — AutoDream vs STOPA memory: KOEXISTENCE
+- **Decision**: Dream jako "janitor" (čištění, dedup), STOPA `/scribe` jako "architekt" (YAML, grep-first, archivace)
+- **Ochrana**: HTML komentář v MEMORY.md, monitorovat, eskalace: `autoDreamEnabled: false`
+- **Status**: STABLE — rozhodnutí platí, PR #39299 stále nemerged
+
+### 2026-03-24 — Server pro 24/7 agent infrastrukturu
+- **Decision**: PENDING — uživatel plánuje server
+- **Požadavky**: CC CLI + scheduled tasks + Telegram + Git SSH + Python 3.11+
+- **Sync**: SyncThing (P2P, $0/měsíc)
+- **Možnosti**: (A) VPS €5-10/měsíc, (B) Anthropic hosted, (C) RPi, (D) Mac Mini
+- **Status**: PENDING — rozhodnutí na uživateli
+
+### 2026-03-24 — Voting Pattern: Known Gap, Future Option
+- **Decision**: Neimplementovat, zapsat jako nápad. Flag `--voting` pro `/critic` až bude evidence potřeby.
+- **Status**: PARKED
+
+### 2026-03-24 — /fix-issue workflow: Direct main commits (solo project)
+- **Decision**: Commitovat přímo na main bez feature branch/PR workflow
+- **Status**: DONE — foundational convention
+
 <!-- Archived 2026-03-27 — resolved/foundational decisions -->
 
 ### 2026-03-22 — Skill Audit Findings: Integration Gaps in Utility Skills
