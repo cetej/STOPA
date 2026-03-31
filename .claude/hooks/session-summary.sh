@@ -134,4 +134,96 @@ if [ -f "$SESSIONS_LOG" ]; then
   fi
 fi
 
+# --- Auto-checkpoint: generate checkpoint.md from session data ---
+# Only for non-trivial sessions (total >= 5 operations)
+CHECKPOINT="$MEMORY_DIR/checkpoint.md"
+if [ "$total" -ge 5 ]; then
+  BRANCH=$(git branch --show-current 2>/dev/null || echo "unknown")
+  LAST_COMMIT_HASH=$(git log -1 --format="%h" 2>/dev/null || echo "unknown")
+  LAST_COMMIT_MSG=$(git log -1 --format="%s" 2>/dev/null || echo "unknown")
+  TODAY=$(date +"%Y-%m-%d")
+
+  # Extract task goal from state.md
+  task_goal="unknown"
+  if [ -f "$STATE" ]; then
+    task_goal=$(grep -A1 "^## Active Task" "$STATE" 2>/dev/null | tail -1 | sed 's/^\*\*Goal\*\*: *//')
+    if [ -z "$task_goal" ] || echo "$task_goal" | grep -qi "no active task"; then
+      # Fallback: use state_snapshot from earlier extraction
+      task_goal="$state_snapshot"
+    fi
+  fi
+
+  # Extract subtask table from state.md (done vs total)
+  subtasks_done=0
+  subtasks_total=0
+  subtasks_remaining=""
+  if [ -f "$STATE" ]; then
+    subtasks_done=$(grep -cE "\| done" "$STATE" 2>/dev/null) || true
+    subtasks_total=$(grep -cE "^\| [0-9]" "$STATE" 2>/dev/null) || true
+    subtasks_done="${subtasks_done:-0}"
+    subtasks_total="${subtasks_total:-0}"
+    # Extract names of pending/in-progress subtasks
+    subtasks_remaining=$(grep -E "^\| [0-9]" "$STATE" 2>/dev/null | grep -vE "\| done" | sed 's/^| [0-9]* | //' | sed 's/ |.*$//' | head -5 | while IFS= read -r line; do
+      printf "  - %s\n" "$line"
+    done)
+  fi
+
+  # Extract recent activity summary (last 20 unique tool types)
+  activity_summary=""
+  if [ -f "$LOG" ]; then
+    activity_summary=$(tail -20 "$LOG" 2>/dev/null | grep -oE "\| (Write|Edit|Agent|Skill:[a-zA-Z_-]+|Bash) " | sort | uniq -c | sort -rn | head -5 | while IFS= read -r line; do
+      printf "  - %s\n" "$(echo "$line" | sed 's/^ *//')"
+    done)
+  fi
+
+  # Determine checkpoint status
+  ckpt_status="auto-saved (session end)"
+  if [ "$subtasks_total" -gt 0 ] && [ "$subtasks_done" -lt "$subtasks_total" ]; then
+    ckpt_status="IN PROGRESS — $subtasks_done/$subtasks_total subtasks done"
+  elif [ "$subtasks_total" -gt 0 ] && [ "$subtasks_done" -eq "$subtasks_total" ]; then
+    ckpt_status="COMPLETE"
+  fi
+
+  # Build resume prompt: what was done + what remains
+  resume_what_done="Session: $writes file edits, $agents agent spawns, $skills skill calls"
+  if [ -n "$skill_names" ]; then
+    resume_skills=$(echo "$skill_names" | sed 's/"//g; s/,/, /g')
+    resume_what_done="$resume_what_done. Skills: $resume_skills"
+  fi
+
+  # Write checkpoint atomically
+  cat > "${CHECKPOINT}.tmp" <<CKPT
+# Session Checkpoint
+
+**Saved**: $TODAY ($ckpt_status)
+**Task**: $(echo "$task_goal" | sed 's/"/\\"/g' | head -c 200)
+**Branch**: $BRANCH
+**Last commit**: \`$LAST_COMMIT_HASH\` $LAST_COMMIT_MSG
+
+---
+
+## Session Activity
+
+$resume_what_done
+Duration: ~${duration_min} min
+
+## What Remains
+
+$(if [ -n "$subtasks_remaining" ]; then echo "Pending subtasks:"; echo "$subtasks_remaining"; else echo "_No pending subtasks detected in state.md_"; fi)
+
+---
+
+## Resume Prompt
+
+> **Task**: $(echo "$task_goal" | head -c 200)
+>
+> **Context**: Last commit \`$LAST_COMMIT_HASH\` ($LAST_COMMIT_MSG). Branch: $BRANCH.
+> Session had $writes edits, $agents agents, $skills skill calls, $errors errors.
+$(if [ "$subtasks_total" -gt 0 ] && [ "$subtasks_done" -lt "$subtasks_total" ]; then echo "> **Remaining**: $((subtasks_total - subtasks_done)) subtasks pending — check state.md for details."; fi)
+$(if [ "$errors" -gt 0 ]; then echo "> **Errors detected**: $errors — review before continuing."; fi)
+CKPT
+
+  mv "${CHECKPOINT}.tmp" "$CHECKPOINT" 2>/dev/null
+fi
+
 exit 0

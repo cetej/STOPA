@@ -744,9 +744,23 @@ Every spawned agent MUST end its response with a Status block (included in the p
 2. Update `.claude/memory/budget.md` — increment counters for any agents/critics used
 3. Update `.claude/memory/state.md` — set subtask to `done` (or `blocked:<dep#>` if BLOCKED). Note concerns if DONE_WITH_CONCERNS
 4. **Budget gate**: Check if any counter hit its limit. If yes → stop and report to user
-5. Invoke `/critic` if tier allows another round. For **light tier**, skip critic on individual subtasks — only run once at the end. If agent reported DONE_WITH_CONCERNS, pass those concerns as extra context to critic.
-6. If critic returns FAIL → re-execute ONCE. If FAIL again → **circuit breaker** → escalate to user with findings
-7. Log decisions to `.claude/memory/decisions.md` via scribe pattern
+5. **De-sloppify check** (standard/deep tier only, skip for light/farm): Spawn a Haiku agent to scan files changed by the subtask (`git diff --name-only` vs pre-subtask state). Check for:
+   - `console.log(` / `print(` debugging leftovers (ignore if inside logging/debug modules)
+   - `TODO` / `FIXME` / `HACK` markers introduced in this subtask (not pre-existing)
+   - Inconsistent naming: mixed camelCase/snake_case in the same file
+   - Commented-out code blocks (3+ consecutive commented lines)
+   Report format: list of findings with file:line. **Non-blocking** — log findings but don't fail the subtask. If findings > 0, append to the subtask's concerns for critic review. If 0 findings, skip silently.
+   Agent prompt template:
+   ```
+   Review these files for sloppiness. Report ONLY issues introduced in this diff, not pre-existing.
+   Check: debug prints (console.log/print), new TODO/FIXME/HACK markers, mixed naming conventions, commented-out code blocks.
+   Output: JSON array of {file, line, issue, severity} or empty array if clean.
+   Files: <changed-files-list>
+   Diff: <git-diff-output>
+   ```
+6. Invoke `/critic` if tier allows another round. For **light tier**, skip critic on individual subtasks — only run once at the end. If agent reported DONE_WITH_CONCERNS, pass those concerns as extra context to critic. Include de-sloppify findings (step 5) as additional context.
+7. If critic returns FAIL → re-execute ONCE. If FAIL again → **circuit breaker** → escalate to user with findings
+8. Log decisions to `.claude/memory/decisions.md` via scribe pattern
 
 ### Phase 4 (farm tier): Farm Execution
 

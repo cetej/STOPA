@@ -50,6 +50,12 @@
             "command": "bash .claude/hooks/evolve-trigger.sh",
             "timeout": 5,
             "statusMessage": "Checking evolution thresholds..."
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/harness-audit.sh",
+            "timeout": 10,
+            "statusMessage": "Running harness audit..."
           }
         ]
       }
