@@ -1,7 +1,7 @@
 ---
 name: eval
 description: Use when grading or replaying harness traces to measure quality drift, detect regressions, or compare harness configurations. Trigger on 'eval trace', 'grade harness', 'replay run', 'harness drift'. Do NOT use for one-off verification (/verify) or writing tests (/tdd).
-argument-hint: "[trace-file | harness-name | --list] [--replay] [--diff trace1 trace2] [--baseline]"
+argument-hint: "[trace-file | harness-name | --list] [--replay] [--diff trace1 trace2] [--baseline] [--optim [run_id | --list | --latest | --diff run1 run2]]"
 tags: [testing, devops]
 user-invocable: true
 allowed-tools: Read, Write, Glob, Grep, Bash, Agent
@@ -251,6 +251,83 @@ Report: `Baseline locked: .harness/traces/<harness-name>.baseline.jsonl`
 
 ---
 
+## Mode: --optim (optimization trace analysis)
+
+Grade optimization runs (autoloop, autoresearch, self-evolve) from `.traces/` directory.
+Meta-Harness-inspired: measures how well the proposer used trace data for causal reasoning.
+
+### Sub-modes
+
+- **`--optim --list`**: List all optimization trace directories
+- **`--optim <run_id>`**: Grade specific optimization run
+- **`--optim --latest`**: Grade most recent run
+- **`--optim --diff <run1> <run2>`**: Compare two runs on same target
+
+### Step 1: Scan for optimization traces
+
+```bash
+ls -d .traces/*/ 2>/dev/null || echo "No optimization traces found"
+```
+
+For each directory, read `iterations.jsonl` (last line) and `proposals.jsonl` to extract:
+- Skill name (from run_id prefix: autoloop-, autoresearch-, self-evolve-)
+- Target, iteration count, final metric, total keeps/discards
+
+### Step 2: Quality metrics (for grading a single run)
+
+| Metric | Formula | Meaning |
+|--------|---------|---------|
+| **proposal_quality** | proposals with non-null trace_evidence / total | How often proposer used trace data |
+| **trace_utilization** | unique iterations referenced in proposals / total iterations | Coverage of trace evidence |
+| **convergence_efficiency** | (final_metric - baseline) / iterations_used | Improvement per iteration |
+| **plateau_escape_rate** | plateaus escaped / plateaus encountered | Trace-informed pivot effectiveness |
+| **discard_to_keep_ratio** | discards / keeps | Lower is better — efficient exploration |
+
+Parse from:
+- `proposals.jsonl`: count records with/without `trace_evidence`
+- `iterations.jsonl`: extract metrics, statuses, compute plateaus (3+ consecutive discards)
+- `tools.jsonl`: count total tool calls, error rate
+
+### Step 3: Optim report
+
+```
+## Optimization Eval: <run_id>
+Skill:   autoloop
+Target:  .claude/skills/critic/SKILL.md
+Iters:   10 / 15 budget
+
+Metrics:
+  proposal_quality:       7/10 (70%) — trace evidence in 7 of 10 proposals
+  trace_utilization:      8/10 (80%) — 8 iterations referenced in diagnoses
+  convergence_efficiency: +0.82/iter
+  plateau_escape_rate:    1/1 (100%) — escaped 1 plateau via trace-informed pivot
+  discard_to_keep:        4:6
+
+Timeline:
+  Baseline: 85.2 → Final: 93.4 (+8.2)
+  Keeps: 6 | Discards: 4 | Crashes: 0
+  Plateaus: 1 (iter 5-7, escaped at iter 8 via strategy: simplify)
+
+Trace effectiveness:
+  Iterations WITH trace evidence:  avg delta +1.3
+  Iterations WITHOUT trace evidence: avg delta +0.4
+  → Trace-informed proposals 3.25× more effective
+```
+
+### Step 4: Optim diff (--optim --diff)
+
+Compare two runs on the same target:
+
+| Metric | run1 | run2 | Delta |
+|--------|------|------|-------|
+| convergence_efficiency | +0.82 | +0.45 | run1 better |
+| proposal_quality | 70% | 30% | run1 more trace-informed |
+| final_metric | 93.4 | 89.1 | run1 better |
+
+Root cause: "run1 used trace evidence 2.3× more often, especially during plateau at iter 5-7"
+
+---
+
 ## Rules
 
 1. **Read-only** — never modify trace files (append-only guarantee from /harness)
@@ -258,3 +335,4 @@ Report: `Baseline locked: .harness/traces/<harness-name>.baseline.jsonl`
 3. **baseline.jsonl is sacred** — never overwrite without explicit `--baseline` flag
 4. **Report in Czech** if user context is Czech
 5. **Missing fields** — treat absent JSONL fields as "n/a", never fail on incomplete traces
+6. **--optim is read-only** — optimization traces in `.traces/` are working data, never modify

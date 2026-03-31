@@ -6,6 +6,8 @@ context-required:
   - "research question — specific and answerable, not vague topic"
   - "eval command — locked scoring script; without it the loop cannot start"
   - "target path — one file or directory to mutate"
+context:
+  - trace-review.md
 tags: [research, testing]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent, WebSearch, WebFetch
@@ -176,6 +178,10 @@ If eval command fails on baseline: **STOP**. The user must provide a working eva
 
 ### Create experiment branch
 
+
+
+Follow `trace-review.md` → **Trace Initialization** section: create `.traces/<run_id>/`, write `trace-active.json` marker (skill:"autoresearch"), purge old traces. This enables the `trace-capture.py` PostToolUse hook to record tool call inputs/outputs during the experiment run.
+
 ```bash
 git checkout -b autoresearch/<slug>-$(date +%s)
 ```
@@ -228,6 +234,7 @@ For each iteration (1 to budget):
 2. Run `git log --oneline -10` — see what was tried
 3. If last experiment was "keep": run `git diff HEAD~1` — understand WHAT worked
 4. Identify: what's been tried, what worked, what failed, what's unexplored
+5. **If `.traces/<run_id>/` exists**: follow `trace-review.md` → Trace-Informed Review Protocol (grep traces for failed/successful iteration, read error outputs, mandatory hypothesis diagnosis)
 
 ### Step 2: Hypothesize
 
@@ -265,6 +272,8 @@ git add <specific-files>
 git diff --cached --quiet && echo "no-op" || \
 git commit -m "experiment(<hypothesis-name>): <one-sentence description>"
 ```
+
+**Trace diff capture:** If traces active, follow `trace-review.md` → Diff Capture section.
 
 ### Step 5: Run eval
 
@@ -429,6 +438,8 @@ Automatically triggered by PIVOT decision (see Step 10 above). Can also trigger 
 This is the key difference from autoloop — autoresearch can break out of local optima by consulting external knowledge.
 
 ## Phase 3: Synthesis Report
+
+**Trace deactivation:** If traces active, follow `trace-review.md` → Trace Deactivation section. Traces stay in `.traces/` for `/eval --optim` analysis.
 
 After loop ends, write to `outputs/autoresearch-<slug>.md`:
 

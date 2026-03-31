@@ -102,6 +102,12 @@
           },
           {
             "type": "command",
+            "command": "python .claude/hooks/trace-capture.py",
+            "timeout": 2,
+            "statusMessage": ""
+          },
+          {
+            "type": "command",
             "command": "bash .claude/hooks/suggest-compact.sh",
             "timeout": 3,
             "statusMessage": ""

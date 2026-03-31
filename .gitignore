@@ -11,3 +11,4 @@ outputs/.research/
 watchlist-drawer.png
 *.local.txt
 SECRETS*
+.traces/

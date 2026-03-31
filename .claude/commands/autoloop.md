@@ -4,6 +4,7 @@ description: Use when iteratively optimizing a file or metric via Karpathy loop.
 context:
   - tree-mode.md
   - meta-mode.md
+  - trace-review.md
 argument-hint: <target file/scope> [goal] [verify:<command>] [guard:<command>] [budget:N] [mode:linear|tree] [meta:true] [escalate:true]
 context-required:
   - "target file or scope — one file to optimize (single-file mutation rule)"
@@ -112,6 +113,10 @@ If any FAIL: stop and inform user. Do not enter the loop with broken preconditio
 
 Ask user once: "Provide a verify command, or continue with LLM-as-judge?" Then proceed with their choice.
 
+### Initialize trace capture (Meta-Harness)
+
+Follow `trace-review.md` → **Trace Initialization** section: create `.traces/<run_id>/`, write `trace-active.json` marker, purge old traces. This enables the `trace-capture.py` PostToolUse hook to record tool call inputs/outputs during the optimization run.
+
 ### Create feature branch
 
 ```bash
@@ -136,15 +141,16 @@ Run verify/scorer on unmodified state. Record as baseline in TSV:
 
 For each iteration (1 to budget):
 
-### Step 1: Review (git as memory)
+### Step 1: Review (git + traces as memory)
 
-**MUST complete ALL steps** — git history is the primary learning mechanism:
+**MUST complete ALL steps** — git history and traces are the primary learning mechanisms:
 
 1. Read current state of in-scope files
 2. Read last 10-20 entries from `autoloop-results.tsv`
 3. Run `git log --oneline -10` — see recent experiments (kept vs reverted)
 4. If last iteration was "keep": run `git diff HEAD~1` — understand WHAT worked
-5. Decide: exploit success (variant of what worked) or explore new approach
+5. **If `.traces/<run_id>/` exists**: follow `trace-review.md` → Trace-Informed Review Protocol (grep traces for failed/successful iteration, read error outputs, mandatory diagnosis)
+6. Decide: exploit success (variant of what worked) or explore new approach
 
 **Priority order for next change:**
 1. Fix crashes/failures from previous iteration
@@ -183,6 +189,8 @@ git commit -m "experiment(<scope>): <one-sentence description>"
 
 If nothing to commit: log as `no-op`, skip verify, next iteration.
 If pre-commit hook blocks: fix issue and retry (max 2 attempts), then log as `hook-blocked`.
+
+**Trace diff capture:** If traces active, follow `trace-review.md` → Diff Capture section.
 
 ### Step 4: Verify (mechanical only)
 
@@ -406,6 +414,8 @@ If validation score dropped below 5: warn — structural improvements may have h
 ```
 
 **Run Diary Summary**: Append `## Summary` section to `run-diary-<slug>.md` with key insight, best approach, dead ends. If significant findings: suggest `/scribe learning` with diary path.
+
+**Trace deactivation:** If traces active, follow `trace-review.md` → Trace Deactivation section. Traces stay in `.traces/` for `/eval --optim` analysis.
 
 ### Performance Record
 

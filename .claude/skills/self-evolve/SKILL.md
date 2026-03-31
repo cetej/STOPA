@@ -71,6 +71,7 @@ Validation:
    - Initialize meta sandbox and meta-log.tsv per `meta-mode.md`
 4. Create evolution branch: `git checkout -b self-evolve/<target>`
 5. Run baseline eval: execute all cases, record pass_rate
+5a. **Trace initialization:** Create `.traces/self-evolve-<target>-<timestamp>/` with `diffs/` subdir. Write `trace-active.json` marker: `{"skill":"self-evolve","run_id":"self-evolve-<target>-<timestamp>","target":"<target>","trace_dir":".traces/...","started":"<ISO>","current_iteration":0}`. Purge traces >7 days: `find .traces/ -maxdepth 1 -mtime +7 -exec rm -rf {} + 2>/dev/null || true`
 6. Initialize evolution log:
 
 | Round | pass_rate | cases_total | action | delta | notes |
@@ -102,6 +103,7 @@ Two modes based on current state:
 - Output: "Curriculum: FIX mode — {N} cases failing, targeting case-{ID}"
 
 **If pass_rate = 100% (all passing):**
+- **Read executor failure traces** (if `.traces/self-evolve-<target>-*/` exists): `grep "iteration" .traces/self-evolve-<target>-*/tools.jsonl | grep -v "exit.*0"` to find what inputs caused the Executor to struggle. Use these failure patterns to generate MORE targeted adversarial cases — not generic edge cases.
 - Curriculum agent generates 1-2 NEW harder cases
 - Strategy selection: weighted random from available strategies (default equal weights, tunable via meta-mode):
   - **Edge case**: unusual input that tests boundary conditions
@@ -135,6 +137,7 @@ Spawn a **Sonnet** sub-agent with surgical-editing system prompt:
 > existing behavior — do not refactor, do not add features beyond what the case requires."
 
 - **Single atomic edit per round** — one conceptual change only
+- **Read execution trace** (if `.traces/self-evolve-<target>-*/tools.jsonl` exists): `grep "iteration":<round> .traces/.../tools.jsonl` to see WHERE the skill broke during the failing eval case execution — tool calls, outputs, exit codes. This shows the exact failure point, not just the final grade.
 - Read the failing case(s) to understand what is expected
 - Read the skill to identify what is missing or wrong
 - Make the minimal edit that addresses the failure
@@ -175,6 +178,8 @@ Apply in sandbox, evaluate next round, keep or revert.
 - Meta circuit breaker: 3 consecutive meta-changes drop score → disable meta-mode, revert to original params
 
 ### Phase 2: Synthesis Report
+
+**Trace deactivation:** `rm -f .claude/memory/intermediate/trace-active.json`. Traces stay in `.traces/` for `/eval --optim` analysis and auto-purge after 7 days.
 
 Write `self-evolve-<target>.md` to project root:
 
