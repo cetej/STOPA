@@ -67,6 +67,36 @@ VIOLATION PATTERN: [rule]
 
 ---
 
+## Step 3b: Confidence-Based Learning Audit
+
+Scan all files in `.claude/memory/learnings/` and evaluate each learning's confidence:
+
+**Compute effective confidence** for each learning:
+1. Read `confidence:` field (default 0.7 if missing)
+2. Apply decay: if `uses: 0` AND `date:` is 60+ days old → subtract 0.1 per 30 days of inactivity (min 0.1)
+3. Apply boost: add `uses × 0.05` (cap at 1.0), subtract `harmful_uses × 0.15`
+
+**Graduation candidates** (`uses >= 10` AND effective confidence >= 0.8 AND `harmful_uses < 2`):
+→ Propose PROMOTE to `critical-patterns.md` or GRADUATE to `rules/`
+
+**Pruning candidates** (effective confidence < 0.3):
+→ Propose PRUNE — learning has decayed below usefulness threshold
+
+**Decay warnings** (effective confidence 0.3-0.5, not recently used):
+→ Flag for review — may need refreshing or superseding
+
+Show:
+```
+CONFIDENCE AUDIT: [N learnings scanned]
+  Graduation ready: [list of filenames with uses/confidence]
+  Decay warnings:   [list of filenames with age/confidence]
+  Prune candidates: [list of filenames with reason]
+```
+
+Include these proposals in Step 7 alongside correction/violation-based proposals.
+
+---
+
 ## Step 4: Analyze Session Trends (sessions.jsonl)
 
 If 5+ entries in sessions.jsonl, calculate:

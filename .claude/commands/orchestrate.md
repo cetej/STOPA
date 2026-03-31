@@ -85,7 +85,18 @@ If unclear, ask the user before proceeding. Never guess on ambiguous requirement
 
 **First, check learned heuristics:** Read `${CLAUDE_SKILL_DIR}/tier-heuristics.md` for patterns extracted from past task traces. If the current task matches a heuristic, use its recommended tier.
 
-**If no heuristic matches,** classify the task based on scope:
+**If no heuristic matches, auto-detect tier** using these signals (check in order):
+
+1. **Budget constraint**: Read `.claude/memory/budget.md` — if remaining budget is tight (prior task used 80%+ of agent limit), cap at standard tier max
+2. **Task keyword signals**:
+   - `fix`, `typo`, `rename`, `update`, `bump` + single file mention → **light**
+   - `refactor`, `add feature`, `implement`, `migrate` + 2-5 files → **standard**
+   - `redesign`, `architecture`, `cross-cutting`, `security audit`, `unknown scope` → **deep**
+   - `all files`, `everywhere`, `bulk`, `lint fix`, `20+` → **farm** (if mechanical)
+3. **File count estimate**: Glob the likely affected paths from the task description. 1 file → light, 2-5 → standard, 6+ → deep, 20+ mechanical → farm
+4. **Uncertainty factor**: If the task is vague or scope unclear → start one tier higher than keyword signals suggest (but never above deep)
+
+**Tier reference table:**
 
 | Tier | Criteria | Agent limit | Critic limit | Model |
 |------|----------|-------------|--------------|-------|
@@ -93,6 +104,8 @@ If unclear, ask the user before proceeding. Never guess on ambiguous requirement
 | **standard** | Multi-file, some exploration needed | 2-4 | 2 | sonnet/default |
 | **deep** | Cross-cutting, unknown scope, major feature | 5-8 | 3 | opus for planning |
 | **farm** | Bulk mechanical improvement across many files | 5-8 (Agent Teams) | 1 (post-sweep) | sonnet for agents |
+
+**Always show reasoning**: When auto-selecting tier, briefly state which signals drove the decision (e.g., "Auto-tier: standard — 3 files affected, 'implement' keyword, budget OK").
 
 **Farm tier** — use when ALL of these are true:
 1. Task is **mechanical** (rule is clear, just needs applying across files)

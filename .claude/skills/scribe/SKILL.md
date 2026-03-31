@@ -104,6 +104,7 @@ summary: "1-2 sentence summary: what happened + what to do. Used by memory-whisp
 source: user_correction | critic_finding | auto_pattern | agent_generated | external_research
 uses: 0
 harmful_uses: 0
+confidence: 0.7         # initial confidence based on source: user_correction=0.9, critic_finding=0.8, auto_pattern=0.7, external_research=0.6, agent_generated=0.5
 supersedes: ""          # optional — filename of older learning this one replaces (max 1)
 related: []             # optional — filenames of related learnings for multi-hop retrieval (max 3)
 ---

@@ -177,6 +177,7 @@ For each milestone from Phase 1, verify the assignment goal against the actual c
 | Type check | `mypy --no-error-summary --no-color <files>` | .py files, mypy available | 30s |
 | Lint | `ruff check --no-fix <files>` | .py files, ruff available | 15s |
 | Test discovery | `pytest --collect-only -q <test_files>` | test_*.py or *_test.py changed | 15s |
+| Python reviewer | Spawn `python-reviewer` agent with changed .py files | 3+ .py files changed, standard/deep tier | 60s |
 | JS/TS syntax | `node --check <file>` | .js/.ts files changed | 10s |
 | JSON validity | `python -m json.tool <file> > /dev/null` | .json files changed | 5s |
 
