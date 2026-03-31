@@ -39,7 +39,10 @@ new_agents=$((current_agents + agents))
 # Append to event log section
 if grep -q "^| Time | Event" "$BUDGET" 2>/dev/null; then
   # Find the event log table and append
-  sed -i "/^| Time | Event | Cost | Running Total |$/a\\| $TS | auto-track: ${writes}w ${agents}a ${skills}s ${bash_sig}b | — | total=$total |" "$BUDGET" 2>/dev/null
+  # Sanitize variables for sed replacement (escape &, /, \)
+  SAFE_ENTRY="| ${TS//\//\\/} | auto-track: ${writes}w ${agents}a ${skills}s ${bash_sig}b | — | total=$total |"
+  SAFE_ENTRY="${SAFE_ENTRY//&/\\&}"
+  sed -i "/^| Time | Event | Cost | Running Total |$/a\\${SAFE_ENTRY}" "$BUDGET" 2>/dev/null
 fi
 
 # Update agent spawn counter

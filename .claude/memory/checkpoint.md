@@ -1,33 +1,36 @@
 # Session Checkpoint
 
-**Saved**: 2026-03-31 (/watch + implementace doporučení)
-**Task**: Watch report + watchlist deep studies
+**Saved**: 2026-03-31 (maintenance session — traces, security, experiment)
+**Task**: STOPA maintenance — trace diversity, security fixes, autoresearch experiment
 **Branch**: main
-**Progress**: Watch scan done, 3 doporučení implementována, deep studies připraveny
+**Progress**: Vše hotovo — 4/4 tasků dokončeno
 
 ---
 
 ## What Was Done This Session
 
-### /watch Full Scan (2026-03-31)
-- 14 searches, 3 fetches — 3 action, 4 watch, 4 info items
-- Nové action items: #42 (Voice Mode CZ), #43 (/effort), #44 (HTTP hooks)
-- Nové watch items: #45 (LangChain Deep Agents), #46 (Bootstrapping Coding Agents), #47 (Flowception)
+### 1. news.md maintenance
+- #43 CC `/effort` → DONE (integrováno do orchestrate tier selection)
+- #41 LiteLLM supply chain → DONE (audit: žádný z našich projektů nepoužívá)
+- #44 HTTP hooks → PARKED
+- Přidána Resolved sekce do news.md
 
-### Implementovaná doporučení
-1. **`/effort` ↔ tier alignment** — orchestrate skill+commands updatovány (light→Low, standard→Med, deep→High)
-2. **HTTP hooks research** — CC `type: "http"` prozkoumáno, decision PARKED (single-device, adopt při remote agents)
-3. **Haiku 3 deprecation audit** — RESOLVED, žádné hardcoded `claude-3-haiku-20240307` ve zdrojových souborech
-4. **Bootstrapping Coding Agents study** — arXiv:2603.17399 validuje STOPA spec-first pattern, kandidát na /autoresearch experiment
+### 2. Voice Mode test
+- CC v2.1.86, `/voice` není v CLI help — rolling out ~5% ještě nedorazil
+- Ponecháno jako OPEN v news.md
 
-### Deep Studies
-- Výstup: `research/watchlist-deep-studies-2026-03-31.md` (6 studií)
-- LangChain Deep Agents research agent was launched (results pending)
+### 3. Orchestrate traces diversity (4→7/20)
+- **bug_fix**: grep -oP → POSIX sed v post-commit-analyzer.sh
+- **security**: sed injection fix v cost-tracker.sh, task-created-budget.sh; JSON escaping v session-summary.sh
+- **docs**: Plugin full sync — 43 commands + 43 skills synced do stopa-orchestration/
+- 3 nové traces v budget.md (bug_fix, security, docs)
 
-### Decisions Recorded
-- `/effort` ↔ orchestrate tier: DONE
-- HTTP hooks for STOPA: PARKED
-- Bootstrapping Coding Agents: RESEARCH candidate
+### 4. /autoresearch experiment (arXiv:2603.17399)
+- Skill `/status` re-implementován z description-only spec (Sonnet agent)
+- Výsledek: 60-70% funkční pokrytí, 4/7 data sources zachyceny
+- Chybí: eval_trend, perf_trend, context_budget (accumulated design decisions)
+- Validuje paper claim pro core behavior, challenge pro mature skills
+- Výsledky: `experiments/autoresearch-2603.17399-results.md`
 
 ---
 
@@ -35,65 +38,32 @@
 
 | # | Subtask | Status |
 |---|---------|--------|
-| 1 | LangChain Deep Agents full analysis | DONE — 3 adoptions identified (structured steps, intermediate offload, auto-compact) |
-| 2 | ZÁCHVĚV UI blok 9 (Export a sdílení) | PENDING |
-| 3 | Orchestrate traces | 4/20 → need 16 more for tier heuristics |
-
-### From Previous Sessions
-- CMS Aqua heslo: DONE 2026-03-29
-- ZÁCHVĚV UI bloky 1-8: DONE
-- Security hardening: DONE
-
----
-
-## Orchestrate Traces — stav
-
-Aktuálně **4/20** traces. Phase 2 (tier heuristics) trigger až při 20. Typ bias: research (2×), feature (1×), refactor (1×). Chybí: bug_fix, security, docs.
+| 1 | Orchestrate traces (7/20 → potřeba 13 dalších) | PENDING |
+| 2 | Test Voice Mode (`/voice`) | PENDING (rolling out ~5%) |
+| 3 | Haiku 3 deprecation audit (deadline 2026-04-19) | PENDING |
+| 4 | Mythos GA date tracking → update STOPA model tiers | PENDING |
 
 ---
 
 ## Key Context
 
-- **API Key Rotation**: Pro příští rotaci použij JavaScript DOM extraction (ne screenshot transcription)
-- **Server Binding**: Všechny 4 projekty bind na 127.0.0.1
-- **NG-ROBOT port**: 5001 (run_server.py:27)
-- **ZÁCHVĚV dir**: `C:\Users\stock\Documents\000_NGM\ZACHVEV` (bez háčku)
-- **CC Voice Mode**: `/voice` — rolling out ~5%, Czech supported, testovat až dostupné
-- **CC /effort**: Low/Med/High — integrováno do orchestrate tier selection
-- **CC HTTP hooks**: `type: "http"` — PARKED pro STOPA, adopt při remote agents
-
----
-
-## Next Session Checklist
-
-### Priorita 1 — STOPA systém
-- [x] Review LangChain Deep Agents agent output — DONE, 3 adoptions identified
-- [ ] **Implement Deep Agents adoption #1**: Structured step states v orchestrate state.md (pending/in_progress/done/blocked)
-- [ ] **Implement Deep Agents adoption #2**: Formalize intermediate/ offloading convention (>500 tokens → file)
-- [ ] **Implement Deep Agents adoption #3**: Auto-compact trigger v orchestrate (>60% context → /compact)
-- [ ] `/autoresearch` experiment: skill re-implementation from description only (Bootstrapping paper)
-- [ ] Sync `stopa-orchestration/` plugin s aktualizovaným orchestrate.md
-- [ ] Commit all changes from this session
-
-### Priorita 2 — Projekty
-- [ ] ZÁCHVĚV UI blok 9 (Export a sdílení) — poslední chybějící blok
-- [ ] Test Voice Mode (`/voice`) pokud rolling out dorazil
-
-### Priorita 3 — Údržba
-- [ ] Orchestrate trace diversity — potřeba bug_fix, security, docs type traces
-- [ ] news.md DONE items → archive when resolved
-- [ ] Mythos GA date tracking → update STOPA model tiers when announced
+- **Traces**: 7/20 — typy: research(2), feature(1), refactor(1), bug_fix(1), security(1), docs(1). Phase 2 trigger při 20.
+- **Plugin sync**: DONE — stopa-orchestration/ plně synced s .claude/ (43/43 commands + skills)
+- **Security fixes**: 4 hook skripty opraveny (grep -oP, sed injection, JSON escaping)
+- **CC Voice Mode**: `/voice` — rolling out ~5%, nedostupné na CC v2.1.86
+- **Haiku 3**: Deprecation deadline 2026-04-19 — audit STOPA/NG-ROBOT/ADOBE pro hardcoded model IDs
+- **Watch**: Poslední scan 2026-03-31, next ~2026-04-07
 
 ---
 
 ## Resume Prompt
 
-> **Task**: Pokračovat v STOPA development — sync plugin, review Deep Agents analysis, ZÁCHVĚV UI blok 9
+> **Task**: STOPA maintenance — trace accumulation, Haiku 3 migration audit
 >
-> **Stav**: Watch scan 2026-03-31 hotový. `/effort` ↔ tier integrováno. HTTP hooks PARKED. Bootstrapping paper → /autoresearch kandidát.
+> **Stav**: 7/20 traces (bug_fix, security, docs přidány). Plugin plně synced. Security holes v hooks opraveny.
 >
-> **Deep studies**: `research/watchlist-deep-studies-2026-03-31.md` — 6 studií, LangChain Deep Agents analysis pending.
+> **Traces**: 7/20 — chybí typy pro diverzifikaci. Najdi reálné tasky v NG-ROBOT/ADOBE-AUTOMAT.
 >
-> **ZÁCHVĚV**: Bloky 1-8 hotové, chybí blok 9 (Export a sdílení).
+> **Haiku 3**: Audit před deadline 2026-04-19 — hledej `claude-3-haiku-20240307` across projects.
 >
-> **Traces**: 4/20 — potřeba diverzifikovat typy (bug_fix, security, docs).
+> **Watch**: Scan z 2026-03-31, next ~2026-04-07.

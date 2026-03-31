@@ -41,12 +41,15 @@ fi
 
 # Extract error lines as JSON array items
 error_lines=$(grep "exit=[^0]" "$LOG" 2>/dev/null | head -5 | sed 's/^- //' | while IFS= read -r line; do
-  printf '"%s",' "$line"
+  # Escape JSON special chars: backslash, double-quote, control chars
+  escaped=$(printf '%s' "$line" | sed 's/\\/\\\\/g; s/"/\\"/g; s/\t/\\t/g')
+  printf '"%s",' "$escaped"
 done | sed 's/,$//')
 
 # Skills — extract skill names from activity log (Skill:name format from fixed hook)
 skill_names=$(grep -oE "Skill:[a-zA-Z_-]+" "$LOG" 2>/dev/null | sort -u | sed 's/Skill://' | while IFS= read -r name; do
-  printf '"%s",' "$name"
+  escaped=$(printf '%s' "$name" | sed 's/\\/\\\\/g; s/"/\\"/g')
+  printf '"%s",' "$escaped"
 done | sed 's/,$//')
 skill_names="${skill_names:-}"
 

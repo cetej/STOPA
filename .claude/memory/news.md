@@ -10,12 +10,16 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 |---|------|---------|-----------|
 | 36 | Haiku 3 deprecation (deadline 2026-04-19) | HIGH | Zkontrolovat STOPA/NG-ROBOT/ADOBE pro hardcoded `claude-3-haiku-20240307` → nahradit `claude-haiku-4-5-20251001` |
 | 42 | CC Voice Mode (`/voice`) — Czech included | MED | Otestovat až se rolling out dostane k účtu; 20 jazyků vč. češtiny |
-| 43 | CC `/effort` command (Low/Medium/High) | MED | Zvážit integraci do orchestrate tier selection (`/effort High` pro deep tier) |
-| 44 | CC HTTP hooks (POST JSON → URL) | MED | Prozkoumat pro STOPA hooks — webhook-based integrations |
-| 41 | LiteLLM supply chain attack (v1.82.8 malware) | MED | Audit zda naše projekty používají LiteLLM |
+| 44 | CC HTTP hooks (POST JSON → URL) | PARKED | Adopt při remote agents; pro teď nepotřebujeme |
 | 29t | Bootleg SSL (arXiv:2603.15553) | LOW | Sledovat pro ORAKULUM/ZACHVEV pokud Chronos-2 nestačí |
 | 29s | Attention innovations status | INFO | Produkce: MLA, GQA, iRoPE. Sledovat DiffAttn DEX adapter + TransMLA |
 | 29r | `hf papers` CLI (AK) | LOW | Kandidát pro upgrade /watch Tier 2b strategy |
+
+## Resolved (2026-03-31)
+| # | Item | Resolution |
+|---|------|------------|
+| 43 | CC `/effort` command | DONE — integrováno do orchestrate tier selection (light→Low, standard→Med, deep→High) |
+| 41 | LiteLLM supply chain attack | DONE — audit: žádný z našich projektů nepoužívá LiteLLM |
 
 ## Watch List
 

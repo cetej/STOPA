@@ -8,7 +8,7 @@
 
 | Metric | Used | Limit | Status |
 |--------|------|-------|--------|
-| Agent spawns | 8 | — | Audit agents (config, plugin, memory) |
+| Agent spawns | 13 | — | Audit agents (config, plugin, memory) |
 | Critic iterations | 0 | — | — |
 | Scout depth | 0 | — | — |
 | Skill creations | 0 | — | — |
@@ -31,3 +31,6 @@
 | Karpathy AutoResearch research | research | standard | 3/4 | 0/2 | ~5 | — | 2026-03-19 | complete |
 | Attention Residuals analýza | research | standard | 4/4 | 1/2 | ~3 | PASS | 2026-03-19 | complete |
 | Initial System Build | feature | deep | 7 | 0 | ~30 | — | 2026-03-18 | complete |
+| Hook grep -oP portability fix | bug_fix | light | 1 | 0 | 2 | — | 2026-03-31 | complete |
+| Hook injection sanitization (sed+JSON) | security | light | 1 | 0 | 3 | — | 2026-03-31 | complete |
+| Plugin distribution full sync (43 cmds+skills) | docs | light | 1 | 0 | ~74 | — | 2026-03-31 | complete |

@@ -39,8 +39,8 @@ if [ -n "$SECURITY" ]; then
 fi
 
 # Check 4: Large changes (>200 lines)
-INSERTIONS=$(echo "$DIFF" | tail -1 | grep -oP '\d+ insertion' | grep -oP '\d+')
-DELETIONS=$(echo "$DIFF" | tail -1 | grep -oP '\d+ deletion' | grep -oP '\d+')
+INSERTIONS=$(echo "$DIFF" | tail -1 | sed -n 's/.*\([0-9][0-9]*\) insertion.*/\1/p')
+DELETIONS=$(echo "$DIFF" | tail -1 | sed -n 's/.*\([0-9][0-9]*\) deletion.*/\1/p')
 TOTAL=$(( ${INSERTIONS:-0} + ${DELETIONS:-0} ))
 if [ "$TOTAL" -gt 200 ]; then
     WARNINGS="${WARNINGS}\n📊 LARGE COMMIT: ${TOTAL} lines changed — consider splitting\n"
