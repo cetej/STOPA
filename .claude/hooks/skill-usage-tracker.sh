@@ -4,8 +4,13 @@
 # Appends to ~/.claude/memory/skill-usage.jsonl
 
 USAGE_FILE="$HOME/.claude/memory/skill-usage.jsonl"
-SKILL_NAME="$1"
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+# Extract skill name from CLAUDE_TOOL_INPUT JSON (PostToolUse env var)
+SKILL_NAME=""
+if [ -n "$CLAUDE_TOOL_INPUT" ]; then
+    SKILL_NAME=$(echo "$CLAUDE_TOOL_INPUT" | python3 -c "import json,sys; print(json.load(sys.stdin).get('skill',''))" 2>/dev/null)
+fi
 
 # Only log if skill name is provided
 if [ -z "$SKILL_NAME" ]; then

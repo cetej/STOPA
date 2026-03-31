@@ -30,6 +30,17 @@ Read these files (silently, don't show contents to user):
 
 If any file is missing, report that field as "n/a".
 
+### Step 1b: Read improvement cycle files
+
+Also read (silently):
+- `.claude/memory/improvement-queue.md` (if exists)
+- `.claude/memory/corrections.jsonl` (count lines, count lines with today's/this week's dates)
+- `.claude/memory/violations.jsonl` (count lines)
+- `.claude/memory/sessions.jsonl` (last 10 entries — for correction trend)
+- `.claude/memory/evolution-log.md` (last date if exists)
+- `~/.claude/memory/skill-usage.jsonl` (last 20 lines — for usage stats)
+- Glob `.claude/memory/learnings/*.md` — count files (for expertise capture rate)
+
 ### Step 2: Extract key facts
 
 From each file, extract ONLY:
@@ -62,6 +73,14 @@ eval_trend:     <health_score> <arrow> (<delta> vs <previous_date>)
 perf_trend:     <skill1: +delta1> | <skill2: +delta2> | ... (last 3 runs, or "no data")
 context_budget: <pct>% used (<used_tokens>/<total_tokens>) [LOW|MEDIUM|HIGH|CRITICAL] — or "n/a (no session-stats.json)"
 memory_health:  <"ok" or list of warnings>
+
+--- improvement cycle ---
+corr_trend:     <avg corrections last 5 sessions> <arrow> (vs prev 5) — or "n/a"
+violations:     <N open> (<+/-delta from last session>) — or "0 open"
+evolve_age:     <N days since last /evolve> — or "never run"
+skill_usage:    <top 3 skills by freq last 7d> — or "no data"
+queue_depth:    <N items priority ≥6> / <total items> — or "empty"
+capture_rate:   <learnings created / last 10 sessions> learnings/session — or "n/a"
 ```
 
 **context_budget thresholds:**

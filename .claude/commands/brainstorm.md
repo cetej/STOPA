@@ -126,11 +126,37 @@ One sentence: what this does and why.
 - Reason: [why this tier]
 ```
 
+### Phase 3b: Ideal State Decomposition
+
+**After the spec is drafted, ALWAYS produce ideal-state criteria.** These are the verifiable definition of "done" — binary pass/fail, measurable, no ambiguity.
+
+Output format:
+
+```markdown
+## Ideal State Criteria
+
+8-12 binary criteria, each ≤12 words. Every criterion must be testable.
+
+- [ ] <criterion> — eval: <how to verify (grep, test, manual check)>
+- [ ] <criterion> — eval: <how to verify>
+- ...
+```
+
+Rules:
+- Each criterion is a **positive statement** of the desired end state (not a negation)
+- Each has an `eval:` annotation describing how to test it (prefer automated: grep, test command, script)
+- Criteria should cover: core behavior, edge cases, non-functional (performance, security if relevant)
+- If the user said "you decide" on some aspects, make those into criteria too — locked assumptions
+
+Save criteria to `.claude/memory/intermediate/ideal-state-<slug>.md` where `<slug>` is the feature name kebab-cased.
+
+**Why this matters:** These criteria become the eval scaffold for `/autoresearch`, `/self-evolve`, and `/orchestrate` subtask acceptance tests. Without them, there's no way to hill-climb toward the ideal state.
+
 ### Phase 4: Handoff
 
 Ask the user: "Ready to implement? I can hand this to `/orchestrate` for execution."
 
-If yes → output the spec as a clear prompt for `/orchestrate`.
+If yes → output the spec + ideal-state criteria as a clear prompt for `/orchestrate`. Note: `/orchestrate` should use ideal-state criteria as subtask acceptance tests.
 If no → save spec to `.claude/memory/` for later.
 
 ## Anti-patterns to Avoid

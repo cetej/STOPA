@@ -1,0 +1,106 @@
+#!/usr/bin/env bash
+# SessionStart hook: Auto-Evolve Trigger
+# Fires AFTER improvement-funnel.sh. Checks thresholds and nudges /evolve.
+# Three triggers:
+#   a) Any correction with times_corrected >= 3
+#   b) Any violation recurring in 3+ distinct sessions
+#   c) More than 10 sessions since last /evolve run
+
+MEMORY_DIR=".claude/memory"
+CORRECTIONS="$MEMORY_DIR/corrections.jsonl"
+EVOLUTION_LOG="$MEMORY_DIR/evolution-log.md"
+SESSIONS="$MEMORY_DIR/sessions.jsonl"
+
+python3 -c "
+import json, os, re, sys
+from datetime import datetime
+
+MEMORY = '.claude/memory'
+reasons = []
+
+# Check a: corrections with times_corrected >= 3
+corrections_file = os.path.join(MEMORY, 'corrections.jsonl')
+if os.path.isfile(corrections_file):
+    with open(corrections_file, 'r', encoding='utf-8', errors='replace') as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                entry = json.loads(line)
+                if entry.get('times_corrected', 0) >= 3:
+                    reasons.append(f'Correction repeated {entry[\"times_corrected\"]}×: \"{entry.get(\"summary\", \"\")[:60]}\"')
+                    break  # One is enough to trigger
+            except (json.JSONDecodeError, KeyError):
+                continue
+
+# Check b: violations in 3+ sessions (count unique dates)
+violations_file = os.path.join(MEMORY, 'violations.jsonl')
+if os.path.isfile(violations_file):
+    from collections import Counter
+    violation_dates = Counter()
+    with open(violations_file, 'r', encoding='utf-8', errors='replace') as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                entry = json.loads(line)
+                key = f\"{entry.get('source', '')}:{entry.get('label', '')}\"
+                date = entry.get('timestamp', '')[:10]
+                violation_dates[key] += 1
+            except (json.JSONDecodeError, KeyError):
+                continue
+
+    for key, count in violation_dates.items():
+        if count >= 3:
+            reasons.append(f'Violation recurring {count} times: {key}')
+            break
+
+# Check c: sessions since last /evolve
+sessions_file = os.path.join(MEMORY, 'sessions.jsonl')
+evolution_log = os.path.join(MEMORY, 'evolution-log.md')
+
+session_count = 0
+if os.path.isfile(sessions_file):
+    with open(sessions_file, 'r', encoding='utf-8', errors='replace') as f:
+        session_count = sum(1 for l in f if l.strip())
+
+last_evolve = None
+if os.path.isfile(evolution_log):
+    with open(evolution_log, 'r', encoding='utf-8', errors='replace') as f:
+        for line in f:
+            m = re.search(r'(\d{4}-\d{2}-\d{2})', line)
+            if m:
+                last_evolve = m.group(1)
+
+# Approximate: if no evolution log, treat all sessions as since-evolve
+if last_evolve:
+    # Count sessions after last evolve date
+    after_count = 0
+    if os.path.isfile(sessions_file):
+        with open(sessions_file, 'r', encoding='utf-8', errors='replace') as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    entry = json.loads(line)
+                    ts = entry.get('timestamp', '')[:10]
+                    if ts > last_evolve:
+                        after_count += 1
+                except (json.JSONDecodeError, KeyError):
+                    continue
+    if after_count > 10:
+        reasons.append(f'{after_count} sessions since last /evolve run ({last_evolve})')
+elif session_count > 10:
+    reasons.append(f'{session_count} sessions total, /evolve has never been run')
+
+if reasons:
+    print('=== Auto-Evolve Trigger ===')
+    for r in reasons:
+        print(f'  • {r}')
+    print('→ Threshold crossed. Run /evolve to analyze accumulated patterns and graduate rules.')
+" 2>/dev/null
+
+exit 0

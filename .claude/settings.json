@@ -38,6 +38,18 @@
             "command": "python .claude/hooks/verify-sweep.py",
             "timeout": 10,
             "statusMessage": "Verifying rules..."
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/improvement-funnel.sh",
+            "timeout": 10,
+            "statusMessage": "Building improvement queue..."
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/evolve-trigger.sh",
+            "timeout": 5,
+            "statusMessage": "Checking evolution thresholds..."
           }
         ]
       }

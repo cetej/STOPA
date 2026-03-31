@@ -144,6 +144,66 @@ def log_correction(summary: str, prompt_snippet: str, times: int) -> dict:
     return entry
 
 
+def generate_eval_case(summary: str, prompt_snippet: str, times: int) -> str | None:
+    """Auto-generate a skeleton eval case from a repeated correction.
+
+    Creates case files in .claude/evals/<component>/case-auto-<N>/ with:
+    - input.md: context that triggered the correction
+    - expected.md: the corrected behavior
+    - eval.md: check that the bad behavior is NOT repeated
+    Returns the case directory path, or None if generation failed.
+    """
+    evals_dir = Path(".claude/evals")
+
+    # Infer component from correction keywords
+    component = "general"
+    component_map = {
+        "skill": "skill", "hook": "hook", "memory": "memory",
+        "orchestrat": "orchestration", "pipeline": "pipeline",
+        "prompt": "prompt", "config": "config",
+    }
+    lower_summary = summary.lower()
+    for keyword, comp in component_map.items():
+        if keyword in lower_summary:
+            component = comp
+            break
+
+    case_dir = evals_dir / component
+    case_dir.mkdir(parents=True, exist_ok=True)
+
+    # Find next auto case number
+    existing = [d.name for d in case_dir.iterdir() if d.is_dir() and d.name.startswith("case-auto-")]
+    next_num = len(existing) + 1
+    case_path = case_dir / f"case-auto-{next_num:03d}"
+    case_path.mkdir(parents=True, exist_ok=True)
+
+    # Write input.md
+    (case_path / "input.md").write_text(
+        f"---\nsource: auto-correction\ntimes_corrected: {times}\n---\n\n"
+        f"# Context\n\n{prompt_snippet[:500]}\n",
+        encoding="utf-8",
+    )
+
+    # Write expected.md
+    (case_path / "expected.md").write_text(
+        f"# Expected Behavior\n\n"
+        f"The correction states: {summary}\n\n"
+        f"The output should follow this corrected behavior.\n",
+        encoding="utf-8",
+    )
+
+    # Write eval.md
+    (case_path / "eval.md").write_text(
+        f"# Eval Criteria\n\n"
+        f"- [ ] Output does NOT repeat the corrected mistake\n"
+        f"- [ ] Behavior aligns with: {summary}\n"
+        f"- [ ] No regression in related functionality\n",
+        encoding="utf-8",
+    )
+
+    return str(case_path)
+
+
 def main():
     prompt = read_prompt()
     if not prompt or len(prompt) < MIN_PROMPT_LEN:
@@ -168,6 +228,16 @@ def main():
             f"  → Tato korekce se opakuje. Zvažte: /scribe pro zachycení jako learning,"
             f"\n    nebo /evolve pro analýzu a graduaci do critical-patterns.md."
         )
+
+        # Auto-generate eval case from repeated corrections (times >= 2)
+        if times >= 2:
+            try:
+                case_path = generate_eval_case(summary, prompt, times)
+                if case_path:
+                    print(f"  → Auto-generated eval case: {case_path}")
+                    print(f"    Use /self-evolve to train against this pattern.")
+            except Exception:
+                pass  # Don't break the hook on eval generation failure
 
     sys.exit(0)
 

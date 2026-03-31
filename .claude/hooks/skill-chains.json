@@ -61,6 +61,18 @@
       "next": "/checkpoint save",
       "condition": "auto",
       "description": "After building a project, checkpoint the state"
+    },
+    {
+      "trigger": { "skill": "evolve", "status_pattern": "DONE|done|complete|applied|graduated" },
+      "next": "/self-evolve on the most-violated skill",
+      "condition": "suggest",
+      "description": "After evolve graduates rules, suggest self-evolve on the skill that triggered most violations"
+    },
+    {
+      "trigger": { "skill": "self-evolve", "status_pattern": "DONE|done|complete|improved" },
+      "next": "/checkpoint save",
+      "condition": "auto",
+      "description": "After self-evolve improves a skill, checkpoint the improvement"
     }
   ]
 }
