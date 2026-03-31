@@ -58,6 +58,7 @@ Diff/Changes
 Read first:
 - `.claude/memory/state.md` — understand current task context
 - `.claude/memory/learnings/critical-patterns.md` — check known anti-patterns; Grep `learnings/` by component if needed
+- `.claude/memory/learnings.md` — index of all learnings; use for broader retrieval scope
 
 ## Input
 
@@ -346,11 +347,8 @@ Apply these during Phase 2 (Verifier) alongside assignment goals:
    - Type annotations added to untouched internal code "just in case"
    - Severity: low (filler comments) to medium (unnecessary abstractions adding maintenance burden)
 
-### For Plans:
-1. Completeness, 2. Feasibility, 3. Dependencies, 4. Risks, 5. Efficiency
-
-### For Skills:
-1. Description quality, 2. Tool permissions (least privilege), 3. Instructions clarity, 4. Error handling, 5. Integration with shared memory
+**For Plans:** Completeness, Feasibility, Dependencies, Risks, Efficiency
+**For Skills:** Description quality, Tool permissions (least privilege), Instructions clarity, Error handling, Memory integration
 
 ## Output Format (STANDARD / DEEP)
 
@@ -412,13 +410,7 @@ Apply these during Phase 2 (Verifier) alongside assignment goals:
 Quote specific code and annotate with issue IDs from the Issues table:
 
 > `if (user.role === "admin") return true;`  (auth.ts:42)
-**[#1] high/correctness:** This bypasses all permission checks for admins.
-Missing granular permission validation — admin role should still check
-specific resource access.
-
-> `const data = await fetch(url)`  (api.ts:15)
-**[#2] medium/safety:** No timeout or error handling on external fetch.
-Network failure will crash the handler.
+**[#1] high/correctness:** Bypasses all permission checks for admins — needs granular resource-level validation.
 
 Rules for annotations:
 - Every issue from the Issues table SHOULD have a corresponding annotation
@@ -481,23 +473,16 @@ Before submitting your report, check yourself:
 | "Too small to review thoroughly" | Small changes cause 40% of incidents | Use QUICK path but still review |
 | "Minor style issue" | Style issues compound | Report as low severity |
 | "Author probably had a reason" | Your job is to question | Flag as question |
-| "Works in tests" | Tests may not cover failing path | Check coverage |
+| "Works in tests" / "Tests pass" | Tests may not cover failing paths | Check actual test assertions |
 | "Big refactor needed to fix" | Team needs to know | Report medium + note scope |
-| "Found enough issues" | Completeness > comfort | Finish ALL phases |
-| "Tests pass" | Tests may be stubs or check trivial conditions | Inspect actual test assertions for meaning |
-| "Outside review scope" | If you see it, report it | Note "outside primary scope" |
 | "Just a refactor" | Refactors introduce subtle regressions | Verify before/after |
-| "Similar code elsewhere" | Existing code may be wrong too | Evaluate on merit |
 | "AI generated it, probably fine" | AI output needs MORE scrutiny, not less | Check for slop patterns |
-| "Time pressure" | Rushed reviews miss critical issues | Flag in report, don't reduce quality |
 
 **Red flags** (STOP and re-evaluate if you catch yourself):
 - Skipping a phase because "it's probably fine"
 - Softening severity because code "mostly works"
-- Writing "no issues" without running all 4 phases
 - Scoring rubric above 3 without Verifier evidence
 - Claiming PASS without running Reviewer audit
-- Accepting Verifier PASS without checking assignment goal specificity
 
 ## Rules
 
