@@ -63,6 +63,12 @@
             "command": "python -m dippy",
             "timeout": 5,
             "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/block-no-verify.sh",
+            "timeout": 3,
+            "statusMessage": ""
           }
         ]
       },

@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
 """UserPromptSubmit hook: suggest relevant skills based on user prompt keywords/patterns."""
 import json
+import os
 import re
 import sys
 from pathlib import Path
+
+# Profile gate: standard+
+_levels = {'minimal': 1, 'standard': 2, 'strict': 3}
+if _levels.get(os.environ.get('STOPA_HOOK_PROFILE', 'standard'), 2) < _levels['standard']:
+    sys.exit(0)
 
 def load_rules():
     rules_path = Path(__file__).parent / "skill-rules.json"

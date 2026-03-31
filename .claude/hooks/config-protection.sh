@@ -46,7 +46,25 @@ case "$BASENAME" in
     echo "⚠️ Editing CLAUDE.md — make sure this is intentional" >&2
     exit 0
     ;;
+  # Linter/formatter configs — block weakening (ECC-inspired pattern)
+  # AI agents tend to silence lint rules instead of fixing code
+  .eslintrc|.eslintrc.js|.eslintrc.json|.eslintrc.yml|eslint.config.js|eslint.config.mjs)
+    echo '{"decision":"block","reason":"⛔ Config protection: Linter config cannot be weakened by tools. Fix the code instead of disabling rules."}'
+    exit 0
+    ;;
+  .prettierrc|.prettierrc.js|.prettierrc.json|prettier.config.js|biome.json|biome.jsonc)
+    echo '{"decision":"block","reason":"⛔ Config protection: Formatter config cannot be modified by tools. Fix the code formatting instead."}'
+    exit 0
+    ;;
+  .env|.env.local|.env.production|.env.development)
+    echo '{"decision":"block","reason":"⛔ Config protection: .env files contain secrets — edit manually, never via AI tools."}'
+    exit 0
+    ;;
   *)
+    # Check for pyproject.toml [tool.ruff] section edits
+    if [ "$BASENAME" = "pyproject.toml" ]; then
+      echo "⚠️ Editing pyproject.toml — do NOT weaken ruff/mypy rules to silence warnings" >&2
+    fi
     exit 0
     ;;
 esac

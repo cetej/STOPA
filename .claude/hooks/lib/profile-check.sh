@@ -3,9 +3,13 @@
 # Usage: source .claude/hooks/lib/profile-check.sh && require_profile standard
 #
 # Profiles (cumulative):
-#   minimal  — only essential hooks (checkpoint, memory-brief, activity-log)
-#   standard — + cost-tracker, suggest-compact, scribe-reminder (default)
-#   strict   — + observe, ruff-lint, all quality gates
+#   minimal  — 12 hooks: checkpoint, memory-*, activity-log, block-no-verify,
+#              config-protection, completion-guard, permission-auto-approve,
+#              post-compact, session-summary, stop-failure, telegram-notify
+#   standard — +13 hooks: cost-tracker, suggest-compact, scribe-reminder,
+#              learnings-sync, skill-*, task-*, teammate-idle, post-commit-analyzer,
+#              eval-trigger, evolve-trigger, improvement-funnel (default)
+#   strict   — +4 hooks: observe, ruff-lint, file-changed-critic, auto-verify-after-critic
 #
 # Set via: export STOPA_HOOK_PROFILE=minimal|standard|strict
 

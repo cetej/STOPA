@@ -8,6 +8,9 @@
 #   suggest — soft suggestion: "Consider running ..."
 #   ask     — question: "Want me to run ...?"
 
+# Profile: standard
+source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standard
+
 TOOL="${CLAUDE_TOOL_NAME:-}"
 INPUT="${CLAUDE_TOOL_INPUT:-}"
 OUTPUT="${CLAUDE_TOOL_OUTPUT:-}"

@@ -8,6 +8,9 @@
 # 2. Modified skill files — YAML frontmatter presence
 # 3. Uncommitted debug artifacts (print statements, console.log)
 
+# Profile: standard
+source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standard
+
 FEEDBACK=""
 
 # Check modified (unstaged) files

@@ -6,6 +6,9 @@
 #   b) Any violation recurring in 3+ distinct sessions
 #   c) More than 10 sessions since last /evolve run
 
+# Profile: standard
+source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standard
+
 MEMORY_DIR=".claude/memory"
 CORRECTIONS="$MEMORY_DIR/corrections.jsonl"
 EVOLUTION_LOG="$MEMORY_DIR/evolution-log.md"

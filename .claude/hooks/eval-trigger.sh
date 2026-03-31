@@ -3,6 +3,9 @@
 # Hook event: PostToolUse (matcher: Write|Edit)
 # Outputs a system reminder when a SKILL.md file is modified
 
+# Profile: standard
+source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standard
+
 TOOL_INPUT="${CLAUDE_TOOL_INPUT:-}"
 
 # Only trigger on SKILL.md files

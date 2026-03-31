@@ -10,6 +10,9 @@
 #    - confidence <  0.8 → print suggestion to stdout (injected into context)
 # 3. Telegram notify
 
+# Profile: standard
+source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standard
+
 set -euo pipefail
 
 STATE_FILE=".claude/memory/state.md"

@@ -3,6 +3,9 @@
 # Hook event: PostToolUse (matcher: Write|Edit, path contains learnings/)
 # Copies critical/high severity learnings to ~/.claude/memory/cross-project-learnings.md
 
+# Profile: standard
+source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standard
+
 TOOL_INPUT="${CLAUDE_TOOL_INPUT:-}"
 GLOBAL_FILE="$HOME/.claude/memory/cross-project-learnings.md"
 

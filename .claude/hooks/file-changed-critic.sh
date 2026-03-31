@@ -3,6 +3,9 @@
 # Hook event: FileChanged
 # Fires when a file is modified — suggests quality review for code files
 
+# Profile: strict
+source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile strict
+
 FILE_PATH="${CLAUDE_FILE_PATH:-}"
 
 # Only trigger for code files (Python, JS, TS, shell)

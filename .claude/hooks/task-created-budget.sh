@@ -3,6 +3,9 @@
 # Hook event: TaskCreated (CC 2.1.84+)
 # Logs new task to budget.md for automatic tracking
 
+# Profile: standard
+source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standard
+
 BUDGET_FILE=".claude/memory/budget.md"
 
 if [ -f "$BUDGET_FILE" ]; then

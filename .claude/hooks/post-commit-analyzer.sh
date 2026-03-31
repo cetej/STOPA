@@ -3,6 +3,9 @@
 # Hook event: PostToolUse (matcher: Bash, command contains "git commit")
 # Checks for: breaking changes, security risks, API surface changes
 
+# Profile: standard
+source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standard
+
 TOOL_INPUT="${CLAUDE_TOOL_INPUT:-}"
 
 # Only trigger on git commit commands

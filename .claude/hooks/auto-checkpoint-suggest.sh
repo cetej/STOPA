@@ -2,6 +2,9 @@
 # PostToolUse hook (matcher: Write|Edit): Suggest checkpoint when task is 70%+ complete
 # Advisory only — debounced to max 1 suggestion per 30 minutes.
 
+# Profile: standard
+source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standard
+
 STATE_FILE=".claude/memory/state.md"
 CHECKPOINT_FILE=".claude/memory/checkpoint.md"
 MARKER="/tmp/stopa-checkpoint-suggested"

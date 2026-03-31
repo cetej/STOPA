@@ -4,6 +4,9 @@
 # .claude/memory/improvement-queue.md — a priority-sorted failure collection point.
 # Injects top items into Claude context as "Improvement Opportunities".
 
+# Profile: standard
+source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standard
+
 MEMORY_DIR=".claude/memory"
 CORRECTIONS="$MEMORY_DIR/corrections.jsonl"
 VIOLATIONS="$MEMORY_DIR/violations.jsonl"

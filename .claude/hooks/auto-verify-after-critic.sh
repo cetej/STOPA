@@ -2,6 +2,9 @@
 # PostToolUse hook (matcher: Skill): After /critic PASS, suggest /verify
 # Advisory only — injects context, does not force execution.
 
+# Profile: strict
+source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile strict
+
 TOOL="${CLAUDE_TOOL_NAME:-}"
 INPUT="${CLAUDE_TOOL_INPUT:-}"
 OUTPUT="${CLAUDE_TOOL_OUTPUT:-}"
