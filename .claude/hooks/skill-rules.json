@@ -1,4 +1,10 @@
 {
+  "triage": {
+    "keywords": ["triage", "kam s tím", "where should", "roztřiď", "patří to do"],
+    "patterns": [],
+    "tier": "critical",
+    "cross_project": true
+  },
   "orchestrate": {
     "keywords": ["plan this", "break this down", "complex task", "rozlož", "naplánuj", "orchestrate"],
     "patterns": ["(implement|add|create|build).{5,40}(feature|system|module|pipeline)"],
