@@ -6,7 +6,7 @@
 # Profile: standard
 source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standard
 
-USAGE_FILE="$HOME/.claude/memory/skill-usage.jsonl"
+USAGE_FILE=".claude/memory/skill-usage.jsonl"
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
 # Extract skill name from CLAUDE_TOOL_INPUT JSON (PostToolUse env var)

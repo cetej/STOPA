@@ -113,6 +113,33 @@ TREND: Corrections X→Y (↓ improving | → flat | ↑ worsening)
 
 ---
 
+## Step 4c: Skill Usage Audit
+
+Read `.claude/memory/skill-usage.jsonl` (if it exists). Each line is `{"ts":"...","skill":"..."}`.
+
+**Build usage report:**
+1. Count invocations per skill (last 60 days)
+2. List ALL skills from `.claude/skills/*/SKILL.md` — compare against usage data
+3. Identify **stale skills** (0 invocations in 60+ days or never used)
+4. Identify **hot skills** (top 5 by usage count)
+
+**Stale skill action:**
+- Skill with 0 uses AND tier 3+ (advanced/methodology) → ARCHIVE candidate (move to `.claude/skills-archive/`)
+- Skill with 0 uses AND tier 1-2 → Flag for review — maybe it should be used more, not archived
+
+Show:
+```
+SKILL USAGE AUDIT: [N skills total, M with usage data]
+  Hot skills (top 5):  [skill: N calls] ...
+  Stale (60+ days):    [list with tier]
+  Never invoked:       [list]
+  Action: ARCHIVE [skill] | REVIEW [skill] | OK
+```
+
+If skill-usage.jsonl doesn't exist or is empty, note "No usage data yet — tracking started" and skip.
+
+---
+
 ## Step 5: Audit critical-patterns.md
 
 For each of the 8 patterns:
