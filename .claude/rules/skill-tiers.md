@@ -4,6 +4,7 @@ Skills are organized into 4 tiers by frequency of use. This helps Claude priorit
 
 ## Tier 1 — Core (always suggest when relevant)
 Daily-use skills that should be triggered proactively:
+- `/triage` — task routing: STOPA vs project vs both (run before orchestrate when unsure)
 - `/orchestrate` — multi-step task decomposition
 - `/scout` — codebase exploration before changes
 - `/critic` — quality review after edits

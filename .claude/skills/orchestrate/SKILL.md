@@ -69,6 +69,18 @@ Before anything else:
    - If **resume**: load context from checkpoint, skip Phase 1-3 as applicable (the checkpoint has the task state, subtasks, and next action). Jump to Phase 4 at the right subtask.
    - If **fresh**: archive checkpoint summary to `.claude/memory/state.md` history, clear checkpoint.md, proceed normally
 
+## Phase 0.5: Project Routing Check
+
+**Quick scan** (do NOT spend more than 30 seconds on this):
+
+1. Read CLAUDE.md to identify which project you're in
+2. Check if the task involves changes to orchestration system components (skills, hooks, agents, rules, memory schema, learnings format)
+3. If task is **purely orchestration** and you're NOT in STOPA → tell the user: "This task modifies the orchestration system. Best handled in STOPA, then synced back. Run `/prp` to prepare handoff context."
+4. If task is **split** (some project code, some orchestration) → note which parts belong where in Phase 3 planning. Flag STOPA parts as "deferred to STOPA session" in the subtask table.
+5. If task is **purely project code** → proceed normally, no routing needed
+
+This is a safety net — if the user already ran `/triage`, skip this check.
+
 ## Phase 1: Understand & Classify
 
 Parse `$ARGUMENTS` and determine:

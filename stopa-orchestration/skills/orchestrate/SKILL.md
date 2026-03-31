@@ -69,6 +69,18 @@ Before anything else:
    - If **resume**: load context from checkpoint, skip Phase 1-3 as applicable (the checkpoint has the task state, subtasks, and next action). Jump to Phase 4 at the right subtask.
    - If **fresh**: archive checkpoint summary to `.claude/memory/state.md` history, clear checkpoint.md, proceed normally
 
+## Phase 0.5: Project Routing Check
+
+**Quick scan** (do NOT spend more than 30 seconds on this):
+
+1. Read CLAUDE.md to identify which project you're in
+2. Check if the task involves changes to orchestration system components (skills, hooks, agents, rules, memory schema, learnings format)
+3. If task is **purely orchestration** and you're NOT in STOPA → tell the user: "This task modifies the orchestration system. Best handled in STOPA, then synced back. Run `/prp` to prepare handoff context."
+4. If task is **split** (some project code, some orchestration) → note which parts belong where in Phase 3 planning. Flag STOPA parts as "deferred to STOPA session" in the subtask table.
+5. If task is **purely project code** → proceed normally, no routing needed
+
+This is a safety net — if the user already ran `/triage`, skip this check.
+
 ## Phase 1: Understand & Classify
 
 Parse `$ARGUMENTS` and determine:
@@ -85,7 +97,18 @@ If unclear, ask the user before proceeding. Never guess on ambiguous requirement
 
 **First, check learned heuristics:** Read `${CLAUDE_SKILL_DIR}/tier-heuristics.md` for patterns extracted from past task traces. If the current task matches a heuristic, use its recommended tier.
 
-**If no heuristic matches,** classify the task based on scope:
+**If no heuristic matches, auto-detect tier** using these signals (check in order):
+
+1. **Budget constraint**: Read `.claude/memory/budget.md` — if remaining budget is tight (prior task used 80%+ of agent limit), cap at standard tier max
+2. **Task keyword signals**:
+   - `fix`, `typo`, `rename`, `update`, `bump` + single file mention → **light**
+   - `refactor`, `add feature`, `implement`, `migrate` + 2-5 files → **standard**
+   - `redesign`, `architecture`, `cross-cutting`, `security audit`, `unknown scope` → **deep**
+   - `all files`, `everywhere`, `bulk`, `lint fix`, `20+` → **farm** (if mechanical)
+3. **File count estimate**: Glob the likely affected paths from the task description. 1 file → light, 2-5 → standard, 6+ → deep, 20+ mechanical → farm
+4. **Uncertainty factor**: If the task is vague or scope unclear → start one tier higher than keyword signals suggest (but never above deep)
+
+**Tier reference table:**
 
 | Tier | Criteria | Agent limit | Critic limit | Model |
 |------|----------|-------------|--------------|-------|
@@ -93,6 +116,8 @@ If unclear, ask the user before proceeding. Never guess on ambiguous requirement
 | **standard** | Multi-file, some exploration needed | 2-4 | 2 | sonnet/default |
 | **deep** | Cross-cutting, unknown scope, major feature | 5-8 | 3 | opus for planning |
 | **farm** | Bulk mechanical improvement across many files | 5-8 (Agent Teams) | 1 (post-sweep) | sonnet for agents |
+
+**Always show reasoning**: When auto-selecting tier, briefly state which signals drove the decision (e.g., "Auto-tier: standard — 3 files affected, 'implement' keyword, budget OK").
 
 **Farm tier** — use when ALL of these are true:
 1. Task is **mechanical** (rule is clear, just needs applying across files)
@@ -744,9 +769,23 @@ Every spawned agent MUST end its response with a Status block (included in the p
 2. Update `.claude/memory/budget.md` — increment counters for any agents/critics used
 3. Update `.claude/memory/state.md` — set subtask to `done` (or `blocked:<dep#>` if BLOCKED). Note concerns if DONE_WITH_CONCERNS
 4. **Budget gate**: Check if any counter hit its limit. If yes → stop and report to user
-5. Invoke `/critic` if tier allows another round. For **light tier**, skip critic on individual subtasks — only run once at the end. If agent reported DONE_WITH_CONCERNS, pass those concerns as extra context to critic.
-6. If critic returns FAIL → re-execute ONCE. If FAIL again → **circuit breaker** → escalate to user with findings
-7. Log decisions to `.claude/memory/decisions.md` via scribe pattern
+5. **De-sloppify check** (standard/deep tier only, skip for light/farm): Spawn a Haiku agent to scan files changed by the subtask (`git diff --name-only` vs pre-subtask state). Check for:
+   - `console.log(` / `print(` debugging leftovers (ignore if inside logging/debug modules)
+   - `TODO` / `FIXME` / `HACK` markers introduced in this subtask (not pre-existing)
+   - Inconsistent naming: mixed camelCase/snake_case in the same file
+   - Commented-out code blocks (3+ consecutive commented lines)
+   Report format: list of findings with file:line. **Non-blocking** — log findings but don't fail the subtask. If findings > 0, append to the subtask's concerns for critic review. If 0 findings, skip silently.
+   Agent prompt template:
+   ```
+   Review these files for sloppiness. Report ONLY issues introduced in this diff, not pre-existing.
+   Check: debug prints (console.log/print), new TODO/FIXME/HACK markers, mixed naming conventions, commented-out code blocks.
+   Output: JSON array of {file, line, issue, severity} or empty array if clean.
+   Files: <changed-files-list>
+   Diff: <git-diff-output>
+   ```
+6. Invoke `/critic` if tier allows another round. For **light tier**, skip critic on individual subtasks — only run once at the end. If agent reported DONE_WITH_CONCERNS, pass those concerns as extra context to critic. Include de-sloppify findings (step 5) as additional context.
+7. If critic returns FAIL → re-execute ONCE. If FAIL again → **circuit breaker** → escalate to user with findings
+8. Log decisions to `.claude/memory/decisions.md` via scribe pattern
 
 ### Phase 4 (farm tier): Farm Execution
 
