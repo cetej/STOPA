@@ -58,6 +58,7 @@ Diff/Changes
 Read first:
 - `.claude/memory/state.md` — understand current task context
 - `.claude/memory/learnings/critical-patterns.md` — check known anti-patterns; Grep `learnings/` by component if needed
+- `.claude/memory/learnings.md` — index of all learnings; use for broader retrieval scope
 
 ## Input
 
