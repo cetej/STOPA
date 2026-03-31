@@ -40,7 +40,7 @@
 |---|---------|--------|
 | 1 | Orchestrate traces (7/20 → potřeba 13 dalších) | PENDING |
 | 2 | Test Voice Mode (`/voice`) | PENDING (rolling out ~5%) |
-| 3 | Haiku 3 deprecation audit (deadline 2026-04-19) | PENDING |
+| 3 | Haiku 3 deprecation audit (deadline 2026-04-19) | DONE ✓ (2026-03-31: all 3 projects clean) |
 | 4 | Mythos GA date tracking → update STOPA model tiers | PENDING |
 
 ---
@@ -51,7 +51,7 @@
 - **Plugin sync**: DONE — stopa-orchestration/ plně synced s .claude/ (43/43 commands + skills)
 - **Security fixes**: 4 hook skripty opraveny (grep -oP, sed injection, JSON escaping)
 - **CC Voice Mode**: `/voice` — rolling out ~5%, nedostupné na CC v2.1.86
-- **Haiku 3**: Deprecation deadline 2026-04-19 — audit STOPA/NG-ROBOT/ADOBE pro hardcoded model IDs
+- **Haiku 3**: DONE — audit 2026-03-31: 0 hardcoded `claude-3-haiku-*` across all 3 projects. STOPA uses dynamic "haiku", NG-ROBOT/ADOBE use `claude-haiku-4-5-20251001`
 - **Watch**: Poslední scan 2026-03-31, next ~2026-04-07
 
 ---
