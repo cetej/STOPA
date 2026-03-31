@@ -2,13 +2,16 @@
 
 Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
-## Last Scan: 2026-03-29 (full) | Next: ~2026-04-05
+## Last Scan: 2026-03-31 (full) | Next: ~2026-04-07
 
 ## Action Items
 
 | # | Item | Urgency | Next Step |
 |---|------|---------|-----------|
 | 36 | Haiku 3 deprecation (deadline 2026-04-19) | HIGH | Zkontrolovat STOPA/NG-ROBOT/ADOBE pro hardcoded `claude-3-haiku-20240307` → nahradit `claude-haiku-4-5-20251001` |
+| 42 | CC Voice Mode (`/voice`) — Czech included | MED | Otestovat až se rolling out dostane k účtu; 20 jazyků vč. češtiny |
+| 43 | CC `/effort` command (Low/Medium/High) | MED | Zvážit integraci do orchestrate tier selection (`/effort High` pro deep tier) |
+| 44 | CC HTTP hooks (POST JSON → URL) | MED | Prozkoumat pro STOPA hooks — webhook-based integrations |
 | 41 | LiteLLM supply chain attack (v1.82.8 malware) | MED | Audit zda naše projekty používají LiteLLM |
 | 29t | Bootleg SSL (arXiv:2603.15553) | LOW | Sledovat pro ORAKULUM/ZACHVEV pokud Chronos-2 nestačí |
 | 29s | Attention innovations status | INFO | Produkce: MLA, GQA, iRoPE. Sledovat DiffAttn DEX adapter + TransMLA |
@@ -39,15 +42,18 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 ### Agent/Tool Research
 | Item | Detail |
 |------|--------|
+| 45. LangChain Deep Agents | Agent harness: planning (write_todos), filesystem offload, subagent spawning, persistent memory. GitHub: langchain-ai/deepagents |
 | 29l. AgentScope | Alibaba, Apache 2.0, MsgHub orchestration, ReMe memory |
-| 29m. MCP Elicitation | MCP servers → structured user input mid-task |
+| 29m. MCP Elicitation | MCP servers → structured user input mid-task (confirmed released CC feature) |
 | 29f. Agent SDK repos | claude-agent-sdk-python + typescript |
 | 29e. Mem0 | Graph-based memory architecture — STOPA inspirace |
-| 9. OpenClaw/NemoClaw | Messaging-first agent runtime, 250k★ |
+| 9. OpenClaw/NemoClaw | Messaging-first agent runtime, 210k★ (updated) |
 
 ### Papers (metodologie)
 | Item | Relevance |
 |------|-----------|
+| 46. Bootstrapping Coding Agents (arXiv:2603.17399) | "Specification is the program" — agent re-impl sám sebe z 926-slov spec. IEEE Software. |
+| 47. Flowception (arXiv:2512.11438 v2, 2026-03-22) | Video gen: frame insertion + denoising interleave, 3× FLOPs vs full-seq. Pro test1. |
 | 29n. SWAP | Stepwise CoT penalization → cost reduction pro Opus calls |
 | 29o. FinMCP-Bench | MCP tool-use benchmark, 613 vzorků |
 | 29d. Beyond the Prompt | ICL/CoT mechanismy — validuje skill trigger design |
@@ -73,6 +79,7 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
 ## Scan History
 
+### 2026-03-31 — full | Searches: 14 | Fetches: 3 | Items: 3 action, 4 watch, 4 info
 ### 2026-03-29 — full (PyTorch 2.11, Modular Diffusers, hf papers CLI)
 ### 2026-03-28 — full (Mythos leak, LiteLLM, MCP Elicitation, papers)
 ### 2026-03-27 — targeted (CC v2.1.85)

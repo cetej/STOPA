@@ -110,6 +110,13 @@ See **Phase 4: Farm Execution** for the farm-specific workflow.
 
 Write the tier to `.claude/memory/budget.md` and set the counters.
 
+**`/effort` alignment** (CC v2.1.75+): After selecting the tier, set the matching `/effort` level to align Claude's analysis depth with the orchestration tier:
+- light → `/effort` Low (faster responses, less deliberation)
+- standard → `/effort` Medium (default)
+- deep → `/effort` High (maximum analysis depth)
+
+This is a CC-native command — it controls how deeply Claude reasons before responding. Using it in tandem with tier selection ensures the reasoning depth matches the task complexity.
+
 **Cost-first rule**: Always start with the lowest tier that might work. Upgrade only if the scout phase reveals higher complexity than expected — and tell the user when upgrading.
 
 ### Phase 1b: Decision Gates
@@ -332,9 +339,29 @@ Write the plan to `.claude/memory/state.md` using this format:
 |---|---------|-----------|-----------|------|--------|--------|
 | 1 | ... | <verifiable pass/fail> | — | 1 | Agent:general | done |
 | 2 | ... | <verifiable pass/fail> | — | 1 | Skill:/review | pending |
-| 3 | ... | <verifiable pass/fail> | 1 | 2 | Agent:general | pending |
-| 4 | ... | <verifiable pass/fail> | 2,3 | 3 | Skill:/test | pending |
+| 3 | ... | <verifiable pass/fail> | 1 | 2 | Agent:general | in_progress |
+| 4 | ... | <verifiable pass/fail> | 2,3 | 3 | Skill:/test | blocked:3 |
 ```
+
+### Structured Step States (Deep Agents adoption)
+
+Every subtask MUST use one of these 4 states — no free-form text:
+
+| State | Meaning | Transition |
+|-------|---------|------------|
+| `pending` | Not started, waiting for dependencies or wave | Initial state |
+| `in_progress` | Agent/skill actively working on it | When agent is spawned or work begins |
+| `done` | Completed and verified | After acceptance criteria check passes |
+| `blocked:<dep#>` | Cannot proceed — specify blocking subtask # | When dependency fails or external input needed |
+
+**State transition rules:**
+- `pending` → `in_progress`: when agent is spawned or orchestrator starts work
+- `in_progress` → `done`: when acceptance criterion passes (not just agent says "done")
+- `in_progress` → `blocked:<dep#>`: when agent reports BLOCKED with traceable cause
+- `blocked` → `in_progress`: when blocker is resolved (via Wave Re-open Protocol)
+- `done` → `in_progress`: only via Acceptance Criteria Check failure (Phase 5) or critic FAIL
+
+**Orchestrator obligation:** Update state.md status field IMMEDIATELY on each transition — not batched at end of wave. This enables mid-wave visibility for checkpoints and context health checks.
 
 **Wave planning rules:**
 - Prefer "vertical slices" (one full feature per subtask) over "horizontal layers" (all models, then all APIs). Vertical slices maximize Wave 1 parallelism.
@@ -597,6 +624,24 @@ For deep tier Agent Teams, spawn teammates with `mode: "plan"`:
 - Tasks with tight sequential dependencies (no parallelism benefit)
 - Quick fixes where Agent() + result is faster
 
+### Intermediate Offloading Convention (Deep Agents adoption)
+
+Agent outputs that exceed **500 tokens** MUST be offloaded to `.claude/memory/intermediate/` instead of returned inline. This prevents context bloat in the orchestrator.
+
+**Rules:**
+- Agent output ≤500 tokens → return inline (direct Status block)
+- Agent output >500 tokens → write to `.claude/memory/intermediate/<subtask-id>.json`, return only Status block + file path
+- All intermediate files are ephemeral — cleaned up in Phase 6
+- Directory `.claude/memory/intermediate/` is created at task start, deleted at task close
+- Files follow the Findings Ledger schema below
+
+**Agent prompt addition** (include in ALL agent spawn prompts):
+```
+If your output exceeds 500 tokens, write full results to
+.claude/memory/intermediate/<subtask-id>.json and return only your Status block
+with the file path. This keeps the orchestrator context lean.
+```
+
 ### Findings Ledger (standard 3+ / deep tier):
 
 When 3+ agents produce results, raw output floods the orchestrator's context. Use a findings ledger — agents write results to disk, orchestrator reads back only what's needed.
@@ -697,7 +742,7 @@ Every spawned agent MUST end its response with a Status block (included in the p
 ### After each subtask:
 1. Parse agent Status block. Handle per the table above.
 2. Update `.claude/memory/budget.md` — increment counters for any agents/critics used
-3. Update `.claude/memory/state.md` — mark subtask status + note concerns if DONE_WITH_CONCERNS
+3. Update `.claude/memory/state.md` — set subtask to `done` (or `blocked:<dep#>` if BLOCKED). Note concerns if DONE_WITH_CONCERNS
 4. **Budget gate**: Check if any counter hit its limit. If yes → stop and report to user
 5. Invoke `/critic` if tier allows another round. For **light tier**, skip critic on individual subtasks — only run once at the end. If agent reported DONE_WITH_CONCERNS, pass those concerns as extra context to critic.
 6. If critic returns FAIL → re-execute ONCE. If FAIL again → **circuit breaker** → escalate to user with findings
@@ -800,12 +845,25 @@ Score the session context load. Each signal adds points:
 **Thresholds**:
 - **Score 0-2**: Healthy. Continue normally.
 - **Score 3-4**: **Yellow**. Save checkpoint silently. Continue working.
-- **Score 5+**: **Red**. Save checkpoint + notify user: "Kontext session je velký. Checkpoint uložen. Pokud zaznamenáš pokles kvality, začni novou session s resume promptem z `/checkpoint status`."
+- **Score 5-6**: **Orange**. Auto-trigger `/compact` to offload completed subtask results to disk, then continue. Log: "Auto-compact triggered (context score N)."
+- **Score 7+**: **Red**. Save checkpoint + notify user: "Kontext session je velký. Checkpoint uložen. Pokud zaznamenáš pokles kvality, začni novou session s resume promptem z `/checkpoint status`."
+
+### Auto-Compact Trigger (Deep Agents adoption)
+
+When context health score reaches **5+** (Orange threshold), automatically invoke `/compact` BEFORE continuing to the next wave/subtask:
+
+1. **What to compact**: All completed subtask intermediate files that have already been summarized (have `compactSummary` field)
+2. **How**: Invoke `/compact save-and-summarize` targeting `.claude/memory/intermediate/` — this saves full results to disk and replaces in-context references with compact summaries
+3. **When NOT to compact**: If the next subtask explicitly depends on detailed output from a just-completed subtask (check `Depends on` column) — keep that specific result in context
+4. **Log**: Write to budget.md: `"Auto-compact at score N — freed ~X intermediate results"`
+5. **Frequency**: Max 1 auto-compact per wave (don't compact between every subtask)
+
+This replaces the previous "Red = notify user" approach with proactive context management. The orchestrator self-heals before quality degrades.
 
 **Rules**:
-- Only notify user **once per session** (set mental flag after first notification)
-- Never stop work — only checkpoint and optionally notify
-- If user explicitly says "continue", respect that even at score 5+
+- Only notify user at score **7+** (after auto-compact has already fired)
+- Never stop work — only compact and optionally notify
+- If user explicitly says "continue", respect that even at score 7+
 - At score 7+, suggest (don't force) starting a new session
 
 ## Phase 5: Integrate & Verify

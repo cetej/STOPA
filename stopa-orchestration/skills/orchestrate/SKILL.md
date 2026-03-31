@@ -2,6 +2,11 @@
 name: orchestrate
 description: Use when a task requires multiple steps or touches 3+ files. Trigger on plan this, break this down, orchestrate. Do NOT use for single-file edits.
 argument-hint: [task description]
+context-required:
+  - "task description — what to accomplish and why"
+  - "success criteria — what 'done' looks like (prevents open-ended delivery)"
+  - "constraints — what must NOT change (modules, APIs, interfaces)"
+tags: [orchestration, planning]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
 model: opus
@@ -37,6 +42,16 @@ Before anything, read the shared memory:
 
 Apply any relevant learnings to the current task.
 
+## Context Checklist
+
+If any item below is missing from `$ARGUMENTS`, ask **one question** before proceeding. One clarification upfront beats three rounds of guessing.
+
+| Item | Why it matters |
+|------|---------------|
+| **Task description** | Without it, you decompose the wrong problem |
+| **Success criteria** | Without it, delivery is open-ended and iterates forever |
+| **Constraints** | Without it, you may break things the user considers locked |
+
 ## Phase 0: Budget & Checkpoint Check
 
 Before anything else:
@@ -70,7 +85,7 @@ If unclear, ask the user before proceeding. Never guess on ambiguous requirement
 
 **First, check learned heuristics:** Read `${CLAUDE_SKILL_DIR}/tier-heuristics.md` for patterns extracted from past task traces. If the current task matches a heuristic, use its recommended tier.
 
-Based on scope, classify the task:
+**If no heuristic matches,** classify the task based on scope:
 
 | Tier | Criteria | Agent limit | Critic limit | Model |
 |------|----------|-------------|--------------|-------|
@@ -95,27 +110,104 @@ See **Phase 4: Farm Execution** for the farm-specific workflow.
 
 Write the tier to `.claude/memory/budget.md` and set the counters.
 
+**`/effort` alignment** (CC v2.1.75+): After selecting the tier, set the matching `/effort` level to align Claude's analysis depth with the orchestration tier:
+- light → `/effort` Low (faster responses, less deliberation)
+- standard → `/effort` Medium (default)
+- deep → `/effort` High (maximum analysis depth)
+
+This is a CC-native command — it controls how deeply Claude reasons before responding. Using it in tandem with tier selection ensures the reasoning depth matches the task complexity.
+
 **Cost-first rule**: Always start with the lowest tier that might work. Upgrade only if the scout phase reveals higher complexity than expected — and tell the user when upgrading.
 
-### Context Bootstrap (retrieval hooks)
+### Phase 1b: Decision Gates
 
-After classifying the task, load targeted context based on **Type** and **Scope**. This replaces generic memory reads with precise, type-specific retrieval — ensuring agents get the right patterns without loading everything.
+**Trigger:** tier == `deep` OR `$ARGUMENTS` contains `--gate`
 
-| Task Type | Grep patterns for `learnings/` | Also load |
-|-----------|-------------------------------|-----------|
-| Bug fix | `type: bug_fix`, `component: <affected>` | `docs/TROUBLESHOOTING.md` (grep error message) |
-| Feature | `type: best_practice`, `component: <affected>` | Constitution check (Phase 3) |
-| Refactor | `type: architecture`, `type: anti_pattern` | Recent decisions in `decisions.md` for the area |
-| Pipeline/workflow | `type: workflow`, `tags:.*pipeline` | `docs/RLM_WORKFLOW_OPTIMIZER.md` (if exists) |
-| Skill edit | `component: skill`, `type: best_practice` | `rules/skill-files.md`, `rules/skill-tiers.md` |
-| Memory/state | `component: memory`, `component: orchestration` | `rules/memory-files.md` |
-| Hook/config | `component: hook`, `tags:.*settings` | `.claude/settings.json` structure |
+Advisory challenge before scouting begins. Display both gates, then continue — don't wait for a response. If the user responds within the same conversation turn, incorporate their answers into Phase 3 planning.
+
+```
+⚠️ DEEP TIER — Decision Gates (advisory)
+
+Product gate: What exactly does success look like here? Is there a simpler solution
+that achieves 80% of the goal with half the complexity?
+→ My read: [1-sentence assessment of goal clarity + any simpler alternatives spotted]
+
+Engineering gate: Where could this fail? What are the side-effects on existing code?
+→ My read: [1-2 specific risks identified from codebase scan / task description]
+
+Respond to challenge these before work begins, or proceed — I'll continue in 10s.
+```
+
+Rules:
+- The "My read:" lines are NOT optional — always fill them in based on what you know from the task description and any codebase context loaded so far
+- If user responds with "stop" or "cancel" → halt and ask what to reconsider
+- If user responds with answers → update the plan in Phase 3 accordingly
+- Light and standard tiers: skip entirely unless `--gate` flag is present
+
+### Context Bootstrap — Block-Scored Selection
+
+After classifying the task, select context blocks using a scored manifest instead of grepping full files. This is the **lazy allocation** approach: read metadata first, fetch content only for top-scoring blocks.
+
+#### Step 1 — Read block manifest (page table)
+
+Check if `.claude/memory/learnings/block-manifest.json` exists.
+- **If yes**: read it — it's lightweight metadata only (no full file content). Use it for Steps 2-4.
+- **If no**: fall back to grep-based retrieval from the table below. Run `python scripts/build-component-indexes.py` during next maintenance.
+
+#### Step 2 — Score blocks against current task
+
+From the manifest `blocks` dict, filter `active: true` entries only. For each, compute a **context score**:
+
+```
+context_score = retrieval_score × keyword_match_bonus
+```
+
+Where:
+- `retrieval_score` = precomputed in manifest (severity × recency)
+- `keyword_match_bonus` = 2.0 if any tag or component matches the task type below, else 1.0
+
+| Task Type | Match these tags/components |
+|-----------|----------------------------|
+| Bug fix | `type: bug_fix`, component matches affected module |
+| Feature | `type: best_practice`, component matches affected module |
+| Refactor | `type: architecture`, `anti_pattern` |
+| Pipeline/workflow | tags: `pipeline`, `workflow` |
+| Skill edit | component: `skill`, tags: `skill` |
+| Memory/state | component: `memory`, `orchestration` |
+| Hook/config | component: `hook`, tags: `settings` |
+
+Also apply **synonym expansion**: if no matches on primary keywords, retry with 2-3 related terms (e.g., "validation" → "sanitization", "input checking"). Max 2 rounds.
+
+#### Step 3 — Apply token budget
+
+Context budget for learnings: **~2 000 tokens** (standard tier), **~4 000 tokens** (deep tier).
+
+Sort filtered blocks by `context_score` descending. Greedily add blocks until `sum(token_estimate)` would exceed budget. Stop there — **do NOT read lower-scoring blocks**.
+
+This is the paged allocation: only top-N blocks get fetched, the rest stay on disk.
+
+#### Step 4 — Fetch selected blocks
+
+Read the actual files for the selected top-N block IDs. Expand `related:` links (1-hop, max 3 extras per block) if budget allows.
+
+Pass fetched content directly in Phase 4 agent prompts. Agents do NOT re-read memory.
+
+#### Step 5 — Also load (per task type)
+
+| Task Type | Also load |
+|-----------|-----------|
+| Bug fix | `docs/TROUBLESHOOTING.md` (grep error message only) |
+| Feature | Constitution check (Phase 3) |
+| Refactor | Recent entries in `decisions.md` for the area |
+| Pipeline/workflow | `docs/RLM_WORKFLOW_OPTIMIZER.md` (if exists) |
+| Skill edit | `rules/skill-files.md`, `rules/skill-tiers.md` |
+| Memory/state | `rules/memory-files.md` |
 
 **Rules:**
-- Run max 2 grep queries from this table (most tasks match 1-2 rows)
-- Pass matched learnings as context to Phase 4 agent prompts — agents do NOT re-read memory
-- If no learnings match, that's fine — proceed without. Don't widen the search.
-- This table supplements Phase 0 memory reads (critical-patterns.md is always loaded regardless)
+- `critical-patterns.md` is always in the stable prefix — don't count it against the budget
+- If manifest missing: run max 2 grep queries from the task type table (fallback)
+- If no blocks score above 1.0: proceed without — don't force-load irrelevant context
+- Agents receive the fetched content inline — they do NOT re-read memory files
 
 ### Episodic Recall — Past Approaches
 
@@ -141,6 +233,20 @@ Before planning, check if similar tasks were solved before:
 This is few-shot learning from personal history — the agent gets better with every task. Decisions serve as precedents: once a pattern is decided, it should be reused unless context changes.
 
 ## Phase 2: Scout (scaled to tier)
+
+### Precomputed Results Check (before spawning agents)
+
+Before launching scout or researcher agents, check if usable results already exist:
+
+1. `Glob` for `.claude/memory/intermediate/scout-*.json` and `.claude/memory/intermediate/research-*.json`
+2. For each match: read `savedAt` and `agentRole` fields (first 5 lines of JSON)
+3. **Reuse condition**: `savedAt` is within the current session (< 2 hours old) AND no git commits newer than `savedAt`
+   - Check with: `git log --oneline --since="<savedAt>" | head -1` — if empty, cache is fresh
+4. If fresh cache found → inject its `summary` as pre-loaded context for the current phase, skip the matching agent spawn
+5. Log reuse in budget.md: `"Reused cached <agentRole> result (<id>)"`
+6. If no cache or cache is stale → proceed with normal agent spawning below
+
+This saves budget on re-runs, multi-wave scenarios, and session restarts from checkpoint.
 
 Scale exploration to the assigned tier:
 
@@ -205,6 +311,18 @@ Based on scout results:
    - Subtask with dependencies → Wave = max(dependency waves) + 1
    - Two subtasks modifying the same file → CANNOT be in the same wave
 5. **Assess risks** — what could go wrong?
+5b. **Rank by leverage** (Meadows heuristic): when multiple subtasks are independent and could go in Wave 1, prioritize by structural depth — not by ease:
+   - Paradigm (#1-3): changes to goals, incentives, information architecture → do FIRST (unlocks everything else)
+   - Rules (#4-6): changes to system rules, access control, data flows → do before parameter tweaks
+   - Parameters (#10-12): config changes, threshold tweaks, cosmetic → do LAST (or skip if structure handles it)
+   - Heuristic: "a 2-line change to who sees what data (#6) often makes five other subtasks unnecessary"
+6. **Define acceptance criteria** — each subtask MUST have a verifiable criterion:
+   - Criterion = specific, testable pass/fail statement (not "works correctly")
+   - Good: "API returns 200 with valid token and 401 without"
+   - Good: "File parses without errors on test-data.json"
+   - Good: "Ruff reports 0 violations in changed files"
+   - Bad: "Auth is implemented", "Code is clean", "Tests pass"
+   - If criterion can't be made specific, subtask is too vague — decompose further
 
 Write the plan to `.claude/memory/state.md` using this format:
 
@@ -217,13 +335,33 @@ Write the plan to `.claude/memory/state.md` using this format:
 
 ### Subtasks
 
-| # | Subtask | Depends on | Wave | Method | Status |
-|---|---------|-----------|------|--------|--------|
-| 1 | ... | — | 1 | Agent:general | done |
-| 2 | ... | — | 1 | Skill:/review | pending |
-| 3 | ... | 1 | 2 | Agent:general | pending |
-| 4 | ... | 2,3 | 3 | Skill:/test | pending |
+| # | Subtask | Criterion | Depends on | Wave | Method | Status |
+|---|---------|-----------|-----------|------|--------|--------|
+| 1 | ... | <verifiable pass/fail> | — | 1 | Agent:general | done |
+| 2 | ... | <verifiable pass/fail> | — | 1 | Skill:/review | pending |
+| 3 | ... | <verifiable pass/fail> | 1 | 2 | Agent:general | in_progress |
+| 4 | ... | <verifiable pass/fail> | 2,3 | 3 | Skill:/test | blocked:3 |
 ```
+
+### Structured Step States (Deep Agents adoption)
+
+Every subtask MUST use one of these 4 states — no free-form text:
+
+| State | Meaning | Transition |
+|-------|---------|------------|
+| `pending` | Not started, waiting for dependencies or wave | Initial state |
+| `in_progress` | Agent/skill actively working on it | When agent is spawned or work begins |
+| `done` | Completed and verified | After acceptance criteria check passes |
+| `blocked:<dep#>` | Cannot proceed — specify blocking subtask # | When dependency fails or external input needed |
+
+**State transition rules:**
+- `pending` → `in_progress`: when agent is spawned or orchestrator starts work
+- `in_progress` → `done`: when acceptance criterion passes (not just agent says "done")
+- `in_progress` → `blocked:<dep#>`: when agent reports BLOCKED with traceable cause
+- `blocked` → `in_progress`: when blocker is resolved (via Wave Re-open Protocol)
+- `done` → `in_progress`: only via Acceptance Criteria Check failure (Phase 5) or critic FAIL
+
+**Orchestrator obligation:** Update state.md status field IMMEDIATELY on each transition — not batched at end of wave. This enables mid-wave visibility for checkpoints and context health checks.
 
 **Wave planning rules:**
 - Prefer "vertical slices" (one full feature per subtask) over "horizontal layers" (all models, then all APIs). Vertical slices maximize Wave 1 parallelism.
@@ -236,6 +374,13 @@ For each subtask (respecting dependencies):
 ### If using an Agent:
 
 **Hierarchical context injection**: The orchestrator loads shared memory ONCE (Phase 0). When spawning agents, pass the relevant context directly in the prompt — do NOT instruct agents to re-read memory files. This saves 60-80% of token usage on memory loading across agents.
+
+**Diversity framing** (deep tier only, ref: arXiv:2603.19138 — P2 lock-in at 97.6% means parallel agents independently converge on identical solutions):
+When spawning 2+ agents in the same wave for the **deep** tier, vary their reasoning frame to reduce convergence:
+- Agent 1: default framing (as below)
+- Agent 2: add `Approach constraint: prefer the simplest possible solution — minimize abstractions and dependencies`
+- Agent 3: add `Approach constraint: consider what could go wrong first — design for failure modes, then build the happy path`
+This is NOT about different tasks — each agent still has its own subtask. It's about preventing identical reasoning patterns when agents share similar context.
 
 ```
 Agent(subagent_type: "general-purpose", prompt: "
@@ -309,7 +454,42 @@ Wave N: Continue until all waves done
 - If a wave has 4+ subtasks, split into sub-waves of 3
 - Budget: each parallel agent counts toward the tier agent limit
 - If any agent in a wave fails → handle it before launching next wave
+- **Validate agent outputs** before passing to next wave (see Agent Output Validation below)
 - Pass relevant outputs from previous waves as context to next wave agents (see Wave Context Handoff below)
+
+### Agent Output Validation (Structured Contract)
+
+After each agent completes and its result is saved via `/compact save-and-summarize`, validate the intermediate JSON:
+
+1. **Status check**: `status` field must be one of: `complete` | `partial` | `failed`
+   - If `status: "failed"` → log failure to `decisions.md`, skip downstream dependents that depend on this agent's output, alert user
+   - If `status: "partial"` → check `outputs.needs_followup` — inject these items into next wave agents' context as explicit requirements
+   - If `status: "complete"` → proceed normally
+
+2. **Output coherence**: If agent was an `implementer` (made code changes):
+   - `outputs.files_changed` should be non-empty — if empty but agent claimed success, flag as suspicious
+   - Quick sanity: `git diff --name-only` should include the claimed files
+
+3. **Handoff propagation**: Collect all `outputs.needs_followup` items from completed wave — these become **mandatory context** for Wave N+1 agents (inject under "Handoff from Wave N" section in their prompts)
+
+4. **Circuit breaker**: If 2+ agents in the same wave return `status: "failed"` → STOP, present failures to user, ask for guidance before continuing
+
+This validation prevents garbage-in-garbage-out between waves. Ground truth (git diff) trumps agent self-report.
+
+### Wave Re-open Protocol (ref: arXiv:2603.19138)
+
+If a Wave N+1 agent reports `BLOCKED` or `DONE_WITH_CONCERNS` where the root cause traces back to a Wave N output:
+
+1. **Identify the upstream subtask** that produced the problematic output
+2. **Re-open it**: mark status back to `in_progress` in state.md, log the re-open reason
+3. **Re-assign**: spawn a new agent for the re-opened subtask with additional context:
+   - Original subtask prompt + original agent's output summary
+   - The downstream agent's concern (what broke and why)
+   - Instruction: "Your previous implementation caused [issue]. Fix the root cause, don't patch around it."
+4. **Re-validate downstream**: after the re-opened subtask completes, re-run the blocked Wave N+1 agent
+5. **Circuit breaker**: max 1 wave re-open per task. If a second re-open is needed → STOP, escalate to user
+
+This prevents silent failures from propagating forward through waves. Without it, 46.5% of recovery attempts happen too late (final phase) when the cost of backtracking is highest.
 
 ### Wave Context Handoff via Scratchpad
 
@@ -444,6 +624,24 @@ For deep tier Agent Teams, spawn teammates with `mode: "plan"`:
 - Tasks with tight sequential dependencies (no parallelism benefit)
 - Quick fixes where Agent() + result is faster
 
+### Intermediate Offloading Convention (Deep Agents adoption)
+
+Agent outputs that exceed **500 tokens** MUST be offloaded to `.claude/memory/intermediate/` instead of returned inline. This prevents context bloat in the orchestrator.
+
+**Rules:**
+- Agent output ≤500 tokens → return inline (direct Status block)
+- Agent output >500 tokens → write to `.claude/memory/intermediate/<subtask-id>.json`, return only Status block + file path
+- All intermediate files are ephemeral — cleaned up in Phase 6
+- Directory `.claude/memory/intermediate/` is created at task start, deleted at task close
+- Files follow the Findings Ledger schema below
+
+**Agent prompt addition** (include in ALL agent spawn prompts):
+```
+If your output exceeds 500 tokens, write full results to
+.claude/memory/intermediate/<subtask-id>.json and return only your Status block
+with the file path. This keeps the orchestrator context lean.
+```
+
 ### Findings Ledger (standard 3+ / deep tier):
 
 When 3+ agents produce results, raw output floods the orchestrator's context. Use a findings ledger — agents write results to disk, orchestrator reads back only what's needed.
@@ -544,7 +742,7 @@ Every spawned agent MUST end its response with a Status block (included in the p
 ### After each subtask:
 1. Parse agent Status block. Handle per the table above.
 2. Update `.claude/memory/budget.md` — increment counters for any agents/critics used
-3. Update `.claude/memory/state.md` — mark subtask status + note concerns if DONE_WITH_CONCERNS
+3. Update `.claude/memory/state.md` — set subtask to `done` (or `blocked:<dep#>` if BLOCKED). Note concerns if DONE_WITH_CONCERNS
 4. **Budget gate**: Check if any counter hit its limit. If yes → stop and report to user
 5. Invoke `/critic` if tier allows another round. For **light tier**, skip critic on individual subtasks — only run once at the end. If agent reported DONE_WITH_CONCERNS, pass those concerns as extra context to critic.
 6. If critic returns FAIL → re-execute ONCE. If FAIL again → **circuit breaker** → escalate to user with findings
@@ -647,17 +845,53 @@ Score the session context load. Each signal adds points:
 **Thresholds**:
 - **Score 0-2**: Healthy. Continue normally.
 - **Score 3-4**: **Yellow**. Save checkpoint silently. Continue working.
-- **Score 5+**: **Red**. Save checkpoint + notify user: "Kontext session je velký. Checkpoint uložen. Pokud zaznamenáš pokles kvality, začni novou session s resume promptem z `/checkpoint status`."
+- **Score 5-6**: **Orange**. Auto-trigger `/compact` to offload completed subtask results to disk, then continue. Log: "Auto-compact triggered (context score N)."
+- **Score 7+**: **Red**. Save checkpoint + notify user: "Kontext session je velký. Checkpoint uložen. Pokud zaznamenáš pokles kvality, začni novou session s resume promptem z `/checkpoint status`."
+
+### Auto-Compact Trigger (Deep Agents adoption)
+
+When context health score reaches **5+** (Orange threshold), automatically invoke `/compact` BEFORE continuing to the next wave/subtask:
+
+1. **What to compact**: All completed subtask intermediate files that have already been summarized (have `compactSummary` field)
+2. **How**: Invoke `/compact save-and-summarize` targeting `.claude/memory/intermediate/` — this saves full results to disk and replaces in-context references with compact summaries
+3. **When NOT to compact**: If the next subtask explicitly depends on detailed output from a just-completed subtask (check `Depends on` column) — keep that specific result in context
+4. **Log**: Write to budget.md: `"Auto-compact at score N — freed ~X intermediate results"`
+5. **Frequency**: Max 1 auto-compact per wave (don't compact between every subtask)
+
+This replaces the previous "Red = notify user" approach with proactive context management. The orchestrator self-heals before quality degrades.
 
 **Rules**:
-- Only notify user **once per session** (set mental flag after first notification)
-- Never stop work — only checkpoint and optionally notify
-- If user explicitly says "continue", respect that even at score 5+
+- Only notify user at score **7+** (after auto-compact has already fired)
+- Never stop work — only compact and optionally notify
+- If user explicitly says "continue", respect that even at score 7+
 - At score 7+, suggest (don't force) starting a new session
 
 ## Phase 5: Integrate & Verify
 
 Once all subtasks are done:
+
+### Acceptance Criteria Check (before critic)
+
+For each subtask marked "done":
+1. Read its **Criterion** from `state.md`
+2. **Verify the criterion is met** — run the specific check:
+   - If criterion mentions a command → run it (e.g., `ruff check`, `python -c "import ..."`)
+   - If criterion mentions behavior → test it (curl, dry-run, import check)
+   - If criterion is about file content → grep/read to confirm
+3. If criterion **FAILS** → mark subtask back to "in_progress", log the failure reason
+4. Only proceed to critic when ALL criteria pass
+
+This prevents the critic from reviewing incomplete work and catches "declared done but not actually done" subtasks.
+
+### Late-Phase Recovery Check (ref: arXiv:2603.19138)
+
+LLM agents concentrate 46.5% of backtracking in the final 10% of a session. Before proceeding to critic, perform a structured re-evaluation:
+
+1. **Pruned path review**: List any subtask approaches that were considered but rejected during Phase 3 planning. Given the completed work, would any rejected approach have been better?
+2. **Cross-subtask side effects**: Do any completed subtasks silently conflict with each other? (e.g., two agents both modified a shared config file, one overwriting the other's changes)
+3. **Assumption decay**: Were any Phase 0 assumptions (from learnings/decisions) invalidated by what was discovered during execution?
+
+If any issue is found → fix it before critic. This is cheaper than a critic FAIL + re-implementation cycle.
 
 ### Full Context Reload for Synthesis (standard 3+ / deep tier)
 
@@ -710,8 +944,19 @@ Before running the critic, reload context selectively:
    - Was the tier accurate? (note if over/under-estimated for future calibration)
 5. If a new repeatable pattern was discovered → suggest creating a skill via `/skill-generator`
 6. Summarize results to the user, **including cost summary**
-7. **Trace milestone check**: If Budget History now has 20+ rows → suggest running trace analysis:
-   "20+ orchestration traces collected. Consider analyzing tier accuracy: which task types were over/under-tiered? Run `/deepresearch` on budget history to extract tier selection heuristics."
+7. **Trace milestone check**: Count rows in Budget History table of `.claude/memory/budget.md`.
+   - **If >= 20 rows**: automatically run trace analysis inline (do NOT just suggest — execute it):
+     1. Read all Budget History rows
+     2. Group by Type: for each type (bug_fix, feature, refactor, research), compute:
+        - Most common planned tier
+        - % of tasks where planned == actual tier (accuracy)
+        - Average files changed per tier
+        - Average critic score per tier
+     3. Generate heuristics table: e.g., "bug_fix < 5 files → always light tier"
+     4. Write heuristics to `.claude/skills/orchestrate/tier-heuristics.md` (create if not exists)
+     5. Report to user: "Trace analysis complete — N heuristics extracted. See `tier-heuristics.md`."
+   - **If 15-19 rows**: note "N/20 traces collected — approaching Phase 2 milestone."
+   - **If < 15 rows**: no action needed.
 
 ## Decision Framework: Agent vs. Skill vs. Direct
 

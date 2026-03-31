@@ -6,6 +6,10 @@ Active decisions. Archived: `decisions-archive.md`
 
 | Date | Decision | Status | Key Detail |
 |------|----------|--------|------------|
+| 2026-03-31 | /effort ↔ orchestrate tier alignment | DONE | `/effort` Low/Med/High se nastavuje automaticky podle zvoleného orchestrace tieru. Implementováno v orchestrate skill+commands. |
+| 2026-03-31 | HTTP hooks for STOPA | PARKED | CC podporuje `type: "http"` hooks. STOPA zatím single-device → nepotřebuje. Adopt při remote agents nebo central logging. |
+| 2026-03-31 | Deep Agents → 3 adoptions | QUEUED | 1) Structured step states v state.md, 2) Formalize intermediate/ offloading (>500tok→file), 3) Auto-compact trigger v orchestrate. Viz `research/watchlist-deep-studies-2026-03-31.md`. |
+| 2026-03-31 | Bootstrapping Coding Agents | RESEARCH | arXiv:2603.17399 validuje STOPA spec-first pattern. Kandidát na `/autoresearch` experiment: skill re-implementation z description only. |
 | 2026-03-30 | Write-Time Gating (arXiv:2603.15994) | IMPLEMENTING | Salience gate v /scribe, `source:` pole, zpřísnění dedup. Varianta B (min effort, zpětně kompatibilní). |
 | 2026-03-29 | bird CLI pro Twitter | PARKED | `@steipete/bird` — deprecated, riziko banu. Možnost pro ZÁCHVĚV/MONITOR alt-account only. Neimplementovat zatím. |
 | 2026-03-29 | AI Papers W13 → 3 learnings | DONE | Claudini (autoresearch), BIGMAS (graph orchestration), MemCollab (cross-tier memory). Brief v `docs/ai-papers-2026-W13.md`. |

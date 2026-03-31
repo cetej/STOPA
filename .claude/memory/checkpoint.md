@@ -1,29 +1,33 @@
 # Session Checkpoint
 
-**Saved**: 2026-03-29 (automate session — continued)
-**Task**: ZÁCHVĚV UI bloky 7-8
+**Saved**: 2026-03-31 (/watch + implementace doporučení)
+**Task**: Watch report + watchlist deep studies
 **Branch**: main
-**Progress**: Bloky 7+8 implementovány (Knowledge graph tab + Intervence formulář tab)
+**Progress**: Watch scan done, 3 doporučení implementována, deep studies připraveny
 
 ---
 
 ## What Was Done This Session
 
-### AI Papers Week 13 Brief
-- Brief uložen: `docs/ai-papers-2026-W13.md` (10 papersů s relevance rating + links)
-- 3 learnings zapsány do `learnings/`:
-  - `2026-03-29-claudini-autoresearch-loop.md` — white-box autoresearch formula
-  - `2026-03-29-memcollab-agent-agnostic-memory.md` — cross-tier memory sharing
-  - `2026-03-29-bigmas-directed-graph-orchestration.md` — dynamic agent graph pattern
-- Decision zapsán do `decisions.md` — W13 papers → 3 medium-term opportunities
+### /watch Full Scan (2026-03-31)
+- 14 searches, 3 fetches — 3 action, 4 watch, 4 info items
+- Nové action items: #42 (Voice Mode CZ), #43 (/effort), #44 (HTTP hooks)
+- Nové watch items: #45 (LangChain Deep Agents), #46 (Bootstrapping Coding Agents), #47 (Flowception)
 
-### STOPA Improvements
-- **orchestrate Phase 6 auto-trigger**: Oba soubory (`skills/orchestrate/SKILL.md` + `commands/orchestrate.md`) upgradovány — při 20+ traces se automaticky spustí analýza a zapíše `tier-heuristics.md`. Dříve jen "suggest", teď "execute".
+### Implementovaná doporučení
+1. **`/effort` ↔ tier alignment** — orchestrate skill+commands updatovány (light→Low, standard→Med, deep→High)
+2. **HTTP hooks research** — CC `type: "http"` prozkoumáno, decision PARKED (single-device, adopt při remote agents)
+3. **Haiku 3 deprecation audit** — RESOLVED, žádné hardcoded `claude-3-haiku-20240307` ve zdrojových souborech
+4. **Bootstrapping Coding Agents study** — arXiv:2603.17399 validuje STOPA spec-first pattern, kandidát na /autoresearch experiment
 
-### Security / Infra fixes
-- **NG-ROBOT** `start_server.bat`: window title check → netstat port 5001 check (anti-spoofing)
-- **MONITOR** `npm audit fix`: path-to-regexp ReDoS HIGH → 0 vulnerabilities
-- **CMS heslo**: stále nezměněno — deadline April 1, 2026 (**KRITICKÉ**)
+### Deep Studies
+- Výstup: `research/watchlist-deep-studies-2026-03-31.md` (6 studií)
+- LangChain Deep Agents research agent was launched (results pending)
+
+### Decisions Recorded
+- `/effort` ↔ orchestrate tier: DONE
+- HTTP hooks for STOPA: PARKED
+- Bootstrapping Coding Agents: RESEARCH candidate
 
 ---
 
@@ -31,33 +35,14 @@
 
 | # | Subtask | Status |
 |---|---------|--------|
-| 1 | CMS Aqua heslo změněno | DONE 2026-03-29 |
-| 2 | ZÁCHVĚV UI bloky 4-8 | DONE (Session 8-9) |
-| 3 | KARTOGRAF font sanitization | DONE 2026-03-29 |
-| 4 | Podcast Gemini key verify | DONE 2026-03-29 |
-| 5 | Security fixes committed/pushed | DONE |
+| 1 | LangChain Deep Agents full analysis | DONE — 3 adoptions identified (structured steps, intermediate offload, auto-compact) |
+| 2 | ZÁCHVĚV UI blok 9 (Export a sdílení) | PENDING |
+| 3 | Orchestrate traces | 4/20 → need 16 more for tier heuristics |
 
-### Tech debt
-— žádný otevřený
-
----
-
-## ZÁCHVĚV UI — stav pro pokračování
-
-**Backend**: kompletní (ingest, process, detect, analyze, intervene, knowledge)
-**UI soubor**: `C:\Users\stock\Documents\000_NGM\ZACHVEV\ui\app.py` — 854 řádků
-**Architektura**: Streamlit, 2 režimy (Průzkumný / Cílený) → topic dashboard → drill-down
-**API base**: `http://localhost:8000/api`
-
-Z memory (Session 6 v6.3): bloky 1-3 částečně hotové. Chybí bloky 4-9:
-- Blok 4: Topic dashboard (EWS indikátory per topic)
-- Blok 5: Drill-down (CRI detail, targeting, campaign)
-- Blok 6: Vizuály (Nano prompty)
-- Blok 7: Knowledge graph query UI
-- Blok 8: Intervence formulář
-- Blok 9: Export a sdílení
-
-**Doporučený přístup**: Přečíst celý app.py (854 ř) na začátku session, identifikovat TODO komentáře, pak implementovat chybějící bloky sekvenčně.
+### From Previous Sessions
+- CMS Aqua heslo: DONE 2026-03-29
+- ZÁCHVĚV UI bloky 1-8: DONE
+- Security hardening: DONE
 
 ---
 
@@ -70,29 +55,45 @@ Aktuálně **4/20** traces. Phase 2 (tier heuristics) trigger až při 20. Typ b
 ## Key Context
 
 - **API Key Rotation**: Pro příští rotaci použij JavaScript DOM extraction (ne screenshot transcription)
-- **Server Binding**: Všechny 4 projekty nyní bind na 127.0.0.1
+- **Server Binding**: Všechny 4 projekty bind na 127.0.0.1
 - **NG-ROBOT port**: 5001 (run_server.py:27)
 - **ZÁCHVĚV dir**: `C:\Users\stock\Documents\000_NGM\ZACHVEV` (bez háčku)
+- **CC Voice Mode**: `/voice` — rolling out ~5%, Czech supported, testovat až dostupné
+- **CC /effort**: Low/Med/High — integrováno do orchestrate tier selection
+- **CC HTTP hooks**: `type: "http"` — PARKED pro STOPA, adopt při remote agents
 
 ---
 
-## Immediate Next Action (příští session)
+## Next Session Checklist
 
-**KRITICKÉ** (do April 1): Změnit Aqua CMS heslo
-→ Otevři NG-ROBOT dashboard → Settings → Change password
+### Priorita 1 — STOPA systém
+- [x] Review LangChain Deep Agents agent output — DONE, 3 adoptions identified
+- [ ] **Implement Deep Agents adoption #1**: Structured step states v orchestrate state.md (pending/in_progress/done/blocked)
+- [ ] **Implement Deep Agents adoption #2**: Formalize intermediate/ offloading convention (>500 tokens → file)
+- [ ] **Implement Deep Agents adoption #3**: Auto-compact trigger v orchestrate (>60% context → /compact)
+- [ ] `/autoresearch` experiment: skill re-implementation from description only (Bootstrapping paper)
+- [ ] Sync `stopa-orchestration/` plugin s aktualizovaným orchestrate.md
+- [ ] Commit all changes from this session
 
-**ZÁCHVĚV UI**: `streamlit run ui/app.py` + `uvicorn zachvev.api.app:app --port 8000`, pak implementuj bloky 4-9
+### Priorita 2 — Projekty
+- [ ] ZÁCHVĚV UI blok 9 (Export a sdílení) — poslední chybějící blok
+- [ ] Test Voice Mode (`/voice`) pokud rolling out dorazil
+
+### Priorita 3 — Údržba
+- [ ] Orchestrate trace diversity — potřeba bug_fix, security, docs type traces
+- [ ] news.md DONE items → archive when resolved
+- [ ] Mythos GA date tracking → update STOPA model tiers when announced
 
 ---
 
 ## Resume Prompt
 
-> **Task**: Dokončit ZÁCHVĚV UI (bloky 4-9) + změnit CMS heslo (deadline April 1)
+> **Task**: Pokračovat v STOPA development — sync plugin, review Deep Agents analysis, ZÁCHVĚV UI blok 9
 >
-> **Stav**: Security hardening 8 projektů kompletní. STOPA orchestrate auto-trigger přidán (20 traces → tier analysis). NG-ROBOT bat + MONITOR npm audit hotové.
+> **Stav**: Watch scan 2026-03-31 hotový. `/effort` ↔ tier integrováno. HTTP hooks PARKED. Bootstrapping paper → /autoresearch kandidát.
 >
-> **ZÁCHVĚV**: app.py na 854 řádcích, backend kompletní, UI bloky 4-9 chybí. Přečíst celý app.py, identifikovat TODO, implementovat postupně.
+> **Deep studies**: `research/watchlist-deep-studies-2026-03-31.md` — 6 studií, LangChain Deep Agents analysis pending.
 >
-> **KRITICKÉ**: Aqua CMS heslo musí být změněno před April 1, 2026.
+> **ZÁCHVĚV**: Bloky 1-8 hotové, chybí blok 9 (Export a sdílení).
 >
-> **Traces**: 4/20 — zbývá 16 do Phase 2 tier heuristics.
+> **Traces**: 4/20 — potřeba diverzifikovat typy (bug_fix, security, docs).
