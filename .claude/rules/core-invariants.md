@@ -35,6 +35,9 @@ Nikdy nemaž historii — pouze přesouvej do archivu. History = audit trail.
 Nikdy nepiš "hotovo" bez důkazu. Spusť test, ukaž výstup, diffni chování.
 Pokud test neexistuje: ověř alespoň syntaxi (`python -c "import modul"`) nebo dry-run.
 
-## 7. 3-Fix escalation — stop and report
-Po 3 neúspěšných pokusech o opravu stejného problému: STOP.
-Zdokumentuj všechny 3 pokusy a eskaluj na uživatele. Opakování není řešení.
+## 7. 3-Fix escalation with error classification
+Klasifikuj chybu PŘED započítáním pokusu:
+- **Infrastructure** (ENOENT, EACCES, OOM, disk full): OKAMŽITÝ STOP na první výskyt — neopakuj.
+- **Transient** (rate limit, timeout, 503): max 1 retry s 5s pauzou, pak eskaluj.
+- **Logic** (špatný výstup, test fail): normální 3-fix escalation.
+Po 3 neúspěšných logických pokusech: STOP, zdokumentuj a eskaluj. Opakování není řešení.

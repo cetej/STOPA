@@ -14,6 +14,9 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+from atomic_utils import atomic_write
+
 import sys, os
 _levels = {'minimal': 1, 'standard': 2, 'strict': 3}
 if _levels.get(os.environ.get('STOPA_HOOK_PROFILE', 'standard'), 2) < _levels.get('standard', 2):
@@ -162,13 +165,11 @@ def log_correction(summary: str, prompt_snippet: str, times: int, sentiment: str
     with CORRECTIONS_LOG.open("a", encoding="utf-8") as f:
         f.write(json.dumps(entry, ensure_ascii=False) + "\n")
 
-    # Prune to last 500 entries
+    # Prune to last 500 entries (atomic rewrite)
     try:
         lines = CORRECTIONS_LOG.read_text(encoding="utf-8").strip().split("\n")
         if len(lines) > 500:
-            CORRECTIONS_LOG.write_text(
-                "\n".join(lines[-500:]) + "\n", encoding="utf-8"
-            )
+            atomic_write(CORRECTIONS_LOG, "\n".join(lines[-500:]) + "\n")
     except Exception:
         pass
 

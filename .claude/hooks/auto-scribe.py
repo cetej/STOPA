@@ -18,6 +18,9 @@ import sys
 from datetime import date, datetime
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+from atomic_utils import atomic_write
+
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
@@ -169,7 +172,7 @@ source: auto-scribe
 ## Prevention
 {prevention or 'N/A'}
 """
-    filepath.write_text(content, encoding="utf-8")
+    atomic_write(filepath, content)
     return True
 
 
@@ -284,7 +287,7 @@ def update_patterns(new_patterns: list, existing_content: str) -> int:
             changes += 1
 
     if changes > 0:
-        PATTERNS_PATH.write_text(updated_content, encoding="utf-8")
+        atomic_write(PATTERNS_PATH, updated_content)
 
     return changes
 

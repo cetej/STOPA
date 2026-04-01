@@ -157,6 +157,8 @@ Battle-tested constants from Claude Code's auto-compaction system (~250K API cal
 | BLOCKING_BUFFER | 3,000 | At context > (total - 3K): STOP new work, compact first |
 | MAX_CONSECUTIVE_FAILURES | 3 | After 3 failed compactions: halt, alert user |
 
+See orchestrate SKILL.md § Context Budget Allocation for per-category targets (15% summaries, 40% inline, 10% verification). The `AUTO_COMPACT_BUFFER` (13K) fires before inline results exceed their 40% allocation at standard context sizes. When compacting, prioritize inline agent results (largest category) and preserve verification evidence until Phase 5 completes.
+
 **Consecutive Failure Circuit Breaker:**
 Track `compact_failures` counter (in budget.md or in-memory). After 3 consecutive compaction failures:
 → STOP. Do not attempt another compaction.

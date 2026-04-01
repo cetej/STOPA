@@ -108,7 +108,7 @@
           },
           {
             "type": "command",
-            "command": "bash .claude/hooks/suggest-compact.sh",
+            "command": "python .claude/hooks/suggest-compact.py",
             "timeout": 3,
             "statusMessage": ""
           },
@@ -184,8 +184,15 @@
           },
           {
             "type": "command",
-            "command": "bash .claude/hooks/auto-checkpoint-suggest.sh",
+            "command": "python .claude/hooks/auto-checkpoint-suggest.py",
             "timeout": 3,
+            "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "if": "Write(.claude/memory/**)|Edit(.claude/memory/**)",
+            "command": "python .claude/hooks/memory-integrity-check.py",
+            "timeout": 2,
             "statusMessage": ""
           }
         ]

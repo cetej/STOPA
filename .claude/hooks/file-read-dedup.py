@@ -12,6 +12,9 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+from atomic_utils import atomic_write
+
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 LEDGER_PATH = Path('.claude/memory/intermediate/read-dedup.json')
@@ -107,7 +110,7 @@ def main():
         # Save ledger
         ledger['reads'] = reads
         LEDGER_PATH.parent.mkdir(parents=True, exist_ok=True)
-        LEDGER_PATH.write_text(json.dumps(ledger, indent=2), encoding='utf-8')
+        atomic_write(LEDGER_PATH, json.dumps(ledger, indent=2))
 
     except Exception:
         pass  # Never block Read — fail silently

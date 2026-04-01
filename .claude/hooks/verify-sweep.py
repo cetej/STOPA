@@ -17,6 +17,9 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+from atomic_utils import atomic_write
+
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
@@ -260,11 +263,11 @@ def main():
             for v in violations:
                 f.write(json.dumps(v, ensure_ascii=False) + "\n")
 
-        # Prune violations.jsonl to last 200 entries
+        # Prune violations.jsonl to last 200 entries (atomic rewrite)
         try:
             lines = VIOLATIONS_LOG.read_text(encoding="utf-8").strip().split("\n")
             if len(lines) > 200:
-                VIOLATIONS_LOG.write_text("\n".join(lines[-200:]) + "\n", encoding="utf-8")
+                atomic_write(VIOLATIONS_LOG, "\n".join(lines[-200:]) + "\n")
         except Exception:
             pass
 

@@ -83,6 +83,23 @@ Before anything else:
 
 This is a safety net — if the user already ran `/triage`, skip this check.
 
+## Pre-Flight Dispatch Rules (GSD-2 pattern)
+
+Evaluate these rules **in order before entering Phase 1**. First match wins — execute the action and skip remaining rules. This is a pre-flight checklist, NOT a replacement for phase logic. Existing phases remain authoritative for all work that reaches them.
+
+| # | Rule Name | Condition | Action |
+|---|-----------|-----------|--------|
+| 1 | `budget-exhausted` | budget.md shows any counter at tier limit | STOP → report to user, offer wrap-up |
+| 2 | `infrastructure-error` | last agent/tool failed with infrastructure error (ENOENT, OOM, EACCES) | STOP → do NOT retry, escalate immediately (see Error Classification) |
+| 3 | `checkpoint-resume` | checkpoint.md exists AND is non-empty AND <2h old | OFFER resume → if accepted, skip Phases 1-3, jump to Phase 4 |
+| 4 | `stopa-routing` | task modifies skills/hooks/memory AND cwd is NOT STOPA | REDIRECT → tell user to switch to STOPA |
+| 5 | `sidecar-pending` | sidecar-queue.json has high-priority items | DRAIN queue first (see Sidecar Queue Drain), then proceed |
+| 6 | `context-critical` | context health score ≥ 7 | STOP → suggest new session or `/compact` |
+| 7 | `context-orange` | context health score ≥ 5 | PRE-COMPACT → run `/compact` before proceeding |
+| 8 | `default` | always | PROCEED → enter Phase 1 normally |
+
+Reference the rule name when making dispatch decisions for auditability (e.g., "Applying rule `checkpoint-resume`: found valid checkpoint from 45 min ago").
+
 ## Phase 1: Understand & Classify
 
 Parse `$ARGUMENTS` and determine:
@@ -218,6 +235,27 @@ This is the paged allocation: only top-N blocks get fetched, the rest stay on di
 Read the actual files for the selected top-N block IDs. Expand `related:` links (1-hop, max 3 extras per block) if budget allows.
 
 Pass fetched content directly in Phase 4 agent prompts. Agents do NOT re-read memory.
+
+### Context Budget Allocation (GSD-2 pattern)
+
+Total usable context is model-dependent (200K for Opus). Reserve 10% for system overhead.
+These are **targets, not hard limits** — the context health score system remains the primary control.
+
+| Category | % of working budget | ~Tokens (200K model) | What fills it |
+|----------|-------------------|---------------------|--------------|
+| Summaries / learnings | 15% | ~27,000 | Block-scored selection above, critical-patterns.md |
+| Inline agent results | 40% | ~72,000 | Agent outputs, /compact save-and-summarize results |
+| Verification evidence | 10% | ~18,000 | Critic output, git diff, acceptance criteria checks |
+| Overhead / planning | 35% | ~63,000 | Conversation turns, skill prompts, working memory |
+
+**Rules:**
+- If learnings injection would exceed 15%: raise min score threshold in block-scored selection
+- If inline results exceed 40%: trigger auto-compact immediately (don't wait for health score 5+)
+- Verification evidence is **protected**: never compact critic output before Phase 5 completes
+- When health score hits 5+, compact inline results first (largest category), preserve verification
+
+These percentages align with compact SKILL.md thresholds — see `AUTO_COMPACT_BUFFER` (13K) which
+fires before inline results exceed their 40% allocation at standard context sizes.
 
 #### Step 5 — Also load (per task type)
 
@@ -502,6 +540,21 @@ After each agent completes and its result is saved via `/compact save-and-summar
 4. **Circuit breaker**: If 2+ agents in the same wave return `status: "failed"` → STOP, present failures to user, ask for guidance before continuing
 
 This validation prevents garbage-in-garbage-out between waves. Ground truth (git diff) trumps agent self-report.
+
+### Sidecar Queue Drain (between waves)
+
+Before launching Wave N+1, check for deferred suggestions from hooks:
+
+1. Read `.claude/memory/intermediate/sidecar-queue.json` (if exists)
+2. Process items sorted by priority (high first):
+   - `compact_suggestion` → evaluate: if context health score ≥ 3, run `/compact` now
+   - `checkpoint_suggestion` → if 70%+ subtasks complete, run `/checkpoint save` silently
+   - `learning_suggestion` → note for Phase 6, don't act now
+3. Clear the queue after processing
+4. Log: "Sidecar queue drained: N items processed" (only if N > 0)
+
+This replaces direct stdout injection from hooks — suggestions arrive at wave boundaries
+instead of mid-task, reducing context noise.
 
 ### Wave Re-open Protocol (ref: arXiv:2603.19138)
 
@@ -1044,7 +1097,19 @@ When a spawned agent encounters issues during execution, it has pre-granted auth
 | Architectural change (new DB table, new service) | **STOP** — return to orchestrator | — |
 | Pre-existing bug (not caused by current task) | Log to deferred, do NOT fix | — |
 
-After 3 failed fix attempts on the same issue → **STOP symptom fixing**. This is an architectural concern:
+### Error Classification (before counting fix attempts)
+
+Classify the error BEFORE counting it toward the 3-fix budget:
+
+| Error Type | Examples | Action |
+|------------|---------|--------|
+| **Infrastructure** | ENOENT, EACCES, ENOSPC, OOM, ModuleNotFoundError, "command not found" | IMMEDIATE STOP — do NOT retry. Report: "Infrastructure error: [type]. Cannot be fixed by code changes." |
+| **Transient** | Rate limit (429), timeout, 503, connection refused | Retry ONCE with 5s delay. If fails again → treat as infrastructure |
+| **Logic** | Wrong output, assertion failure, test fail, type error | Normal 3-fix escalation below |
+
+Infrastructure errors do NOT count toward the 3-fix attempt budget. They are a separate failure mode — retrying wastes LLM budget on unrecoverable states.
+
+After 3 failed **logic** fix attempts on the same issue → **STOP symptom fixing**. This is an architectural concern:
 1. Agent documents all 3 attempts and why each failed
 2. Agent reports: "3 fixes failed on [X]. Likely architectural — [hypothesis]"
 3. Orchestrator escalates to user with the pattern and asks for direction

@@ -16,6 +16,9 @@ import sys
 from datetime import date
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+from atomic_utils import atomic_write
+
 import sys, os
 _levels = {'minimal': 1, 'standard': 2, 'strict': 3}
 if _levels.get(os.environ.get('STOPA_HOOK_PROFILE', 'standard'), 2) < _levels.get('strict', 2):
@@ -145,7 +148,7 @@ source: auto-compound
 ## Řešení / Prevence
 {prevention or "N/A"}
 """
-    filepath.write_text(content, encoding="utf-8")
+    atomic_write(filepath, content)
     return filename
 
 
