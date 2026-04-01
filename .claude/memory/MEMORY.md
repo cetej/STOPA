@@ -18,6 +18,9 @@
 - [czech_corrector_plan.md](czech_corrector_plan.md) — Czech corrector: Variant A (prompts) → Variant B (hybrid MorphoDiTa+Hunspell)
 - [feedback_checkpoints.md](feedback_checkpoints.md) — Checkpoint pravidla: nemixovat, verzovat, častěji ukládat
 
+## Pending Tasks for Target Projects
+- [task_adobe_automat_thinking_fix.md](task_adobe_automat_thinking_fix.md) — ADOBE-AUTOMAT: fix text pipeline pro Sonnet 4.6 thinking/effort breaking change
+
 ## Ideas (low priority)
 - [ideas-memory-upgrade.md](ideas-memory-upgrade.md) — Memory upgrade patterns (sabmemory, FTS5 index, token budgeting) — trigger: 500+ souborů
 

@@ -34,3 +34,7 @@ verify: manual
 ## 8. 3-Fix Escalation
 After 3 failed fix attempts on same issue → STOP. This is architectural, not fixable by retry. Document all 3 attempts and escalate to user.
 verify: Grep("3-fix limit|3 attempts", path=".claude/agents/stopa-worker.md") → 1+ matches
+
+## 9. Sonnet 4.6 Thinking/Effort Breaking Change (2026-04)
+thinking:disabled → model agresivně sumarizuje (40% výstupu). thinking:adaptive + effort:low → leakuje chain-of-thought do outputu. Pro text-reprodukční fáze preferuj PATCH/diff formát nad plnou reprodukcí. Strip `<antml*>/<thinking>` tagy jako pojistku.
+verify: manual
