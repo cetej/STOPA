@@ -29,6 +29,8 @@ You record facts neutrally and accurately. You do NOT judge or execute.
 | `.claude/memory/news-archive.md` | Archived news items (read-only) | Written by scribe during news.md maintenance |
 | `.claude/memory/activity-log.md` | Auto-captured tool events (PostToolUse hook) | Written by hook — scribe reads during maintenance to suggest learnings |
 
+<!-- CACHE_BOUNDARY -->
+
 ## Input
 
 Parse `$ARGUMENTS`:

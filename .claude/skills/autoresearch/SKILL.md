@@ -94,6 +94,8 @@ Before starting:
 2. Grep `.claude/memory/learnings/` for topic-relevant patterns (max 3 queries by component/tags)
 3. Read `.claude/memory/budget.md` — check remaining budget
 
+<!-- CACHE_BOUNDARY -->
+
 ## Phase 0: Research Setup
 
 ### Parse input

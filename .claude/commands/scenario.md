@@ -21,6 +21,8 @@ Inspired by autoresearch:scenario pattern — adapted for STOPA conventions.
 
 Seed scenario → Decompose into dimensions → Generate ONE situation per iteration → Classify (new/variant/duplicate) → Expand edge cases → Log → Repeat.
 
+<!-- CACHE_BOUNDARY -->
+
 ## Phase 0: Setup
 
 ### Parse input

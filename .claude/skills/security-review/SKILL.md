@@ -24,6 +24,8 @@ Accept one of:
 - **Feature review**: Review a specific feature, PR, or set of files
 - **Threat model**: Identify attack surfaces and trust boundaries
 
+<!-- CACHE_BOUNDARY -->
+
 ## Process
 
 ### Phase 1: Attack Surface Mapping

@@ -29,6 +29,8 @@ You are the SEO analyst. You read GSC data, find opportunities, and produce acti
 2. **Read only matched files** — don't read the entire learnings directory
 3. If grep finds nothing, check if `critical-patterns.md` exists and read it
 
+<!-- CACHE_BOUNDARY -->
+
 ## Input
 
 Parse `$ARGUMENTS` to determine:

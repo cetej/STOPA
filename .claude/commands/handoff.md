@@ -28,6 +28,8 @@ Capture findings, decisions, and learnings from completed sessions into persiste
 - Preparing context for a future task → use `/prp`
 - Recording a single decision or learning → use `/scribe`
 
+<!-- CACHE_BOUNDARY -->
+
 ## Process
 
 ### Step 1: Parse Input

@@ -35,6 +35,8 @@ If any item below is missing from `$ARGUMENTS`, ask **one question** before proc
 - No test script exists → construct ad-hoc verification from available tools
 - Timeout → report what completed and what didn't
 
+<!-- CACHE_BOUNDARY -->
+
 ## Process
 
 ### Step 1: Understand target

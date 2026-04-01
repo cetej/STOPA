@@ -21,6 +21,8 @@ The budget is tracked in `.claude/memory/budget.md`. Read it first.
 
 If it doesn't exist, create it with the initial template (see below).
 
+<!-- CACHE_BOUNDARY -->
+
 ## Process
 
 ### Step 1: Read the budget ledger (`.claude/memory/budget.md`)

@@ -19,6 +19,8 @@ You research what the community has actually figured out in the last 30 days abo
 
 The AI prompting landscape updates faster than any guide or course. Static prompt libraries go stale within weeks. This skill treats that reality as a feature: it pulls live intelligence from real users solving real problems, and distills it into an immediately usable prompt.
 
+<!-- CACHE_BOUNDARY -->
+
 ## Phase 0: Parse Input
 
 From `$ARGUMENTS`, extract:

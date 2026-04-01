@@ -21,6 +21,8 @@ Download, clean, and optionally analyze YouTube video transcripts.
 - If yt-dlp fails with "Sign in to confirm you're not a bot" → update first: `pip install -U yt-dlp`
 - MCP youtube-transcript server is BROKEN (2026-03) — do NOT use it, always use yt-dlp
 
+<!-- CACHE_BOUNDARY -->
+
 ## Process
 
 ### Step 1: Parse arguments

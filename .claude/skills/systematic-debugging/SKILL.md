@@ -25,6 +25,8 @@ NO FIXES WITHOUT ROOT CAUSE INVESTIGATION FIRST
 
 If you haven't completed Phase 1, you cannot propose fixes.
 
+<!-- CACHE_BOUNDARY -->
+
 ## Process
 
 ### Phase 1: Root Cause Investigation

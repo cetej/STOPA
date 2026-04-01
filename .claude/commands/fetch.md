@@ -25,6 +25,8 @@ https://r.jina.ai/https://example.com/article
 
 Returns clean prose — no nav, no ads, no boilerplate. Ideal for LLM context windows.
 
+<!-- CACHE_BOUNDARY -->
+
 ## Parse Arguments
 
 From `$ARGUMENTS`:

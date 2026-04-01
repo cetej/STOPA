@@ -24,6 +24,8 @@ Inspired by AutoHarness (arXiv:2603.03329): instead of telling LLM "don't do X",
 
 Default: `action-verifier` (most broadly useful).
 
+<!-- CACHE_BOUNDARY -->
+
 ## Phase 0: Setup
 
 ### Parse input

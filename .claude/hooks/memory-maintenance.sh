@@ -33,6 +33,29 @@ if [ -f "$MEMORY_DIR/activity-log.md" ]; then
   fi
 fi
 
+# --- Learning confidence audit (Dream consolidation detection) ---
+# Check for learnings with confidence < 0.3 (pruning candidates)
+LEARNINGS_DIR="$MEMORY_DIR/learnings"
+low_confidence_count=0
+if [ -d "$LEARNINGS_DIR" ]; then
+  for lfile in "$LEARNINGS_DIR"/*.md; do
+    [ -f "$lfile" ] || continue
+    # Extract confidence from YAML frontmatter
+    conf=$(sed -n '/^---$/,/^---$/{ s/^confidence: *//p; }' "$lfile" 2>/dev/null | head -1)
+    if [ -n "$conf" ]; then
+      # Compare as integer (multiply by 10 to avoid float comparison in bash)
+      conf_int=$(echo "$conf" | awk '{printf "%d", $1 * 10}')
+      if [ "$conf_int" -lt 3 ]; then
+        low_confidence_count=$((low_confidence_count + 1))
+      fi
+    fi
+  done
+
+  if [ "$low_confidence_count" -gt 0 ]; then
+    warnings="${warnings}[DREAM] $low_confidence_count learning(s) below confidence 0.3 — run /evolve to review pruning candidates.\n"
+  fi
+fi
+
 if [ -n "$warnings" ]; then
   echo "=== MEMORY MAINTENANCE NEEDED ==="
   echo -e "$warnings"

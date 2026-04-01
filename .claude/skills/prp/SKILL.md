@@ -25,6 +25,8 @@ Generate a self-contained task context document optimized for AI consumption. A 
 - Preparing context for `/orchestrate` on a well-scoped task
 - Documenting a task for async execution
 
+<!-- CACHE_BOUNDARY -->
+
 ## Process
 
 ### Phase 1: Scope Identification

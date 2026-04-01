@@ -15,6 +15,8 @@ maxTurns: 15
 
 You watch a pull request and fix CI failures and review comments — either via cloud auto-fix (default) or locally.
 
+<!-- CACHE_BOUNDARY -->
+
 ## Phase 1: Parse & Validate
 
 Parse `$ARGUMENTS` to get PR number or URL.

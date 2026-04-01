@@ -52,6 +52,8 @@ If any item below is missing from `$ARGUMENTS`, ask **one question** before proc
 | **Success criteria** | Without it, delivery is open-ended and iterates forever |
 | **Constraints** | Without it, you may break things the user considers locked |
 
+<!-- CACHE_BOUNDARY -->
+
 ## Phase 0: Budget & Checkpoint Check
 
 Before anything else:
@@ -735,9 +737,27 @@ After an agent completes and writes to `.claude/memory/intermediate/<subtask-id>
    ```markdown
    # Scratchpad — Accumulated Context
 
+   ## Wave Summary
    | # | Time | Source | Summary |
    |---|------|--------|---------|
+
+   ## Files Modified
+   | File | Lines Changed | Wave | Agent |
+   |------|--------------|------|-------|
+
+   ## Errors Encountered
+   | Error | File | Wave | Resolution | Status |
+   |-------|------|------|-----------|--------|
+
+   ## Key Decisions
+   | Decision | Rationale | Wave |
+   |---------|----------|------|
    ```
+
+   **Populating the new sections** (after each wave):
+   - **Files Modified**: Extract from agent Status block `filesChanged` array. One row per file.
+   - **Errors Encountered**: Extract from agent `concerns` field. Mark `resolved` if a subsequent wave addresses it, `open` otherwise.
+   - **Key Decisions**: Record any non-trivial choice made by an agent (architecture, library selection, approach). Extract from agent output or infer from git diff.
 
 5. **Context rule**: The orchestrator's decision-making uses ONLY `compactSummary` + `status` + `concerns` fields. Never load `details` unless debugging a failure or performing final synthesis (Phase 5).
 

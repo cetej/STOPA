@@ -31,6 +31,8 @@ You are the scout agent. You explore, map, and report. You NEVER modify anything
 3. **Read only matched files** — don't read the entire learnings directory
 4. Apply found patterns to speed up exploration.
 
+<!-- CACHE_BOUNDARY -->
+
 ## Input
 
 Parse `$ARGUMENTS` to determine:

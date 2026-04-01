@@ -31,6 +31,8 @@ Search across all registered projects for code patterns, learnings, and configur
 6. **Output format**:
 
 ```
+<!-- CACHE_BOUNDARY -->
+
 ## Results for "{query}"
 
 ### PROJECT_NAME (N matches)

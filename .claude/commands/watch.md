@@ -21,6 +21,8 @@ You scan external sources for news, updates, and changes relevant to this projec
 2. Read `.claude/memory/learnings.md` — current patterns (to spot relevant updates)
 3. Read `CLAUDE.md` — project dependencies and tech stack (to know what to watch)
 
+<!-- CACHE_BOUNDARY -->
+
 ## Input
 
 Parse `$ARGUMENTS`:

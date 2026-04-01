@@ -19,6 +19,8 @@ Large result → save to disk → Haiku summarizes → summary stays in context
 Final synthesis → load full data from disk → rich answer
 ```
 
+<!-- CACHE_BOUNDARY -->
+
 ## Operations
 
 Parse `$ARGUMENTS` to determine which operation to run:

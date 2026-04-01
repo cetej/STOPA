@@ -30,6 +30,8 @@ If any item below is missing from `$ARGUMENTS`, ask **one question** before proc
 | **Harness name** | Without it, dispatch cannot route — run with no args to list available harnesses |
 | **Input parameters** | Each harness has required inputs; check its definition before running |
 
+<!-- CACHE_BOUNDARY -->
+
 ## Phase 0: Dispatch
 
 ### Read shared context

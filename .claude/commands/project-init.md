@@ -28,6 +28,8 @@ This skill is part of the STOPA orchestration system. After initialization, the 
 claude --plugin-dir /path/to/stopa-orchestration
 ```
 
+<!-- CACHE_BOUNDARY -->
+
 ## Input
 
 Parse `$ARGUMENTS`:

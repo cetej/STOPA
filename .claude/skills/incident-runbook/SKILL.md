@@ -22,6 +22,8 @@ You diagnose problems fast using known patterns. You DON'T fix things — you id
 - Error message provided → match against runbook patterns first
 - No match in runbook → investigate with Bash/Grep, then report findings
 
+<!-- CACHE_BOUNDARY -->
+
 ## Process
 
 ### Step 1: Read context

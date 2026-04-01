@@ -24,6 +24,8 @@ You grade harness execution traces to measure quality, detect regressions, and s
 | **Trace file or harness name** | Without scope, grading is unfocused |
 | **Mode** | --list (browse traces), --replay (re-run), --diff (compare), --baseline (lock current as expected) |
 
+<!-- CACHE_BOUNDARY -->
+
 ## Parse Arguments
 
 From `$ARGUMENTS`, extract:

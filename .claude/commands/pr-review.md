@@ -21,6 +21,8 @@ You review a PR from 6 expert perspectives, then synthesize findings into a sing
 
 Read `.claude/memory/learnings.md` — apply known patterns and anti-patterns to the review.
 
+<!-- CACHE_BOUNDARY -->
+
 ## Phase 0: Load PR Context
 
 Parse `$ARGUMENTS` to get PR number or URL.

@@ -37,7 +37,13 @@ fi
 
 case "$TOOL" in
   Write|Edit|MultiEdit)
-    echo "- $TS | $TOOL | exit=$EXIT" >> "$LOG"
+    # Extract file_path from stdin JSON for file-tracking
+    FILE_PATH=$(echo "$STDIN_DATA" | sed -n 's/.*"file_path"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)
+    if [ -n "$FILE_PATH" ]; then
+      echo "- $TS | $TOOL | $(basename "$FILE_PATH") | exit=$EXIT" >> "$LOG"
+    else
+      echo "- $TS | $TOOL | exit=$EXIT" >> "$LOG"
+    fi
     ;;
   Bash)
     # Only log significant Bash commands (git, package managers)

@@ -53,6 +53,8 @@ If any item below is missing from `$ARGUMENTS`, ask **one question** before proc
 | **Goal** | Without direction, loop optimizes for arbitrary structural signals |
 | **Verify command** | Without a metric, improvement is LLM-judged (less reliable; state this explicitly) |
 
+<!-- CACHE_BOUNDARY -->
+
 ## Phase 0: Setup
 
 ### Parse input

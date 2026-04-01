@@ -184,6 +184,27 @@ if [ "$total" -ge 5 ]; then
     ckpt_status="COMPLETE"
   fi
 
+  # --- Files Touched (extract from activity-log) ---
+  files_touched=""
+  if [ -f "$LOG" ]; then
+    # Extract unique filenames from Write/Edit lines that include basename
+    files_touched=$(grep -E "\| (Write|Edit|MultiEdit) \| [^e]" "$LOG" 2>/dev/null | \
+      sed -n 's/.*| \(Write\|Edit\|MultiEdit\) | \(.*\) | exit=.*/\2/p' | \
+      sort | uniq -c | sort -rn | head -10 | while IFS= read -r line; do
+        count=$(echo "$line" | sed 's/^ *//' | cut -d' ' -f1)
+        fname=$(echo "$line" | sed 's/^ *[0-9]* //')
+        printf "| %s | %s edits | %s |\n" "$fname" "$count" "$TODAY"
+      done)
+  fi
+
+  # --- Key Results (recent git commits this session) ---
+  key_results=""
+  if [ -n "$first_ts" ]; then
+    key_results=$(git log --oneline --since="$first_ts" 2>/dev/null | head -5 | while IFS= read -r line; do
+      printf "- %s\n" "$line"
+    done)
+  fi
+
   # Build resume prompt: what was done + what remains
   resume_what_done="Session: $writes file edits, $agents agent spawns, $skills skill calls"
   if [ -n "$skill_names" ]; then
@@ -206,6 +227,14 @@ if [ "$total" -ge 5 ]; then
 
 $resume_what_done
 Duration: ~${duration_min} min
+
+## Files Touched
+
+$(if [ -n "$files_touched" ]; then printf "| File | Operations | Date |\n|------|-----------|------|\n%s\n" "$files_touched"; else echo "_No file edits tracked_"; fi)
+
+## Key Results
+
+$(if [ -n "$key_results" ]; then echo "$key_results"; else echo "_No commits this session_"; fi)
 
 ## What Remains
 

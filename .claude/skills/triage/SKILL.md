@@ -45,6 +45,8 @@ These are things that belong in STOPA (the orchestration meta-project):
 - Project-specific CLAUDE.md content
 - Data processing, ML models, tests for application code
 
+<!-- CACHE_BOUNDARY -->
+
 ## Process
 
 ### Step 1: Parse the request

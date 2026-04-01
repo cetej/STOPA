@@ -60,6 +60,8 @@ Read first:
 - `.claude/memory/learnings/critical-patterns.md` — check known anti-patterns; Grep `learnings/` by component if needed
 - `.claude/memory/learnings.md` — index of all learnings; use for broader retrieval scope
 
+<!-- CACHE_BOUNDARY -->
+
 ## Input
 
 Parse `$ARGUMENTS`:

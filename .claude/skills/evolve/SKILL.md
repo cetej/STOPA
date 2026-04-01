@@ -18,6 +18,8 @@ Read accumulated signals → propose concrete changes → wait for approval → 
 
 ---
 
+<!-- CACHE_BOUNDARY -->
+
 ## Step 1: Load All Signals
 
 Read these files silently:

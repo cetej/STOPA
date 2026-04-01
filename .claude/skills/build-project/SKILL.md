@@ -64,6 +64,8 @@ You build complete projects from natural language requirements. You chain multip
    - Create GitHub repo (if doesn't exist)
    - Continue iterating
 
+<!-- CACHE_BOUNDARY -->
+
 ## Safety Constraints
 - Never push to remote without explicit human approval
 - Never install system-level dependencies without asking

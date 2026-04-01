@@ -22,6 +22,8 @@ NO PRODUCTION CODE WITHOUT A FAILING TEST FIRST
 
 If you didn't watch the test fail, you don't know if it tests the right thing.
 
+<!-- CACHE_BOUNDARY -->
+
 ## Process
 
 ### Step 1: Understand the target

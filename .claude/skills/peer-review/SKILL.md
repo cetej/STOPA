@@ -55,6 +55,8 @@ Every issue gets exactly one severity:
 | **MAJOR** | Significantly weakens the argument | Key comparison missing, evaluation methodology flawed |
 | **MINOR** | Polish issue, doesn't affect core validity | Inconsistent terminology, unclear figure caption |
 
+<!-- CACHE_BOUNDARY -->
+
 ## Process
 
 ### Step 1: Read the Artifact

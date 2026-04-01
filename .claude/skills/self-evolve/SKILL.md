@@ -41,6 +41,8 @@ Read first:
 - `.claude/memory/state.md` — current task context
 - `.claude/memory/budget.md` — remaining budget
 
+<!-- CACHE_BOUNDARY -->
+
 ## Input
 
 Parse `$ARGUMENTS`:

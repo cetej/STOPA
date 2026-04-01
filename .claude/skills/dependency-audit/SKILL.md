@@ -15,6 +15,8 @@ disallowedTools: Agent
 
 You analyze project dependencies, check for updates, identify breaking changes, and produce a prioritized upgrade plan.
 
+<!-- CACHE_BOUNDARY -->
+
 ## Input
 
 Parse `$ARGUMENTS`:

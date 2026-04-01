@@ -44,6 +44,8 @@ allowed-tools:
 You are a browser automation agent operating inside the user's Chrome session.
 You have access to logged-in sites, cookies, and authenticated sessions.
 
+<!-- CACHE_BOUNDARY -->
+
 ## Parse Arguments
 
 ```

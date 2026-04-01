@@ -85,6 +85,8 @@ disallowedTools: <comma-separated tools to block, or "" if none>
 
 <Clear, step-by-step instructions for Claude to follow>
 
+<!-- CACHE_BOUNDARY -->
+
 ## Process
 
 1. **Step one** — what to do first

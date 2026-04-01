@@ -33,6 +33,8 @@ If any item below is missing, ask **one question** before proceeding.
 | **Issue number or URL** | Cannot start without it |
 | **Reproduction steps** | If missing from issue body, ask — guessing doubles the fix time |
 
+<!-- CACHE_BOUNDARY -->
+
 ## Phase 1: Understand the Issue
 
 Parse `$ARGUMENTS` to get issue number or URL.

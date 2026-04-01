@@ -23,6 +23,8 @@ You ensure work survives across session boundaries. You save structured snapshot
 - **Git state is dirty when saving**: Include the dirty state in the checkpoint — it's important context for resume.
 - **No active task to checkpoint**: Save a minimal checkpoint with git state and session notes only.
 
+<!-- CACHE_BOUNDARY -->
+
 ## Input
 
 Parse `$ARGUMENTS`:

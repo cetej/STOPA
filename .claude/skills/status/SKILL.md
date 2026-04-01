@@ -15,6 +15,8 @@ disallowedTools: Agent, Bash, Write, Edit
 
 You are the status reporter. You read memory files and produce a compact, machine-parseable status snapshot.
 
+<!-- CACHE_BOUNDARY -->
+
 ## Process
 
 ### Step 1: Read memory files

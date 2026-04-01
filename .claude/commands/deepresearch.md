@@ -73,6 +73,8 @@ Before starting:
 2. Grep `.claude/memory/learnings/` for topic-relevant patterns (max 3 queries)
 3. Read `.claude/memory/budget.md` — check remaining budget
 
+<!-- CACHE_BOUNDARY -->
+
 ## Process
 
 ### Step 1: Plan the Investigation

@@ -91,6 +91,8 @@ When operation is `health`, check for each project:
 - If an operation fails for one project, continue with others
 - Rate limit: max 8 parallel agents (one per project)
 
+<!-- CACHE_BOUNDARY -->
+
 ## Process
 
 1. Load project registry (projects.json or CLAUDE.md fallback)

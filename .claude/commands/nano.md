@@ -24,6 +24,8 @@ Generate high-quality images using Nano Banana Pro or Nano Banana 2 through fal.
 - `fal-client` Python package installed (`pip install fal-client`)
 - `FAL_KEY` environment variable set (check `~/.claude/settings.json` env section)
 
+<!-- CACHE_BOUNDARY -->
+
 ## Step 1: Parse Arguments
 
 Extract from user input:
