@@ -87,6 +87,43 @@ if [ -f "$MEMORY_DIR/patterns.md" ]; then
   fi
 fi
 
+# 7. RELEVANCE PREFETCH — load learnings relevant to checkpoint task
+if [ -f "$MEMORY_DIR/checkpoint.md" ]; then
+  task_line=$(sed -n 's/.*\*\*Task\*\*: //p' "$MEMORY_DIR/checkpoint.md" 2>/dev/null | head -1)
+  if [ -n "$task_line" ] && [ "$task_line" != "none" ]; then
+    # Extract up to 3 keywords (4+ chars, lowercase, skip common words)
+    keywords=$(echo "$task_line" | tr '[:upper:]' '[:lower:]' | tr -cs '[:alpha:]' '\n' | \
+      grep -vE '^(this|that|with|from|into|have|been|will|would|should|could|none|task|the|and|for|are|but|not|all|can|had|her|was|one|our|out|you|also|each|make|like|over|such|take|than|them|then|very|when|just|know|more|some|time|what|work)$' | \
+      awk 'length >= 4' | head -3)
+    if [ -n "$keywords" ]; then
+      matches=""
+      seen=""
+      while IFS= read -r kw; do
+        [ -z "$kw" ] && continue
+        for f in "$LEARNINGS_DIR"/202*.md; do
+          [ -f "$f" ] || continue
+          fname=$(basename "$f")
+          # Skip already matched
+          echo "$seen" | grep -qF "$fname" && continue
+          if grep -qiE "(summary|tags):.*$kw" "$f" 2>/dev/null; then
+            summary=$(grep "^summary:" "$f" 2>/dev/null | head -1 | sed "s/^summary:[[:space:]]*//" | sed "s/^['\"]//;s/['\"]$//" | head -c 80)
+            if [ -n "$summary" ]; then
+              matches="${matches}  - $summary\n"
+              seen="${seen}${fname}\n"
+              # Max 5 results total
+              count=$(echo -e "$seen" | grep -c '.' 2>/dev/null)
+              [ "$count" -ge 5 ] && break 2
+            fi
+          fi
+        done
+      done <<< "$keywords"
+      if [ -n "$matches" ]; then
+        brief="${brief}\nRelevant for continued work:\n${matches}"
+      fi
+    fi
+  fi
+fi
+
 # Output brief to stdout → injected into Claude's context
 if [ -n "$brief" ]; then
   echo "=== MEMORY BRIEF ==="
