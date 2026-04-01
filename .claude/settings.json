@@ -174,13 +174,15 @@
             "type": "command",
             "command": "bash .claude/hooks/learnings-sync.sh",
             "timeout": 5,
-            "statusMessage": ""
+            "statusMessage": "",
+            "if": "Write(**/learnings/**)|Edit(**/learnings/**)"
           },
           {
             "type": "command",
             "command": "bash .claude/hooks/eval-trigger.sh",
             "timeout": 3,
-            "statusMessage": ""
+            "statusMessage": "",
+            "if": "Write(**SKILL.md)|Edit(**SKILL.md)|Write(**/skills/**)|Edit(**/skills/**)"
           },
           {
             "type": "command",
@@ -326,6 +328,32 @@
             "command": "python .claude/hooks/correction-tracker.py",
             "timeout": 3,
             "statusMessage": ""
+          }
+        ]
+      }
+    ],
+    "PermissionDenied": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/permission-denied-logger.sh",
+            "timeout": 3,
+            "statusMessage": ""
+          }
+        ]
+      }
+    ],
+    "TaskCreated": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/task-created-gate.sh",
+            "timeout": 5,
+            "statusMessage": "Checking task budget..."
           }
         ]
       }
