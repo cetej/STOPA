@@ -43,6 +43,7 @@ Generative/creative tools and meta-skills:
 - `/autoloop` — iterative optimization
 - `/project-init` — new project setup
 - `/watch` — ecosystem news scan
+- `/sweep` — post-session entropy cleanup (stale docs, dead code, contradictions)
 - `/compact` — context compaction (save results to disk, auto-summarize with Haiku)
 - `/budget` — cost tracking
 - `/browse` — Chrome automation
@@ -60,7 +61,7 @@ Every skill has `tags:` in frontmatter. Use tags to find skills by capability in
 
 | Need | Tags to search | Top matches |
 |------|---------------|-------------|
-| Code quality | `code-quality`, `review` | critic, verify, tdd, self-evolve, autoreason |
+| Code quality | `code-quality`, `review` | critic, verify, tdd, self-evolve, autoreason, sweep |
 | Research | `research`, `osint` | deepresearch, scout, liveprompt, watch |
 | Testing | `testing` | verify, harness, eval, tdd, scenario |
 | Debugging | `debugging` | systematic-debugging, incident-runbook |

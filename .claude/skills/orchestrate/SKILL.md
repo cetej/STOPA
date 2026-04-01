@@ -19,6 +19,10 @@ handoffs:
   - skill: /verify
     when: "After critic PASS — prove it works end-to-end"
     prompt: "Verify: <what to prove>"
+  - skill: /sweep
+    when: "After Phase 5 critic PASS on standard/deep tier with 5+ files changed"
+    prompt: "Sweep blast-radius of last session changes"
+    auto: true
   - skill: /checkpoint
     when: "Task complete or context getting large"
     prompt: "Save checkpoint for: <task summary>"
@@ -375,6 +379,86 @@ Before decomposing, check if existing decisions constrain the approach:
    - If no conflict → proceed, and record the new decision in Phase 6
 
 **Hard gate**: If a matching precedent exists and the plan contradicts it without recorded justification → STOP and resolve. Never silently override a past decision.
+
+### N-Plan Selection (deep tier only)
+
+**Skip this section for light, standard, and farm tiers.** Only deep tier tasks warrant the cost of multi-plan evaluation.
+
+Before committing to a single decomposition, generate and evaluate multiple attack vectors. This prevents the most common planning failure: choosing the first plausible approach without considering alternatives that may be simpler, more maintainable, or have smaller blast radius.
+
+**Inspiration:** @systematicls harness design — "have N=5 different plans, have another agent pick the plan that results in easier maintenance and scores higher on clean-code principles."
+
+**Step 1: Generate 3 Attack Vectors**
+
+Based on scout results and task context, describe 3 distinct approaches to solving the task. Each approach should differ in at least one of: architecture, entry point, scope, or abstraction level.
+
+```markdown
+### Attack Vector Analysis
+
+| # | Approach | Key Idea | Blast Radius | Estimated Complexity |
+|---|----------|----------|-------------|---------------------|
+| A1 | <name> | <1-sentence description> | <N files> | <low/medium/high> |
+| A2 | <name> | <1-sentence description> | <N files> | <low/medium/high> |
+| A3 | <name> | <1-sentence description> | <N files> | <low/medium/high> |
+```
+
+**Rules for attack vectors:**
+- At least one should be the "obvious" approach (what you'd pick without this analysis)
+- At least one should optimize for minimal blast radius / simplicity
+- At least one should optimize for long-term maintainability / extensibility
+- Each must be genuinely viable — no strawmen
+
+**Step 2: Evaluate with Selection Agent**
+
+Spawn a Sonnet agent to independently evaluate the 3 approaches:
+
+```
+Agent(model: "sonnet", prompt: "
+  You are evaluating 3 implementation approaches for this task:
+
+  Task: <task description>
+  Success criteria: <criteria>
+  Constraints: <constraints>
+  Codebase context: <relevant scout findings>
+
+  Approaches:
+  <A1, A2, A3 descriptions>
+
+  Score each approach (1-5) on these dimensions:
+
+  | Dimension | A1 | A2 | A3 |
+  |-----------|----|----|-----|
+  | Blast radius (fewer files = higher) | | | |
+  | Maintainability (easy to modify later) | | | |
+  | Reversibility (easy to undo if wrong) | | | |
+  | Alignment with existing patterns | | | |
+  | Risk of cascading failures | | | |
+  | **Total** | | | |
+
+  IMPORTANT: Do NOT just pick the simplest. Pick the one with the best
+  overall score. Sometimes the more complex approach is correct if it's
+  significantly more maintainable or aligned with existing patterns.
+
+  Output:
+  1. Scoring table (filled)
+  2. Recommended approach: A1/A2/A3
+  3. Why (2-3 sentences)
+  4. Risks of the selected approach (1-2 sentences)
+")
+```
+
+**Step 3: Record Decision**
+
+Record the selection in `decisions.md` via scribe pattern:
+```
+N-Plan selection for <task>: chose A<N> (<approach name>).
+Alternatives: A<X> (<reason rejected>), A<Y> (<reason rejected>).
+Selection rationale: <agent's reasoning>.
+```
+
+If the selection agent's recommendation differs from your initial instinct, **follow the agent's recommendation** — that's the point of the independent evaluation.
+
+**Cost:** 1 × Sonnet agent ≈ minimal overhead for deep tier. The cost of choosing the wrong approach and having to backtrack is 10-100x higher.
 
 ### Decomposition
 
@@ -1011,6 +1095,73 @@ For each subtask marked "done":
 
 This prevents the critic from reviewing incomplete work and catches "declared done but not actually done" subtasks.
 
+### Session Completion Contract (standard + deep tier)
+
+**Skip for light and farm tiers.** Light tasks are fast enough that contract overhead isn't worth it. Farm tasks have mechanical verification built in.
+
+Agents suffer from **context anxiety** — as context grows, they become increasingly desperate to end the session, declaring "done" prematurely or implementing A' instead of A (@systematicls). The completion contract is an independent audit that prevents premature session closure.
+
+**Contract Definition (written in Phase 3, enforced here):**
+
+During Phase 3 (Decomposition), the orchestrator MUST write a machine-checkable contract to `state.md` under the plan:
+
+```markdown
+### Completion Contract
+
+| # | Assertion | Check Method | Status |
+|---|-----------|-------------|--------|
+| CC1 | <what must be true> | <how to verify — command, grep, test> | pending |
+| CC2 | <what must be true> | <how to verify> | pending |
+| CC3 | <what must be true> | <how to verify> | pending |
+```
+
+**Rules for contract assertions:**
+- Derived from success criteria + acceptance criteria (not new requirements)
+- Must be independently verifiable (a command you can run, a grep you can check)
+- 3-7 assertions total — cover the most critical outcomes, not every subtask
+- At least 1 assertion must test integration (not just individual subtask completion)
+- Example: "CC1: `ruff check src/ --select E` returns 0 violations" (not "code is clean")
+- Example: "CC2: `grep -r 'old_function_name' src/` returns 0 matches" (not "refactoring is complete")
+- Example: "CC3: `python -c 'from app.auth import validate_token; print(validate_token.__doc__)'` runs without error"
+
+**Contract Enforcement (here in Phase 5):**
+
+After all acceptance criteria pass, spawn an independent agent to audit the contract:
+
+```
+Agent(model: "haiku", prompt: "
+  You are an independent contract auditor. Your ONLY job is to verify
+  whether the completion contract is satisfied.
+
+  Completion Contract:
+  <paste contract table>
+
+  For each assertion:
+  1. Run the check method exactly as written
+  2. Record: PASS (check succeeded) or FAIL (check failed, with output)
+  3. Do NOT interpret, explain, or soften failures — just report
+
+  Output a table:
+  | # | Assertion | Result | Evidence |
+  |---|-----------|--------|----------|
+
+  Final: ALL_PASS or BLOCKED (list failing assertions)
+")
+```
+
+**If contract audit returns BLOCKED:**
+1. The session CANNOT be declared complete
+2. List the failing assertions to the orchestrator
+3. Orchestrator must fix the specific failures (re-dispatch to Phase 4 for affected subtasks)
+4. Re-run contract audit after fixes
+5. Max 2 contract audit rounds — if still failing after 2nd round, escalate to user
+
+**If contract audit returns ALL_PASS:**
+- Proceed to critic and Phase 6 normally
+- Record in state.md: "Contract: ALL_PASS (N/N assertions verified)"
+
+**Cost:** 1 × Haiku agent per audit round. Cheap insurance against premature completion claims.
+
 ### Late-Phase Recovery Check (ref: arXiv:2603.19138)
 
 LLM agents concentrate 46.5% of backtracking in the final 10% of a session. Before proceeding to critic, perform a structured re-evaluation:
@@ -1071,7 +1222,8 @@ Before running the critic, reload context selectively:
    - Was a skill missing? (type: workflow, tags: [skill-gap])
    - Was the tier accurate? (note if over/under-estimated for future calibration)
 5. If a new repeatable pattern was discovered → suggest creating a skill via `/skill-generator`
-6. Summarize results to the user, **including cost summary**
+6. **Entropy sweep** (standard/deep tier, auto): If `git diff --stat` shows 5+ files changed in this session, auto-invoke `/sweep --scope blast-radius --auto` to clean up stale docs, dead code, and contradictions. This runs AFTER critic pass (so the code is correct) but BEFORE declaring done to user. Skip if tier is light or farm.
+7. Summarize results to the user, **including cost summary**
 7. **Trace milestone check**: Count rows in Budget History table of `.claude/memory/budget.md`.
    - **If >= 20 rows**: automatically run trace analysis inline (do NOT just suggest — execute it):
      1. Read all Budget History rows
