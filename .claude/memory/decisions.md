@@ -6,6 +6,8 @@ Active decisions. Archived: `decisions-archive.md`
 
 | Date | Decision | Status | Key Detail |
 |------|----------|--------|------------|
+| 2026-04-01 | Memory architecture: stay markdown+grep | DONE | Council verdict (5/5 unanimní): nemigrovat na LanceDB. Implementován synonym fallback + confidence decay. Trigger: 500+ learnings / 500ms grep / 20% miss rate. Viz `research/council-verdict-memory-architecture-2026-04-01.md`. |
+| 2026-04-01 | Council pattern adopted from Karpathy | DONE | Nový `/council` skill + `--council` flag v `/critic` a `/pr-review`. Anonymizovaný cross-review, aggregate ranking. |
 | 2026-03-31 | /effort ↔ orchestrate tier alignment | DONE | `/effort` Low/Med/High se nastavuje automaticky podle zvoleného orchestrace tieru. Implementováno v orchestrate skill+commands. |
 | 2026-03-31 | HTTP hooks for STOPA | PARKED | CC podporuje `type: "http"` hooks. STOPA zatím single-device → nepotřebuje. Adopt při remote agents nebo central logging. |
 | 2026-03-31 | Deep Agents → 3 adoptions | QUEUED | 1) Structured step states v state.md, 2) Formalize intermediate/ offloading (>500tok→file), 3) Auto-compact trigger v orchestrate. Viz `research/watchlist-deep-studies-2026-03-31.md`. |

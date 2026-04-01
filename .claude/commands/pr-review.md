@@ -39,6 +39,68 @@ Capture:
 - **Author**
 - **Base branch**
 
+## Flag: --council (Anonymous Cross-Review Mode)
+
+If `--council` flag is passed, replace the standard sequential Phase 1 → Phase 2 with:
+
+### Council Phase 1: Parallel Independent Reviews
+
+Spawn the **6 perspectives as 6 parallel sub-agents** (model: haiku). Each gets the PR diff and its persona prompt independently. They do NOT see each other's work.
+
+### Council Phase 2: Anonymous Cross-Review
+
+1. Collect all 6 review outputs
+2. Label them **Review A through F** — strip persona names
+3. Spawn **3 judge sub-agents** (model: sonnet) in parallel. Each sees all 6 anonymized reviews + the original diff:
+
+```
+You are auditing 6 independent code reviews of the same PR.
+
+PR diff:
+{diff}
+
+Review A:
+{review_1}
+...
+Review F:
+{review_6}
+
+Your task:
+1. For each review: strongest finding and biggest miss
+2. Issues flagged by 3+ reviewers = high confidence consensus
+3. Issues flagged by only 1 reviewer = investigate — real find or false positive?
+4. Rank all 6 reviews by thoroughness
+
+FINAL RANKING:
+1. Review X
+2. Review Y
+...
+```
+
+### Council Phase 3: Aggregate & Synthesize
+
+Compute average rank per reviewer across 3 judges. De-anonymize. Add to output:
+
+```markdown
+### Council Review Leaderboard
+
+| Rank | Review | Persona | Avg Position | Consensus Issues | Unique Finds |
+|------|--------|---------|-------------|-----------------|-------------|
+| 1 | Review C | Security | 1.7 | 5 | 2 |
+| ... | ... | ... | ... | ... | ... |
+
+**High-confidence issues** (flagged by 3+ reviewers): ...
+**Disputed issues** (1 reviewer, judges split): ...
+```
+
+Then merge into the standard Phase 2 Synthesis format below.
+
+**Cost:** 6 × haiku + 3 × sonnet + chairman = ~10 agent calls. Use for high-stakes PRs.
+
+Without `--council`, proceed with standard sequential review:
+
+---
+
 ## Phase 1: Six-Perspective Review
 
 Run each review perspective sequentially. Each perspective produces findings as a list of issues.
