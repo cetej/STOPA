@@ -360,6 +360,22 @@ Check if the project has governance principles:
 - If found: every subtask and technical decision must align. Constitution violations = STOP and flag to user.
 - If not found: skip — this is optional.
 
+### Decision Precedent Gate (before planning)
+
+Before decomposing, check if existing decisions constrain the approach:
+
+1. **Reuse Episodic Recall matches** from Phase 1 — if decisions.md matches were found, load them now
+2. **For each DONE decision** that overlaps with the current task area:
+   - The existing decision is **binding precedent** — the plan MUST follow it
+   - If you need to deviate: **explicitly state** what context changed, then record a superseding decision via `/scribe decision` BEFORE proceeding (not in Phase 6)
+   - Example: "Decision 2026-03-31 says direct main commits for solo projects. Current task is solo → following precedent, no PR workflow."
+3. **For any NEW architectural/tool/pattern choice** in the plan:
+   - Grep `decisions.md` for the area (e.g., "memory", "auth", "testing strategy")
+   - If conflict found → resolve before decomposition (follow precedent or supersede with justification)
+   - If no conflict → proceed, and record the new decision in Phase 6
+
+**Hard gate**: If a matching precedent exists and the plan contradicts it without recorded justification → STOP and resolve. Never silently override a past decision.
+
 ### Decomposition
 
 Based on scout results:

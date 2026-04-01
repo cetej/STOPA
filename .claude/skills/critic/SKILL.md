@@ -207,6 +207,19 @@ Skip all remaining steps for QUICK path.
 
 ### Phase 1: SELECTOR — Extract Critical Milestones
 
+#### Quality Gates (auto-milestones)
+
+Before extracting milestones from the diff, load project quality gates:
+
+1. Read `.claude/memory/quality-gates.md` (if it exists)
+2. For each Active Gate that applies to the changed files, add it as an **automatic milestone** (prefixed `G1`, `G2`, etc. matching gate #)
+3. Gate milestones are checked in Phase 2 alongside diff-derived milestones
+4. A gate failure is at minimum WARN severity (gates represent codified project standards)
+
+If `quality-gates.md` doesn't exist, skip — gates are optional.
+
+#### Diff-Derived Milestones
+
 Analyze the diff and extract **milestones** — critical state transitions that must be correct for the change to succeed.
 
 For each changed file/function, ask: "What is the ONE thing that must be true about this change?"
@@ -537,6 +550,20 @@ Rules for annotations:
 
 ### Verdict Rationale
 <why PASS/WARN/FAIL — what drove the scores, which milestones/concerns were decisive>
+
+### Gate Proposals
+
+If the same issue type was found 2+ times in this review (or across recent reviews), propose a new quality gate:
+
+```
+| Proposed Gate | Check | Evidence |
+|---------------|-------|----------|
+| <gate name> | <how to verify> | <issue #s that triggered this> |
+```
+
+If no new gates warranted, write: "No new gates proposed."
+
+If `quality-gates.md` exists, append approved proposals to its Gate Proposal Log.
 
 ### Reflector Summary (for /scribe)
 - **Error type:** [logic bug | missing case | wrong abstraction | spec misread | none]
