@@ -28,6 +28,7 @@ Specialized skills for specific workflows:
 - `/incident-runbook` — failure diagnosis
 - `/scenario` — edge case & failure mode explorer (pre-implementation)
 - `/liveprompt` — live community prompt intelligence (what works RIGHT NOW for a topic)
+- `/autoreason` — adversarial debate loop for subjective text improvement (SHL0MS-inspired)
 - `/autoresearch` — experimental code iteration with measurable outcomes (Claudini-inspired)
 - `/autoharness` — auto-generate validators from observed failure patterns (AutoHarness-inspired)
 - `/eval` — grade and replay harness JSONL traces, detect regressions, compare harness configurations
@@ -59,7 +60,7 @@ Every skill has `tags:` in frontmatter. Use tags to find skills by capability in
 
 | Need | Tags to search | Top matches |
 |------|---------------|-------------|
-| Code quality | `code-quality`, `review` | critic, verify, tdd, self-evolve |
+| Code quality | `code-quality`, `review` | critic, verify, tdd, self-evolve, autoreason |
 | Research | `research`, `osint` | deepresearch, scout, liveprompt, watch |
 | Testing | `testing` | verify, harness, eval, tdd, scenario |
 | Debugging | `debugging` | systematic-debugging, incident-runbook |
