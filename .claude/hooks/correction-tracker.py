@@ -56,8 +56,33 @@ CORRECTION_RE = re.compile(
     re.IGNORECASE,
 )
 
+# Frustration signal patterns — Czech + English
+# Inspired by CC's frustration detection (tengu_input_prompt is_negative flag)
+# These are NOT corrections — they signal user frustration without explicit guidance
+FRUSTRATION_SIGNALS_RAW = [
+    # Czech
+    r"\b(sakra|kurva|do prdele|do háje|k čertu)\b",
+    r"\b(nefunguje|nefungoval|nejde|nešlo)\b",
+    r"\bproč to (nefunguje|nejde|nešlo|padá)\b",
+    r"\b(to je šílenost|to je nesmysl|co to děláš)\b",
+    r"\bzase (špatně|blbě|stejná chyba)\b",
+    # English
+    r"\b(wtf|wth|ffs|omfg)\b",
+    r"\b(broken|not working|doesn'?t work|failed again)\b",
+    r"\bwhat the (fuck|hell|heck)\b",
+    r"\b(this sucks|so frustrating|piece of shit|fucking)\b",
+    r"\b(are you serious|god damn|screw this)\b",
+]
+
+FRUSTRATION_RE = re.compile(
+    "|".join(FRUSTRATION_SIGNALS_RAW),
+    re.IGNORECASE,
+)
+
 # Minimum prompt length to avoid false positives on short "no" messages
 MIN_PROMPT_LEN = 15
+# Frustration can be shorter ("wtf" = 3 chars) — use separate threshold
+MIN_FRUSTRATION_LEN = 3
 
 # Similarity: keyword overlap threshold for duplicate detection
 SIMILARITY_MIN_OVERLAP = 2
@@ -123,7 +148,7 @@ def find_similar_correction(summary: str) -> dict | None:
     return None
 
 
-def log_correction(summary: str, prompt_snippet: str, times: int) -> dict:
+def log_correction(summary: str, prompt_snippet: str, times: int, sentiment: str = "neutral") -> dict:
     """Append correction entry to corrections.jsonl."""
     CORRECTIONS_LOG.parent.mkdir(parents=True, exist_ok=True)
     entry = {
@@ -131,6 +156,7 @@ def log_correction(summary: str, prompt_snippet: str, times: int) -> dict:
         "summary": summary,
         "prompt_snippet": prompt_snippet[:300],
         "times_corrected": times,
+        "sentiment": sentiment,
         "verify_check": "manual",  # Updated by /evolve when pattern is clear
     }
     with CORRECTIONS_LOG.open("a", encoding="utf-8") as f:
@@ -211,21 +237,34 @@ def generate_eval_case(summary: str, prompt_snippet: str, times: int) -> str | N
 
 def main():
     prompt = read_prompt()
-    if not prompt or len(prompt) < MIN_PROMPT_LEN:
+    if not prompt:
         sys.exit(0)
 
-    # Check if this looks like a correction
-    if not CORRECTION_RE.search(prompt):
+    is_correction = len(prompt) >= MIN_PROMPT_LEN and CORRECTION_RE.search(prompt)
+    is_frustrated = len(prompt) >= MIN_FRUSTRATION_LEN and FRUSTRATION_RE.search(prompt)
+
+    if not is_correction and not is_frustrated:
         sys.exit(0)
 
-    summary = extract_correction_sentence(prompt)
-    similar = find_similar_correction(summary)
-    times = (similar["times_corrected"] + 1) if similar else 1
+    sentiment = "frustrated" if is_frustrated else "neutral"
 
-    log_correction(summary, prompt, times)
+    if is_correction:
+        # Correction path (with or without frustration)
+        summary = extract_correction_sentence(prompt)
+        similar = find_similar_correction(summary)
+        times = (similar["times_corrected"] + 1) if similar else 1
+        log_correction(summary, prompt, times, sentiment=sentiment)
+    elif is_frustrated:
+        # Pure frustration (no correction signal) — log but don't escalate
+        summary = f"[frustration] {prompt.strip()[:150]}"
+        log_correction(summary, prompt, 0, sentiment="frustrated")
+        print("\n[frustration-detector] Frustrace detekována.")
+        print("  → Zkus popsat co jsi očekával vs. co se stalo.")
+        print("  → Pomůže: /incident-runbook (pad/chyba) nebo /systematic-debugging (logický problém)")
+        sys.exit(0)
 
     # Notify Claude when this is a repeated correction
-    if similar:
+    if is_correction and similar:
         print(f"\n[correction-tracker] Opakovaná korekce ({times}. výskyt):")
         print(f"  1. výskyt: {similar['summary']}")
         print(f"  Nový:      {summary}")

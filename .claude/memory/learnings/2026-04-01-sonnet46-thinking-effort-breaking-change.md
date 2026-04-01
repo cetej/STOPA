@@ -9,6 +9,7 @@ source: user_correction
 confidence: 0.9
 uses: 0
 harmful_uses: 0
+model_gate: "sonnet-4.6"
 verify_check: "manual"
 ---
 

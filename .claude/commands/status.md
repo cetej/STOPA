@@ -94,11 +94,12 @@ queue_depth:    <N items priority ≥6> / <total items> — or "empty"
 capture_rate:   <learnings created / last 10 sessions> learnings/session — or "n/a"
 ```
 
-**context_budget thresholds:**
+**context_budget thresholds (aligned with CC production constants):**
 - 0-50%: LOW (no action needed)
-- 51-70%: MEDIUM (consider /compact soon)
-- 71-85%: HIGH ⚠ (run /compact before next major task)
-- 86-100%: CRITICAL ⚠⚠ (run /compact now)
+- 51-75%: MEDIUM — SUMMARY_TOKEN_RESERVE zone (consider /compact soon)
+- 76-88%: HIGH ⚠ — AUTO_COMPACT_BUFFER zone (run /compact before next major task)
+- 89-98%: CRITICAL ⚠⚠ — BLOCKING_BUFFER zone (run /compact NOW before any work)
+- 99-100%: BLOCKED ⚠⚠⚠ (halt all work — compact or new session required)
 
 For `eval_trend`: read last 2 data rows from `eval-baseline.tsv`. Compute `delta = current_health_score - previous_health_score`. Arrow: `↑` if delta > 0.1, `↓` if delta < -0.1, `→` if within ±0.1. If fewer than 2 rows: `n/a (baseline not established)`. If file missing: `n/a`.
 

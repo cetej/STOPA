@@ -99,6 +99,24 @@ Include these proposals in Step 7 alongside correction/violation-based proposals
 
 ---
 
+## Step 3c: Model Gate Audit
+
+Inspired by CC `@[MODEL_LAUNCH]` tagging — flag model-specific learnings that may be stale.
+
+1. Read current model from `ANTHROPIC_MODEL` env var or infer from session context
+2. Scan all learnings with `model_gate:` field in YAML frontmatter
+3. For each where `model_gate` value does NOT match current model:
+   ```
+   MODEL GATE AUDIT: [N model_gate learnings found]
+     Current model: [model string or "unknown"]
+     Stale gates:   [learning filenames where gate ≠ current model]
+     Action: REVIEW [filename] — verify if still applies
+   ```
+4. Include in Step 7 proposals as **REVIEW** action (not auto-PRUNE — requires human confirmation)
+5. If model_gate matches current model → no action needed, learning is still relevant
+
+---
+
 ## Step 4: Analyze Session Trends (sessions.jsonl)
 
 If 5+ entries in sessions.jsonl, calculate:

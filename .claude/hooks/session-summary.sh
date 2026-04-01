@@ -121,9 +121,16 @@ if [ -f "$VIOLATIONS_LOG" ]; then
   violations_today="${violations_today:-0}"
 fi
 
+# Count frustration signals this session (from sentiment field in corrections.jsonl)
+frustrations_today=0
+if [ -f "$CORRECTIONS_LOG" ]; then
+  frustrations_today=$(grep -c '"sentiment":"frustrated"' "$CORRECTIONS_LOG" 2>/dev/null) || true
+  frustrations_today="${frustrations_today:-0}"
+fi
+
 # Append session scorecard (keep only last 100 entries)
 cat >> "$SESSIONS_LOG" <<EOF
-{"timestamp":"$ts","activity":{"writes":$writes,"agents":$agents,"skills":$skills,"errors":$errors},"corrections_today":$corrections_today,"violations_today":$violations_today,"state":"$(echo "$state_snapshot" | sed 's/"/\\"/g' | head -c 100)"}
+{"timestamp":"$ts","activity":{"writes":$writes,"agents":$agents,"skills":$skills,"errors":$errors},"corrections_today":$corrections_today,"violations_today":$violations_today,"frustrations_today":$frustrations_today,"state":"$(echo "$state_snapshot" | sed 's/"/\\"/g' | head -c 100)"}
 EOF
 
 # Prune sessions.jsonl to last 100 entries
@@ -205,6 +212,43 @@ if [ "$total" -ge 5 ]; then
     done)
   fi
 
+  # --- Enhanced checkpoint sections (CC Dream-inspired) ---
+
+  # Errors & Corrections this session
+  corrections_recent=""
+  CORRECTIONS_LOG="$MEMORY_DIR/corrections.jsonl"
+  if [ -f "$CORRECTIONS_LOG" ]; then
+    corrections_recent=$(tail -5 "$CORRECTIONS_LOG" 2>/dev/null | python3 -c "
+import sys,json
+for line in sys.stdin:
+    try:
+        e=json.loads(line.strip())
+        s=e.get('sentiment','')
+        prefix='[frustration]' if s=='frustrated' else '[correction]'
+        print('- ' + prefix + ' ' + e.get('summary','?')[:80])
+    except: pass
+" 2>/dev/null)
+  fi
+
+  # Learnings created this session
+  learnings_today=""
+  learnings_count=0
+  if [ -d "$MEMORY_DIR/learnings" ]; then
+    learnings_count=$(ls "$MEMORY_DIR/learnings/" 2>/dev/null | grep -c "^${TODAY}" 2>/dev/null) || true
+    learnings_count="${learnings_count:-0}"
+    learnings_today=$(ls "$MEMORY_DIR/learnings/" 2>/dev/null | grep "^${TODAY}" | head -5 | while IFS= read -r f; do
+      printf "  - %s\n" "${f%.md}"
+    done)
+  fi
+
+  # Most recent decision
+  recent_decision="none"
+  DECISIONS="$MEMORY_DIR/decisions.md"
+  if [ -f "$DECISIONS" ]; then
+    recent_decision=$(grep "^### " "$DECISIONS" 2>/dev/null | tail -1 | sed 's/^### //') || true
+    recent_decision="${recent_decision:-none}"
+  fi
+
   # Build resume prompt: what was done + what remains
   resume_what_done="Session: $writes file edits, $agents agent spawns, $skills skill calls"
   if [ -n "$skill_names" ]; then
@@ -235,6 +279,20 @@ $(if [ -n "$files_touched" ]; then printf "| File | Operations | Date |\n|------
 ## Key Results
 
 $(if [ -n "$key_results" ]; then echo "$key_results"; else echo "_No commits this session_"; fi)
+
+## Errors & Corrections
+
+$(if [ -n "$corrections_recent" ]; then echo "$corrections_recent"; else echo "_No corrections logged this session_"; fi)
+
+## Learnings Captured
+
+learnings_this_session: $learnings_count
+$(if [ -n "$learnings_today" ]; then echo "$learnings_today"; else echo "_No new learnings files created_"; fi)
+
+## Workflow Decisions
+
+Most recent: $recent_decision
+_(Full trail: .claude/memory/decisions.md)_
 
 ## What Remains
 

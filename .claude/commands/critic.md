@@ -308,6 +308,19 @@ Update the Phase 2 results table with overrides:
 - Do NOT chase transient failures (network, timing) — only deterministic checks
 - Do NOT re-run failed checks hoping for different results
 
+### Anti-Hallucination Cross-Check (mandatory, all paths)
+
+Before recording ANY milestone as PASS, apply these rules (inspired by CC production data: 29% false-claims rate in newer models):
+
+| Rule | Violation Signal | Action |
+|------|-----------------|--------|
+| AH-1 | Summary says "tests pass" but tool output shows failures | Override to FAIL, quote actual output |
+| AH-2 | Summary says "task complete" but state.md has pending items | Downgrade to WARN or FAIL |
+| AH-3 | A check result was suppressed because "it's probably fine" | Surface it — anti-rationalization rule applies |
+| AH-4 | Completion claims behavior that no tool output confirms | Add "Unverified Claim" issue at medium severity |
+
+**Faithfulness principle:** Every PASS verdict requires a tool output citation as evidence. Code reading impressions ("looks correct") do NOT qualify as evidence. If no tool was run, the milestone status is UNVERIFIED, not PASS.
+
 ### Phase 3: REVIEWER as CRITIC — Audit the Evidence Chain
 
 Now switch to **strict auditor mode**. Your job is to catch what the Selector missed and what the Verifier was too lenient on.
@@ -390,6 +403,8 @@ Select the weight profile matching the task type. The principle: **upweight area
 | Test Coverage | 0.10 | 0.05 | 0.10 | 0.15 | 0.25 |
 
 **How to select:** Match the task type from `.claude/memory/state.md` or infer from the diff. If unclear, use Default.
+
+**Faithfulness modifier (AH cross-check):** If any AH-1 through AH-4 violations are found, apply -0.5 penalty to final weighted score. This is a modifier, not a separate weight — it catches false completion claims regardless of task type.
 
 **Fill the Scoring Rubric** (using selected weight profile):
 

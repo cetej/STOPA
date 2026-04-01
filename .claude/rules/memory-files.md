@@ -34,6 +34,7 @@ globs: ".claude/memory/**"
 - **Graduation trigger**: `uses >= 10` AND `confidence >= 0.8` AND `harmful_uses < 2` → `/evolve` navrhne promoci do `critical-patterns.md` nebo `rules/`. Learning s `confidence < 0.3` → kandidát na pruning při maintenance.
 - Learnings bez counterů nebo confidence (starší záznamy) zůstávají validní — nová pole jsou volitelné, default confidence = 0.7
 - Learnings bez `supersedes:`/`related:` polí jsou plně zpětně kompatibilní
+- `model_gate:` = volitelné pole — model version, pro kterou learning platí (např. `"sonnet-4.6"`, `"opus-4"`). Learnings s tímto polem jsou auto-flagovány `/evolve` a `verify-sweep.py` když aktuální model neodpovídá gate. Model-specifické workaroundy MUSÍ mít toto pole. Obecné architektonické learnings ho NESMÍ mít. Inspirováno CC `@[MODEL_LAUNCH]` tagging konvencí.
 - `verify_check:` = volitelné pole — machine-checkable grep/glob assertion. Format: `"Grep('pattern', path='path') → N+ matches"` nebo `"Glob('pattern') → 1+ matches"` nebo `"manual"` pro behaviorální pravidla. Soubory s `verify_check:` jsou auditovány při SessionStart hookem `verify-sweep.py`. Každý learning by měl mít verify_check — rules without checks are wishes, rules with checks are guardrails.
 - `critical-patterns.md` = always-read (max 10 entries, top patterns)
 - Retrieval: grep-first přes component/tags, pak čti jen matched soubory. **Supersedes-aware**: pokud learning A má `supersedes: B`, přeskoč B. **Related expansion**: pokud match má `related: [X, Y]`, čti i X a Y (1-hop, max 3 extra per learning)

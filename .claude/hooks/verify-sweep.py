@@ -208,6 +208,32 @@ def main():
             except Exception:
                 pass
 
+    # 1b. Model gate staleness warnings (inspired by CC @[MODEL_LAUNCH] tagging)
+    import os as _os
+    current_model = _os.environ.get("ANTHROPIC_MODEL", "")
+    if not current_model:
+        try:
+            _settings = json.loads(Path(".claude/settings.json").read_text(encoding="utf-8"))
+            current_model = _settings.get("model", "")
+        except Exception:
+            pass
+
+    model_gate_warnings = []
+    if LEARNINGS_DIR.exists() and current_model:
+        for lf in sorted(LEARNINGS_DIR.glob("*.md")):
+            if lf.name == "critical-patterns.md":
+                continue
+            try:
+                content = lf.read_text(encoding="utf-8", errors="replace")
+                meta = parse_yaml_frontmatter(content)
+                gate = meta.get("model_gate", "")
+                if gate and gate not in current_model:
+                    model_gate_warnings.append(
+                        f"  ⚠ [{lf.name}] model_gate: {gate} (current: {current_model})"
+                    )
+            except Exception:
+                pass
+
     # 2. Check critical-patterns.md inline verify: annotations
     if CRITICAL_PATTERNS.exists():
         try:
@@ -252,6 +278,13 @@ def main():
         print("=== Address violations before starting work ===\n")
     elif checked > 0:
         print(f"[verify-sweep] {checked} rule checks passed ✓")
+
+    # 4b. Model gate warnings (informational, not violations)
+    if model_gate_warnings:
+        print(f"\n[model-gate] {len(model_gate_warnings)} learning(s) may be stale for current model:")
+        for w in model_gate_warnings:
+            print(w)
+        print("  → Run /evolve to review model-specific learnings\n")
 
     sys.exit(0)
 

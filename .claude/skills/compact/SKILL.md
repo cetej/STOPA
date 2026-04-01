@@ -146,11 +146,29 @@ Delete all intermediate files.
 2. Report count of deleted files
 3. Use at task close or when starting fresh
 
+## Production Thresholds (from CC production monitoring)
+
+Battle-tested constants from Claude Code's auto-compaction system (~250K API calls/day wasted before calibration):
+
+| Constant | Value | Meaning |
+|----------|-------|---------|
+| SUMMARY_TOKEN_RESERVE | 20,000 | Min free tokens for summary generation call |
+| AUTO_COMPACT_BUFFER | 13,000 | Suggest /compact when context > (total - 13K) |
+| BLOCKING_BUFFER | 3,000 | At context > (total - 3K): STOP new work, compact first |
+| MAX_CONSECUTIVE_FAILURES | 3 | After 3 failed compactions: halt, alert user |
+
+**Consecutive Failure Circuit Breaker:**
+Track `compact_failures` counter (in budget.md or in-memory). After 3 consecutive compaction failures:
+→ STOP. Do not attempt another compaction.
+→ Output: "COMPACT CIRCUIT BREAKER: 3 consecutive failures. Kontextové okno je příliš plné pro sumarizaci. Doporučení: nová session nebo manuální ořez konverzace."
+→ Reset counter to 0 after any successful compaction.
+
 ## Circuit Breakers
 
 - **Scratchpad max 50 entries**: If scratchpad exceeds 50 rows, delete the oldest 25 rows (full data remains in JSON files). Log: "Scratchpad trimmed: oldest 25 entries archived."
 - **Don't compact small results**: If content is <20 lines, skip — overhead of summarization exceeds benefit. Save directly if needed.
 - **JSON file size**: If `fullContent` would exceed 100KB, truncate to first 100KB with note "[TRUNCATED at 100KB]"
+- **Consecutive failures**: See Production Thresholds above — max 3 retries before halt.
 
 ## Smart Compaction Rules
 
