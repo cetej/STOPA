@@ -167,6 +167,30 @@ This is a CC-native command — it controls how deeply Claude reasons before res
 
 **Cost-first rule**: Always start with the lowest tier that might work. Upgrade only if the scout phase reveals higher complexity than expected — and tell the user when upgrading.
 
+### Parallelizability Gate (Amdahl Check)
+
+After decomposing subtasks in your head (before formal Phase 3), estimate the parallelizable fraction `p` to validate the tier selection. This prevents spawning expensive multi-agent setups for fundamentally serial tasks (ref: arXiv:2603.12229 — serial tasks cost 5.83× tokens for 1.13× speedup).
+
+```
+Quick estimate:
+  T = estimated total subtasks
+  I = subtasks with NO dependency on other subtasks (potential Wave 1)
+  p = I / T
+
+Tier cap (overrides keyword/file-count heuristics):
+  p < 0.4  → cap at light (1 agent max) — multi-agent is wasteful here
+  0.4 ≤ p < 0.7 → cap at standard (3 agents max)
+  p ≥ 0.7  → no cap, use normal tier selection
+
+Log: "Amdahl gate: p={p:.1f} ({I}/{T} independent). Tier: {original} → {capped}."
+```
+
+**Rules:**
+- This is a **cap**, not a floor — if keyword signals say light and p=0.9, stay at light
+- If the cap downgrades the tier, tell the user why: "Task has {T-I}/{T} sequential dependencies — multi-agent would cost {cost_multiplier:.1f}× for minimal speedup"
+- Re-evaluate after Phase 2 scout if subtask structure changes significantly
+- Farm tier is exempt (mechanical tasks have p≈1.0 by definition)
+
 ### Phase 1b: Decision Gates
 
 **Trigger:** tier == `deep` OR `$ARGUMENTS` contains `--gate`
@@ -532,6 +556,41 @@ Every subtask MUST use one of these 4 states — no free-form text:
 - Prefer "vertical slices" (one full feature per subtask) over "horizontal layers" (all models, then all APIs). Vertical slices maximize Wave 1 parallelism.
 - If all subtasks end up in Wave 1 with no dependencies, double-check they truly don't share files or state.
 
+### Cost Gate (Pre-Execution ROI Check)
+
+After decomposition is complete and waves are assigned, validate that the planned agent count has positive ROI. This is the final gate before committing resources (ref: arXiv:2603.12229 — actual speedup ≈ 75% of Amdahl's theoretical maximum due to coordination overhead).
+
+```
+From the subtask table, compute:
+  T = total subtasks
+  I = Wave 1 subtask count (independent)
+  p = I / T
+  n = planned agent count for this task (from tier)
+
+  theoretical_speedup = 1 / ((1-p) + p/n)
+  estimated_speedup = theoretical_speedup × 0.75   # empirical discount
+  cost_multiplier = n × 1.15                        # 15% coordination overhead per agent
+  roi = estimated_speedup / cost_multiplier
+
+  IF roi < 0.5:
+    WARN: "Planned {n} agents would cost {cost_multiplier:.1f}× for {estimated_speedup:.1f}× speedup (ROI={roi:.2f}).
+    Recommend: reduce to {recommended_n} agents or single-agent execution."
+    Offer user: proceed / downgrade
+
+  Log to budget.md: "Cost gate: n={n}, p={p:.2f}, ROI={roi:.2f}, decision={proceed|downgrade}"
+```
+
+**Recommended agent count** (`recommended_n`): iterate n from 1 to planned, pick n with highest `roi`. Typically:
+- p=0.9 → 4 agents optimal (ROI peaks ~0.59)
+- p=0.5 → 2 agents optimal (ROI peaks ~0.63)
+- p=0.2 → 1 agent optimal (any more destroys ROI)
+
+**Rules:**
+- Light tier: skip this check (1 agent, ROI is always 1.0)
+- Farm tier: skip (p≈1.0 by definition, ROI is always positive)
+- If user says "proceed" despite low ROI → respect the decision, log it
+- Re-run this check if tier was auto-escalated during execution
+
 ## Phase 4: Execute
 
 For each subtask (respecting dependencies):
@@ -553,12 +612,19 @@ Agent(subagent_type: "general-purpose", prompt: "
   Task: <specific deliverable>
   Output: <what to return>
 
+  ## File Access Manifest (ref: arXiv:2603.12229 — concurrent writes are the #1 consistency failure)
+  - WRITE: [<files this agent owns — only it edits these>]
+  - READ:  [<files for reference — do not modify>]
+  - FORBIDDEN: [<files owned by other agents — do NOT touch under any circumstances>]
+
   ## Your Process Frame
   ### MUST (obligations)
   - <task-specific obligations — e.g., 'Run tests before marking done'>
   - <convention obligations — e.g., 'Use pathlib.Path() for all file paths'>
+  - Respect File Access Manifest — WRITE only to your owned files
   ### MUST NOT (prohibitions)
-  - Do NOT edit files outside your scope: <list specific files/directories>
+  - Do NOT edit files in FORBIDDEN list (owned by other agents in this wave)
+  - Do NOT edit READ-only files (shared reference, not your scope)
   - Do NOT install new dependencies without reporting back
   - Do NOT change public API signatures or architectural patterns
   ### AUTONOMY SCOPE
@@ -621,6 +687,7 @@ Wave N: Continue until all waves done
 - If any agent in a wave fails → handle it before launching next wave
 - **Validate agent outputs** before passing to next wave (see Agent Output Validation below)
 - Pass relevant outputs from previous waves as context to next wave agents (see Wave Context Handoff below)
+- **Wave checkpoint** after each completed wave (see Wave Checkpoint below)
 
 ### Agent Output Validation (Structured Contract)
 
@@ -640,6 +707,39 @@ After each agent completes and its result is saved via `/compact save-and-summar
 4. **Circuit breaker**: If 2+ agents in the same wave return `status: "failed"` → STOP, present failures to user, ask for guidance before continuing
 
 This validation prevents garbage-in-garbage-out between waves. Ground truth (git diff) trumps agent self-report.
+
+### Wave Checkpoint (fault recovery, ref: arXiv:2603.12229)
+
+After each wave completes, save incremental state so that a crash or context exhaustion doesn't lose completed work. This is lighter than a full `/checkpoint` — just state.md update + optional mini-save.
+
+```
+After Wave N completes (all agents returned, outputs validated):
+
+1. Update state.md: mark all Wave N subtasks as `done` (with evidence summary)
+2. Update budget.md: increment agent counter, log wave completion
+
+3. IF wave >= 2 AND total agents spawned >= 3 (standard/deep tier):
+   → Write mini checkpoint to .claude/memory/intermediate/wave-checkpoint.json:
+     {
+       "wave": N,
+       "completedSubtasks": [1, 2, 3],
+       "pendingSubtasks": [4, 5],
+       "lastWaveAt": "<ISO 8601>",
+       "agentsUsed": N,
+       "resumeAction": "Launch Wave N+1 with subtasks [4, 5]"
+     }
+
+4. On crash recovery (checkpoint-resume dispatch rule):
+   → Read wave-checkpoint.json if exists
+   → Skip completed subtasks, resume from next pending wave
+   → Log: "Resuming from wave checkpoint: Wave {N+1}, {M} subtasks remaining"
+```
+
+**Rules:**
+- Light tier: skip wave checkpoints (too little state to justify overhead)
+- Always update state.md regardless of tier — that's the ground truth
+- Wave checkpoint file is ephemeral — deleted in Phase 6 cleanup
+- Do NOT trigger full `/checkpoint` per wave — that's too expensive. Only at task boundaries.
 
 ### Sidecar Queue Drain (between waves)
 
@@ -730,15 +830,20 @@ Every teammate spawn prompt MUST follow this structure:
 
 ## Your Role: {teammate_name}
 Role: {specialization}
-Owns: {specific files/directories — ONLY you edit these}
 Produces: {concrete deliverable}
+
+## File Access Manifest
+- WRITE: [{specific files/directories — ONLY you edit these}]
+- READ:  [{shared reference files — do not modify}]
+- FORBIDDEN: [{files owned by other teammates — never touch}]
 
 ## Your Process Frame
 ### MUST (obligations)
 - {task-specific obligations}
 - {convention obligations from CLAUDE.md}
+- Respect File Access Manifest — WRITE only to your owned files
 ### MUST NOT (prohibitions)
-- Do NOT edit files outside your ownership scope
+- Do NOT edit files in FORBIDDEN list (owned by other teammates)
 - Do NOT install new dependencies without reporting to lead
 - Do NOT change public API signatures or architectural patterns
 ### AUTONOMY SCOPE
