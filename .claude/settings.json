@@ -117,6 +117,12 @@
             "command": "bash .claude/hooks/observe.sh",
             "timeout": 3,
             "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "python .claude/hooks/panic-detector.py",
+            "timeout": 3,
+            "statusMessage": ""
           }
         ]
       },

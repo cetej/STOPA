@@ -117,6 +117,30 @@ Inspired by CC `@[MODEL_LAUNCH]` tagging — flag model-specific learnings that 
 
 ---
 
+## Step 3d: Panic Episode Analysis
+
+If `.claude/memory/intermediate/panic-episodes.jsonl` exists and has entries:
+
+1. Group episodes by `trigger_signals` pattern (which signals dominate)
+2. Look for recurring patterns:
+   - Same signal combination 3+ times → systemic issue, not one-off
+   - Escalations (red ignored) → investigate what tasks cause this
+3. Cross-reference with `window_summary` for file/error patterns
+
+Show:
+```
+PANIC EPISODES: [N total, M red, K yellow]
+  Dominant pattern: [most common signal combination]
+  Recurring triggers: [error types / file clusters that cause panic]
+  Action: ADD_TO_RUNBOOK | CREATE_LEARNING | INVESTIGATE
+```
+
+If a pattern triggers panic 3+ times → create a learning or runbook entry
+so the model recognizes the situation earlier and switches to /systematic-debugging
+proactively instead of waiting for the panic detector.
+
+---
+
 ## Step 4: Analyze Session Trends (sessions.jsonl)
 
 If 5+ entries in sessions.jsonl, calculate:
