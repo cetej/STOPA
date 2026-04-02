@@ -52,12 +52,17 @@ Collect from all available sources:
 5. **Learnings this session**: Glob `.claude/memory/learnings/` for today's entries (pattern: `YYYY-MM-DD-*.md`)
 6. **Implementation plan**: Read `.claude/memory/implementation-plan.md` if it exists
 
-### Step 2: Determine What's Done and What Remains
+### Step 2: Determine What's Done, What Remains, and What Failed
 
 From the task state:
 - List completed subtasks (with one-line summaries)
 - List remaining subtasks (with dependencies and method)
 - Identify the **immediate next action** — the very first thing the next session should do
+- **Collect failed approaches**: Check for:
+  1. Panic detector episodes: Read `.claude/memory/intermediate/panic-episodes.jsonl` (if exists) — each entry = a failed approach cycle
+  2. Git reverts/resets in this session: `git reflog --since="8 hours ago"` for evidence of rolled-back work
+  3. Conversation context: recall any approach you abandoned with reasoning
+  - Write each failure as: `- **{approach}**: {why it failed} → {lesson}`
 
 ### Step 3b: Git Cross-Reference
 
@@ -99,6 +104,13 @@ Write to `.claude/memory/checkpoint.md`:
 
 <The single most important thing to do first. Be specific:
  file path, function name, what change to make.>
+
+## Tried and Failed
+
+<Approaches attempted this session that DID NOT WORK.
+ For each, include: what was tried, why it failed, what we learned.
+ This prevents the next session from repeating dead ends.
+ If nothing failed, write "Nothing — all approaches worked.">
 
 ## Key Context
 

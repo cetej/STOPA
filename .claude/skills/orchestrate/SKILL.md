@@ -667,6 +667,19 @@ Invoke the appropriate `/skill-name` with arguments.
 ### Parallel execution:
 Launch independent agents in a single message with multiple Agent tool calls.
 
+### Pre-launch disjointness check (before ANY parallel spawn):
+
+Before launching 2+ agents in the same wave, verify their WRITE file lists don't overlap:
+
+1. Collect the WRITE list from each agent's File Access Manifest
+2. Compute pairwise intersection: `agent_A.WRITE ∩ agent_B.WRITE`
+3. **If overlap = 0** → safe to parallelize
+4. **If overlap > 0** → sequentialize the overlapping agents (launch one, wait, launch next)
+   - Log: `"Disjointness conflict: agents {A, B} both write to {files} — forcing sequential"`
+   - The agent that runs second gets the first agent's output as READ context
+
+This check is mandatory for standard/deep tiers. Farm tier already has zero-conflict guarantee via file partitioning.
+
 ### Wave-based execution:
 
 Execute subtasks wave by wave (from Phase 3 plan):
@@ -755,6 +768,27 @@ Before launching Wave N+1, check for deferred suggestions from hooks:
 
 This replaces direct stdout injection from hooks — suggestions arrive at wave boundaries
 instead of mid-task, reducing context noise.
+
+### Panic-Aware Recovery (between waves and after agent failures)
+
+The panic detector hook (`panic-detector.py`) tracks edit-fail cycles and emits interventions via stdout.
+The orchestrator should actively read panic state at wave boundaries to make informed decisions:
+
+1. **Between waves**: Read `.claude/memory/intermediate/panic-state.json` (if exists)
+   - If `panic_score >= 7` (red): STOP current execution path. The subtask causing panic is likely mis-scoped or hitting an unknown constraint.
+     - **Action**: Record the failing subtask + approach in state.md as `blocked:panic`
+     - **Recovery options** (try in order):
+       a. Reassign to a different agent with `Approach constraint: assume the obvious solution is wrong — find an alternative path`
+       b. If reassignment also fails → escalate to user with panic episode log
+     - Do NOT retry with the same approach — that's what caused the panic
+   - If `panic_score >= 4` (yellow): Log advisory, continue but inject caution into next wave's agent prompts: `"Previous wave had difficulty — verify assumptions before implementing"`
+
+2. **After agent failure** (status: "failed" from Agent Output Validation):
+   - Read `.claude/memory/intermediate/panic-episodes.jsonl` for recent episodes
+   - If 2+ episodes in last 10 minutes → the problem is likely architectural, not implementation
+   - **Action**: Skip retry, log to "Tried and Failed" in state.md, escalate to user
+
+3. **Episode data for checkpoint**: When `/checkpoint save` is triggered, pass panic episode count to the checkpoint — it feeds the "Tried and Failed" section automatically.
 
 ### Wave Re-open Protocol (ref: arXiv:2603.19138)
 
