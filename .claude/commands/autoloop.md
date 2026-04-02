@@ -5,7 +5,7 @@ context:
   - tree-mode.md
   - meta-mode.md
   - trace-review.md
-argument-hint: <target file/scope> [goal] [verify:<command>] [guard:<command>] [budget:N] [mode:linear|tree] [meta:true] [escalate:true]
+argument-hint: <target file/scope> [goal] [verify:<command>] [guard:<command>] [cost_metric:<command>] [budget:N] [mode:linear|tree] [meta:true] [escalate:true]
 context-required:
   - "target file or scope — one file to optimize (single-file mutation rule)"
   - "optimization goal — what to improve and in which direction"
@@ -66,6 +66,7 @@ From `$ARGUMENTS`, extract:
 - **guard**: command that must always pass — safety net (optional)
 - **budget**: iteration count (default: 10, override with `budget:N`)
 - **direction**: `higher` or `lower` is better (auto-detected from goal keywords, or ask)
+- **cost_metric**: bash command that outputs a cost number (e.g., token count, LOC, latency) — enables Pareto frontier tracking (accuracy vs cost)
 - **mode**: `linear` (default) or `tree` — tree enables branching exploration (see `tree-mode.md`)
 - **meta**: `true` enables metacognitive self-modification of scoring params (see `meta-mode.md`). Requires `mode:linear`.
 - **escalate**: `true` enables Agent0-inspired escalation — on plateau, raise the bar instead of just exploring harder (see Escalation Phase)
@@ -77,6 +78,7 @@ Examples:
 /autoloop src/api/*.ts verify:"npm test -- --coverage | grep All | awk '{print $4}'" guard:"npm run typecheck" budget:20
 /autoloop .claude/skills/critic/SKILL.md
 /autoloop src/index.ts "reduce bundle size" verify:"npx esbuild src/index.ts --bundle --minify | wc -c" direction:lower
+/autoloop .claude/skills/critic/SKILL.md verify:"python eval_skill.py" cost_metric:"wc -c < .claude/skills/critic/SKILL.md"
 ```
 
 ### Precondition checks
@@ -119,6 +121,29 @@ Ask user once: "Provide a verify command, or continue with LLM-as-judge?" Then p
 
 Follow `trace-review.md` → **Trace Initialization** section: create `.traces/<run_id>/`, write `trace-active.json` marker, purge old traces. This enables the `trace-capture.py` PostToolUse hook to record tool call inputs/outputs during the optimization run.
 
+### Warm-start from prior runs (Meta-Harness pattern)
+
+Check for prior autoloop runs on the same target:
+```bash
+# Find prior iterations.jsonl for same target
+prior_run=$(ls -td .traces/autoloop-$(basename <target> .md)-*/iterations.jsonl 2>/dev/null | head -1)
+if [ -n "$prior_run" ]; then
+  prior_best=$(python -c "
+import json, sys
+lines = open('$prior_run').readlines()
+best = max((json.loads(l) for l in lines if l.strip()), key=lambda x: x.get('metric', 0))
+print(f\"{best['metric']}|{best.get('commit','HEAD')}\")
+" 2>/dev/null)
+  if [ -n "$prior_best" ]; then
+    echo "⚡ Warm-start: prior run best=${prior_best%|*} at commit ${prior_best#*|}"
+    # Optionally checkout that commit: git checkout ${prior_best#*|}
+  fi
+fi
+```
+
+If warm-start found: log origin in `trace-active.json` as `"warm_start": "<prior_run_id>"`.
+The proposer can learn from the prior run's trace directory without repeating its experiments.
+
 ### Create feature branch
 
 ```bash
@@ -129,14 +154,46 @@ git checkout -b autoloop/$(basename <target> .md)-$(date +%s)
 
 ```bash
 echo "# metric_direction: <higher_is_better|lower_is_better>" > autoloop-results.tsv
-echo -e "iteration\tcommit\tmetric\tdelta\tguard\tstatus\tdescription" >> autoloop-results.tsv
+if [ -n "$COST_METRIC" ]; then
+  echo -e "iteration\tcommit\tmetric\tdelta\tcost\tpareto\tguard\tstatus\tdescription" >> autoloop-results.tsv
+else
+  echo -e "iteration\tcommit\tmetric\tdelta\tguard\tstatus\tdescription" >> autoloop-results.tsv
+fi
 ```
+
+### Initialize Pareto frontier (Meta-Harness pattern, if cost_metric provided)
+
+When `cost_metric:` is set, track a Pareto frontier of non-dominated solutions (accuracy vs cost).
+A candidate is **Pareto-dominated** if another candidate has both better metric AND lower cost.
+
+```bash
+# Initialize Pareto set
+if [ -n "$COST_METRIC" ]; then
+  echo '[]' > .traces/<run_id>/pareto.json
+fi
+```
+
+**Pareto update logic** (run after every "keep" iteration):
+```python
+import json
+pareto = json.loads(open('.traces/<run_id>/pareto.json').read())
+new = {"iter": N, "metric": metric, "cost": cost, "commit": commit}
+# Remove candidates dominated by new
+pareto = [p for p in pareto if not (new["metric"] >= p["metric"] and new["cost"] <= p["cost"])]
+# Add new if not dominated by any existing
+if not any(p["metric"] >= new["metric"] and p["cost"] <= new["cost"] for p in pareto):
+    pareto.append(new)
+open('.traces/<run_id>/pareto.json', 'w').write(json.dumps(pareto, indent=2))
+```
+
+During Step 1 (Review), when cost_metric is active, print the current Pareto frontier so the proposer can choose to optimize along either axis.
 
 ### Establish baseline (iteration 0)
 
-Run verify/scorer on unmodified state. Record as baseline in TSV:
+Run verify/scorer on unmodified state. If `cost_metric:` set, also run cost command.
+Record as baseline in TSV:
 ```
-0	a1b2c3d	85.2	0.0	pass	baseline	initial state
+0	a1b2c3d	85.2	0.0	1240	yes	pass	baseline	initial state
 ```
 
 ## Phase 1: Iteration Loop
@@ -406,6 +463,15 @@ If validation score dropped below 5: warn — structural improvements may have h
 | 0 | 85.2 | — | pass | baseline | initial state |
 | 1 | 87.1 | +1.9 | pass | keep | add auth edge case tests |
 | ... |
+
+### Pareto Frontier (if cost_metric was tracked)
+
+| # | Metric | Cost | Commit | Description |
+|---|--------|------|--------|-------------|
+| 1 | 93.4 | 980 | c3d4e5f | simplified scoring |
+| 2 | 91.2 | 620 | a1b2c3d | minimal variant |
+
+Non-dominated solutions only. Use `/eval --experiments pareto <run_id>` to query later.
 
 ### Summary
 - **Baseline**: <score> → **Final**: <score> (+<total delta>)

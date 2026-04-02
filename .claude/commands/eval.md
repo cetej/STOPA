@@ -1,7 +1,7 @@
 ---
 name: eval
 description: Use when grading or replaying harness traces to measure quality drift, detect regressions, or compare harness configurations. Trigger on 'eval trace', 'grade harness', 'replay run', 'harness drift'. Do NOT use for one-off verification (/verify) or writing tests (/tdd).
-argument-hint: "[trace-file | harness-name | --list] [--replay] [--diff trace1 trace2] [--baseline] [--optim [run_id | --list | --latest | --diff run1 run2]]"
+argument-hint: "[trace-file | harness-name | --list] [--replay] [--diff trace1 trace2] [--baseline] [--optim [run_id | --list | --latest | --diff run1 run2]] [--experiments [list | top-k N | pareto run_id | diff run1 run2]]"
 tags: [testing, devops]
 user-invocable: true
 allowed-tools: Read, Write, Glob, Grep, Bash, Agent
@@ -327,6 +327,90 @@ Compare two runs on the same target:
 | final_metric | 93.4 | 89.1 | run1 better |
 
 Root cause: "run1 used trace evidence 2.3× more often, especially during plateau at iter 5-7"
+
+---
+
+## Mode: --experiments (unified experiment query CLI)
+
+Meta-Harness-inspired unified query interface over ALL optimization experiments. This is the "CLI over logs" recommended by the Meta-Harness paper authors — enables structured browsing across runs without manual grep.
+
+### Sub-modes
+
+- **`--experiments list`**: Summary of all optimization runs
+- **`--experiments top-k <N>`**: Best N iterations across all runs
+- **`--experiments pareto <run_id>`**: Pareto frontier for a run (requires cost_metric)
+- **`--experiments diff <run1> <run2>`**: Compare two optimization runs
+
+### --experiments list
+
+Scan all `.traces/*/iterations.jsonl` and performance records in `.claude/memory/performance/`:
+
+```bash
+ls -d .traces/*/ 2>/dev/null
+ls .claude/memory/performance/*.json 2>/dev/null
+```
+
+Display summary table:
+
+```
+Optimization Experiments:
+  #  Run ID                          Skill         Target              Best    Iters  Date
+  1  autoloop-critic-1711900000      autoloop      critic/SKILL.md     93.4    10/15  2026-03-31
+  2  autoresearch-rag-1711800000     autoresearch  src/chunking/       0.85    8/10   2026-03-30
+  3  self-evolve-scout-1711700000    self-evolve   scout/SKILL.md      0.92    12/20  2026-03-29
+
+Run /eval --experiments top-k 5 for best iterations, /eval --experiments pareto <run_id> for Pareto frontier.
+```
+
+### --experiments top-k N
+
+Parse ALL `iterations.jsonl` files, collect all "keep" iterations, sort by metric (respecting direction), show top N:
+
+```
+Top 5 iterations across all runs:
+  #  Run                         Iter  Metric  Hypothesis/Description      Commit
+  1  autoloop-critic-1711900000  8     93.4    simplified scoring logic    c3d4e5f
+  2  autoresearch-rag-1711800000 6     0.85    semantic-chunking           f4a5b6c
+  3  autoloop-critic-1711900000  5     91.2    added error handling tests  a1b2c3d
+  ...
+```
+
+### --experiments pareto <run_id>
+
+Read `.traces/<run_id>/pareto.json`. If not found: "No Pareto data — run was not started with cost_metric."
+
+If found, display the Pareto frontier:
+
+```
+Pareto Frontier: autoloop-critic-1711900000
+  #  Metric  Cost   Commit   Description
+  1  93.4    1240   c3d4e5f  simplified scoring (best accuracy)
+  2  91.2    620    a1b2c3d  minimal variant (best cost)
+  3  88.5    340    d4e5f6g  ultra-compact (lowest cost)
+
+Non-dominated solutions only. No other candidate is both more accurate AND cheaper.
+```
+
+### --experiments diff <run1> <run2>
+
+Compare two runs (same target preferred but not required):
+
+```
+Experiment Diff: run1 vs run2
+  Target:     critic/SKILL.md (same)
+  Skill:      autoloop vs autoloop
+  Iterations: 10/15 vs 8/10
+  Best:       93.4 vs 89.1 (+4.3 for run1)
+  Kept:       6 vs 4
+  Discarded:  4 vs 4
+  Crashed:    0 vs 2
+
+  Run1 used cost_metric: yes (Pareto: 3 solutions)
+  Run2 used cost_metric: no
+
+  Top approaches unique to run1: simplified scoring, error handling
+  Top approaches unique to run2: parallel tests, caching
+```
 
 ---
 

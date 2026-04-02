@@ -1,7 +1,7 @@
 ---
 name: autoresearch
 description: "Use when experimentally verifying hypotheses through code iteration with measurable outcomes. Trigger on 'autoresearch', 'experiment', 'try approaches'. Do NOT use for literature review (/deepresearch) or file optimization (/autoloop)."
-argument-hint: <research question> eval:<command> [target:<dir>] [budget:N] [hypotheses:<list>]
+argument-hint: <research question> eval:<command> [target:<dir>] [budget:N] [hypotheses:<list>] [cost_metric:<command>]
 context-required:
   - "research question — specific and answerable, not vague topic"
   - "eval command — locked scoring script; without it the loop cannot start"
@@ -106,6 +106,7 @@ From `$ARGUMENTS`, extract:
 - **target**: directory or file scope for experiments (default: current directory)
 - **budget**: max experiment count (default: 10)
 - **hypotheses**: optional comma-separated list of approaches to try first
+- **cost_metric**: bash command that outputs a cost number (e.g., token count, LOC, latency) — enables Pareto frontier tracking (accuracy vs cost). Same pattern as autoloop.
 - **direction**: `higher` or `lower` is better (auto-detect from question keywords, or ask)
 
 Examples:
@@ -202,7 +203,11 @@ echo "# question: <question>" > autoresearch-log.tsv
 echo "# eval: <eval_command>" >> autoresearch-log.tsv
 echo "# direction: <higher_is_better|lower_is_better>" >> autoresearch-log.tsv
 echo "# baseline: <baseline_metric>" >> autoresearch-log.tsv
-echo -e "iteration\thypothesis\tcommit\tmetric\tdelta\tstatus\tnotes\tdifficulty_level" >> autoresearch-log.tsv
+if [ -n "$COST_METRIC" ]; then
+  echo -e "iteration\thypothesis\tcommit\tmetric\tdelta\tcost\tpareto\tstatus\tnotes\tdifficulty_level" >> autoresearch-log.tsv
+else
+  echo -e "iteration\thypothesis\tcommit\tmetric\tdelta\tstatus\tnotes\tdifficulty_level" >> autoresearch-log.tsv
+fi
 echo -e "0\tbaseline\t$(git rev-parse --short HEAD)\t${baseline_metric}\t0.0\tbaseline\tinitial state" >> autoresearch-log.tsv
 ```
 
