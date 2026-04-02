@@ -1,6 +1,6 @@
 ---
 name: scout
-description: Use before implementing changes to map existing code and patterns. Trigger on map this area, scope this, what do we have. Not for known file locations.
+description: Use when you need to map existing code and patterns before implementing changes. Trigger on 'map this area', 'scope this', 'what do we have'. Do NOT use for known file locations.
 argument-hint: [what to explore] [--refresh-map]
 tags: [exploration, research]
 user-invocable: true

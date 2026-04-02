@@ -1,6 +1,6 @@
 ---
 name: seo-audit
-description: Use when analyzing SEO performance from GSC data for ranking opportunities. Trigger on SEO audit, keyword opportunities. Not for technical site audits.
+description: Use when analyzing SEO performance from GSC data for ranking opportunities. Trigger on SEO audit, keyword opportunities. Do NOT use for technical site audits.
 context: []
 argument-hint: "[focus: opportunities|intent|gaps|full] [timerange: 30d|90d]"
 tags: [research, web]

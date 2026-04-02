@@ -1,0 +1,88 @@
+# Pre-Flight Dispatch Rules (evaluated in order, first match wins)
+
+rules:
+  - id: 1
+    name: budget-exhausted
+    condition: "budget.md shows any counter at tier limit"
+    action: STOP
+    detail: "Report to user, offer wrap-up"
+
+  - id: 2
+    name: infrastructure-error
+    condition: "Last agent/tool failed with infrastructure error (ENOENT, OOM, EACCES)"
+    action: STOP
+    detail: "Do NOT retry, escalate immediately"
+
+  - id: 3
+    name: checkpoint-resume
+    condition: "checkpoint.md exists AND non-empty AND <2h old"
+    action: OFFER_RESUME
+    detail: "If accepted, skip Phases 1-3, jump to Phase 4"
+
+  - id: 4
+    name: stopa-routing
+    condition: "Task modifies skills/hooks/memory AND cwd is NOT STOPA"
+    action: REDIRECT
+    detail: "Tell user to switch to STOPA"
+
+  - id: 5
+    name: sidecar-pending
+    condition: "sidecar-queue.json has high-priority items"
+    action: DRAIN_FIRST
+    detail: "Drain queue, then proceed"
+
+  - id: 6
+    name: context-critical
+    condition: "Context health score >= 7"
+    action: STOP
+    detail: "Suggest new session or /compact"
+
+  - id: 7
+    name: context-orange
+    condition: "Context health score >= 5"
+    action: PRE_COMPACT
+    detail: "Run /compact before proceeding"
+
+  - id: 8
+    name: default
+    condition: "always"
+    action: PROCEED
+    detail: "Enter Phase 1 normally"
+
+# Context health scoring signals
+health_signals:
+  - signal: "Subtask progress >70%"
+    points: 2
+    detect: "Count done/total in state.md"
+  - signal: "Agent spawns >= 3"
+    points: 2
+    detect: "Check budget.md agent counter"
+  - signal: "Agent spawns >= 5"
+    points: 3
+    detect: "Check budget.md agent counter"
+  - signal: "Critic rounds >= 2"
+    points: 1
+    detect: "Check budget.md critic counter"
+  - signal: "User exchanges >= 5"
+    points: 1
+    detect: "Estimate from conversation"
+  - signal: "Large tool outputs received"
+    points: 1
+    detect: "If any agent returned very long results"
+  - signal: "Tier is deep"
+    points: 1
+    detect: "Check budget.md tier"
+
+health_thresholds:
+  - range: [0, 2]
+    level: healthy
+    action: "Continue normally"
+  - range: [3, 4]
+    level: yellow
+    action: "Save checkpoint silently"
+  - range: [5, 6]
+    level: orange
+    action: "Auto-trigger /compact"
+  - range: [7, 99]
+    level: red
+    action: "Save checkpoint + notify user"

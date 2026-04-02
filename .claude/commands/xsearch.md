@@ -1,6 +1,6 @@
 ---
 name: xsearch
-description: Use when searching for code or patterns across all registered projects. Trigger on search across projects, cross-project search. Not for single-project.
+description: Use when searching for code or patterns across all registered projects. Trigger on search across projects, cross-project search. Do NOT use for single-project searches.
 argument-hint: <search pattern> [--type py|ts|md] [--project name]
 tags: [exploration, orchestration]
 effort: low

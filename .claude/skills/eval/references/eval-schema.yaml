@@ -1,0 +1,74 @@
+# Eval Trace Schema & Metric Definitions
+
+# JSONL record types
+record_types:
+  header:
+    required_fields: [phase, event, harness, ts, model]
+    phase: 0
+    event: "start"
+
+  preflight:
+    required_fields: [phase, score]
+    phase: 0.5
+    score_range: [0, 5]
+
+  phase:
+    required_fields: [phase, validation]
+    validation_values: ["PASS", "FAIL"]
+    optional_fields: [retry]
+
+  final:
+    required_fields: [phase, event, status, phases_passed, phases_failed]
+    phase: "final"
+    event: "end"
+    status_values: ["complete", "partial", "failed"]
+
+# Quality metrics formulas
+metrics:
+  pass_rate:
+    formula: "phases_passed / total_phases"
+    range: [0.0, 1.0]
+
+  retry_rate:
+    formula: "phases_with_retry / total_phases"
+    range: [0.0, 1.0]
+
+  preflight_score:
+    formula: "preflight record 'score' field"
+    range: [0, 5]
+
+  phase_coverage:
+    formula: "phases_validated / total_phases"
+    range: [0.0, 1.0]
+
+  harness_health:
+    formula: "pass_rate * phase_coverage * (preflight_score / 5)"
+    range: [0.0, 1.0]
+
+# Baseline comparison thresholds
+drift_thresholds:
+  improvement: 0.1    # delta > +0.1
+  regression: -0.1    # delta < -0.1
+  # within +/-0.1 = STABLE
+
+# Structural validation checks
+validation_checks:
+  - check: header_present
+    pass_condition: "phase=0, event='start' exists"
+    fail_flag: INCOMPLETE
+
+  - check: final_present
+    pass_condition: "phase='final', event='end' exists"
+    fail_flag: TRUNCATED
+
+  - check: no_phase_gaps
+    pass_condition: "Phases N, N+1, N+2... all present"
+    fail_flag: MISSING_PHASE
+
+  - check: all_phases_validated
+    pass_condition: "'validation' field in each phase record"
+    fail_flag: UNVALIDATED
+
+  - check: preflight_present
+    pass_condition: "phase=0.5 exists"
+    fail_flag: NO_PREFLIGHT

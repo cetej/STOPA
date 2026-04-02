@@ -1,0 +1,57 @@
+# Orchestration Tier Definitions
+# Shared reference for orchestrate + budget skills
+
+tiers:
+  light:
+    criteria: "Single file, known pattern, quick fix"
+    agent_limit: 1
+    critic_limit: 1
+    model: haiku
+    keywords: [fix, typo, rename, update, bump, tweak]
+    file_range: [1, 1]
+
+  standard:
+    criteria: "Multi-file, some exploration needed"
+    agent_limit: 4
+    critic_limit: 2
+    model: sonnet
+    keywords: [refactor, "add feature", implement, migrate, extend, integrate]
+    file_range: [2, 5]
+
+  deep:
+    criteria: "Cross-cutting, unknown scope, major feature"
+    agent_limit: 8
+    critic_limit: 3
+    model: opus
+    keywords: [redesign, architecture, cross-cutting, "security audit", "unknown scope", major]
+    file_range: [6, 19]
+
+  farm:
+    criteria: "Bulk mechanical improvement across many files"
+    agent_limit: 8
+    critic_limit: 1
+    model: sonnet
+    keywords: ["all files", everywhere, bulk, "lint fix", "20+", mechanical]
+    file_range: [20, 999]
+
+# Circuit breakers (hard stops)
+circuit_breakers:
+  agent_loop: 3       # same agent on same subtask
+  critic_loop: 2      # FAIL on same target
+  memory_bloat: 500   # lines per memory file
+  nesting_depth: 2    # max agent nesting levels
+
+# Cost optimization levers
+cost_levers:
+  - lever: "Sub-agents on Haiku"
+    savings: "~10x cheaper"
+    when: "Validation, grep, explore"
+  - lever: "effort: low"
+    savings: "~50-70% thinking tokens"
+    when: "Mechanical subtasks"
+  - lever: "/compact when context > 50%"
+    savings: "Reduces cache creation"
+    when: "Long sessions"
+  - lever: "Fewer agent spawns"
+    savings: "Direct cost reduction"
+    when: "Light/standard tier"
