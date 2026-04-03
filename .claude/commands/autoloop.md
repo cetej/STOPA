@@ -286,7 +286,7 @@ Guard is pass/fail only (exit code 0 = pass). If guard fails:
 4. Re-commit, re-verify, re-guard
 5. Max 2 rework attempts, then discard
 
-**NEVER modify guard/test files** — always adapt the implementation instead.
+Do not modify guard or test files — changes to the measurement baseline invalidate all previous iterations and make before/after comparison meaningless. Always adapt the implementation instead.
 
 ### Step 6: Decide
 
@@ -364,35 +364,7 @@ Exit when ANY:
 
 ### Escalation Phase (Agent0-inspired, optional)
 
-**Trigger:** `escalate:true` flag AND 3 consecutive discards (plateau detected).
-**Concept:** Instead of just ramping exploration weight, raise the bar — add harder constraints or tighter metrics. Inspired by Agent0's co-evolutionary curriculum: when the optimizer plateaus, the challenge must escalate.
-
-**How it works:**
-
-1. **Analyze current state**: Read all "keep" iterations from TSV — what has already been optimized?
-
-2. **Generate escalation** based on mode:
-
-   | Mode | Escalation method |
-   |------|-------------------|
-   | **Metric mode** | Tighten target: if metric plateaued at 92%, set new floor at 90% and add a SECOND metric as guard (e.g., complexity, coverage, latency) |
-   | **File mode (SKILL.md)** | Add 2-3 NEW scoring checks beyond the original 15-point heuristic, derived from what's NOT yet covered (e.g., "has examples section", "has edge case handling") |
-   | **File mode (other)** | Switch from current scorer to a stricter one: add new constraints derived from the goal (e.g., "under 100 LOC" + "no nested loops") |
-
-3. **Reset plateau counter** to 0, keep budget running
-4. **Log escalation** in TSV as special row:
-   ```
-   E1	-	92.0	0.0	-	escalation	added guard: complexity < 150 LOC
-   ```
-5. **Resume loop** with new constraints — the bar is now higher
-6. **Max 2 escalations** per run — after 2nd escalation plateaus → HARD STOP
-
-**Escalation status in status block:**
-```
-AUTOLOOP_STATUS:
-  escalation_level: <0|1|2>
-  escalation_desc: "<what was added>"
-```
+Read `${CLAUDE_SKILL_DIR}/references/escalation-phase.md` for full escalation protocol (trigger, method per mode, logging).
 
 Valid TSV statuses (updated): `baseline`, `keep`, `keep (reworked)`, `discard`, `crash`, `no-op`, `hook-blocked`, `divergence`, `escalation`
 
@@ -421,38 +393,9 @@ On crash: always revert to last known-good state before continuing.
 
 ## Reward Hacking Detection
 
-Track secondary signals alongside the primary metric. Check after every "keep" iteration:
+Read `${CLAUDE_SKILL_DIR}/references/reward-hacking.md` for full detection protocol (divergence signals, overfitting guard, on-divergence procedure).
 
-### Divergence signals
-
-| Signal | Check | Threshold | How to detect |
-|--------|-------|-----------|---------------|
-| **Complexity creep** | `wc -l` of target files | >30% growth from baseline | `baseline_loc` recorded in Phase 0, compare each iteration |
-| **Churn cycling** | Last 3 iterations alternate keep→revert→keep on similar changes | 3 consecutive flip-flops | Parse TSV for status pattern + `git diff` similarity |
-| **Metric spike** | Delta suddenly >3× the running average delta | Anomalous jump | Compare current delta to mean of prior positive deltas |
-
-### Overfitting guard (AutoAgent-inspired)
-
-After every "keep", before proceeding, ask: **"If this exact eval case disappeared, would this change still be a worthwhile improvement?"**
-- If YES → genuine improvement, proceed
-- If NO → flag as potential overfitting, log `divergence` status, warn user
-
-### On divergence detected
-
-1. **Pause the loop** — do not auto-continue
-2. Print warning with evidence:
-   ```
-   ⚠ REWARD HACKING SUSPECTED
-   Signal: <which signal triggered>
-   Evidence: <e.g., "LOC grew 85→142 (+67%) while metric improved only +0.3">
-   Recommendation: inspect last 3 commits manually
-   ```
-3. Ask user: "Continue, rollback last N, or stop?"
-4. Log `divergence` as TSV status for the flagged iteration
-
-### TSV extension
-
-Add `divergence` to valid statuses: `baseline`, `keep`, `keep (reworked)`, `discard`, `crash`, `no-op`, `hook-blocked`, `divergence`
+Key signals monitored: complexity creep (>30% LOC growth), churn cycling (3 flip-flops), metric spike (>3x avg delta). On detection: pause loop, warn user, log `divergence` status.
 
 ## Phase 2: Final Validation (LLM-as-judge)
 
@@ -533,58 +476,9 @@ Ask the user: "Merge branch `autoloop/<name>` into current branch, or discard?"
 
 ## Scoring: SKILL.md (built-in)
 
-For `*/SKILL.md` files, use this structural heuristic. Run each check and sum points:
+Read `${CLAUDE_SKILL_DIR}/references/scoring-heuristic.md` for the full 15-point structural scorer (12 positive signals S1-S12, 4 negative signals N1-N4) with bash implementation.
 
-### Positive signals (max 15 points)
-
-| # | Check | Points | How to verify |
-|---|-------|--------|---------------|
-| S1 | Description has trigger conditions | +2 | Grep description line for: `when`, `use when`, `use this`, `after`, `before`, `trigger` (case-insensitive) |
-| S2 | Description is 50-200 chars | +1 | Measure description field length |
-| S3 | argument-hint is present and non-empty | +1 | Check frontmatter |
-| S4 | effort field is present | +1 | Check frontmatter |
-| S5 | Has process/steps section | +1 | Grep for `^##.*[Pp]rocess\|^##.*[Ss]tep\|^## Phase` |
-| S6 | Has error/failure handling section | +1 | Grep for `^##.*[Ee]rror\|^##.*[Ff]ail\|^##.*wrong\|circuit.breaker` |
-| S7 | References `.claude/memory/` | +2 | Grep for `.claude/memory/` or `memory/state\|memory/learnings\|memory/decisions` |
-| S8 | Logs to decisions or learnings | +1 | Grep for `decisions.md\|learnings.md` and context suggests writing |
-| S9 | Under 500 lines | +1 | `wc -l` |
-| S10 | Has output format section | +1 | Grep for `^##.*[Oo]utput\|^##.*[Ff]ormat\|^##.*[Tt]emplate\|```markdown` |
-| S11 | Has rules/guidelines section | +1 | Grep for `^##.*[Rr]ule\|^##.*[Gg]uideline\|^## Rules` |
-| S12 | Has shared memory read instruction | +2 | Grep for `Read first\|read.*memory\|Before anything.*read\|Shared Memory` |
-
-### Negative signals (penalties)
-
-| # | Check | Points | How to verify |
-|---|-------|--------|---------------|
-| N1 | Description is vague | -2 | Grep description for: `useful`, `helpful`, `general.purpose`, `various`, `miscellaneous` |
-| N2 | Missing name in frontmatter | -1 | Check frontmatter |
-| N3 | Missing description in frontmatter | -2 | Check frontmatter |
-| N4 | Over 500 lines | -1 | `wc -l` |
-
-### Scoring implementation
-
-Run these bash commands and sum the results:
-
-```bash
-DESC=$(sed -n '/^---$/,/^---$/p' <target> | grep '^description:' | sed 's/^description: *//')
-echo "$DESC" | grep -iE 'when|use (this|when)|after|before|trigger' > /dev/null && echo "S1:+2" || echo "S1:0"
-LEN=$(echo -n "$DESC" | wc -c)
-[ "$LEN" -ge 50 ] && [ "$LEN" -le 200 ] && echo "S2:+1" || echo "S2:0"
-sed -n '/^---$/,/^---$/p' <target> | grep -q '^argument-hint:.\+.' && echo "S3:+1" || echo "S3:0"
-sed -n '/^---$/,/^---$/p' <target> | grep -q '^effort:' && echo "S4:+1" || echo "S4:0"
-grep -qiE '^##.*(process|step|phase)' <target> && echo "S5:+1" || echo "S5:0"
-grep -qiE '^##.*(error|fail|wrong)|circuit.breaker' <target> && echo "S6:+1" || echo "S6:0"
-grep -q '.claude/memory/' <target> && echo "S7:+2" || echo "S7:0"
-grep -qE 'decisions\.md|learnings\.md' <target> && echo "S8:+1" || echo "S8:0"
-[ "$(wc -l < <target>)" -lt 500 ] && echo "S9:+1" || echo "S9:0"
-grep -qiE '^##.*(output|format|template)|```markdown' <target> && echo "S10:+1" || echo "S10:0"
-grep -qiE '^##.*(rule|guideline)' <target> && echo "S11:+1" || echo "S11:0"
-grep -qiE 'read first|read.*memory|before anything.*read|shared memory' <target> && echo "S12:+2" || echo "S12:0"
-echo "$DESC" | grep -iE 'useful|helpful|general.purpose|various|miscellaneous' > /dev/null && echo "N1:-2" || echo "N1:0"
-sed -n '/^---$/,/^---$/p' <target> | grep -q '^name:' && echo "N2:0" || echo "N2:-1"
-sed -n '/^---$/,/^---$/p' <target> | grep -q '^description:' && echo "N3:0" || echo "N3:-2"
-[ "$(wc -l < <target>)" -ge 500 ] && echo "N4:-1" || echo "N4:0"
-```
+Summary: checks trigger conditions in description, frontmatter completeness, process/error sections, memory references, line count, output format, and guidelines sections.
 
 ## Scoring: Generic files
 

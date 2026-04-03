@@ -130,7 +130,7 @@ One sentence: what this does and why.
 
 ### Phase 3b: Ideal State Decomposition
 
-**After the spec is drafted, ALWAYS produce ideal-state criteria.** These are the verifiable definition of "done" — binary pass/fail, measurable, no ambiguity.
+**After the spec is drafted, produce ideal-state criteria** — without them, there is no verifiable definition of "done", leading to scope creep and subjective acceptance. These must be binary pass/fail, measurable, no ambiguity.
 
 Output format:
 

@@ -194,9 +194,9 @@ If tier is standard or deep AND git diff --stat shows 5+ files changed:
 
 ## Safety Rules
 
-- NEVER delete test files or test functions — only update assertions
-- NEVER change function signatures or behavior — only update references TO them
-- NEVER modify files outside the blast radius
+- Do not delete test files or test functions — removing tests eliminates regression coverage and makes it impossible to verify that future changes don't reintroduce the bug the test was catching
+- Do not change function signatures or behavior — changing them breaks all callers and dependents, creating cascading failures outside the blast radius
+- Do not modify files outside the blast radius — out-of-scope changes bypass the review gate and create untracked side effects that no verification step covers
 - If in doubt, skip the fix and report it as "Needs Manual Review"
 - All fixes must be reversible via `git checkout`
 

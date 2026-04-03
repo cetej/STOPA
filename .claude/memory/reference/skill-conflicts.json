@@ -1,0 +1,46 @@
+{
+  "version": "1.0",
+  "description": "Known skill conflict pairs — skills that are frequently confused by the dispatcher. Used by the description optimizer to generate targeted negative eval queries.",
+  "pairs": [
+    {
+      "skills": ["evolve", "self-evolve"],
+      "confusionZone": "skill improvement",
+      "distinguisher": "evolve audits accumulated learnings and promotes rules; self-evolve iteratively improves a specific skill's body through adversarial co-evolution"
+    },
+    {
+      "skills": ["critic", "pr-review"],
+      "confusionZone": "code review",
+      "distinguisher": "critic reviews code in the current working context (single-pass); pr-review uses multiple expert personas for PR-level review"
+    },
+    {
+      "skills": ["autoloop", "self-evolve"],
+      "confusionZone": "optimization loop",
+      "distinguisher": "autoloop optimizes any file against a measurable target metric; self-evolve specifically improves skill files through adversarial eval case co-evolution"
+    },
+    {
+      "skills": ["autoreason", "autoresearch"],
+      "confusionZone": "iterative improvement",
+      "distinguisher": "autoreason improves subjective text through adversarial debate; autoresearch verifies hypotheses through code iteration with measurable outcomes"
+    },
+    {
+      "skills": ["deepresearch", "autoresearch"],
+      "confusionZone": "research",
+      "distinguisher": "deepresearch gathers information from multiple sources with citations; autoresearch runs code experiments to verify hypotheses"
+    },
+    {
+      "skills": ["scout", "deepresearch"],
+      "confusionZone": "exploration",
+      "distinguisher": "scout explores the local codebase structure; deepresearch investigates external topics across multiple sources"
+    },
+    {
+      "skills": ["checkpoint", "handoff"],
+      "confusionZone": "session state saving",
+      "distinguisher": "checkpoint saves progress for resumption in a new session of the same project; handoff captures findings from completed remote sessions into persistent memory"
+    },
+    {
+      "skills": ["incident-runbook", "systematic-debugging"],
+      "confusionZone": "debugging/failures",
+      "distinguisher": "incident-runbook provides structured first-response for unexpected crashes; systematic-debugging does deep 4-phase root-cause analysis when you have enough context"
+    }
+  ]
+}

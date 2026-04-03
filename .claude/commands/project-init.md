@@ -262,9 +262,9 @@ Display to the user:
 
 ## Rules
 
-- NEVER overwrite existing CLAUDE.md — it contains project-specific instructions
-- NEVER overwrite existing AGENTS.md — it may contain custom instructions
-- NEVER delete existing files in `.claude/` even with `--force`
+- Do not overwrite existing CLAUDE.md — it contains project-specific instructions and accumulated configuration that cannot be reconstructed from a template
+- Do not overwrite existing AGENTS.md — it may contain custom agent configurations and team structures that would be lost
+- Do not delete existing files in `.claude/` even with `--force` — these files represent accumulated project state (learnings, decisions, memory) that is irreplaceable once deleted
 - Memory templates must match exactly — orchestration skills parse these formats
 - Keep output in Czech for the user
 - If project has `.git/`, mention that `.claude/memory/` should be in `.gitignore` (sensitive state)

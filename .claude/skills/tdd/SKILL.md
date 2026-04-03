@@ -125,8 +125,8 @@ Final report:
 
 ## Rules
 
-- NEVER write production code before a failing test
-- NEVER modify a test to make it pass (fix the code instead)
+- Do not write production code before a failing test — writing code first shapes the test to match the implementation rather than the requirement, defeating the purpose of TDD
+- Do not modify a test to make it pass — the test encodes the specification; changing it silently alters the spec and makes the bug the intended behavior
 - ONE test per cycle — don't batch
 - Run ALL tests after GREEN, not just the new one
 - If no test framework exists, set one up first (ask user for preference)

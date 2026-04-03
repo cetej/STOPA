@@ -85,8 +85,8 @@ When operation is `health`, check for each project:
 
 ## Safety Rules
 
-- NEVER auto-commit, push, or delete anything without user confirmation
-- NEVER modify files in other projects without explicit approval
+- Do not auto-commit, push, or delete anything without user confirmation — multi-project operations have amplified blast radius, and an unintended commit in the wrong project can be difficult to reverse
+- Do not modify files in other projects without explicit approval — cross-project changes bypass per-project review gates and may violate project-specific constraints
 - If a project path doesn't exist, skip it and note in results
 - If an operation fails for one project, continue with others
 - Rate limit: max 8 parallel agents (one per project)

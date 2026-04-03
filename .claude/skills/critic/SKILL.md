@@ -97,94 +97,9 @@ Default to QUICK unless evidence of higher complexity. Upgrade mid-review if sco
 
 ## COUNCIL Path (--council flag)
 
-Inspired by Karpathy's LLM Council. Instead of a single sequential pipeline, spawn **3 independent reviewer agents** who cross-review each other anonymously.
+Read full council protocol: `Read ${CLAUDE_SKILL_DIR}/references/council-path.md`
 
-### Council Step 1: Parallel Independent Reviews
-
-Spawn **3 sub-agents** (model: haiku) in parallel. Each gets the diff/target and a different review persona:
-
-| Agent | Persona | Focus |
-|-------|---------|-------|
-| R1 | **Correctness Hawk** | Logic bugs, edge cases, spec compliance. Asks: "Under what inputs does this break?" |
-| R2 | **Security & Safety** | OWASP, regressions, side effects, data handling. Asks: "How can this be exploited or cause damage?" |
-| R3 | **Simplicity Advocate** | Over-engineering, unnecessary complexity, AI slop, convention violations. Asks: "Is there a simpler way?" |
-
-Each agent receives:
-```
-Review this code change:
-{diff}
-
-Your review persona: {PERSONA_DESCRIPTION}
-
-For each issue found, output:
-| Severity | Category | Description | Location |
-|----------|----------|-------------|----------|
-| high/medium/low | correctness/security/quality/... | specific issue | file:line |
-
-Also provide:
-- 1-5 confidence score for overall code quality
-- Top 3 strengths of the change
-- Top 3 concerns
-```
-
-### Council Step 2: Anonymous Cross-Review
-
-Collect the 3 reviews. Label them **Review A, Review B, Review C** — strip persona names.
-
-Spawn **2 sub-agents** (model: sonnet) as judges. Each sees ALL 3 anonymized reviews plus the original diff:
-
-```
-You are auditing 3 independent code reviews of the same change.
-
-Original diff:
-{diff}
-
-Review A:
-{review_1}
-
-Review B:
-{review_2}
-
-Review C:
-{review_3}
-
-Your task:
-1. For each review: what did it catch that others missed? What did it get wrong?
-2. Are there issues ALL reviewers missed?
-3. Where do reviewers disagree? Who is right?
-4. Rank the reviews from most thorough to least.
-
-FINAL RANKING:
-1. Review X
-2. Review Y
-3. Review Z
-```
-
-### Council Step 3: Chairman Synthesis
-
-As Chairman, read all 3 reviews (de-anonymized), both judge evaluations, and produce the standard Critic Report format (Impact Radius, Milestones, Scoring Rubric, Verdict).
-
-Key additions for council output:
-
-```markdown
-### Council Cross-Review Summary
-
-| Review | Persona | Avg Rank | Unique Finds | Agreed Issues |
-|--------|---------|----------|-------------|---------------|
-| Review A | Correctness Hawk | 1.5 | 2 | 4 |
-| Review B | Security & Safety | 2.0 | 1 | 3 |
-| Review C | Simplicity Advocate | 2.5 | 1 | 4 |
-
-**Consensus issues** (flagged by 2+ reviewers):
-- ...
-
-**Disputed issues** (flagged by 1, questioned by judges):
-- ...
-```
-
-Then proceed to standard Phase 4 (JUDGE) scoring and verdict.
-
-**Cost:** 3 × haiku + 2 × sonnet + chairman = ~6 agent calls. More expensive than standard path but produces higher-confidence verdicts for critical code.
+Summary: 3 independent haiku reviewers (Correctness Hawk, Security & Safety, Simplicity Advocate) review in parallel, then 2 sonnet judges cross-review anonymously, then Chairman synthesizes into standard Critic Report. Cost: ~6 agent calls.
 
 ---
 
@@ -476,107 +391,11 @@ Apply these during Phase 2 (Verifier) alongside assignment goals:
 
 ## Output Format (STANDARD / DEEP)
 
-```markdown
-## Critic Report: <target>
-**Triage path**: STANDARD / DEEP
-**Pipeline**: Selector (N milestones) → Verifier (X pass, Y fail) → Reviewer (Z concerns) → Judge
+Read full report template: `Read ${CLAUDE_SKILL_DIR}/references/output-format.md`
 
-### Impact Radius
+Key sections in report: Impact Radius, Dynamic Verification, Milestone Summary, Reviewer Concerns, Scoring Rubric, Verdict, Issues Found, Inline Annotations, What's Good, Recommendations, Verdict Rationale, Gate Proposals, Reflector Summary.
 
-| Changed File | Direct Dependents | Risk |
-|-------------|-------------------|------|
-| src/auth/jwt.ts | src/routes/api.ts, src/middleware/auth.ts | high (auth path) |
-
-**Blast radius**: N files changed → M dependents affected
-
-### Dynamic Verification Results
-
-| Check | Files | Status | Output |
-|-------|-------|--------|--------|
-| Python import | src/auth.py | PASS | — |
-| Type check | src/auth.py, src/api.py | FAIL | src/api.py:15: incompatible type |
-
-**Milestone overrides:** (list any Phase 2 PASS→FAIL overrides, or "none")
-
-### Milestone Summary
-
-| # | Assignment Goal | Verdict | Key Evidence |
-|---|----------------|---------|--------------|
-| M1 | ... | PASS/FAIL | ... |
-
-### Reviewer Concerns
-
-| # | Category | Concern |
-|---|----------|---------|
-| C1 | ... | ... |
-
-### Scoring Rubric
-
-| Criteria | Weight | Score (1-5) | Evidence |
-|----------|--------|-------------|----------|
-| Correctness | 0.30 | ? | |
-| Completeness | 0.25 | ? | |
-| Code Quality | 0.20 | ? | |
-| Safety | 0.15 | ? | |
-| Test Coverage | 0.10 | ? | |
-| **Weighted Average** | | **?.?** | |
-
-### Verdict: PASS / WARN / FAIL
-
-### Issues Found
-
-| # | Severity | Category | Description | Location |
-|---|----------|----------|-------------|----------|
-| 1 | high | correctness | ... | file:line |
-
-### Inline Annotations
-
-Quote specific code and annotate with issue IDs from the Issues table:
-
-> `if (user.role === "admin") return true;`  (auth.ts:42)
-**[#1] high/correctness:** Bypasses all permission checks for admins — needs granular resource-level validation.
-
-Rules for annotations:
-- Every issue from the Issues table SHOULD have a corresponding annotation
-- Quote the exact code being critiqued (with file:line)
-- Reference the issue ID so annotations link back to the summary table
-- Keep annotations concise — problem + why it matters
-
-### What's Good
-- <positive observations — always include>
-
-### Recommendations
-1. <specific, actionable fix>
-
-### Verdict Rationale
-<why PASS/WARN/FAIL — what drove the scores, which milestones/concerns were decisive>
-
-### Gate Proposals
-
-If the same issue type was found 2+ times in this review (or across recent reviews), propose a new quality gate:
-
-```
-| Proposed Gate | Check | Evidence |
-|---------------|-------|----------|
-| <gate name> | <how to verify> | <issue #s that triggered this> |
-```
-
-If no new gates warranted, write: "No new gates proposed."
-
-If `quality-gates.md` exists, append approved proposals to its Gate Proposal Log.
-
-### Reflector Summary (for /scribe)
-- **Error type:** [logic bug | missing case | wrong abstraction | spec misread | none]
-- **Root cause:** [1 sentence — what caused the issues, or "N/A" if PASS with no issues]
-- **Correct approach:** [what should have been done differently, or "N/A"]
-- **Key insight:** [what to remember for future sessions — ALWAYS fill this, even on PASS]
-- **Learnings activated:** [list any learnings/ files that were retrieved during review, or "none"]
-```
-
-**Reflector Summary rules:**
-- Always include at end of STANDARD/DEEP reports (skip for QUICK)
-- "Key insight" is mandatory — even clean PASS reviews produce insights about good patterns
-- "Learnings activated" helps /scribe track which learnings are being used (drives `uses` counter)
+Always include Reflector Summary at end (skip for QUICK). "Key insight" is mandatory even on PASS.
 
 ## Cost Awareness
 

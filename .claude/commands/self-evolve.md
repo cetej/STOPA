@@ -275,7 +275,7 @@ Pass threshold: all criteria checked
 
 ## Rules
 
-1. **Eval cases are sacred** — once created, NEVER modify existing cases. Only add new ones.
+1. **Eval cases are sacred** — do not modify existing eval cases, because changing them retroactively invalidates all prior improvement measurements and makes it impossible to track genuine progress. Only add new ones.
 2. **Single edit per round** — Executor makes ONE conceptual change, not a batch rewrite.
 3. **Curriculum escalates only on 100%** — do not pile on new cases while existing ones fail.
 4. **Critic gates prevent drift** — quality review every 2 rounds catches skill degradation.
