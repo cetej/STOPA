@@ -62,6 +62,12 @@
             "command": "python .claude/hooks/learning-lifecycle.py",
             "timeout": 5,
             "statusMessage": "Learning lifecycle check..."
+          },
+          {
+            "type": "command",
+            "command": "python .claude/hooks/skill-detector.py",
+            "timeout": 5,
+            "statusMessage": "Detecting skill patterns..."
           }
         ]
       }
@@ -282,6 +288,12 @@
             "command": "bash .claude/hooks/graph-consolidate.sh",
             "timeout": 10,
             "statusMessage": "Consolidating concept graph..."
+          },
+          {
+            "type": "command",
+            "command": "python .claude/hooks/hebbian-consolidate.py",
+            "timeout": 10,
+            "statusMessage": "Hebbian consolidation..."
           }
         ]
       }

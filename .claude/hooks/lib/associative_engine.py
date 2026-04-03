@@ -472,14 +472,129 @@ def compress_to_packet(nodes: list[ActivatedNode], max_tokens: int = CONTEXT_PAC
     return "\n".join(lines)
 
 
+# --- Graph Optimization (Phase 3e) ---
+
+# Pruning thresholds
+PRUNE_EDGE_MIN_WEIGHT = 0.05     # Remove edges below this weight
+PRUNE_ENTITY_MIN_MENTIONS = 0    # Remove orphan entities with 0 connections
+NORMALIZE_WEIGHT_CAP = 50.0      # Cap max edge weight to prevent runaway
+
+def optimize_graph(graph: dict) -> dict[str, int]:
+    """Run full graph optimization: decay, prune, normalize, compact.
+
+    Returns dict with counts of each optimization action.
+    """
+    stats = {"decayed": 0, "edges_pruned": 0, "entities_pruned": 0, "normalized": 0}
+
+    entities = graph.get("entities", {})
+    edges = graph.get("edges", {})
+    now_ts = time.time()
+
+    # 1. Decay all edge weights based on last_ts
+    for edge_key, edge in edges.items():
+        last_ts = edge.get("last_ts", "")
+        if not last_ts:
+            continue
+        try:
+            days = (now_ts - time.mktime(
+                time.strptime(last_ts, "%Y-%m-%d")
+            )) / 86400
+            new_weight = edge["count"] * math.exp(-RECENCY_LAMBDA * days)
+            if new_weight != edge.get("weight", 0):
+                edge["weight"] = round(new_weight, 4)
+                stats["decayed"] += 1
+        except (ValueError, OverflowError):
+            pass
+
+    # 2. Prune weak edges
+    to_prune = [
+        key for key, edge in edges.items()
+        if edge.get("weight", 0) < PRUNE_EDGE_MIN_WEIGHT
+    ]
+    for key in to_prune:
+        del edges[key]
+    stats["edges_pruned"] = len(to_prune)
+
+    # 3. Normalize edge weights (cap runaway weights)
+    for edge in edges.values():
+        w = edge.get("weight", 0)
+        if w > NORMALIZE_WEIGHT_CAP:
+            edge["weight"] = NORMALIZE_WEIGHT_CAP
+            stats["normalized"] += 1
+
+    # 4. Prune orphan entities (no edges and no learning files)
+    connected = set()
+    for edge_key in edges:
+        parts = edge_key.split("|")
+        connected.update(parts)
+
+    orphans = [
+        eid for eid, ent in entities.items()
+        if eid not in connected and not ent.get("learning_files")
+    ]
+    for eid in orphans:
+        del entities[eid]
+    stats["entities_pruned"] = len(orphans)
+
+    # 5. Compact entity data (remove empty fields)
+    for ent in entities.values():
+        if not ent.get("learning_files"):
+            ent.pop("learning_files", None)
+        if not ent.get("last_seen"):
+            ent.pop("last_seen", None)
+
+    # 6. Compact edge data (remove empty contexts)
+    for edge in edges.values():
+        if not edge.get("contexts"):
+            edge.pop("contexts", None)
+        if not edge.get("source"):
+            edge.pop("source", None)
+        # Round weight to 4 decimal places
+        edge["weight"] = round(edge.get("weight", 0), 4)
+
+    graph["entities"] = entities
+    graph["edges"] = edges
+    return stats
+
+
+def graph_health(graph: dict) -> dict:
+    """Compute graph health metrics for monitoring."""
+    entities = graph.get("entities", {})
+    edges = graph.get("edges", {})
+
+    if not entities:
+        return {"status": "empty", "entities": 0, "edges": 0}
+
+    weights = [e.get("weight", 0) for e in edges.values()]
+    mentions = [e.get("mentions", 0) for e in entities.values()]
+
+    connected = set()
+    for edge_key in edges:
+        connected.update(edge_key.split("|"))
+
+    return {
+        "entities": len(entities),
+        "edges": len(edges),
+        "connected_ratio": round(len(connected) / max(1, len(entities)), 2),
+        "avg_edge_weight": round(sum(weights) / max(1, len(weights)), 2),
+        "max_edge_weight": round(max(weights, default=0), 2),
+        "avg_mentions": round(sum(mentions) / max(1, len(mentions)), 1),
+        "hebbian_edges": sum(1 for e in edges.values() if e.get("source") == "hebbian"),
+        "last_build": graph.get("meta", {}).get("last_build", "never"),
+        "last_hebbian": graph.get("meta", {}).get("last_hebbian", "never"),
+    }
+
+
 # --- CLI ---
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage:")
-        print("  associative_engine.py build        # Build graph from learnings")
+        print("  associative_engine.py build         # Build graph from learnings")
         print("  associative_engine.py activate <q>  # Test activation with query")
-        print("  associative_engine.py stats         # Graph statistics")
+        print("  associative_engine.py stats          # Graph statistics")
+        print("  associative_engine.py optimize       # Run graph optimization")
+        print("  associative_engine.py health         # Graph health metrics")
         sys.exit(1)
 
     cmd = sys.argv[1]
@@ -518,6 +633,27 @@ if __name__ == "__main__":
             print("\nTop 10 entities by mentions:")
             for eid, e in top:
                 print(f"  {e.get('name', eid)}: {e.get('mentions', 0)} mentions, {len(e.get('learning_files', []))} files")
+
+    elif cmd == "optimize":
+        graph = load_graph()
+        if not graph["entities"]:
+            print("Graph empty — run 'build' first")
+            sys.exit(1)
+        before_ent = len(graph["entities"])
+        before_edg = len(graph["edges"])
+        stats = optimize_graph(graph)
+        save_graph(graph)
+        print(f"Before: {before_ent} entities, {before_edg} edges")
+        print(f"After:  {len(graph['entities'])} entities, {len(graph['edges'])} edges")
+        for k, v in stats.items():
+            if v > 0:
+                print(f"  {k}: {v}")
+
+    elif cmd == "health":
+        graph = load_graph()
+        h = graph_health(graph)
+        for k, v in h.items():
+            print(f"  {k}: {v}")
 
     else:
         print(f"Unknown command: {cmd}")

@@ -1,7 +1,7 @@
 # ADR 0012: Associative Memory Upgrade (Hippocampus Integration)
 
 - **Date**: 2026-04-03
-- **Status**: IMPLEMENTING
+- **Status**: IMPLEMENTING (Phase 3a/3b/3e done, 3c/3d remaining)
 - **Source**: claude_hippocampus (allthingssecurity/claude_hippocampus)
 
 ## Context

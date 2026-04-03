@@ -28,4 +28,6 @@ fi
 
 if [ "$NEEDS_REBUILD" = "true" ]; then
     python .claude/hooks/lib/associative_engine.py build >/dev/null 2>&1
+    # Phase 3e: optimize after rebuild (prune, normalize, compact)
+    python .claude/hooks/lib/associative_engine.py optimize >/dev/null 2>&1
 fi
