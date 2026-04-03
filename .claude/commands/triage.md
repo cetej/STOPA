@@ -1,6 +1,6 @@
 ---
 name: triage
-description: "Use when the user has an idea, request, or task and needs to know WHERE to work on it — STOPA (orchestration system) vs target project vs both. Trigger on 'triage', 'kam s tím', 'where should I', 'roztřiď'. Do NOT use for task execution — only routing."
+description: "Use when the user has an idea, request, or task and needs to know WHERE to work on it, or when the right skill is ambiguous. Trigger on 'triage', 'kam s tím', 'where should I', 'roztřiď', 'not sure which skill'. Do NOT use for task execution — only routing and skill selection."
 argument-hint: [idea or task description]
 tags: [orchestration, planning, session]
 user-invocable: true

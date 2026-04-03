@@ -1,6 +1,6 @@
 ---
 name: incident-runbook
-description: Use when something crashes or errors out unexpectedly. Trigger on not working, crashed, broken, nefunguje. Do NOT use for planned changes or feature requests.
+description: Use when something crashes or errors out unexpectedly and you need a structured runbook response. Trigger on 'not working', 'crashed', 'broken', 'nefunguje'. Do NOT use for deep root-cause investigation (/systematic-debugging) or planned changes and feature requests.
 argument-hint: [error message or symptom description]
 tags: [debugging, devops]
 user-invocable: true

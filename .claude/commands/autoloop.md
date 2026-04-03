@@ -1,6 +1,6 @@
 ---
 name: autoloop
-description: Use when iteratively optimizing a file or metric via Karpathy loop. Trigger on 'autoloop', 'optimize skill', 'auto-improve'. Do NOT use for one-shot edits.
+description: Use when iteratively optimizing a file or metric against a measurable target via Karpathy loop. Trigger on 'autoloop', 'optimize skill', 'auto-improve'. Do NOT use for one-shot edits, skill improvement with evals (/self-evolve), text/argument improvement (/autoreason), or code experimentation (/autoresearch).
 context:
   - tree-mode.md
   - meta-mode.md

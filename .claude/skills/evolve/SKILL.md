@@ -1,11 +1,6 @@
 ---
 name: evolve
-description: >
-  Use when reviewing accumulated corrections, violations, and session trends to propose
-  rule graduations, pruning, and promotions. Trigger on: "run /evolve", "analyze corrections",
-  "review what I've been correcting", "promote to critical patterns", "prune old rules",
-  "cleanup learnings". Run periodically (every 10+ sessions) or when violations.jsonl
-  shows recurring patterns. NOT for daily use — only when signals have accumulated.
+description: Use when reviewing accumulated corrections and session trends to graduate or prune system rules. Trigger on 'run /evolve', 'analyze corrections', 'promote to critical patterns', 'prune old rules', 'cleanup learnings'. Do NOT use for iterative skill improvement (/self-evolve) or file optimization (/autoloop).
 user-invocable: true
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash
 tags: [memory, documentation, session, orchestration]

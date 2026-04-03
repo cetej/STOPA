@@ -1,6 +1,6 @@
 ---
 name: liveprompt
-description: Use when researching what prompts/techniques the community is using RIGHT NOW for a given topic. Trigger on 'liveprompt', 'what works now', 'fresh prompts', 'community techniques'. Do NOT use for ecosystem news (/watch) or codebase search (/scout).
+description: Use when researching what prompts/techniques the community is using RIGHT NOW for a given topic. Trigger on 'liveprompt', 'what works now', 'fresh prompts', 'community techniques'. Do NOT use for multi-source evidence research (/deepresearch), ecosystem news (/watch), or codebase search (/scout).
 argument-hint: <topic> [--depth shallow|standard|deep] [--output prompt|report|both]
 tags: [research, ai-tools]
 user-invocable: true

@@ -1,6 +1,6 @@
 ---
 name: checkpoint
-description: Use when ending a session or saving progress. Trigger on checkpoint, save progress, continue later. Do NOT use mid-task when work is incomplete.
+description: Use when ending an active session to save progress for resumption in a new session. Trigger on 'checkpoint', 'save progress', 'continue later'. Do NOT use for capturing completed remote session findings (/handoff), recording a single decision (/scribe), or mid-task while work is still in flight.
 context:
   - gotchas.md
 argument-hint: [save / resume / status]

@@ -1,6 +1,6 @@
 ---
 name: orchestrate
-description: Use when a task requires multiple steps or touches 3+ files. Trigger on plan this, break this down, orchestrate. Do NOT use for single-file edits.
+description: Use when a task is clearly specified and requires multiple steps or touches 3+ files. Trigger on 'plan this', 'break this down', 'orchestrate'. Do NOT use for vague ideas without clear spec (/brainstorm) or single-file edits.
 argument-hint: [task description]
 context-required:
   - "task description — what to accomplish and why"

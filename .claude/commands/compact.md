@@ -1,6 +1,6 @@
 ---
 name: compact
-description: Use when context is bloated with large tool results or agent outputs. Trigger on compact, save results, context too large. Do NOT use for small tasks.
+description: Use when context is bloated with large tool results or agent outputs and you need to trim without ending the session. Trigger on 'compact', 'save results', 'context too large'. Do NOT use for session-ending saves (/checkpoint), capturing findings into memory (/handoff), or routine small tasks.
 argument-hint: "save-and-summarize <id> | save <id> | summarize <id> | load <id> | scratchpad | cleanup"
 tags: [session, memory]
 user-invocable: true

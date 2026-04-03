@@ -1,6 +1,6 @@
 ---
 name: systematic-debugging
-description: Use when debugging with root-cause-first methodology. Trigger on 'debug this', 'find root cause', 'systematic debug'. Do NOT use for quick fixes or known issues.
+description: Use when debugging a known failure with root-cause-first methodology and enough context to investigate deeply. Trigger on 'debug this', 'find root cause', 'systematic debug'. Do NOT use for sudden crashes requiring a runbook (/incident-runbook), pre-implementation scenario analysis (/scenario), or quick fixes with a known cause.
 argument-hint: [error message, symptom, or 'last failure' to investigate]
 tags: [debugging, code-quality]
 user-invocable: true
