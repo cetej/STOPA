@@ -2,15 +2,18 @@
 
 Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
-## Last Scan: 2026-04-01 (full) | Next: ~2026-04-08
+## Last Scan: 2026-04-03 (full) | Next: ~2026-04-10
 
 ## Action Items
 
 | # | Item | Urgency | Next Step |
 |---|------|---------|-----------|
-| 36 | Haiku 3 deprecation (deadline 2026-04-19) | HIGH | Zkontrolovat STOPA/NG-ROBOT/ADOBE pro hardcoded `claude-3-haiku-20240307` → nahradit `claude-haiku-4-5-20251001` |
+| 36 | Haiku 3 deprecation (deadline 2026-04-19) | DONE | **Audit 2026-04-03:** STOPA — žádný aktivní kód (jen backups/). NG-ROBOT — `claude-haiku-4-5-20251001` všude, 2 optional cleanups (config.py:213 stará Haiku 4.0 pricing, test_observability.py:18). ADOBE — plně aktuální. |
 | 48 | 1M context window retiring 2026-04-30 | SAFE | Audit 2026-04-01: žádné aktivní soubory nepoužívají `context-1m-2025-08-07` header. Projekty jsou čisté. |
-| 49 | CC v2.1.89 — nové hook typy | IN PROGRESS | Hook skripty vytvořeny (`permission-denied-logger.sh`, `task-created-gate.sh`), `if:` guards navrženy. Patch: `.claude/hooks/settings-patch-2026-04-01.md` — aplikovat manuálně do settings.json |
+| 49 | CC v2.1.89 + v2.1.90 — hook upgrades | DONE | Patch dokumentace aktualizována (§4 Defer, §5 marketplace). settings.json již obsahuje všechny změny (if: guards, PermissionDenied, TaskCreated). Post-save hook fix: SAFE (security-scan.py je PreToolUse). |
+| 51 | CC v2.1.90 — `thinking.display: "omitted"` | DONE | Referováno v orchestrate SKILL.md:1064. SMART gate + testing bottleneck princip přidány jako Rule #12 a #13. |
+| 52 | Anthropic API — web search/fetch GA | DONE | Audit 2026-04-03: STOPA čistá. NG-ROBOT používá `web_search_20260209` (GA) — žádné beta headery. ADOBE čistá. |
+| 53 | CC v2.1.90 — `CLAUDE_CODE_PLUGIN_KEEP_MARKETPLACE_ON_FAILURE` | DONE | Dokumentováno v settings-patch-2026-04-01.md sekce 5. |
 | 42 | CC Voice Mode (`/voice`) — Czech included | MED | Otestovat až se rolling out dostane k účtu; 20 jazyků vč. češtiny |
 | 44 | CC HTTP hooks (POST JSON → URL) | PARKED | Adopt při remote agents; pro teď nepotřebujeme |
 | 29t | Bootleg SSL (arXiv:2603.15553) | LOW | Sledovat pro ORAKULUM/ZACHVEV pokud Chronos-2 nestačí |
@@ -28,7 +31,8 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 ### Models & Releases
 | Item | Detail | Trigger |
 |------|--------|---------|
-| 40. Mythos/Capybara | Next tier above Opus, leaked 2026-03-26. Step change coding+reasoning. | GA datum → přeplánovat STOPA model tiers |
+| 40. Mythos/Capybara | **Training dokončen, piloting s early customers** (2026-04-03). "Nejschopnější model ever." Step change coding+reasoning. | GA datum → přeplánovat STOPA model tiers |
+| 58. Mistral Small 4 | 119B, Apache 2.0, reasoning+multimodal+agentic coding unifikovaný model | Open-weight alternativa k Claude pro lokální nasazení |
 | 35. CC v2.1.85 | /compact fix, deniedMcpServers fix, timestamp markery, MCP OAuth | Informativní |
 | 5. Haiku 3 retire | 2026-04-19 deadline | Audit před deadline |
 | 18. Gemini 3.1 Pro | 77.1% ARC-AGI-2, $2/$12 | Multi-provider srovnání |
@@ -37,8 +41,9 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 ### Video & Diffusion (test1/NG-ROBOT relevance)
 | Item | Detail |
 |------|--------|
+| 57. Consistency-Preserving Video Gen (arXiv:2602.15287) | Joint-sampling FM: batch diversity + temporal consistency — relevantní pro test1 |
 | 29p. PyTorch 2.11 | FlexAttention + FA4 — test1 dependency |
-| 29q. Modular Diffusers 0.37.0+ | Composable pipeline — test1 refactor |
+| 29q. Modular Diffusers 0.37.1 | Patch release Mar 25. Composable pipeline — test1 refactor |
 | 29b. Foveated Diffusion | Spatially adaptive token alloc — video efficiency |
 | 29c. FSVideo | 14B DIT, "order of magnitude faster" — Pyramid Flow alt |
 | 26. 3× flow matching papers | FastLightGen, Warm-Start FM, Transition FM |
@@ -48,6 +53,8 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 ### Agent/Tool Research
 | Item | Detail |
 |------|--------|
+| 56. SMART (arXiv:2502.11435) | Tool Overuse Mitigation — agent self-awareness redukuje zbytečné tool calls. Inspirace pro STOPA light tier. |
+| 58. Tool Use Survey (arXiv:2603.22862) | Single→multi-tool orchestration, 6 dimenzí: planning, training, safety, efficiency, capability, benchmarks |
 | 49w. Message Batches 300k | Opus 4.6/Sonnet 4.6 — beta header `output-300k-2026-03-24`. Kandidát: /farm tier |
 | 50. EFlow (arXiv:2603.27086) | Fast few-step video DiT, Gated Local-Global Attention — test1 alternativa k Pyramid Flow. Čekat na code release |
 | 45. LangChain Deep Agents | Agent harness: planning (write_todos), filesystem offload, subagent spawning, persistent memory. GitHub: langchain-ai/deepagents |
@@ -87,6 +94,7 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
 ## Scan History
 
+### 2026-04-03 — full | Searches: 13 | Fetches: 2 | Items: 5 action, 4 watch, 3 info
 ### 2026-04-01 — full | Searches: 10 | Fetches: 2 | Items: 5 action, 4 watch, 4 info
 ### 2026-03-31 — full | Searches: 14 | Fetches: 3 | Items: 3 action, 4 watch, 4 info
 ### 2026-03-29 — full (PyTorch 2.11, Modular Diffusers, hf papers CLI)

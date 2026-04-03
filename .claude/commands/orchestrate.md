@@ -495,17 +495,18 @@ Based on scout results:
    - New but repeatable → create skill via `/skill-generator`, then use it
    - One-off complex → delegate to Agent (general-purpose)
    - One-off simple → do directly
-4. **Assign waves** (topological sort):
+4. **Tool Necessity Check** (SMART gate): For each subtask, ask: "Is this answerable from context already loaded or parametric knowledge?" If yes → resolve directly without spawning an agent or tool call. If no → explain what external info is needed. This eliminates ~20% of unnecessary agent spawns, especially in light tier. Ref: arXiv:2502.11435
+5. **Assign waves** (topological sort):
    - Subtask without dependencies → Wave 1
    - Subtask with dependencies → Wave = max(dependency waves) + 1
    - Two subtasks modifying the same file → CANNOT be in the same wave
-5. **Assess risks** — what could go wrong?
-5b. **Rank by leverage** (Meadows heuristic): when multiple subtasks are independent and could go in Wave 1, prioritize by structural depth — not by ease:
+6. **Assess risks** — what could go wrong?
+6b. **Rank by leverage** (Meadows heuristic): when multiple subtasks are independent and could go in Wave 1, prioritize by structural depth — not by ease:
    - Paradigm (#1-3): changes to goals, incentives, information architecture → do FIRST (unlocks everything else)
    - Rules (#4-6): changes to system rules, access control, data flows → do before parameter tweaks
    - Parameters (#10-12): config changes, threshold tweaks, cosmetic → do LAST (or skip if structure handles it)
    - Heuristic: "a 2-line change to who sees what data (#6) often makes five other subtasks unnecessary"
-6. **Define acceptance criteria** — each subtask MUST have a verifiable criterion:
+7. **Define acceptance criteria** — each subtask MUST have a verifiable criterion:
    - Criterion = specific, testable pass/fail statement (not "works correctly")
    - Good: "API returns 200 with valid token and 401 without"
    - Good: "File parses without errors on test-data.json"
@@ -1471,3 +1472,5 @@ Before making orchestration decisions, check yourself against these traps:
 9. **Create skills for new patterns** — if you do it twice, it should be a skill
 10. **Ask the user when uncertain** — don't guess on ambiguous requirements
 11. **Report cost at close** — always include budget summary in Phase 6
+12. **Tool Necessity Check (SMART gate)** — before every agent spawn or tool call, ask: "Is this answerable from context already loaded?" If yes, resolve directly. Especially in light tier — default to direct resolution.
+13. **Verification is the bottleneck, not generation** — allocate proportional effort to proving correctness. Code generation is fast; the critical path is testing and validation.
