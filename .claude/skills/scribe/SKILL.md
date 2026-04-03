@@ -34,7 +34,7 @@ You record facts neutrally and accurately. You do NOT judge or execute.
 ## Input
 
 Parse `$ARGUMENTS`:
-- **"decision"** → Record a decision to decisions.md
+- **"decision"** → Record a decision as ADR file in `docs/decisions/`
 - **"learning"** → Record a learning to `learnings/` directory (per-file YAML format)
 - **"state"** → Update task state in state.md
 - **"complete"** → Mark current task as complete, archive to history
@@ -42,16 +42,35 @@ Parse `$ARGUMENTS`:
 
 ## Recording Formats
 
-### Decision Entry (decisions.md)
+### Decision Entry (ADR in docs/decisions/)
+
+1. Read `docs/decisions/` index in `.claude/memory/decisions.md` to find next ADR number
+2. Create `docs/decisions/NNNN-<slug>.md` using `docs/decisions/_template.md` format:
 
 ```markdown
-### <DATE> — <Decision Title>
-- **Context**: <what situation led to this decision>
-- **Options considered**: <what alternatives were evaluated>
-- **Decision**: <what was decided>
-- **Rationale**: <why this option was chosen>
-- **Decided by**: <orchestrator / user / critic>
+---
+date: YYYY-MM-DD
+status: DONE | IMPLEMENTING | RESEARCH | QUEUED | PARKED
+component: orchestration | skill | hook | memory | pipeline | general
+tags: []
+---
+
+# NNNN — Title
+
+## Context
+Why this decision was needed.
+
+## Decision
+What was decided and key details.
+
+## Alternatives Considered
+Other approaches evaluated and why rejected.
+
+## Consequences
+What changes, follow-up work, revisit triggers.
 ```
+
+3. Add entry to the index table in `.claude/memory/decisions.md`
 
 ### Learning Entry (learnings/ directory)
 
@@ -205,7 +224,7 @@ Triggered automatically when any memory file exceeds 500 lines (circuit breaker 
 3d. **Contradiction scan** — for each component group, compare all active (non-superseded) learnings' summaries pairwise. Flag pairs where summaries recommend opposing actions. Report: "N potential contradictions found" with file pairs listed.
 4. **Staleness check** — list all files in `learnings/`. Any file with `date:` older than 90 days: verify it's still accurate. If outdated, update or delete. Report: "N learnings checked, M stale, K updated/removed."
 4b. **Counter health check (ACE-inspired)** — scan `learnings/` files for `uses:` and `harmful_uses:` fields. Flag as "problematic" any entry where `harmful_uses >= uses` and `harmful_uses > 0`. Flag as "high-performing" any entry where `uses > 5` and `harmful_uses < 2`. Report: "N entries with counters, M high-performing, K problematic." Suggest removal of problematic entries to user.
-5. **Archive old decisions** — if decisions.md has >10 entries, move the oldest (by date) to `decisions-archive.md`. Keep newest 10.
+5. **Decision index maintenance** — decisions.md is now an index pointing to `docs/decisions/` ADR files. No archiving needed (each ADR is a separate file).
 5. **Prune state history** — keep last 5 completed tasks in state.md Task History. Delete older entries (they're derivable from git).
 6. **Consolidate patterns** — group related learnings under shared headers (e.g., "Cost Management" for budget-related patterns)
 7. **Archive budget history** — if budget.md History table has >10 rows, move oldest to `budget-archive.md`. Keep newest 10.
