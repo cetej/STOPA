@@ -23,6 +23,11 @@ Inspired by Agent0 (AIMING Lab) + HyperAgents (Meta, arXiv:2603.19461): dual-age
 co-evolution where a Curriculum agent generates increasingly difficult eval cases and
 an Executor agent improves the target skill to handle them.
 
+**Model empathy principle** (AutoAgent-validated): Same-model pairings (meta=Claude, task=Claude)
+outperform cross-model pairings because the meta-agent writes harnesses the inner model
+actually understands — shared weights enable implicit reasoning about the task agent's
+behavior. Always prefer same-model-family for Curriculum and Executor agents.
+
 **v2 additions (HyperAgents-inspired):**
 - `meta:true` — metacognitive self-modification (tune own parameters + create new strategies). See `meta-mode.md`.
 - Heterogeneous sub-agents — Curriculum (Haiku) and Executor (Sonnet) run as separate agents with specialized prompts

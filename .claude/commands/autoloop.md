@@ -253,6 +253,20 @@ If pre-commit hook blocks: fix issue and retry (max 2 attempts), then log as `ho
 
 ### Step 4: Verify (mechanical only)
 
+**Spot-check gate** (AutoAgent-inspired): If eval suite has **5+ cases** (metric mode with multi-case verify, or file mode with multiple scored dimensions), run a random subset of 2-3 cases first. Only proceed to full eval if spot-check passes. This saves compute on obviously broken changes — especially valuable in longer runs (10+ iterations).
+
+```
+IF eval_cases >= 5:
+    spot_sample = random.sample(eval_cases, min(3, len(eval_cases)))
+    spot_result = run_verify(spot_sample)
+    IF spot_result regressed vs baseline:
+        STATUS = "discard"  # Skip full eval, save time
+        Log: "⚡ Spot-check failed on {len(spot_sample)} cases — skipping full eval"
+        GOTO Step 6
+    ELSE:
+        proceed to full eval below
+```
+
 **Metric mode:** Run the verify command, extract the metric number.
 **File mode:** Run the built-in scorer (see Scoring section).
 
@@ -416,6 +430,12 @@ Track secondary signals alongside the primary metric. Check after every "keep" i
 | **Complexity creep** | `wc -l` of target files | >30% growth from baseline | `baseline_loc` recorded in Phase 0, compare each iteration |
 | **Churn cycling** | Last 3 iterations alternate keep→revert→keep on similar changes | 3 consecutive flip-flops | Parse TSV for status pattern + `git diff` similarity |
 | **Metric spike** | Delta suddenly >3× the running average delta | Anomalous jump | Compare current delta to mean of prior positive deltas |
+
+### Overfitting guard (AutoAgent-inspired)
+
+After every "keep", before proceeding, ask: **"If this exact eval case disappeared, would this change still be a worthwhile improvement?"**
+- If YES → genuine improvement, proceed
+- If NO → flag as potential overfitting, log `divergence` status, warn user
 
 ### On divergence detected
 

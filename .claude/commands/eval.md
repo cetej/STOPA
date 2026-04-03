@@ -1,7 +1,7 @@
 ---
 name: eval
 description: Use when grading or replaying harness traces to measure quality drift, detect regressions, or compare harness configurations. Trigger on 'eval trace', 'grade harness', 'replay run', 'harness drift'. Do NOT use for one-off verification (/verify) or writing tests (/tdd).
-argument-hint: "[trace-file | harness-name | --list] [--replay] [--diff trace1 trace2] [--baseline] [--optim [run_id | --list | --latest | --diff run1 run2]] [--experiments [list | top-k N | pareto run_id | diff run1 run2]]"
+argument-hint: "[trace-file | harness-name | --list] [--replay] [--diff trace1 trace2] [--baseline] [--optim [run_id | --list | --latest | --diff run1 run2]] [--experiments [list | top-k N | pareto run_id | diff run1 run2]] [--meta [target]]"
 tags: [testing, devops]
 user-invocable: true
 allowed-tools: Read, Write, Glob, Grep, Bash, Agent
@@ -411,6 +411,98 @@ Experiment Diff: run1 vs run2
   Top approaches unique to run1: simplified scoring, error handling
   Top approaches unique to run2: parallel tests, caching
 ```
+
+---
+
+## Mode: --meta (cross-run trace synthesis)
+
+AutoAgent-inspired: synthesize meta-patterns across ALL optimization runs. This is the "persistent meta-agent memory" that AutoAgent builds implicitly — here we build it analytically from trace data.
+
+**Purpose:** Answer "What have I learned across all my optimization runs?" instead of grading individual runs.
+
+### Sub-modes
+
+- **`--meta`**: Analyze all runs in `.traces/`
+- **`--meta <target>`**: Analyze only runs targeting a specific file/skill
+
+### Step 1: Collect all optimization runs
+
+```bash
+ls -d .traces/*/ 2>/dev/null
+```
+
+For each run, parse `iterations.jsonl` and `proposals.jsonl` to extract:
+- Skill type, target, date, iteration count, final metric, baseline metric
+- All hypotheses with their status (keep/discard/crash)
+- All `trace_evidence` fields from proposals
+- Strategy types used (from proposals or self-evolve curriculum)
+
+### Step 2: Strategy effectiveness analysis
+
+Group all hypotheses by type/approach (extract from hypothesis text, categorize):
+
+| Strategy category | Attempts | Keeps | Keep rate | Avg delta when kept |
+|-------------------|----------|-------|-----------|---------------------|
+| Prompt refinement | 12 | 3 | 25% | +0.8 |
+| Tool addition | 5 | 4 | 80% | +2.1 |
+| Simplification | 8 | 6 | 75% | +1.5 |
+| Error handling | 4 | 1 | 25% | +0.3 |
+
+**Top 3 successful strategies** — highest keep_rate with ≥3 attempts
+**Top 3 failure modes** — lowest keep_rate with ≥3 attempts
+
+### Step 3: Target fragility analysis
+
+Group runs by target file:
+
+| Target | Runs | Total iters | Best improvement | Crashes | Fragility |
+|--------|------|-------------|-----------------|---------|-----------|
+| critic/SKILL.md | 3 | 28 | +8.2 | 0 | low |
+| scout/SKILL.md | 2 | 15 | +3.1 | 4 | high |
+
+**Fragility** = crash_rate + revert_rate. High fragility = target resists optimization.
+
+### Step 4: Temporal patterns
+
+- **Improvement rate over time**: Are later runs more efficient than earlier ones? (convergence_efficiency trend)
+- **Trace utilization trend**: Is proposal_quality improving across runs? (learning to use traces better)
+- **Diminishing returns**: Are final deltas shrinking for same targets? (approaching optimum)
+
+### Step 5: Meta report
+
+```
+## Cross-Run Meta-Analysis
+Runs analyzed: 8 (autoloop: 4, autoresearch: 2, self-evolve: 2)
+Period: 2026-03-15 → 2026-04-03
+Total iterations: 62 | Total keeps: 28 (45%) | Total crashes: 3 (5%)
+
+### What Works
+1. Tool addition (80% keep rate, avg +2.1) — highest-leverage strategy
+2. Simplification (75% keep rate, avg +1.5) — reliable, low-risk
+3. Trace-informed proposals 2.8× more effective than blind proposals
+
+### What Fails
+1. Prompt refinement alone (25% keep rate) — diminishing returns after 2-3 edits
+2. Error handling additions (25% keep rate) — usually adds complexity without metric gain
+3. Proposals without trace_evidence: 18% keep rate vs 52% with evidence
+
+### Target Health
+- critic/SKILL.md: well-optimized, approaching plateau (last 2 runs: <1% improvement)
+- scout/SKILL.md: fragile — 27% crash rate, needs structural refactor before optimization
+
+### Recommendations
+- For future autoloop runs: prioritize tool addition and simplification over prompt refinement
+- scout needs /systematic-debugging before more /autoloop runs
+- Consider running /self-evolve on critic (high baseline, good for adversarial hardening)
+```
+
+### Step 6: Optional — save to learnings
+
+If meta-analysis reveals a strong, non-obvious pattern (e.g., "prompt refinement never works on files >200 LOC"), offer to save as a learning:
+
+> "Save this finding as a learning for future optimization runs? (yes/no)"
+
+If yes: write to `.claude/memory/learnings/` with type `best_practice`, source `auto_pattern`, tags matching the target components.
 
 ---
 

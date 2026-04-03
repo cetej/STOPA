@@ -284,6 +284,18 @@ git commit -m "experiment(<hypothesis-name>): <one-sentence description>"
 
 ### Step 5: Run eval
 
+**Spot-check gate** (AutoAgent-inspired): If the eval script runs multiple test cases (e.g., iterates over a dataset), and total eval time exceeded 30s at baseline, run on a random subset of 2-3 cases first. Only proceed to full eval if spot-check doesn't regress.
+
+```
+IF baseline_eval_time > 30s AND eval has identifiable cases:
+    Run eval on 2-3 random cases → spot_metric
+    IF spot_metric regressed vs best-so-far:
+        STATUS = "discard"  # Skip full eval
+        Log: "⚡ Spot-check failed — skipping full eval (saved ~{baseline_eval_time}s)"
+        GOTO Step 6
+```
+
+Full eval:
 ```bash
 metric=$(<eval_command> 2>&1 | grep -oP '[\d.]+' | tail -1)
 ```
@@ -318,6 +330,8 @@ After every "keep", check:
 | **Churn cycling** | 3 consecutive keep→revert→keep on similar diffs | Flag |
 | **Metric spike** | Delta >3× running average of positive deltas | Flag |
 | **Prediction mismatch** | Result contradicts EXPECTED EFFECT from Step 2 | Flag |
+
+**Overfitting guard** (AutoAgent-inspired): After every "keep", ask: "If this exact eval case disappeared, would this change still be a worthwhile improvement?" If NO → flag as overfitting, log `divergence`.
 
 On flag: pause, print warning, ask user to confirm.
 
