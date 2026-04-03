@@ -34,6 +34,7 @@ Specialized skills for specific workflows:
 - `/eval` — grade and replay harness JSONL traces, detect regressions, compare harness configurations
 - `/build-project` — end-to-end autonomous project builder from requirements
 - `/fetch` — clean URL reader via Jina Reader (no API key, no browser needed)
+- `/radar` — proactive tool discovery & evaluation (auto-scan 2x/day + manual URL input)
 
 ## Tier 3 — Advanced (only on explicit request)
 Generative/creative tools and meta-skills:
@@ -62,7 +63,7 @@ Every skill has `tags:` in frontmatter. Use tags to find skills by capability in
 | Need | Tags to search | Top matches |
 |------|---------------|-------------|
 | Code quality | `code-quality`, `review` | critic, verify, tdd, self-evolve, autoreason, sweep |
-| Research | `research`, `osint` | deepresearch, scout, liveprompt, watch |
+| Research | `research`, `osint` | deepresearch, scout, liveprompt, watch, radar |
 | Testing | `testing` | verify, harness, eval, tdd, scenario |
 | Debugging | `debugging` | systematic-debugging, incident-runbook |
 | Session mgmt | `session`, `memory` | checkpoint, handoff, compact, scribe |
