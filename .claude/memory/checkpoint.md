@@ -1,68 +1,52 @@
 # Session Checkpoint
 
-**Saved**: 2026-04-01 (auto-saved (session end))
-**Task**: none
+**Saved**: 2026-04-03
+**Task**: Skill description quality — follow-up from Hassid/Anthropic audit
 **Branch**: main
-**Last commit**: `3d8a96d` feat: Decision Precedent Gate + Quality Gates system
+**Last commit**: `a5dc11b` feat: Skill description audit — routing exclusions, conflict resolution, Anthropic alignment
 
 ---
 
-## Session Activity
+## What Was Done (2026-04-03)
 
-Session: 130 file edits, 44 agent spawns, 0 skill calls. Skills: autoloop, fetch, watch
-Duration: ~6649 min
+1. **Hassid post audit** — ověřena tvrzení o Claude Skills (header-only load: pravda, open standard: nepravda, token savings: neověřitelné)
+2. **Skill description opravy** — 24 souborů (12 skill párů): přidány routing exclusions místo slabých usage constraints
+3. **Anthropic skill-creator analýza** — identifikovány 3 gapy: description optimizer, 500-line limit, ALWAYS/NEVER refactoring
+4. **Learnings zapsány** — anthropic-skill-creator-patterns.md, description-optimizer-plan.md
 
-## Files Touched
+## What Remains — 3 follow-up tasks
 
-| File | Operations | Date |
-|------|-----------|------|
-| settings.json | 6 edits | 2026-04-01 |
-| news.md | 6 edits | 2026-04-01 |
-| correction-tracker.py | 6 edits | 2026-04-01 |
-| session-summary.sh | 5 edits | 2026-04-01 |
-| verify-sweep.py | 4 edits | 2026-04-01 |
-| SKILL.md | 4 edits | 2026-04-01 |
-| file-read-dedup.py | 3 edits | 2026-04-01 |
-| auto-scribe.py | 3 edits | 2026-04-01 |
-| memory-brief.sh | 2 edits | 2026-04-01 |
-| critical-patterns.md | 2 edits | 2026-04-01 |
+### Task 1: Refaktorovat dlouhé skills (500-line limit)
+5 skills překračuje Anthropic doporučený limit:
+- **orchestrate**: 1476 řádků (3× přes limit!) → rozdělit do SKILL.md + references/
+- **critic**: 637 → extrahovat gotchas/review-patterns do references/
+- **autoloop**: 600 → extrahovat tree-mode/meta-mode docs
+- **autoresearch**: 599 → extrahovat experiment patterns
+- **eval**: 516 → mírně přes, nízká priorita
 
-## Key Results
+Postup: zachovat SKILL.md <500 řádků, extrahovat sekce do `references/` s pointery.
 
-_No commits this session_
+### Task 2: ALWAYS/NEVER refactoring
+50+ instancí all-caps ALWAYS/NEVER/MUST across skills. Anthropic guideline: "yellow flag — explain why instead."
+Top offenders: orchestrate (14), critic (5), tdd (4), autoloop (3), peer-review (3).
+Bezpečnostní pravidla (browse, project-init, sweep) ponechat — tam je caps oprávněný.
 
-## Errors & Corrections
-
-- [correction] How to Break Your Cache (Don't Do These)
-- [correction] Anthropic's engineers don't write prompts like you and me
-- [correction] No, jen musím říct, že přepnutí na sonnet pak končilo naprostou desilusí
-- [correction] If you're trying to control output length in any LLM application, stop using adj
-- [frustration] [frustration] wtf tohle nefunguje sakra
-
-## Learnings Captured
-
-learnings_this_session: 4
-  - 2026-04-01-autocompact-threshold
-  - 2026-04-01-gsd2-error-classification
-  - 2026-04-01-image-cache-invalidation
-  - 2026-04-01-sonnet46-thinking-effort-breaking-change
-
-## Workflow Decisions
-
-Most recent: YYYY-MM-DD — Detail: <název> (pokud potřeba)
-_(Full trail: .claude/memory/decisions.md)_
-
-## What Remains
-
-_No pending subtasks detected in state.md_
+### Task 3: Description optimizer implementace
+Plán v `.claude/memory/learnings/2026-04-03-description-optimizer-plan.md`.
+Option B doporučeno: custom STOPA optimizer s conflict pair awareness.
+Vstup: skill name + known conflict pairs. Výstup: optimalizovaný description s měřeným trigger/non-trigger rate.
 
 ---
 
 ## Resume Prompt
 
-> **Task**: none
+> **Task**: Pokračuj ve vylepšování STOPA skills — 3 follow-up úkoly z auditu:
 >
-> **Context**: Last commit `3d8a96d` (feat: Decision Precedent Gate + Quality Gates system). Branch: main.
-> Session had 130 edits, 44 agents, 0 skill calls, 0 errors.
+> 1. **Refaktorovat orchestrate** (1476→<500 řádků) — extrahovat do references/. Pak critic (637), autoloop (600), autoresearch (599).
+> 2. **ALWAYS/NEVER refactoring** — přeformulovat 50+ instancí s vysvětlením "proč" (vynechat bezpečnostní pravidla).
+> 3. **Description optimizer** — implementovat dle plánu v learnings/2026-04-03-description-optimizer-plan.md.
+>
+> **Kontext**: Commit `a5dc11b`. Přečti si learnings/2026-04-03-anthropic-skill-creator-patterns.md pro detaily.
+> Zdroj auditu: Hassid post (Twitter) + github.com/anthropics/skills/tree/main/skills/skill-creator.
 
 
