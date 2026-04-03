@@ -2,7 +2,7 @@
 
 Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
-## Last Scan: 2026-04-03 (full) | Next: ~2026-04-10
+## Last Scan: 2026-04-03 #2 (full) | Next: ~2026-04-10
 
 ## Action Items
 
@@ -14,6 +14,8 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 | 51 | CC v2.1.90 — `thinking.display: "omitted"` | DONE | Referováno v orchestrate SKILL.md:1064. SMART gate + testing bottleneck princip přidány jako Rule #12 a #13. |
 | 52 | Anthropic API — web search/fetch GA | DONE | Audit 2026-04-03: STOPA čistá. NG-ROBOT používá `web_search_20260209` (GA) — žádné beta headery. ADOBE čistá. |
 | 53 | CC v2.1.90 — `CLAUDE_CODE_PLUGIN_KEEP_MARKETPLACE_ON_FAILURE` | DONE | Dokumentováno v settings-patch-2026-04-01.md sekce 5. |
+| 59 | CC v2.1.91 — `disableSkillShellExecution` setting | MED | Nové nastavení blokující shell v skills/commands. Ověřit: ovlivňuje STOPA skills s inline shell? Audit `.claude/skills/` |
+| 60 | Claude Sonnet 4.6 — GA model s 1M context | MED | Aktualizovat model tiers v CLAUDE.md + orchestrate SKILL.md (Sonnet 4.5 → 4.6 kde relevantní) |
 | 42 | CC Voice Mode (`/voice`) — Czech included | MED | Otestovat až se rolling out dostane k účtu; 20 jazyků vč. češtiny |
 | 44 | CC HTTP hooks (POST JSON → URL) | PARKED | Adopt při remote agents; pro teď nepotřebujeme |
 | 29t | Bootleg SSL (arXiv:2603.15553) | LOW | Sledovat pro ORAKULUM/ZACHVEV pokud Chronos-2 nestačí |
@@ -32,6 +34,7 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 | Item | Detail | Trigger |
 |------|--------|---------|
 | 40. Mythos/Capybara | **Training dokončen, piloting s early customers** (2026-04-03). "Nejschopnější model ever." Step change coding+reasoning. | GA datum → přeplánovat STOPA model tiers |
+| 61. Gemma 4 | Google DeepMind, 2026-04-02. 4 modely (2B, 4B, 26B MoE, 31B), Apache 2.0, vision+reasoning. Simon Willison covered. | Open-weight alternativa — zvážit pro levné lokální inference tiery |
 | 58. Mistral Small 4 | 119B, Apache 2.0, reasoning+multimodal+agentic coding unifikovaný model | Open-weight alternativa k Claude pro lokální nasazení |
 | 35. CC v2.1.85 | /compact fix, deniedMcpServers fix, timestamp markery, MCP OAuth | Informativní |
 | 5. Haiku 3 retire | 2026-04-19 deadline | Audit před deadline |
@@ -67,6 +70,8 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 ### Papers (metodologie)
 | Item | Relevance |
 |------|-----------|
+| 62. Hi-CoT (arXiv:2604.00130) | Hierarchical CoT: planning → execution v substepech. Inspirace pro orchestrate hierarchické decomposition. |
+| 63. Agentic Tool Use (arXiv:2604.00835) | 3 paradigmata: prompting plug-and-play, supervised, reward-driven. Taxonomie pro STOPA tool strategy. |
 | 46. Bootstrapping Coding Agents (arXiv:2603.17399) | "Specification is the program" — agent re-impl sám sebe z 926-slov spec. IEEE Software. |
 | 47. Flowception (arXiv:2512.11438 v2, 2026-03-22) | Video gen: frame insertion + denoising interleave, 3× FLOPs vs full-seq. Pro test1. |
 | 29n. SWAP | Stepwise CoT penalization → cost reduction pro Opus calls |
@@ -94,6 +99,7 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
 ## Scan History
 
+### 2026-04-03 #2 — full | Searches: 9 | Fetches: 2 | Items: 2 action, 2 watch, 3 info
 ### 2026-04-03 — full | Searches: 13 | Fetches: 2 | Items: 5 action, 4 watch, 3 info
 ### 2026-04-01 — full | Searches: 10 | Fetches: 2 | Items: 5 action, 4 watch, 4 info
 ### 2026-03-31 — full | Searches: 14 | Fetches: 3 | Items: 3 action, 4 watch, 4 info
