@@ -4,12 +4,12 @@ Tracked findings from `/radar` scans and manual evaluations.
 Archived: `radar-archive.md` (when >400 lines)
 
 ## Stats
-Last scan: 2026-04-03 (auto) | Mode: proactive scan | Total: 6 tools | 🔴 1 | 🟡 4 | 🟢 1
+Last scan: 2026-04-03 (evening) | Mode: proactive scan | Total: 11 tools | 🔴 1 | 🟡 9 | 🟢 1
 
 ## Active Research (🔴)
 | Tool | Category | Score | Source | Captured | Status | Project fit |
 |------|----------|-------|--------|----------|--------|-------------|
-| [claude-code-sdk-python](https://github.com/anthropics/claude-code-sdk-python) | SDK / orchestration | 8/10 | manual | 2026-04-03 | deepresearch pending | STOPA — programmatic CC control |
+| [claude-code-sdk-python](https://github.com/anthropics/claude-code-sdk-python) | SDK / orchestration | 8/10 | manual | 2026-04-03 | **DONE** — [report](../outputs/radar-claude-code-sdk-python-2026-04-03.md) | STOPA — programmatic CC control, scheduled agents, budget per subagent |
 
 ## Watch List (🟡)
 | Tool | Category | Score | Source | Captured | Notes |
@@ -18,6 +18,11 @@ Last scan: 2026-04-03 (auto) | Mode: proactive scan | Total: 6 tools | 🔴 1 | 
 | [LiteParse](https://github.com/run-llama/liteparse) | PDF parsing | 6/10 | scan/MarkTechPost | 2026-04-03 | TypeScript, local-first, spatial PDF→LLM. Pro NG-ROBOT |
 | [Junie CLI](https://blog.jetbrains.com/junie/) | Coding agent | 5/10 | scan/JetBrains | 2026-04-03 | Beta, LLM-agnostic, MCP support. Competitor analysis pro CC |
 | [Google ADK TS](https://github.com/google/adk-js) | Agent framework | 5/10 | scan/Google | 2026-04-03 | Multi-agent, type-safe, MCP toolbox. Google ecosystem |
+| [Strands Agents](https://github.com/strands-agents) | Agent SDK | 6/10 | scan/AWS | 2026-04-03 | AWS open-source, Python+TS, MCP native, multi-agent (Graph/Swarm/Workflow) |
+| [Google Colab MCP](https://github.com/googlecolab/colab-mcp) | MCP server | 6/10 | scan/Google | 2026-04-03 | Agent-to-Colab notebook control, Python, uvx install |
+| [Gemini CLI](https://github.com/google-gemini/gemini-cli) | Coding agent | 6/10 | scan/Google | 2026-04-03 | Apache 2.0, ReAct loop, MCP+extensions, Jules integration. CC competitor |
+| [Mastra](https://github.com/mastra-ai/mastra) | Agent framework | 5/10 | scan/HN | 2026-04-03 | TS-first, 22.6k★, Apache 2.0, RAG+memory+eval built-in |
+| [MCPCore](https://mcpcore.io/) | MCP hosting | 5/10 | scan/PH | 2026-04-03 | Managed MCP server infra (auth, secrets, logs, AES-256) |
 
 ## Archive (🟢 — last 30, older → radar-archive.md)
 | Tool | Score | Captured | Why low |
@@ -25,6 +30,15 @@ Last scan: 2026-04-03 (auto) | Mode: proactive scan | Total: 6 tools | 🔴 1 | 
 | [VoltAgent](https://voltagent.dev/) | 4/10 | 2026-04-03 | TS agent framework, nic unikátního vs LangGraph/ADK, 7.2k★ |
 
 ## Scan Log
+### 2026-04-03 evening — proactive scan #2 | Searches: 10 | Fetches: 5 | Found: 5 new
+- [Strands Agents](https://github.com/strands-agents) — 6/10 🟡 — AWS open-source agent SDK, Python+TS, MCP native, Graph/Swarm/Workflow patterns
+- [Google Colab MCP](https://github.com/googlecolab/colab-mcp) — 6/10 🟡 — MCP server pro agent→Colab notebook control, Google official
+- [Gemini CLI](https://github.com/google-gemini/gemini-cli) — 6/10 🟡 — Google open-source terminal agent, ReAct, MCP, Jules. CC competitor
+- [Mastra](https://github.com/mastra-ai/mastra) — 5/10 🟡 — TS agent framework, 22.6k★, RAG+memory+eval+MCP
+- [MCPCore](https://mcpcore.io/) — 5/10 🟡 — Managed MCP server hosting (auth, secrets, AES-256, observability)
+- Skipped (already tracked): FastMCP, LiteParse, Junie CLI, Google ADK TS, VoltAgent
+- Skipped (not tools): OpenAI Responses API updates (→ /watch), Delta (Jan 2026, niche)
+
 ### 2026-04-03 18:00 — proactive scan | Searches: 10 | Fetches: 5 | Found: 5 new
 - [FastMCP](https://github.com/jlowin/fastmcp) — 7/10 🟡 — Python MCP server framework, 24.2k★, v3.2.0, 1M dl/day
 - [LiteParse](https://github.com/run-llama/liteparse) — 6/10 🟡 — TypeScript local PDF parser s spatial awareness, LlamaIndex
