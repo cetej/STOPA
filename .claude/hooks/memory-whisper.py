@@ -321,6 +321,7 @@ def search_learnings(keywords: list[str], index: list[dict]) -> list[dict]:
             confidence = compute_confidence("learning", entry.get("severity", ""), entry.get("date", ""))
             matches.append({
                 "source": "learning",
+                "file": entry.get("file", ""),  # track filename for uses increment
                 "text": display,
                 "date": entry.get("date", ""),
                 "score": score,
@@ -505,6 +506,69 @@ def search_critical_patterns(keywords: list[str]) -> list[dict]:
     return sorted(matches, key=lambda x: -x["score"])
 
 
+def increment_learning_uses(filenames: list[str]) -> None:
+    """Increment uses: counter in YAML frontmatter of retrieved learning files.
+
+    This is the critical feedback loop: tracks which learnings actually get surfaced,
+    enabling graduation (uses >= 10 → critical-patterns) and pruning (unused → stale).
+    Inspired by Hebbian learning: "retrieved together, strengthened together".
+    """
+    if not filenames or not LEARNINGS_DIR.exists():
+        return
+
+    for fname in filenames:
+        fpath = LEARNINGS_DIR / fname
+        if not fpath.exists():
+            continue
+        try:
+            content = fpath.read_text(encoding="utf-8", errors="replace")
+            # Find and increment uses: field
+            uses_match = re.search(r"^uses:\s*(\d+)", content, re.MULTILINE)
+            if uses_match:
+                old_val = int(uses_match.group(1))
+                new_val = old_val + 1
+                new_content = content[:uses_match.start()] + f"uses: {new_val}" + content[uses_match.end():]
+            else:
+                # Insert uses: 1 after the last frontmatter field (before closing ---)
+                # Find second --- that closes frontmatter
+                first = content.find("---")
+                if first == -1:
+                    continue
+                second = content.find("---", first + 3)
+                if second == -1:
+                    continue
+                new_content = content[:second] + "uses: 1\n" + content[second:]
+                new_val = 1
+
+            fpath.write_text(new_content, encoding="utf-8")
+        except OSError:
+            continue
+
+
+def log_retrieval_event(prompt_keywords: list[str], selected_matches: list[dict]) -> None:
+    """Log retrieval event to sessions.jsonl for analytics.
+
+    Tracks: which keywords triggered which learnings, enabling
+    co-occurrence analysis and retrieval effectiveness measurement.
+    """
+    log_path = MEMORY_DIR / "sessions.jsonl"
+    try:
+        record = {
+            "ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
+            "event": "memory_retrieval",
+            "keywords": prompt_keywords[:5],
+            "matches": [
+                {"source": m.get("source", ""), "file": m.get("file", ""), "score": m.get("effective_score", 0)}
+                for m in selected_matches[:10]
+            ],
+            "match_count": len(selected_matches),
+        }
+        with open(log_path, "a", encoding="utf-8") as f:
+            f.write(json.dumps(record, ensure_ascii=False) + "\n")
+    except OSError:
+        pass
+
+
 def format_snippet(match: dict) -> str:
     """Format a match into a concise snippet line."""
     source_label = {
@@ -572,6 +636,18 @@ def main():
             break
         selected.append(snippet)
         tokens_used += snippet_tokens
+
+    # Phase 1a: Track which learnings were surfaced (Hebbian feedback loop)
+    surfaced_learning_files = [
+        m.get("file") for m in all_matches
+        if m.get("source") == "learning" and m.get("file")
+        and format_snippet(m) in selected
+    ]
+    if surfaced_learning_files:
+        increment_learning_uses(surfaced_learning_files)
+
+    # Log retrieval event for co-occurrence analytics
+    log_retrieval_event(keywords, [m for m in all_matches if format_snippet(m) in selected])
 
     output = "\n".join(selected)
     print(json.dumps({"additionalContext": output}))

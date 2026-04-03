@@ -19,6 +19,8 @@ Archived decisions: `decisions-archive.md`
 | 0010 | 2026-03-28 | [Workflow optimization roadmap](../../docs/decisions/0010-workflow-optimization-roadmap.md) | IMPLEMENTING |
 | 0011 | 2026-03-28 | [Precedent system](../../docs/decisions/0011-precedent-system.md) | DONE |
 
+| 0012 | 2026-04-03 | [Associative memory upgrade (Hippocampus)](../../docs/decisions/0012-associative-memory-upgrade.md) | IMPLEMENTING |
+
 ## Creating new decisions
 
-Use `/scribe` or create manually in `docs/decisions/` using `_template.md`. Next number: **0012**.
+Use `/scribe` or create manually in `docs/decisions/` using `_template.md`. Next number: **0013**.

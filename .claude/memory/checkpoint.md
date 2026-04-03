@@ -1,52 +1,57 @@
 # Session Checkpoint
 
 **Saved**: 2026-04-03
-**Task**: Skill description quality — follow-up from Hassid/Anthropic audit
+**Task**: Hippocampus integration — asociativní paměť (ADR 0012)
 **Branch**: main
-**Last commit**: `a5dc11b` feat: Skill description audit — routing exclusions, conflict resolution, Anthropic alignment
 
----
+## Co je hotovo
 
-## What Was Done (2026-04-03)
+### Fáze 1: "Živý systém" ✓
+- **1a** `memory-whisper.py` — auto-increment `uses:` při retrieval. Ověřeno: 13 learnings dostalo uses=1 z jednoho test promptu.
+- **1b** `critic.md` — instrukce pro `harmful_uses` feedback loop (After Review sekce, bod 7).
+- **1c** `learning-lifecycle.py` — SessionStart hook: promotion (uses>=10), retirement (harmful>=3), stale flagging (60d+).
 
-1. **Hassid post audit** — ověřena tvrzení o Claude Skills (header-only load: pravda, open standard: nepravda, token savings: neověřitelné)
-2. **Skill description opravy** — 24 souborů (12 skill párů): přidány routing exclusions místo slabých usage constraints
-3. **Anthropic skill-creator analýza** — identifikovány 3 gapy: description optimizer, 500-line limit, ALWAYS/NEVER refactoring
-4. **Learnings zapsány** — anthropic-skill-creator-patterns.md, description-optimizer-plan.md
+### Fáze 2: "Asociativní vrstva" ✓
+- **2a** `concept-graph.json` — 451 entit, 4329 hran, z 52 learnings.
+- **2b-c** `lib/associative_engine.py` — spreading activation engine. Latence: **24ms**.
+- **2d** `associative-recall.py` — UserPromptSubmit hook, 800-token budget.
+- **Graph rebuild** `graph-consolidate.sh` — Stop hook.
 
-## What Remains — 3 follow-up tasks
+## Co zbývá — Fáze 3: "Transformace"
 
-### Task 1: Refaktorovat dlouhé skills (500-line limit)
-5 skills překračuje Anthropic doporučený limit:
-- **orchestrate**: 1476 řádků (3× přes limit!) → rozdělit do SKILL.md + references/
-- **critic**: 637 → extrahovat gotchas/review-patterns do references/
-- **autoloop**: 600 → extrahovat tree-mode/meta-mode docs
-- **autoresearch**: 599 → extrahovat experiment patterns
-- **eval**: 516 → mírně přes, nízká priorita
+### 3a. Hebbian learning z session traces
+- Napojit trace-capture.py výstupy jako zdroj konceptů pro graph
+- Session-specific edge weight boosting
 
-Postup: zachovat SKILL.md <500 řádků, extrahovat sekce do `references/` s pointery.
+### 3b. Auto-skill crystallization
+- Implementovat skill_detector.py (hippocampus archetype patterns)
+- Cross-project detection
 
-### Task 2: ALWAYS/NEVER refactoring
-50+ instancí all-caps ALWAYS/NEVER/MUST across skills. Anthropic guideline: "yellow flag — explain why instead."
-Top offenders: orchestrate (14), critic (5), tdd (4), autoloop (3), peer-review (3).
-Bezpečnostní pravidla (browse, project-init, sweep) ponechat — tam je caps oprávněný.
+### 3c. Cross-project memory transfer
+- Sdílený concept-graph přes projekty
 
-### Task 3: Description optimizer implementace
-Plán v `.claude/memory/learnings/2026-04-03-description-optimizer-plan.md`.
-Option B doporučeno: custom STOPA optimizer s conflict pair awareness.
-Vstup: skill name + known conflict pairs. Výstup: optimalizovaný description s měřeným trigger/non-trigger rate.
+### 3d. Contrastive model gating
+### 3e. Graph optimalizace (pruning, normalization, compact format)
 
----
+## Resume prompt
 
-## Resume Prompt
+```
+Pokračuj v implementaci Hippocampus integrace — Fáze 3.
+Přečti checkpoint.md a ADR 0012 (docs/decisions/0012-associative-memory-upgrade.md).
+Přečti project_hippocampus_integration.md v auto-memory.
+Hlavní soubory: .claude/hooks/lib/associative_engine.py, .claude/hooks/associative-recall.py,
+.claude/hooks/memory-whisper.py, .claude/hooks/learning-lifecycle.py.
+Začni s 3a (Hebbian learning z session traces).
+```
 
-> **Task**: Pokračuj ve vylepšování STOPA skills — 3 follow-up úkoly z auditu:
->
-> 1. **Refaktorovat orchestrate** (1476→<500 řádků) — extrahovat do references/. Pak critic (637), autoloop (600), autoresearch (599).
-> 2. **ALWAYS/NEVER refactoring** — přeformulovat 50+ instancí s vysvětlením "proč" (vynechat bezpečnostní pravidla).
-> 3. **Description optimizer** — implementovat dle plánu v learnings/2026-04-03-description-optimizer-plan.md.
->
-> **Kontext**: Commit `a5dc11b`. Přečti si learnings/2026-04-03-anthropic-skill-creator-patterns.md pro detaily.
-> Zdroj auditu: Hassid post (Twitter) + github.com/anthropics/skills/tree/main/skills/skill-creator.
+## Klíčové soubory
 
-
+| Soubor | Role |
+|--------|------|
+| `.claude/hooks/lib/associative_engine.py` | Core engine: graph build, activation, packet |
+| `.claude/hooks/associative-recall.py` | UserPromptSubmit hook (auto-injection) |
+| `.claude/hooks/memory-whisper.py` | Keyword recall + uses tracking |
+| `.claude/hooks/learning-lifecycle.py` | SessionStart: promotion/retirement/stale |
+| `.claude/hooks/graph-consolidate.sh` | Stop: graph rebuild |
+| `.claude/memory/concept-graph.json` | Graph data (451 entities, 4329 edges) |
+| `docs/decisions/0012-associative-memory-upgrade.md` | ADR |

@@ -6,7 +6,7 @@ component: orchestration
 tags: [context, memory, retrieval, budget, lazy-allocation, block-manifest]
 summary: "Paged context protocol: read block-manifest.json (metadata) first, fetch only top-scored blocks by budget — prevents loading irrelevant learnings into agent context."
 source: external_research
-uses: 0
+uses: 1
 harmful_uses: 0
 related: [gsd-patterns.md, 2026-03-26-harness-simplification.md]
 verify_check: "Glob('.claude/memory/learnings/block-manifest.json') → 1+ matches"

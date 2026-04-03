@@ -6,7 +6,7 @@ component: memory
 tags: [write-time-gating, salience, retrieval, dedup, noise-resistance, source-reputation]
 summary: "Write-time gating (filtruj PŘED uložením) je strukturálně nadřazené read-time filtrování. Při 8:1 distractor ratio RAG kolabuje na 0%, gated store drží 100%. Implementováno: salience gate (source×novelty×reliability), source: pole, mandatory dedup."
 source: external_research
-uses: 0
+uses: 1
 harmful_uses: 0
 related: [2026-03-29-paged-context-protocol.md, 2026-03-29-memcollab-agent-agnostic-memory.md]
 verify_check: "Grep('Salience Gate', path='.claude/commands/scribe.md') → 1+ matches"

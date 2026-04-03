@@ -412,6 +412,11 @@ Before reviewing, check `.claude/memory/budget.md`:
 4. If FAIL → orchestrator must re-plan/re-execute
 5. If 2nd FAIL on same target → escalate to user, do NOT loop
 6. If SAME issue persists across 3+ reviews → flag as **architectural concern**
+7. **Learning feedback loop (Hebbian):** If a FAIL was caused by following a learning from `learnings/`:
+   - Grep the learning file, increment `harmful_uses:` counter by 1
+   - If `harmful_uses >= 3` → add `[HARMFUL]` tag, flag for retirement in next `/evolve`
+   - Example: `sed -i 's/harmful_uses: 2/harmful_uses: 3/' .claude/memory/learnings/<file>.md`
+   If PASS and a learning contributed positively, increment its `uses:` counter (if not already done by memory-whisper hook)
 
 ## Reasoning Isolation (BOULDER principle)
 

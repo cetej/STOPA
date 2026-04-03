@@ -56,6 +56,12 @@
             "command": "bash .claude/hooks/harness-audit.sh",
             "timeout": 10,
             "statusMessage": "Running harness audit..."
+          },
+          {
+            "type": "command",
+            "command": "python .claude/hooks/learning-lifecycle.py",
+            "timeout": 5,
+            "statusMessage": "Learning lifecycle check..."
           }
         ]
       }
@@ -270,6 +276,12 @@
             "command": "bash .claude/hooks/session-summary.sh",
             "timeout": 5,
             "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/graph-consolidate.sh",
+            "timeout": 10,
+            "statusMessage": "Consolidating concept graph..."
           }
         ]
       }
@@ -338,6 +350,12 @@
           {
             "type": "command",
             "command": "python .claude/hooks/correction-tracker.py",
+            "timeout": 3,
+            "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "python .claude/hooks/associative-recall.py",
             "timeout": 3,
             "statusMessage": ""
           }

@@ -6,7 +6,7 @@ component: memory
 tags: [memory-sharing, contrastive-learning, multi-model, claude-tiers, trajectory-distillation]
 summary: "Agent-agnostic memory via contrastive trajectory distillation: run multiple agents (Haiku/Sonnet/Opus) on same task, contrast their reasoning paths, distill shared constraints. Memory then improves all agents, not just one."
 source: external_research
-uses: 0
+uses: 1
 harmful_uses: 0
 related: []
 ---

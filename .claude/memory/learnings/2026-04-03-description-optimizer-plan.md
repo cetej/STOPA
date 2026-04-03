@@ -6,7 +6,7 @@ component: skill
 tags: [skill, description, evaluation, optimization]
 summary: Plan to integrate Anthropic's description optimization pipeline into STOPA — automated trigger rate measurement with train/test split to prevent overfitting.
 source: external_research
-uses: 0
+uses: 1
 harmful_uses: 0
 confidence: 0.7
 verify_check: "manual"

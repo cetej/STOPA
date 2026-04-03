@@ -9,7 +9,7 @@ summary: >
   Applied to STOPA: table format 2-3x denser than prose for memory files. decisions.md compressed
   135→25 lines, news.md 351→105 lines with zero information loss (archived, not deleted).
 source: external_research
-uses: 0
+uses: 1
 harmful_uses: 0
 verify_check: "Glob('.claude/memory/decisions.md') → 1+ matches"
 related:
