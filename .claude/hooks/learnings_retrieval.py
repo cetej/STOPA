@@ -9,6 +9,7 @@ Usage (CLI):
     python learnings_retrieval.py decay          # run confidence decay on all learnings
     python learnings_retrieval.py graduates      # list graduation candidates
 """
+import os
 import re
 import sys
 from datetime import datetime, timedelta
@@ -123,11 +124,51 @@ def score_learning(meta: dict) -> float:
     return severity * source * confidence * recency
 
 
+def screening_score_learnings(
+    keywords: list[str], max_results: int = 5
+) -> list[dict] | None:
+    """Score learnings using trained Multiscreen RetrievalScreener.
+
+    Returns list of dicts matching retrieve_learnings format, or None if unavailable.
+    Requires: STOPA_SCREENING=1 env var and trained model checkpoint.
+    """
+    if os.environ.get("STOPA_SCREENING") != "1":
+        return None
+    try:
+        from lib.learning_embedder import ScreeningScorer
+        scorer = ScreeningScorer.load(timeout_ms=500)
+        if scorer is None:
+            return None
+        raw = scorer.score_keywords(keywords, max_results)
+        # Convert to standard format
+        results = []
+        for r in raw:
+            path = LEARNINGS_DIR / r["filename"]
+            results.append({
+                "path": str(path),
+                "filename": r["filename"],
+                "meta": r["meta"],
+                "score": r["score"],
+                "body": r["body"],
+            })
+        return results
+    except Exception:
+        return None
+
+
 def retrieve_learnings(keywords: list[str], max_results: int = 5) -> list[dict]:
     """Retrieve learnings with synonym fallback and relevance scoring.
 
     Returns list of dicts: {path, meta, score, body}
+
+    When STOPA_SCREENING=1 and model available, uses trained Multiscreen
+    RetrievalScreener for better ranking. Falls back to heuristic otherwise.
     """
+    # Try screening-based scoring first
+    screening_results = screening_score_learnings(keywords, max_results)
+    if screening_results is not None:
+        return screening_results
+
     # Round 1: direct grep
     matches = grep_learnings(keywords)
 

@@ -292,8 +292,30 @@ def build_learnings_index() -> list[dict]:
     return entries
 
 
+def _screening_boost(keywords: list[str], index: list[dict]) -> dict[str, float]:
+    """Get screening scores for blending, if available. Returns {filename: score}."""
+    if os.environ.get("STOPA_SCREENING") != "1":
+        return {}
+    try:
+        from lib.learning_embedder import ScreeningScorer
+        scorer = ScreeningScorer.load(timeout_ms=300)
+        if scorer is None:
+            return {}
+        raw = scorer.score_keywords(keywords, max_results=20)
+        return {r["filename"]: r["score"] for r in raw}
+    except Exception:
+        return {}
+
+
 def search_learnings(keywords: list[str], index: list[dict]) -> list[dict]:
-    """Search learnings index by keywords. Returns scored matches."""
+    """Search learnings index by keywords. Returns scored matches.
+
+    When STOPA_SCREENING=1: blends keyword score with screening score
+    (0.6 * keyword_norm + 0.4 * screening_score) for better ranking.
+    """
+    # Get screening scores upfront (empty dict if disabled)
+    screening_scores = _screening_boost(keywords, index)
+
     matches = []
     for entry in index:
         score = 0
@@ -327,6 +349,34 @@ def search_learnings(keywords: list[str], index: list[dict]) -> list[dict]:
                 "score": score,
                 "confidence": confidence,
             })
+
+    # Blend with screening scores if available
+    if screening_scores:
+        max_kw_score = max((m["score"] for m in matches), default=1) or 1
+        seen_files = set()
+        for m in matches:
+            fname = m.get("file", "")
+            seen_files.add(fname)
+            kw_norm = m["score"] / max_kw_score
+            scr = screening_scores.get(fname, 0.0)
+            m["score"] = 0.6 * kw_norm + 0.4 * scr
+
+        # Add screening-only matches (keyword search missed)
+        for fname, scr_score in screening_scores.items():
+            if fname not in seen_files and scr_score > 0.1:
+                # Find entry in index
+                entry = next((e for e in index if e.get("file") == fname), None)
+                if entry:
+                    display = entry.get("summary") or entry.get("description") or fname
+                    confidence = compute_confidence("learning", entry.get("severity", ""), entry.get("date", ""))
+                    matches.append({
+                        "source": "learning",
+                        "file": fname,
+                        "text": display,
+                        "date": entry.get("date", ""),
+                        "score": 0.4 * scr_score,  # screening-only (no keyword contribution)
+                        "confidence": confidence,
+                    })
 
     return sorted(matches, key=lambda x: -x["score"])
 

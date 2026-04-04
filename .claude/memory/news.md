@@ -12,7 +12,7 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 | 42 | CC Voice Mode (`/voice`) — Czech included | MED | Otestovat až se rolling out dostane k účtu; 20 jazyků vč. češtiny |
 | 44 | CC HTTP hooks (POST JSON → URL) | PARKED | Adopt při remote agents; pro teď nepotřebujeme |
 | 29t | Bootleg SSL (arXiv:2603.15553) | LOW | Sledovat pro ORAKULUM/ZACHVEV pokud Chronos-2 nestačí |
-| 29s | Attention innovations status | INFO | Produkce: MLA, GQA, iRoPE. Sledovat DiffAttn DEX adapter + TransMLA |
+| 29s | Attention innovations status | INFO | Produkce: MLA, GQA, iRoPE. Sledovat DiffAttn DEX adapter + TransMLA + **Multiscreen** (arXiv:2604.01178) |
 | 29r | `hf papers` CLI (AK) | LOW | Kandidát pro upgrade /watch Tier 2b strategy |
 
 ## Resolved (2026-04-04)
@@ -80,6 +80,7 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 ### Papers (metodologie)
 | Item | Relevance |
 |------|-----------|
+| 72. Multiscreen (arXiv:2604.01178) | Screening attention: absolutní relevance místo softmax kompetice, 40% méně parametrů, 3.2× rychlejší inference na 100K. Bez kódu. Sledovat adopci. |
 | 62. Hi-CoT (arXiv:2604.00130) | Hierarchical CoT: planning → execution v substepech. Inspirace pro orchestrate hierarchické decomposition. |
 | 63. Agentic Tool Use (arXiv:2604.00835) | 3 paradigmata: prompting plug-and-play, supervised, reward-driven. Taxonomie pro STOPA tool strategy. |
 | 46. Bootstrapping Coding Agents (arXiv:2603.17399) | "Specification is the program" — agent re-impl sám sebe z 926-slov spec. IEEE Software. |
@@ -115,6 +116,7 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
 ## Scan History
 
+### 2026-04-04 #5 — targeted URL (Multiscreen arXiv:2604.01178) | Fetches: 2 | Items: 0 action, 1 watch, 0 info
 ### 2026-04-04 #4 — targeted URL (MCP Toolbox for Databases) | Fetches: 0 | Items: 0 action, 1 watch, 0 info
 ### 2026-04-04 #3 — targeted URL (agent-browser) | Fetches: 1 | Items: 1 action, 0 watch, 0 info
 ### 2026-04-04 #2 — targeted URL | Fetches: 2 | Items: 0 action, 1 watch, 0 info
