@@ -1,0 +1,142 @@
+{
+  "last_compile": "2026-04-04T12:00:00Z",
+  "compile_mode": "full",
+  "total_learnings": 45,
+  "total_articles": 8,
+  "contradictions": 1,
+  "gaps": 3,
+  "articles": {
+    "skill-design.md": {
+      "source_learnings": [
+        "2026-04-04-skill0-dynamic-curriculum.md",
+        "2026-04-03-anthropic-skill-creator-patterns.md",
+        "2026-04-03-description-optimizer-plan.md",
+        "2026-04-03-disable-skill-shell-audit.md",
+        "2026-03-27-commands-vs-skills-structure.md",
+        "2026-03-27-skills-must-live-in-stopa.md",
+        "2026-03-25-skill-description-triggers.md",
+        "superpowers-adoption.md"
+      ],
+      "generated": "2026-04-04"
+    },
+    "skill-evaluation.md": {
+      "source_learnings": [
+        "2026-04-01-autoreason-adversarial-debate.md",
+        "2026-03-25-decomposed-evaluation.md",
+        "2026-03-25-reasoning-isolation.md",
+        "2026-03-24-fix-issue-solo-workflow.md",
+        "2026-03-23-youtube-transcript-yt-dlp.md",
+        "karpathy-loop-autoloop.md"
+      ],
+      "generated": "2026-04-04"
+    },
+    "orchestration-multi-agent.md": {
+      "source_learnings": [
+        "2026-04-03-autoagent-overfitting-guard.md",
+        "2026-04-03-autoagent-parallel-candidates.md",
+        "2026-04-02-distributed-systems-amdahl-gate.md",
+        "2026-03-30-society-of-thought-orchestration.md",
+        "2026-03-29-bigmas-directed-graph-orchestration.md",
+        "2026-03-29-claudini-autoresearch-loop.md",
+        "2026-03-29-slopcodebench-iterative-degradation.md"
+      ],
+      "generated": "2026-04-04"
+    },
+    "orchestration-resilience.md": {
+      "source_learnings": [
+        "2026-04-03-smart-tool-overuse.md",
+        "2026-04-03-testing-bottleneck.md",
+        "2026-04-02-audit-must-verify-consumers.md",
+        "2026-04-01-gsd2-error-classification.md",
+        "2026-03-26-harness-simplification.md",
+        "gsd-patterns.md"
+      ],
+      "generated": "2026-04-04"
+    },
+    "orchestration-infrastructure.md": {
+      "source_learnings": [
+        "2026-04-01-autocompact-threshold.md",
+        "2026-03-29-paged-context-protocol.md",
+        "2026-03-26-channels-24x7-architecture.md",
+        "2026-03-24-openclaw-postmortem-patterns.md",
+        "spec-kit-adoption.md"
+      ],
+      "generated": "2026-04-04"
+    },
+    "memory-architecture.md": {
+      "source_learnings": [
+        "2026-03-30-write-time-gating-salience.md",
+        "2026-03-30-calm-semantic-bandwidth.md",
+        "2026-03-29-memcollab-agent-agnostic-memory.md",
+        "2026-03-26-autodream-coexistence.md",
+        "checkpoint-versioning.md"
+      ],
+      "generated": "2026-04-04"
+    },
+    "general-security-environment.md": {
+      "source_learnings": [
+        "2026-04-01-image-cache-invalidation.md",
+        "2026-03-27-playwright-mcp-download-hijack.md",
+        "2026-03-27-secrets-in-config-files.md",
+        "ecosystem-scan.md",
+        "environment-falai.md"
+      ],
+      "generated": "2026-04-04"
+    },
+    "pipeline-engineering.md": {
+      "source_learnings": [
+        "2026-04-01-sonnet46-thinking-effort-breaking-change.md",
+        "harness-engineering.md",
+        "2026-03-25-batch-edit-pattern.md"
+      ],
+      "generated": "2026-04-04"
+    }
+  },
+  "learnings_compiled": [
+    "2026-04-04-skill0-dynamic-curriculum.md",
+    "2026-04-03-anthropic-skill-creator-patterns.md",
+    "2026-04-03-description-optimizer-plan.md",
+    "2026-04-03-disable-skill-shell-audit.md",
+    "2026-04-03-autoagent-overfitting-guard.md",
+    "2026-04-03-autoagent-parallel-candidates.md",
+    "2026-04-03-smart-tool-overuse.md",
+    "2026-04-03-testing-bottleneck.md",
+    "2026-04-02-audit-must-verify-consumers.md",
+    "2026-04-02-distributed-systems-amdahl-gate.md",
+    "2026-04-01-autoreason-adversarial-debate.md",
+    "2026-04-01-autocompact-threshold.md",
+    "2026-04-01-gsd2-error-classification.md",
+    "2026-04-01-image-cache-invalidation.md",
+    "2026-04-01-sonnet46-thinking-effort-breaking-change.md",
+    "2026-03-30-calm-semantic-bandwidth.md",
+    "2026-03-30-society-of-thought-orchestration.md",
+    "2026-03-30-write-time-gating-salience.md",
+    "2026-03-29-bigmas-directed-graph-orchestration.md",
+    "2026-03-29-claudini-autoresearch-loop.md",
+    "2026-03-29-memcollab-agent-agnostic-memory.md",
+    "2026-03-29-paged-context-protocol.md",
+    "2026-03-29-slopcodebench-iterative-degradation.md",
+    "2026-03-27-commands-vs-skills-structure.md",
+    "2026-03-27-playwright-mcp-download-hijack.md",
+    "2026-03-27-secrets-in-config-files.md",
+    "2026-03-27-skills-must-live-in-stopa.md",
+    "2026-03-26-autodream-coexistence.md",
+    "2026-03-26-channels-24x7-architecture.md",
+    "2026-03-26-harness-simplification.md",
+    "2026-03-25-batch-edit-pattern.md",
+    "2026-03-25-decomposed-evaluation.md",
+    "2026-03-25-reasoning-isolation.md",
+    "2026-03-25-skill-description-triggers.md",
+    "2026-03-24-fix-issue-solo-workflow.md",
+    "2026-03-24-openclaw-postmortem-patterns.md",
+    "2026-03-23-youtube-transcript-yt-dlp.md",
+    "checkpoint-versioning.md",
+    "ecosystem-scan.md",
+    "environment-falai.md",
+    "gsd-patterns.md",
+    "harness-engineering.md",
+    "karpathy-loop-autoloop.md",
+    "spec-kit-adoption.md",
+    "superpowers-adoption.md"
+  ]
+}

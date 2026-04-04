@@ -159,15 +159,23 @@ For each changed file/function, ask: "What is the ONE thing that must be true ab
 - Prioritize: security > correctness > completeness > quality
 - Skip trivial changes (whitespace, comments, formatting) — they are not milestones
 
-### Phase 2: VERIFIER — Check Each Milestone
+### Phase 2: VERIFIER — Cascade-Aware Milestone Check
+
+**Cascade Evaluation Protocol** (ref: Tool-Genesis arXiv:2603.05578 — minor L1 errors cascade into catastrophic L4 failures):
+
+Verify milestones in **cascade order**: Surface (L1) → Interface (L2) → Functional (L3) → Utility (L4). If a milestone fails at L1 (syntax, format, basic compliance), do NOT evaluate L2-L4 for that milestone — report L1 failure immediately. Cascade failures compound: fixing surface issues first is cheaper and often resolves downstream problems.
+
+**Schema-Utility Decoupling Warning:** A milestone can PASS at L1-L2 (correct format, valid interface) yet FAIL at L3-L4 (wrong behavior, broken downstream). Tool-Genesis showed Schema-F1 0.964 with SR only 0.472. After format checks pass, allocate EXTRA scrutiny to functional and utility checks — passing surface checks creates false confidence.
 
 For each milestone from Phase 1, verify the assignment goal against the actual code.
 
 **For each milestone:**
 1. Read the relevant code (pre and post change if available)
-2. Check against the assignment goal — does the code actually satisfy it?
-3. Check against relevant review dimensions (see below)
-4. Record verdict: `PASS` or `FAIL` with **grounded evidence**
+2. **L1 surface check**: Does it compile/parse? Valid syntax? Imports resolve?
+3. **L2 interface check**: Does the API/signature match expected contract?
+4. **L3 functional check**: Does it actually do what the assignment goal says? (Check against the assignment goal)
+5. Check against relevant review dimensions (see below)
+6. Record verdict: `PASS` or `FAIL` with **grounded evidence** and the failing cascade level (L1/L2/L3/L4)
 
 **Grounded evidence rules:**
 - PASS evidence: quote the specific code that satisfies the goal
@@ -440,6 +448,7 @@ Before submitting your report, check yourself:
 | "Big refactor needed to fix" | Team needs to know | Report medium + note scope |
 | "Just a refactor" | Refactors introduce subtle regressions | Verify before/after |
 | "AI generated it, probably fine" | AI output needs MORE scrutiny, not less | Check for slop patterns |
+| "Format/schema checks pass, logic is probably fine" | Schema compliance ≠ functional correctness (Tool-Genesis: Schema-F1 0.964, SR 0.472) | After L1-L2 pass, run L3-L4 with EXTRA scrutiny — surface compliance creates false confidence |
 
 ## Red Flags
 

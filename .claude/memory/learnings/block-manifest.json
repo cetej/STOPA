@@ -1,8 +1,115 @@
 {
-  "generated": "2026-03-29",
-  "total_blocks": 23,
-  "active_blocks": 23,
+  "generated": "2026-04-04",
+  "total_blocks": 45,
+  "active_blocks": 45,
   "blocks": {
+    "2026-04-04-skill0-dynamic-curriculum.md": {
+      "id": "2026-04-04-skill0-dynamic-curriculum.md",
+      "component": "skill",
+      "date": "2026-04-04",
+      "type": "architecture",
+      "severity": "high",
+      "tags": [
+        "skill",
+        "orchestration",
+        "token-optimization",
+        "SKILL0"
+      ],
+      "summary": "SKILL0 (arXiv:2604.02268) Dynamic Curriculum pattern adapted for STOPA: compact skill variants (~7% of full size) for repeat session invocations, impact_score for helpfulness-driven learning graduation, progressive withdrawal protocol in orchestrator.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 326,
+      "retrieval_score": 3.0,
+      "active": true
+    },
+    "2026-04-03-anthropic-skill-creator-patterns.md": {
+      "id": "2026-04-03-anthropic-skill-creator-patterns.md",
+      "component": "skill",
+      "date": "2026-04-03",
+      "type": "best_practice",
+      "severity": "high",
+      "tags": [
+        "skill",
+        "description",
+        "triggers",
+        "evaluation"
+      ],
+      "summary": "Anthropic official skill-creator defines 3-level progressive disclosure, 500-line SKILL.md limit, pushy descriptions, ALWAYS/NEVER yellow flag, and full eval+description optimization pipeline. STOPA gaps identified.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 567,
+      "retrieval_score": 2.951,
+      "active": true
+    },
+    "2026-04-03-description-optimizer-plan.md": {
+      "id": "2026-04-03-description-optimizer-plan.md",
+      "component": "skill",
+      "date": "2026-04-03",
+      "type": "architecture",
+      "severity": "high",
+      "tags": [
+        "skill",
+        "description",
+        "evaluation",
+        "optimization"
+      ],
+      "summary": "Plan to integrate Anthropic's description optimization pipeline into STOPA — automated trigger rate measurement with train/test split to prevent overfitting.",
+      "uses": 1,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 497,
+      "retrieval_score": 2.951,
+      "active": true
+    },
+    "2026-04-03-disable-skill-shell-audit.md": {
+      "id": "2026-04-03-disable-skill-shell-audit.md",
+      "component": "skill",
+      "date": "2026-04-03",
+      "type": "architecture",
+      "severity": "high",
+      "tags": [
+        "shell",
+        "security",
+        "cc-settings",
+        "disableSkillShellExecution"
+      ],
+      "summary": "CC v2.1.91 přidalo disableSkillShellExecution. Audit: 25/48 (52%) STOPA skills má inline shell. Zapnutí by rozbilo polovinu systému. NEPOVOLOVAT bez migrace skills na pure-tool approach.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 386,
+      "retrieval_score": 2.951,
+      "active": true
+    },
+    "2026-04-01-autoreason-adversarial-debate.md": {
+      "id": "2026-04-01-autoreason-adversarial-debate.md",
+      "component": "skill",
+      "date": "2026-04-01",
+      "type": "architecture",
+      "severity": "medium",
+      "tags": [
+        "autoreason",
+        "debate",
+        "subjective-optimization",
+        "multi-agent"
+      ],
+      "summary": "AutoReason pattern (SHL0MS) extends AutoResearch to subjective domains via adversarial debate loop. Key: cold-start agent isolation prevents confirmation bias, randomized judge labels prevent position bias, structured critique > binary preference.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [
+        "2026-03-30-society-of-thought-orchestration.md"
+      ],
+      "token_estimate": 496,
+      "retrieval_score": 1.905,
+      "active": true
+    },
     "2026-03-27-commands-vs-skills-structure.md": {
       "id": "2026-03-27-commands-vs-skills-structure.md",
       "component": "skill",
@@ -21,8 +128,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 404,
-      "retrieval_score": 3.871,
+      "token_estimate": 409,
+      "retrieval_score": 3.529,
       "active": true
     },
     "2026-03-27-skills-must-live-in-stopa.md": {
@@ -41,8 +148,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 396,
-      "retrieval_score": 2.903,
+      "token_estimate": 401,
+      "retrieval_score": 2.647,
       "active": true
     },
     "2026-03-25-decomposed-evaluation.md": {
@@ -59,12 +166,12 @@
         "apm"
       ],
       "summary": "Decomposed evaluation (per-dimension scoring) catches 3x more issues than holistic review. Use in /critic and /verify.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 394,
-      "retrieval_score": 2.812,
+      "token_estimate": 407,
+      "retrieval_score": 2.571,
       "active": true
     },
     "2026-03-25-reasoning-isolation.md": {
@@ -86,8 +193,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 407,
-      "retrieval_score": 2.812,
+      "token_estimate": 413,
+      "retrieval_score": 2.571,
       "active": true
     },
     "2026-03-25-skill-description-triggers.md": {
@@ -107,8 +214,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 265,
-      "retrieval_score": 2.812,
+      "token_estimate": 270,
+      "retrieval_score": 2.571,
       "active": true
     },
     "2026-03-24-fix-issue-solo-workflow.md": {
@@ -128,8 +235,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 215,
-      "retrieval_score": 1.846,
+      "token_estimate": 221,
+      "retrieval_score": 1.69,
       "active": true
     },
     "2026-03-23-youtube-transcript-yt-dlp.md": {
@@ -149,8 +256,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 214,
-      "retrieval_score": 2.727,
+      "token_estimate": 219,
+      "retrieval_score": 2.5,
       "active": true
     },
     "karpathy-loop-autoloop.md": {
@@ -170,8 +277,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 205,
-      "retrieval_score": 1.818,
+      "token_estimate": 211,
+      "retrieval_score": 1.667,
       "active": true
     },
     "superpowers-adoption.md": {
@@ -191,7 +298,245 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 220,
+      "token_estimate": 226,
+      "retrieval_score": 2.5,
+      "active": true
+    },
+    "2026-04-03-autoagent-overfitting-guard.md": {
+      "id": "2026-04-03-autoagent-overfitting-guard.md",
+      "component": "orchestration",
+      "date": "2026-04-03",
+      "type": "best_practice",
+      "severity": "high",
+      "tags": [
+        "autoloop",
+        "autoresearch",
+        "self-evolve",
+        "reward-hacking",
+        "overfitting"
+      ],
+      "summary": "AutoAgent's anti-overfitting guard: ask 'if this exact eval case disappeared, would this change still be worthwhile?' before accepting improvements. Prevents metric gaming.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 331,
+      "retrieval_score": 2.951,
+      "active": true
+    },
+    "2026-04-03-autoagent-parallel-candidates.md": {
+      "id": "2026-04-03-autoagent-parallel-candidates.md",
+      "component": "orchestration",
+      "date": "2026-04-03",
+      "type": "architecture",
+      "severity": "medium",
+      "tags": [
+        "autoloop",
+        "autoresearch",
+        "parallel",
+        "sandbox",
+        "future"
+      ],
+      "summary": "AutoAgent evaluates multiple candidates in parallel via Docker sandboxes. STOPA skills are sequential — known limitation, not worth solving until CC gets native parallel execution.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [
+        "2026-04-03-autoagent-overfitting-guard.md"
+      ],
+      "token_estimate": 339,
+      "retrieval_score": 1.967,
+      "active": true
+    },
+    "2026-04-03-smart-tool-overuse.md": {
+      "id": "2026-04-03-smart-tool-overuse.md",
+      "component": "orchestration",
+      "date": "2026-04-03",
+      "type": "best_practice",
+      "severity": "medium",
+      "tags": [
+        "tool-use",
+        "efficiency",
+        "cost-optimization",
+        "SMART"
+      ],
+      "summary": "SMART gate: before spawning agent or tool call, ask 'Is this answerable from loaded context?' Eliminates ~20% unnecessary calls, especially in light tier.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [
+        "2026-04-03-testing-bottleneck.md"
+      ],
+      "token_estimate": 355,
+      "retrieval_score": 1.967,
+      "active": true
+    },
+    "2026-04-03-testing-bottleneck.md": {
+      "id": "2026-04-03-testing-bottleneck.md",
+      "component": "orchestration",
+      "date": "2026-04-03",
+      "type": "best_practice",
+      "severity": "medium",
+      "tags": [
+        "verification",
+        "testing",
+        "workflow",
+        "bottleneck"
+      ],
+      "summary": "Code generation is no longer the bottleneck — verification and testing are. Allocate proportional effort to proving correctness.",
+      "uses": 1,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [
+        "2026-04-03-smart-tool-overuse.md"
+      ],
+      "token_estimate": 357,
+      "retrieval_score": 1.967,
+      "active": true
+    },
+    "2026-04-02-audit-must-verify-consumers.md": {
+      "id": "2026-04-02-audit-must-verify-consumers.md",
+      "component": "orchestration",
+      "date": "2026-04-02",
+      "type": "anti_pattern",
+      "severity": "critical",
+      "tags": [
+        "audit",
+        "verification",
+        "cross-cutting"
+      ],
+      "summary": "Audit/refactor that changes shared interfaces (API envelope, response format) MUST verify ALL consumers, not just the changed layer. Wave 3 audit broke 70 JS calls by only running pytest.",
+      "uses": 1,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 370,
+      "retrieval_score": 3.871,
+      "active": true
+    },
+    "2026-04-02-distributed-systems-amdahl-gate.md": {
+      "id": "2026-04-02-distributed-systems-amdahl-gate.md",
+      "component": "orchestration",
+      "date": "2026-04-02",
+      "type": "architecture",
+      "severity": "high",
+      "tags": [
+        "orchestration",
+        "multi-agent",
+        "distributed-systems",
+        "cost-optimization"
+      ],
+      "summary": "arXiv:2603.12229 proves centralized > decentralized for LLM teams (1.36× vs 0.88× speedup). Serial tasks (p<0.4) cost 5.83× tokens for 1.13× speedup. Added Amdahl parallelizability gate and ROI cost gate to orchestrate skill.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 427,
+      "retrieval_score": 2.903,
+      "active": true
+    },
+    "2026-04-01-autocompact-threshold.md": {
+      "id": "2026-04-01-autocompact-threshold.md",
+      "component": "orchestration",
+      "date": "2026-04-01",
+      "type": "best_practice",
+      "severity": "medium",
+      "tags": [
+        "context-management",
+        "compaction",
+        "long-sessions"
+      ],
+      "summary": "Setting CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=70 triggers context compaction earlier (default ~95%), preventing quality degradation in long sessions. Verified from CC source leak.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 353,
+      "retrieval_score": 1.905,
+      "active": true
+    },
+    "2026-04-01-gsd2-error-classification.md": {
+      "id": "2026-04-01-gsd2-error-classification.md",
+      "component": "orchestration",
+      "date": "2026-04-01",
+      "type": "architecture",
+      "severity": "high",
+      "tags": [
+        "error-handling",
+        "circuit-breaker",
+        "gsd2"
+      ],
+      "summary": "Classify errors before counting fix attempts: infrastructure (ENOENT/OOM) = immediate stop, transient (429/timeout) = 1 retry, logic = normal 3-fix escalation. Prevents wasting LLM budget on unrecoverable states.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 286,
+      "retrieval_score": 2.857,
+      "active": true
+    },
+    "2026-03-30-society-of-thought-orchestration.md": {
+      "id": "2026-03-30-society-of-thought-orchestration.md",
+      "component": "orchestration",
+      "date": "2026-03-30",
+      "type": "architecture",
+      "severity": "high",
+      "tags": [
+        "multi-agent",
+        "reasoning",
+        "critic",
+        "diversity",
+        "alignment"
+      ],
+      "summary": "Kim et al. (2026) empiricky dokázali, že RL optimalizační tlak spontánně generuje interní multi-agentní debatu v reasoning modelech (DeepSeek-R1, QwQ-32B). Steering feature 30939 zdvojnásobil přesnost. Heterogenita perspektiv → výkon. Implikace: critic agent s odlišným system promptem není hack, je architektonicky opodstatněn. STOPA checkpoint/shared state potvrzena jako nutnost (bez temporal alignment se systémy rozpadají).",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 633,
+      "retrieval_score": 2.769,
+      "active": true
+    },
+    "2026-03-29-bigmas-directed-graph-orchestration.md": {
+      "id": "2026-03-29-bigmas-directed-graph-orchestration.md",
+      "component": "orchestration",
+      "date": "2026-03-29",
+      "type": "architecture",
+      "severity": "medium",
+      "tags": [
+        "orchestration-graph",
+        "shared-workspace",
+        "dynamic-structure",
+        "global-workspace-theory"
+      ],
+      "summary": "Dynamic agent graph orchestration: GraphDesigner analyzes task → generates task-specific directed graph (3-node for simple, 9-node for complex). Agents coordinate via centralized shared workspace. Graph complexity scales with task demands.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 820,
+      "retrieval_score": 1.818,
+      "active": true
+    },
+    "2026-03-29-claudini-autoresearch-loop.md": {
+      "id": "2026-03-29-claudini-autoresearch-loop.md",
+      "component": "orchestration",
+      "date": "2026-03-29",
+      "type": "best_practice",
+      "severity": "high",
+      "tags": [
+        "autoresearch",
+        "pipeline",
+        "claude-code",
+        "agent-loop",
+        "research-automation"
+      ],
+      "summary": "Autoresearch via Claude Code agent loop succeeds when: (1) starting from existing implementations, (2) dense quantitative feedback per iteration, (3) white-box domain (red-teaming). Claudini discovered novel adversarial attacks outperforming 30+ baselines by iterating on GCG.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 525,
       "retrieval_score": 2.727,
       "active": true
     },
@@ -210,15 +555,37 @@
         "block-manifest"
       ],
       "summary": "Paged context protocol: read block-manifest.json (metadata) first, fetch only top-scored blocks by budget — prevents loading irrelevant learnings into agent context.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
         "gsd-patterns.md",
         "2026-03-26-harness-simplification.md"
       ],
-      "token_estimate": 535,
-      "retrieval_score": 2.0,
+      "token_estimate": 545,
+      "retrieval_score": 1.818,
+      "active": true
+    },
+    "2026-03-29-slopcodebench-iterative-degradation.md": {
+      "id": "2026-03-29-slopcodebench-iterative-degradation.md",
+      "component": "orchestration",
+      "date": "2026-03-29",
+      "type": "anti_pattern",
+      "severity": "high",
+      "tags": [
+        "code-quality",
+        "orchestration",
+        "multi-session",
+        "iterative",
+        "agent-degradation"
+      ],
+      "summary": "AI coding agents produkují kód 2.2× více redundantní než lidský a trpí strukturální erozí při iterativním vývoji. Žádný agent nedokončí dlouhou sekvenci bez degradace. Mitigation: checkpointy + explicitní refactor fáze + quality gates mezi iteracemi.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 495,
+      "retrieval_score": 2.727,
       "active": true
     },
     "2026-03-26-channels-24x7-architecture.md": {
@@ -241,8 +608,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 491,
-      "retrieval_score": 2.857,
+      "token_estimate": 498,
+      "retrieval_score": 2.609,
       "active": true
     },
     "2026-03-26-harness-simplification.md": {
@@ -262,8 +629,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 521,
-      "retrieval_score": 2.857,
+      "token_estimate": 527,
+      "retrieval_score": 2.609,
       "active": true
     },
     "2026-03-24-openclaw-postmortem-patterns.md": {
@@ -280,12 +647,12 @@
         "browser"
       ],
       "summary": "OpenClaw $12K burn postmortem: 5 agent degradation patterns — identity collapse, memory bloat, budget blindness, browser loops, session amnesia.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 413,
-      "retrieval_score": 2.769,
+      "token_estimate": 425,
+      "retrieval_score": 2.535,
       "active": true
     },
     "gsd-patterns.md": {
@@ -301,12 +668,12 @@
         "verification"
       ],
       "summary": "GSD wave execution: batch independent tasks, verify after each wave, deviation rules for agent coordination.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 250,
-      "retrieval_score": 1.818,
+      "token_estimate": 258,
+      "retrieval_score": 1.667,
       "active": true
     },
     "spec-kit-adoption.md": {
@@ -326,8 +693,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 251,
-      "retrieval_score": 1.818,
+      "token_estimate": 258,
+      "retrieval_score": 1.667,
       "active": true
     },
     "2026-03-25-batch-edit-pattern.md": {
@@ -347,8 +714,76 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 265,
-      "retrieval_score": 2.812,
+      "token_estimate": 271,
+      "retrieval_score": 2.571,
+      "active": true
+    },
+    "2026-03-30-calm-semantic-bandwidth.md": {
+      "id": "2026-03-30-calm-semantic-bandwidth.md",
+      "component": "memory",
+      "date": "2026-03-30",
+      "type": "architecture",
+      "severity": "medium",
+      "tags": [
+        "memory",
+        "orchestration",
+        "research"
+      ],
+      "summary": ">",
+      "uses": 1,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 413,
+      "retrieval_score": 1.846,
+      "active": true
+    },
+    "2026-03-30-write-time-gating-salience.md": {
+      "id": "2026-03-30-write-time-gating-salience.md",
+      "component": "memory",
+      "date": "2026-03-30",
+      "type": "architecture",
+      "severity": "high",
+      "tags": [
+        "write-time-gating",
+        "salience",
+        "retrieval",
+        "dedup",
+        "noise-resistance",
+        "source-reputation"
+      ],
+      "summary": "Write-time gating (filtruj PŘED uložením) je strukturálně nadřazené read-time filtrování. Při 8:1 distractor ratio RAG kolabuje na 0%, gated store drží 100%. Implementováno: salience gate (source×novelty×reliability), source: pole, mandatory dedup.",
+      "uses": 1,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [
+        "2026-03-29-paged-context-protocol.md",
+        "2026-03-29-memcollab-agent-agnostic-memory.md"
+      ],
+      "token_estimate": 503,
+      "retrieval_score": 2.769,
+      "active": true
+    },
+    "2026-03-29-memcollab-agent-agnostic-memory.md": {
+      "id": "2026-03-29-memcollab-agent-agnostic-memory.md",
+      "component": "memory",
+      "date": "2026-03-29",
+      "type": "architecture",
+      "severity": "high",
+      "tags": [
+        "memory-sharing",
+        "contrastive-learning",
+        "multi-model",
+        "claude-tiers",
+        "trajectory-distillation"
+      ],
+      "summary": "Agent-agnostic memory via contrastive trajectory distillation: run multiple agents (Haiku/Sonnet/Opus) on same task, contrast their reasoning paths, distill shared constraints. Memory then improves all agents, not just one.",
+      "uses": 1,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 662,
+      "retrieval_score": 2.727,
       "active": true
     },
     "2026-03-26-autodream-coexistence.md": {
@@ -365,12 +800,12 @@
         "cc-native"
       ],
       "summary": "AutoDream (/dream) coexists with STOPA memory: dream=janitor (cleanup), scribe=architect (structured writes). Protect YAML frontmatter.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 316,
-      "retrieval_score": 2.857,
+      "token_estimate": 327,
+      "retrieval_score": 2.609,
       "active": true
     },
     "checkpoint-versioning.md": {
@@ -385,12 +820,33 @@
         "session-continuity"
       ],
       "summary": "Never overwrite checkpoints without archiving. Version frequently, especially before scope changes.",
+      "uses": 1,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 182,
+      "retrieval_score": 2.338,
+      "active": true
+    },
+    "2026-04-01-image-cache-invalidation.md": {
+      "id": "2026-04-01-image-cache-invalidation.md",
+      "component": "general",
+      "date": "2026-04-01",
+      "type": "best_practice",
+      "severity": "medium",
+      "tags": [
+        "cost-optimization",
+        "caching",
+        "browse",
+        "chrome-automation"
+      ],
+      "summary": "Adding or removing images anywhere in a Claude API prompt invalidates the entire prompt cache. Browse/screenshot workflows consistently miss cache, paying full input price every turn.",
       "uses": 0,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 175,
-      "retrieval_score": 2.535,
+      "token_estimate": 414,
+      "retrieval_score": 1.905,
       "active": true
     },
     "2026-03-27-playwright-mcp-download-hijack.md": {
@@ -413,8 +869,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 771,
-      "retrieval_score": 3.871,
+      "token_estimate": 776,
+      "retrieval_score": 3.529,
       "active": true
     },
     "2026-03-27-secrets-in-config-files.md": {
@@ -435,8 +891,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 308,
-      "retrieval_score": 3.871,
+      "token_estimate": 314,
+      "retrieval_score": 3.529,
       "active": true
     },
     "ecosystem-scan.md": {
@@ -451,12 +907,12 @@
         "positioning"
       ],
       "summary": "STOPA ecosystem positioning: unique in combining skill system + shared memory + orchestration. Competitors lack memory layer.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 211,
-      "retrieval_score": 0.909,
+      "token_estimate": 218,
+      "retrieval_score": 0.833,
       "active": true
     },
     "environment-falai.md": {
@@ -476,8 +932,31 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 192,
-      "retrieval_score": 1.818,
+      "token_estimate": 197,
+      "retrieval_score": 1.667,
+      "active": true
+    },
+    "2026-04-01-sonnet46-thinking-effort-breaking-change.md": {
+      "id": "2026-04-01-sonnet46-thinking-effort-breaking-change.md",
+      "component": "pipeline",
+      "date": "2026-04-01",
+      "type": "bug_fix",
+      "severity": "critical",
+      "tags": [
+        "anthropic-api",
+        "thinking",
+        "effort",
+        "sonnet-46",
+        "text-reproduction",
+        "breaking-change"
+      ],
+      "summary": "Sonnet 4.6 s thinking:disabled agresivně sumarizuje dlouhý text (~40% výstupu). S thinking:adaptive leakuje chain-of-thought a XML tool markup do outputu. Effort 'low' zhoršuje oba problémy. Fix: buď effort 'medium'+adaptive, nebo PATCH formát místo reprodukce.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 610,
+      "retrieval_score": 3.81,
       "active": true
     },
     "harness-engineering.md": {
@@ -497,8 +976,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 216,
-      "retrieval_score": 2.727,
+      "token_estimate": 221,
+      "retrieval_score": 2.5,
       "active": true
     }
   },
@@ -513,8 +992,26 @@
     "CARE": [
       "2026-03-25-reasoning-isolation.md"
     ],
+    "SKILL0": [
+      "2026-04-04-skill0-dynamic-curriculum.md"
+    ],
+    "SMART": [
+      "2026-04-03-smart-tool-overuse.md"
+    ],
+    "agent-degradation": [
+      "2026-03-29-slopcodebench-iterative-degradation.md"
+    ],
     "agent-identity": [
       "2026-03-24-openclaw-postmortem-patterns.md"
+    ],
+    "agent-loop": [
+      "2026-03-29-claudini-autoresearch-loop.md"
+    ],
+    "alignment": [
+      "2026-03-30-society-of-thought-orchestration.md"
+    ],
+    "anthropic-api": [
+      "2026-04-01-sonnet46-thinking-effort-breaking-change.md"
     ],
     "anti-pattern": [
       "2026-03-27-skills-must-live-in-stopa.md"
@@ -534,18 +1031,40 @@
     "architecture": [
       "2026-03-26-harness-simplification.md"
     ],
+    "audit": [
+      "2026-04-02-audit-must-verify-consumers.md"
+    ],
     "autodream": [
       "2026-03-26-autodream-coexistence.md"
     ],
     "autoloop": [
+      "2026-04-03-autoagent-overfitting-guard.md",
       "2026-03-25-batch-edit-pattern.md",
+      "2026-04-03-autoagent-parallel-candidates.md",
       "karpathy-loop-autoloop.md"
+    ],
+    "autoreason": [
+      "2026-04-01-autoreason-adversarial-debate.md"
+    ],
+    "autoresearch": [
+      "2026-04-03-autoagent-overfitting-guard.md",
+      "2026-03-29-claudini-autoresearch-loop.md",
+      "2026-04-03-autoagent-parallel-candidates.md"
     ],
     "batch-edit": [
       "2026-03-25-batch-edit-pattern.md"
     ],
     "block-manifest": [
       "2026-03-29-paged-context-protocol.md"
+    ],
+    "bottleneck": [
+      "2026-04-03-testing-bottleneck.md"
+    ],
+    "breaking-change": [
+      "2026-04-01-sonnet46-thinking-effort-breaking-change.md"
+    ],
+    "browse": [
+      "2026-04-01-image-cache-invalidation.md"
     ],
     "browser": [
       "2026-03-24-openclaw-postmortem-patterns.md"
@@ -554,8 +1073,14 @@
       "2026-03-24-openclaw-postmortem-patterns.md",
       "2026-03-29-paged-context-protocol.md"
     ],
+    "caching": [
+      "2026-04-01-image-cache-invalidation.md"
+    ],
     "cc-native": [
       "2026-03-26-autodream-coexistence.md"
+    ],
+    "cc-settings": [
+      "2026-04-03-disable-skill-shell-audit.md"
     ],
     "channels": [
       "2026-03-26-channels-24x7-architecture.md"
@@ -566,18 +1091,34 @@
     "chrome": [
       "2026-03-27-playwright-mcp-download-hijack.md"
     ],
+    "chrome-automation": [
+      "2026-04-01-image-cache-invalidation.md"
+    ],
+    "circuit-breaker": [
+      "2026-04-01-gsd2-error-classification.md"
+    ],
     "claude-code": [
-      "2026-03-27-playwright-mcp-download-hijack.md"
+      "2026-03-27-playwright-mcp-download-hijack.md",
+      "2026-03-29-claudini-autoresearch-loop.md"
     ],
     "claude-desktop": [
       "2026-03-27-playwright-mcp-download-hijack.md",
       "2026-03-27-secrets-in-config-files.md"
+    ],
+    "claude-tiers": [
+      "2026-03-29-memcollab-agent-agnostic-memory.md"
+    ],
+    "code-quality": [
+      "2026-03-29-slopcodebench-iterative-degradation.md"
     ],
     "coexistence": [
       "2026-03-26-autodream-coexistence.md"
     ],
     "commands": [
       "2026-03-27-commands-vs-skills-structure.md"
+    ],
+    "compaction": [
+      "2026-04-01-autocompact-threshold.md"
     ],
     "competitive-analysis": [
       "superpowers-adoption.md",
@@ -590,13 +1131,36 @@
     "context": [
       "2026-03-29-paged-context-protocol.md"
     ],
+    "context-management": [
+      "2026-04-01-autocompact-threshold.md"
+    ],
+    "contrastive-learning": [
+      "2026-03-29-memcollab-agent-agnostic-memory.md"
+    ],
+    "cost-optimization": [
+      "2026-04-02-distributed-systems-amdahl-gate.md",
+      "2026-04-03-smart-tool-overuse.md",
+      "2026-04-01-image-cache-invalidation.md"
+    ],
     "critic": [
+      "2026-03-30-society-of-thought-orchestration.md",
       "2026-03-25-decomposed-evaluation.md"
+    ],
+    "cross-cutting": [
+      "2026-04-02-audit-must-verify-consumers.md"
+    ],
+    "debate": [
+      "2026-04-01-autoreason-adversarial-debate.md"
     ],
     "debiasing": [
       "2026-03-25-reasoning-isolation.md"
     ],
+    "dedup": [
+      "2026-03-30-write-time-gating-salience.md"
+    ],
     "description": [
+      "2026-04-03-anthropic-skill-creator-patterns.md",
+      "2026-04-03-description-optimizer-plan.md",
       "2026-03-25-skill-description-triggers.md"
     ],
     "destructive-error": [
@@ -608,8 +1172,17 @@
     "deviation-rules": [
       "gsd-patterns.md"
     ],
+    "disableSkillShellExecution": [
+      "2026-04-03-disable-skill-shell-audit.md"
+    ],
+    "distributed-systems": [
+      "2026-04-02-distributed-systems-amdahl-gate.md"
+    ],
     "distribution": [
       "2026-03-27-skills-must-live-in-stopa.md"
+    ],
+    "diversity": [
+      "2026-03-30-society-of-thought-orchestration.md"
     ],
     "downloads": [
       "2026-03-27-playwright-mcp-download-hijack.md"
@@ -617,8 +1190,17 @@
     "dream": [
       "2026-03-26-autodream-coexistence.md"
     ],
+    "dynamic-structure": [
+      "2026-03-29-bigmas-directed-graph-orchestration.md"
+    ],
     "ecosystem": [
       "ecosystem-scan.md"
+    ],
+    "efficiency": [
+      "2026-04-03-smart-tool-overuse.md"
+    ],
+    "effort": [
+      "2026-04-01-sonnet46-thinking-effort-breaking-change.md"
     ],
     "env-vars": [
       "2026-03-27-secrets-in-config-files.md"
@@ -626,7 +1208,12 @@
     "environment": [
       "environment-falai.md"
     ],
+    "error-handling": [
+      "2026-04-01-gsd2-error-classification.md"
+    ],
     "evaluation": [
+      "2026-04-03-anthropic-skill-creator-patterns.md",
+      "2026-04-03-description-optimizer-plan.md",
       "2026-03-25-decomposed-evaluation.md"
     ],
     "fal-ai": [
@@ -638,11 +1225,20 @@
     "frontmatter": [
       "2026-03-25-skill-description-triggers.md"
     ],
+    "future": [
+      "2026-04-03-autoagent-parallel-candidates.md"
+    ],
     "git": [
       "2026-03-24-fix-issue-solo-workflow.md"
     ],
+    "global-workspace-theory": [
+      "2026-03-29-bigmas-directed-graph-orchestration.md"
+    ],
     "gsd": [
       "gsd-patterns.md"
+    ],
+    "gsd2": [
+      "2026-04-01-gsd2-error-classification.md"
     ],
     "handoff": [
       "spec-kit-adoption.md"
@@ -654,6 +1250,9 @@
     "infrastructure": [
       "2026-03-26-channels-24x7-architecture.md"
     ],
+    "iterative": [
+      "2026-03-29-slopcodebench-iterative-degradation.md"
+    ],
     "launchagent": [
       "2026-03-26-channels-24x7-architecture.md"
     ],
@@ -663,6 +1262,9 @@
     "llm-as-judge": [
       "karpathy-loop-autoloop.md"
     ],
+    "long-sessions": [
+      "2026-04-01-autocompact-threshold.md"
+    ],
     "mac-mini": [
       "2026-03-26-channels-24x7-architecture.md"
     ],
@@ -671,6 +1273,7 @@
       "2026-03-23-youtube-transcript-yt-dlp.md"
     ],
     "memory": [
+      "2026-03-30-calm-semantic-bandwidth.md",
       "2026-03-29-paged-context-protocol.md"
     ],
     "memory-consolidation": [
@@ -679,17 +1282,53 @@
     "memory-hygiene": [
       "2026-03-24-openclaw-postmortem-patterns.md"
     ],
+    "memory-sharing": [
+      "2026-03-29-memcollab-agent-agnostic-memory.md"
+    ],
     "model-capability": [
       "2026-03-26-harness-simplification.md"
+    ],
+    "multi-agent": [
+      "2026-04-02-distributed-systems-amdahl-gate.md",
+      "2026-03-30-society-of-thought-orchestration.md",
+      "2026-04-01-autoreason-adversarial-debate.md"
+    ],
+    "multi-model": [
+      "2026-03-29-memcollab-agent-agnostic-memory.md"
+    ],
+    "multi-session": [
+      "2026-03-29-slopcodebench-iterative-degradation.md"
     ],
     "multi-turn": [
       "2026-03-25-reasoning-isolation.md"
     ],
+    "noise-resistance": [
+      "2026-03-30-write-time-gating-salience.md"
+    ],
     "optimization": [
+      "2026-04-03-description-optimizer-plan.md",
       "karpathy-loop-autoloop.md"
+    ],
+    "orchestration": [
+      "2026-04-04-skill0-dynamic-curriculum.md",
+      "2026-04-02-distributed-systems-amdahl-gate.md",
+      "2026-03-29-slopcodebench-iterative-degradation.md",
+      "2026-03-30-calm-semantic-bandwidth.md"
+    ],
+    "orchestration-graph": [
+      "2026-03-29-bigmas-directed-graph-orchestration.md"
     ],
     "os-themis": [
       "2026-03-25-decomposed-evaluation.md"
+    ],
+    "overfitting": [
+      "2026-04-03-autoagent-overfitting-guard.md"
+    ],
+    "parallel": [
+      "2026-04-03-autoagent-parallel-candidates.md"
+    ],
+    "pipeline": [
+      "2026-03-29-claudini-autoresearch-loop.md"
     ],
     "playwright": [
       "2026-03-27-playwright-mcp-download-hijack.md"
@@ -703,10 +1342,27 @@
       "environment-falai.md"
     ],
     "reasoning": [
+      "2026-03-30-society-of-thought-orchestration.md",
       "2026-03-25-reasoning-isolation.md"
     ],
+    "research": [
+      "2026-03-30-calm-semantic-bandwidth.md"
+    ],
+    "research-automation": [
+      "2026-03-29-claudini-autoresearch-loop.md"
+    ],
     "retrieval": [
+      "2026-03-30-write-time-gating-salience.md",
       "2026-03-29-paged-context-protocol.md"
+    ],
+    "reward-hacking": [
+      "2026-04-03-autoagent-overfitting-guard.md"
+    ],
+    "salience": [
+      "2026-03-30-write-time-gating-salience.md"
+    ],
+    "sandbox": [
+      "2026-04-03-autoagent-parallel-candidates.md"
     ],
     "scheduled-maintenance": [
       "2026-03-24-openclaw-postmortem-patterns.md"
@@ -716,13 +1372,28 @@
     ],
     "security": [
       "2026-03-27-playwright-mcp-download-hijack.md",
-      "2026-03-27-secrets-in-config-files.md"
+      "2026-03-27-secrets-in-config-files.md",
+      "2026-04-03-disable-skill-shell-audit.md"
+    ],
+    "self-evolve": [
+      "2026-04-03-autoagent-overfitting-guard.md"
     ],
     "session-continuity": [
       "checkpoint-versioning.md"
     ],
+    "shared-workspace": [
+      "2026-03-29-bigmas-directed-graph-orchestration.md"
+    ],
+    "shell": [
+      "2026-04-03-disable-skill-shell-audit.md"
+    ],
     "simplification": [
       "2026-03-26-harness-simplification.md"
+    ],
+    "skill": [
+      "2026-04-04-skill0-dynamic-curriculum.md",
+      "2026-04-03-anthropic-skill-creator-patterns.md",
+      "2026-04-03-description-optimizer-plan.md"
     ],
     "skill-matching": [
       "2026-03-25-skill-description-triggers.md"
@@ -733,9 +1404,15 @@
     "solo-development": [
       "2026-03-24-fix-issue-solo-workflow.md"
     ],
+    "sonnet-46": [
+      "2026-04-01-sonnet46-thinking-effort-breaking-change.md"
+    ],
     "source-of-truth": [
       "2026-03-27-commands-vs-skills-structure.md",
       "2026-03-27-skills-must-live-in-stopa.md"
+    ],
+    "source-reputation": [
+      "2026-03-30-write-time-gating-salience.md"
     ],
     "spec-kit": [
       "spec-kit-adoption.md"
@@ -746,6 +1423,9 @@
     "structure": [
       "2026-03-27-commands-vs-skills-structure.md"
     ],
+    "subjective-optimization": [
+      "2026-04-01-autoreason-adversarial-debate.md"
+    ],
     "superpowers": [
       "superpowers-adoption.md"
     ],
@@ -755,8 +1435,26 @@
     "telegram": [
       "2026-03-26-channels-24x7-architecture.md"
     ],
+    "testing": [
+      "2026-04-03-testing-bottleneck.md"
+    ],
+    "text-reproduction": [
+      "2026-04-01-sonnet46-thinking-effort-breaking-change.md"
+    ],
+    "thinking": [
+      "2026-04-01-sonnet46-thinking-effort-breaking-change.md"
+    ],
+    "token-optimization": [
+      "2026-04-04-skill0-dynamic-curriculum.md"
+    ],
     "tokens": [
       "2026-03-27-secrets-in-config-files.md"
+    ],
+    "tool-use": [
+      "2026-04-03-smart-tool-overuse.md"
+    ],
+    "trajectory-distillation": [
+      "2026-03-29-memcollab-agent-agnostic-memory.md"
     ],
     "transcript": [
       "2026-03-23-youtube-transcript-yt-dlp.md"
@@ -767,10 +1465,15 @@
     "trigger-words": [
       "2026-03-25-skill-description-triggers.md"
     ],
+    "triggers": [
+      "2026-04-03-anthropic-skill-creator-patterns.md"
+    ],
     "validation": [
       "harness-engineering.md"
     ],
     "verification": [
+      "2026-04-02-audit-must-verify-consumers.md",
+      "2026-04-03-testing-bottleneck.md",
       "gsd-patterns.md"
     ],
     "verify": [
@@ -785,8 +1488,14 @@
     "windows": [
       "environment-falai.md"
     ],
+    "workflow": [
+      "2026-04-03-testing-bottleneck.md"
+    ],
     "workflow-simplification": [
       "2026-03-24-fix-issue-solo-workflow.md"
+    ],
+    "write-time-gating": [
+      "2026-03-30-write-time-gating-salience.md"
     ],
     "youtube": [
       "2026-03-23-youtube-transcript-yt-dlp.md"
@@ -799,32 +1508,54 @@
     "general": [
       "2026-03-27-playwright-mcp-download-hijack.md",
       "2026-03-27-secrets-in-config-files.md",
+      "2026-04-01-image-cache-invalidation.md",
       "environment-falai.md",
       "ecosystem-scan.md"
     ],
     "memory": [
+      "2026-03-30-write-time-gating-salience.md",
+      "2026-03-29-memcollab-agent-agnostic-memory.md",
       "2026-03-26-autodream-coexistence.md",
-      "checkpoint-versioning.md"
+      "checkpoint-versioning.md",
+      "2026-03-30-calm-semantic-bandwidth.md"
     ],
     "orchestration": [
+      "2026-04-02-audit-must-verify-consumers.md",
+      "2026-04-03-autoagent-overfitting-guard.md",
+      "2026-04-02-distributed-systems-amdahl-gate.md",
+      "2026-04-01-gsd2-error-classification.md",
+      "2026-03-30-society-of-thought-orchestration.md",
+      "2026-03-29-claudini-autoresearch-loop.md",
+      "2026-03-29-slopcodebench-iterative-degradation.md",
       "2026-03-26-channels-24x7-architecture.md",
       "2026-03-26-harness-simplification.md",
       "2026-03-24-openclaw-postmortem-patterns.md",
+      "2026-04-03-autoagent-parallel-candidates.md",
+      "2026-04-03-smart-tool-overuse.md",
+      "2026-04-03-testing-bottleneck.md",
+      "2026-04-01-autocompact-threshold.md",
+      "2026-03-29-bigmas-directed-graph-orchestration.md",
       "2026-03-29-paged-context-protocol.md",
       "gsd-patterns.md",
       "spec-kit-adoption.md"
     ],
     "pipeline": [
+      "2026-04-01-sonnet46-thinking-effort-breaking-change.md",
       "harness-engineering.md"
     ],
     "skill": [
       "2026-03-27-commands-vs-skills-structure.md",
+      "2026-04-04-skill0-dynamic-curriculum.md",
+      "2026-04-03-anthropic-skill-creator-patterns.md",
+      "2026-04-03-description-optimizer-plan.md",
+      "2026-04-03-disable-skill-shell-audit.md",
       "2026-03-27-skills-must-live-in-stopa.md",
       "2026-03-25-decomposed-evaluation.md",
       "2026-03-25-reasoning-isolation.md",
       "2026-03-25-skill-description-triggers.md",
       "2026-03-23-youtube-transcript-yt-dlp.md",
       "superpowers-adoption.md",
+      "2026-04-01-autoreason-adversarial-debate.md",
       "2026-03-24-fix-issue-solo-workflow.md",
       "karpathy-loop-autoloop.md"
     ],

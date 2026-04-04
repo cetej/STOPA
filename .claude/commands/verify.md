@@ -86,6 +86,9 @@ Before any LLM interpretation, run ALL available deterministic checks. These pro
 - Step 4 (Verification Plan): skip L1-L2 for components already covered by passing deterministic checks
 - Step 5 (Execute): focus L3-L4 effort on areas where deterministic checks can't reach (integration, real data flow)
 
+**Schema-Utility Decoupling Warning (ref: Tool-Genesis arXiv:2603.05578):**
+Format/schema passing is NECESSARY but NOT SUFFICIENT. A component can have perfect interface compliance yet fail completely at downstream utility. After L1-L2 pass, allocate EXTRA scrutiny to L3-L4 — the hardest failures hide behind passing surface checks.
+
 **If NO deterministic checks are available** (no tests, no linter, no build): note this as a risk in the report and proceed to Step 3 — this is common for early-stage projects.
 
 ### Step 3: Milestone Extraction (informed by deterministic results)
@@ -269,6 +272,7 @@ Flag inconsistencies:
 | Rationalization | Why Wrong | Do Instead |
 |----------------|----------------|-----------------|
 | "It compiled, so it works" | Compilation ≠ correctness | Run actual test/execution with real input |
+| "Schema validates, tool works" | Schema compliance ≠ downstream utility (Tool-Genesis: Schema-F1 0.964 with SR 0.472) | After format checks pass, ALWAYS test on real downstream data — format compliance creates false confidence |
 | "Tests pass, verified" | Tests may be stubs or incomplete | Check test assertions are meaningful, not `assert True` |
 | "Returns data, endpoint works" | Wrong data is worse than no data | Verify actual content matches spec |
 | "Main path verified, edge cases later" | Edge cases ARE the verification | Test at least 2 boundary conditions |

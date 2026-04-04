@@ -6,6 +6,7 @@ component: pipeline
 tags: [harness, deterministic, python, validation]
 summary: "Deterministic harnesses (Python scripts) for processes needing >90% reliability. Skills are best-effort, harnesses are guaranteed."
 source: auto_pattern
+related: [2026-03-26-harness-simplification.md]
 ---
 
 ## Problém

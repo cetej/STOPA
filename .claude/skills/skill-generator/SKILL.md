@@ -136,6 +136,32 @@ For complex skills, create additional files in the skill directory:
 - `templates/` — template files the skill references
 - `scripts/` — helper shell scripts
 
+### Step 3: Validate-and-Repair Loop (ref: Tool-Genesis arXiv:2603.05578)
+
+After writing SKILL.md, run a **validation + repair cycle** (max 3 iterations). Tool-Genesis showed that iterative repair with execution feedback gives 2-5× better outcomes than one-shot generation.
+
+**Iteration:**
+1. **Validate structure** — check YAML frontmatter has all required fields (name, description, user-invocable, tags, phase)
+2. **Validate description** — must start with "Use when..." and NOT contain workflow summaries
+3. **Validate sections** — check for required sections per tier (Anti-Rationalization, Red Flags, Verification Checklist)
+4. **Validate tool permissions** — `allowed-tools` should be minimal; flag if Bash is granted but skill doesn't need shell
+5. **Validate line count** — must be under 500 lines
+6. **If any validation fails**: fix the issue using Edit, then re-validate
+7. **If all pass**: proceed to Quality Rules
+
+```
+## Validation Report
+| Check | Status | Issue |
+|-------|--------|-------|
+| YAML frontmatter | PASS/FAIL | <detail> |
+| description format | PASS/FAIL | <detail> |
+| required sections | PASS/FAIL | <detail> |
+| tool permissions | PASS/FAIL | <detail> |
+| line count | PASS/FAIL | N lines |
+```
+
+**Circuit breaker:** After 3 failed iterations, report remaining issues to user and STOP.
+
 ### Quality Rules
 
 Follow these rules strictly:
