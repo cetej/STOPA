@@ -68,6 +68,12 @@
             "command": "python .claude/hooks/skill-detector.py",
             "timeout": 5,
             "statusMessage": "Detecting skill patterns..."
+          },
+          {
+            "type": "command",
+            "command": "python .claude/hooks/build-permission-registry.py",
+            "timeout": 5,
+            "statusMessage": "Building permission registry..."
           }
         ]
       }
@@ -102,6 +108,17 @@
           {
             "type": "command",
             "command": "python .claude/hooks/security-scan.py",
+            "timeout": 3,
+            "statusMessage": ""
+          }
+        ]
+      },
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python .claude/hooks/tool-gate.py",
             "timeout": 3,
             "statusMessage": ""
           }
@@ -169,6 +186,12 @@
             "type": "command",
             "command": "bash .claude/hooks/skill-chain-engine.sh",
             "timeout": 5,
+            "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/skill-context-tracker.sh",
+            "timeout": 2,
             "statusMessage": ""
           }
         ]

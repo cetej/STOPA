@@ -17,6 +17,11 @@ globs: "**/skills/*/SKILL.md"
   - `workspace-write`: read-only + Write, Edit, NotebookEdit, TodoWrite
   - `full-access`: all tools including Bash, Agent (default if omitted)
   - `coordinator`: Read, Glob, Grep, Agent, TodoWrite only — NO Bash/Write/Edit (forces delegation)
+- `constrained-tools`: optional dict mapping tool name → array of allowed invocation patterns (glob syntax). When a tool is both in `allowed-tools` AND in `constrained-tools`, it's allowed but ONLY with matching patterns. Inspired by Google MCP Toolbox "structured queries" pattern — agents access tools only through approved operation shapes.
+  - Example: `constrained-tools: {Bash: ["python *", "git diff*", "ruff *"]}`
+  - Semantics: Bash is allowed, but only commands matching the glob patterns
+  - Enforced at runtime by `tool-gate.py` PreToolUse hook (STOPA_TOOL_GATE=enforce)
+  - Currently supported: Bash command matching. Future: Write/Edit path matching
 - `tags`: array of cross-cutting capability tags for discovery (viz taxonomie níže)
 - `requires`: array of runtime dependencies — env vars (UPPER_CASE), CLI tools (lowercase), MCP servers (`mcp:name`)
   - Orchestrátor by měl ověřit dostupnost PŘED spuštěním skillu
