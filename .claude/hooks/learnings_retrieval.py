@@ -107,10 +107,16 @@ def grep_learnings(keywords: list[str]) -> list[Path]:
 
 
 def score_learning(meta: dict) -> float:
-    """Compute time-weighted relevance score for a learning."""
+    """Compute time-weighted relevance score for a learning.
+
+    Formula: severity × source × confidence × impact_boost × recency
+    Impact boost: 1.0 + impact_score (default 0.0 → boost 1.0, max 1.0 → boost 2.0)
+    Ref: memory-files.md spec, inspired by A-MAC (arXiv:2603.04549)
+    """
     severity = SEVERITY_WEIGHTS.get(meta.get("severity", "medium"), 2)
     source = SOURCE_WEIGHTS.get(meta.get("source", "auto_pattern"), 1.0)
     confidence = float(meta.get("confidence", "0.7"))
+    impact_boost = 1.0 + float(meta.get("impact_score", "0.0"))
 
     # Parse date for recency
     date_str = meta.get("date", "")
@@ -121,7 +127,7 @@ def score_learning(meta: dict) -> float:
         days_since = 90  # default for unparseable dates
 
     recency = 1 / (1 + days_since / 60)
-    return severity * source * confidence * recency
+    return severity * source * confidence * impact_boost * recency
 
 
 def screening_score_learnings(
@@ -268,10 +274,12 @@ def run_confidence_decay() -> list[dict]:
         confidence = float(meta.get("confidence", "0.7"))
 
         # Decay: -0.1 per 30 days of inactivity beyond 60 days
-        # But uses boost: +0.05 per use
+        # Only decay unused learnings (uses == 0) per spec + autodream.py
+        # Uses boost applies separately: +0.05 per use
         decay_periods = (days_old - 60) // 30
         old_confidence = confidence
-        new_confidence = max(0.1, confidence - (decay_periods * 0.1) + (uses * 0.05))
+        decay_amount = (decay_periods * 0.1) if uses == 0 else 0.0
+        new_confidence = max(0.1, confidence - decay_amount + (uses * 0.05))
         new_confidence = min(1.0, new_confidence)
 
         if abs(new_confidence - old_confidence) > 0.01:
