@@ -2,6 +2,7 @@
 name: build-project
 description: "Use when building a new project from requirements end-to-end. Trigger on 'build project', 'create project', 'postav projekt'. Do NOT use for single features or existing project modifications."
 tags: [planning, orchestration]
+phase: plan
 user-invocable: true
 model: opus
 maxTurns: 60
@@ -63,6 +64,17 @@ You build complete projects from natural language requirements. You chain multip
    - `git push` to remote
    - Create GitHub repo (if doesn't exist)
    - Continue iterating
+
+<!-- CACHE_BOUNDARY -->
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "The requirements are clear enough, I'll skip the spec phase and start coding" | Unvalidated assumptions surface during implementation as rework; even clear requirements have implicit unknowns | Run spec generation first; validate with user before writing any code |
+| "I'll add this nice-to-have feature since I'm building everything anyway" | Scope creep in green-field projects is the #1 cause of never-finished prototypes | Build only what the spec requires; log nice-to-haves for a future iteration |
+| "Tests can wait until the project is more mature" | Projects without tests from day one never get tests; the first commit is the cheapest place to add them | Include basic test infrastructure and at least smoke tests in Phase 3 |
+| "I'll push directly to main since this is a new project" | Even new projects need branch discipline for rollback; pushing to main removes the safety net | Always work on a feature branch; push to main only after human approval |
 
 ## Safety Constraints
 - Never push to remote without explicit human approval

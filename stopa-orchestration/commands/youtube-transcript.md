@@ -3,6 +3,7 @@ name: youtube-transcript
 description: Use when extracting transcripts from YouTube videos for analysis. Trigger on 'youtube transcript', 'video transcript', YouTube URL. Do NOT use for non-YouTube content.
 argument-hint: <YouTube URL(s)> [--lang cs,en] [--analyze] [--output path]
 tags: [research, media]
+phase: meta
 user-invocable: true
 allowed-tools: Bash, Read, Write, Glob
 model: sonnet
@@ -20,6 +21,8 @@ Download, clean, and optionally analyze YouTube video transcripts.
 - `yt-dlp` installed (`pip install yt-dlp`)
 - If yt-dlp fails with "Sign in to confirm you're not a bot" → update first: `pip install -U yt-dlp`
 - MCP youtube-transcript server is BROKEN (2026-03) — do NOT use it, always use yt-dlp
+
+<!-- CACHE_BOUNDARY -->
 
 ## Process
 

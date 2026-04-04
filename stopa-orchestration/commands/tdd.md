@@ -3,6 +3,7 @@ name: tdd
 description: Use when implementing features via test-driven development cycle. Trigger on 'TDD', 'test first', 'red-green-refactor'. Do NOT use when tests already exist and pass.
 argument-hint: [feature or bug to implement with TDD — e.g. 'add validation to Phase 7 captions', 'fix photo_offset indexing']
 tags: [testing, code-quality]
+phase: build
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Edit, Write, Agent
 model: sonnet
@@ -21,6 +22,8 @@ NO PRODUCTION CODE WITHOUT A FAILING TEST FIRST
 ```
 
 If you didn't watch the test fail, you don't know if it tests the right thing.
+
+<!-- CACHE_BOUNDARY -->
 
 ## Process
 
@@ -112,7 +115,7 @@ Final report:
 
 ## Anti-Rationalization Defense
 
-| Rationalization | Reality | Do Instead |
+| Rationalization | Why Wrong | Do Instead |
 |----------------|---------|------------|
 | "I'll write tests after the code works" | You won't know what the test proves | Write test first, always |
 | "This is too simple to need a test" | Simple code breaks in integration | Test it anyway — it's fast |
@@ -123,8 +126,8 @@ Final report:
 
 ## Rules
 
-- NEVER write production code before a failing test
-- NEVER modify a test to make it pass (fix the code instead)
+- Do not write production code before a failing test — writing code first shapes the test to match the implementation rather than the requirement, defeating the purpose of TDD
+- Do not modify a test to make it pass — the test encodes the specification; changing it silently alters the spec and makes the bug the intended behavior
 - ONE test per cycle — don't batch
 - Run ALL tests after GREEN, not just the new one
 - If no test framework exists, set one up first (ask user for preference)

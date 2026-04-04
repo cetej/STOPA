@@ -375,6 +375,24 @@ Core principles:
 ### If using a Skill:
 Invoke the appropriate `/skill-name` with arguments.
 
+### Progressive Skill Withdrawal (SKILL0-inspired)
+
+Track which skills have been invoked in the current session. On repeat invocation of the same skill:
+1. Check if `SKILL.compact.md` exists alongside `SKILL.md`
+2. If yes: use compact variant (saves ~80% tokens)
+3. If no: use full SKILL.md as before
+4. User can override with `--full` flag on any invocation
+
+**Session skill invocation tracker** (maintain in working memory):
+```
+skill_invocations: { "critic": 2, "scout": 1, "verify": 0 }
+→ critic next invocation: use SKILL.compact.md
+→ scout next invocation: use SKILL.compact.md
+→ verify next invocation: use full SKILL.md (first time)
+```
+
+This applies to orchestrator's own re-invocations AND skills it delegates to sub-agents. When briefing a sub-agent for a repeat skill, include the compact context directly in the agent prompt instead of having the agent load the full skill.
+
 ### Agent Teams (standard 3+ / deep tier)
 
 For Agent Teams workflow, spawn templates, shutdown protocol, plan approval mode:

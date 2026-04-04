@@ -1,8 +1,9 @@
 ---
 name: scribe
-description: Use after making decisions or discovering patterns worth remembering. Trigger on record this, remember that, update state. Not for ephemeral notes.
+description: Use when capturing decisions or discovered patterns worth remembering. Trigger on 'record this', 'remember that', 'update state'. Do NOT use for ephemeral notes.
 argument-hint: [what to record — "decision", "learning", "state", or free text]
 tags: [memory, documentation]
+phase: meta
 user-invocable: true
 allowed-tools: Read, Write, Edit
 model: haiku
@@ -29,10 +30,12 @@ You record facts neutrally and accurately. You do NOT judge or execute.
 | `.claude/memory/news-archive.md` | Archived news items (read-only) | Written by scribe during news.md maintenance |
 | `.claude/memory/activity-log.md` | Auto-captured tool events (PostToolUse hook) | Written by hook — scribe reads during maintenance to suggest learnings |
 
+<!-- CACHE_BOUNDARY -->
+
 ## Input
 
 Parse `$ARGUMENTS`:
-- **"decision"** → Record a decision to decisions.md
+- **"decision"** → Record a decision as ADR file in `docs/decisions/`
 - **"learning"** → Record a learning to `learnings/` directory (per-file YAML format)
 - **"state"** → Update task state in state.md
 - **"complete"** → Mark current task as complete, archive to history
@@ -40,16 +43,35 @@ Parse `$ARGUMENTS`:
 
 ## Recording Formats
 
-### Decision Entry (decisions.md)
+### Decision Entry (ADR in docs/decisions/)
+
+1. Read `docs/decisions/` index in `.claude/memory/decisions.md` to find next ADR number
+2. Create `docs/decisions/NNNN-<slug>.md` using `docs/decisions/_template.md` format:
 
 ```markdown
-### <DATE> — <Decision Title>
-- **Context**: <what situation led to this decision>
-- **Options considered**: <what alternatives were evaluated>
-- **Decision**: <what was decided>
-- **Rationale**: <why this option was chosen>
-- **Decided by**: <orchestrator / user / critic>
+---
+date: YYYY-MM-DD
+status: DONE | IMPLEMENTING | RESEARCH | QUEUED | PARKED
+component: orchestration | skill | hook | memory | pipeline | general
+tags: []
+---
+
+# NNNN — Title
+
+## Context
+Why this decision was needed.
+
+## Decision
+What was decided and key details.
+
+## Alternatives Considered
+Other approaches evaluated and why rejected.
+
+## Consequences
+What changes, follow-up work, revisit triggers.
 ```
+
+3. Add entry to the index table in `.claude/memory/decisions.md`
 
 ### Learning Entry (learnings/ directory)
 
@@ -104,6 +126,7 @@ summary: "1-2 sentence summary: what happened + what to do. Used by memory-whisp
 source: user_correction | critic_finding | auto_pattern | agent_generated | external_research
 uses: 0
 harmful_uses: 0
+confidence: 0.7         # initial confidence based on source: user_correction=0.9, critic_finding=0.8, auto_pattern=0.7, external_research=0.6, agent_generated=0.5
 supersedes: ""          # optional — filename of older learning this one replaces (max 1)
 related: []             # optional — filenames of related learnings for multi-hop retrieval (max 3)
 ---
@@ -202,7 +225,7 @@ Triggered automatically when any memory file exceeds 500 lines (circuit breaker 
 3d. **Contradiction scan** — for each component group, compare all active (non-superseded) learnings' summaries pairwise. Flag pairs where summaries recommend opposing actions. Report: "N potential contradictions found" with file pairs listed.
 4. **Staleness check** — list all files in `learnings/`. Any file with `date:` older than 90 days: verify it's still accurate. If outdated, update or delete. Report: "N learnings checked, M stale, K updated/removed."
 4b. **Counter health check (ACE-inspired)** — scan `learnings/` files for `uses:` and `harmful_uses:` fields. Flag as "problematic" any entry where `harmful_uses >= uses` and `harmful_uses > 0`. Flag as "high-performing" any entry where `uses > 5` and `harmful_uses < 2`. Report: "N entries with counters, M high-performing, K problematic." Suggest removal of problematic entries to user.
-5. **Archive old decisions** — if decisions.md has >10 entries, move the oldest (by date) to `decisions-archive.md`. Keep newest 10.
+5. **Decision index maintenance** — decisions.md is now an index pointing to `docs/decisions/` ADR files. No archiving needed (each ADR is a separate file).
 5. **Prune state history** — keep last 5 completed tasks in state.md Task History. Delete older entries (they're derivable from git).
 6. **Consolidate patterns** — group related learnings under shared headers (e.g., "Cost Management" for budget-related patterns)
 7. **Archive budget history** — if budget.md History table has >10 rows, move oldest to `budget-archive.md`. Keep newest 10.
@@ -238,6 +261,31 @@ Lowest score gets evicted. During manual maintenance, review patterns with score
 ### Thresholds
 - **Warning**: any memory file >100 lines → suggest maintenance (news.md: >150 lines)
 - **Critical**: any memory file >500 lines → maintenance required before continuing
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "This decision is obvious, no need to record it" | Obvious now ≠ obvious in 3 months. Future sessions need the WHY, not just the WHAT. | Record the rationale — especially for decisions that feel obvious. Those are the ones most likely to be questioned later. |
+| "I'll write the learning at the end of the session" | Context decays during session. By the end, the nuance of why something failed is lost. | Write immediately when the insight occurs — never batch learnings for later. |
+| "This is too minor to be a learning" | Minor patterns compound. Small bugs that recur waste hours. The threshold for recording should be low. | If it surprised you or cost time, it's worth recording. |
+
+## Red Flags
+
+STOP and re-evaluate if any of these occur:
+- Session ending without capturing decisions that were made
+- Writing a learning without specifying the component and tags
+- Recording a decision without the rationale (WHY, not just WHAT)
+- Duplicating an existing learning instead of updating it
+- Writing learnings with vague descriptions that won't match future grep queries
+
+## Verification Checklist
+
+- [ ] Decision recorded with rationale, alternatives considered, and date
+- [ ] Learning has proper YAML frontmatter (date, type, severity, component, tags, summary)
+- [ ] No duplicate of existing learning (checked via grep on component/tags)
+- [ ] Learning summary is grep-friendly (specific keywords, not vague descriptions)
+- [ ] Memory file updated (decisions.md index or learnings/ directory)
 
 ## Rules
 

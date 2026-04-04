@@ -3,6 +3,7 @@ name: self-evolve
 description: "Use when iteratively improving a skill through adversarial co-evolution with auto-generated eval cases. Trigger on 'self-evolve', 'evolve skill', 'improve skill with evals'. Do NOT use for learning audits (/evolve) or file optimization (/autoloop)."
 argument-hint: <target-skill> [budget:N] [bootstrap:true|false] [meta:true|false]
 tags: [orchestration, testing, code-quality]
+phase: review
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
 model: sonnet
@@ -23,6 +24,11 @@ Inspired by Agent0 (AIMING Lab) + HyperAgents (Meta, arXiv:2603.19461): dual-age
 co-evolution where a Curriculum agent generates increasingly difficult eval cases and
 an Executor agent improves the target skill to handle them.
 
+**Model empathy principle** (AutoAgent-validated): Same-model pairings (meta=Claude, task=Claude)
+outperform cross-model pairings because the meta-agent writes harnesses the inner model
+actually understands — shared weights enable implicit reasoning about the task agent's
+behavior. Always prefer same-model-family for Curriculum and Executor agents.
+
 **v2 additions (HyperAgents-inspired):**
 - `meta:true` — metacognitive self-modification (tune own parameters + create new strategies). See `meta-mode.md`.
 - Heterogeneous sub-agents — Curriculum (Haiku) and Executor (Sonnet) run as separate agents with specialized prompts
@@ -40,6 +46,8 @@ an Executor agent improves the target skill to handle them.
 Read first:
 - `.claude/memory/state.md` — current task context
 - `.claude/memory/budget.md` — remaining budget
+
+<!-- CACHE_BOUNDARY -->
 
 ## Input
 
@@ -71,6 +79,7 @@ Validation:
    - Initialize meta sandbox and meta-log.tsv per `meta-mode.md`
 4. Create evolution branch: `git checkout -b self-evolve/<target>`
 5. Run baseline eval: execute all cases, record pass_rate
+5a. **Trace initialization:** Create `.traces/self-evolve-<target>-<timestamp>/` with `diffs/` subdir. Write `trace-active.json` marker: `{"skill":"self-evolve","run_id":"self-evolve-<target>-<timestamp>","target":"<target>","trace_dir":".traces/...","started":"<ISO>","current_iteration":0}`. Purge traces >7 days: `find .traces/ -maxdepth 1 -mtime +7 -exec rm -rf {} + 2>/dev/null || true`
 6. Initialize evolution log:
 
 | Round | pass_rate | cases_total | action | delta | notes |
@@ -102,6 +111,7 @@ Two modes based on current state:
 - Output: "Curriculum: FIX mode — {N} cases failing, targeting case-{ID}"
 
 **If pass_rate = 100% (all passing):**
+- **Read executor failure traces** (if `.traces/self-evolve-<target>-*/` exists): `grep "iteration" .traces/self-evolve-<target>-*/tools.jsonl | grep -v "exit.*0"` to find what inputs caused the Executor to struggle. Use these failure patterns to generate MORE targeted adversarial cases — not generic edge cases.
 - Curriculum agent generates 1-2 NEW harder cases
 - Strategy selection: weighted random from available strategies (default equal weights, tunable via meta-mode):
   - **Edge case**: unusual input that tests boundary conditions
@@ -135,6 +145,7 @@ Spawn a **Sonnet** sub-agent with surgical-editing system prompt:
 > existing behavior — do not refactor, do not add features beyond what the case requires."
 
 - **Single atomic edit per round** — one conceptual change only
+- **Read execution trace** (if `.traces/self-evolve-<target>-*/tools.jsonl` exists): `grep "iteration":<round> .traces/.../tools.jsonl` to see WHERE the skill broke during the failing eval case execution — tool calls, outputs, exit codes. This shows the exact failure point, not just the final grade.
 - Read the failing case(s) to understand what is expected
 - Read the skill to identify what is missing or wrong
 - Make the minimal edit that addresses the failure
@@ -176,13 +187,15 @@ Apply in sandbox, evaluate next round, keep or revert.
 
 ### Phase 2: Synthesis Report
 
+**Trace deactivation:** `rm -f .claude/memory/intermediate/trace-active.json`. Traces stay in `.traces/` for `/eval --optim` analysis and auto-purge after 7 days.
+
 Write `self-evolve-<target>.md` to project root:
 
 ```
 ## Self-Evolve Report: <target>
 
 **Rounds**: N / budget
-**Final pass_rate**: X% (baseline: Y%)
+**Final pass_rate**: X% (baseline: Y%) | **Median pass_rate (all rounds)**: Z%
 **Cases**: Z total (M original + K generated)
 **Exit reason**: convergence | budget | circuit-breaker
 
@@ -263,7 +276,7 @@ Pass threshold: all criteria checked
 
 ## Rules
 
-1. **Eval cases are sacred** — once created, NEVER modify existing cases. Only add new ones.
+1. **Eval cases are sacred** — do not modify existing eval cases, because changing them retroactively invalidates all prior improvement measurements and makes it impossible to track genuine progress. Only add new ones.
 2. **Single edit per round** — Executor makes ONE conceptual change, not a batch rewrite.
 3. **Curriculum escalates only on 100%** — do not pile on new cases while existing ones fail.
 4. **Critic gates prevent drift** — quality review every 2 rounds catches skill degradation.

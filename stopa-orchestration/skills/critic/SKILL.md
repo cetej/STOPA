@@ -1,10 +1,11 @@
 ---
 name: critic
-description: Use after implementation to catch quality issues. Trigger on 'review this', 'check quality', 'zkontroluj', auto-invoked after edits. Do NOT use for syntax checks or implementing fixes.
+description: Use when reviewing code in the current working context to catch quality issues. Trigger on 'review this', 'check quality', 'zkontroluj', auto-invoked after edits. Do NOT use for PR-level multi-persona review (/pr-review), decision review (/council), or implementing fixes.
 context:
   - gotchas.md
 argument-hint: [what to review — file path, skill name, or "last changes"]
 tags: [code-quality, review, post-edit]
+phase: verify
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Agent
 model: sonnet
@@ -58,6 +59,9 @@ Diff/Changes
 Read first:
 - `.claude/memory/state.md` — understand current task context
 - `.claude/memory/learnings/critical-patterns.md` — check known anti-patterns; Grep `learnings/` by component if needed
+- `.claude/memory/learnings.md` — index of all learnings; use for broader retrieval scope
+
+<!-- CACHE_BOUNDARY -->
 
 ## Input
 
@@ -87,7 +91,16 @@ Default to QUICK unless evidence of higher complexity. Upgrade mid-review if sco
 - `--spec` → Spec Compliance dimensions only
 - `--quality` → Code Quality dimensions only
 - `--deep` → Force DEEP triage path
+- `--council` → Council mode: 3 independent reviewers + anonymized cross-review + aggregate ranking (see below)
 - No flag → run both dimension sets (default)
+
+---
+
+## COUNCIL Path (--council flag)
+
+Read full council protocol: `Read ${CLAUDE_SKILL_DIR}/references/council-path.md`
+
+Summary: 3 independent haiku reviewers (Correctness Hawk, Security & Safety, Simplicity Advocate) review in parallel, then 2 sonnet judges cross-review anonymously, then Chairman synthesizes into standard Critic Report. Cost: ~6 agent calls.
 
 ---
 
@@ -109,6 +122,19 @@ Skip all remaining steps for QUICK path.
 ## STANDARD / DEEP Path — 4-Phase Pipeline
 
 ### Phase 1: SELECTOR — Extract Critical Milestones
+
+#### Quality Gates (auto-milestones)
+
+Before extracting milestones from the diff, load project quality gates:
+
+1. Read `.claude/memory/quality-gates.md` (if it exists)
+2. For each Active Gate that applies to the changed files, add it as an **automatic milestone** (prefixed `G1`, `G2`, etc. matching gate #)
+3. Gate milestones are checked in Phase 2 alongside diff-derived milestones
+4. A gate failure is at minimum WARN severity (gates represent codified project standards)
+
+If `quality-gates.md` doesn't exist, skip — gates are optional.
+
+#### Diff-Derived Milestones
 
 Analyze the diff and extract **milestones** — critical state transitions that must be correct for the change to succeed.
 
@@ -177,6 +203,7 @@ For each milestone from Phase 1, verify the assignment goal against the actual c
 | Type check | `mypy --no-error-summary --no-color <files>` | .py files, mypy available | 30s |
 | Lint | `ruff check --no-fix <files>` | .py files, ruff available | 15s |
 | Test discovery | `pytest --collect-only -q <test_files>` | test_*.py or *_test.py changed | 15s |
+| Python reviewer | Spawn `python-reviewer` agent with changed .py files | 3+ .py files changed, standard/deep tier | 60s |
 | JS/TS syntax | `node --check <file>` | .js/.ts files changed | 10s |
 | JSON validity | `python -m json.tool <file> > /dev/null` | .json files changed | 5s |
 
@@ -209,6 +236,19 @@ Update the Phase 2 results table with overrides:
 - Do NOT install missing tools — use what's available
 - Do NOT chase transient failures (network, timing) — only deterministic checks
 - Do NOT re-run failed checks hoping for different results
+
+### Anti-Hallucination Cross-Check (mandatory, all paths)
+
+Before recording ANY milestone as PASS, apply these rules (inspired by CC production data: 29% false-claims rate in newer models):
+
+| Rule | Violation Signal | Action |
+|------|-----------------|--------|
+| AH-1 | Summary says "tests pass" but tool output shows failures | Override to FAIL, quote actual output |
+| AH-2 | Summary says "task complete" but state.md has pending items | Downgrade to WARN or FAIL |
+| AH-3 | A check result was suppressed because "it's probably fine" | Surface it — anti-rationalization rule applies |
+| AH-4 | Completion claims behavior that no tool output confirms | Add "Unverified Claim" issue at medium severity |
+
+**Faithfulness principle:** Every PASS verdict requires a tool output citation as evidence. Code reading impressions ("looks correct") do NOT qualify as evidence. If no tool was run, the milestone status is UNVERIFIED, not PASS.
 
 ### Phase 3: REVIEWER as CRITIC — Audit the Evidence Chain
 
@@ -293,6 +333,8 @@ Select the weight profile matching the task type. The principle: **upweight area
 
 **How to select:** Match the task type from `.claude/memory/state.md` or infer from the diff. If unclear, use Default.
 
+**Faithfulness modifier (AH cross-check):** If any AH-1 through AH-4 violations are found, apply -0.5 penalty to final weighted score. This is a modifier, not a separate weight — it catches false completion claims regardless of task type.
+
 **Fill the Scoring Rubric** (using selected weight profile):
 
 | Criteria | Weight | Score (1-5) | Evidence |
@@ -345,107 +387,16 @@ Apply these during Phase 2 (Verifier) alongside assignment goals:
    - Type annotations added to untouched internal code "just in case"
    - Severity: low (filler comments) to medium (unnecessary abstractions adding maintenance burden)
 
-### For Plans:
-1. Completeness, 2. Feasibility, 3. Dependencies, 4. Risks, 5. Efficiency
-
-### For Skills:
-1. Description quality, 2. Tool permissions (least privilege), 3. Instructions clarity, 4. Error handling, 5. Integration with shared memory
+**For Plans:** Completeness, Feasibility, Dependencies, Risks, Efficiency
+**For Skills:** Description quality, Tool permissions (least privilege), Instructions clarity, Error handling, Memory integration
 
 ## Output Format (STANDARD / DEEP)
 
-```markdown
-## Critic Report: <target>
-**Triage path**: STANDARD / DEEP
-**Pipeline**: Selector (N milestones) → Verifier (X pass, Y fail) → Reviewer (Z concerns) → Judge
+Read full report template: `Read ${CLAUDE_SKILL_DIR}/references/output-format.md`
 
-### Impact Radius
+Key sections in report: Impact Radius, Dynamic Verification, Milestone Summary, Reviewer Concerns, Scoring Rubric, Verdict, Issues Found, Inline Annotations, What's Good, Recommendations, Verdict Rationale, Gate Proposals, Reflector Summary.
 
-| Changed File | Direct Dependents | Risk |
-|-------------|-------------------|------|
-| src/auth/jwt.ts | src/routes/api.ts, src/middleware/auth.ts | high (auth path) |
-
-**Blast radius**: N files changed → M dependents affected
-
-### Dynamic Verification Results
-
-| Check | Files | Status | Output |
-|-------|-------|--------|--------|
-| Python import | src/auth.py | PASS | — |
-| Type check | src/auth.py, src/api.py | FAIL | src/api.py:15: incompatible type |
-
-**Milestone overrides:** (list any Phase 2 PASS→FAIL overrides, or "none")
-
-### Milestone Summary
-
-| # | Assignment Goal | Verdict | Key Evidence |
-|---|----------------|---------|--------------|
-| M1 | ... | PASS/FAIL | ... |
-
-### Reviewer Concerns
-
-| # | Category | Concern |
-|---|----------|---------|
-| C1 | ... | ... |
-
-### Scoring Rubric
-
-| Criteria | Weight | Score (1-5) | Evidence |
-|----------|--------|-------------|----------|
-| Correctness | 0.30 | ? | |
-| Completeness | 0.25 | ? | |
-| Code Quality | 0.20 | ? | |
-| Safety | 0.15 | ? | |
-| Test Coverage | 0.10 | ? | |
-| **Weighted Average** | | **?.?** | |
-
-### Verdict: PASS / WARN / FAIL
-
-### Issues Found
-
-| # | Severity | Category | Description | Location |
-|---|----------|----------|-------------|----------|
-| 1 | high | correctness | ... | file:line |
-
-### Inline Annotations
-
-Quote specific code and annotate with issue IDs from the Issues table:
-
-> `if (user.role === "admin") return true;`  (auth.ts:42)
-**[#1] high/correctness:** This bypasses all permission checks for admins.
-Missing granular permission validation — admin role should still check
-specific resource access.
-
-> `const data = await fetch(url)`  (api.ts:15)
-**[#2] medium/safety:** No timeout or error handling on external fetch.
-Network failure will crash the handler.
-
-Rules for annotations:
-- Every issue from the Issues table SHOULD have a corresponding annotation
-- Quote the exact code being critiqued (with file:line)
-- Reference the issue ID so annotations link back to the summary table
-- Keep annotations concise — problem + why it matters
-
-### What's Good
-- <positive observations — always include>
-
-### Recommendations
-1. <specific, actionable fix>
-
-### Verdict Rationale
-<why PASS/WARN/FAIL — what drove the scores, which milestones/concerns were decisive>
-
-### Reflector Summary (for /scribe)
-- **Error type:** [logic bug | missing case | wrong abstraction | spec misread | none]
-- **Root cause:** [1 sentence — what caused the issues, or "N/A" if PASS with no issues]
-- **Correct approach:** [what should have been done differently, or "N/A"]
-- **Key insight:** [what to remember for future sessions — ALWAYS fill this, even on PASS]
-- **Learnings activated:** [list any learnings/ files that were retrieved during review, or "none"]
-```
-
-**Reflector Summary rules:**
-- Always include at end of STANDARD/DEEP reports (skip for QUICK)
-- "Key insight" is mandatory — even clean PASS reviews produce insights about good patterns
-- "Learnings activated" helps /scribe track which learnings are being used (drives `uses` counter)
+Always include Reflector Summary at end (skip for QUICK). "Key insight" is mandatory even on PASS.
 
 ## Cost Awareness
 
@@ -462,6 +413,11 @@ Before reviewing, check `.claude/memory/budget.md`:
 4. If FAIL → orchestrator must re-plan/re-execute
 5. If 2nd FAIL on same target → escalate to user, do NOT loop
 6. If SAME issue persists across 3+ reviews → flag as **architectural concern**
+7. **Learning feedback loop (Hebbian):** If a FAIL was caused by following a learning from `learnings/`:
+   - Grep the learning file, increment `harmful_uses:` counter by 1
+   - If `harmful_uses >= 3` → add `[HARMFUL]` tag, flag for retirement in next `/evolve`
+   - Example: `sed -i 's/harmful_uses: 2/harmful_uses: 3/' .claude/memory/learnings/<file>.md`
+   If PASS and a learning contributed positively, increment its `uses:` counter (if not already done by memory-whisper hook)
 
 ## Reasoning Isolation (BOULDER principle)
 
@@ -475,28 +431,33 @@ Multi-turn dialogue degrades LLM reasoning accuracy (arXiv:2603.20133). Each pha
 
 Before submitting your report, check yourself:
 
-| Rationalization | Why Wrong | Action |
+| Rationalization | Why Wrong | Do Instead |
 |----------------|-----------|--------|
 | "Too small to review thoroughly" | Small changes cause 40% of incidents | Use QUICK path but still review |
 | "Minor style issue" | Style issues compound | Report as low severity |
 | "Author probably had a reason" | Your job is to question | Flag as question |
-| "Works in tests" | Tests may not cover failing path | Check coverage |
+| "Works in tests" / "Tests pass" | Tests may not cover failing paths | Check actual test assertions |
 | "Big refactor needed to fix" | Team needs to know | Report medium + note scope |
-| "Found enough issues" | Completeness > comfort | Finish ALL phases |
-| "Tests pass" | Tests may be stubs or check trivial conditions | Inspect actual test assertions for meaning |
-| "Outside review scope" | If you see it, report it | Note "outside primary scope" |
 | "Just a refactor" | Refactors introduce subtle regressions | Verify before/after |
-| "Similar code elsewhere" | Existing code may be wrong too | Evaluate on merit |
 | "AI generated it, probably fine" | AI output needs MORE scrutiny, not less | Check for slop patterns |
-| "Time pressure" | Rushed reviews miss critical issues | Flag in report, don't reduce quality |
 
-**Red flags** (STOP and re-evaluate if you catch yourself):
-- Skipping a phase because "it's probably fine"
-- Softening severity because code "mostly works"
-- Writing "no issues" without running all 4 phases
-- Scoring rubric above 3 without Verifier evidence
-- Claiming PASS without running Reviewer audit
-- Accepting Verifier PASS without checking assignment goal specificity
+## Red Flags
+
+STOP and re-evaluate if any of these occur:
+- Issuing PASS verdict without tool output evidence for every milestone
+- Skipping dynamic verification (syntax, imports, tests) for code changes
+- Reviewing only the diff without checking side effects on dependent files
+- Accepting "works in tests" without verifying the tests actually ran
+- Completing review in under 30 seconds for non-trivial changes
+
+## Verification Checklist
+
+- [ ] Every milestone from the diff has a verification result (PASS/WARN/FAIL)
+- [ ] PASS verdicts backed by specific tool output citations (not assumptions)
+- [ ] Side effects checked: imports still valid, tests still pass, build succeeds
+- [ ] Anti-hallucination cross-check completed (AH-1 through AH-4)
+- [ ] Scoring rubric applied with evidence chain for each dimension
+- [ ] Final verdict includes actionable recommendations (not just pass/fail)
 
 ## Rules
 

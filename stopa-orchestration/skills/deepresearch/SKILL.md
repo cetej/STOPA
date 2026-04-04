@@ -7,6 +7,7 @@ context-required:
   - "output format — brief, analysis, comparison table, or raw evidence"
   - "scope constraints — time range, domain, credibility bar (optional but saves iterations)"
 tags: [research, osint]
+phase: meta
 user-invocable: true
 allowed-tools: Read, Write, Glob, Grep, Bash, Agent, WebSearch, WebFetch
 model: sonnet
@@ -72,6 +73,8 @@ Before starting:
 1. Read `.claude/memory/state.md` — current task context
 2. Grep `.claude/memory/learnings/` for topic-relevant patterns (max 3 queries)
 3. Read `.claude/memory/budget.md` — check remaining budget
+
+<!-- CACHE_BOUNDARY -->
 
 ## Process
 
@@ -295,7 +298,7 @@ Classify the research question **before** Step 2 to determine execution scale:
 
 ## Anti-Rationalization
 
-| Temptation | Why Wrong | Action |
+| Rationalization | Why Wrong | Do Instead |
 |------------|-----------|--------|
 | "This source probably says X" | You haven't read it | Fetch it or don't cite it |
 | "Everyone knows this" | Common knowledge still needs a source | Find one URL |

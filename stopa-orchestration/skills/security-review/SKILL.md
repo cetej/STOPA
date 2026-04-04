@@ -3,6 +3,7 @@ name: security-review
 description: Use when reviewing code for security concerns before deploy. Trigger on 'security review', 'is this secure', 'check vulnerabilities'. Do NOT use for code review (/critic) or deps (/dependency-audit).
 argument-hint: [file/directory to review] [--scope full|focused]
 tags: [security, review]
+phase: verify
 user-invocable: true
 allowed-tools:
   - Read
@@ -23,6 +24,17 @@ Accept one of:
 - **Full repo scan**: Review the entire project for security issues
 - **Feature review**: Review a specific feature, PR, or set of files
 - **Threat model**: Identify attack surfaces and trust boundaries
+
+<!-- CACHE_BOUNDARY -->
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "This is an internal tool so security doesn't matter as much" | Internal tools often have elevated privileges and weaker monitoring; they are prime lateral movement targets | Analyze trust boundaries the same way regardless of audience; internal ≠ safe |
+| "The framework handles input sanitization so I don't need to check" | Frameworks have edge cases, misconfiguration, and version-specific bugs; assuming safety creates blind spots | Verify sanitization at each trust boundary explicitly; name the framework function and its limitations |
+| "I'll skip the dependency check since we only use well-known libraries" | Popular libraries have CVEs too; supply chain attacks specifically target widely-used packages | Always check dependencies against known vulnerability databases; popularity ≠ security |
+| "The auth flow looks standard so I'll just note it as OK" | Standard OAuth/JWT implementations frequently have token lifetime, scope, and rotation issues | Trace the full auth flow: token creation, validation, refresh, revocation, and scope enforcement |
 
 ## Process
 

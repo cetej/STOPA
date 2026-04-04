@@ -3,6 +3,7 @@ name: dependency-audit
 description: Use when checking for outdated or vulnerable dependencies. Trigger on 'audit deps', 'outdated packages', 'check dependencies'. Do NOT use for general code review.
 argument-hint: [full / quick / package-name]
 tags: [dependencies, security]
+phase: verify
 user-invocable: true
 allowed-tools: Read, Glob, Grep, WebSearch, WebFetch
 model: sonnet
@@ -15,12 +16,23 @@ disallowedTools: Agent
 
 You analyze project dependencies, check for updates, identify breaking changes, and produce a prioritized upgrade plan.
 
+<!-- CACHE_BOUNDARY -->
+
 ## Input
 
 Parse `$ARGUMENTS`:
 - **"full"** (default) → Audit all dependencies in requirements.txt and CLAUDE.md
 - **"quick"** → Check only critical dependencies (Python, PyTorch, diffusers, transformers)
 - **"<package-name>"** → Deep audit of a single package (e.g., "timm", "torch")
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "This vulnerability only affects a feature we don't use" | Transitive dependencies may expose the vulnerable code path even if your code doesn't call it directly | Verify the exact code path is unreachable; if unsure, treat as exploitable |
+| "The package is 1 major version behind but it still works fine" | Major version bumps often contain security fixes backported without CVE; 'works fine' ≠ 'safe' | Check the changelog for security-related changes, not just API compatibility |
+| "I'll skip the lockfile audit since we just ran npm install" | `npm install` resolves what's compatible, not what's safe; lockfiles can pin vulnerable versions indefinitely | Always audit the lockfile independently of install success |
+| "This dev dependency doesn't matter since it's not in production" | Dev dependencies execute during CI/CD with elevated permissions; supply chain attacks target build tools | Audit dev dependencies with the same rigor as production ones |
 
 ## Process
 

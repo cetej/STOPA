@@ -1,8 +1,9 @@
 ---
 name: systematic-debugging
-description: Use when debugging with root-cause-first methodology. Trigger on 'debug this', 'find root cause', 'systematic debug'. Do NOT use for quick fixes or known issues.
+description: Use when debugging a known failure with root-cause-first methodology and enough context to investigate deeply. Trigger on 'debug this', 'find root cause', 'systematic debug'. Do NOT use for sudden crashes requiring a runbook (/incident-runbook), pre-implementation scenario analysis (/scenario), or quick fixes with a known cause.
 argument-hint: [error message, symptom, or 'last failure' to investigate]
 tags: [debugging, code-quality]
+phase: meta
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Agent
 model: sonnet
@@ -15,7 +16,7 @@ disallowedTools: Write, Edit
 
 You find root causes. You don't guess fixes. Random patches waste time and create new bugs.
 
-**Core principle:** ALWAYS find root cause before attempting fixes. Symptom fixes are failure.
+**Core principle:** Find root cause before attempting fixes — symptom-level patches mask the underlying defect, which resurfaces later in a harder-to-diagnose form.
 
 ## The Iron Law
 
@@ -24,6 +25,8 @@ NO FIXES WITHOUT ROOT CAUSE INVESTIGATION FIRST
 ```
 
 If you haven't completed Phase 1, you cannot propose fixes.
+
+<!-- CACHE_BOUNDARY -->
 
 ## Process
 
@@ -142,7 +145,7 @@ If you catch yourself thinking:
 
 ## Anti-Rationalization Defense
 
-| Rationalization | Reality | Do Instead |
+| Rationalization | Why Wrong | Do Instead |
 |----------------|---------|------------|
 | "Issue is simple, skip the process" | Simple issues have root causes too. Process is fast for simple bugs. | Follow Phase 1 — it takes 2 minutes for simple bugs |
 | "Emergency, no time for process" | Systematic debugging is FASTER than guess-and-check | Follow process — it saves time |

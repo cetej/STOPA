@@ -3,6 +3,7 @@ name: peer-review
 description: "Use when reviewing research artifacts, technical documents, or draft papers for evidence quality and rigor. Trigger on 'peer review', 'review paper', 'audit claims', 'review draft', 'recenze'. Do NOT use for code review (/critic) or PR review."
 argument-hint: <file path or topic to review>
 tags: [review, research]
+phase: review
 user-invocable: true
 allowed-tools: Read, Write, Glob, Grep, Bash, Agent, WebSearch, WebFetch
 model: sonnet
@@ -54,6 +55,8 @@ Every issue gets exactly one severity:
 | **FATAL** | Invalidates a core claim or conclusion | Cited source contradicts the claim it's attached to |
 | **MAJOR** | Significantly weakens the argument | Key comparison missing, evaluation methodology flawed |
 | **MINOR** | Polish issue, doesn't affect core validity | Inconsistent terminology, unclear figure caption |
+
+<!-- CACHE_BOUNDARY -->
 
 ## Process
 
@@ -159,7 +162,7 @@ If any FATAL issues were found:
 
 ## Anti-Rationalization
 
-| Temptation | Why Wrong | Action |
+| Rationalization | Why Wrong | Do Instead |
 |------------|-----------|--------|
 | "The author probably meant..." | You review what's written, not intent | Flag the ambiguity |
 | "This is a minor detail" | Small errors signal larger problems | Classify honestly |

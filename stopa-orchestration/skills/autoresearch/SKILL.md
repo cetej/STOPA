@@ -1,12 +1,15 @@
 ---
 name: autoresearch
 description: "Use when experimentally verifying hypotheses through code iteration with measurable outcomes. Trigger on 'autoresearch', 'experiment', 'try approaches'. Do NOT use for literature review (/deepresearch) or file optimization (/autoloop)."
-argument-hint: <research question> eval:<command> [target:<dir>] [budget:N] [hypotheses:<list>]
+argument-hint: <research question> eval:<command> [target:<dir>] [budget:N] [hypotheses:<list>] [cost_metric:<command>]
 context-required:
   - "research question — specific and answerable, not vague topic"
   - "eval command — locked scoring script; without it the loop cannot start"
   - "target path — one file or directory to mutate"
+context:
+  - trace-review.md
 tags: [research, testing]
+phase: build
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent, WebSearch, WebFetch
 model: sonnet
@@ -56,7 +59,7 @@ The loop works because these four roles are strictly separated. Blur any boundar
 | Role | What you provide | What the agent controls |
 |------|-----------------|------------------------|
 | **Mutable target** | `target:` path (one file) | Yes — edited every iteration |
-| **Locked eval** | `eval:` command | NEVER — agent cannot touch this |
+| **Locked eval** | `eval:` command | Locked — agent must not modify the eval script because any change invalidates the entire experiment history |
 | **Direction** | research question + hypotheses | Reads only, does not modify |
 | **Memory** | git history + TSV log | Commits wins, resets losses |
 
@@ -76,7 +79,7 @@ If any condition is missing: **stop and fix it before starting the loop.**
 
 | # | Rule |
 |---|------|
-| 1 | **One hypothesis per iteration** — test one idea at a time. If it needs "and" to describe, split it |
+| 1 | **One hypothesis per iteration** — test one idea at a time. If it needs "and" to describe, split it. **Confound isolation**: NEVER bundle structural changes (control flow, state, tools) with prompt changes (system prompt, instructions, few-shot) in one iteration. Structural first → verify → prompt second. (Meta-Harness arXiv:2603.28052: bundling caused regression in 2/2 attempts) |
 | 2 | **Measure, don't judge** — use the eval command, not subjective assessment |
 | 3 | **Git is memory** — commit before running, read history before proposing |
 | 4 | **Name your hypotheses** — every experiment gets a human-readable name tracked in the log |
@@ -92,6 +95,8 @@ Before starting:
 2. Grep `.claude/memory/learnings/` for topic-relevant patterns (max 3 queries by component/tags)
 3. Read `.claude/memory/budget.md` — check remaining budget
 
+<!-- CACHE_BOUNDARY -->
+
 ## Phase 0: Research Setup
 
 ### Parse input
@@ -102,6 +107,7 @@ From `$ARGUMENTS`, extract:
 - **target**: directory or file scope for experiments (default: current directory)
 - **budget**: max experiment count (default: 10)
 - **hypotheses**: optional comma-separated list of approaches to try first
+- **cost_metric**: bash command that outputs a cost number (e.g., token count, LOC, latency) — enables Pareto frontier tracking (accuracy vs cost). Same pattern as autoloop.
 - **direction**: `higher` or `lower` is better (auto-detect from question keywords, or ask)
 
 Examples:
@@ -176,6 +182,8 @@ If eval command fails on baseline: **STOP**. The user must provide a working eva
 
 ### Create experiment branch
 
+Follow `trace-review.md` → **Trace Initialization** section: create `.traces/<run_id>/`, write `trace-active.json` marker (skill:"autoresearch"), purge old traces. This enables the `trace-capture.py` PostToolUse hook to record tool call inputs/outputs during the experiment run.
+
 ```bash
 git checkout -b autoresearch/<slug>-$(date +%s)
 ```
@@ -194,7 +202,11 @@ echo "# question: <question>" > autoresearch-log.tsv
 echo "# eval: <eval_command>" >> autoresearch-log.tsv
 echo "# direction: <higher_is_better|lower_is_better>" >> autoresearch-log.tsv
 echo "# baseline: <baseline_metric>" >> autoresearch-log.tsv
-echo -e "iteration\thypothesis\tcommit\tmetric\tdelta\tstatus\tnotes\tdifficulty_level" >> autoresearch-log.tsv
+if [ -n "$COST_METRIC" ]; then
+  echo -e "iteration\thypothesis\tcommit\tmetric\tdelta\tcost\tpareto\tstatus\tnotes\tdifficulty_level" >> autoresearch-log.tsv
+else
+  echo -e "iteration\thypothesis\tcommit\tmetric\tdelta\tstatus\tnotes\tdifficulty_level" >> autoresearch-log.tsv
+fi
 echo -e "0\tbaseline\t$(git rev-parse --short HEAD)\t${baseline_metric}\t0.0\tbaseline\tinitial state" >> autoresearch-log.tsv
 ```
 
@@ -228,6 +240,7 @@ For each iteration (1 to budget):
 2. Run `git log --oneline -10` — see what was tried
 3. If last experiment was "keep": run `git diff HEAD~1` — understand WHAT worked
 4. Identify: what's been tried, what worked, what failed, what's unexplored
+5. **If `.traces/<run_id>/` exists**: follow `trace-review.md` → Trace-Informed Review Protocol (grep traces for failed/successful iteration, read error outputs, mandatory hypothesis diagnosis)
 
 ### Step 2: Hypothesize
 
@@ -266,8 +279,22 @@ git diff --cached --quiet && echo "no-op" || \
 git commit -m "experiment(<hypothesis-name>): <one-sentence description>"
 ```
 
+**Trace diff capture:** If traces active, follow `trace-review.md` → Diff Capture section.
+
 ### Step 5: Run eval
 
+**Spot-check gate** (AutoAgent-inspired): If the eval script runs multiple test cases (e.g., iterates over a dataset), and total eval time exceeded 30s at baseline, run on a random subset of 2-3 cases first. Only proceed to full eval if spot-check doesn't regress.
+
+```
+IF baseline_eval_time > 30s AND eval has identifiable cases:
+    Run eval on 2-3 random cases → spot_metric
+    IF spot_metric regressed vs best-so-far:
+        STATUS = "discard"  # Skip full eval
+        Log: "⚡ Spot-check failed — skipping full eval (saved ~{baseline_eval_time}s)"
+        GOTO Step 6
+```
+
+Full eval:
 ```bash
 metric=$(<eval_command> 2>&1 | grep -oP '[\d.]+' | tail -1)
 ```
@@ -302,6 +329,8 @@ After every "keep", check:
 | **Churn cycling** | 3 consecutive keep→revert→keep on similar diffs | Flag |
 | **Metric spike** | Delta >3× running average of positive deltas | Flag |
 | **Prediction mismatch** | Result contradicts EXPECTED EFFECT from Step 2 | Flag |
+
+**Overfitting guard** (AutoAgent-inspired): After every "keep", ask: "If this exact eval case disappeared, would this change still be a worthwhile improvement?" If NO → flag as overfitting, log `divergence`.
 
 On flag: pause, print warning, ask user to confirm.
 
@@ -342,7 +371,7 @@ Review the experiment log holistically:
 
 ```
 === BATCH ASSESS (after iteration <N>/<budget>) ===
-Baseline: <baseline> → Best: <best> (+<delta>)
+Baseline: <baseline> → Best: <best> (+<delta>) | Median (kept): <median>
 Kept: <K> | Discarded: <D> | Crashed: <C>
 Improvement trend: <improving | flat | declining>
 Remaining budget: <remaining> iterations
@@ -382,40 +411,7 @@ Remaining budget: <remaining> iterations
 
 ### Step 10.5: Adaptive Difficulty Calibration (Agent0 curriculum pattern)
 
-After each batch ASSESS, calibrate difficulty based on performance. This creates co-evolutionary pressure: easy success → harder challenges, consistent failure → relaxed constraints.
-
-**Compute keep_rate**: `keeps_in_batch / iterations_in_batch`
-
-| keep_rate | Decision | Action |
-|-----------|----------|--------|
-| >50% | **ESCALATE** | Tighten target by 10% OR add secondary guard metric (LOC, cyclomatic complexity) |
-| 20-50% | **HOLD** | Continue as-is, no calibration needed |
-| <20% | **SIMPLIFY** | Widen target tolerance by 10% OR remove secondary metrics |
-
-**ESCALATE actions** (pick the most relevant):
-- Tighten numeric target: `new_target = current_target * 1.1` (if higher-is-better) or `* 0.9` (lower-is-better)
-- Add complexity guard: reject iterations where target file LOC grows >20% from baseline
-- Require monotonic improvement: discard iterations that don't beat the PREVIOUS iteration (not just best-so-far)
-
-**SIMPLIFY actions** (pick the most relevant):
-- Widen target tolerance: `new_target = current_target * 0.9` (higher-is-better) or `* 1.1` (lower-is-better)
-- Remove secondary guard metrics added by prior ESCALATE
-- Allow bigger hypothesis deltas (relax single-file mutation to 2 files if needed)
-
-**Caps:**
-- Max 2 ESCALATEs per run — after that, HOLD regardless of keep_rate
-- Max 1 SIMPLIFY per run — if already simplified and still <20%, let ASSESS handle (PIVOT/ABORT)
-- SIMPLIFY cannot undo more than 1 prior ESCALATE level
-
-**Difficulty tracking:**
-- `difficulty_level` starts at 1.0, +0.1 per ESCALATE, -0.1 per SIMPLIFY
-- Log to TSV: add `difficulty_level` to each iteration row after calibration
-- Log calibration decision to Run Diary: `[CALIBRATE] keep_rate=X%, decision=ESCALATE|HOLD|SIMPLIFY, difficulty=Y`
-
-**Interaction with ASSESS decisions:**
-- If ASSESS = PROCEED or ABORT → skip calibration (loop is ending)
-- If ASSESS = REFINE → calibration runs, but only HOLD or ESCALATE (never SIMPLIFY during refinement)
-- If ASSESS = PIVOT → reset difficulty_level to 1.0 (fresh start with new approach)
+Read `${CLAUDE_SKILL_DIR}/references/difficulty-calibration.md` for full calibration rules (keep_rate thresholds, ESCALATE/SIMPLIFY actions, caps, ASSESS interaction).
 
 ### Mid-loop research agent (escape hatch)
 
@@ -430,55 +426,9 @@ This is the key difference from autoloop — autoresearch can break out of local
 
 ## Phase 3: Synthesis Report
 
-After loop ends, write to `outputs/autoresearch-<slug>.md`:
+**Trace deactivation:** If traces active, follow `trace-review.md` → Trace Deactivation section. Traces stay in `.traces/` for `/eval --optim` analysis.
 
-```markdown
-# AutoResearch Report: <question>
-
-**Date:** <YYYY-MM-DD>
-**Experiments:** <used> / <budget>
-**Branch:** autoresearch/<slug>
-**Best result:** <metric> (baseline: <baseline>, improvement: <+X / +X%>)
-**Best hypothesis:** <name>
-
-## Experiment Log
-
-| # | Hypothesis | Metric | Delta | Status | Notes |
-|---|-----------|--------|-------|--------|-------|
-| 0 | baseline | 0.72 | — | baseline | initial state |
-| 1 | ... | ... | ... | ... | ... |
-
-## What Worked
-
-<Top performing approaches with analysis of why — cite experiment numbers>
-
-## What Didn't Work
-
-<Failed approaches and why — equally important for future reference>
-
-## Unexpected Discoveries
-
-<Anything surprising that emerged from experiments>
-
-## Recommended Approach
-
-<The best implementation, with rationale and experiment evidence>
-
-## Open Questions
-
-<What wasn't tested, what would need more experiments>
-
-## Reward Hacking Incidents
-
-<Any divergence flags triggered, how they were resolved>
-
-## Difficulty Calibration History
-
-| Batch | keep_rate | Decision | difficulty_level | Action taken |
-|-------|-----------|----------|-----------------|--------------|
-| 1 | 75% | ESCALATE | 1.1 | Tightened target to 0.85 |
-| 2 | 30% | HOLD | 1.1 | — |
-```
+After loop ends, write synthesis report. Read `${CLAUDE_SKILL_DIR}/references/synthesis-report-template.md` for the full template structure.
 
 ## Phase 4: Handoff
 
@@ -514,24 +464,7 @@ Default to **standard**. Infer from budget argument if provided.
 
 ## Failure Taxonomy
 
-Classify every crash/error into a category. This enables smarter recovery decisions.
-
-| Category | Pattern | Recovery | Repairable? |
-|----------|---------|----------|-------------|
-| **DEPENDENCY** | ImportError, ModuleNotFoundError | `pip install` missing package, retry | Yes (1 attempt) |
-| **RESOURCE** | OOM, CUDA out of memory, disk full | Reduce batch size / data size, retry | Yes (1 attempt) |
-| **TIMEOUT** | Eval exceeds 5× baseline time | Kill, reduce scope, retry | Yes (1 attempt) |
-| **DATA** | FileNotFoundError, empty dataset, corrupt input | Check paths, verify data exists | Yes (if path issue) |
-| **DIVERGENCE** | NaN, Inf, metric outside expected range | Revert, flag for manual review | No — revert only |
-| **SYNTAX** | SyntaxError, IndentationError | Fix and retry | Yes (1 attempt) |
-| **LOGIC** | Assertion failed, wrong output shape | Revert, log as "approach incompatible" | No — revert only |
-| **EVAL_BROKEN** | Eval script itself errors | STOP — ground truth corrupted | No — STOP |
-| **ENVIRONMENT** | Permission denied, port in use, antivirus lock | Retry with delay | Yes (2 attempts) |
-| **UNKNOWN** | Unclassified error | Revert, log full stderr | No — revert only |
-
-**Repairability rule:** If the same failure category occurs 3+ times across the run, mark it as **non-repairable** for remaining iterations. Don't waste budget retrying a systemic issue.
-
-**Auto-classification:** Parse stderr/stdout against category patterns. Log category in TSV `notes` column.
+Read `${CLAUDE_SKILL_DIR}/references/failure-taxonomy.md` for the 10-category classification table (DEPENDENCY, RESOURCE, TIMEOUT, DATA, DIVERGENCE, SYNTAX, LOGIC, EVAL_BROKEN, ENVIRONMENT, UNKNOWN) with patterns, recovery actions, and repairability rules.
 
 ## Error Handling
 
@@ -547,7 +480,7 @@ Classify every crash/error into a category. This enables smarter recovery decisi
 
 ## Anti-Patterns to Avoid
 
-| Temptation | Why Wrong | Do Instead |
+| Rationalization | Why Wrong | Do Instead |
 |------------|-----------|------------|
 | "Let me try 5 things at once" | Can't attribute improvement | One hypothesis per iteration |
 | "The metric went up, ship it" | Might be reward hacking | Check secondary signals |
@@ -555,6 +488,7 @@ Classify every crash/error into a category. This enables smarter recovery decisi
 | "Let me tweak the eval script" | Destroys ground truth — all prior rounds invalidated | Never modify eval |
 | "I'll clean up the code while I'm at it" | Conflates optimization with refactoring | Stay in scope |
 | "I'll add a 2nd file to this iteration" | Violates single-file mutation, can't isolate cause | Split into two sequential hypotheses |
+| "I'll fix the prompt AND restructure the loop in this iteration" | Bundling structural+prompt changes confounds diagnosis — Meta-Harness showed 2/2 regressions | Structural change first, verify, THEN prompt change in separate iteration |
 
 ## Known Failure Modes (Karpathy Loop-Specific)
 

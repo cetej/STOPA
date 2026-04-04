@@ -233,6 +233,13 @@
           },
           {
             "type": "command",
+            "command": "bash .claude/hooks/skill-sync.sh",
+            "timeout": 5,
+            "statusMessage": "Syncing skill copies...",
+            "if": "Write(**SKILL.md)|Edit(**SKILL.md)|Write(**/commands/*.md)|Edit(**/commands/*.md)"
+          },
+          {
+            "type": "command",
             "command": "python .claude/hooks/auto-checkpoint-suggest.py",
             "timeout": 3,
             "statusMessage": ""

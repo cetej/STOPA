@@ -3,6 +3,7 @@ name: watch
 description: Use when scanning for AI/ML ecosystem news, Claude Code updates, or arXiv research papers. Trigger on 'watch', 'news', "what's new", 'novinky', 'papers', 'arXiv'. Do NOT use for web browsing (/browse).
 argument-hint: [full / quick / papers / voices / topic:specific-topic]
 tags: [research, osint]
+phase: meta
 user-invocable: true
 allowed-tools: Read, Write, Edit, WebSearch, WebFetch, Agent
 model: sonnet
@@ -20,6 +21,8 @@ You scan external sources for news, updates, and changes relevant to this projec
 1. Read `.claude/memory/news.md` — previous findings and last scan date
 2. Read `.claude/memory/learnings.md` — current patterns (to spot relevant updates)
 3. Read `CLAUDE.md` — project dependencies and tech stack (to know what to watch)
+
+<!-- CACHE_BOUNDARY -->
 
 ## Input
 

@@ -3,6 +3,7 @@ name: pr-review
 description: Use when reviewing a PR with multiple expert perspectives. Trigger on 'review PR', 'PR review', 'multi-persona review'. Do NOT use for simple code review (/critic).
 argument-hint: <PR number or URL> [--post]
 tags: [review, devops]
+phase: review
 requires: [gh]
 context:
   - gotchas.md
@@ -21,6 +22,8 @@ You review a PR from 6 expert perspectives, then synthesize findings into a sing
 
 Read `.claude/memory/learnings.md` — apply known patterns and anti-patterns to the review.
 
+<!-- CACHE_BOUNDARY -->
+
 ## Phase 0: Load PR Context
 
 Parse `$ARGUMENTS` to get PR number or URL.
@@ -36,6 +39,68 @@ Capture:
 - **Size** (additions/deletions)
 - **Author**
 - **Base branch**
+
+## Flag: --council (Anonymous Cross-Review Mode)
+
+If `--council` flag is passed, replace the standard sequential Phase 1 → Phase 2 with:
+
+### Council Phase 1: Parallel Independent Reviews
+
+Spawn the **6 perspectives as 6 parallel sub-agents** (model: haiku). Each gets the PR diff and its persona prompt independently. They do NOT see each other's work.
+
+### Council Phase 2: Anonymous Cross-Review
+
+1. Collect all 6 review outputs
+2. Label them **Review A through F** — strip persona names
+3. Spawn **3 judge sub-agents** (model: sonnet) in parallel. Each sees all 6 anonymized reviews + the original diff:
+
+```
+You are auditing 6 independent code reviews of the same PR.
+
+PR diff:
+{diff}
+
+Review A:
+{review_1}
+...
+Review F:
+{review_6}
+
+Your task:
+1. For each review: strongest finding and biggest miss
+2. Issues flagged by 3+ reviewers = high confidence consensus
+3. Issues flagged by only 1 reviewer = investigate — real find or false positive?
+4. Rank all 6 reviews by thoroughness
+
+FINAL RANKING:
+1. Review X
+2. Review Y
+...
+```
+
+### Council Phase 3: Aggregate & Synthesize
+
+Compute average rank per reviewer across 3 judges. De-anonymize. Add to output:
+
+```markdown
+### Council Review Leaderboard
+
+| Rank | Review | Persona | Avg Position | Consensus Issues | Unique Finds |
+|------|--------|---------|-------------|-----------------|-------------|
+| 1 | Review C | Security | 1.7 | 5 | 2 |
+| ... | ... | ... | ... | ... | ... |
+
+**High-confidence issues** (flagged by 3+ reviewers): ...
+**Disputed issues** (1 reviewer, judges split): ...
+```
+
+Then merge into the standard Phase 2 Synthesis format below.
+
+**Cost:** 6 × haiku + 3 × sonnet + chairman = ~10 agent calls. Use for high-stakes PRs.
+
+Without `--council`, proceed with standard sequential review:
+
+---
 
 ## Phase 1: Six-Perspective Review
 
@@ -125,6 +190,16 @@ gh pr review <number> --body "<review content>" --<verdict>
 Where verdict is `--approve`, `--request-changes`, or `--comment`.
 
 Ask user for confirmation before posting.
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "The diff is large so I'll skim the less important files" | Every file in a PR is there for a reason — skipping files misses cross-cutting bugs and cascade effects | Read every changed file fully; note file count in Phase 0 and track which you've reviewed |
+| "I'll skip the Security perspective since this looks like a UI-only change" | UI changes frequently introduce XSS, CSRF, or auth bypass vectors that only the Security lens catches | Run all 6 perspectives every time; a 30-second Security scan costs far less than a missed injection |
+| "I already know the verdict, I'll write the synthesis first and fill in perspectives later" | Synthesis written before review rationalizes findings to fit the pre-decided verdict, not the actual code | Complete all 6 perspectives before writing a single line of Phase 2 output |
+| "I'll post the review without confirmation since --post was passed" | The user may want to review the findings before a public comment appears on the PR | Always show the full review output and ask for confirmation before calling `gh pr review` |
+| "No tests changed, so QA review is N/A" | Missing tests are themselves a QA finding — unchanged test suite for changed behavior is a red flag | The QA perspective must explicitly note whether test coverage is adequate or lacking |
 
 ## Rules
 

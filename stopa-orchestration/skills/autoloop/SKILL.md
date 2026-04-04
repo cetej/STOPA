@@ -1,15 +1,17 @@
 ---
 name: autoloop
-description: Use when iteratively optimizing a file or metric via Karpathy loop. Trigger on 'autoloop', 'optimize skill', 'auto-improve'. Do NOT use for one-shot edits.
+description: Use when iteratively optimizing a file or metric against a measurable target via Karpathy loop. Trigger on 'autoloop', 'optimize skill', 'auto-improve'. Do NOT use for one-shot edits, skill improvement with evals (/self-evolve), text/argument improvement (/autoreason), or code experimentation (/autoresearch).
 context:
   - tree-mode.md
   - meta-mode.md
-argument-hint: <target file/scope> [goal] [verify:<command>] [guard:<command>] [budget:N] [mode:linear|tree] [meta:true] [escalate:true]
+  - trace-review.md
+argument-hint: <target file/scope> [goal] [verify:<command>] [guard:<command>] [cost_metric:<command>] [budget:N] [mode:linear|tree] [meta:true] [escalate:true]
 context-required:
   - "target file or scope — one file to optimize (single-file mutation rule)"
   - "optimization goal — what to improve and in which direction"
   - "verify command — how to measure improvement; without it loop uses LLM-as-judge only"
 tags: [orchestration, testing]
+phase: build
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 model: sonnet
@@ -35,7 +37,7 @@ Karpathy autoresearch pattern for Claude Code: constrain scope → define metric
 |---|------|
 | 1 | **Loop until done** — run all iterations, never ask "should I continue?" |
 | 2 | **Read before write** — understand full context before modifying |
-| 3 | **One change per iteration** — atomic changes. If it breaks, you know why |
+| 3 | **One change per iteration** — atomic changes. If it breaks, you know why. **Confound isolation**: NEVER bundle structural changes (control flow, state, tools) with prompt changes (system prompt, instructions, few-shot) in one iteration. Structural first → verify → prompt second. (Meta-Harness arXiv:2603.28052: bundling caused regression in 2/2 attempts) |
 | 4 | **Mechanical verification only** — no subjective "looks good." Use metrics |
 | 5 | **Automatic rollback** — failed changes revert instantly via git |
 | 6 | **Simplicity wins** — equal results + less code = KEEP |
@@ -52,6 +54,8 @@ If any item below is missing from `$ARGUMENTS`, ask **one question** before proc
 | **Goal** | Without direction, loop optimizes for arbitrary structural signals |
 | **Verify command** | Without a metric, improvement is LLM-judged (less reliable; state this explicitly) |
 
+<!-- CACHE_BOUNDARY -->
+
 ## Phase 0: Setup
 
 ### Parse input
@@ -63,6 +67,7 @@ From `$ARGUMENTS`, extract:
 - **guard**: command that must always pass — safety net (optional)
 - **budget**: iteration count (default: 10, override with `budget:N`)
 - **direction**: `higher` or `lower` is better (auto-detected from goal keywords, or ask)
+- **cost_metric**: bash command that outputs a cost number (e.g., token count, LOC, latency) — enables Pareto frontier tracking (accuracy vs cost)
 - **mode**: `linear` (default) or `tree` — tree enables branching exploration (see `tree-mode.md`)
 - **meta**: `true` enables metacognitive self-modification of scoring params (see `meta-mode.md`). Requires `mode:linear`.
 - **escalate**: `true` enables Agent0-inspired escalation — on plateau, raise the bar instead of just exploring harder (see Escalation Phase)
@@ -74,6 +79,7 @@ Examples:
 /autoloop src/api/*.ts verify:"npm test -- --coverage | grep All | awk '{print $4}'" guard:"npm run typecheck" budget:20
 /autoloop .claude/skills/critic/SKILL.md
 /autoloop src/index.ts "reduce bundle size" verify:"npx esbuild src/index.ts --bundle --minify | wc -c" direction:lower
+/autoloop .claude/skills/critic/SKILL.md verify:"python eval_skill.py" cost_metric:"wc -c < .claude/skills/critic/SKILL.md"
 ```
 
 ### Precondition checks
@@ -112,6 +118,33 @@ If any FAIL: stop and inform user. Do not enter the loop with broken preconditio
 
 Ask user once: "Provide a verify command, or continue with LLM-as-judge?" Then proceed with their choice.
 
+### Initialize trace capture (Meta-Harness)
+
+Follow `trace-review.md` → **Trace Initialization** section: create `.traces/<run_id>/`, write `trace-active.json` marker, purge old traces. This enables the `trace-capture.py` PostToolUse hook to record tool call inputs/outputs during the optimization run.
+
+### Warm-start from prior runs (Meta-Harness pattern)
+
+Check for prior autoloop runs on the same target:
+```bash
+# Find prior iterations.jsonl for same target
+prior_run=$(ls -td .traces/autoloop-$(basename <target> .md)-*/iterations.jsonl 2>/dev/null | head -1)
+if [ -n "$prior_run" ]; then
+  prior_best=$(python -c "
+import json, sys
+lines = open('$prior_run').readlines()
+best = max((json.loads(l) for l in lines if l.strip()), key=lambda x: x.get('metric', 0))
+print(f\"{best['metric']}|{best.get('commit','HEAD')}\")
+" 2>/dev/null)
+  if [ -n "$prior_best" ]; then
+    echo "⚡ Warm-start: prior run best=${prior_best%|*} at commit ${prior_best#*|}"
+    # Optionally checkout that commit: git checkout ${prior_best#*|}
+  fi
+fi
+```
+
+If warm-start found: log origin in `trace-active.json` as `"warm_start": "<prior_run_id>"`.
+The proposer can learn from the prior run's trace directory without repeating its experiments.
+
 ### Create feature branch
 
 ```bash
@@ -122,29 +155,62 @@ git checkout -b autoloop/$(basename <target> .md)-$(date +%s)
 
 ```bash
 echo "# metric_direction: <higher_is_better|lower_is_better>" > autoloop-results.tsv
-echo -e "iteration\tcommit\tmetric\tdelta\tguard\tstatus\tdescription" >> autoloop-results.tsv
+if [ -n "$COST_METRIC" ]; then
+  echo -e "iteration\tcommit\tmetric\tdelta\tcost\tpareto\tguard\tstatus\tdescription" >> autoloop-results.tsv
+else
+  echo -e "iteration\tcommit\tmetric\tdelta\tguard\tstatus\tdescription" >> autoloop-results.tsv
+fi
 ```
+
+### Initialize Pareto frontier (Meta-Harness pattern, if cost_metric provided)
+
+When `cost_metric:` is set, track a Pareto frontier of non-dominated solutions (accuracy vs cost).
+A candidate is **Pareto-dominated** if another candidate has both better metric AND lower cost.
+
+```bash
+# Initialize Pareto set
+if [ -n "$COST_METRIC" ]; then
+  echo '[]' > .traces/<run_id>/pareto.json
+fi
+```
+
+**Pareto update logic** (run after every "keep" iteration):
+```python
+import json
+pareto = json.loads(open('.traces/<run_id>/pareto.json').read())
+new = {"iter": N, "metric": metric, "cost": cost, "commit": commit}
+# Remove candidates dominated by new
+pareto = [p for p in pareto if not (new["metric"] >= p["metric"] and new["cost"] <= p["cost"])]
+# Add new if not dominated by any existing
+if not any(p["metric"] >= new["metric"] and p["cost"] <= new["cost"] for p in pareto):
+    pareto.append(new)
+open('.traces/<run_id>/pareto.json', 'w').write(json.dumps(pareto, indent=2))
+```
+
+During Step 1 (Review), when cost_metric is active, print the current Pareto frontier so the proposer can choose to optimize along either axis.
 
 ### Establish baseline (iteration 0)
 
-Run verify/scorer on unmodified state. Record as baseline in TSV:
+Run verify/scorer on unmodified state. If `cost_metric:` set, also run cost command.
+Record as baseline in TSV:
 ```
-0	a1b2c3d	85.2	0.0	pass	baseline	initial state
+0	a1b2c3d	85.2	0.0	1240	yes	pass	baseline	initial state
 ```
 
 ## Phase 1: Iteration Loop
 
 For each iteration (1 to budget):
 
-### Step 1: Review (git as memory)
+### Step 1: Review (git + traces as memory)
 
-**MUST complete ALL steps** — git history is the primary learning mechanism:
+**MUST complete ALL steps** — git history and traces are the primary learning mechanisms:
 
 1. Read current state of in-scope files
 2. Read last 10-20 entries from `autoloop-results.tsv`
 3. Run `git log --oneline -10` — see recent experiments (kept vs reverted)
 4. If last iteration was "keep": run `git diff HEAD~1` — understand WHAT worked
-5. Decide: exploit success (variant of what worked) or explore new approach
+5. **If `.traces/<run_id>/` exists**: follow `trace-review.md` → Trace-Informed Review Protocol (grep traces for failed/successful iteration, read error outputs, mandatory diagnosis)
+6. Decide: exploit success (variant of what worked) or explore new approach
 
 **Priority order for next change:**
 1. Fix crashes/failures from previous iteration
@@ -184,7 +250,23 @@ git commit -m "experiment(<scope>): <one-sentence description>"
 If nothing to commit: log as `no-op`, skip verify, next iteration.
 If pre-commit hook blocks: fix issue and retry (max 2 attempts), then log as `hook-blocked`.
 
+**Trace diff capture:** If traces active, follow `trace-review.md` → Diff Capture section.
+
 ### Step 4: Verify (mechanical only)
+
+**Spot-check gate** (AutoAgent-inspired): If eval suite has **5+ cases** (metric mode with multi-case verify, or file mode with multiple scored dimensions), run a random subset of 2-3 cases first. Only proceed to full eval if spot-check passes. This saves compute on obviously broken changes — especially valuable in longer runs (10+ iterations).
+
+```
+IF eval_cases >= 5:
+    spot_sample = random.sample(eval_cases, min(3, len(eval_cases)))
+    spot_result = run_verify(spot_sample)
+    IF spot_result regressed vs baseline:
+        STATUS = "discard"  # Skip full eval, save time
+        Log: "⚡ Spot-check failed on {len(spot_sample)} cases — skipping full eval"
+        GOTO Step 6
+    ELSE:
+        proceed to full eval below
+```
 
 **Metric mode:** Run the verify command, extract the metric number.
 **File mode:** Run the built-in scorer (see Scoring section).
@@ -205,7 +287,7 @@ Guard is pass/fail only (exit code 0 = pass). If guard fails:
 4. Re-commit, re-verify, re-guard
 5. Max 2 rework attempts, then discard
 
-**NEVER modify guard/test files** — always adapt the implementation instead.
+Do not modify guard or test files — changes to the measurement baseline invalidate all previous iterations and make before/after comparison meaningless. Always adapt the implementation instead.
 
 ### Step 6: Decide
 
@@ -283,35 +365,7 @@ Exit when ANY:
 
 ### Escalation Phase (Agent0-inspired, optional)
 
-**Trigger:** `escalate:true` flag AND 3 consecutive discards (plateau detected).
-**Concept:** Instead of just ramping exploration weight, raise the bar — add harder constraints or tighter metrics. Inspired by Agent0's co-evolutionary curriculum: when the optimizer plateaus, the challenge must escalate.
-
-**How it works:**
-
-1. **Analyze current state**: Read all "keep" iterations from TSV — what has already been optimized?
-
-2. **Generate escalation** based on mode:
-
-   | Mode | Escalation method |
-   |------|-------------------|
-   | **Metric mode** | Tighten target: if metric plateaued at 92%, set new floor at 90% and add a SECOND metric as guard (e.g., complexity, coverage, latency) |
-   | **File mode (SKILL.md)** | Add 2-3 NEW scoring checks beyond the original 15-point heuristic, derived from what's NOT yet covered (e.g., "has examples section", "has edge case handling") |
-   | **File mode (other)** | Switch from current scorer to a stricter one: add new constraints derived from the goal (e.g., "under 100 LOC" + "no nested loops") |
-
-3. **Reset plateau counter** to 0, keep budget running
-4. **Log escalation** in TSV as special row:
-   ```
-   E1	-	92.0	0.0	-	escalation	added guard: complexity < 150 LOC
-   ```
-5. **Resume loop** with new constraints — the bar is now higher
-6. **Max 2 escalations** per run — after 2nd escalation plateaus → HARD STOP
-
-**Escalation status in status block:**
-```
-AUTOLOOP_STATUS:
-  escalation_level: <0|1|2>
-  escalation_desc: "<what was added>"
-```
+Read `${CLAUDE_SKILL_DIR}/references/escalation-phase.md` for full escalation protocol (trigger, method per mode, logging).
 
 Valid TSV statuses (updated): `baseline`, `keep`, `keep (reworked)`, `discard`, `crash`, `no-op`, `hook-blocked`, `divergence`, `escalation`
 
@@ -340,32 +394,9 @@ On crash: always revert to last known-good state before continuing.
 
 ## Reward Hacking Detection
 
-Track secondary signals alongside the primary metric. Check after every "keep" iteration:
+Read `${CLAUDE_SKILL_DIR}/references/reward-hacking.md` for full detection protocol (divergence signals, overfitting guard, on-divergence procedure).
 
-### Divergence signals
-
-| Signal | Check | Threshold | How to detect |
-|--------|-------|-----------|---------------|
-| **Complexity creep** | `wc -l` of target files | >30% growth from baseline | `baseline_loc` recorded in Phase 0, compare each iteration |
-| **Churn cycling** | Last 3 iterations alternate keep→revert→keep on similar changes | 3 consecutive flip-flops | Parse TSV for status pattern + `git diff` similarity |
-| **Metric spike** | Delta suddenly >3× the running average delta | Anomalous jump | Compare current delta to mean of prior positive deltas |
-
-### On divergence detected
-
-1. **Pause the loop** — do not auto-continue
-2. Print warning with evidence:
-   ```
-   ⚠ REWARD HACKING SUSPECTED
-   Signal: <which signal triggered>
-   Evidence: <e.g., "LOC grew 85→142 (+67%) while metric improved only +0.3">
-   Recommendation: inspect last 3 commits manually
-   ```
-3. Ask user: "Continue, rollback last N, or stop?"
-4. Log `divergence` as TSV status for the flagged iteration
-
-### TSV extension
-
-Add `divergence` to valid statuses: `baseline`, `keep`, `keep (reworked)`, `discard`, `crash`, `no-op`, `hook-blocked`, `divergence`
+Key signals monitored: complexity creep (>30% LOC growth), churn cycling (3 flip-flops), metric spike (>3x avg delta). On detection: pause loop, warn user, log `divergence` status.
 
 ## Phase 2: Final Validation (LLM-as-judge)
 
@@ -397,15 +428,28 @@ If validation score dropped below 5: warn — structural improvements may have h
 | 1 | 87.1 | +1.9 | pass | keep | add auth edge case tests |
 | ... |
 
+### Pareto Frontier (if cost_metric was tracked)
+
+| # | Metric | Cost | Commit | Description |
+|---|--------|------|--------|-------------|
+| 1 | 93.4 | 980 | c3d4e5f | simplified scoring |
+| 2 | 91.2 | 620 | a1b2c3d | minimal variant |
+
+Non-dominated solutions only. Use `/eval --experiments pareto <run_id>` to query later.
+
 ### Summary
-- **Baseline**: <score> → **Final**: <score> (+<total delta>)
+- **Baseline**: <score> → **Best**: <score> (+<total delta>) | **Median (kept)**: <median>
 - **Kept**: N | **Discarded**: M | **Crashes**: K
 - **Validation score**: X/10
 - **Exit reason**: budget | plateau | max score | crash loop
 - **Guard failures**: N (reworked: M, discarded: K)
+
+> **Why median?** Meta-Harness (arXiv:2603.28052) showed median is a more robust quality signal than best — best can be an outlier, median reflects typical iteration quality.
 ```
 
 **Run Diary Summary**: Append `## Summary` section to `run-diary-<slug>.md` with key insight, best approach, dead ends. If significant findings: suggest `/scribe learning` with diary path.
+
+**Trace deactivation:** If traces active, follow `trace-review.md` → Trace Deactivation section. Traces stay in `.traces/` for `/eval --optim` analysis.
 
 ### Performance Record
 
@@ -435,58 +479,9 @@ Ask the user: "Merge branch `autoloop/<name>` into current branch, or discard?"
 
 ## Scoring: SKILL.md (built-in)
 
-For `*/SKILL.md` files, use this structural heuristic. Run each check and sum points:
+Read `${CLAUDE_SKILL_DIR}/references/scoring-heuristic.md` for the full 15-point structural scorer (12 positive signals S1-S12, 4 negative signals N1-N4) with bash implementation.
 
-### Positive signals (max 15 points)
-
-| # | Check | Points | How to verify |
-|---|-------|--------|---------------|
-| S1 | Description has trigger conditions | +2 | Grep description line for: `when`, `use when`, `use this`, `after`, `before`, `trigger` (case-insensitive) |
-| S2 | Description is 50-200 chars | +1 | Measure description field length |
-| S3 | argument-hint is present and non-empty | +1 | Check frontmatter |
-| S4 | effort field is present | +1 | Check frontmatter |
-| S5 | Has process/steps section | +1 | Grep for `^##.*[Pp]rocess\|^##.*[Ss]tep\|^## Phase` |
-| S6 | Has error/failure handling section | +1 | Grep for `^##.*[Ee]rror\|^##.*[Ff]ail\|^##.*wrong\|circuit.breaker` |
-| S7 | References `.claude/memory/` | +2 | Grep for `.claude/memory/` or `memory/state\|memory/learnings\|memory/decisions` |
-| S8 | Logs to decisions or learnings | +1 | Grep for `decisions.md\|learnings.md` and context suggests writing |
-| S9 | Under 500 lines | +1 | `wc -l` |
-| S10 | Has output format section | +1 | Grep for `^##.*[Oo]utput\|^##.*[Ff]ormat\|^##.*[Tt]emplate\|```markdown` |
-| S11 | Has rules/guidelines section | +1 | Grep for `^##.*[Rr]ule\|^##.*[Gg]uideline\|^## Rules` |
-| S12 | Has shared memory read instruction | +2 | Grep for `Read first\|read.*memory\|Before anything.*read\|Shared Memory` |
-
-### Negative signals (penalties)
-
-| # | Check | Points | How to verify |
-|---|-------|--------|---------------|
-| N1 | Description is vague | -2 | Grep description for: `useful`, `helpful`, `general.purpose`, `various`, `miscellaneous` |
-| N2 | Missing name in frontmatter | -1 | Check frontmatter |
-| N3 | Missing description in frontmatter | -2 | Check frontmatter |
-| N4 | Over 500 lines | -1 | `wc -l` |
-
-### Scoring implementation
-
-Run these bash commands and sum the results:
-
-```bash
-DESC=$(sed -n '/^---$/,/^---$/p' <target> | grep '^description:' | sed 's/^description: *//')
-echo "$DESC" | grep -iE 'when|use (this|when)|after|before|trigger' > /dev/null && echo "S1:+2" || echo "S1:0"
-LEN=$(echo -n "$DESC" | wc -c)
-[ "$LEN" -ge 50 ] && [ "$LEN" -le 200 ] && echo "S2:+1" || echo "S2:0"
-sed -n '/^---$/,/^---$/p' <target> | grep -q '^argument-hint:.\+.' && echo "S3:+1" || echo "S3:0"
-sed -n '/^---$/,/^---$/p' <target> | grep -q '^effort:' && echo "S4:+1" || echo "S4:0"
-grep -qiE '^##.*(process|step|phase)' <target> && echo "S5:+1" || echo "S5:0"
-grep -qiE '^##.*(error|fail|wrong)|circuit.breaker' <target> && echo "S6:+1" || echo "S6:0"
-grep -q '.claude/memory/' <target> && echo "S7:+2" || echo "S7:0"
-grep -qE 'decisions\.md|learnings\.md' <target> && echo "S8:+1" || echo "S8:0"
-[ "$(wc -l < <target>)" -lt 500 ] && echo "S9:+1" || echo "S9:0"
-grep -qiE '^##.*(output|format|template)|```markdown' <target> && echo "S10:+1" || echo "S10:0"
-grep -qiE '^##.*(rule|guideline)' <target> && echo "S11:+1" || echo "S11:0"
-grep -qiE 'read first|read.*memory|before anything.*read|shared memory' <target> && echo "S12:+2" || echo "S12:0"
-echo "$DESC" | grep -iE 'useful|helpful|general.purpose|various|miscellaneous' > /dev/null && echo "N1:-2" || echo "N1:0"
-sed -n '/^---$/,/^---$/p' <target> | grep -q '^name:' && echo "N2:0" || echo "N2:-1"
-sed -n '/^---$/,/^---$/p' <target> | grep -q '^description:' && echo "N3:0" || echo "N3:-2"
-[ "$(wc -l < <target>)" -ge 500 ] && echo "N4:-1" || echo "N4:0"
-```
+Summary: checks trigger conditions in description, frontmatter completeness, process/error sections, memory references, line count, output format, and guidelines sections.
 
 ## Scoring: Generic files
 

@@ -3,6 +3,7 @@ name: project-init
 description: Use when setting up a new project with optimal Claude Code config. Trigger on 'init project', 'new project', 'project setup'. Do NOT use for existing projects.
 argument-hint: "[project-path] [--name 'Project Name'] [--force] [--skip-agents-md]"
 tags: [planning, devops]
+phase: plan
 user-invocable: true
 allowed-tools: Read, Write, Bash, Glob
 model: haiku
@@ -27,6 +28,8 @@ This skill is part of the STOPA orchestration system. After initialization, the 
 ```bash
 claude --plugin-dir /path/to/stopa-orchestration
 ```
+
+<!-- CACHE_BOUNDARY -->
 
 ## Input
 
@@ -260,9 +263,9 @@ Display to the user:
 
 ## Rules
 
-- NEVER overwrite existing CLAUDE.md — it contains project-specific instructions
-- NEVER overwrite existing AGENTS.md — it may contain custom instructions
-- NEVER delete existing files in `.claude/` even with `--force`
+- Do not overwrite existing CLAUDE.md — it contains project-specific instructions and accumulated configuration that cannot be reconstructed from a template
+- Do not overwrite existing AGENTS.md — it may contain custom agent configurations and team structures that would be lost
+- Do not delete existing files in `.claude/` even with `--force` — these files represent accumulated project state (learnings, decisions, memory) that is irreplaceable once deleted
 - Memory templates must match exactly — orchestration skills parse these formats
 - Keep output in Czech for the user
 - If project has `.git/`, mention that `.claude/memory/` should be in `.gitignore` (sensitive state)

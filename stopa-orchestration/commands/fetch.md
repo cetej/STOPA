@@ -3,6 +3,7 @@ name: fetch
 description: Use when extracting clean readable text from one or more URLs for LLM analysis. Trigger on 'fetch URL', 'read page', 'načti stránku', 'obsah URL'. Do NOT use for Chrome automation (/browse) or YouTube (/youtube-transcript).
 argument-hint: "<url> [url2...] [--analyze] [--raw] [--save path]"
 tags: [research, osint, web]
+phase: build
 user-invocable: true
 allowed-tools: WebFetch, WebSearch, Read, Write, Bash
 model: sonnet
@@ -25,6 +26,8 @@ https://r.jina.ai/https://example.com/article
 
 Returns clean prose — no nav, no ads, no boilerplate. Ideal for LLM context windows.
 
+<!-- CACHE_BOUNDARY -->
+
 ## Parse Arguments
 
 From `$ARGUMENTS`:
@@ -32,6 +35,15 @@ From `$ARGUMENTS`:
 - **--analyze**: after fetching, provide analysis + key takeaways
 - **--raw**: skip Jina, use raw WebFetch (for JSON APIs, sitemaps, robots.txt)
 - **--save <path>**: save extracted text to file
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "The URL looks safe so I don't need to validate it" | URLs can redirect to unexpected content; user-provided URLs may contain tracking or malicious parameters | Always validate URL format before fetching; warn on suspicious patterns |
+| "Jina Reader failed so I'll skip this URL" | A single URL failure may be transient; the user expects all requested URLs to be attempted | Retry once with raw WebFetch fallback; report the failure explicitly instead of silently skipping |
+| "The page is huge but I'll return all of it since the user asked for it" | Returning massive content wastes context and pushes instructions out of the window | Summarize content over 5000 words; offer to save full text to file with --save |
+| "I'll use Chrome/browse for this since fetch doesn't seem to work" | Fetch is lightweight and predictable; browser automation adds complexity and failure modes | Exhaust fetch options (Jina → raw WebFetch) before suggesting /browse as escalation |
 
 ## Process
 

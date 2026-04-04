@@ -1,8 +1,9 @@
 ---
 name: compact
-description: Use when context is bloated with large tool results or agent outputs. Trigger on compact, save results, context too large. Not for small tasks.
+description: Use when context is bloated with large tool results or agent outputs and you need to trim without ending the session. Trigger on 'compact', 'save results', 'context too large'. Do NOT use for session-ending saves (/checkpoint), capturing findings into memory (/handoff), or routine small tasks.
 argument-hint: "save-and-summarize <id> | save <id> | summarize <id> | load <id> | scratchpad | cleanup"
 tags: [session, memory]
+phase: ship
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
 effort: medium
@@ -18,6 +19,8 @@ Manage context by saving large results to disk and keeping only lightweight summ
 Large result → save to disk → Haiku summarizes → summary stays in context
 Final synthesis → load full data from disk → rich answer
 ```
+
+<!-- CACHE_BOUNDARY -->
 
 ## Operations
 
@@ -144,11 +147,31 @@ Delete all intermediate files.
 2. Report count of deleted files
 3. Use at task close or when starting fresh
 
+## Production Thresholds (from CC production monitoring)
+
+Battle-tested constants from Claude Code's auto-compaction system (~250K API calls/day wasted before calibration):
+
+| Constant | Value | Meaning |
+|----------|-------|---------|
+| SUMMARY_TOKEN_RESERVE | 20,000 | Min free tokens for summary generation call |
+| AUTO_COMPACT_BUFFER | 13,000 | Suggest /compact when context > (total - 13K) |
+| BLOCKING_BUFFER | 3,000 | At context > (total - 3K): STOP new work, compact first |
+| MAX_CONSECUTIVE_FAILURES | 3 | After 3 failed compactions: halt, alert user |
+
+See orchestrate SKILL.md § Context Budget Allocation for per-category targets (15% summaries, 40% inline, 10% verification). The `AUTO_COMPACT_BUFFER` (13K) fires before inline results exceed their 40% allocation at standard context sizes. When compacting, prioritize inline agent results (largest category) and preserve verification evidence until Phase 5 completes.
+
+**Consecutive Failure Circuit Breaker:**
+Track `compact_failures` counter (in budget.md or in-memory). After 3 consecutive compaction failures:
+→ STOP. Do not attempt another compaction.
+→ Output: "COMPACT CIRCUIT BREAKER: 3 consecutive failures. Kontextové okno je příliš plné pro sumarizaci. Doporučení: nová session nebo manuální ořez konverzace."
+→ Reset counter to 0 after any successful compaction.
+
 ## Circuit Breakers
 
 - **Scratchpad max 50 entries**: If scratchpad exceeds 50 rows, delete the oldest 25 rows (full data remains in JSON files). Log: "Scratchpad trimmed: oldest 25 entries archived."
 - **Don't compact small results**: If content is <20 lines, skip — overhead of summarization exceeds benefit. Save directly if needed.
 - **JSON file size**: If `fullContent` would exceed 100KB, truncate to first 100KB with note "[TRUNCATED at 100KB]"
+- **Consecutive failures**: See Production Thresholds above — max 3 retries before halt.
 
 ## Smart Compaction Rules
 

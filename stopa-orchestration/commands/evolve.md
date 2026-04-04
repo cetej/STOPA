@@ -1,14 +1,10 @@
 ---
 name: evolve
-description: >
-  Use when reviewing accumulated corrections, violations, and session trends to propose
-  rule graduations, pruning, and promotions. Trigger on: "run /evolve", "analyze corrections",
-  "review what I've been correcting", "promote to critical patterns", "prune old rules",
-  "cleanup learnings". Run periodically (every 10+ sessions) or when violations.jsonl
-  shows recurring patterns. NOT for daily use — only when signals have accumulated.
+description: Use when reviewing accumulated corrections and session trends to graduate or prune system rules. Trigger on 'run /evolve', 'analyze corrections', 'promote to critical patterns', 'prune old rules', 'cleanup learnings'. Do NOT use for iterative skill improvement (/self-evolve) or file optimization (/autoloop).
 user-invocable: true
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash
 tags: [memory, documentation, session, orchestration]
+phase: meta
 ---
 
 # /evolve — Learning Evolution Audit
@@ -17,6 +13,8 @@ You are the meta-engineer improving the system that runs you.
 Read accumulated signals → propose concrete changes → wait for approval → apply.
 
 ---
+
+<!-- CACHE_BOUNDARY -->
 
 ## Step 1: Load All Signals
 
@@ -67,6 +65,78 @@ VIOLATION PATTERN: [rule]
 
 ---
 
+## Step 3b: Confidence-Based Learning Audit
+
+Scan all files in `.claude/memory/learnings/` and evaluate each learning's confidence:
+
+**Compute effective confidence** for each learning:
+1. Read `confidence:` field (default 0.7 if missing)
+2. Apply decay: if `uses: 0` AND `date:` is 60+ days old → subtract 0.1 per 30 days of inactivity (min 0.1)
+3. Apply boost: add `uses × 0.05` (cap at 1.0), subtract `harmful_uses × 0.15`
+
+**Graduation candidates** (`uses >= 10` AND effective confidence >= 0.8 AND `harmful_uses < 2`):
+→ Propose PROMOTE to `critical-patterns.md` or GRADUATE to `rules/`
+
+**Pruning candidates** (effective confidence < 0.3):
+→ Propose PRUNE — learning has decayed below usefulness threshold
+
+**Decay warnings** (effective confidence 0.3-0.5, not recently used):
+→ Flag for review — may need refreshing or superseding
+
+Show:
+```
+CONFIDENCE AUDIT: [N learnings scanned]
+  Graduation ready: [list of filenames with uses/confidence]
+  Decay warnings:   [list of filenames with age/confidence]
+  Prune candidates: [list of filenames with reason]
+```
+
+Include these proposals in Step 7 alongside correction/violation-based proposals.
+
+---
+
+## Step 3c: Model Gate Audit
+
+Inspired by CC `@[MODEL_LAUNCH]` tagging — flag model-specific learnings that may be stale.
+
+1. Read current model from `ANTHROPIC_MODEL` env var or infer from session context
+2. Scan all learnings with `model_gate:` field in YAML frontmatter
+3. For each where `model_gate` value does NOT match current model:
+   ```
+   MODEL GATE AUDIT: [N model_gate learnings found]
+     Current model: [model string or "unknown"]
+     Stale gates:   [learning filenames where gate ≠ current model]
+     Action: REVIEW [filename] — verify if still applies
+   ```
+4. Include in Step 7 proposals as **REVIEW** action (not auto-PRUNE — requires human confirmation)
+5. If model_gate matches current model → no action needed, learning is still relevant
+
+---
+
+## Step 3d: Panic Episode Analysis
+
+If `.claude/memory/intermediate/panic-episodes.jsonl` exists and has entries:
+
+1. Group episodes by `trigger_signals` pattern (which signals dominate)
+2. Look for recurring patterns:
+   - Same signal combination 3+ times → systemic issue, not one-off
+   - Escalations (red ignored) → investigate what tasks cause this
+3. Cross-reference with `window_summary` for file/error patterns
+
+Show:
+```
+PANIC EPISODES: [N total, M red, K yellow]
+  Dominant pattern: [most common signal combination]
+  Recurring triggers: [error types / file clusters that cause panic]
+  Action: ADD_TO_RUNBOOK | CREATE_LEARNING | INVESTIGATE
+```
+
+If a pattern triggers panic 3+ times → create a learning or runbook entry
+so the model recognizes the situation earlier and switches to /systematic-debugging
+proactively instead of waiting for the panic detector.
+
+---
+
 ## Step 4: Analyze Session Trends (sessions.jsonl)
 
 If 5+ entries in sessions.jsonl, calculate:
@@ -80,6 +150,33 @@ TREND: Corrections X→Y (↓ improving | → flat | ↑ worsening)
        Most violated: [rule name]
        Healthy sessions: N/M (last M sessions)
 ```
+
+---
+
+## Step 4c: Skill Usage Audit
+
+Read `.claude/memory/skill-usage.jsonl` (if it exists). Each line is `{"ts":"...","skill":"..."}`.
+
+**Build usage report:**
+1. Count invocations per skill (last 60 days)
+2. List ALL skills from `.claude/skills/*/SKILL.md` — compare against usage data
+3. Identify **stale skills** (0 invocations in 60+ days or never used)
+4. Identify **hot skills** (top 5 by usage count)
+
+**Stale skill action:**
+- Skill with 0 uses AND tier 3+ (advanced/methodology) → ARCHIVE candidate (move to `.claude/skills-archive/`)
+- Skill with 0 uses AND tier 1-2 → Flag for review — maybe it should be used more, not archived
+
+Show:
+```
+SKILL USAGE AUDIT: [N skills total, M with usage data]
+  Hot skills (top 5):  [skill: N calls] ...
+  Stale (60+ days):    [list with tier]
+  Never invoked:       [list]
+  Action: ARCHIVE [skill] | REVIEW [skill] | OK
+```
+
+If skill-usage.jsonl doesn't exist or is empty, note "No usage data yet — tracking started" and skip.
 
 ---
 
@@ -152,6 +249,16 @@ After applying, append to `.claude/memory/evolution-log.md`:
 ```
 
 ---
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "I'll apply the obvious promotions without waiting for user approval" | Evolve modifies the rules that govern ALL future sessions — unapproved changes can silently degrade behavior system-wide | Present every proposal in the numbered Step 7 list and apply ONLY after explicit approval per item |
+| "corrections.jsonl doesn't exist so I'll skip Step 2" | Missing signal files mean data wasn't collected yet, not that there are no issues — other signal sources (violations, sessions) may still have evidence | Note the missing file, continue with available signals, and recommend enabling the hook that writes it |
+| "This pattern only appeared once so it's not worth promoting" | Single high-severity corrections from user_correction source outweigh many auto-pattern observations | Weigh by source × severity — one user_correction/critical can justify a CREATE action |
+| "critical-patterns.md already has 10 entries, so I won't propose new promotions" | The cap means you must propose a PRUNE alongside any PROMOTE — not that new graduates are blocked | Identify the lowest-confidence existing pattern as a PRUNE candidate and propose both changes together |
+| "I'll skip the model_gate audit since I don't know the current model" | Stale model-specific workarounds actively mislead — surfacing them for human review is better than leaving them silently wrong | Use ANTHROPIC_MODEL env var or state "model unknown" and flag all model_gate learnings for manual review |
 
 ## Constraints
 

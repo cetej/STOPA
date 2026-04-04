@@ -1,9 +1,10 @@
 ---
 name: seo-audit
-description: Use when analyzing SEO performance from GSC data for ranking opportunities. Trigger on SEO audit, keyword opportunities. Not for technical site audits.
+description: Use when analyzing SEO performance from GSC data for ranking opportunities. Trigger on SEO audit, keyword opportunities. Do NOT use for technical site audits.
 context: []
 argument-hint: "[focus: opportunities|intent|gaps|full] [timerange: 30d|90d]"
 tags: [research, web]
+phase: meta
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Agent
 model: sonnet
@@ -28,6 +29,8 @@ You are the SEO analyst. You read GSC data, find opportunities, and produce acti
 1. **Grep-first**: Grep `.claude/memory/learnings/` for `component: pipeline`, `component: general`, or `tags:.*seo`
 2. **Read only matched files** — don't read the entire learnings directory
 3. If grep finds nothing, check if `critical-patterns.md` exists and read it
+
+<!-- CACHE_BOUNDARY -->
 
 ## Input
 
@@ -265,6 +268,16 @@ If only 1 snapshot exists, skip this module and report "insufficient data for tr
 2. **[HIGH]** {action} — estimated impact: +{X} clicks/month
 3. **[MEDIUM]** {action}
 ```
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "CTR is low but position is good — it's probably fine" | Position and CTR are independent signals; a position-3 page at 1% CTR is leaving 80%+ of its traffic on the table | Compare actual CTR against the benchmark table for that position range and flag the gap explicitly |
+| "Keyword data is sparse so I'll skip the intent mapping module" | URL slugs and titles carry intent signal even without keyword data — fallback SQL handles this explicitly | Use the URL-level fallback query; classify topics from the slug rather than skipping the module |
+| "Only one snapshot exists, so trend analysis is not possible — I'll invent an estimate" | Fabricating trends from a single data point is worse than no data — it will drive wrong decisions | Report "insufficient data for trend analysis" and skip Module 4 cleanly |
+| "I'll suggest 10+ action items to be thorough" | Overwhelming the user with recommendations causes none of them to get actioned | Limit Priority Actions to the top 3 by estimated impact (impressions × CTR gap); label clearly HIGH/MEDIUM |
+| "I'll note that the user can rewrite titles without suggesting specific new titles" | Vague recommendations require a follow-up session; the user needs the exact fix to act immediately | For every title/meta issue, provide the current text and a specific suggested replacement |
 
 ## Rules
 

@@ -3,6 +3,7 @@ name: klip
 description: Use when generating video via Kling on fal.ai. Trigger on 'generate video', 'klip', 'video clip'. Requires FAL_KEY env var. Do NOT use for images (/nano).
 argument-hint: <prompt> [--image path/url] [--duration 5|10|15] [--aspect 16:9|9:16|1:1] [--tier standard|pro] [--output path]
 tags: [generation, media]
+phase: build
 requires: [FAL_KEY]
 user-invocable: true
 allowed-tools:
@@ -23,6 +24,8 @@ Generate high-quality video animations using Kling 3.0 through fal.ai API.
 
 - `fal-client` Python package installed (`pip install fal-client`)
 - `FAL_KEY` environment variable set (check `~/.claude/settings.json` env section)
+
+<!-- CACHE_BOUNDARY -->
 
 ## Step 1: Parse Arguments
 

@@ -1,10 +1,11 @@
 ---
 name: checkpoint
-description: Use when ending a session or saving progress. Trigger on checkpoint, save progress, continue later. Do NOT use mid-task when work is incomplete.
+description: Use when ending an active session to save progress for resumption in a new session. Trigger on 'checkpoint', 'save progress', 'continue later'. Do NOT use for capturing completed remote session findings (/handoff), recording a single decision (/scribe), or mid-task while work is still in flight.
 context:
   - gotchas.md
 argument-hint: [save / resume / status]
 tags: [session, memory]
+phase: ship
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 model: haiku
@@ -22,6 +23,8 @@ You ensure work survives across session boundaries. You save structured snapshot
 - **checkpoint.md is corrupted or malformed**: Recreate from state.md + git log. Don't try to parse broken markdown.
 - **Git state is dirty when saving**: Include the dirty state in the checkpoint — it's important context for resume.
 - **No active task to checkpoint**: Save a minimal checkpoint with git state and session notes only.
+
+<!-- CACHE_BOUNDARY -->
 
 ## Input
 
@@ -50,12 +53,17 @@ Collect from all available sources:
 5. **Learnings this session**: Glob `.claude/memory/learnings/` for today's entries (pattern: `YYYY-MM-DD-*.md`)
 6. **Implementation plan**: Read `.claude/memory/implementation-plan.md` if it exists
 
-### Step 2: Determine What's Done and What Remains
+### Step 2: Determine What's Done, What Remains, and What Failed
 
 From the task state:
 - List completed subtasks (with one-line summaries)
 - List remaining subtasks (with dependencies and method)
 - Identify the **immediate next action** — the very first thing the next session should do
+- **Collect failed approaches**: Check for:
+  1. Panic detector episodes: Read `.claude/memory/intermediate/panic-episodes.jsonl` (if exists) — each entry = a failed approach cycle
+  2. Git reverts/resets in this session: `git reflog --since="8 hours ago"` for evidence of rolled-back work
+  3. Conversation context: recall any approach you abandoned with reasoning
+  - Write each failure as: `- **{approach}**: {why it failed} → {lesson}`
 
 ### Step 3b: Git Cross-Reference
 
@@ -97,6 +105,13 @@ Write to `.claude/memory/checkpoint.md`:
 
 <The single most important thing to do first. Be specific:
  file path, function name, what change to make.>
+
+## Tried and Failed
+
+<Approaches attempted this session that DID NOT WORK.
+ For each, include: what was tried, why it failed, what we learned.
+ This prevents the next session from repeating dead ends.
+ If nothing failed, write "Nothing — all approaches worked.">
 
 ## Key Context
 
@@ -178,6 +193,30 @@ The heuristic signals are:
 
 When auto-triggered by orchestrate, save checkpoint silently and return a one-line status
 to the orchestrator (don't interrupt the user's flow).
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "Context is small enough, no need to checkpoint" | Context size doesn't predict session continuity needs. A fresh session won't know what was decided or attempted. | Checkpoint whenever subtasks exist or 3+ agents were spawned — regardless of context size. |
+| "I'll just finish quickly, no checkpoint needed" | Session limits are unpredictable. A crash or timeout loses all context without checkpoint. | Checkpoint before risky operations and at natural milestones. |
+| "The git history is enough to resume" | Git history captures code changes, not decisions, failed approaches, or pending subtasks. | Checkpoint captures resume prompt, state, decisions, and what NOT to do — git doesn't. |
+
+## Red Flags
+
+STOP and re-evaluate if any of these occur:
+- Session ending without any checkpoint when subtasks exist in state.md
+- Checkpoint that doesn't contain a resume prompt for the next session
+- Mixing completed work from previous sessions into a new checkpoint
+- Checkpoint without mentioning what was already tried and failed
+
+## Verification Checklist
+
+- [ ] checkpoint.md contains clear resume prompt for next session
+- [ ] All pending subtasks from state.md referenced in checkpoint
+- [ ] Failed approaches documented (so next session doesn't retry them)
+- [ ] Decision log (decisions.md) up to date before checkpoint
+- [ ] Budget state captured if orchestration was active
 
 ## Rules
 

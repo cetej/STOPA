@@ -3,6 +3,7 @@ name: nano
 description: Use when generating images via fal.ai Banana Pro. Trigger on 'generate image', 'nano', 'create picture'. Requires FAL_KEY. Do NOT use for video (/klip).
 argument-hint: <prompt> [--model pro|2] [--aspect 16:9|1:1|9:16|4:3|3:4] [--resolution 1K|2K|4K] [--count 1-4] [--for-video] [--output path]
 tags: [generation, media]
+phase: build
 requires: [FAL_KEY]
 user-invocable: true
 allowed-tools:
@@ -23,6 +24,8 @@ Generate high-quality images using Nano Banana Pro or Nano Banana 2 through fal.
 
 - `fal-client` Python package installed (`pip install fal-client`)
 - `FAL_KEY` environment variable set (check `~/.claude/settings.json` env section)
+
+<!-- CACHE_BOUNDARY -->
 
 ## Step 1: Parse Arguments
 

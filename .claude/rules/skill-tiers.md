@@ -4,6 +4,7 @@ Skills are organized into 4 tiers by frequency of use. This helps Claude priorit
 
 ## Tier 1 — Core (always suggest when relevant)
 Daily-use skills that should be triggered proactively:
+- `/profile` — project stack detection & skill recommendation (run when entering new project)
 - `/triage` — task routing: STOPA vs project vs both (run before orchestrate when unsure)
 - `/orchestrate` — multi-step task decomposition
 - `/scout` — codebase exploration before changes
@@ -62,7 +63,7 @@ Skills mapped to SDLC phases. Use `phase:` in frontmatter for each skill.
 
 | Phase | Popis | Skills |
 |-------|-------|--------|
-| `define` | Routing, klasifikace, porozumění | triage, brainstorm, council |
+| `define` | Routing, klasifikace, porozumění | profile, triage, brainstorm, council |
 | `plan` | Dekompozice, explorace, architektura | orchestrate, scout, scenario, prp, project-init, build-project |
 | `build` | Implementace, generace, exekuce | tdd, fix-issue, autofix, autoloop, autoresearch, nano, klip, browse, fetch |
 | `verify` | Testování, důkaz, validace | verify, critic, harness, eval, security-review, dependency-audit, autoharness |
