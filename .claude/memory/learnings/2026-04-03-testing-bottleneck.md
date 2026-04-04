@@ -8,7 +8,7 @@ summary: "Code generation is no longer the bottleneck — verification and testi
 source: external_research
 uses: 1
 harmful_uses: 0
-confidence: 0.7
+confidence: 0.8
 verify_check: "Grep('Verification is the bottleneck', path='.claude/skills/orchestrate/SKILL.md') -> 1+ matches"
 related: [2026-04-03-smart-tool-overuse.md]
 ---

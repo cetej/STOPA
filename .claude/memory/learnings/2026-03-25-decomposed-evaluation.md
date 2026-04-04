@@ -7,6 +7,7 @@ tags: [critic, verify, evaluation, os-themis, apm]
 summary: "Decomposed evaluation (per-dimension scoring) catches 3x more issues than holistic review. Use in /critic and /verify."
 source: external_research
 uses: 1
+confidence: 0.7
 ---
 
 # Decomposed evaluation beats holistic review

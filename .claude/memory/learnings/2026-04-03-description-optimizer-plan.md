@@ -8,7 +8,7 @@ summary: Plan to integrate Anthropic's description optimization pipeline into ST
 source: external_research
 uses: 1
 harmful_uses: 0
-confidence: 0.7
+confidence: 0.8
 verify_check: "manual"
 ---
 

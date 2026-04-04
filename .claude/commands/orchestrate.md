@@ -282,6 +282,31 @@ Write the plan to `.claude/memory/state.md`:
 |---|---------|-----------|-----------|------|--------|--------|
 | 1 | ... | <verifiable pass/fail> | — | 1 | Agent:general | pending |
 | 2 | ... | <verifiable pass/fail> | 1 | 2 | Skill:/review | pending |
+
+### Dependency Graph
+
+> ASCII DAG of subtask dependencies. Write IMMEDIATELY after the subtask table.
+> Purpose: (1) fresh session from checkpoint instantly sees what depends on what,
+> (2) debugging blocked tasks — trace the dependency chain,
+> (3) wave assignment sanity check — visual confirms topological sort.
+
+&#96;&#96;&#96;
+1 ──→ 3 (output: API schema)
+1 ──→ 4 (output: test fixtures)
+2 ──→ 4 (output: DB migration)
+3, 4 → 5 (integration)
+
+Wave 1: [1, 2]    ← independent
+Wave 2: [3, 4]    ← 3 needs 1; 4 needs 1+2
+Wave 3: [5]       ← needs 3+4
+&#96;&#96;&#96;
+
+Rules:
+- Each edge label = what the downstream task NEEDS from the upstream (1-3 words)
+- Independent tasks (no deps) listed first as Wave 1 roots
+- If task has 0 dependencies: no incoming arrows, just list in Wave 1
+- If only 1-2 subtasks total (light tier): skip the graph, deps are obvious from the table
+- Keep it compact — this is a quick-reference, not a design doc
 ```
 
 ### Structured Step States

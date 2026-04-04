@@ -7,6 +7,7 @@ tags: [agent-identity, memory-hygiene, scheduled-maintenance, budget, browser]
 summary: "OpenClaw $12K burn postmortem: 5 agent degradation patterns — identity collapse, memory bloat, budget blindness, browser loops, session amnesia."
 source: external_research
 uses: 1
+confidence: 0.7
 ---
 
 ## Problém

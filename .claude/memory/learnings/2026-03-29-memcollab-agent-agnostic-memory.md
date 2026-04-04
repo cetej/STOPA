@@ -9,6 +9,7 @@ source: external_research
 uses: 1
 harmful_uses: 0
 related: []
+confidence: 0.7
 ---
 
 ## Situace

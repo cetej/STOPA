@@ -4,17 +4,20 @@ Tracked findings from `/radar` scans and manual evaluations.
 Archived: `radar-archive.md` (when >400 lines)
 
 ## Stats
-Last scan: 2026-04-03 (evening) | Mode: proactive scan | Total: 11 tools | 🔴 1 | 🟡 9 | 🟢 1
+Last scan: 2026-04-04 (morning) | Mode: proactive scan | Total: 14 tools | 🔴 2 | 🟡 11 | 🟢 1
 
 ## Active Research (🔴)
 | Tool | Category | Score | Source | Captured | Status | Project fit |
 |------|----------|-------|--------|----------|--------|-------------|
 | [claude-code-sdk-python](https://github.com/anthropics/claude-code-sdk-python) | SDK / orchestration | 8/10 | manual | 2026-04-03 | **DONE** — [report](../outputs/radar-claude-code-sdk-python-2026-04-03.md) | STOPA — programmatic CC control, scheduled agents, budget per subagent |
+| [Claw Code](https://github.com/instructkr/claw-code) | Agent harness / open-source CC clone | 9/10 | scan/PR | 2026-04-04 | **EVALUATE** | STOPA — open inspectable agent harness (Python+Rust), study for architecture patterns |
 
 ## Watch List (🟡)
 | Tool | Category | Score | Source | Captured | Notes |
 |------|----------|-------|--------|----------|-------|
 | [FastMCP](https://github.com/jlowin/fastmcp) | MCP framework | 7/10 | scan/GitHub | 2026-04-03 | v3.2.0, 24.2k★, 1M dl/day. Pro STOPA MCP server building |
+| [Sonatype Guide MCP](https://github.com/sonatype/dependency-management-mcp-server) | MCP / dependency safety | 7/10 | scan | 2026-04-04 | Free MCP server pro Claude Code. Prevents hallucinated packages (27% LLM error rate). `claude mcp add sonatype-mcp` |
+| [Jolt AI](https://www.usejolt.ai/) | Coding assistant / large codebase | 5/10 | scan/PH | 2026-04-04 | AI codegen pro 100K-8M line codebases. VS Code + JetBrains. Commercial SaaS. |
 | [LiteParse](https://github.com/run-llama/liteparse) | PDF parsing | 6/10 | scan/MarkTechPost | 2026-04-03 | TypeScript, local-first, spatial PDF→LLM. Pro NG-ROBOT |
 | [Junie CLI](https://blog.jetbrains.com/junie/) | Coding agent | 5/10 | scan/JetBrains | 2026-04-03 | Beta, LLM-agnostic, MCP support. Competitor analysis pro CC |
 | [Google ADK TS](https://github.com/google/adk-js) | Agent framework | 5/10 | scan/Google | 2026-04-03 | Multi-agent, type-safe, MCP toolbox. Google ecosystem |
@@ -30,6 +33,14 @@ Last scan: 2026-04-03 (evening) | Mode: proactive scan | Total: 11 tools | 🔴 
 | [VoltAgent](https://voltagent.dev/) | 4/10 | 2026-04-03 | TS agent framework, nic unikátního vs LangGraph/ADK, 7.2k★ |
 
 ## Scan Log
+### 2026-04-04 morning — proactive scan #3 | Searches: 10 | Fetches: 0 | Found: 3 new
+- [Claw Code](https://github.com/instructkr/claw-code) — 9/10 🔴 — Open-source Claude Code clean-room rewrite (Python+Rust), 72k+ stars in days. Agent harness architecture study value.
+- [Sonatype Guide MCP](https://github.com/sonatype/dependency-management-mcp-server) — 7/10 🟡 — Free MCP server for Claude Code. Real-time dependency safety, prevents hallucinated packages.
+- [Jolt AI](https://www.usejolt.ai/) — 5/10 🟡 — AI codegen for 100K-8M line codebases, VS Code + JetBrains, commercial
+- Skipped (already tracked): FastMCP, LiteParse, Junie CLI, Google ADK TS, Strands, Colab MCP, Gemini CLI, Mastra, MCPCore, VoltAgent
+- Skipped (not tools/news): GitHub Copilot training data policy, ChatGPT 5.4, Dify (established 2023)
+- Skipped (already in news.md): OpenClaw
+
 ### 2026-04-03 evening — proactive scan #2 | Searches: 10 | Fetches: 5 | Found: 5 new
 - [Strands Agents](https://github.com/strands-agents) — 6/10 🟡 — AWS open-source agent SDK, Python+TS, MCP native, Graph/Swarm/Workflow patterns
 - [Google Colab MCP](https://github.com/googlecolab/colab-mcp) — 6/10 🟡 — MCP server pro agent→Colab notebook control, Google official
