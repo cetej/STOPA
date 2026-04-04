@@ -63,6 +63,7 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 ### Agent/Tool Research
 | Item | Detail |
 |------|--------|
+| 70. agent-browser (Vercel Labs) | **[ACTION]** CLI pro agenty: snapshot→refs→act pattern, Rust daemon (nízká latence, žádný Node.js), CDP pro Electron (Discord, VSCode, Slack), 80+ příkazů, named sessions, domain allowlists. Nižší tokenová zátěž než Playwright. Instalace: `npm install -g agent-browser`. [github](https://github.com/vercel-labs/agent-browser) — **browser tools matice aktualizována** |
 | 69. open-multi-agent | TypeScript: DAG task decomp + auto-unblocking, AgentPool semaphore, message bus. 3.5k★, 1.7k forks. Vzory: explicitní dependency graph (→ /orchestrate), paralelismus limit (→ circuit breaker upgrade). [github](https://github.com/JackChen-me/open-multi-agent) |
 | 56. SMART (arXiv:2502.11435) | Tool Overuse Mitigation — agent self-awareness redukuje zbytečné tool calls. Inspirace pro STOPA light tier. |
 | 58. Tool Use Survey (arXiv:2603.22862) | Single→multi-tool orchestration, 6 dimenzí: planning, training, safety, efficiency, capability, benchmarks |
@@ -113,6 +114,7 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
 ## Scan History
 
+### 2026-04-04 #3 — targeted URL (agent-browser) | Fetches: 1 | Items: 1 action, 0 watch, 0 info
 ### 2026-04-04 #2 — targeted URL | Fetches: 2 | Items: 0 action, 1 watch, 0 info
 ### 2026-04-04 — quick | Searches: 3 | Fetches: 1 | Items: 2 action, 3 watch, 1 info
 ### 2026-04-03 #2 — full | Searches: 9 | Fetches: 2 | Items: 2 action, 2 watch, 3 info
