@@ -9,6 +9,7 @@ context-required:
 context:
   - trace-review.md
 tags: [research, testing]
+phase: build
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent, WebSearch, WebFetch
 model: sonnet
@@ -479,7 +480,7 @@ Read `${CLAUDE_SKILL_DIR}/references/failure-taxonomy.md` for the 10-category cl
 
 ## Anti-Patterns to Avoid
 
-| Temptation | Why Wrong | Do Instead |
+| Rationalization | Why Wrong | Do Instead |
 |------------|-----------|------------|
 | "Let me try 5 things at once" | Can't attribute improvement | One hypothesis per iteration |
 | "The metric went up, ship it" | Might be reward hacking | Check secondary signals |

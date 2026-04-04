@@ -7,6 +7,7 @@ context-required:
   - "success criteria — what 'done' looks like (prevents open-ended delivery)"
   - "constraints — what must NOT change (modules, APIs, interfaces)"
 tags: [orchestration, planning]
+phase: plan
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Agent, TodoWrite
 deny-tools: [Bash, Write, Edit]
@@ -502,7 +503,7 @@ These CANNOT be overridden without user approval:
 
 Before making orchestration decisions, check yourself against these traps:
 
-| Rationalization | Why It's Wrong | Required Action |
+| Rationalization | Why Wrong | Do Instead |
 |----------------|----------------|-----------------|
 | "This is simple, skip scout phase" | Skipping scout causes 50% of re-work | At minimum: Glob/Grep affected files |
 | "One agent can handle everything" | Monolithic agents lose context and quality | Decompose if 3+ distinct concerns |
@@ -512,6 +513,25 @@ Before making orchestration decisions, check yourself against these traps:
 | "Pre-existing bug, ignore it" | Logging matters for future sessions | Log to deferred list |
 | "One more retry should fix it" | After 2 failures, pattern is architectural | Trigger 3-fix escalation |
 | "Subtasks are independent, max parallelism" | Shared files cause conflicts | Check file overlap before parallel launch |
+
+## Red Flags
+
+STOP and re-evaluate if any of these occur:
+- Spawning agents without a clear subtask decomposition in state.md
+- Same agent retrying the same failed subtask more than twice
+- Orchestrating without first checking budget and existing checkpoint
+- Executing directly (Write/Edit/Bash) instead of delegating to agents
+- All subtasks assigned to a single agent (defeats purpose of orchestration)
+- Skipping critic phase after implementation
+
+## Verification Checklist
+
+- [ ] All subtasks in state.md marked completed with evidence
+- [ ] Critic ran at least once on implementation changes
+- [ ] Budget report generated and within tier limits
+- [ ] No pending items remain in state.md
+- [ ] Decision log updated for any architectural choices made
+- [ ] Session completion contract satisfied (all acceptance criteria met)
 
 ## Rules
 

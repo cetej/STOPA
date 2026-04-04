@@ -4,6 +4,7 @@ description: Use when browsing web pages for data extraction, form filling, test
 user-invocable: true
 argument-hint: "[extract|fill|test|monitor] <url> [what to do]"
 tags: [web, osint]
+phase: build
 requires: [agent-browser]
 model: sonnet
 maxTurns: 25

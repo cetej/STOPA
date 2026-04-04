@@ -11,6 +11,7 @@ context-required:
   - "optimization goal — what to improve and in which direction"
   - "verify command — how to measure improvement; without it loop uses LLM-as-judge only"
 tags: [orchestration, testing]
+phase: build
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 model: sonnet

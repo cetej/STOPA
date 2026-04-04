@@ -23,6 +23,15 @@ globs: "**/skills/*/SKILL.md"
   - Enforced at runtime by `tool-gate.py` PreToolUse hook (STOPA_TOOL_GATE=enforce)
   - Currently supported: Bash command matching. Future: Write/Edit path matching
 - `tags`: array of cross-cutting capability tags for discovery (viz taxonomie níže)
+- `phase`: lifecycle phase — one of `define` | `plan` | `build` | `verify` | `review` | `ship` | `meta`
+  - `define` — routing, klasifikace, porozumění požadavkům (triage, brainstorm, council)
+  - `plan` — dekompozice, explorace, architektura (orchestrate, scout, scenario)
+  - `build` — implementace, generace, exekuce (tdd, fix-issue, nano, klip)
+  - `verify` — testování, důkaz, validace (verify, critic, harness, eval)
+  - `review` — retrospektivní kvalita, peer audit (peer-review, pr-review, autoreason)
+  - `ship` — deployment, handoff, cleanup (checkpoint, handoff, sweep)
+  - `meta` — introspekce, evoluce, budget (status, budget, scribe, watch)
+  - Skill s více fázemi použije PRIMARY fázi. Sekundární fáze vyjádří přes `tags:`
 - `requires`: array of runtime dependencies — env vars (UPPER_CASE), CLI tools (lowercase), MCP servers (`mcp:name`)
   - Orchestrátor by měl ověřit dostupnost PŘED spuštěním skillu
   - Vynechej pokud skill nemá žádné externí závislosti
@@ -55,3 +64,72 @@ globs: "**/skills/*/SKILL.md"
 | `exploration` | Codebase navigation, search |
 | `documentation` | Docs, learnings, knowledge capture |
 | `post-edit` | Auto-triggered after code changes |
+
+## Skill Body Sections (za workflow, před Rules)
+
+Tři sekce pro obranu proti shortcuttování a ověření kvality. Pořadí: Anti-Rationalization → Red Flags → Verification Checklist → Rules.
+
+### Anti-Rationalization Defense
+
+Heading: `## Anti-Rationalization Defense`
+
+Standardizovaný formát tabulky (VŠECHNY skills MUSÍ použít tyto sloupce):
+
+```markdown
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "I'll skip X because..." | Faktická odpověď proč je to špatně | Imperativní akce co dělat místo toho |
+```
+
+Pravidla:
+- Min 3, max 10 řádků
+- Sloupec 1: vždy citovaná first-person fráze (co agent říká sám sobě)
+- Sloupec 2: jedna věta, faktická — proč je to špatně
+- Sloupec 3: imperativní akce — co dělat místo toho
+- Umístění: za hlavní workflow, před Red Flags
+- Existující skills s variant headers (`Temptation`, `Reality`, `Required Action`) migrují na standard při příštím editu
+- Odlišné od Red Flags: rationalizations = interní reasoning traps, red flags = externí pozorovatelné symptomy
+
+### Red Flags
+
+Heading: `## Red Flags`
+
+Pozorovatelné symptomy špatného použití skillu:
+
+```markdown
+STOP and re-evaluate if any of these occur:
+- Observable symptom phrased as gerund or "Doing X without Y"
+- Another observable symptom
+```
+
+Pravidla:
+- Min 3, max 7 flagů
+- Každý flag = pozorovatelný vzor chování, ne teoretický problém
+- Formulace: gerund ("Skipping tests") nebo "Doing X without Y"
+- Umístění: za Anti-Rationalization, před Verification Checklist
+
+### Verification Checklist
+
+Heading: `## Verification Checklist`
+
+Exit criteria před prohlášením "hotovo" — odlišné od Output Format (template výstupu ≠ exit criteria):
+
+```markdown
+- [ ] Specific verifiable criterion with evidence requirement
+- [ ] Another criterion referencing concrete output (test results, tool output)
+```
+
+Pravidla:
+- Min 3, max 8 položek
+- Každá objektivně ověřitelná — ne "seems right", ale "these tests pass"
+- Položky referencují konkrétní výstupy (test results, build output, grep results)
+- Umístění: za Red Flags, před Rules
+
+### Required Sections by Tier
+
+| Sekce | Tier 1 | Tier 2 | Tier 3 | Tier 4 |
+|-------|--------|--------|--------|--------|
+| Anti-Rationalization Defense | REQUIRED | REQUIRED | RECOMMENDED | REQUIRED |
+| Red Flags | REQUIRED | OPTIONAL | OPTIONAL | OPTIONAL |
+| Verification Checklist | REQUIRED | OPTIONAL | OPTIONAL | OPTIONAL |
+| `phase:` frontmatter | REQUIRED | REQUIRED | REQUIRED | REQUIRED |

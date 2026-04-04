@@ -3,6 +3,7 @@ name: brainstorm
 description: Use when user has a vague idea without clear spec. Trigger on 'brainstorm', 'I have an idea', 'spec this out'. Do NOT use for clear tasks (/orchestrate) or review (/critic).
 argument-hint: <idea or topic to explore>
 tags: [planning, documentation]
+phase: define
 user-invocable: true
 allowed-tools:
   - Read
@@ -160,6 +161,16 @@ Ask the user: "Ready to implement? I can hand this to `/orchestrate` for executi
 
 If yes → output the spec + ideal-state criteria as a clear prompt for `/orchestrate`. Note: `/orchestrate` should use ideal-state criteria as subtask acceptance tests.
 If no → save spec to `.claude/memory/` for later.
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "The idea is clear enough, I'll skip questions and go straight to the spec" | A spec built on unverified assumptions forces rework when the user's real intent surfaces during implementation | Complete at least Phase 1 questioning; confirm domain, scope, and definition of done before drafting |
+| "I'll include implementation details in the spec since they're obvious to me" | Over-specified specs remove implementer agency and become stale when the codebase evolves | Keep the spec at behavior and acceptance-criteria level; note constraints only when they rule out whole approaches |
+| "I have 5 more unknowns but the user said 'you decide' so I'll fill them in silently" | Silent defaults create hidden assumptions the user discovers only at review, causing late changes | Propose each default with rationale and document it as a locked assumption in the spec |
+| "The spec is ready, I'll hand off to /orchestrate without saving ideal-state criteria" | Without binary ideal-state criteria, subtasks lack verifiable acceptance tests and orchestrate cannot detect drift | Always produce and save ideal-state criteria to `.claude/memory/intermediate/` before handoff |
+| "I'll skip Phase 1b constitution check since this project is small" | Constitution violations cause architectural debt that compounds; small projects grow | Run the check unconditionally; if no constitution exists, note it in one line and continue |
 
 ## Anti-patterns to Avoid
 

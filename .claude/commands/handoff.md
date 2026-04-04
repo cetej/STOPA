@@ -3,6 +3,7 @@ name: handoff
 description: Use when capturing findings from completed sessions (especially remote/mobile) into persistent memory. Trigger on 'handoff', 'zapiš z session', 'capture findings'. Do NOT use for active session checkpoints (/checkpoint).
 argument-hint: <paste session output, summary, or describe what was done>
 tags: [session, memory]
+phase: ship
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep
 model: haiku
@@ -146,6 +147,16 @@ When user describes multiple sessions at once:
 - **Duplicate learning exists**: Merge new information into existing file, note update date
 - **decisions.md near limit (>10 entries)**: Warn user, suggest `/scribe maintenance`
 - **Conflicting findings across sessions**: Record both with note about the conflict
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "I'll save everything in one big learning file since it all came from the same session" | Unrelated findings in one file create retrieval noise; future grep by component or tag returns false matches | Create one file per distinct topic; each file maps to one component or decision domain |
+| "I'll skip the duplicate check since this is fresh information from a different session" | Sessions often rediscover the same patterns; duplicates dilute confidence scoring and pollute grep results | Always grep `learnings/` for matching component + tags before writing a new file |
+| "The session summary is clear enough, I don't need to extract specific knowledge units" | Narrative summaries are not machine-retrievable; only structured YAML learnings are useful to future sessions | Parse the input and produce at least one typed knowledge unit (finding, decision, or action item) |
+| "I'll rewrite the existing learning file to include the new info" | Overwriting destroys the original's source and date provenance; future sessions cannot trace the history | Merge by appending a dated update section inside the existing file, preserving original content |
+| "The findings are probably already in decisions.md so I won't bother checking" | Assuming coverage leads to both gaps (missing new info) and silent staleness (old info not updated) | Read the target files first; then write only what's genuinely new or update what's changed |
 
 ## Rules
 

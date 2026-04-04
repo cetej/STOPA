@@ -6,6 +6,7 @@ context-required:
   - "issue number or URL — required; without it there is nothing to fix"
   - "reproduction steps — if not in the issue body, ask before diving into code"
 tags: [devops, code-quality]
+phase: build
 requires: [gh]
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
@@ -162,6 +163,16 @@ If `claude --remote` is not available (no web access), fall back to option b) an
 - [ ] Or merge locally: `git checkout main && git merge fix/issue-<number>`
 - [ ] Enable auto-fix: `/autofix <pr_number>` (watches CI + review comments)
 ```
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "I'll fix this related bug while I'm here since it's nearby" | Scope creep makes the PR harder to review and blame-annotate; the related bug may not be confirmed | Fix only what the issue describes; open a separate issue for the related bug |
+| "The issue is clear enough, I don't need reproduction steps" | Without a repro, the fix may address symptoms instead of root cause and leave the bug latent | Ask for repro steps before touching code if they're missing from the issue body |
+| "The tests pass so I'm done — no need to commit on a branch" | Tests passing proves the fix compiles, not that it resolves the actual issue behavior; skipping a branch makes rollback harder | Verify against the original failure scenario and always commit on a `fix/issue-N` branch |
+| "This is a feature request but I'll build it since I understand it now" | Feature requests require a spec and acceptance criteria; building without them causes rework | Tell the user and suggest `/brainstorm` or `/orchestrate` instead |
+| "I'll skip the linter step since the fix is small" | Small fixes still introduce style inconsistencies that break CI and waste reviewer time | Always run `ruff check` (or equivalent) on changed files before committing |
 
 ## Rules
 

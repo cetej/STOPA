@@ -4,6 +4,7 @@ description: Use when reviewing accumulated corrections and session trends to gr
 user-invocable: true
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash
 tags: [memory, documentation, session, orchestration]
+phase: meta
 ---
 
 # /evolve — Learning Evolution Audit
@@ -248,6 +249,16 @@ After applying, append to `.claude/memory/evolution-log.md`:
 ```
 
 ---
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "I'll apply the obvious promotions without waiting for user approval" | Evolve modifies the rules that govern ALL future sessions — unapproved changes can silently degrade behavior system-wide | Present every proposal in the numbered Step 7 list and apply ONLY after explicit approval per item |
+| "corrections.jsonl doesn't exist so I'll skip Step 2" | Missing signal files mean data wasn't collected yet, not that there are no issues — other signal sources (violations, sessions) may still have evidence | Note the missing file, continue with available signals, and recommend enabling the hook that writes it |
+| "This pattern only appeared once so it's not worth promoting" | Single high-severity corrections from user_correction source outweigh many auto-pattern observations | Weigh by source × severity — one user_correction/critical can justify a CREATE action |
+| "critical-patterns.md already has 10 entries, so I won't propose new promotions" | The cap means you must propose a PRUNE alongside any PROMOTE — not that new graduates are blocked | Identify the lowest-confidence existing pattern as a PRUNE candidate and propose both changes together |
+| "I'll skip the model_gate audit since I don't know the current model" | Stale model-specific workarounds actively mislead — surfacing them for human review is better than leaving them silently wrong | Use ANTHROPIC_MODEL env var or state "model unknown" and flag all model_gate learnings for manual review |
 
 ## Constraints
 

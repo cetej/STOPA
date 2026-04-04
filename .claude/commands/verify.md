@@ -6,6 +6,7 @@ context-required:
   - "what to verify — pipeline name, feature, endpoint, or 'last changes'"
   - "expected behavior — what PASS looks like (prevents false positives)"
 tags: [testing, code-quality]
+phase: verify
 user-invocable: true
 allowed-tools: Read, Write, Glob, Grep, Bash, Agent
 model: sonnet
@@ -265,7 +266,7 @@ Flag inconsistencies:
 
 ## Anti-Rationalization Defense
 
-| Rationalization | Why It's Wrong | Required Action |
+| Rationalization | Why Wrong | Do Instead |
 |----------------|----------------|-----------------|
 | "It compiled, so it works" | Compilation ≠ correctness | Run actual test/execution with real input |
 | "Tests pass, verified" | Tests may be stubs or incomplete | Check test assertions are meaningful, not `assert True` |

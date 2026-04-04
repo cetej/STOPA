@@ -3,6 +3,7 @@ name: tdd
 description: Use when implementing features via test-driven development cycle. Trigger on 'TDD', 'test first', 'red-green-refactor'. Do NOT use when tests already exist and pass.
 argument-hint: [feature or bug to implement with TDD — e.g. 'add validation to Phase 7 captions', 'fix photo_offset indexing']
 tags: [testing, code-quality]
+phase: build
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Edit, Write, Agent
 model: sonnet
@@ -114,7 +115,7 @@ Final report:
 
 ## Anti-Rationalization Defense
 
-| Rationalization | Reality | Do Instead |
+| Rationalization | Why Wrong | Do Instead |
 |----------------|---------|------------|
 | "I'll write tests after the code works" | You won't know what the test proves | Write test first, always |
 | "This is too simple to need a test" | Simple code breaks in integration | Test it anyway — it's fast |

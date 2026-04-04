@@ -3,6 +3,7 @@ name: pr-review
 description: Use when reviewing a PR with multiple expert perspectives. Trigger on 'review PR', 'PR review', 'multi-persona review'. Do NOT use for simple code review (/critic).
 argument-hint: <PR number or URL> [--post]
 tags: [review, devops]
+phase: review
 requires: [gh]
 context:
   - gotchas.md
@@ -189,6 +190,16 @@ gh pr review <number> --body "<review content>" --<verdict>
 Where verdict is `--approve`, `--request-changes`, or `--comment`.
 
 Ask user for confirmation before posting.
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "The diff is large so I'll skim the less important files" | Every file in a PR is there for a reason — skipping files misses cross-cutting bugs and cascade effects | Read every changed file fully; note file count in Phase 0 and track which you've reviewed |
+| "I'll skip the Security perspective since this looks like a UI-only change" | UI changes frequently introduce XSS, CSRF, or auth bypass vectors that only the Security lens catches | Run all 6 perspectives every time; a 30-second Security scan costs far less than a missed injection |
+| "I already know the verdict, I'll write the synthesis first and fill in perspectives later" | Synthesis written before review rationalizes findings to fit the pre-decided verdict, not the actual code | Complete all 6 perspectives before writing a single line of Phase 2 output |
+| "I'll post the review without confirmation since --post was passed" | The user may want to review the findings before a public comment appears on the PR | Always show the full review output and ask for confirmation before calling `gh pr review` |
+| "No tests changed, so QA review is N/A" | Missing tests are themselves a QA finding — unchanged test suite for changed behavior is a red flag | The QA perspective must explicitly note whether test coverage is adequate or lacking |
 
 ## Rules
 

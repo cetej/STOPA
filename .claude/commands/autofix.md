@@ -3,6 +3,7 @@ name: autofix
 description: "Use when a PR has CI failures or review comments that need fixing. Trigger on 'autofix', 'fix CI', 'fix PR', 'watch PR'. Do NOT use for creating new PRs (/fix-issue) or code review (/critic)."
 argument-hint: "<PR number or URL> [--local]"
 tags: [devops, code-quality]
+phase: build
 requires: [gh]
 user-invocable: true
 allowed-tools: Bash, Read, Grep, Glob, Agent
@@ -173,6 +174,16 @@ You can walk away — you'll be notified when done.
 - [ ] Verify CI passes after push
 - [ ] Request re-review if needed
 ```
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "The CI failure is obvious so I'll skip diagnosis and apply the fix directly" | Applying fixes without reading the actual logs often targets the wrong location; related failures share symptoms but need different fixes | Always fetch CI logs and read the actual error output before writing any fix |
+| "I'll refactor this messy function while fixing the CI failure since I have to touch it anyway" | Refactoring in a fix PR confuses blame history and may introduce new failures; reviewers approved the original code | Change only the lines needed to pass CI; open a separate PR for refactoring |
+| "The review comment says 'fix X' so I know exactly what to do without reading surrounding code" | Review comments give intent, not implementation; applying a patch without reading context causes new bugs | Read the full file section around the flagged line before applying any change |
+| "I'll just skip the ambiguous review comment — the rest of the fixes are more important" | Skipping reviewer requests blocks the PR from merging and wastes the reviewer's time on re-review | Flag ambiguous comments to the user explicitly; never silently ignore them |
+| "Cloud mode isn't available so I'll just fix everything locally without telling the user" | Users expect the mode they requested; switching silently hides infrastructure issues | Fall back gracefully with a warning and ask the user to confirm local mode |
 
 ## Rules
 

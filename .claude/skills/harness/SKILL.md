@@ -6,6 +6,7 @@ context-required:
   - "harness name — required; use /harness with no args to list available"
   - "input parameters — specific to the harness; check harness definition for required fields"
 tags: [testing, devops]
+phase: verify
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
 model: sonnet
@@ -193,6 +194,16 @@ When a phase specifies `- **Parallelism**: max N`:
 - Track tokens per phase
 - If budget from `.claude/memory/budget.md` would be exceeded: WARN before expensive phases
 - Prefer haiku for mechanical work, sonnet for reasoning
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "Phase N is unnecessary for this particular run so I'll skip it" | Harnesses are deterministic by design; skipping phases produces results that cannot be compared across runs | Execute every phase in order regardless of apparent redundancy; document concerns in the report |
+| "Validation failed but the output looks reasonable, I'll continue to the next phase" | 'Looks reasonable' is not a validation criterion; downstream phases built on invalid data produce compounding errors | Stop at the first validation failure, save error context to `.harness/error.md`, and report to the user |
+| "I'll skip the --dry-run check since I've run this harness before" | Harnesses change; a prior successful run does not guarantee the current version is sound | Always honor `--dry-run` when requested; it takes seconds and catches stale phase definitions |
+| "The quality score is 2/5 but the harness is simple so the checks are excessive" | Quality checks measure harness infrastructure, not simplicity; low-quality harnesses produce unrepeatable results that /eval cannot grade | Show the score block and require explicit user confirmation to proceed below 3/5 |
+| "I'll skip saving trace records since this is just a quick test run" | Traces are the only way to replay or compare runs; omitting them makes debugging failures impossible | Always honor `--trace` when requested; the overhead is negligible compared to the diagnostic value |
 
 ## Rules
 

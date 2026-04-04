@@ -3,6 +3,7 @@ name: autoharness
 description: Use when a skill or command repeatedly fails with the same error patterns. Trigger on 'autoharness', 'generate validator', 'auto-constraint'. Do NOT use for one-off fixes or manual validation.
 argument-hint: <target-skill> [iterations:N] [scope:action-filter|action-verifier|policy] [escalate:true]
 tags: [testing, orchestration]
+phase: verify
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
 model: sonnet
@@ -344,6 +345,15 @@ uses: 0
 harmful_uses: 0
 ---
 ```
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "The skill only failed once so autoharness is overkill" | Single failures often represent systematic patterns; autoharness catches the class of failures, not just the instance | Check failure logs for pattern recurrence; if 2+ failures share a root cause, autoharness is justified |
+| "I'll write the validator by hand since I understand the failure pattern" | Hand-written validators encode the author's assumptions; auto-generated ones discover unexpected edge cases | Let Phase 2 generate the initial validator; hand-tune only after the auto-generated version is baselined |
+| "The pass rate is above threshold so I can skip adversarial escalation" | Above-threshold pass rates can hide fragile validators that break on novel inputs; adversarial testing reveals brittleness | Always run at least one adversarial round (Phase 3.5) even when the pass rate looks good |
+| "I'll skip the integration step since the validator works in isolation" | Validators that aren't integrated into the skill's runtime are never executed; they become stale documentation | Complete Phase 4 integration; a validator that doesn't run automatically provides zero protection |
 
 ### Report
 

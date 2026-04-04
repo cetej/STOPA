@@ -3,6 +3,7 @@ name: radar
 description: "Use when evaluating a tool, library, or technique from Twitter/X or other source, or running a proactive scan for new tools. Trigger on 'radar', tweet URL, 'evaluate tool', 'posoudit nástroj', 'scan tools'. Do NOT use for ecosystem news (/watch) or deep multi-source research (/deepresearch)."
 argument-hint: "<URL or text> | scan | digest"
 tags: [research, osint, ai-tools, memory]
+phase: meta
 user-invocable: true
 allowed-tools: Read, Write, Edit, Grep, Glob, WebSearch, WebFetch, Agent
 model: sonnet
@@ -206,6 +207,15 @@ GATE 3: NOVELTY — Is it new to us?
 - 🟢 < 5: Archive
 
 ---
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "This tool has a lot of GitHub stars so it must be good" | Stars measure hype, not quality; many popular tools have critical issues or are unmaintained | Evaluate against the RADAR matrix dimensions (maturity, maintenance, security, fit) independently |
+| "I'll skip the competition analysis since this is clearly the best option" | Without comparing alternatives, you cannot assess relative fit; the 'best' tool may have a better competitor | Always identify at least 2 alternatives and compare on the same criteria |
+| "The tool's README says it does X so I'll trust that" | READMEs are marketing; claimed features may be incomplete, broken, or in alpha | Verify claims by checking issues, tests, and actual code; note discrepancies |
+| "I'll recommend this tool without checking if it fits the user's stack" | A great tool for Python is useless if the user runs Node.js; fit is as important as quality | Always cross-reference tool requirements against key-facts.md and the user's environment |
 
 ## Memory Update Rules
 

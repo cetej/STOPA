@@ -3,6 +3,7 @@ name: sweep
 description: Use when cleaning up repository entropy after a long session or multi-file changes. Trigger on 'sweep', 'cleanup', 'entropy', 'stale docs', 'dead code'. Do NOT use for code review (/critic) or refactoring (/simplify).
 argument-hint: [--scope session|blast-radius|full] [--auto]
 tags: [code-quality, post-edit, documentation]
+phase: review
 user-invocable: true
 allowed-tools: [Read, Grep, Glob, Bash, Agent, Write, Edit]
 model: sonnet

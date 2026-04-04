@@ -56,6 +56,26 @@ Engineering methodology skills inspired by superpowers patterns:
 - `/tdd` — RED-GREEN-REFACTOR enforcer for test-driven development
 - `/systematic-debugging` — 4-phase root cause methodology (no guessing)
 
+## Lifecycle Phase Mapping (alternative to tier browsing)
+
+Skills mapped to SDLC phases. Use `phase:` in frontmatter for each skill.
+
+| Phase | Popis | Skills |
+|-------|-------|--------|
+| `define` | Routing, klasifikace, porozumění | triage, brainstorm, council |
+| `plan` | Dekompozice, explorace, architektura | orchestrate, scout, scenario, prp, project-init, build-project |
+| `build` | Implementace, generace, exekuce | tdd, fix-issue, autofix, autoloop, autoresearch, nano, klip, browse, fetch |
+| `verify` | Testování, důkaz, validace | verify, critic, harness, eval, security-review, dependency-audit, autoharness |
+| `review` | Retrospektivní kvalita, peer audit | peer-review, pr-review, autoreason, self-evolve, sweep |
+| `ship` | Deployment, handoff, cleanup | checkpoint, handoff, compact |
+| `meta` | Introspekce, evoluce, budget | status, budget, scribe, evolve, skill-generator, radar, watch, liveprompt, xsearch, deepresearch, seo-audit, youtube-transcript, incident-runbook, systematic-debugging, project-sweep |
+
+### Using phases for skill selection
+1. Identifikuj fázi uživatelova úkolu (define → ship)
+2. Filtruj skills v dané fázi
+3. Cross-referencuj s tier (Tier 1 first)
+4. Upřesni přes tags
+
 ## Tag-Based Discovery (alternative to tier browsing)
 
 Every skill has `tags:` in frontmatter. Use tags to find skills by capability instead of tier:

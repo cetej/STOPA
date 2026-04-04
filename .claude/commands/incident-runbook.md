@@ -3,6 +3,7 @@ name: incident-runbook
 description: Use when something crashes or errors out unexpectedly and you need a structured runbook response. Trigger on 'not working', 'crashed', 'broken', 'nefunguje'. Do NOT use for deep root-cause investigation (/systematic-debugging) or planned changes and feature requests.
 argument-hint: [error message or symptom description]
 tags: [debugging, devops]
+phase: meta
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Write
 model: haiku
@@ -21,6 +22,15 @@ You diagnose problems fast using known patterns. You DON'T fix things — you id
 - No match in runbook → investigate with Bash/Grep, then report findings
 
 <!-- CACHE_BOUNDARY -->
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "I know what's wrong from the error message so I'll skip diagnosis" | Error messages often show symptoms, not root causes; jumping to a fix risks masking deeper issues | Complete Phase 1 triage before proposing any fix; classify the error type first |
+| "I'll restart the service first since that usually fixes it" | Restarts destroy diagnostic state (logs, memory, connections) and may lose user data in queues | Capture diagnostic snapshot (logs, metrics, stack traces) BEFORE any recovery action |
+| "This looks like the same issue we had last time" | Similar symptoms can have different root causes; pattern matching without verification leads to wrong fixes | Verify the hypothesis against current evidence; check if the previous fix is still in place |
+| "The quick fix works so we don't need the runbook documentation" | Undocumented fixes create tribal knowledge; the next person will waste the same time diagnosing | Always complete the runbook output template even if the fix was trivial |
 
 ## Process
 

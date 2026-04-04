@@ -3,6 +3,7 @@ name: project-sweep
 description: Use when performing the same operation across all registered projects. Trigger on sweep all projects, project sweep. Do NOT use for single-project tasks.
 argument-hint: [operation description] [--dry-run]
 tags: [orchestration, devops]
+phase: meta
 user-invocable: true
 allowed-tools: ["Read", "Grep", "Glob", "Bash", "Agent", "Write", "Edit"]
 effort: medium
@@ -92,6 +93,16 @@ When operation is `health`, check for each project:
 - Rate limit: max 8 parallel agents (one per project)
 
 <!-- CACHE_BOUNDARY -->
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "I found uncommitted changes in NG-ROBOT — I'll commit them to keep things clean" | Committing without explicit per-project approval is forbidden; multi-project blast radius means one wrong commit can corrupt several repos | Report the uncommitted changes in the sweep table and propose the commit as a follow-up action for the user to approve |
+| "The operation failed for one project so I'll stop the whole sweep" | Partial failure is expected in multi-project sweeps; aborting wastes results from successfully checked projects | Continue with remaining projects, collect all results, and report failures at the end with details |
+| "8+ projects are registered so I'll run them sequentially to avoid overload" | Sequential execution is slower with no safety benefit; the 8-agent cap is already defined in Safety Rules | Run all active projects in parallel up to the 8-agent limit; batch if more than 8 |
+| "I'll skip writing results to state.md since the output is already visible in the chat" | Chat output is ephemeral; state.md is the persistent record used by /status and future sessions | Always overwrite the "Last sweep" section of state.md with the current results, regardless of chat visibility |
+| "The user didn't specify an operation so I'll ask what they want" | Default operation is explicitly defined as `health` — asking is unnecessary friction | Default to `health` sweep and note the default in the output header |
 
 ## Process
 

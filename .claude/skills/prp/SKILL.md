@@ -3,6 +3,7 @@ name: prp
 description: Use when preparing task context for handoff between sessions or sub-agents. Trigger on 'prp', 'context packet', 'prepare handoff'. Do NOT use for brainstorming or documenting completed work.
 argument-hint: <task description> [--scope file|module|project]
 tags: [session, orchestration]
+phase: plan
 user-invocable: true
 allowed-tools:
   - Read
@@ -103,6 +104,16 @@ Target: /orchestrate | sub-agent | new session
 Save the PRP to `output/prp-[task-name].md` and display a summary.
 
 If the user wants immediate execution: feed the PRP content directly as a prompt to `/orchestrate`.
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "I'll skip context gathering since I know this codebase well" | PRPs are consumed by fresh sessions or sub-agents with no codebase knowledge; assumed context makes them unusable | Always run Phase 2 scanning; include file paths, patterns, and constraints explicitly |
+| "The acceptance criteria are implicit — the task description is specific enough" | Implicit criteria mean the executor decides what 'done' looks like, producing divergent results | Write at least 3 explicit testable acceptance criteria, even for seemingly clear tasks |
+| "I'll dump the full file contents into the PRP since the executor will need them" | Full dumps bloat PRP context, push critical instructions out of the context window, and go stale | Reference files by path with a one-line purpose note; only paste short critical snippets |
+| "The PRP doesn't need a verification section since the executor can figure that out" | Without explicit verification steps, executors declare done based on confidence rather than evidence | Include a Verification checklist mapping each criterion to a concrete check command or test |
+| "I'll skip the open questions section since I don't want to block the handoff" | Undocumented blockers surface mid-execution, forcing the sub-agent to halt or make silent assumptions | List every unresolved question explicitly so the executor knows when to stop and ask |
 
 ## Quality Rules
 

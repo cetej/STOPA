@@ -3,6 +3,7 @@ name: systematic-debugging
 description: Use when debugging a known failure with root-cause-first methodology and enough context to investigate deeply. Trigger on 'debug this', 'find root cause', 'systematic debug'. Do NOT use for sudden crashes requiring a runbook (/incident-runbook), pre-implementation scenario analysis (/scenario), or quick fixes with a known cause.
 argument-hint: [error message, symptom, or 'last failure' to investigate]
 tags: [debugging, code-quality]
+phase: meta
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Agent
 model: sonnet
@@ -144,7 +145,7 @@ If you catch yourself thinking:
 
 ## Anti-Rationalization Defense
 
-| Rationalization | Reality | Do Instead |
+| Rationalization | Why Wrong | Do Instead |
 |----------------|---------|------------|
 | "Issue is simple, skip the process" | Simple issues have root causes too. Process is fast for simple bugs. | Follow Phase 1 — it takes 2 minutes for simple bugs |
 | "Emergency, no time for process" | Systematic debugging is FASTER than guess-and-check | Follow process — it saves time |

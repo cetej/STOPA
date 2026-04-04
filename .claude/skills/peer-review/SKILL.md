@@ -3,6 +3,7 @@ name: peer-review
 description: "Use when reviewing research artifacts, technical documents, or draft papers for evidence quality and rigor. Trigger on 'peer review', 'review paper', 'audit claims', 'review draft', 'recenze'. Do NOT use for code review (/critic) or PR review."
 argument-hint: <file path or topic to review>
 tags: [review, research]
+phase: review
 user-invocable: true
 allowed-tools: Read, Write, Glob, Grep, Bash, Agent, WebSearch, WebFetch
 model: sonnet
@@ -161,7 +162,7 @@ If any FATAL issues were found:
 
 ## Anti-Rationalization
 
-| Temptation | Why Wrong | Action |
+| Rationalization | Why Wrong | Do Instead |
 |------------|-----------|--------|
 | "The author probably meant..." | You review what's written, not intent | Flag the ambiguity |
 | "This is a minor detail" | Small errors signal larger problems | Classify honestly |

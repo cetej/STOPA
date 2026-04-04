@@ -3,6 +3,7 @@ name: scenario
 description: Use when exploring edge cases and failure modes BEFORE implementation — prospective, hypothetical analysis. Trigger on 'what could go wrong', 'edge cases', 'explore scenarios'. Do NOT use for debugging an existing failure (/systematic-debugging or /incident-runbook).
 argument-hint: <scenario description> [--domain software|product|business|security] [--depth shallow|standard|deep] [--format test-scenarios|use-cases|user-stories|threat-scenarios]
 tags: [planning, testing]
+phase: plan
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, AskUserQuestion
 model: sonnet
@@ -209,6 +210,15 @@ After scenario exploration:
 - `/security-review` — audit discovered threat scenarios
 - `/tdd` — write tests for discovered test scenarios
 - `/critic` — review implementation against discovered edge cases
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "The happy path is well-defined so edge cases are unlikely" | Edge cases are by definition unlikely individually but collectively they dominate failure modes in production | Explore at least 3 failure scenarios per component boundary; unlikely × many paths = likely |
+| "I'll skip the adversarial scenarios since we trust our users" | Internal users make mistakes; external integrations fail; assumptions about trust create the largest blind spots | Include at least one malicious-input and one byzantine-failure scenario regardless of trust level |
+| "This scenario is too extreme to be worth analyzing" | Extreme scenarios reveal architectural limits; even if unlikely, knowing the blast radius informs design | Analyze the scenario briefly and document the blast radius; mark it as low-probability but high-impact |
+| "We can handle these edge cases later during implementation" | Edge cases discovered during implementation are 10x more expensive to fix; scenario analysis is the cheapest place to find them | Document every discovered edge case now; flag the critical ones as must-handle before implementation |
 
 ## Rules
 

@@ -3,6 +3,7 @@ name: council
 description: Use when making a decision that benefits from multiple competing perspectives — architecture choices, technology selection, strategy dilemmas. Trigger on 'council', 'porada', 'should I', 'which approach'. Do NOT use for code review (/critic) or PR review (/pr-review).
 argument-hint: <question or dilemma to deliberate>
 tags: [planning, review]
+phase: define
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Agent, WebSearch, WebFetch
 model: sonnet
@@ -209,6 +210,15 @@ Check `.claude/memory/budget.md` before starting. If budget is tight, reduce to 
 1. If the decision is significant, record it in `.claude/memory/decisions.md`
 2. Update `.claude/memory/state.md` with the council verdict
 3. If the question came from an orchestration task, return verdict to orchestrator
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "All perspectives agree so I don't need a devil's advocate" | Unanimous agreement often signals groupthink or underspecified roles; real decisions have trade-offs | Always include at least one contrarian perspective; if all agree, probe the weakest assumption |
+| "The technical perspective is obviously right so I'll weight it heavily" | Non-technical perspectives (UX, business, ops) often reveal constraints that invalidate technically correct solutions | Give each perspective equal initial weight; let evidence and arguments determine the final ranking |
+| "I'll skip the synthesis phase since the best option is already clear" | Premature convergence skips the integration step where novel hybrid solutions emerge | Complete synthesis even when one option leads; document why alternatives were rejected |
+| "The user wants speed so I'll reduce the number of perspectives" | Fewer perspectives mean fewer blind spots caught; speed optimization should come from parallel execution, not fewer viewpoints | Run perspectives in parallel sub-agents instead of cutting perspectives |
 
 ## Rules
 

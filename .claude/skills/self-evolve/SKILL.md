@@ -3,6 +3,7 @@ name: self-evolve
 description: "Use when iteratively improving a skill through adversarial co-evolution with auto-generated eval cases. Trigger on 'self-evolve', 'evolve skill', 'improve skill with evals'. Do NOT use for learning audits (/evolve) or file optimization (/autoloop)."
 argument-hint: <target-skill> [budget:N] [bootstrap:true|false] [meta:true|false]
 tags: [orchestration, testing, code-quality]
+phase: review
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
 model: sonnet

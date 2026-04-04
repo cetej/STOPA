@@ -3,6 +3,7 @@ name: status
 description: Use when checking current system state — active task, budget, checkpoint, last news scan, memory health. Trigger on 'status', 'what's the state', 'kde jsem', 'stav'. Do NOT use for budget details (/budget) or checkpoint management (/checkpoint).
 argument-hint: (no arguments)
 tags: [session, orchestration]
+phase: meta
 user-invocable: true
 allowed-tools: Read, Grep, Glob
 model: haiku
@@ -102,6 +103,30 @@ capture_rate:   <learnings created / last 10 sessions> learnings/session — or 
 - 99-100%: BLOCKED ⚠⚠⚠ (halt all work — compact or new session required)
 
 For `eval_trend`: read last 2 data rows from `eval-baseline.tsv`. Compute `delta = current_health_score - previous_health_score`. Arrow: `↑` if delta > 0.1, `↓` if delta < -0.1, `→` if within ±0.1. If fewer than 2 rows: `n/a (baseline not established)`. If file missing: `n/a`.
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "I know the current state, no need to check" | State files may have been updated by other sessions or agents. Assumptions about state are the #1 source of stale context. | Always read state.md and checkpoint.md fresh — never rely on cached knowledge. |
+| "Status is just overhead, let me keep working" | Status check takes 10 seconds. Working on a completed subtask or exceeding budget wastes minutes to hours. | Run status at session start and after every major milestone. |
+| "Budget tracking isn't important for this task" | Untracked budget leads to surprise costs. Even light tasks can escalate if agents loop. | Always report budget status — even if the answer is "minimal usage, well within limits." |
+
+## Red Flags
+
+STOP and re-evaluate if any of these occur:
+- Reporting status from memory instead of reading current state files
+- Skipping budget report when orchestration is active
+- Not mentioning checkpoint age or staleness
+- Reporting "all clear" without actually checking memory health
+
+## Verification Checklist
+
+- [ ] state.md read and current task/subtask status reported
+- [ ] budget.md checked and remaining budget shown
+- [ ] checkpoint.md age reported (and flagged if stale >24h)
+- [ ] Memory health checked (file sizes, archive needs)
+- [ ] News scan recency checked (flagged if >7 days old)
 
 ## Rules
 

@@ -3,6 +3,7 @@ name: liveprompt
 description: Use when researching what prompts/techniques the community is using RIGHT NOW for a given topic. Trigger on 'liveprompt', 'what works now', 'fresh prompts', 'community techniques'. Do NOT use for multi-source evidence research (/deepresearch), ecosystem news (/watch), or codebase search (/scout).
 argument-hint: <topic> [--depth shallow|standard|deep] [--output prompt|report|both]
 tags: [research, ai-tools]
+phase: meta
 user-invocable: true
 allowed-tools: Read, Write, WebSearch, WebFetch, Agent, AskUserQuestion
 model: sonnet
@@ -289,6 +290,15 @@ If **nothing found** (sparse results):
 4. **Don't extrapolate from one source** — one Reddit post ≠ community consensus
 5. **Don't fill gaps with your training data** — this skill is about what the community says NOW, not what you learned during training
 6. **Cite specific URLs** — every technique traces back to a fetchable source
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "I found one good technique so I don't need to search more sources" | Single-source findings have confirmation bias; community consensus requires cross-referencing multiple sources | Search at least 3 independent sources before synthesizing; note convergence and divergence |
+| "This technique is from a popular account so it must work" | Popularity ≠ verified effectiveness; viral prompts often lack rigorous testing or cherry-pick results | Evaluate each technique on its own merit; look for reproduction evidence, not follower count |
+| "The community is using this so I'll recommend it without caveats" | Community techniques may not apply to the user's model version, context, or use case | Always note model version, known limitations, and when the technique was last verified |
+| "I'll skip the freshness check since prompt techniques don't change that fast" | Techniques become obsolete with each model update; a 3-month-old technique may be counterproductive on the latest model | Always check dates; flag anything older than 60 days as potentially stale |
 
 ## Rules
 

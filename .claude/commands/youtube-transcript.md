@@ -3,6 +3,7 @@ name: youtube-transcript
 description: Use when extracting transcripts from YouTube videos for analysis. Trigger on 'youtube transcript', 'video transcript', YouTube URL. Do NOT use for non-YouTube content.
 argument-hint: <YouTube URL(s)> [--lang cs,en] [--analyze] [--output path]
 tags: [research, media]
+phase: meta
 user-invocable: true
 allowed-tools: Bash, Read, Write, Glob
 model: sonnet

@@ -5,6 +5,7 @@ context:
   - gotchas.md
 argument-hint: [what to review — file path, skill name, or "last changes"]
 tags: [code-quality, review, post-edit]
+phase: verify
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Agent
 model: sonnet
@@ -430,7 +431,7 @@ Multi-turn dialogue degrades LLM reasoning accuracy (arXiv:2603.20133). Each pha
 
 Before submitting your report, check yourself:
 
-| Rationalization | Why Wrong | Action |
+| Rationalization | Why Wrong | Do Instead |
 |----------------|-----------|--------|
 | "Too small to review thoroughly" | Small changes cause 40% of incidents | Use QUICK path but still review |
 | "Minor style issue" | Style issues compound | Report as low severity |
@@ -440,11 +441,23 @@ Before submitting your report, check yourself:
 | "Just a refactor" | Refactors introduce subtle regressions | Verify before/after |
 | "AI generated it, probably fine" | AI output needs MORE scrutiny, not less | Check for slop patterns |
 
-**Red flags** (STOP and re-evaluate if you catch yourself):
-- Skipping a phase because "it's probably fine"
-- Softening severity because code "mostly works"
-- Scoring rubric above 3 without Verifier evidence
-- Claiming PASS without running Reviewer audit
+## Red Flags
+
+STOP and re-evaluate if any of these occur:
+- Issuing PASS verdict without tool output evidence for every milestone
+- Skipping dynamic verification (syntax, imports, tests) for code changes
+- Reviewing only the diff without checking side effects on dependent files
+- Accepting "works in tests" without verifying the tests actually ran
+- Completing review in under 30 seconds for non-trivial changes
+
+## Verification Checklist
+
+- [ ] Every milestone from the diff has a verification result (PASS/WARN/FAIL)
+- [ ] PASS verdicts backed by specific tool output citations (not assumptions)
+- [ ] Side effects checked: imports still valid, tests still pass, build succeeds
+- [ ] Anti-hallucination cross-check completed (AH-1 through AH-4)
+- [ ] Scoring rubric applied with evidence chain for each dimension
+- [ ] Final verdict includes actionable recommendations (not just pass/fail)
 
 ## Rules
 

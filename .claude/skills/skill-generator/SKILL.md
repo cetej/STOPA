@@ -3,6 +3,7 @@ name: skill-generator
 description: Use when creating or modifying Claude Code skills. Trigger on 'create skill', 'new skill', 'modify skill'. Do NOT use for running existing skills.
 argument-hint: [description of the skill to create]
 tags: [orchestration, documentation]
+phase: meta
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep
 model: sonnet
@@ -72,13 +73,16 @@ Create `.claude/skills/<name>/SKILL.md` following this template:
 ```markdown
 ---
 name: <name>
+description: "Use when <trigger conditions>. Do NOT use for <exclusions>."
 argument-hint: <expected args>
+tags: [<tag1>, <tag2>]
+phase: <define | plan | build | verify | review | ship | meta>
 disable-model-invocation: <true for side-effects, false otherwise>
 allowed-tools: <comma-separated minimal tool list>
 model: <haiku / sonnet / opus>
 effort: <low / medium / high>
 maxTurns: <number>
-disallowedTools: <comma-separated tools to block, or "" if none>
+user-invocable: true
 ---
 
 # <Title>
@@ -93,11 +97,37 @@ disallowedTools: <comma-separated tools to block, or "" if none>
 2. **Step two** — what to do next
 ...
 
-## Guidelines
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "I'll skip X because..." | Factual reason why skipping is wrong | Imperative corrective action |
+| "<another common excuse>" | Why it's wrong | What to do instead |
+| "<at least 3 rows>" | ... | ... |
+
+## Red Flags
+
+STOP and re-evaluate if any of these occur:
+- <Observable symptom of skill misapplication>
+- <Another symptom>
+- <At least 3 flags>
+
+## Verification Checklist
+
+- [ ] <Specific verifiable exit criterion with evidence>
+- [ ] <Another criterion>
+- [ ] <At least 3 items>
+
+## Rules
 
 - <Important rules or constraints>
 - <Quality standards>
 ```
+
+> **Section requirements by tier** (see `rules/skill-files.md`):
+> - Tier 1 + Tier 4: Anti-Rationalization (REQUIRED), Red Flags (REQUIRED), Verification Checklist (REQUIRED)
+> - Tier 2: Anti-Rationalization (REQUIRED), Red Flags (OPTIONAL), Verification Checklist (OPTIONAL)
+> - Tier 3: Anti-Rationalization (RECOMMENDED), Red Flags (OPTIONAL), Verification Checklist (OPTIONAL)
 
 ### Step 3: Add Supporting Files (if needed)
 

@@ -3,6 +3,7 @@ name: scribe
 description: Use when capturing decisions or discovered patterns worth remembering. Trigger on 'record this', 'remember that', 'update state'. Do NOT use for ephemeral notes.
 argument-hint: [what to record — "decision", "learning", "state", or free text]
 tags: [memory, documentation]
+phase: meta
 user-invocable: true
 allowed-tools: Read, Write, Edit
 model: haiku
@@ -260,6 +261,31 @@ Lowest score gets evicted. During manual maintenance, review patterns with score
 ### Thresholds
 - **Warning**: any memory file >100 lines → suggest maintenance (news.md: >150 lines)
 - **Critical**: any memory file >500 lines → maintenance required before continuing
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "This decision is obvious, no need to record it" | Obvious now ≠ obvious in 3 months. Future sessions need the WHY, not just the WHAT. | Record the rationale — especially for decisions that feel obvious. Those are the ones most likely to be questioned later. |
+| "I'll write the learning at the end of the session" | Context decays during session. By the end, the nuance of why something failed is lost. | Write immediately when the insight occurs — never batch learnings for later. |
+| "This is too minor to be a learning" | Minor patterns compound. Small bugs that recur waste hours. The threshold for recording should be low. | If it surprised you or cost time, it's worth recording. |
+
+## Red Flags
+
+STOP and re-evaluate if any of these occur:
+- Session ending without capturing decisions that were made
+- Writing a learning without specifying the component and tags
+- Recording a decision without the rationale (WHY, not just WHAT)
+- Duplicating an existing learning instead of updating it
+- Writing learnings with vague descriptions that won't match future grep queries
+
+## Verification Checklist
+
+- [ ] Decision recorded with rationale, alternatives considered, and date
+- [ ] Learning has proper YAML frontmatter (date, type, severity, component, tags, summary)
+- [ ] No duplicate of existing learning (checked via grep on component/tags)
+- [ ] Learning summary is grep-friendly (specific keywords, not vague descriptions)
+- [ ] Memory file updated (decisions.md index or learnings/ directory)
 
 ## Rules
 

@@ -3,6 +3,7 @@ name: eval
 description: Use when grading or replaying harness traces to measure quality drift, detect regressions, or compare harness configurations. Trigger on 'eval trace', 'grade harness', 'replay run', 'harness drift'. Do NOT use for one-off verification (/verify) or writing tests (/tdd).
 argument-hint: "[trace-file | harness-name | --list] [--replay] [--diff trace1 trace2] [--baseline] [--optim [run_id | --list | --latest | --diff run1 run2]] [--experiments [list | top-k N | pareto run_id | diff run1 run2]] [--meta [target]]"
 tags: [testing, devops]
+phase: verify
 user-invocable: true
 allowed-tools: Read, Write, Glob, Grep, Bash, Agent
 model: sonnet
@@ -505,6 +506,15 @@ If meta-analysis reveals a strong, non-obvious pattern (e.g., "prompt refinement
 If yes: write to `.claude/memory/learnings/` with type `best_practice`, source `auto_pattern`, tags matching the target components.
 
 ---
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "The trace file is too large so I'll just sample a few entries" | Sampling introduces selection bias; systematic regressions may hide in unsampled entries | Process all entries; use streaming/chunking if needed, but never skip data |
+| "The scores look similar so there's no regression" | Small absolute differences can indicate systematic drift; statistical significance requires proper comparison | Compute deltas and flag any dimension where the change exceeds the noise threshold |
+| "I'll skip the baseline comparison since this is the first eval run" | Without a baseline, there's no way to detect regressions in future runs; the first run IS the baseline | Always save the results as a baseline even if there's nothing to compare against yet |
+| "The harness config changed but the traces are still comparable" | Config changes invalidate comparisons; different prompts, models, or parameters produce incomparable results | Flag config mismatches explicitly; compare only traces from matching configurations |
 
 ## Rules
 

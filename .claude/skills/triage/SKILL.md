@@ -3,6 +3,7 @@ name: triage
 description: "Use when the user has an idea, request, or task and needs to know WHERE to work on it, or when the right skill is ambiguous. Trigger on 'triage', 'kam s tím', 'where should I', 'roztřiď', 'not sure which skill'. Do NOT use for task execution — only routing and skill selection."
 argument-hint: [idea or task description]
 tags: [orchestration, planning, session]
+phase: define
 user-invocable: true
 allowed-tools: Read, Glob, Grep
 model: haiku
@@ -98,6 +99,29 @@ Format your response exactly as:
 ```
 
 If everything routes to one destination, omit the other section.
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "I already know which skill fits, no need to triage" | Assumption bias — the obvious skill may not be the best. Triage catches cross-project routing and multi-skill compositions. | Run triage anyway — it takes <30s and prevents wasted effort on wrong skill. |
+| "This is too simple for triage, just do it directly" | Simple-looking tasks often span multiple projects or need orchestration. Skipping triage means skipping routing. | If in doubt, triage. The cost of wrong routing is a wasted session. |
+| "The user said which skill to use, so I'll skip triage" | User may not know the full skill catalog or that their task crosses project boundaries. | Triage confirms user's choice AND checks for project routing — both matter. |
+
+## Red Flags
+
+STOP and re-evaluate if any of these occur:
+- Starting orchestrate or fix-issue without knowing which project to work in
+- Editing files in STOPA when the task belongs to a target project (or vice versa)
+- Running a skill that doesn't match the task's actual needs
+- Ignoring project routing entirely and working in the wrong directory
+
+## Verification Checklist
+
+- [ ] Task routed to correct project (STOPA vs target vs both)
+- [ ] Recommended skill(s) identified with rationale
+- [ ] If multi-project: split plan documented before execution
+- [ ] User informed of routing decision (not silently assumed)
 
 ## Rules
 

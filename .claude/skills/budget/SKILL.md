@@ -3,6 +3,7 @@ name: budget
 description: Use when checking or managing task budget and cost tracking. Trigger on 'budget', 'cost check', 'how much', 'kolik to stojí'. Do NOT use for billing or payments.
 argument-hint: [check / today / week / blocks / report / reset]
 tags: [session, orchestration]
+phase: meta
 user-invocable: true
 allowed-tools: Read, Write, Edit, Bash
 model: haiku

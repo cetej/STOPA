@@ -5,6 +5,7 @@ context:
   - gotchas.md
 argument-hint: [save / resume / status]
 tags: [session, memory]
+phase: ship
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 model: haiku
@@ -192,6 +193,30 @@ The heuristic signals are:
 
 When auto-triggered by orchestrate, save checkpoint silently and return a one-line status
 to the orchestrator (don't interrupt the user's flow).
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "Context is small enough, no need to checkpoint" | Context size doesn't predict session continuity needs. A fresh session won't know what was decided or attempted. | Checkpoint whenever subtasks exist or 3+ agents were spawned — regardless of context size. |
+| "I'll just finish quickly, no checkpoint needed" | Session limits are unpredictable. A crash or timeout loses all context without checkpoint. | Checkpoint before risky operations and at natural milestones. |
+| "The git history is enough to resume" | Git history captures code changes, not decisions, failed approaches, or pending subtasks. | Checkpoint captures resume prompt, state, decisions, and what NOT to do — git doesn't. |
+
+## Red Flags
+
+STOP and re-evaluate if any of these occur:
+- Session ending without any checkpoint when subtasks exist in state.md
+- Checkpoint that doesn't contain a resume prompt for the next session
+- Mixing completed work from previous sessions into a new checkpoint
+- Checkpoint without mentioning what was already tried and failed
+
+## Verification Checklist
+
+- [ ] checkpoint.md contains clear resume prompt for next session
+- [ ] All pending subtasks from state.md referenced in checkpoint
+- [ ] Failed approaches documented (so next session doesn't retry them)
+- [ ] Decision log (decisions.md) up to date before checkpoint
+- [ ] Budget state captured if orchestration was active
 
 ## Rules
 

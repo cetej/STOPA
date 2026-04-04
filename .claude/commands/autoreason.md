@@ -3,6 +3,7 @@ name: autoreason
 description: "Use when iteratively improving subjective text (prompts, arguments, copy, research) through adversarial debate. Trigger on 'autoreason', 'improve this text', 'debate this', 'make this more convincing'. Do NOT use for code optimization (/autoresearch) or code review (/critic)."
 argument-hint: <file-path or inline text> [domain:text|argument|prompt|copy] [rounds:N] [judges:N]
 tags: [code-quality, research, orchestration]
+phase: review
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Agent, AskUserQuestion, TodoWrite
 model: sonnet
@@ -442,7 +443,7 @@ Budget tiers:
 
 ## Anti-Patterns to Avoid
 
-| Temptation | Why Wrong | Do Instead |
+| Rationalization | Why Wrong | Do Instead |
 |------------|-----------|------------|
 | "Let me show the rewriter the previous debate history" | Context contamination → confirmation bias | Cold-start every agent |
 | "The synthesis is clearly better, skip the judges" | Subjective assessment without blind evaluation | Always run judge panel |

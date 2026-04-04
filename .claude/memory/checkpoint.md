@@ -1,67 +1,43 @@
 # Session Checkpoint
 
-**Saved**: 2026-04-03 (evening)
-**Task**: Behavioral Genome + Radar scan
+**Saved**: 2026-04-04
+**Task**: Agent-Skills Patterns Adoption — Phase 2 COMPLETE
 **Branch**: main
 
-## Co je hotovo
+## Resume Prompt
 
-### Radar scan #2 (2026-04-03) ✓
-- Proaktivní scan (10 searches, 5 fetches)
-- 5 nových tools → Watch List: Strands Agents (6/10), Google Colab MCP (6/10), Gemini CLI (6/10), Mastra (5/10), MCPCore (5/10)
-- Deepresearch na claude-code-sdk-python (8/10) DONE → `outputs/radar-claude-code-sdk-python-2026-04-03.md`
-- radar.md aktualizován (11 tools celkem)
+Phase 2 hotova. Vsech 22 Tier 2 skills ma Anti-Rationalization Defense tabulky. Celkem 37 skills pokryto (Tier 1+2+4). Zbyva: Tier 3 (NICE-TO-HAVE, 11 skills), Red Flags + Verification Checklists pro klicove Tier 2 skills, commit.
 
-### Behavioral Genome v1 (2026-04-03) ✓
-- Root cause analýza "lobotomie" problému: feedback memories se ztrácí při kompresi, nejsou direktivní
-- Implementace: `.claude/rules/behavioral-genome.md` (59 řádků) — syntetizováno z 18 feedback memories + 10 critical patterns
-- Umístění v `rules/` = auto-load na každý edit, compression-proof
-- P0 DONE, P1-P3 pending (viz níže)
+## Co je hotovo (Phase 1 + Phase 2)
 
-## Pending (P1-P3 Behavioral Genome)
+- `.claude/rules/skill-files.md` — `phase:` field + 3 body sekce spec
+- `.claude/rules/skill-tiers.md` — Lifecycle Phase Mapping + Required Sections by Tier
+- `/skill-generator` template aktualizovan
+- **48/48 skills** ma `phase:` tag
+- **37/37 skills** ma Anti-Rationalization Defense (`Rationalization | Why Wrong | Do Instead`)
+- **37/37 commands/** synced s skills/
+- **Tier 1 (7/7):** triage, orchestrate, scout, critic, checkpoint, scribe, status — AR + RF + VC
+- **Tier 2 (22/22):** vsechny maji AR
+  - fix-issue, autofix, brainstorm, prp, handoff, harness
+  - security-review, dependency-audit, incident-runbook, scenario, liveprompt, autoharness
+  - eval, build-project, fetch, radar, council
+  - pr-review, seo-audit, evolve, xsearch, project-sweep
+  - deepresearch, peer-review, autoreason, autoresearch, verify (puvodni)
+- **Tier 4 (2/2):** tdd, systematic-debugging — AR + RF
+- **Skill-generator (1/1):** AR v template
 
-### P1: genome-synthesize.py Stop hook (2-3h)
-- Python hook na Stop event
-- Čte feedback memories + critical-patterns + corrections.jsonl
-- Volá Haiku pro syntézu → regeneruje behavioral-genome.md
-- Diffne proti předchozí verzi → drift score
-- Přidat do settings.json Stop hooks
+## Co zbyva
 
-### P2: Fix auto-scribe.py / patterns.md (1h)
-- patterns.md je PRÁZDNÝ — auto-scribe.py pravděpodobně nedostává session-summary.json
-- Diagnostikovat: session-summary.sh generuje? auto-scribe.py čte správně?
+### SHOULD: Tier 2 — Red Flags + VC pro klicove skills
+security-review, dependency-audit, harness, eval — doporucuji RF + VC
 
-### P3: Drift score v /status (1h)
-- Přidat do /status skillu: porovnání aktuální behavioral-genome verze s předchozí
-- Metrika konzistence chování
+### SHOULD: Tier 4 — Verification Checklist
+tdd, systematic-debugging — chybi VC
 
-## Odložené úkoly (z minulých sessions)
+### NICE: Tier 3 — AR RECOMMENDED (11 skills)
+nano, klip, autoloop, project-init, watch, sweep, compact, budget, browse, youtube-transcript, self-evolve
 
-### NG-ROBOT Media Expansion — Fáze 1b
-- Bundle processing dialog (checkpoint v NG-ROBOT auto-memory)
-- Projekt: C:\Users\stock\Documents\000_NGM\NG-ROBOT
-
-### Hippocampus Fáze 3c/3d
-- Cross-project graph merge + model gating
-- Soubory: `.claude/hooks/lib/associative_engine.py`
-
-## Resume prompt
-
-```
-Session pokračování v STOPA.
-
-POSLEDNÍ PRÁCE:
-- Behavioral Genome v1 je LIVE v .claude/rules/behavioral-genome.md
-- Radar scan hotový, radar.md aktuální (11 tools)
-
-CO DĚLAT DÁL (dle priority):
-1. P1: Implementovat genome-synthesize.py Stop hook — auto-regenerace genome z feedback memories
-2. P2: Diagnostikovat proč patterns.md je prázdný (auto-scribe.py bug)
-3. P3: Drift score do /status skillu
-
-SOUBORY:
-- .claude/rules/behavioral-genome.md (genome v1)
-- .claude/memory/radar.md (11 tools)
-- .claude/settings.json (hooks config)
-- .claude/hooks/ (hook skripty)
-```
+## Co NEdělat
+- Nemen description field — MUSI zustat "Use when..."
+- Nemen existujici AR obsah — jen pridavej k skillum co AR nemaji
+- Nepridavej sekce ke skill-generator template (uz tam jsou)

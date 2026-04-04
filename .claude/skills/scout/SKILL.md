@@ -3,6 +3,7 @@ name: scout
 description: Use when you need to map existing code and patterns within a single project before implementing changes. Trigger on 'map this area', 'scope this', 'what do we have'. Do NOT use for cross-project pattern search (/xsearch) or known file locations.
 argument-hint: [what to explore] [--refresh-map]
 tags: [exploration, research]
+phase: plan
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Agent
 model: haiku
@@ -190,6 +191,32 @@ Add to the Scout Report output:
 1. Update `.claude/memory/state.md` with scout findings (append under active task)
 2. If new patterns discovered, note them for `.claude/memory/learnings/` (per-file YAML format via /scribe)
 3. If a skill gap was found (a task that should have a skill but doesn't), note it
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "I already know this codebase well enough" | Knowledge decays — files change between sessions. Stale assumptions cause wrong recommendations. | Grep first, confirm assumptions with current file state. |
+| "I'll just read the main file, the rest is obvious" | Dependencies and side effects hide in non-obvious files. Shallow reads miss critical connections. | Follow imports and references — map the dependency graph, not just the entry point. |
+| "The user described the architecture, no need to explore" | User descriptions are often incomplete or outdated. Trust code over verbal descriptions. | Verify user's description against actual code — flag discrepancies. |
+| "Exploring deeper will waste time" | Surface scans miss critical patterns. The cost of a wrong recommendation from shallow exploration is higher than thorough scouting. | Match exploration depth to task complexity — use tier system (light/standard/deep). |
+
+## Red Flags
+
+STOP and re-evaluate if any of these occur:
+- Recommending changes without reading the files involved
+- Reporting architecture without verifying import/dependency chains
+- Assuming file structure from naming conventions without checking
+- Producing a scout report with zero code citations or file paths
+- Exploring beyond the requested scope without flagging it
+
+## Verification Checklist
+
+- [ ] All referenced files actually exist (verified via Glob/Read)
+- [ ] Architecture claims backed by specific file:line citations
+- [ ] Dependencies and side effects documented (not just primary files)
+- [ ] Scout depth matches task tier (light/standard/deep)
+- [ ] Assumptions explicitly flagged if any remain unverified
 
 ## Rules
 
