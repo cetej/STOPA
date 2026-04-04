@@ -63,6 +63,7 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 ### Agent/Tool Research
 | Item | Detail |
 |------|--------|
+| 73. Meta-Harness median gap | **[ACTION]** arXiv:2603.28052 — MEDIAN full traces: 50.0 vs scores-only: 34.6 (+15 pts). Best numbers (56.7 vs 41.3) zakrývají sílu nálezu. Iteration 7: 80-line env snapshot → #1 Haiku 4.5 TerminalBench-2 (37.6%). Cross-model transfer na 5 held-out modelů. STOPA: `/eval` musí reportovat median; `/orchestrate` přidat tool inventory jako P1 krok. |
 | 71. MCP Toolbox for Databases (Google) | Production MCP server, 30+ DB (PostgreSQL, MongoDB, Redis, Snowflake, Neo4j…), one config, NL2SQL, connection pooling, IAM auth, OpenTelemetry. Pre-datuje MCP — není trend-chasing. [github](https://github.com/googleapis/genai-toolbox) — Trigger [ACTION] až POLYBOT/MONITOR implementuje DB layer |
 | 70. agent-browser (Vercel Labs) | **[ACTION]** CLI pro agenty: snapshot→refs→act pattern, Rust daemon (nízká latence, žádný Node.js), CDP pro Electron (Discord, VSCode, Slack), 80+ příkazů, named sessions, domain allowlists. Nižší tokenová zátěž než Playwright. Instalace: `npm install -g agent-browser`. [github](https://github.com/vercel-labs/agent-browser) — **browser tools matice aktualizována** |
 | 69. open-multi-agent | TypeScript: DAG task decomp + auto-unblocking, AgentPool semaphore, message bus. 3.5k★, 1.7k forks. Vzory: explicitní dependency graph (→ /orchestrate), paralelismus limit (→ circuit breaker upgrade). [github](https://github.com/JackChen-me/open-multi-agent) |
@@ -116,6 +117,7 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
 ## Scan History
 
+### 2026-04-04 #6 — targeted content (Meta-Harness thread) | Fetches: 0 | Items: 1 action, 0 watch, 0 info
 ### 2026-04-04 #5 — targeted URL (Multiscreen arXiv:2604.01178) | Fetches: 2 | Items: 0 action, 1 watch, 0 info
 ### 2026-04-04 #4 — targeted URL (MCP Toolbox for Databases) | Fetches: 0 | Items: 0 action, 1 watch, 0 info
 ### 2026-04-04 #3 — targeted URL (agent-browser) | Fetches: 1 | Items: 1 action, 0 watch, 0 info

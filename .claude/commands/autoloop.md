@@ -37,7 +37,7 @@ Karpathy autoresearch pattern for Claude Code: constrain scope → define metric
 |---|------|
 | 1 | **Loop until done** — run all iterations, never ask "should I continue?" |
 | 2 | **Read before write** — understand full context before modifying |
-| 3 | **One change per iteration** — atomic changes. If it breaks, you know why |
+| 3 | **One change per iteration** — atomic changes. If it breaks, you know why. **Confound isolation**: NEVER bundle structural changes (control flow, state, tools) with prompt changes (system prompt, instructions, few-shot) in one iteration. Structural first → verify → prompt second. (Meta-Harness arXiv:2603.28052: bundling caused regression in 2/2 attempts) |
 | 4 | **Mechanical verification only** — no subjective "looks good." Use metrics |
 | 5 | **Automatic rollback** — failed changes revert instantly via git |
 | 6 | **Simplicity wins** — equal results + less code = KEEP |
@@ -438,11 +438,13 @@ If validation score dropped below 5: warn — structural improvements may have h
 Non-dominated solutions only. Use `/eval --experiments pareto <run_id>` to query later.
 
 ### Summary
-- **Baseline**: <score> → **Final**: <score> (+<total delta>)
+- **Baseline**: <score> → **Best**: <score> (+<total delta>) | **Median (kept)**: <median>
 - **Kept**: N | **Discarded**: M | **Crashes**: K
 - **Validation score**: X/10
 - **Exit reason**: budget | plateau | max score | crash loop
 - **Guard failures**: N (reworked: M, discarded: K)
+
+> **Why median?** Meta-Harness (arXiv:2603.28052) showed median is a more robust quality signal than best — best can be an outlier, median reflects typical iteration quality.
 ```
 
 **Run Diary Summary**: Append `## Summary` section to `run-diary-<slug>.md` with key insight, best approach, dead ends. If significant findings: suggest `/scribe learning` with diary path.

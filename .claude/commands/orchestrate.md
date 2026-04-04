@@ -96,6 +96,30 @@ Before anything else:
 
 This is a safety net — if the user already ran `/triage`, skip this check.
 
+## Phase 0.7: Environment Snapshot
+
+Run ONCE per session (skip if `.claude/memory/intermediate/env-snapshot.md` exists and is <1 hour old).
+
+Single Bash command to discover available tools and project type:
+
+```bash
+echo "=== ENV SNAPSHOT ===" && \
+node --version 2>/dev/null && npm --version 2>/dev/null && \
+python --version 2>/dev/null && pip --version 2>/dev/null && \
+git --version 2>/dev/null && \
+gh --version 2>/dev/null | head -1 && \
+ruff --version 2>/dev/null && \
+ls package.json pyproject.toml Cargo.toml go.mod requirements.txt 2>/dev/null && \
+echo "=== END SNAPSHOT ==="
+```
+
+Store result in working memory. Use to:
+- **Inform tier selection**: missing tools (e.g., no `gh` CLI) → constrain scope, skip PR-dependent subtasks
+- **Pre-populate sub-agent prompts**: include available tool versions directly — agents don't waste turns discovering them
+- **Pre-flight `requires:` check**: before launching a skill, verify its `requires:` dependencies against this snapshot
+
+> **Why?** Meta-Harness (arXiv:2603.28052) iteration 7: a single 80-line environment snapshot before agent start eliminated 2-4 exploratory turns and became the #1 Haiku 4.5 agent on TerminalBench-2 (37.6%).
+
 ## Pre-Flight Dispatch Rules (GSD-2 pattern)
 
 Evaluate these rules **in order before entering Phase 1**. First match wins — execute the action and skip remaining rules.

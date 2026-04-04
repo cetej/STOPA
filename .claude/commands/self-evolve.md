@@ -195,7 +195,7 @@ Write `self-evolve-<target>.md` to project root:
 ## Self-Evolve Report: <target>
 
 **Rounds**: N / budget
-**Final pass_rate**: X% (baseline: Y%)
+**Final pass_rate**: X% (baseline: Y%) | **Median pass_rate (all rounds)**: Z%
 **Cases**: Z total (M original + K generated)
 **Exit reason**: convergence | budget | circuit-breaker
 

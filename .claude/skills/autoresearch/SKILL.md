@@ -79,7 +79,7 @@ If any condition is missing: **stop and fix it before starting the loop.**
 
 | # | Rule |
 |---|------|
-| 1 | **One hypothesis per iteration** — test one idea at a time. If it needs "and" to describe, split it |
+| 1 | **One hypothesis per iteration** — test one idea at a time. If it needs "and" to describe, split it. **Confound isolation**: NEVER bundle structural changes (control flow, state, tools) with prompt changes (system prompt, instructions, few-shot) in one iteration. Structural first → verify → prompt second. (Meta-Harness arXiv:2603.28052: bundling caused regression in 2/2 attempts) |
 | 2 | **Measure, don't judge** — use the eval command, not subjective assessment |
 | 3 | **Git is memory** — commit before running, read history before proposing |
 | 4 | **Name your hypotheses** — every experiment gets a human-readable name tracked in the log |
@@ -371,7 +371,7 @@ Review the experiment log holistically:
 
 ```
 === BATCH ASSESS (after iteration <N>/<budget>) ===
-Baseline: <baseline> → Best: <best> (+<delta>)
+Baseline: <baseline> → Best: <best> (+<delta>) | Median (kept): <median>
 Kept: <K> | Discarded: <D> | Crashed: <C>
 Improvement trend: <improving | flat | declining>
 Remaining budget: <remaining> iterations
@@ -488,6 +488,7 @@ Read `${CLAUDE_SKILL_DIR}/references/failure-taxonomy.md` for the 10-category cl
 | "Let me tweak the eval script" | Destroys ground truth — all prior rounds invalidated | Never modify eval |
 | "I'll clean up the code while I'm at it" | Conflates optimization with refactoring | Stay in scope |
 | "I'll add a 2nd file to this iteration" | Violates single-file mutation, can't isolate cause | Split into two sequential hypotheses |
+| "I'll fix the prompt AND restructure the loop in this iteration" | Bundling structural+prompt changes confounds diagnosis — Meta-Harness showed 2/2 regressions | Structural change first, verify, THEN prompt change in separate iteration |
 
 ## Known Failure Modes (Karpathy Loop-Specific)
 

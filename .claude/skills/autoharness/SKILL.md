@@ -209,6 +209,7 @@ For each iteration (1 to max_iterations):
    - Failed test cases (max 5, sampled)
    - Error messages from failed runs
    - Instruction: "Fix the validator to catch these failures. Keep existing passing checks. Add ONE new check per failed case."
+   - **Confound isolation**: Each refinement round changes EITHER validation logic OR error messages/thresholds, never both. If structural validator changes AND threshold tuning are both needed, do structural first → verify → threshold second. (Meta-Harness arXiv:2603.28052: bundling different change types caused regression in 2/2 attempts)
 
 5. **Save** — write updated validator, increment iteration
 

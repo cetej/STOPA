@@ -307,7 +307,7 @@ Metrics:
   discard_to_keep:        4:6
 
 Timeline:
-  Baseline: 85.2 → Final: 93.4 (+8.2)
+  Baseline: 85.2 → Best: 93.4 (+8.2) | Median (kept): 89.7
   Keeps: 6 | Discards: 4 | Crashes: 0
   Plateaus: 1 (iter 5-7, escaped at iter 8 via strategy: simplify)
 
@@ -374,7 +374,12 @@ Top 5 iterations across all runs:
   2  autoresearch-rag-1711800000 6     0.85    semantic-chunking           f4a5b6c
   3  autoloop-critic-1711900000  5     91.2    added error handling tests  a1b2c3d
   ...
+
+Aggregate (across all kept iterations in listed runs):
+  Median: <median_metric> | Best: <best_metric> | Baseline: <baseline>
 ```
+
+**Why median?** Meta-Harness (arXiv:2603.28052) showed +15 points median gap (50.0 vs 34.6) between full-trace and scores-only optimization. Best-only reporting hides the typical improvement — median shows the robust signal.
 
 ### --experiments pareto <run_id>
 
