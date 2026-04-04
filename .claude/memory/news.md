@@ -2,25 +2,32 @@
 
 Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
-## Last Scan: 2026-04-03 #2 (full) | Next: ~2026-04-10
+## Last Scan: 2026-04-04 (quick) | Next: ~2026-04-10
 
 ## Action Items
 
 | # | Item | Urgency | Next Step |
 |---|------|---------|-----------|
-| 36 | Haiku 3 deprecation (deadline 2026-04-19) | DONE | **Audit 2026-04-03:** STOPA — žádný aktivní kód (jen backups/). NG-ROBOT — `claude-haiku-4-5-20251001` všude, 2 optional cleanups (config.py:213 stará Haiku 4.0 pricing, test_observability.py:18). ADOBE — plně aktuální. |
-| 48 | 1M context window retiring 2026-04-30 | SAFE | Audit 2026-04-01: žádné aktivní soubory nepoužívají `context-1m-2025-08-07` header. Projekty jsou čisté. |
-| 49 | CC v2.1.89 + v2.1.90 — hook upgrades | DONE | Patch dokumentace aktualizována (§4 Defer, §5 marketplace). settings.json již obsahuje všechny změny (if: guards, PermissionDenied, TaskCreated). Post-save hook fix: SAFE (security-scan.py je PreToolUse). |
-| 51 | CC v2.1.90 — `thinking.display: "omitted"` | DONE | Referováno v orchestrate SKILL.md:1064. SMART gate + testing bottleneck princip přidány jako Rule #12 a #13. |
-| 52 | Anthropic API — web search/fetch GA | DONE | Audit 2026-04-03: STOPA čistá. NG-ROBOT používá `web_search_20260209` (GA) — žádné beta headery. ADOBE čistá. |
-| 53 | CC v2.1.90 — `CLAUDE_CODE_PLUGIN_KEEP_MARKETPLACE_ON_FAILURE` | DONE | Dokumentováno v settings-patch-2026-04-01.md sekce 5. |
-| 59 | CC v2.1.91 — `disableSkillShellExecution` setting | MED | Nové nastavení blokující shell v skills/commands. Ověřit: ovlivňuje STOPA skills s inline shell? Audit `.claude/skills/` |
-| 60 | Claude Sonnet 4.6 — GA model s 1M context | MED | Aktualizovat model tiers v CLAUDE.md + orchestrate SKILL.md (Sonnet 4.5 → 4.6 kde relevantní) |
+| 65 | CC v2.1.92 — `forceRemoteSettingsRefresh` policy | LOW | Fail-closed při nenačtení remote managed settings. Sledovat při distribuci do target projektů. |
 | 42 | CC Voice Mode (`/voice`) — Czech included | MED | Otestovat až se rolling out dostane k účtu; 20 jazyků vč. češtiny |
 | 44 | CC HTTP hooks (POST JSON → URL) | PARKED | Adopt při remote agents; pro teď nepotřebujeme |
 | 29t | Bootleg SSL (arXiv:2603.15553) | LOW | Sledovat pro ORAKULUM/ZACHVEV pokud Chronos-2 nestačí |
 | 29s | Attention innovations status | INFO | Produkce: MLA, GQA, iRoPE. Sledovat DiffAttn DEX adapter + TransMLA |
 | 29r | `hf papers` CLI (AK) | LOW | Kandidát pro upgrade /watch Tier 2b strategy |
+
+## Resolved (2026-04-04)
+| # | Item | Resolution |
+|---|------|------------|
+| 59 | CC v2.1.91 `disableSkillShellExecution` | SAFE — STOPA skills používají Bash přes tool calls, ne přímé skill-framework shell. 29 skills neovlivněno. |
+| 60 | Sonnet 4.6 GA | DONE — CLAUDE.md:114 má note, tier-definitions.yaml generický "sonnet", žádné staré model IDs. |
+| 64 | CC v2.1.92 Stop hook fix | SAFE — 7 Stop hooks nejsou závislé na fixnuté sémantice. |
+| 68 | CC v2.1.92 `/cost` per-model breakdown | DONE — /budget skill už má ccusage s per-model granularitou (npx ccusage daily). |
+| 36 | Haiku 3 deprecation | DONE — NG-ROBOT na `claude-haiku-4-5-20251001`, ADOBE aktuální, STOPA bez aktivního kódu. |
+| 48 | 1M context window retiring 2026-04-30 | SAFE — žádné aktivní `context-1m-2025-08-07` headers. |
+| 49 | CC v2.1.89+90 hook upgrades | DONE — settings.json aktualizován (if: guards, PermissionDenied, TaskCreated). |
+| 51 | CC v2.1.90 `thinking.display: "omitted"` | DONE — orchestrate SKILL.md:1064, Rule #12+#13. |
+| 52 | Anthropic API web search/fetch GA | DONE — NG-ROBOT používá GA endpoint. |
+| 53 | CC v2.1.90 `CLAUDE_CODE_PLUGIN_KEEP_MARKETPLACE_ON_FAILURE` | DONE — dokumentováno. |
 
 ## Resolved (2026-03-31)
 | # | Item | Resolution |
@@ -85,6 +92,12 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 | 28. ClarEval | Agent ambiguity detection benchmark |
 | 8. Czech ABSA | ufal/robeczech-base — ZACHVEV sentiment |
 
+### CC Hooks (v2.1.92, kandidáti pro implementaci)
+| Item | Detail |
+|------|--------|
+| 66. InstructionsLoaded hook | Fires when CLAUDE.md nebo .claude/rules/*.md jsou načteny. Pro STOPA: redundantní (SessionStart hooks checkpoint-check.sh + memory-brief.sh to pokrývají). Přeskočit. |
+| 67. agent_id/agent_type v hook contextu | DONE 2026-04-04 — guard přidán do všech 7 Stop hooks. Subagent Stop events (agent_type přítomen v stdin JSON) jsou skipnuty. |
+
 ### Ecosystem
 | Item | Detail |
 |------|--------|
@@ -99,6 +112,7 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
 ## Scan History
 
+### 2026-04-04 — quick | Searches: 3 | Fetches: 1 | Items: 2 action, 3 watch, 1 info
 ### 2026-04-03 #2 — full | Searches: 9 | Fetches: 2 | Items: 2 action, 2 watch, 3 info
 ### 2026-04-03 — full | Searches: 13 | Fetches: 2 | Items: 5 action, 4 watch, 3 info
 ### 2026-04-01 — full | Searches: 10 | Fetches: 2 | Items: 5 action, 4 watch, 4 info

@@ -3,6 +3,10 @@
 # Reads activity-log.md, counts operations, appends summary
 # Profile: standard+
 
+# Skip for subagent Stop events (agent_type present = subagent)
+HOOK_INPUT=$(cat 2>/dev/null || true)
+echo "$HOOK_INPUT" | grep -q '"agent_type"' && exit 0
+
 source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standard
 
 BUDGET=".claude/memory/budget.md"

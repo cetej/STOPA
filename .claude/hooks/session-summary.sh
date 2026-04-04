@@ -4,6 +4,10 @@
 # Output: none (writes to intermediate/session-summary.json)
 # Windows-compatible: no grep -P, explicit defaults for all vars
 
+# Skip for subagent Stop events (agent_type present = subagent)
+HOOK_INPUT=$(cat 2>/dev/null || true)
+echo "$HOOK_INPUT" | grep -q '"agent_type"' && exit 0
+
 MEMORY_DIR=".claude/memory"
 LOG="$MEMORY_DIR/activity-log.md"
 STATE="$MEMORY_DIR/state.md"

@@ -5,6 +5,10 @@
 
 STATE_FILE=".claude/memory/state.md"
 
+# Skip for subagent Stop events (agent_type present = subagent)
+HOOK_INPUT=$(cat 2>/dev/null || true)
+echo "$HOOK_INPUT" | grep -q '"agent_type"' && exit 0
+
 # Silent exit if no state file
 [ -f "$STATE_FILE" ] || exit 0
 

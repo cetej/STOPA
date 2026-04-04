@@ -229,9 +229,12 @@ def decay_and_prune(graph: dict) -> int:
 
 
 def main():
-    # Consume stdin (Stop hook receives session data)
+    # Consume stdin (Stop hook receives session data); skip for subagents
     try:
-        sys.stdin.read()
+        stdin_data = sys.stdin.read()
+        hook_data = json.loads(stdin_data) if stdin_data.strip() else {}
+        if hook_data.get("agent_type"):
+            return  # Subagent Stop — skip Hebbian consolidation
     except Exception:
         pass
 

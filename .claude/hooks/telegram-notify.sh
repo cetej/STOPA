@@ -4,6 +4,10 @@
 # Respects STOPA_VERBOSITY env var: brief (max 200 chars), standard (default), detailed
 # Reads bot token from ~/.claude/channels/telegram/.env
 
+# Skip for subagent Stop events (agent_type present = subagent)
+HOOK_INPUT=$(cat 2>/dev/null || true)
+echo "$HOOK_INPUT" | grep -q '"agent_type"' && exit 0
+
 ENV_FILE="$HOME/.claude/channels/telegram/.env"
 CHAT_ID="1328589040"
 VERBOSITY="${STOPA_VERBOSITY:-standard}"

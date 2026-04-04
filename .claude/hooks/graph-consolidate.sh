@@ -5,6 +5,10 @@
 
 cd "$(dirname "$0")/../.." 2>/dev/null || exit 0
 
+# Skip for subagent Stop events (agent_type present = subagent)
+HOOK_INPUT=$(cat 2>/dev/null || true)
+echo "$HOOK_INPUT" | grep -q '"agent_type"' && exit 0
+
 # Only rebuild if learnings dir is newer than graph
 GRAPH=".claude/memory/concept-graph.json"
 LEARNINGS=".claude/memory/learnings"
