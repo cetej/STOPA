@@ -11,6 +11,12 @@ globs: "**/skills/*/SKILL.md"
 - Bad: "Multi-persona code review — 6 expert perspectives (Developer, Security, QA...)"
 - Good: "Use when reviewing a PR and /critic alone is not thorough enough. Trigger on 'review PR'..."
 - `allowed-tools`: least privilege — jen tools které skill skutečně potřebuje
+- `deny-tools`: array of tools explicitly DENIED to this skill (overrides allowed-tools). Use for coordinator-pattern skills that must delegate, not execute.
+- `permission-tier`: optional, one of `read-only` | `workspace-write` | `full-access` | `coordinator`
+  - `read-only`: Read, Glob, Grep, WebFetch, WebSearch only
+  - `workspace-write`: read-only + Write, Edit, NotebookEdit, TodoWrite
+  - `full-access`: all tools including Bash, Agent (default if omitted)
+  - `coordinator`: Read, Glob, Grep, Agent, TodoWrite only — NO Bash/Write/Edit (forces delegation)
 - `tags`: array of cross-cutting capability tags for discovery (viz taxonomie níže)
 - `requires`: array of runtime dependencies — env vars (UPPER_CASE), CLI tools (lowercase), MCP servers (`mcp:name`)
   - Orchestrátor by měl ověřit dostupnost PŘED spuštěním skillu

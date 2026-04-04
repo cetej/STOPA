@@ -104,3 +104,64 @@ Wave N: Continue until all waves done
 - **Validate agent outputs** before passing to next wave (see wave-recovery.md)
 - Pass relevant outputs from previous waves as context to next wave agents (see wave-recovery.md)
 - **Wave checkpoint** after each completed wave (see wave-recovery.md)
+
+## Plan Approval Gate (deep tier, inspired by CC Agent Teams)
+
+For deep tier subtasks with high risk or uncertainty, spawn the agent in **plan-first mode**:
+
+1. Agent receives subtask with instruction: "FIRST: Write a 3-5 line plan of your approach. Do NOT start implementation until orchestrator confirms."
+2. Agent writes plan to `.claude/memory/intermediate/<subtask-id>-plan.json`
+3. Orchestrator reads the plan and either:
+   - **Approves**: Sends follow-up message "Plan approved. Proceed with implementation."
+   - **Rejects with feedback**: "Plan rejected. Issue: <reason>. Revised approach: <guidance>"
+4. Agent proceeds only after approval
+
+**When to use Plan Approval Gate:**
+- Subtasks touching 5+ files
+- Subtasks involving architectural decisions
+- Subtasks where the orchestrator is uncertain about the right approach
+- Deep tier tasks with `DONE_WITH_CONCERNS` history on similar work
+
+**When to skip:**
+- Light/standard tier (overhead not worth it)
+- Mechanical subtasks (linting, formatting, migrations)
+- Subtasks with well-defined, narrow scope
+
+## Structured Agent Output Format (P5)
+
+Instead of parsing raw markdown from agents, instruct agents to write structured results:
+
+```json
+{
+  "subtask_id": "1a",
+  "status": "DONE",
+  "confidence": 0.85,
+  "files_changed": ["src/auth.py", "tests/test_auth.py"],
+  "findings": [
+    "Token validation was missing expiry check",
+    "Added 2 test cases for edge conditions"
+  ],
+  "concerns": [],
+  "suggestions_for_next_wave": [
+    "Integration test should verify full auth flow"
+  ],
+  "metrics": {
+    "lines_added": 45,
+    "lines_removed": 12,
+    "tests_passed": true
+  }
+}
+```
+
+**Usage:** Add to agent prompt template:
+```
+RESULT FORMAT: Write your structured result to
+.claude/memory/intermediate/<subtask-id>.json using the schema above.
+Include confidence (0.0-1.0) reflecting how certain you are the work is correct.
+```
+
+**Orchestrator benefits:**
+- Parse `confidence` to decide if critic review is needed (< 0.7 → always critic)
+- Aggregate `files_changed` across agents for disjointness validation
+- Use `suggestions_for_next_wave` as context injection for downstream agents
+- `metrics` feed into budget tracking
