@@ -82,6 +82,7 @@ eval_trend:     <health_score> <arrow> (<delta> vs <previous_date>)
 perf_trend:     <skill1: +delta1> | <skill2: +delta2> | ... (last 3 runs, or "no data")
 context_budget: <pct>% used (<used_tokens>/<total_tokens>) [LOW|MEDIUM|HIGH|CRITICAL] — or "n/a (no session-stats.json)"
 memory_health:  <"ok" or list of warnings>
+wiki_health:    <"ok" | "stale (N days)" | "N contradictions" | "not built (run /compile)"> — <N articles, M learnings covered>
 
 --- harness audit ---
 audit_score:    <overall>/10 <grade> — <lowest_category>: <score>/10 — or "n/a (run: python scripts/stopa-audit.py)"

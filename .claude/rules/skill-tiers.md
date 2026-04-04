@@ -36,6 +36,7 @@ Specialized skills for specific workflows:
 - `/build-project` — end-to-end autonomous project builder from requirements
 - `/fetch` — clean URL reader via Jina Reader (no API key, no browser needed)
 - `/radar` — proactive tool discovery & evaluation (auto-scan 2x/day + manual URL input)
+- `/compile` — synthesize learnings into thematic wiki articles for better retrieval
 
 ## Tier 3 — Advanced (only on explicit request)
 Generative/creative tools and meta-skills:
@@ -69,7 +70,7 @@ Skills mapped to SDLC phases. Use `phase:` in frontmatter for each skill.
 | `verify` | Testování, důkaz, validace | verify, critic, harness, eval, security-review, dependency-audit, autoharness |
 | `review` | Retrospektivní kvalita, peer audit | peer-review, pr-review, autoreason, self-evolve, sweep |
 | `ship` | Deployment, handoff, cleanup | checkpoint, handoff, compact |
-| `meta` | Introspekce, evoluce, budget | status, budget, scribe, evolve, skill-generator, radar, watch, liveprompt, xsearch, deepresearch, seo-audit, youtube-transcript, incident-runbook, systematic-debugging, project-sweep |
+| `meta` | Introspekce, evoluce, budget | status, budget, scribe, evolve, compile, skill-generator, radar, watch, liveprompt, xsearch, deepresearch, seo-audit, youtube-transcript, incident-runbook, systematic-debugging, project-sweep |
 
 ### Using phases for skill selection
 1. Identifikuj fázi uživatelova úkolu (define → ship)

@@ -140,7 +140,7 @@ Write to `.claude/memory/checkpoint.md`:
 >  3. The immediate next action
 >  4. Any critical constraints or decisions
 >  5. Reference to files: CLAUDE.md, .claude/memory/state.md,
->     .claude/memory/checkpoint.md
+>     .claude/memory/checkpoint.md, .claude/memory/wiki/INDEX.md
 >  Write in English (for Claude). Keep under 300 words.>
 ```
 

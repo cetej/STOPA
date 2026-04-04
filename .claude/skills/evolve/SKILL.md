@@ -137,6 +137,22 @@ proactively instead of waiting for the panic detector.
 
 ---
 
+## Step 3e: Wiki Freshness Check
+
+If `.claude/memory/wiki/INDEX.md` exists:
+1. Read wiki INDEX.md header — extract `Last built` date
+2. Compare against newest learning file date (Glob `learnings/2*.md`, sort descending, check first)
+3. If wiki is >7 days stale AND new learnings exist since last compile:
+   - Add to Step 7 proposals: `RECOMMEND: Run /compile (wiki N days stale, M new learnings since last build)`
+4. If wiki INDEX.md shows open contradictions, include note in Step 7
+
+If `.claude/memory/wiki/INDEX.md` does NOT exist:
+- Add to Step 7 proposals: `RECOMMEND: Run /compile --full (wiki not yet built, N learnings available)`
+
+This is **advisory only** — evolve does NOT auto-run compile.
+
+---
+
 ## Step 4: Analyze Session Trends (sessions.jsonl)
 
 If 5+ entries in sessions.jsonl, calculate:
