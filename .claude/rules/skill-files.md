@@ -36,6 +36,37 @@ globs: "**/skills/*/SKILL.md"
   - Orchestrátor by měl ověřit dostupnost PŘED spuštěním skillu
   - Vynechej pokud skill nemá žádné externí závislosti
 - `supported-os`: array of supported platforms (`windows`, `linux`, `macos`). Vynechej pokud skill funguje všude (default = all)
+- `effort`: `low` | `high` | `auto`. When `auto`: orchestrator uses progressive skill withdrawal (SKILL0-inspired Dynamic Curriculum). First invocation in session loads full `SKILL.md`, subsequent invocations load `SKILL.compact.md` if it exists. This reduces token overhead by ~80% on repeat invocations within a session.
+
+## Compact Skill Variants (SKILL0-inspired Dynamic Curriculum)
+
+Skills MAY have a `SKILL.compact.md` alongside `SKILL.md`. The compact variant contains:
+- Core purpose and role (1-2 sentences)
+- Decision points and critical rules (condensed tables)
+- Circuit breakers and anti-patterns (abbreviated)
+- Output format expectations
+
+The compact variant does NOT contain:
+- Full phase descriptions or step-by-step workflows
+- Detailed examples or reference file reads
+- Extended tables, scoring rubrics, or templates
+- Anti-Rationalization Defense (covered in first invocation)
+
+### Progressive Withdrawal Protocol (per session)
+
+| Invocation | What loads | Token estimate |
+|-----------|-----------|---------------|
+| 1st | Full `SKILL.md` | ~5-7K tokens |
+| 2nd+ | `SKILL.compact.md` (if exists) | ~500-800 tokens |
+| Explicit `--full` | Always full `SKILL.md` | ~5-7K tokens |
+
+**Rules:**
+- Compact variant MUST preserve all circuit breakers and hard stops
+- If compact variant doesn't exist, always load full SKILL.md
+- User can force full version with `--full` flag
+- Session-scoped: new session resets to full version
+- The `variant: compact` field in frontmatter identifies compact files
+- Compact files are NOT synced to commands/ (they're skill-internal optimization)
 - Pokud skill zapisuje do memory: musí to být uvedeno v instructions
 - Pokud skill spouští sub-agenty: musí specifikovat model (haiku/sonnet/opus) a důvod
 - Konvence: anglicky pro technické instrukce, česky pro user-facing texty

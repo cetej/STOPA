@@ -31,7 +31,15 @@ globs: ".claude/memory/**"
 - `supersedes:` = filename staršího learningu, který tento nahrazuje (volitelné, max 1). Superseded soubory se při retrieval přeskakují, ale zůstávají na disku
 - `related:` = array filenames souvisejících learnings pro multi-hop retrieval (volitelné, max 3). Pouze 1-hop — žádné řetězení
 - `confidence:` = numerické skóre 0.0-1.0 vyjadřující důvěryhodnost learningu. Počáteční hodnota závisí na source: user_correction=0.9, critic_finding=0.8, auto_pattern=0.7, external_research=0.6, agent_generated=0.5. Decay: learnings nepoužité 60+ dní ztrácí 0.1 confidence za každých 30 dní nečinnosti (min 0.1). Boost: každé `uses` inkrementuje confidence o 0.05 (max 1.0). Každé `harmful_uses` snižuje o 0.15.
-- **Graduation trigger**: `uses >= 10` AND `confidence >= 0.8` AND `harmful_uses < 2` → `/evolve` navrhne promoci do `critical-patterns.md` nebo `rules/`. Learning s `confidence < 0.3` → kandidát na pruning při maintenance.
+- `impact_score:` = volitelné pole 0.0-1.0 měřící skutečný dopad learningu na výsledek. Počáteční hodnota 0.0 (neměřeno). Aktualizuje se helpfulness-driven způsobem (SKILL0-inspired):
+  - Po aplikaci learningu `/critic` porovná kvalitu výstupu s/bez learningu
+  - Pokud critic score se zlepšil ≥ 0.5 bodu: `impact_score += 0.1` (max 1.0)
+  - Pokud critic score se nezměnil: `impact_score` beze změny
+  - Pokud critic score se zhoršil: `impact_score -= 0.15` (min 0.0)
+  - Impact se měří na on-policy výsledcích (aktuální úkol), ne historicky
+  - Learnings s `impact_score >= 0.7` a `uses >= 5` = **high-impact** — prioritizovány při retrieval
+  - Learnings s `impact_score < 0.2` a `uses >= 8` = **low-impact** — kandidáti na pruning i při vysokém uses
+- **Graduation trigger**: (`uses >= 10` AND `confidence >= 0.8` AND `harmful_uses < 2`) OR (`impact_score >= 0.7` AND `uses >= 5` AND `harmful_uses < 1`) → `/evolve` navrhne promoci do `critical-patterns.md` nebo `rules/`. Learning s `confidence < 0.3` OR (`impact_score < 0.2` AND `uses >= 8`) → kandidát na pruning při maintenance.
 - Learnings bez counterů nebo confidence (starší záznamy) zůstávají validní — nová pole jsou volitelné, default confidence = 0.7
 - Learnings bez `supersedes:`/`related:` polí jsou plně zpětně kompatibilní
 - `model_gate:` = volitelné pole — model version, pro kterou learning platí (např. `"sonnet-4.6"`, `"opus-4"`). Learnings s tímto polem jsou auto-flagovány `/evolve` a `verify-sweep.py` když aktuální model neodpovídá gate. Model-specifické workaroundy MUSÍ mít toto pole. Obecné architektonické learnings ho NESMÍ mít. Inspirováno CC `@[MODEL_LAUNCH]` tagging konvencí.
@@ -39,7 +47,7 @@ globs: ".claude/memory/**"
 - `critical-patterns.md` = always-read (max 10 entries, top patterns)
 - Retrieval: grep-first přes component/tags, pak čti jen matched soubory. **Supersedes-aware**: pokud learning A má `supersedes: B`, přeskoč B. **Related expansion**: pokud match má `related: [X, Y]`, čti i X a Y (1-hop, max 3 extra per learning)
 - **Synonym fallback** (ref: arXiv:2603.19138 — P4 knowledge-guided retrieval misses semantically similar patterns under different keywords): If initial grep returns 0 matches, generate 2-3 synonyms/related terms from the task context and retry. Example: "validation" miss → retry with "sanitization", "input checking". Max 2 retry rounds. This prevents early pruning of relevant learnings due to keyword mismatch.
-- **Time-weighted relevance**: When multiple learnings match, prefer recent ones with trusted sources. Score: `severity_weight × source_weight × confidence × (1 / (1 + days_since_date / 60))`. Weights — severity: critical=4, high=3, medium=2, low=1. Source: user_correction=1.5, critic_finding=1.2, auto_pattern=1.0 (default), external_research=0.9, agent_generated=0.8. Confidence default=0.7 if field missing. Example: a fresh user_correction/high with confidence=0.9 (3×1.5×0.9=4.05) beats a stale auto_pattern/critical with confidence=0.5 (4×1.0×0.5=2.0).
+- **Time-weighted relevance**: When multiple learnings match, prefer recent ones with trusted sources and high impact. Score: `severity_weight × source_weight × confidence × impact_boost × (1 / (1 + days_since_date / 60))`. Weights — severity: critical=4, high=3, medium=2, low=1. Source: user_correction=1.5, critic_finding=1.2, auto_pattern=1.0 (default), external_research=0.9, agent_generated=0.8. Impact boost: `1.0 + impact_score` (default impact_score=0.0 → boost=1.0, max impact=1.0 → boost=2.0). Confidence default=0.7 if field missing. Example: a high-impact learning (impact=0.8, boost=1.8) with medium severity gets 2×1.0×0.7×1.8=2.52, beating a zero-impact critical learning at 4×1.0×0.7×1.0=2.8 only when also fresh and from trusted source.
 - Filename konvence: `<date>-<short-description>.md`
 - Staleness: záznamy starší 90 dní ověřit při maintenance
 - Type hodnoty: bug_fix | architecture | anti_pattern | best_practice | workflow
