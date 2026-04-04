@@ -29,6 +29,29 @@ Read first:
 
 <!-- CACHE_BOUNDARY -->
 
+## Pre-Stage 0: Context Enrichment (optional)
+
+IF ORAKULUM is running (check `http://localhost:8420/health` — skip silently on connection error):
+
+1. **Belief divergences:** `GET /api/v1/belief/divergences/?threshold=0.3`
+   - If divergences exist, note which entities/topics have opposing stances
+   - This reveals where the ecosystem has conflicting signals
+
+2. **Bridge feed:** `GET /api/v1/bridge/feed?days=7`
+   - Scan for cross-platform signal trends (CRI vs market odds vs MONITOR clusters)
+   - Note any recent spikes or trend changes
+
+3. **Generate 0-2 dynamic advisors** from the data:
+   - IF CRI > 0.5 AND market odds declining → add **"Crisis Contrarian"** persona:
+     *"Social signals show rising tension but markets are discounting it. You argue the crowd is wrong. Ask: What does the market know that the crowd doesn't?"*
+   - IF bridge detects anomaly/divergence → add **"Signal Analyst"** persona:
+     *"Cross-platform data shows contradictory signals. You focus on resolving the contradiction. Ask: Which signal source is most reliable here and why?"*
+
+4. Dynamic advisors are ADDED to Stage 1 (max 7 total, static 5 + dynamic 0-2).
+   They get the same prompt template, just different persona descriptions.
+
+IF ORAKULUM is unavailable: proceed with static 5 personas. No error, no mention.
+
 ## Input
 
 Parse `$ARGUMENTS` as the **decision question**.
