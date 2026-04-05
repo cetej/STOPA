@@ -23,11 +23,29 @@ fi
 
 NEW_LEARNINGS=$((CURRENT_COUNT - LAST_COUNT))
 
-# Trigger suggestion if 5+ new learnings or 3+ raw files accumulated
-if [ "$NEW_LEARNINGS" -ge 5 ] || [ "$RAW_COUNT" -ge 3 ]; then
+# Check per-component wiki staleness (wiki-pending.json from auto-relate.py)
+WIKI_PENDING=".claude/memory/intermediate/wiki-pending.json"
+STALE_COMPONENTS=""
+if [ -f "$WIKI_PENDING" ]; then
+  STALE_COMPONENTS=$(python -c "
+import json
+try:
+    pending = json.load(open('$WIKI_PENDING'))
+    stale = [f'  {comp}: {count} new' for comp, count in pending.items() if count >= 2]
+    if stale: print('\n'.join(stale))
+except: pass
+" 2>/dev/null)
+fi
+
+# Trigger suggestion if 3+ new learnings (lowered from 5) or 3+ raw files or stale components
+if [ "$NEW_LEARNINGS" -ge 3 ] || [ "$RAW_COUNT" -ge 3 ] || [ -n "$STALE_COMPONENTS" ]; then
   echo "=== Compound Loop Trigger ==="
   echo "New learnings since last compile: $NEW_LEARNINGS"
   echo "Raw agent outputs pending: $RAW_COUNT"
+  if [ -n "$STALE_COMPONENTS" ]; then
+    echo "Wiki articles with pending learnings:"
+    echo "$STALE_COMPONENTS"
+  fi
   echo "Suggestion: run /compile --incremental to update wiki and briefings"
   echo "==========================="
 fi

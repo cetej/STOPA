@@ -27,14 +27,45 @@ SOURCE_REPUTATION = {
 }
 
 # Contradiction signal words — opposing pairs
+# Each tuple: (set_A, set_B) — if new has A words and existing has B (or vice versa),
+# it's a potential contradiction on the same topic (same component + 2+ tags).
 CONTRADICTION_PAIRS = [
-    ({"never", "nikdy", "don't", "avoid", "zakázáno"},
-     {"always", "vždy", "must", "require", "povinné"}),
-    ({"remove", "delete", "smaž", "odstraň"},
-     {"keep", "preserve", "zachovej", "ponech"}),
-    ({"disable", "vypni", "off"},
-     {"enable", "zapni", "on"}),
+    # Core: never vs always
+    ({"never", "nikdy", "don't", "avoid", "zakázáno", "nesmí"},
+     {"always", "vždy", "must", "require", "povinné", "musí"}),
+    # Lifecycle: remove vs keep
+    ({"remove", "delete", "smaž", "odstraň", "drop"},
+     {"keep", "preserve", "zachovej", "ponech", "retain"}),
+    # Toggle: disable vs enable
+    ({"disable", "vypni", "off", "deactivate"},
+     {"enable", "zapni", "on", "activate"}),
+    # Preference: prefer vs discourage
+    ({"prefer", "recommend", "doporučuj", "upřednostni"},
+     {"avoid", "discourage", "vyhni", "nedoporučuj", "nepoužívej"}),
+    # Execution: parallel vs sequential
+    ({"parallel", "concurrent", "paralelně", "simultaneously"},
+     {"sequential", "serial", "sekvenčně", "one-by-one", "postupně"}),
+    # Complexity: simple vs complex
+    ({"simple", "minimal", "jednoduchý", "lightweight"},
+     {"complex", "comprehensive", "komplexní", "heavyweight"}),
+    # Ordering: before vs after
+    ({"before", "first", "předem", "nejdřív"},
+     {"after", "last", "potom", "nakonec"}),
+    # Scope: skip vs require
+    ({"skip", "přeskoč", "optional", "volitelný"},
+     {"require", "mandatory", "povinný", "enforce", "vyžaduj"}),
 ]
+
+# Regex patterns for verb-extraction contradiction detection
+# Detects "never/don't <verb>" vs "always/must <same-verb>" — semantic, not keyword
+NEGATION_PATTERN = re.compile(
+    r"\b(?:never|nikdy|don'?t|do not|nepoužívej|nepiš|nespouštěj)\s+(\w{4,})",
+    re.IGNORECASE,
+)
+OBLIGATION_PATTERN = re.compile(
+    r"\b(?:always|vždy|must|require|používej|piš|spouštěj)\s+(\w{4,})",
+    re.IGNORECASE,
+)
 
 
 def parse_yaml_frontmatter(content: str) -> dict:
@@ -115,12 +146,20 @@ def check_contradictions(meta: dict, summary: str,
                           existing_learnings: list[dict]) -> list[str]:
     """Check if new learning contradicts existing ones.
 
+    Two detection methods:
+    1. Keyword pairs: hardcoded opposing word sets (fast, high precision)
+    2. Verb extraction: "never <verb>" vs "always <same-verb>" (semantic, broader)
+
     Returns list of warning strings (empty = no contradictions found).
     """
     warnings = []
     new_component = meta.get("component", "")
     new_tags = parse_tags(meta)
     summary_lower = summary.lower()
+
+    # Pre-extract negated/obligated verbs from new learning
+    new_negated = {m.group(1).lower() for m in NEGATION_PATTERN.finditer(summary_lower)}
+    new_obligated = {m.group(1).lower() for m in OBLIGATION_PATTERN.finditer(summary_lower)}
 
     for existing in existing_learnings:
         ex_component = existing.get("component", "")
@@ -131,22 +170,42 @@ def check_contradictions(meta: dict, summary: str,
         if new_component != ex_component or len(new_tags & ex_tags) < 2:
             continue
 
-        # Check contradiction signal pairs
-        for never_words, always_words in CONTRADICTION_PAIRS:
-            new_has_never = any(w in summary_lower for w in never_words)
-            new_has_always = any(w in summary_lower for w in always_words)
-            ex_has_never = any(w in ex_summary for w in never_words)
-            ex_has_always = any(w in ex_summary for w in always_words)
+        filename = existing.get("_filename", "unknown")
+        found = False
 
-            # New says NEVER, existing says ALWAYS (or vice versa) on same topic
-            if (new_has_never and ex_has_always) or (new_has_always and ex_has_never):
-                filename = existing.get("_filename", "unknown")
+        # Method 1: keyword pair detection
+        for set_a, set_b in CONTRADICTION_PAIRS:
+            new_has_a = any(w in summary_lower for w in set_a)
+            new_has_b = any(w in summary_lower for w in set_b)
+            ex_has_a = any(w in ex_summary for w in set_a)
+            ex_has_b = any(w in ex_summary for w in set_b)
+
+            if (new_has_a and ex_has_b) or (new_has_b and ex_has_a):
                 warnings.append(
-                    f"Possible contradiction with {filename}: "
+                    f"[hard] Contradiction with {filename}: "
                     f"opposing recommendations detected. "
                     f"Consider adding 'supersedes: {filename}' if this replaces it."
                 )
+                found = True
                 break
+
+        if found:
+            continue
+
+        # Method 2: verb-extraction detection
+        # "never use X" (new) vs "always use X" (existing) or vice versa
+        ex_negated = {m.group(1).lower() for m in NEGATION_PATTERN.finditer(ex_summary)}
+        ex_obligated = {m.group(1).lower() for m in OBLIGATION_PATTERN.finditer(ex_summary)}
+
+        # New negates a verb that existing obligates (or vice versa)
+        conflict_verbs = (new_negated & ex_obligated) | (new_obligated & ex_negated)
+        if conflict_verbs:
+            verbs_str = ", ".join(sorted(conflict_verbs))
+            warnings.append(
+                f"[soft] Possible verb contradiction with {filename}: "
+                f"conflicting stance on '{verbs_str}'. "
+                f"Review both learnings to determine if one supersedes the other."
+            )
 
     return warnings
 

@@ -27,6 +27,7 @@ sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 LEARNINGS_DIR = Path(".claude/memory/learnings")
 CRITICAL_PATTERNS = LEARNINGS_DIR / "critical-patterns.md"
 ARCHIVE_DIR = Path(".claude/memory/learnings-archive")
+USES_LEDGER = Path(".claude/memory/intermediate/uses-ledger.json")
 MAX_CRITICAL = 10
 
 SKIP_FILES = frozenset({
@@ -48,6 +49,76 @@ def parse_frontmatter(content: str) -> dict:
             key, _, val = line.partition(":")
             result[key.strip()] = val.strip()
     return result
+
+
+def merge_uses_ledger() -> int:
+    """Merge uses-ledger.json counters into learning YAML frontmatter.
+
+    Returns number of learnings updated.
+    """
+    if not USES_LEDGER.exists():
+        return 0
+    try:
+        ledger = json.loads(USES_LEDGER.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return 0
+
+    if not ledger:
+        return 0
+
+    updated = 0
+    for filename, increment in ledger.items():
+        if increment <= 0:
+            continue
+        fpath = LEARNINGS_DIR / filename
+        if not fpath.exists():
+            continue
+        try:
+            content = fpath.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            continue
+
+        # Update uses: field in YAML frontmatter
+        uses_match = re.search(r"^uses:\s*(\d+)", content, re.MULTILINE)
+        if uses_match:
+            old_uses = int(uses_match.group(1))
+            new_uses = old_uses + increment
+            content = content.replace(
+                uses_match.group(), f"uses: {new_uses}", 1
+            )
+        else:
+            # No uses: field — insert after harmful_uses or confidence or tags
+            insert_after = re.search(
+                r"^(harmful_uses|confidence|tags):.*$", content, re.MULTILINE
+            )
+            if insert_after:
+                pos = insert_after.end()
+                content = content[:pos] + f"\nuses: {increment}" + content[pos:]
+            else:
+                continue  # Can't find insertion point
+
+        # Boost confidence by 0.05 per use (max 1.0)
+        conf_match = re.search(r"^confidence:\s*([\d.]+)", content, re.MULTILINE)
+        if conf_match:
+            old_conf = float(conf_match.group(1))
+            new_conf = min(1.0, old_conf + increment * 0.05)
+            content = content.replace(
+                conf_match.group(), f"confidence: {new_conf:.2f}", 1
+            )
+
+        try:
+            fpath.write_text(content, encoding="utf-8")
+            updated += 1
+        except OSError:
+            continue
+
+    # Clear ledger after successful merge
+    try:
+        USES_LEDGER.write_text("{}", encoding="utf-8")
+    except OSError:
+        pass
+
+    return updated
 
 
 def scan_learnings() -> list[dict]:
@@ -203,11 +274,18 @@ def main():
     except (json.JSONDecodeError, EOFError):
         pass
 
+    # 0. Merge uses ledger (accumulated during previous session)
+    merged = merge_uses_ledger()
+
     learnings = scan_learnings()
     if not learnings:
+        if merged:
+            print(json.dumps({"additionalContext": f"[Learning lifecycle] Merged {merged} use counters from ledger"}))
         return
 
     actions = []
+    if merged:
+        actions.append(f"Merged {merged} use counters from ledger")
 
     # 1. Promotions
     promo_candidates = find_promotion_candidates(learnings)

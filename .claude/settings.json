@@ -228,6 +228,12 @@
             "command": "python .claude/hooks/file-read-dedup.py",
             "timeout": 2,
             "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "python .claude/hooks/uses-tracker.py",
+            "timeout": 2,
+            "statusMessage": ""
           }
         ]
       },
@@ -281,6 +287,13 @@
             "command": "python .claude/hooks/learning-admission.py",
             "timeout": 3,
             "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "if": "Write(**/learnings/**)|Edit(**/learnings/**)",
+            "command": "python .claude/hooks/auto-relate.py",
+            "timeout": 3,
+            "statusMessage": "Auto-linking related learnings..."
           }
         ]
       }
