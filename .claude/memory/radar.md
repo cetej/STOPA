@@ -4,13 +4,14 @@ Tracked findings from `/radar` scans and manual evaluations.
 Archived: `radar-archive.md` (when >400 lines)
 
 ## Stats
-Last scan: 2026-04-04 (morning) | Mode: proactive scan | Total: 14 tools | 🔴 2 | 🟡 11 | 🟢 1
+Last scan: 2026-04-05 (scheduled, proactive scan #4) | Mode: auto | Total: 18 tools | 🔴 3 | 🟡 14 | 🟢 1
 
 ## Active Research (🔴)
 | Tool | Category | Score | Source | Captured | Status | Project fit |
 |------|----------|-------|--------|----------|--------|-------------|
 | [claude-code-sdk-python](https://github.com/anthropics/claude-code-sdk-python) | SDK / orchestration | 8/10 | manual | 2026-04-03 | **DONE** — [report](../outputs/radar-claude-code-sdk-python-2026-04-03.md) | STOPA — programmatic CC control, scheduled agents, budget per subagent |
 | [Claw Code](https://github.com/instructkr/claw-code) | Agent harness / open-source CC clone | 9/10 | scan/PR | 2026-04-04 | **EVALUATE** | STOPA — open inspectable agent harness (Python+Rust), study for architecture patterns |
+| [mcp-scan](https://github.com/invariantlabs-ai/mcp-scan) | MCP security scanner | 8/10 | scan | 2026-04-05 | **EVALUATE** | STOPA — scan all MCP servers before adding; rug pull + tool poisoning attack vector |
 
 ## Watch List (🟡)
 | Tool | Category | Score | Source | Captured | Notes |
@@ -26,6 +27,9 @@ Last scan: 2026-04-04 (morning) | Mode: proactive scan | Total: 14 tools | 🔴 
 | [Gemini CLI](https://github.com/google-gemini/gemini-cli) | Coding agent | 6/10 | scan/Google | 2026-04-03 | Apache 2.0, ReAct loop, MCP+extensions, Jules integration. CC competitor |
 | [Mastra](https://github.com/mastra-ai/mastra) | Agent framework | 5/10 | scan/HN | 2026-04-03 | TS-first, 22.6k★, Apache 2.0, RAG+memory+eval built-in |
 | [MCPCore](https://mcpcore.io/) | MCP hosting | 5/10 | scan/PH | 2026-04-03 | Managed MCP server infra (auth, secrets, logs, AES-256) |
+| [auto-harness](https://github.com/neosigmaai/auto-harness) | Self-improving agent loop | 6/10 | manual/Twitter | 2026-04-05 | Failure mining → clustering → eval gen → regression gate. OpenAI SDK, adaptable. Key insight: regression gate compounds gains. |
+| [Maritime](https://maritime.sh/) | Agent hosting / cloud infra | 5/10 | scan/PH | 2026-04-05 | Stateful agent hosting, sleep/wake (no cold starts), $1-10/mo, private beta. Commercial. Pro deployment ZACHVEV/MONITOR agents v budoucnu. |
+| [openai-agents-js](https://github.com/openai/openai-agents-js) | Agent framework / TypeScript | 5/10 | scan | 2026-04-05 | Produkční Swarm nástupce, 2.6k★, MIT. Differentiator: voice/realtime (WebRTC/SIP). STOPA Python → awareness only; lepší než Mastra pro voice use cases. |
 
 ## Archive (🟢 — last 30, older → radar-archive.md)
 | Tool | Score | Captured | Why low |
@@ -57,6 +61,15 @@ Last scan: 2026-04-04 (morning) | Mode: proactive scan | Total: 14 tools | 🔴 
 - [Google ADK TS](https://github.com/google/adk-js) — 5/10 🟡 — Google TypeScript multi-agent framework, MCP support
 - [VoltAgent](https://voltagent.dev/) — 4/10 🟢 — TS agent framework, 7.2k★, nic unikátního
 - Skipped: OpenClaw (news.md#9), Karpathy autoresearch (/autoresearch), Cotality MCP (Gate 1 fail)
+
+### 2026-04-05 — scheduled scan #4 | Searches: 10 | Fetches: 3 | Found: 3 new
+- [mcp-scan](https://github.com/invariantlabs-ai/mcp-scan) — 8/10 🔴 — Invariant Labs MCP security scanner. Detects tool poisoning, rug pulls, cross-origin escalation. Run before adding any MCP server. April 1 2026: tool poisoning attack documented (hidden directives in tool docstrings). Critical for STOPA security.
+- [Maritime](https://maritime.sh/) — 5/10 🟡 — Stateful agent hosting platform. Sleep/wake (no cold starts), $1-10/mo. Private beta. Future relevance for deploying ZACHVEV/MONITOR/POLYBOT agents.
+- [openai-agents-js](https://github.com/openai/openai-agents-js) — 5/10 🟡 — Production Swarm for TypeScript, MIT, 2.6k★. Voice/realtime differentiator. STOPA is Python → awareness only.
+- Skipped (already tracked): FastMCP 2.0 (upgrade noted — enterprise auth added), Jolt AI, LiteParse, Junie CLI, Google ADK JS, Strands, Colab MCP, Gemini CLI, Mastra, MCPCore, VoltAgent, auto-harness
+
+### 2026-04-05 — manual | Fetches: 1 | Found: 1 new
+- [auto-harness](https://github.com/neosigmaai/auto-harness) — 6/10 🟡 — NeoSigma self-improving loop: failure mining → root-cause clustering → eval gen → regression gate. Tau3 0.56→0.78. Concepts adoptable do STOPA /autoharness + /eval.
 
 ### 2026-04-03 — manual | Fetches: 1 | Found: 1 new
 - [claude-code-sdk-python](https://github.com/anthropics/claude-code-sdk-python) — 8/10 🔴 — Official Python SDK pro programmatic Claude Code control, 6.1k★, MIT, in-process MCP servers

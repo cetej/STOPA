@@ -10,7 +10,7 @@ uses: 1
 harmful_uses: 0
 related: [2026-03-29-paged-context-protocol.md, 2026-03-29-memcollab-agent-agnostic-memory.md]
 verify_check: "Grep('Salience Gate', path='.claude/commands/scribe.md') → 1+ matches"
-confidence: 0.7
+confidence: 0.75
 ---
 
 ## Pattern

@@ -1,14 +1,49 @@
+# Claude Code internals
 .claude/settings.local.json
 .claude/worktrees/
 .claude/compact_reminder.txt
 .claude/launch.json
 .claude/agent-memory/
 .claude/memory/permission-log.md
+.claude/memory/intermediate/
+.claude/plans/
 .playwright-mcp/
+.traces/
+
+# Python
+__pycache__/
+*.pyc
+
+# Secrets
+SECRETS*
+*.local.txt
+.env
+
+# Temp exports & screenshots
+*.png
+*.jpg
+*.jpeg
+*.bmp
+
+# Markdown temp exports (root only — not subdirs)
+/ccusage_*.md
+/consts_ts.png
+/index_ts.md
+/mcp_*.md
+/package_json_mcp.md
+/packages_dir.md
+
+# Backups (local snapshots of Claude Desktop configs)
+backups/
+
+# Data & outputs
 input/
 output/
 outputs/.research/
-watchlist-drawer.png
-*.local.txt
-SECRETS*
-.traces/
+
+# Experiment checkpoints & data
+experiments/*/checkpoints/
+experiments/*/data/
+
+# Research temp files
+/research/

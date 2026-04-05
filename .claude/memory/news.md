@@ -2,7 +2,7 @@
 
 Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
-## Last Scan: 2026-04-04 (quick) | Next: ~2026-04-10
+## Last Scan: 2026-04-05 (quick, scheduled) | Next: ~2026-04-10
 
 ## Action Items
 
@@ -117,6 +117,7 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
 ## Scan History
 
+### 2026-04-05 — quick (scheduled) | Searches: 3 | Fetches: 1 | Items: 0 action, 0 watch, 0 info — No new releases since 2026-04-04
 ### 2026-04-04 #6 — targeted content (Meta-Harness thread) | Fetches: 0 | Items: 1 action, 0 watch, 0 info
 ### 2026-04-04 #5 — targeted URL (Multiscreen arXiv:2604.01178) | Fetches: 2 | Items: 0 action, 1 watch, 0 info
 ### 2026-04-04 #4 — targeted URL (MCP Toolbox for Databases) | Fetches: 0 | Items: 0 action, 1 watch, 0 info
