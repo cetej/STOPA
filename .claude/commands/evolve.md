@@ -196,6 +196,28 @@ If skill-usage.jsonl doesn't exist or is empty, note "No usage data yet — trac
 
 ---
 
+## Step 4b: Critic Accuracy Audit (NLAH divergence detection)
+
+Check `.claude/memory/critic-accuracy.jsonl` for critic-user alignment:
+
+1. Read last 20 entries from the JSONL file
+2. Calculate alignment rate: `aligned_count / total_count`
+3. If alignment < 80%:
+   - Flag: "Critic diverges from user preferences (alignment: N%)"
+   - Identify which dimensions cause most misalignment (from `dimensions` field)
+   - Propose critic weight adjustment for the problematic task-type
+4. If alignment >= 80%: report "Critic alignment healthy (N%)"
+5. If file doesn't exist or has < 5 entries: skip with "Insufficient data"
+
+Show:
+```
+CRITIC ALIGNMENT: [N]% ([aligned]/[total] verdicts)
+  Most misaligned dimension: [dimension] ([N] overrides)
+  Action: HEALTHY | PROPOSE_WEIGHT_CHANGE | INSUFFICIENT_DATA
+```
+
+---
+
 ## Step 5: Audit critical-patterns.md
 
 For each of the 8 patterns:

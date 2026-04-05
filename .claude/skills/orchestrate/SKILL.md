@@ -292,9 +292,20 @@ Based on scout results:
    - Bad: "Auth is implemented"
    - If criterion can't be made specific, subtask is too vague — decompose further
 
-Write the plan to `.claude/memory/state.md`:
+Write the plan to `.claude/memory/state.md`. Include **both** YAML frontmatter (machine-readable) and markdown body (human-readable):
 
 ```markdown
+---
+task_id: <kebab-case-id>
+goal: "<goal>"
+type: <feature|bugfix|refactor|research|maintenance>
+status: in_progress
+branch: <git branch>
+subtasks:
+  - {id: "st-1", description: "<subtask>", criterion: "<pass/fail>", depends_on: [], wave: 1, method: "Agent:general", status: "pending", artifacts: []}
+  - {id: "st-2", description: "<subtask>", criterion: "<pass/fail>", depends_on: ["st-1"], wave: 2, method: "Skill:/review", status: "pending", artifacts: []}
+---
+
 ## Active Task
 
 **Goal**: <goal>
@@ -345,7 +356,7 @@ Every subtask MUST use one of these 4 states:
 | `done` | Completed and verified |
 | `blocked:<dep#>` | Cannot proceed — specify blocking subtask # |
 
-**Orchestrator obligation:** Update state.md status field IMMEDIATELY on each transition.
+**Orchestrator obligation:** Update state.md status field IMMEDIATELY on each transition — update **both** the YAML frontmatter `subtasks[].status` and the markdown table row. Keep them in sync. When a subtask produces artifacts, add file paths to `subtasks[].artifacts` array.
 
 **Wave planning rules:**
 - Prefer "vertical slices" over "horizontal layers" — maximizes Wave 1 parallelism

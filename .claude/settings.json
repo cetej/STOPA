@@ -176,6 +176,24 @@
             "command": "bash .claude/hooks/post-commit-analyzer.sh",
             "timeout": 10,
             "statusMessage": "Analyzing commit..."
+          },
+          {
+            "type": "command",
+            "if": "Bash(git commit*)",
+            "command": "python .claude/hooks/critic-accuracy-tracker.py",
+            "timeout": 3,
+            "statusMessage": ""
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python .claude/hooks/acceptance-gate.py",
+            "timeout": 3,
+            "statusMessage": ""
           }
         ]
       },

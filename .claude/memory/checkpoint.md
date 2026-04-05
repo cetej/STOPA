@@ -1,12 +1,26 @@
+---
+# Machine-readable checkpoint (NLAH path-addressable)
+saved: "2026-04-04"
+session_id: null
+task_ref: null  # e.g. "state.md#task-nlah-impl"
+branch: main
+progress:
+  completed: []   # subtask IDs: ["st-1", "st-3"]
+  in_progress: [] # subtask IDs: ["st-2"]
+  blocked: []     # subtask IDs with reason
+artifacts_modified: []
+resume:
+  next_action: null
+  blockers: []
+  decisions_pending: []
+  failed_approaches: []
+---
+
 # Session Checkpoint
 
 **Saved**: 2026-04-04
 **Task**: Agent-Skills Patterns Adoption — Phase 2 COMPLETE
 **Branch**: main
-
-## Resume Prompt
-
-Phase 2 hotova. Vsech 22 Tier 2 skills ma Anti-Rationalization Defense tabulky. Celkem 37 skills pokryto (Tier 1+2+4). Zbyva: Tier 3 (NICE-TO-HAVE, 11 skills), Red Flags + Verification Checklists pro klicove Tier 2 skills, commit.
 
 ## Co je hotovo (Phase 1 + Phase 2)
 
@@ -18,11 +32,6 @@ Phase 2 hotova. Vsech 22 Tier 2 skills ma Anti-Rationalization Defense tabulky. 
 - **37/37 commands/** synced s skills/
 - **Tier 1 (7/7):** triage, orchestrate, scout, critic, checkpoint, scribe, status — AR + RF + VC
 - **Tier 2 (22/22):** vsechny maji AR
-  - fix-issue, autofix, brainstorm, prp, handoff, harness
-  - security-review, dependency-audit, incident-runbook, scenario, liveprompt, autoharness
-  - eval, build-project, fetch, radar, council
-  - pr-review, seo-audit, evolve, xsearch, project-sweep
-  - deepresearch, peer-review, autoreason, autoresearch, verify (puvodni)
 - **Tier 4 (2/2):** tdd, systematic-debugging — AR + RF
 - **Skill-generator (1/1):** AR v template
 
@@ -41,3 +50,7 @@ nano, klip, autoloop, project-init, watch, sweep, compact, budget, browse, youtu
 - Nemen description field — MUSI zustat "Use when..."
 - Nemen existujici AR obsah — jen pridavej k skillum co AR nemaji
 - Nepridavej sekce ke skill-generator template (uz tam jsou)
+
+## Resume Prompt
+
+Phase 2 hotova. Vsech 22 Tier 2 skills ma Anti-Rationalization Defense tabulky. Celkem 37 skills pokryto (Tier 1+2+4). Zbyva: Tier 3 (NICE-TO-HAVE, 11 skills), Red Flags + Verification Checklists pro klicove Tier 2 skills, commit.

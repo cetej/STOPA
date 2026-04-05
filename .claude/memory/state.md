@@ -1,3 +1,14 @@
+---
+# Machine-readable state (NLAH path-addressable)
+task_id: null
+goal: null
+type: null
+status: idle
+branch: main
+subtasks: []
+# subtask schema: {id: "st-N", description: "", criterion: "", depends_on: [], wave: N, method: "", status: "pending|in_progress|done|blocked:N", artifacts: []}
+---
+
 # Shared Memory — Task State
 
 Current task state shared across all agents and skills.
@@ -8,10 +19,15 @@ _No active task._
 
 ### Subtasks
 
-| # | Subtask | Depends on | Method | Status |
-|---|---------|-----------|--------|--------|
+| # | Subtask | Criterion | Depends on | Wave | Method | Status |
+|---|---------|-----------|-----------|------|--------|--------|
 
 ## Task History
+
+### 2026-04-05 — NLAH Implementation
+- **Goal**: Implementace 3 aplikovatelných poznatků z arXiv:2603.25723
+- **Result**: In progress — P1 (structured state/checkpoint), P2 (critic accuracy, acceptance gate), P3 (auto-checkpoint, self-evolve extensions)
+- **Origin**: /deepresearch → implementation plan
 
 ### 2026-03-22 — skill-audit harness
 - **Goal**: Run skill-audit harness on all 15 STOPA skills

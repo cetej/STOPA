@@ -13,6 +13,13 @@ This is NOT about different tasks — each agent still has its own subtask. It's
 
 ```
 Agent(subagent_type: "general-purpose", prompt: "
+  ## Execution Chain (MBIF-inspired call chain tracking)
+  - Task: <overall goal from state.md>
+  - Chain so far: [<agent-1-role: 1-line result>, <agent-2-role: 1-line result>, ...]
+  - You are: step <N> of <max for tier> (light=1, standard=4, deep=8)
+  - Wave: <current wave> of <total waves>
+  - Remaining budget: <from budget.md — agents/critics left>
+
   Context: <what the agent needs to know — include relevant learnings, decisions, conventions>
   Task: <specific deliverable>
   Output: <what to return>

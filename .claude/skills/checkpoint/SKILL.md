@@ -81,9 +81,28 @@ This prevents the "I thought it was committed" problem where work exists only in
 
 ### Step 3: Write Checkpoint
 
-Write to `.claude/memory/checkpoint.md`:
+Write to `.claude/memory/checkpoint.md` with **both** YAML frontmatter (machine-readable) and markdown body (human-readable):
 
 ```markdown
+---
+# Machine-readable checkpoint (NLAH path-addressable)
+saved: "<YYYY-MM-DDTHH:MM>"
+session_id: "<s-YYYYMMDD-slug>"
+task_ref: "state.md#<task_id>"
+branch: <current git branch>
+progress:
+  completed: ["st-1", "st-3"]   # subtask IDs from state.md frontmatter
+  in_progress: ["st-2"]
+  blocked: []
+artifacts_modified:
+  - <file paths changed this session>
+resume:
+  next_action: "<specific next step>"
+  blockers: []
+  decisions_pending: []
+  failed_approaches: ["<approach that didn't work — why>"]
+---
+
 # Session Checkpoint
 
 **Saved**: <date> <time (approximate)>

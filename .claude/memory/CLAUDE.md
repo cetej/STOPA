@@ -8,10 +8,11 @@
 ## File types
 | File | Purpose | Update frequency |
 |------|---------|-----------------|
-| `state.md` | Current task state | Per-task |
+| `state.md` | Current task state (YAML frontmatter + markdown) | Per-task |
 | `budget.md` | Cost ledger + tier | Per-agent-call |
 | `decisions.md` | Index pointing to `docs/decisions/` | Per-decision |
-| `checkpoint.md` | Session snapshot + resume prompt | Per-session |
+| `checkpoint.md` | Session snapshot (YAML frontmatter + markdown) | Per-session |
+| `critic-accuracy.jsonl` | Critic verdict alignment tracking | Per-critic-run |
 | `key-facts.md` | Stack, endpoints, env vars (max 200 lines) | On infra change |
 | `news.md` | /watch scan results | Weekly |
 
