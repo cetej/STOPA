@@ -1,0 +1,98 @@
+recipe: "1.0"
+name: project-onboarding
+title: "Project onboarding"
+description: >
+  Use when entering a new or unfamiliar project to quickly understand its structure,
+  stack, and key files. Produces an orientation summary.
+tags: [exploration, session]
+model: sonnet
+effort: low
+maxTurns: 15
+
+parameters:
+  project_path:
+    type: string
+    description: "Path to the project root"
+    default: "."
+  depth:
+    type: select
+    description: "Exploration depth"
+    default: "standard"
+    options: ["quick", "standard", "deep"]
+
+steps:
+  - name: "Structure scan"
+    prompt: |
+      Map the project structure at {{project_path}}:
+      {% if depth == "quick" %}
+      - List top-level files and directories only (depth 1)
+      {% elif depth == "standard" %}
+      - List directory tree to depth 2
+      - Note key config files (package.json, Cargo.toml, pyproject.toml, CLAUDE.md, etc.)
+      {% else %}
+      - List directory tree to depth 3
+      - Note all config files, CI configs, Docker files
+      - Check for monorepo structure (workspaces, crates, packages)
+      {% endif %}
+    done: "project structure mapped"
+
+  - name: "Tech stack detection"
+    prompt: |
+      Identify the tech stack from config files at {{project_path}}:
+      - Language(s) and version(s)
+      - Framework(s)
+      - Package manager
+      - Build tool(s)
+      - Test framework
+      - CI/CD (check .github/workflows/, .gitlab-ci.yml, Jenkinsfile)
+      {% if depth == "deep" %}
+      - Key dependencies (top 10 by importance, not all)
+      - Infrastructure (Docker, Terraform, k8s configs)
+      {% endif %}
+
+      Present as a compact table.
+    done: "tech stack identified"
+
+  - name: "Key files"
+    prompt: |
+      Read and summarize the most important files at {{project_path}}:
+      - README.md (if exists) — what is this project?
+      - CLAUDE.md or .goosehints (if exists) — AI-specific instructions
+      - Entry point (main.*, index.*, app.*, src/lib.*)
+      {% if depth == "deep" %}
+      - CONTRIBUTING.md (if exists)
+      - Architecture docs (docs/architecture*, ADR/*)
+      - .env.example (if exists) — required environment variables
+      {% endif %}
+
+      For each file: 1-2 sentence summary of what it tells us.
+    done: "key files read and summarized"
+
+  - name: "Orientation summary"
+    prompt: |
+      Produce an orientation summary in Czech:
+
+      ## Onboarding: {{project_path}}
+
+      ### Co to je
+      (1-2 sentences based on README)
+
+      ### Stack
+      (compact table from step 2)
+
+      ### Struktura
+      (key directories and their purpose)
+
+      ### Vstupni body
+      (where to start reading code)
+
+      {% if depth == "deep" %}
+      ### Konvence
+      (coding conventions, CI rules, contribution guidelines)
+      {% endif %}
+
+      ### Doporuceni pro dalsi praci
+      (what to explore next, potential gotchas)
+    done: "orientation summary displayed in Czech"
+
+verify: "Project structure, stack, and key files documented. User has orientation summary in Czech."

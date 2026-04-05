@@ -1,0 +1,63 @@
+recipe: "1.0"
+name: daily-standup
+title: "Denni standup"
+description: >
+  Use when starting a work session to get oriented.
+  Reads checkpoint, git state, and budget, then summarizes what to do today.
+tags: [session, workflow]
+model: haiku
+effort: low
+maxTurns: 15
+
+parameters:
+  project_path:
+    type: string
+    description: "Path to the project root"
+    default: "."
+  include_budget:
+    type: boolean
+    description: "Include budget summary"
+    default: true
+  focus_area:
+    type: string
+    description: "Specific area to focus on (e.g., skills, hooks, memory)"
+
+steps:
+  - name: "Load context"
+    prompt: |
+      Read these files silently (don't dump raw content to user):
+      - {{project_path}}/.claude/memory/checkpoint.md
+      - {{project_path}}/.claude/memory/state.md
+      Extract: current task, last checkpoint date, pending items.
+      If files don't exist, note that as "no checkpoint found".
+    done: "checkpoint data extracted or noted as missing"
+
+  - name: "Git status"
+    prompt: |
+      Run `git status` and `git log --oneline -5` in {{project_path}}.
+      Summarize: current branch, dirty files count, recent commits (one line each).
+    done: "git state summarized"
+
+  - name: "Budget check"
+    prompt: |
+      {% if include_budget %}
+      Read {{project_path}}/.claude/memory/budget.md.
+      Report: current tier, agents spawned, remaining budget estimate.
+      {% else %}
+      Skip — budget check disabled by parameter.
+      {% endif %}
+    done: "budget reported or skipped"
+
+  - name: "Summary"
+    prompt: |
+      Based on all gathered context, produce a standup summary in Czech:
+
+      ## Denni prehled
+      - **Kde jsem:** (branch, last checkpoint date)
+      - **Co zbyva:** (pending items from checkpoint/state)
+      - **Git stav:** (dirty files, recent commits)
+      {% if include_budget %}- **Budget:** (tier, agents used){% endif %}
+      - **Doporuceni:** what to work on next{% if focus_area %}, focusing on {{focus_area}}{% endif %}
+    done: "standup summary displayed to user in Czech"
+
+verify: "All context sources were checked and a Czech summary was displayed."

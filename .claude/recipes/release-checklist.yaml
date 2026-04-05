@@ -1,0 +1,92 @@
+recipe: "1.0"
+name: release-checklist
+title: "Release checklist"
+description: >
+  Use when preparing a release to run pre-flight checks and get a GO/NO-GO recommendation.
+  Checks git state, tests, changelog, and version consistency.
+tags: [devops, workflow]
+model: sonnet
+effort: standard
+maxTurns: 20
+
+parameters:
+  version:
+    type: string
+    description: "Release version tag (e.g., 3.1.0)"
+  branch:
+    type: string
+    description: "Branch to release from"
+    default: "main"
+  skip_tests:
+    type: boolean
+    description: "Skip test execution (use when tests were already run)"
+    default: false
+
+steps:
+  - name: "Pre-flight git check"
+    prompt: |
+      Check git state for release readiness:
+      1. Run `git status` — working tree must be clean (no uncommitted changes)
+      2. Run `git log {{branch}} --oneline -3` — confirm we're on the right branch
+      3. Check if tag v{{version}} already exists: `git tag -l "v{{version}}"`
+      4. Check if remote is up to date: `git fetch --dry-run`
+
+      Report any blockers. If tag already exists, that's a BLOCKER.
+    done: "git state verified clean, no existing tag conflict"
+
+  - name: "Run tests"
+    prompt: |
+      {% if skip_tests %}
+      Tests skipped by user request. Note this in the final report as a caveat.
+      {% else %}
+      Find and run the project's test suite:
+      - Look for: pytest, npm test, cargo test, or similar
+      - Run the tests and report: total, passed, failed, skipped
+      - If any tests fail, list the failures — this is a potential BLOCKER.
+      {% endif %}
+    done: "tests passed, skipped by request, or failures documented"
+
+  - name: "Changelog review"
+    prompt: |
+      Look for changelog or release notes:
+      - Check: CHANGELOG.md, CHANGES.md, HISTORY.md, docs/changelog*
+      - If found: check if version {{version}} has an entry
+      - If no changelog exists: note this as a WARNING (not blocker)
+
+      Also run `git log --oneline $(git describe --tags --abbrev=0 2>/dev/null)..HEAD` to list
+      commits since last tag. Summarize what changed.
+    done: "changelog status documented, changes since last release listed"
+
+  - name: "Version consistency"
+    prompt: |
+      Search for version references that need updating:
+      - Grep for current version patterns in: package.json, Cargo.toml, pyproject.toml, plugin.json, setup.cfg, __version__
+      - List files that reference a version number and what version they show
+      - Flag any inconsistencies
+
+      DO NOT make changes — just report what needs updating for v{{version}}.
+    done: "version references catalogued, inconsistencies flagged"
+
+  - name: "GO/NO-GO summary"
+    prompt: |
+      Produce a release decision summary in Czech:
+
+      ## Release v{{version}} — Verdikt
+
+      ### Blokers
+      - (list any blockers found, or "Zadne blokers")
+
+      ### Varovani
+      - (list warnings — non-blocking but notable)
+
+      ### Checklist
+      - [ ] Git clean: ...
+      - [ ] Testy: ...
+      - [ ] Changelog: ...
+      - [ ] Verze konzistentni: ...
+
+      ### Doporuceni: **GO** / **NO-GO**
+      (clear recommendation with reasoning)
+    done: "GO/NO-GO recommendation displayed"
+
+verify: "All 4 check areas evaluated. User has a clear GO/NO-GO with evidence."

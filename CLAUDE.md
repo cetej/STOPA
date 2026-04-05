@@ -13,13 +13,15 @@ STOPA/
 ├── stopa-orchestration/        # Plugin (distribuce)
 │   ├── .claude-plugin/
 │   │   └── plugin.json         # Manifest
-│   ├── skills/                 # 9 orchestračních skills
+│   ├── skills/                 # 50 orchestračních skills
+│   ├── recipes/                # YAML workflow recepty (lightweight, parametrizované)
 │   ├── hooks/                  # Hook skripty + hooks.json
 │   └── README.md
 ├── .claude/
 │   ├── commands/               # KANONICKÉ skill soubory (flat: watch.md, autoloop.md...)
 │   ├── skills/                 # KOPIE pro kompatibilitu (dirs: watch/SKILL.md...)
 │   │                           # ⚠️ commands/ a skills/ MUSÍ být identické!
+│   ├── recipes/                # YAML workflow recepty (project-specific)
 │   ├── hooks/                  # Zdrojové hook skripty
 │   ├── settings.json           # Hooks config pro lokální vývoj
 │   └── memory/                 # Sdílená paměť systému

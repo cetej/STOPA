@@ -1,7 +1,7 @@
 {
   "name": "stopa-orchestration",
-  "description": "Multi-agent orchestration system — 49 skills across 7 lifecycle phases (define/plan/build/verify/review/ship/meta). Budget control, session continuity, harness engine, progressive skill withdrawal, self-improvement.",
-  "version": "3.0.0",
+  "description": "Multi-agent orchestration system — 50 skills + YAML recipes across 7 lifecycle phases (define/plan/build/verify/review/ship/meta). Budget control, session continuity, harness engine, recipe runner, progressive skill withdrawal, self-improvement.",
+  "version": "3.1.0",
   "author": {
     "name": "cetej"
   },
