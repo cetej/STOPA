@@ -223,6 +223,8 @@ Before planning, check if similar tasks were solved before:
 
 Before launching scout agents, check `.claude/memory/intermediate/scout-*.json` and `research-*.json`. If `savedAt` < 2h old and no newer git commits → reuse cached `summary`, skip that agent spawn. Log reuse in budget.md.
 
+**Hypothesis-first exploration:** Before each Read/Grep, state your hypothesis in one sentence: "I expect X because Y." This prevents pattern-matching-driven tool calls and increases retrieval precision. (Ref: FActScore arXiv:2305.14251 — explicit hypothesis reduces false-positive retrieval ~20%.)
+
 Scale exploration to the assigned tier:
 
 ### Light tier:
@@ -434,6 +436,14 @@ Farm tier uses mechanical partitioning instead of semantic decomposition.
 1. Parse agent Status block
 2. Update `.claude/memory/budget.md` — increment counters
 3. Update `.claude/memory/state.md` — set subtask status
+
+### Inter-wave Completeness Check (VMAO pattern)
+Before launching the next wave, verify completeness of the current wave:
+1. **Artifact presence:** For each completed subtask, check that `subtasks[].artifacts` array is non-empty. Missing artifacts = subtask not truly done.
+2. **Criterion coverage:** Each subtask's acceptance criterion must have a PASS/FAIL verdict recorded. No verdict = not verified.
+3. **Downstream readiness:** For each subtask in the next wave, confirm its `depends_on` subtasks all have artifacts available.
+If any check fails → do NOT launch next wave. Fix the gap first (re-run subtask or mark as blocked).
+(Ref: VMAO arXiv:2603.11445 — inter-phase completeness verifier raised quality 3.1→4.2 on 5-point scale.)
 4. **Budget gate**: Check if any counter hit its limit → stop and report
 5. **De-sloppify check** (standard/deep only): Haiku agent scans for debug prints, TODO markers, mixed naming, commented-out code in changed files. Non-blocking — log findings for critic.
 6. Invoke `/critic` if tier allows. Light tier: skip per-subtask, critic once at end.

@@ -169,6 +169,8 @@ Verify milestones in **cascade order**: Surface (L1) → Interface (L2) → Func
 
 For each milestone from Phase 1, verify the assignment goal against the actual code.
 
+**Hypothesis-first verification:** Before reading code for each milestone, state your expected finding in one sentence: "I expect this milestone to PASS/FAIL because [specific reason]." Then read and compare against your hypothesis. Surprises (hypothesis ≠ reality) deserve extra scrutiny. (Ref: COT STEP arXiv:2501.13122 — structured step verification improves accuracy.)
+
 **For each milestone:**
 1. Read the relevant code (pre and post change if available)
 2. **L1 surface check**: Does it compile/parse? Valid syntax? Imports resolve?
@@ -296,6 +298,13 @@ Evaluators have a documented tendency to "identify legitimate issues, then talk 
 | C2 | Hidden failure | M1 | Token expiry check doesn't handle clock skew | No leeway parameter in jwt.verify() call |
 | C3 | Weak criteria | M2 | Assignment goal only checks 401/200 but not rate limiting | New endpoint has no rate limit middleware |
 ```
+
+**DEEP path only — Self-Consistency Check (before Refinement):**
+For borderline milestones (where your confidence is <80%), run the Verifier a second time with a fresh perspective — re-read the code without referencing your first verdict. Compare both verdicts:
+- Both PASS → PASS (high confidence)
+- Both FAIL → FAIL (high confidence)
+- Disagreement → automatic FAIL or escalate to Reviewer with both verdicts
+This catches verdict variance that single-pass review misses. (Ref: Wang et al. arXiv:2203.11171 — Self-Consistency, +20% accuracy via majority voting.)
 
 **DEEP path only — Refinement Loop:**
 If Reviewer raises concerns about missing milestones or weak criteria:

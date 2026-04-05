@@ -53,6 +53,8 @@ Parse ARGUMENTS to determine what to verify:
 - Read state.md for current task context
 - Check if project has existing test scripts (`tests/`, `scripts/`, `Makefile`)
 
+**Hypothesis formation:** After reading context, state your verification hypothesis: "I expect the change to work/fail because [reason]. The most likely failure mode is [X]." This anchors verification — surprises relative to hypothesis get extra scrutiny.
+
 ### Step 2.5: Deterministic Scan (ground truth before reasoning)
 
 Before any LLM interpretation, run ALL available deterministic checks. These produce ground truth — no hallucination risk.
@@ -90,6 +92,17 @@ Before any LLM interpretation, run ALL available deterministic checks. These pro
 Format/schema passing is NECESSARY but NOT SUFFICIENT. A component can have perfect interface compliance yet fail completely at downstream utility. After L1-L2 pass, allocate EXTRA scrutiny to L3-L4 — the hardest failures hide behind passing surface checks.
 
 **If NO deterministic checks are available** (no tests, no linter, no build): note this as a risk in the report and proceed to Step 3 — this is common for early-stage projects.
+
+### Step 2.8: Atomic Claim Decomposition (FActScore pattern)
+
+For complex changes (3+ files, cross-module, or user claims "it's done"), decompose the completion claim into atomic sub-claims before verification:
+
+1. List every discrete behavioral assertion: "function X returns Y", "endpoint Z validates input", "config W is set to V"
+2. Each atomic claim maps to one verifiable check (grep, test, manual inspection)
+3. Verify each independently — don't let one passing claim bias assessment of others
+4. Report: N/M atomic claims verified, list any unverified
+
+This catches errors hidden in holistic "it works" assessments. Skip for simple single-file changes. (Ref: FActScore arXiv:2305.14251 — atomic decomposition reveals errors missed by holistic review.)
 
 ### Step 3: Milestone Extraction (informed by deterministic results)
 
