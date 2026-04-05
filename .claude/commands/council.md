@@ -226,6 +226,8 @@ Produce the final synthesis:
 - Stage 3: 1 × sonnet chairman (this agent)
 - Total: ~8-9 sub-agent calls
 
+**Model gating (SPP finding, arXiv:2307.05300):** Cognitive synergy from multi-persona reasoning only emerges at GPT-4/Opus-level models. Haiku advisors produce adequate breadth but shallow reasoning. For high-stakes decisions (architecture, security, irreversible choices): upgrade Stage 1 to **sonnet** advisors. Cost doubles but reasoning quality significantly improves.
+
 Check `.claude/memory/budget.md` before starting. If budget is tight, reduce to 3 advisors and 2 judges.
 
 ## After Deliberation

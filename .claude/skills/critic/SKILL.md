@@ -173,7 +173,8 @@ For each milestone from Phase 1, verify the assignment goal against the actual c
 
 **For each milestone:**
 1. Read the relevant code (pre and post change if available)
-2. **L1 surface check**: Does it compile/parse? Valid syntax? Imports resolve?
+2. **Reasoning primer** (Zero-shot CoT, arXiv:2205.11916): Before each verification, explicitly think through the logic: "Let me trace through this step by step — what does this code actually do, and does it satisfy the assignment goal?" This prevents surface-level "looks fine" verdicts.
+3. **L1 surface check**: Does it compile/parse? Valid syntax? Imports resolve?
 3. **L2 interface check**: Does the API/signature match expected contract?
 4. **L3 functional check**: Does it actually do what the assignment goal says? (Check against the assignment goal)
 5. Check against relevant review dimensions (see below)

@@ -55,7 +55,7 @@ If you haven't completed Phase 1, you cannot propose fixes.
 
    Run diagnostic instrumentation ONCE to gather evidence showing WHERE it breaks, THEN investigate that specific component.
 
-5. **Trace backward from symptom**
+5. **Trace backward from symptom** (apply Zero-shot CoT — arXiv:2205.11916: "Let me trace this step by step")
    - Where does the bad value originate?
    - What called this with the bad value?
    - Keep tracing up until you find the source
@@ -77,7 +77,7 @@ If you haven't completed Phase 1, you cannot propose fixes.
 
 ### Phase 3: Hypothesis and Testing
 
-1. **Form single hypothesis using structured premises** (semi-formal reasoning, arXiv:2603.01896)
+1. **Form single hypothesis using structured premises** (semi-formal reasoning, arXiv:2603.01896; Zero-shot CoT primer: "Let me think through why this specific failure is happening step by step")
    - List explicit premises from Phase 1 evidence:
      - P1: "Error occurs at line X" (from stack trace)
      - P2: "Input value is Y" (from data flow trace)
