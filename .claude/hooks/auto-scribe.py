@@ -8,6 +8,11 @@ DeerFlow-inspired improvements (2026-03-28):
 - Smart eviction for patterns: frequency × recency instead of FIFO
 - Summary field auto-generated for learnings
 
+Self-improving harness (2026-04-05):
+- Auto-write learnings with source=agent_generated, confidence=0.5
+- Enrich from session traces (.traces/sessions/) for tool-use context
+- Closed feedback loop: experiment → trace → learning → retrieval → application
+
 Output (stdout): Injected into Claude's context as system message.
 """
 import json
@@ -28,8 +33,10 @@ MEMORY_DIR = Path(".claude/memory")
 SUMMARY_PATH = MEMORY_DIR / "intermediate" / "session-summary.json"
 PATTERNS_PATH = MEMORY_DIR / "patterns.md"
 LEARNINGS_DIR = MEMORY_DIR / "learnings"
+SESSION_TRACES_DIR = Path(".traces/sessions")
 
 MIN_ACTIVITY_THRESHOLD = 3  # writes + agents >= 3 to be worth analyzing
+MAX_TRACE_LINES = 200  # max session trace lines to include in analysis
 
 
 def load_summary() -> dict | None:
@@ -58,13 +65,55 @@ def load_patterns() -> str:
     return ""
 
 
-def build_haiku_prompt(summary: dict, patterns_content: str) -> str:
+def load_latest_session_trace() -> str:
+    """Load the most recent session trace for richer analysis context.
+
+    Session traces contain tool call sequences that reveal behavioral patterns
+    invisible in summary alone (e.g., repeated Read→Edit→Bash cycles, agent spawns).
+    """
+    if not SESSION_TRACES_DIR.exists():
+        return ""
+    traces = sorted(SESSION_TRACES_DIR.glob("*.jsonl"), key=lambda p: p.stat().st_mtime, reverse=True)
+    if not traces:
+        return ""
+    try:
+        lines = traces[0].read_text(encoding="utf-8", errors="replace").strip().split("\n")
+        # Take last N lines (most recent activity)
+        relevant = lines[-MAX_TRACE_LINES:]
+        # Compact: extract only tool, exit, path/cmd for each record
+        compacted = []
+        for line in relevant:
+            try:
+                rec = json.loads(line)
+                entry = {
+                    "tool": rec.get("tool", "?"),
+                    "exit": rec.get("exit", 0),
+                }
+                if rec.get("input_path"):
+                    entry["path"] = rec["input_path"]
+                elif rec.get("input_cmd"):
+                    entry["cmd"] = rec["input_cmd"][:80]
+                compacted.append(json.dumps(entry))
+            except (json.JSONDecodeError, TypeError):
+                continue
+        return "\n".join(compacted)
+    except OSError:
+        return ""
+
+
+def build_haiku_prompt(summary: dict, patterns_content: str, trace_context: str = "") -> str:
     """Build the analysis prompt for Haiku."""
+    trace_section = ""
+    if trace_context:
+        trace_section = f"""
+SESSION TOOL TRACE (tool call sequence — look for repeated patterns, failures, pivots):
+{trace_context}
+"""
     return f"""Analyze this Claude Code session summary and extract learnings and patterns.
 
 SESSION SUMMARY:
 {json.dumps(summary, indent=2)}
-
+{trace_section}
 EXISTING PATTERNS (increment frequency if this session matches):
 {patterns_content}
 
@@ -163,7 +212,11 @@ severity: {learning.get('severity', 'medium')}
 component: {learning.get('component', 'general')}
 tags: [{tags_str}]
 summary: "{summary}"
-source: auto-scribe
+source: agent_generated
+confidence: 0.5
+uses: 0
+harmful_uses: 0
+impact_score: 0.0
 ---
 
 ## Description
@@ -299,7 +352,8 @@ def main():
         sys.exit(0)
 
     patterns_content = load_patterns()
-    prompt = build_haiku_prompt(summary, patterns_content)
+    trace_context = load_latest_session_trace()
+    prompt = build_haiku_prompt(summary, patterns_content, trace_context)
 
     result = call_haiku(prompt)
     if result is None:

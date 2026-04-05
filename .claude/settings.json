@@ -217,6 +217,12 @@
             "command": "bash .claude/hooks/skill-context-tracker.sh",
             "timeout": 2,
             "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "python .claude/hooks/impact-tracker.py",
+            "timeout": 3,
+            "statusMessage": ""
           }
         ]
       },
@@ -294,6 +300,13 @@
             "command": "python .claude/hooks/auto-relate.py",
             "timeout": 3,
             "statusMessage": "Auto-linking related learnings..."
+          },
+          {
+            "type": "command",
+            "if": "Write(**/learnings/**)|Edit(**/learnings/**)",
+            "command": "python .claude/hooks/graduation-check.py",
+            "timeout": 3,
+            "statusMessage": ""
           }
         ]
       }
@@ -350,6 +363,12 @@
             "command": "bash .claude/hooks/telegram-notify.sh \"🏁 Session dokončena\"",
             "timeout": 5,
             "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "python .claude/hooks/trace-bridge.py",
+            "timeout": 5,
+            "statusMessage": "Bridging optimization traces..."
           },
           {
             "type": "command",

@@ -95,6 +95,52 @@ Before starting:
 2. Grep `.claude/memory/learnings/` for topic-relevant patterns (max 3 queries by component/tags)
 3. Read `.claude/memory/budget.md` — check remaining budget
 
+### Cross-session strategy persistence (warm-start)
+
+Check for prior autoresearch runs on the same topic:
+```bash
+# Find prior strategy state for same target/question
+strategy_file=".claude/memory/intermediate/autoresearch-strategy-$(echo '<target>' | md5sum | cut -c1-8).json"
+prior_run=$(ls -td .traces/autoresearch-*/iterations.jsonl 2>/dev/null | head -1)
+```
+
+**Strategy state file** (`strategy_file`) persists between sessions:
+```json
+{
+  "target": "<target path>",
+  "question": "<research question>",
+  "last_run": "2026-04-05T14:30:00",
+  "best_score": 0.82,
+  "best_commit": "abc1234",
+  "approaches_tried": [
+    {"name": "orjson", "score": 0.82, "status": "KEEP"},
+    {"name": "ujson", "score": 0.65, "status": "DISCARD"},
+    {"name": "msgspec", "score": 0.78, "status": "KEEP"}
+  ],
+  "failure_categories": ["timeout on large inputs", "API compatibility"],
+  "preferred_strategy": "mutation",
+  "strategy_weights": {"mutation": 0.6, "crossover": 0.3, "radical": 0.1}
+}
+```
+
+If strategy file exists and is < 7 days old:
+1. Load it and log: `"⚡ Warm-start: prior run best=<best_score> with <N> approaches tried"`
+2. Skip already-tried approaches (unless `--fresh` flag)
+3. Use `strategy_weights` to bias approach selection
+4. Set `"warm_start": "<prior_run_id>"` in `trace-active.json`
+
+If prior run traces exist but no strategy file: extract best/worst from `iterations.jsonl` and create the file.
+
+### Strategy state write-back
+
+At the END of every autoresearch run (Phase 3), update the strategy state file:
+- Append new approaches to `approaches_tried`
+- Update `best_score` / `best_commit` if improved
+- Recalculate `strategy_weights` based on keep/discard ratio per strategy type
+- Update `failure_categories` from DISCARD notes
+
+This enables the Gentilcore "trace learning" pattern: the harness improves across sessions.
+
 <!-- CACHE_BOUNDARY -->
 
 ## Phase 0: Research Setup

@@ -8,6 +8,7 @@ summary: "OpenClaw $12K burn postmortem: 5 agent degradation patterns — identi
 source: external_research
 uses: 1
 confidence: 0.75
+verify_check: "manual"
 ---
 
 ## Problém

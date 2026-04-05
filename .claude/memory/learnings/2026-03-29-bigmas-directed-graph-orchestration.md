@@ -9,6 +9,7 @@ source: external_research
 uses: 0
 harmful_uses: 0
 related: []
+verify_check: "manual"
 ---
 
 ## Situace

@@ -8,6 +8,7 @@ summary: "AutoDream (/dream) coexists with STOPA memory: dream=janitor (cleanup)
 source: auto_pattern
 uses: 1
 confidence: 0.85
+verify_check: "manual"
 ---
 
 # AutoDream (`/dream`) — koexistence s STOPA memory systémem

@@ -8,6 +8,7 @@ summary: "Decomposed evaluation (per-dimension scoring) catches 3x more issues t
 source: external_research
 uses: 1
 confidence: 0.75
+verify_check: "Glob('.claude/skills/critic/SKILL.md') → 1+ matches"
 ---
 
 # Decomposed evaluation beats holistic review

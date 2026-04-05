@@ -87,6 +87,24 @@
       "description": "After self-evolve improves a skill, checkpoint the improvement"
     },
     {
+      "trigger": { "skill": "autoresearch", "status_pattern": "PIVOT|pivot|plateau|stuck|no improvement" },
+      "next": "/deepresearch",
+      "condition": "auto",
+      "description": "When autoresearch hits plateau or pivots, auto-trigger deep literature review"
+    },
+    {
+      "trigger": { "skill": "autoresearch", "status_pattern": "DONE|done|complete|best score" },
+      "next": "/scribe learning",
+      "condition": "auto",
+      "description": "After autoresearch completes, record findings as learnings"
+    },
+    {
+      "trigger": { "skill": "autoloop", "status_pattern": "DONE|done|complete|optimized" },
+      "next": "/scribe learning",
+      "condition": "auto",
+      "description": "After autoloop completes, record optimization findings"
+    },
+    {
       "trigger": { "skill": "sweep", "status_pattern": "DONE|done|complete|cleaned" },
       "next": "/scribe learning",
       "condition": "auto",
