@@ -82,6 +82,8 @@ Before starting:
 
 Analyze the research question using extended thinking. Produce:
 
+**For `direct` and `comparison` scale** — flat sub-question list:
+
 ```markdown
 ## Research Plan
 
@@ -95,6 +97,33 @@ Analyze the research question using extended thinking. Produce:
 **Acceptance criteria:** What evidence makes the answer "sufficient"?
 **Estimated searches:** <number> (for budget awareness)
 ```
+
+**For `survey` and `complex` scale** — tree decomposition (BeamAggR-inspired):
+
+```markdown
+## Research Plan
+
+**Question:** <restate the core question>
+**Scope:** narrow | standard | broad
+**Evidence types needed:** papers | web | code | data | docs | all
+**Question tree:**
+- ROOT: <main research question>
+  - BRANCH A: <theme/dimension 1>
+    - LEAF A1: <specific sub-question> → agent-1
+    - LEAF A2: <specific sub-question> → agent-2
+  - BRANCH B: <theme/dimension 2>
+    - LEAF B1: <specific sub-question> → agent-3
+    - LEAF B2: <specific sub-question> → agent-4
+**Acceptance criteria:** What evidence makes the answer "sufficient"?
+**Estimated searches:** <number> (for budget awareness)
+```
+
+**Tree rules:**
+- Max depth 2 (ROOT → BRANCH → LEAF). Deeper = over-engineering.
+- LEAFs are disjoint and parallelizable — each maps 1:1 to one researcher agent
+- BRANCHes group LEAFs by theme/dimension for bottom-up synthesis in Step 3
+- ROOT captures the integrative question that requires cross-branch reasoning
+- 2-6 LEAFs total (matching the agent cap from Scale Decision Matrix)
 
 Present the plan to the user. Wait for confirmation before proceeding.
 
@@ -155,10 +184,30 @@ OUTPUT FORMAT — write to file <output-path> (in outputs/.research/ directory):
 ### Step 3: Synthesis
 
 After all agents complete:
+
+**For `direct` and `comparison` scale** — flat merge:
 1. Read all `outputs/.research/<slug>-research-<N>.md` files
 2. Merge evidence tables — deduplicate, unify source numbering starting from [1]
 3. Identify: **consensus** (multiple sources agree), **disagreements** (sources conflict), **gaps** (nobody covers this)
 4. Write synthesis to `outputs/.research/<slug>-synthesis.md`
+
+**For `survey` and `complex` scale** — bottom-up synthesis (BeamAggR-inspired):
+
+1. Read all `outputs/.research/<slug>-research-<N>.md` files
+2. **Per-branch synthesis (bottom-up, level 1):** For each BRANCH in the question tree:
+   - Merge evidence tables from its LEAF agents — deduplicate within branch
+   - Identify branch-level consensus, disagreements, and gaps
+   - Write 1-paragraph branch summary capturing the strongest findings
+3. **Cross-branch synthesis (bottom-up, level 2):** Integrate all branch summaries:
+   - Merge all evidence tables — deduplicate across branches, unify source numbering from [1]
+   - Identify cross-branch patterns: where branches reinforce each other, where they contradict
+   - Answer the ROOT question by synthesizing branch-level findings
+4. **Confidence propagation:** Map agent-level confidence to brief-level uncertainty markers:
+   - Agent `high` + source fetched and read → `[VERIFIED]`
+   - Agent `high` + single source only → `[SINGLE-SOURCE]`
+   - Agent `medium` or claim derived from 2+ sources → `[INFERRED]`
+   - Agent `low` or source not fully read → `[UNVERIFIED]`
+5. Write synthesis to `outputs/.research/<slug>-synthesis.md` with branch structure preserved
 
 ### Step 4: Verification Pass
 

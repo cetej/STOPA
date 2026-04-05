@@ -67,6 +67,25 @@ For each distinct aspect of the request, assign ONE of:
 | **STOPA** | Mentions workflow, skill behavior, hooks, how Claude works, orchestration gaps | "critic should also check X", "add a hook for Y", "improve /scout" |
 | **SPLIT** | Has both — app change triggers orchestration improvement | "better error handling" = code fix (PROJECT) + incident pattern (STOPA) |
 
+### Step 2b: Classify query type (StructRAG-inspired)
+
+Assign ONE query type based on the task's nature — this determines the optimal representace and skill:
+
+| Query Type | Signal | Optimal Representace | Primary Skill(s) |
+|-----------|--------|---------------------|-------------------|
+| `explore` | "jak funguje", "co je", "prozkoumej", "ukaž kód" | Codebase traversal | /scout |
+| `build` | "přidej", "implementuj", "vytvoř", "postav" | Task decomposition | /orchestrate, /build-project |
+| `fix` | "oprav", "nefunguje", "bug", "error", "spadlo" | Root cause tree | /fix-issue, /systematic-debugging, /incident-runbook |
+| `research` | "zjisti", "porovnej", "overview", "prozkoumej web" | Evidence table | /deepresearch, /watch |
+| `review` | "zkontroluj", "review", "audit", "kvalita" | Multi-perspective | /critic, /pr-review, /security-review |
+| `generate` | "vygeneruj", "obrázek", "video", "prezentace" | Media pipeline | /nano, /klip |
+| `meta` | "vylepši skill", "evolve", "status", "hook" | Self-referential | /self-evolve, /evolve, /skill-generator |
+
+**Disambiguation rules:**
+- "prozkoumej" + local codebase → `explore` (/scout); "prozkoumej" + external topic → `research` (/deepresearch)
+- "nefunguje" + known error → `fix` (/systematic-debugging); "nefunguje" + sudden crash → `fix` (/incident-runbook)
+- If task spans 2 types: pick the PRIMARY type, note the secondary in output
+
 ### Step 3: Detect cross-project patterns
 
 If the request implies something useful across multiple projects:
@@ -81,8 +100,9 @@ Format your response exactly as:
 ```
 ## Triage: [short task name]
 
-**ROUTING:**
-- [PROJECT/STOPA/SPLIT]: [one-line summary of what goes where]
+**ROUTING:** [PROJECT/STOPA/SPLIT] — [one-line summary]
+**Query type:** [explore | build | fix | research | review | generate | meta]
+**Recommended skill:** /skill-name — [one-line reason why this skill fits]
 
 **PROJECT tasks** (work in [project name]):
 - [ ] [specific task 1]
