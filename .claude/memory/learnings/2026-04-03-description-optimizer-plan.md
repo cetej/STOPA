@@ -8,8 +8,9 @@ summary: Plan to integrate Anthropic's description optimization pipeline into ST
 source: external_research
 uses: 1
 harmful_uses: 0
-confidence: 0.8
+confidence: 0.85
 verify_check: "manual"
+related: [2026-04-03-anthropic-skill-creator-patterns.md]
 ---
 
 ## Description Optimizer Integration Plan
