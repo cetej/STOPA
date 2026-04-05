@@ -1,13 +1,16 @@
 #!/bin/bash
-# learnings-sync.sh — Sync critical learnings to global memory
+# learnings-sync.sh — Sync critical learnings to global memory + rebuild indexes
 # Hook event: PostToolUse (matcher: Write|Edit, path contains learnings/)
-# Copies critical/high severity learnings to ~/.claude/memory/cross-project-learnings.md
+# 1. Copies critical/high severity learnings to ~/.claude/memory/cross-project-learnings.md
+# 2. Auto-rebuilds component indexes and block manifest when stale
 
 # Profile: standard
 source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standard
 
 TOOL_INPUT="${CLAUDE_TOOL_INPUT:-}"
 GLOBAL_FILE="$HOME/.claude/memory/cross-project-learnings.md"
+MANIFEST=".claude/memory/learnings/block-manifest.json"
+INDEX_SCRIPT="scripts/build-component-indexes.py"
 
 # Only trigger on writes to learnings/ directory
 if ! echo "$TOOL_INPUT" | grep -q "learnings/"; then
@@ -20,7 +23,7 @@ if [ -z "$FILE" ]; then
     exit 0
 fi
 
-# Check if it contains critical or high severity
+# --- Part 1: Global sync for critical/high learnings ---
 if [ -f "$FILE" ] && grep -q "severity: \(critical\|high\)" "$FILE" 2>/dev/null; then
     PROJECT=$(basename "$(git -C "$(dirname "$FILE")" rev-parse --show-toplevel 2>/dev/null)" 2>/dev/null || echo "unknown")
     DATE=$(date +%Y-%m-%d)
@@ -32,5 +35,26 @@ if [ -f "$FILE" ] && grep -q "severity: \(critical\|high\)" "$FILE" 2>/dev/null;
         grep -A2 "severity:" "$FILE" 2>/dev/null >> "$GLOBAL_FILE"
         echo "→ sync z lokálních learnings" >> "$GLOBAL_FILE"
         echo "[LEARNINGS-SYNC] Synced critical learning to global memory: $TITLE"
+    fi
+fi
+
+# --- Part 2: Auto-rebuild indexes if manifest is stale ---
+# Skip for index files and non-learning files
+BASENAME=$(basename "$FILE")
+if echo "$BASENAME" | grep -qE "^(index-|block-manifest|critical-patterns|ecosystem-scan)"; then
+    exit 0
+fi
+
+if [ -f "$INDEX_SCRIPT" ]; then
+    NEEDS_REBUILD=false
+    if [ ! -f "$MANIFEST" ]; then
+        NEEDS_REBUILD=true
+    elif [ "$FILE" -nt "$MANIFEST" ] 2>/dev/null; then
+        NEEDS_REBUILD=true
+    fi
+
+    if [ "$NEEDS_REBUILD" = true ]; then
+        python "$INDEX_SCRIPT" > /dev/null 2>&1
+        echo "[LEARNINGS-SYNC] Rebuilt component indexes and block manifest"
     fi
 fi

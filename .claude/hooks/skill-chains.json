@@ -1,6 +1,6 @@
 {
-  "_version": "1.0",
-  "_description": "Reactive skill chain definitions. After a skill completes, the chain engine checks these rules and injects context for the next step.",
+  "_version": "1.1",
+  "_description": "Reactive skill chain definitions. After a skill completes, the chain engine checks these rules and injects context for the next step. Jarvis principle: maximize 'auto' chains, minimize human gates.",
   "chains": [
     {
       "trigger": { "skill": "critic", "status_pattern": "PASS|passed|no.*(issues|problems)|clean|approved|all good" },
@@ -11,8 +11,8 @@
     {
       "trigger": { "skill": "brainstorm", "status_pattern": "DONE|done|complete|spec ready|handoff" },
       "next": "/orchestrate",
-      "condition": "suggest",
-      "description": "After brainstorm produces a spec, suggest orchestrating implementation"
+      "condition": "auto",
+      "description": "After brainstorm produces a spec, orchestrate implementation automatically"
     },
     {
       "trigger": { "skill": "orchestrate", "status_pattern": "DONE|done|complete|all subtasks" },
@@ -27,10 +27,22 @@
       "description": "After verification passes, record what worked as a learning"
     },
     {
+      "trigger": { "skill": "scribe", "status_pattern": "DONE|done|recorded|saved|written" },
+      "next": "/compile --incremental",
+      "condition": "auto",
+      "description": "After scribe records a learning, compile it into wiki automatically"
+    },
+    {
+      "trigger": { "skill": "compile", "status_pattern": "DONE|done|complete|compiled|wiki updated" },
+      "next": "/checkpoint save",
+      "condition": "auto",
+      "description": "After compile updates wiki, checkpoint the knowledge state"
+    },
+    {
       "trigger": { "skill": "deepresearch", "status_pattern": "DONE|done|complete|report ready" },
-      "next": "/peer-review",
-      "condition": "suggest",
-      "description": "After deep research, suggest peer review for evidence quality"
+      "next": "/scribe learning",
+      "condition": "auto",
+      "description": "After deep research completes, record key findings as learnings"
     },
     {
       "trigger": { "skill": "project-init", "status_pattern": "DONE|done|created|initialized" },
@@ -47,14 +59,14 @@
     {
       "trigger": { "skill": "autofix", "status_pattern": "DONE|done|pushed|fixed" },
       "next": "/verify",
-      "condition": "suggest",
-      "description": "After autofix, suggest verification"
+      "condition": "auto",
+      "description": "After autofix, verify the fix works end-to-end"
     },
     {
       "trigger": { "skill": "tdd", "status_pattern": "GREEN|green|all tests pass" },
       "next": "/critic",
-      "condition": "suggest",
-      "description": "After TDD green phase, suggest quality review"
+      "condition": "auto",
+      "description": "After TDD green phase, run quality review automatically"
     },
     {
       "trigger": { "skill": "build-project", "status_pattern": "DONE|done|complete" },
@@ -64,15 +76,27 @@
     },
     {
       "trigger": { "skill": "evolve", "status_pattern": "DONE|done|complete|applied|graduated" },
-      "next": "/self-evolve on the most-violated skill",
-      "condition": "suggest",
-      "description": "After evolve graduates rules, suggest self-evolve on the skill that triggered most violations"
+      "next": "/compile --incremental",
+      "condition": "auto",
+      "description": "After evolve graduates rules, recompile wiki to reflect changes"
     },
     {
       "trigger": { "skill": "self-evolve", "status_pattern": "DONE|done|complete|improved" },
       "next": "/checkpoint save",
       "condition": "auto",
       "description": "After self-evolve improves a skill, checkpoint the improvement"
+    },
+    {
+      "trigger": { "skill": "sweep", "status_pattern": "DONE|done|complete|cleaned" },
+      "next": "/scribe learning",
+      "condition": "auto",
+      "description": "After sweep cleans entropy, record discovered patterns as learnings"
+    },
+    {
+      "trigger": { "skill": "peer-review", "status_pattern": "DONE|done|complete|reviewed" },
+      "next": "/scribe learning",
+      "condition": "auto",
+      "description": "After peer review completes, record review findings as learnings"
     }
   ]
 }
