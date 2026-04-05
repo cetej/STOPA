@@ -96,6 +96,8 @@ progress:
   blocked: []
 artifacts_modified:
   - <file paths changed this session>
+keywords:
+  - <3-8 confidence keywords: project names, technical terms, frameworks, ticket IDs>
 resume:
   next_action: "<specific next step>"
   blockers: []
@@ -138,18 +140,6 @@ resume:
  decisions were made. Keep to 5-10 bullet points max.
  Reference decisions.md entries if detailed rationale exists.>
 
-## Git State
-
-- Branch: <branch>
-- Uncommitted changes: <yes/no — if yes, list files>
-- Last commit: <hash + message>
-
-## Budget State
-
-- Tier: <tier>
-- Agents: <used>/<limit>
-- Critics: <used>/<limit>
-
 ## Resume Prompt
 
 > <A complete, self-contained prompt that can be given to a fresh
@@ -161,6 +151,34 @@ resume:
 >  5. Reference to files: CLAUDE.md, .claude/memory/state.md,
 >     .claude/memory/checkpoint.md, .claude/memory/wiki/INDEX.md
 >  Write in English (for Claude). Keep under 300 words.>
+
+---
+## Session Detail Log
+
+> **TRUNCATION BOUNDARY** (CPR-inspired): Everything below this line
+> is NEVER loaded during resume. It exists for audit/searchability only.
+> The `/checkpoint resume` command reads content ABOVE this heading only.
+
+### Git State
+
+- Branch: <branch>
+- Uncommitted changes: <yes/no — if yes, list files>
+- Last commit: <hash + message>
+- Recent commits (this session): <git log --oneline --since="8 hours ago">
+
+### Budget State
+
+- Tier: <tier>
+- Agents: <used>/<limit>
+- Critics: <used>/<limit>
+
+### Files Changed Detail
+
+<git diff --stat output or per-file summary>
+
+### Learnings Written This Session
+
+<list of learnings/*.md files created/updated>
 ```
 
 ### Step 4: Notify User
@@ -179,6 +197,10 @@ When invoked with "resume" (or auto-detected at session start):
 1. Read `.claude/memory/checkpoint.md`
 2. If empty or missing → report "No checkpoint found"
 3. If exists:
+   - **Truncation boundary** (CPR-inspired): Find `## Session Detail Log` heading.
+     If found, read ONLY content ABOVE that heading for resume context.
+     Content below is audit-only — never loaded during resume (~60% token savings).
+     If heading not found (legacy checkpoint), read entire file (backward compatible).
    - Display summary: task, progress, immediate next action
    - Ask user: "Resume from checkpoint, or start fresh?"
    - If resume: read all referenced memory files to rebuild context

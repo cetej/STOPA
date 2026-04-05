@@ -54,6 +54,7 @@ The combined operation — use this by default.
        "issues_found": [],
        "needs_followup": []
      },
+     "keywords": ["<3-8 confidence keywords for grep-based search: project names, technical terms, frameworks, ticket IDs>"],
      "fullContent": "<the complete result>"
    }
    ```
@@ -89,7 +90,9 @@ The combined operation — use this by default.
      Source: <source>
      Content: <fullContent — truncate to first 4000 chars if longer>
 
-     Return ONLY the compressed summary, nothing else.
+     Also extract 3-8 confidence keywords for grep-based search:
+     project names, technical terms, framework names, action verbs, ticket IDs.
+     Return as JSON: {"summary": "...", "keywords": ["term1", "term2", ...]}
    ")
    ```
 

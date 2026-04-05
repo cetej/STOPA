@@ -11,6 +11,32 @@ globs: ".claude/memory/**"
 - Checkpoint: vždy obsahuje resume prompt pro další session
 - Budget: vždy obsahuje aktuální zůstatek a tier
 
+## Section Markers (CPR-inspired)
+
+- `(PROTECTED)` v nadpisu sekce = sekce se nikdy nenavrhuje k archivaci při /sweep nebo /evolve
+- `(ARCHIVABLE)` v nadpisu sekce = sekce je safe k přesunu do archive při překročení limitu
+- Default (bez markeru) = na dotaz při maintenance
+- Markery jsou inline v headinzích: `## My Section (PROTECTED)` nebo `## Old Notes (ARCHIVABLE)`
+
+## Skill State — Post-it Pattern (MBIF-inspired)
+
+- Uloženy v `.claude/memory/intermediate/{skill-name}-state.md`
+- Max 30 řádků — force summarization, kdo potřebuje víc, ukládá do intermediate/*.json
+- Přepsáno (overwrite) při každém běhu — ne append
+- YAML frontmatter: `skill`, `updated`, `phase`, `invocation`
+- Skill na začátku čte svůj post-it — pokud existuje a je <1h starý, nabídne pokračování
+- Post-it je privátní — ostatní skills/agents ho nečtou (na rozdíl od sdíleného state.md)
+- Smaž po úspěšném dokončení tasku (ne po každé invokaci)
+- Životnost: automatický cleanup při /sweep (soubory starší 24h)
+- Skills které by měly používat post-it: orchestrate, deepresearch, build-project, self-evolve
+
+## Truncation Boundaries (CPR-inspired)
+
+- Checkpoint.md používá `## Session Detail Log` heading jako hard truncation boundary
+- `/checkpoint resume` načte POUZE text nad touto hlavičkou (~60% token savings)
+- Pokud hlavička chybí (starý checkpoint): načte celý soubor (backward compatible)
+- Stejný vzor lze aplikovat na jakýkoliv memory soubor kde je potřeba oddělit summary od detailů
+
 ## Key Facts (project reference data)
 
 - `key-facts.md` = factual constants: stack, services, endpoints, env vars, conventions
