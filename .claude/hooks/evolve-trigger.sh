@@ -99,6 +99,20 @@ if last_evolve:
 elif session_count > 10:
     reasons.append(f'{session_count} sessions total, /evolve has never been run')
 
+# Check d: learnings count exceeds threshold (compilation gap signal)
+learnings_dir = os.path.join(MEMORY, 'learnings')
+if os.path.isdir(learnings_dir):
+    learning_files = [f for f in os.listdir(learnings_dir) if f.startswith('2') and f.endswith('.md')]
+    if len(learning_files) > 70:
+        reasons.append(f'{len(learning_files)} learnings in directory (threshold: 70) — graduation candidates likely')
+
+# Check e: raw/ capture files accumulating without compile
+raw_dir = os.path.join(MEMORY, 'raw')
+if os.path.isdir(raw_dir):
+    raw_files = [f for f in os.listdir(raw_dir) if f.endswith('.md') and not f.startswith('.')]
+    if len(raw_files) > 15:
+        reasons.append(f'{len(raw_files)} unprocessed raw captures — run /compile to synthesize')
+
 if reasons:
     print('=== Auto-Evolve Trigger ===')
     for r in reasons:

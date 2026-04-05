@@ -328,6 +328,12 @@
           },
           {
             "type": "command",
+            "command": "bash .claude/hooks/raw-capture.sh",
+            "timeout": 5,
+            "statusMessage": "Capturing raw session data..."
+          },
+          {
+            "type": "command",
             "command": "bash .claude/hooks/graph-consolidate.sh",
             "timeout": 10,
             "statusMessage": "Consolidating concept graph..."

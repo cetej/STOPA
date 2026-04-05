@@ -352,6 +352,36 @@ For each role category, read wiki articles matching that role's tags and produce
 
 ---
 
+## Phase 7.7: News→Learning Bridge
+
+Scan `.claude/memory/news.md` for ACTION items not yet reflected in learnings.
+
+### Step 7.7.1: Extract actionable signals
+Read `news.md`. Extract entries tagged `ACTION` that have a date within last 60 days.
+
+### Step 7.7.2: Cross-reference with existing learnings
+For each ACTION item, grep learnings/ for keywords (tool name, concept, version).
+If a matching learning already exists → skip.
+
+### Step 7.7.3: Propose new learnings
+For unmatched ACTION items, output proposals:
+
+```
+NEWS→LEARNING BRIDGE: N unmatched action items found
+  1. [news] "Sonnet 4.6 GA with 1M context" → No learning about model tier update
+     → Propose: learning about orchestration model-tier adjustment
+  2. [news] "mcp-scan tool poisoning detector" → Already covered by 2026-04-03-mcp-scan.md
+     → Skip
+```
+
+**Rules:**
+- Read-only on news.md — never modify it
+- Only propose, never auto-create learnings (that's /scribe's job)
+- Max 5 proposals per compile run (focus on highest-impact)
+- Skip WATCH and INFO items — only ACTION items matter
+
+---
+
 ## Phase 8: Report
 
 Output final report:
