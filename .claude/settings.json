@@ -127,6 +127,17 @@
     ],
     "PostToolUse": [
       {
+        "matcher": "WebFetch|WebSearch|mcp__brave-search__brave_web_search|mcp__brave-search__brave_local_search|mcp__Claude_in_Chrome__get_page_text|mcp__Claude_in_Chrome__read_page",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python .claude/hooks/content-sanitizer.py",
+            "timeout": 3,
+            "statusMessage": ""
+          }
+        ]
+      },
+      {
         "matcher": "",
         "hooks": [
           {
@@ -162,6 +173,12 @@
           {
             "type": "command",
             "command": "python .claude/hooks/panic-detector.py",
+            "timeout": 3,
+            "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "python .claude/hooks/instruction-detector.py",
             "timeout": 3,
             "statusMessage": ""
           }
