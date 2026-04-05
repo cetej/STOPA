@@ -337,6 +337,12 @@
             "command": "python .claude/hooks/hebbian-consolidate.py",
             "timeout": 10,
             "statusMessage": "Hebbian consolidation..."
+          },
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/compile-trigger.sh",
+            "timeout": 5,
+            "statusMessage": "Checking compound loop..."
           }
         ]
       }

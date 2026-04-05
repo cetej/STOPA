@@ -87,6 +87,25 @@ If no new gates warranted, write: "No new gates proposed."
 
 If `quality-gates.md` exists, append approved proposals to its Gate Proposal Log.
 
+### Structured Verdict (machine-parseable)
+
+Always include this JSON block — it enables automated quality gates in /orchestrate and skill-chain-engine:
+
+```json
+{
+  "verdict": "PASS|WARN|FAIL",
+  "score": 3.8,
+  "blockers": [],
+  "security_concerns": [],
+  "logic_errors": [],
+  "suggestions": ["..."]
+}
+```
+
+**Fail-closed override rule:** If `security_concerns` is non-empty OR `logic_errors` is non-empty → verdict MUST be "FAIL" regardless of score. Unparseable JSON = auto-FAIL.
+
+This block is MANDATORY for STANDARD and DEEP paths. For QUICK path, include a minimal version: `{"verdict": "PASS|WARN|FAIL", "score": 4.0}`.
+
 ### Reflector Summary (for /scribe)
 - **Error type:** [logic bug | missing case | wrong abstraction | spec misread | none]
 - **Root cause:** [1 sentence -- what caused the issues, or "N/A" if PASS with no issues]
