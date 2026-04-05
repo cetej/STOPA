@@ -10,17 +10,19 @@ tools for 5 categories of suspicious content:
   3. Zero-width Unicode steganography
   4. Encoded payloads (base64 blocks)
   5. Instruction-like patterns in content
+  6. ML-based prompt injection detection (PromptGuard, when available)
 
 Output: warnings to stderr (visible to LLM as hook output).
 PostToolUse cannot block — it warns, so the LLM treats content with skepticism.
 
 Profile: standard+
-Performance target: <100ms (regex only, no subprocess, no LLM calls)
+Performance target: <200ms (regex ~50ms + PromptGuard ~100-150ms when available)
 """
 import json
 import os
 import re
 import sys
+import time
 from pathlib import Path
 
 # Profile gate
@@ -153,6 +155,64 @@ def scan_content(content: str) -> list[tuple[str, str, str]]:
     return findings
 
 
+# ---------------------------------------------------------------------------
+# PromptGuard ML layer (LlamaFirewall) — deep scan fallback
+# Only runs if: 1) llamafirewall installed, 2) model downloaded, 3) regex found nothing, 4) content >500 chars
+# Severity: ALERT (higher confidence than regex WARN)
+# Performance: 19-92ms on BERT (22M/86M params), well within 3s hook timeout
+# ---------------------------------------------------------------------------
+
+_promptguard_instance = None
+_promptguard_checked = False
+
+
+def _get_promptguard():
+    """Fully lazy PromptGuard init. Import + model load only on first call."""
+    global _promptguard_instance, _promptguard_checked
+    if _promptguard_checked:
+        return _promptguard_instance
+    _promptguard_checked = True
+    try:
+        # Check if model is cached locally BEFORE importing torch/transformers
+        hf_home = os.environ.get("HF_HOME", os.path.expanduser("~/.cache/huggingface"))
+        model_path = os.path.join(hf_home, "meta-llama--Llama-Prompt-Guard-2-86M")
+        if not os.path.exists(model_path):
+            return None  # Model not downloaded — skip silently, no heavy imports
+        from llamafirewall.scanners.promptguard_utils import PromptGuard
+        _promptguard_instance = PromptGuard()
+        return _promptguard_instance
+    except Exception:
+        return None  # Import or load error — skip silently
+
+
+def scan_promptguard(content: str) -> list[tuple[str, str, str]]:
+    """Run PromptGuard ML scan on content. Returns findings list."""
+    pg = _get_promptguard()
+    if pg is None:
+        return []
+
+    findings = []
+    try:
+        # PromptGuard has a 512 token limit — chunk if needed
+        # For hook use, scan first 2000 chars (covers most injection attempts)
+        text = content[:2000]
+        start = time.monotonic()
+        score = pg.get_jailbreak_score(text=text)
+        elapsed_ms = (time.monotonic() - start) * 1000
+
+        if score >= 0.9:
+            findings.append(("ALERT", "promptguard_ml",
+                             f"PromptGuard ML: high injection probability ({score:.3f}, {elapsed_ms:.0f}ms)"))
+        elif score >= 0.7:
+            findings.append(("WARN", "promptguard_ml",
+                             f"PromptGuard ML: moderate injection signal ({score:.3f}, {elapsed_ms:.0f}ms)"))
+        # score < 0.7 = clean, no finding
+    except Exception:
+        pass  # ML scan failure must never crash the hook
+
+    return findings
+
+
 def format_warnings(findings: list[tuple[str, str, str]]) -> str:
     """Format findings into a warning message for stderr."""
     alerts = [(s, c, d) for s, c, d in findings if s == "ALERT"]
@@ -196,8 +256,14 @@ def main() -> None:
         if not tool_output or len(tool_output) < 20:
             return
 
-        # Scan
+        # Scan — two layers: regex (fast path) then ML (deep scan)
         findings = scan_content(tool_output)
+
+        # Layer 2: PromptGuard ML — run if regex found nothing AND content is substantial
+        # Rationale: regex catches known patterns fast; ML catches novel/obfuscated attacks
+        if not findings and len(tool_output) > 500:
+            findings = scan_promptguard(tool_output)
+
         if not findings:
             return
 

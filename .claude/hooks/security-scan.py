@@ -5,6 +5,10 @@ Scans content of Write/Edit operations for dangerous patterns BEFORE
 the edit lands. Complements on-demand /security-review with always-on
 deterministic checking.
 
+Two layers:
+  1. Regex patterns (always available, ~50ms)
+  2. CodeShield/Semgrep CWE detection (when available, ~70ms)
+
 Severity levels:
   BLOCK  — pattern is almost never legitimate in AI-generated code
   WARN   — pattern has legitimate uses but warrants attention
@@ -195,6 +199,55 @@ def scan_content(content: str, file_path: str) -> list:
     return findings
 
 
+# ---------------------------------------------------------------------------
+# CodeShield layer — Semgrep-based CWE detection (LlamaFirewall)
+# Requires: pip install llamafirewall + semgrep-core binary in PATH
+# On Windows: semgrep-core may not be available — graceful fallback
+# ---------------------------------------------------------------------------
+
+_CODESHIELD_AVAILABLE = False
+
+try:
+    from codeshield.cs import CodeShield as _CS
+    _CODESHIELD_AVAILABLE = True
+except Exception:
+    pass  # ImportError or semgrep-core missing — skip silently
+
+# Map CodeShield language names
+_EXT_TO_LANG = {
+    '.py': 'python', '.pyw': 'python',
+    '.js': 'javascript', '.jsx': 'javascript', '.mjs': 'javascript', '.cjs': 'javascript',
+    '.ts': 'typescript', '.tsx': 'typescript',
+}
+
+
+def scan_codeshield(content: str, file_path: str) -> list:
+    """Run CodeShield CWE scan. Returns list of (severity, message)."""
+    if not _CODESHIELD_AVAILABLE:
+        return []
+
+    import asyncio
+
+    ext = os.path.splitext(file_path)[1].lower()
+    lang = _EXT_TO_LANG.get(ext)
+    if not lang:
+        return []
+
+    findings = []
+    try:
+        result = asyncio.run(_CS.scan_code(content, language=lang))
+        if result and hasattr(result, 'issues_found') and result.issues_found:
+            for issue in result.issues_found:
+                severity = 'WARN'  # CodeShield findings are advisory in this context
+                cwe = getattr(issue, 'cwe_id', 'unknown')
+                desc = getattr(issue, 'description', str(issue))
+                findings.append((severity, f"CodeShield CWE-{cwe}: {desc}"))
+    except Exception:
+        pass  # CodeShield failure must never crash the hook
+
+    return findings
+
+
 def main():
     # Read tool input from stdin
     raw_input = sys.stdin.read().strip()
@@ -225,6 +278,12 @@ def main():
         sys.exit(0)
 
     findings = scan_content(content, file_path)
+
+    # Layer 2: CodeShield (Semgrep-based CWE detection)
+    # Only for .py/.js/.ts files, graceful fallback if unavailable
+    if PY_EXT.search(file_path) or JS_EXT.search(file_path):
+        cs_findings = scan_codeshield(content, file_path)
+        findings.extend(cs_findings)
 
     if not findings:
         sys.exit(0)
