@@ -547,6 +547,22 @@ Summary of pre-granted agent authority:
 
 Error classification: Infrastructure → IMMEDIATE STOP. Transient → 1 retry. Logic → normal 3-fix escalation.
 
+### LATS-Lite Branch Exploration (deep tier only, arXiv:2310.04406)
+
+When a subtask fails its first attempt in deep tier, before linear retry:
+
+1. **Evaluate**: Is the failure due to approach, not execution? (wrong algorithm, wrong library, wrong API)
+2. **If yes → branch**: Generate 1-2 alternative approaches. Spawn parallel agents for each alternative + the fixed original.
+3. **Select best**: Compare outputs — pick the one that passes criterion. If multiple pass, prefer simplest.
+4. **If no → linear retry**: Standard 3-fix escalation with Reflexion verbal note.
+
+This replaces blind linear retry with informed branch exploration. LATS achieved 92.7% HumanEval by combining tree search with value estimation. Cost: ~2× per branching event, but avoids 3× failed retries on wrong approach.
+
+**Rules:**
+- Only in deep tier (standard/light: too expensive relative to task)
+- Max 1 branching event per subtask (prevents exponential growth)
+- Each branch gets the Reflexion note from the original failure as context
+
 ## Circuit Breakers (hard stops)
 
 For full details: `Read ${CLAUDE_SKILL_DIR}/references/circuit-breakers.md`

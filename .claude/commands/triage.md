@@ -57,6 +57,20 @@ Extract from the user's input:
 - **Why** (if stated)
 - **Implicit scope** — does it mention specific files, modules, or generic workflow?
 
+### Step 1.5: Self-Discover Reasoning Module Selection (arXiv:2402.03620)
+
+Before routing to a skill, identify which **reasoning modules** the task requires. Self-Discover shows that dynamically composing reasoning structures from atomic modules outperforms fixed approaches by +32% at 10-40× less compute than Self-Consistency.
+
+Atomic reasoning modules available:
+- **Step-by-step** — decomposition, sequential logic → /orchestrate, /systematic-debugging
+- **Comparison** — evaluate alternatives side-by-side → /council, /deepresearch (comparison scale)
+- **Search** — find information in codebase or web → /scout, /deepresearch
+- **Verification** — prove correctness with evidence → /verify, /critic
+- **Generation** — create new artifacts → /nano, /klip, /build-project
+- **Reflection** — evaluate own work quality → /critic, /self-evolve, /autoreason
+
+**Classify**: Which 1-2 modules does this task primarily need? This narrows skill selection and informs the recommended approach. Include the module(s) in Step 4 output as `**Reasoning modules:** [module1, module2]`.
+
 ### Step 2: Classify each aspect
 
 For each distinct aspect of the request, assign ONE of:

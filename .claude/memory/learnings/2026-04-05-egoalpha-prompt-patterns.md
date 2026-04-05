@@ -43,13 +43,13 @@ Research brief: `outputs/egoalpha-stopa-research.md` (38 sources, 60 STOPA patte
 8. **ICL order sensitivity** — strongest examples at END of SKILL.md demonstrations (recency effect)
    - Ref: Lu et al. arXiv:2205.11916 (170 citations)
 
-### Round 2 — Backlog
+### Round 2 — Also Implemented (same session)
 
-- Self-RAG reflection tokens → /deepresearch per-citation [Relevant/Irrelevant/Uncertain]
-- SKR self-knowledge boundary → /scout pre-flight "do I know from memory?"
-- LATS-lite branching → deep tier orchestration with tree exploration
-- Self-Discover reasoning modules → /triage dynamic module selection
-- MetaGPT output contracts → `output-contract:` field in SKILL frontmatter
+9. **Self-RAG reflection tokens** (arXiv:2310.11511) → /deepresearch agent template: per-source [RELEVANT/PARTIAL/IRRELEVANT/UNCERTAIN] assessment
+10. **SKR self-knowledge boundary** (arXiv:2310.05002) → /scout Step 0.5: check memory before exploration
+11. **LATS-lite branch exploration** (arXiv:2310.04406) → /orchestrate deep tier: parallel alternative approaches before linear retry
+12. **Self-Discover reasoning modules** (arXiv:2402.03620) → /triage Step 1.5: classify task by reasoning modules needed
+13. **MetaGPT output contracts** (arXiv:2308.00352) → `output-contract:` field in skill-files.md frontmatter spec
 
 ### Key validation findings
 

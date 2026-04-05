@@ -37,6 +37,7 @@ globs: "**/skills/*/SKILL.md"
   - Vynechej pokud skill nemá žádné externí závislosti
 - `supported-os`: array of supported platforms (`windows`, `linux`, `macos`). Vynechej pokud skill funguje všude (default = all)
 - `effort`: `low` | `high` | `auto`. When `auto`: orchestrator uses progressive skill withdrawal (SKILL0-inspired Dynamic Curriculum). First invocation in session loads full `SKILL.md`, subsequent invocations load `SKILL.compact.md` if it exists. This reduces token overhead by ~80% on repeat invocations within a session.
+- `output-contract`: optional string describing what the skill produces and in what format (MetaGPT SOP pattern, arXiv:2308.00352). Used by orchestrator to validate handoff between skills and verify downstream readiness. Format: `"<artifact type> → <format> → <location>"`. Example: `"scout report → markdown table → stdout"`, `"research brief → markdown → outputs/<slug>-research.md"`. Skills without this field: orchestrator infers output from workflow description (backward compatible).
 
 ## Compact Skill Variants (SKILL0-inspired Dynamic Curriculum)
 

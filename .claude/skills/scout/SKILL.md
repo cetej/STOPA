@@ -97,6 +97,20 @@ Updated: <ISO 8601>
 
 Staleness check: `git log --oneline --since="<map timestamp>" | head -1` — if any output, map is stale.
 
+### Step 0.5: Self-Knowledge Boundary Check (SKR, arXiv:2310.05002)
+
+Before external exploration, assess what you already know:
+1. Check `.claude/memory/key-facts.md` — does it contain the answer or relevant pointers?
+2. Check `.claude/memory/learnings/` via Grep for the exploration target keywords
+3. Check `.claude/memory/codebase-map.md` (if exists) — does it already cover the target area?
+
+**Decision rule:**
+- If memory fully answers the question → report from memory, skip Steps 1-4. Mark as "from cached knowledge."
+- If memory partially answers → use memory as starting context, narrow Steps 1-2 to the gaps only
+- If memory has nothing → proceed normally with full exploration
+
+This prevents redundant exploration when the answer is already in persistent memory. SKR shows selective retrieval outperforms both always-retrieve and never-retrieve strategies.
+
 ### Step 1: Surface Scan (all tiers)
 - Glob for relevant file patterns
 - Grep for key terms, class names, function names

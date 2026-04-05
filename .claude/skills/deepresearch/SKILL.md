@@ -157,6 +157,14 @@ SOURCE QUALITY (prefer → accept → reject):
 - Accept with caveats: well-cited secondary sources, trade publications
 - Reject: SEO listicles, undated blogs, AI-generated content without primary backing
 
+SELF-RAG REFLECTION (arXiv:2310.11511 — per-source relevance assessment):
+After reading each source, generate a structured reading note:
+- [RELEVANT] — source directly answers the sub-question with usable evidence
+- [PARTIAL] — source has tangential info but doesn't directly answer
+- [IRRELEVANT] — source doesn't contribute; do not cite
+- [UNCERTAIN] — can't fully assess without reading more context
+Only cite [RELEVANT] and [PARTIAL] sources. This prevents blind citation of retrieved content.
+
 OUTPUT FORMAT — write to file <output-path> (in outputs/.research/ directory):
 
 ## Evidence Table
