@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
 # PermissionRequest hook: Auto-approve safe operations, prompt for risky ones
-# v2.0 — expanded auto-approve: read + local write + agents
+# v3.0 — autonomous mode: most operations auto-approved
 #
 # AUTO-APPROVE: Read, Glob, Grep, WebFetch, WebSearch, Edit, Write,
 #               Agent, TodoWrite, NotebookEdit, filesystem MCP (local),
-#               context7, youtube-transcript, brave-search, playwright (read)
-# ASK:          GitHub push/merge/PR, Gmail send, Calendar create,
-#               Chrome actions, unknown tools
+#               context7, youtube-transcript, brave-search, playwright,
+#               GitHub (push, PR, issue, comment — own repos),
+#               Chrome (navigate, click, type, form),
+#               Telegram reply (status notifications),
+#               Gmail draft, Calendar read, Google Drive
+# ASK:          GitHub merge/delete, Gmail send, Calendar create/update/delete,
+#               Chrome file_upload, unknown tools
 # SKIP:         Bash (handled by Dippy PreToolUse hook)
 
 TOOL="${CLAUDE_TOOL_NAME:-unknown}"
@@ -17,90 +21,126 @@ TS=$(date +"%Y-%m-%d %H:%M")
 if [ ! -f "$LOG" ]; then
   echo "# Permission Request Log" > "$LOG"
   echo "" >> "$LOG"
-  echo "Auto-captured by PermissionRequest hook. Safe ops auto-approved (v2.0)." >> "$LOG"
+  echo "Auto-captured by PermissionRequest hook. Autonomous mode v3.0." >> "$LOG"
   echo "" >> "$LOG"
 fi
+
+auto_allow() {
+  echo "- $TS | AUTO | $TOOL" >> "$LOG"
+  echo '{"behavior":"allow","suppressOutput":true}'
+}
+
+ask_user() {
+  echo "- $TS | ASK | $TOOL" >> "$LOG"
+  echo '{"behavior":"ask","suppressOutput":true}'
+}
 
 # Classify tool
 case "$TOOL" in
   # --- READ-ONLY: always safe ---
   Read|Glob|Grep|WebFetch|WebSearch)
-    echo "- $TS | AUTO | $TOOL" >> "$LOG"
-    echo '{"behavior":"allow","suppressOutput":true}'
+    auto_allow
     ;;
 
   # --- LOCAL WRITE: git is safety net ---
   Edit|Write|Agent|TodoWrite|NotebookEdit)
-    echo "- $TS | AUTO | $TOOL" >> "$LOG"
-    echo '{"behavior":"allow","suppressOutput":true}'
+    auto_allow
     ;;
 
   # --- SAFE MCP: read-only or local-only ---
   mcp__context7__*|mcp__youtube-transcript__*|mcp__brave-search__*)
-    echo "- $TS | AUTO | $TOOL" >> "$LOG"
-    echo '{"behavior":"allow","suppressOutput":true}'
+    auto_allow
     ;;
-  mcp__filesystem__read_*|mcp__filesystem__list_*|mcp__filesystem__get_*|mcp__filesystem__search_*|mcp__filesystem__directory_tree)
-    echo "- $TS | AUTO | $TOOL" >> "$LOG"
-    echo '{"behavior":"allow","suppressOutput":true}'
-    ;;
-  mcp__filesystem__write_file|mcp__filesystem__edit_file|mcp__filesystem__create_directory|mcp__filesystem__move_file)
-    echo "- $TS | AUTO | $TOOL" >> "$LOG"
-    echo '{"behavior":"allow","suppressOutput":true}'
-    ;;
-  mcp__playwright__browser_snapshot|mcp__playwright__browser_console_messages|mcp__playwright__browser_network_requests)
-    echo "- $TS | AUTO | $TOOL" >> "$LOG"
-    echo '{"behavior":"allow","suppressOutput":true}'
+  mcp__filesystem__*)
+    auto_allow
     ;;
   mcp__Claude_Preview__*)
-    echo "- $TS | AUTO | $TOOL" >> "$LOG"
-    echo '{"behavior":"allow","suppressOutput":true}'
+    auto_allow
     ;;
   mcp__scheduled-tasks__*)
-    echo "- $TS | AUTO | $TOOL" >> "$LOG"
-    echo '{"behavior":"allow","suppressOutput":true}'
+    auto_allow
+    ;;
+  mcp__mcp-registry__*)
+    auto_allow
     ;;
 
-  # --- GITHUB: read = auto, write = ask ---
+  # --- GITHUB: most write ops auto, merge/delete ask ---
   mcp__github__get_*|mcp__github__list_*|mcp__github__search_*)
-    echo "- $TS | AUTO | $TOOL" >> "$LOG"
-    echo '{"behavior":"allow","suppressOutput":true}'
+    auto_allow
+    ;;
+  mcp__github__merge_*|mcp__github__fork_*)
+    # merge PR, fork — irreversible, ask
+    ask_user
     ;;
   mcp__github__*)
-    # push, merge, create PR/issue, comment — ask user
-    echo "- $TS | ASK | $TOOL" >> "$LOG"
-    echo '{"behavior":"ask","suppressOutput":true}'
+    # push, create PR/issue/branch, comment, review, update — auto
+    auto_allow
     ;;
 
-  # --- GMAIL/CALENDAR: always ask (sends on your behalf) ---
+  # --- GMAIL: read + draft auto, send ask ---
   mcp__4d0c1623*gmail_search*|mcp__4d0c1623*gmail_read*|mcp__4d0c1623*gmail_get*|mcp__4d0c1623*gmail_list*)
-    echo "- $TS | AUTO | $TOOL" >> "$LOG"
-    echo '{"behavior":"allow","suppressOutput":true}'
+    auto_allow
+    ;;
+  mcp__4d0c1623*gmail_create_draft*)
+    # draft doesn't send — auto
+    auto_allow
     ;;
   mcp__4d0c1623*)
-    # send, create draft — ask
-    echo "- $TS | ASK | $TOOL" >> "$LOG"
-    echo '{"behavior":"ask","suppressOutput":true}'
-    ;;
-  mcp__e27626c3*gcal_list*|mcp__e27626c3*gcal_get*|mcp__e27626c3*gcal_find*)
-    echo "- $TS | AUTO | $TOOL" >> "$LOG"
-    echo '{"behavior":"allow","suppressOutput":true}'
-    ;;
-  mcp__e27626c3*)
-    # create/update/delete event, respond — ask
-    echo "- $TS | ASK | $TOOL" >> "$LOG"
-    echo '{"behavior":"ask","suppressOutput":true}'
+    # send — ask
+    ask_user
     ;;
 
-  # --- CHROME BROWSER: read = auto, interact = ask ---
-  mcp__Claude_in_Chrome__tabs_context*|mcp__Claude_in_Chrome__read_*|mcp__Claude_in_Chrome__get_*|mcp__Claude_in_Chrome__find|mcp__Claude_in_Chrome__shortcuts_list)
-    echo "- $TS | AUTO | $TOOL" >> "$LOG"
-    echo '{"behavior":"allow","suppressOutput":true}'
+  # --- CALENDAR: read/find auto, write ask ---
+  mcp__e27626c3*gcal_list*|mcp__e27626c3*gcal_get*|mcp__e27626c3*gcal_find*)
+    auto_allow
+    ;;
+  mcp__e27626c3*)
+    # create/update/delete event, respond — sends invites, ask
+    ask_user
+    ;;
+
+  # --- GOOGLE DRIVE: read auto, write ask ---
+  mcp__c1fc4002*google_drive_search*|mcp__c1fc4002*google_drive_fetch*)
+    auto_allow
+    ;;
+  mcp__c1fc4002*)
+    ask_user
+    ;;
+
+  # --- CHROME BROWSER: full interaction auto, upload ask ---
+  mcp__Claude_in_Chrome__file_upload|mcp__Claude_in_Chrome__upload_image)
+    # uploads send data out — ask
+    ask_user
+    ;;
+  mcp__Claude_in_Chrome__switch_browser)
+    ask_user
     ;;
   mcp__Claude_in_Chrome__*)
-    # click, type, navigate, form — ask
-    echo "- $TS | ASK | $TOOL" >> "$LOG"
-    echo '{"behavior":"ask","suppressOutput":true}'
+    # navigate, click, type, form, screenshot, read, find, tabs — auto
+    auto_allow
+    ;;
+
+  # --- PLAYWRIGHT: full interaction auto ---
+  mcp__playwright__browser_file_upload)
+    ask_user
+    ;;
+  mcp__playwright__*)
+    auto_allow
+    ;;
+
+  # --- TELEGRAM: reply/react/edit auto (own bot, status only) ---
+  mcp__plugin_telegram_telegram__reply|mcp__plugin_telegram_telegram__react|mcp__plugin_telegram_telegram__edit_message|mcp__plugin_telegram_telegram__download_attachment)
+    auto_allow
+    ;;
+
+  # --- CRON: auto (session-only, no persistent damage) ---
+  Cron*)
+    auto_allow
+    ;;
+
+  # --- SKILL: auto ---
+  Skill)
+    auto_allow
     ;;
 
   # --- BASH: handled by Dippy ---
@@ -110,8 +150,7 @@ case "$TOOL" in
 
   # --- EVERYTHING ELSE: ask ---
   *)
-    echo "- $TS | ASK | $TOOL" >> "$LOG"
-    echo '{"behavior":"ask","suppressOutput":true}'
+    ask_user
     ;;
 esac
 
