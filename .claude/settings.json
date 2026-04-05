@@ -143,6 +143,12 @@
           },
           {
             "type": "command",
+            "command": "python .claude/hooks/session-trace.py",
+            "timeout": 2,
+            "statusMessage": ""
+          },
+          {
+            "type": "command",
             "command": "python .claude/hooks/suggest-compact.py",
             "timeout": 3,
             "statusMessage": ""

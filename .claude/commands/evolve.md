@@ -243,6 +243,57 @@ Action types:
 
 ---
 
+## Step 7b: Artifact Synthesis (Semantic Observability)
+
+Convert discovered patterns and graduated learnings into **executable artifacts** — not just rules.
+
+Reference: Tang "Towards Semantic Observability" (2026) — human signal → durable, scalable artifacts.
+
+### Input sources
+
+1. **Discovered patterns** from `.claude/memory/discovered-patterns.md` (written by `/discover`)
+   - Patterns with `verdict: reinforce` or `verdict: suppress`
+2. **Graduated learnings** from Step 3b (confidence >= 0.8, uses >= 10)
+3. **High-impact learnings** (impact_score >= 0.7, uses >= 5)
+
+If none of these sources have data, skip this step and note "No artifact candidates yet — run /discover first."
+
+### Artifact type classification
+
+For each candidate, classify into an artifact type and propose generation:
+
+| Signal | Artifact Type | Target | Generation |
+|--------|--------------|--------|------------|
+| Suppressible pattern (desperation loop) | **Warning pattern** | `panic-detector.py` config | Add regex/sequence pattern to hook's detection rules |
+| Suppressible pattern (blind editing) | **Circuit breaker** | `critical-patterns.md` | New entry with verify: annotation |
+| Reinforceable pattern (informed editing) | **Routing hint** | `/triage` decision logic | Note preferred approach for similar tasks |
+| Reinforceable pattern (effective delegation) | **Skill hint** | `best_practice` learning | Write learning with high initial confidence (0.85) |
+| Recurring failure (same test, same fix) | **Eval case** | `.claude/evals/` | Generate YAML eval case from the pattern |
+| Graduated learning (proven rule) | **Rule** | `rules/` or `critical-patterns.md` | Move from learnings to permanent rule |
+| High-impact learning (used 5+, impact 0.7+) | **Quality gate** | `.claude/memory/quality-gates.md` | Auto-milestone for /critic |
+
+### Proposal format
+
+For each artifact, add to Step 7 proposals:
+
+```
+PROPOSE: SYNTHESIZE_ARTIFACT
+  Source: [discovered pattern / learning filename]
+  Artifact type: [warning_pattern | circuit_breaker | routing_hint | skill_hint | eval_case | rule | quality_gate]
+  Target file: [exact path where artifact will be written]
+  Content: [exact text/config to add]
+  Evidence: [frequency, sessions, impact_score, human verdict]
+```
+
+### Constraints
+- Max 5 artifact proposals per /evolve run (prevent flooding)
+- Eval cases go to `.claude/evals/discovered/` subdirectory
+- Warning patterns must include the tool sequence signature (for panic-detector matching)
+- All artifacts require user approval in Step 8 (same as other proposals)
+- Track generated artifacts in `evolution-log.md` under `### Artifacts Generated` section
+
+---
+
 ## Step 8: Wait for Approval
 
 Present ALL proposals in a numbered list before making ANY changes.
