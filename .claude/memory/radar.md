@@ -4,7 +4,7 @@ Tracked findings from `/radar` scans and manual evaluations.
 Archived: `radar-archive.md` (when >400 lines)
 
 ## Stats
-Last scan: 2026-04-06 (scheduled, proactive scan #6) | Mode: auto | Total: 29 tools | 🔴 4 | 🟡 23 | 🟢 2
+Last scan: 2026-04-07 (manual) | Total: 31 tools | 🔴 4 | 🟡 25 | 🟢 2
 
 ## Active Research (🔴)
 | Tool | Category | Score | Source | Captured | Status | Project fit |
@@ -15,6 +15,11 @@ Last scan: 2026-04-06 (scheduled, proactive scan #6) | Mode: auto | Total: 29 to
 | [TradingAgents](https://github.com/TauricResearch/TradingAgents) | Financial multi-agent framework | 8/10 | scan | 2026-04-06 | **EVALUATE** | POLYBOT + ORAKULUM — multi-agent LLM trading (Analyst/Trader/Risk roles, LangGraph, Apache-2.0, 47k★) |
 
 ## Watch List (🟡)
+| Tool | Category | Score | Source | Captured | Notes |
+|------|----------|-------|--------|----------|-------|
+| [LLM Wiki v2](https://claude.ai/public/artifacts/bd55c656-de32-414e-ba8f-81454c66bd62) | Memory architecture framework | 7/10 | manual | 2026-04-07 | Fork karpathy/llm-wiki. 6 vrstev: lifecycle, knowledge graph, hybrid search, automation, quality, multi-agent. Biggest gap vs STOPA: knowledge graph + shared/private agent memory scoping. |
+| [NSM "The Price Is Not Right"](https://arxiv.org/abs/2602.19260) | Research / orchestration architecture | 8/10 | manual/user | 2026-04-07 | Duggan et al. ICRA 2026: neuro-symbolic (PDDL+diffusion) 95% vs VLA 34%. **APPLIED** — 5 patterns integrated into orchestrate + skill-files.md + discover: operator-scoped context, input/output contracts, done-when criteria, mid-execution replanning, primitive extraction. Key: 50 primitive demos > 300 full-task demos. Learning: `2026-04-07-nsm-neuro-symbolic-orchestration.md` |
+| [Infinity-Chat / Artificial Hivemind](https://arxiv.org/abs/2510.22954) | Research / diversity | 7/10 | manual/user | 2026-04-06 | Stanford: 70+ modelů konverguje na stejné odpovědi (intra-model repetition + inter-model homogenity). 26K open-ended queries. Implikace pro STOPA: generativní skills (nano, klip, prompt-evolve) musí mít explicitní divergence constraint. Řešení: few-shot s divergentními příklady, "avoid common X" instrukce, evoluční tlak na diverzitu. Paper 10/2025 ale stále relevantní. |
 | Tool | Category | Score | Source | Captured | Notes |
 |------|----------|-------|--------|----------|-------|
 | [T² Scaling Laws](https://arxiv.org/abs/2604.01411) | Research / scaling | 7/10 | manual/user | 2026-04-06 | Train-to-Test scaling: overtraining menší model + pass@k inference > Chinchilla-optimal velký model. Implikace pro STOPA model tier selection (haiku overtrained + sampling > sonnet one-shot). Roberts et al., UW-Madison. |
@@ -46,6 +51,9 @@ Last scan: 2026-04-06 (scheduled, proactive scan #6) | Mode: auto | Total: 29 to
 |------|-------|----------|---------|
 | [VoltAgent](https://voltagent.dev/) | 4/10 | 2026-04-03 | TS agent framework, nic unikátního vs LangGraph/ADK, 7.2k★ |
 | [Perplexity Computer](https://www.perplexity.ai/hub/blog/introducing-perplexity-computer) | AI super-agent / commercial | 4/10 | scan | 2026-04-06 | $200/mo, closed, cloud-only. Orchestruje 19 modelů autonomně. MCP odmítli (context window + auth tření). Perplexity API Platform existuje. Local agent pouze macOS. Gate 2 fail pro většinu STOPA use-cases. |
+
+### 2026-04-07 — manual | LLM Wiki v2 (rohitg00/llm-wiki-v2) — 7/10 🟡
+- Fork karpathy/llm-wiki. 6 chybějících vrstev: memory lifecycle, knowledge graph, hybrid search, automation, quality controls, multi-agent. Core teze: bottleneck = bookkeeping. Memory pipeline: Working→Episodic→Semantic→Procedural. Hybrid search: BM25+vector+graph→RRF fusion. Gap analýza vs STOPA: knowledge graph (biggest gap, typed entities > flat MD) + shared/private memory scoping pro paralelní agenty. Žádný veřejný GitHub repo. Artifact: claude.ai/public/artifacts/bd55c656-de32-414e-ba8f-81454c66bd62
 
 ## Scan Log
 ### 2026-04-06 — scheduled scan #6 | Searches: 11 | Fetches: 3 | Found: 3 new

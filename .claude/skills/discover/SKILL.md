@@ -105,6 +105,41 @@ Output:
   ...
 ```
 
+### 2e: Primitive Action Sequences (NSM-inspired, arXiv:2602.19260)
+
+Extract reusable micro-operations that compose into larger workflows — analogous to how
+NSM learned stacking primitives from 50 demos and composed them into Hanoi solutions.
+
+1. **Identify atomic primitives**: Extract tool sequences of length 2-4 that:
+   - Appear in 5+ sessions (high reuse)
+   - Always succeed (exit == 0 for all tools in sequence)
+   - Are self-contained (don't depend on preceding context beyond file path)
+
+2. **Classify primitives by function**:
+   | Primitive | Signature | Function |
+   |-----------|-----------|----------|
+   | informed-edit | Grep→Read→Edit | Read before write |
+   | test-driven | Edit→Bash(test)→pass | Edit with verification |
+   | search-navigate | Glob→Read | Find then examine |
+   | delegate-verify | Agent→Read(result) | Delegate then check |
+
+3. **Cross-skill primitive usage**: For each primitive, count which skills use it most.
+   Primitives used by 3+ different skills = **universal primitives** (candidates for
+   skill composition building blocks).
+
+4. **Output**:
+   ```
+   === PRIMITIVE ACTION SEQUENCES ===
+   | # | Primitive | Signature | Frequency | Skills Using | Universal? |
+   |---|-----------|-----------|-----------|-------------|-----------|
+   | 1 | informed-edit | Grep→Read→Edit | 45 | critic,scout,fix-issue | yes |
+   | 2 | test-loop | Edit→Bash→Edit | 31 | tdd,autoloop | no |
+   ```
+
+Why: NSM showed that 50 primitive demos > 300 full-task demos. Same principle applies —
+understanding which atomic operations compose into successful workflows reveals the
+system's implicit "operator library" and can inform skill design.
+
 ---
 
 ## Phase 3: DISCOVER — Surface Interesting Patterns

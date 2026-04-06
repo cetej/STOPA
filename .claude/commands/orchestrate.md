@@ -315,6 +315,19 @@ Based on scout results:
    - Good: "API returns 200 with valid token and 401 without"
    - Bad: "Auth is implemented"
    - If criterion can't be made specific, subtask is too vague — decompose further
+8. **Define done-when** — machine-verifiable completion condition the AGENT checks itself:
+   - Format: shell command or tool assertion that returns pass/fail
+   - Good: `"ruff check src/auth.py passes AND python -m pytest tests/test_auth.py passes"`
+   - Good: `"grep -q 'class AuthMiddleware' src/middleware.py AND no import errors"`
+   - Bad: `"code looks correct"` (not machine-verifiable)
+   - Agent runs done-when before reporting DONE. If it fails → agent retries (up to 3-fix limit).
+   - (Ref: NSM termination conditions — arXiv:2602.19260: learned completion criteria > fixed time budgets)
+9. **Define context-scope** — files/modules this subtask NEEDS (operator-scoped context):
+   - List ONLY files the agent must read/write. NOT the entire scout report.
+   - Agent prompt includes ONLY these files + subtask description + upstream artifacts.
+   - Why: NSM Feature Selector φ — operator-scoped input reduces noise and improves robustness.
+   - Good: `["src/auth.py", "src/middleware.py", "tests/test_auth.py"]`
+   - Bad: `["src/"]` (too broad — agent wastes context on irrelevant files)
 
 Write the plan to `.claude/memory/state.md`. Include **both** YAML frontmatter (machine-readable) and markdown body (human-readable):
 
@@ -326,8 +339,8 @@ type: <feature|bugfix|refactor|research|maintenance>
 status: in_progress
 branch: <git branch>
 subtasks:
-  - {id: "st-1", description: "<subtask>", criterion: "<pass/fail>", depends_on: [], wave: 1, method: "Agent:general", status: "pending", artifacts: []}
-  - {id: "st-2", description: "<subtask>", criterion: "<pass/fail>", depends_on: ["st-1"], wave: 2, method: "Skill:/review", status: "pending", artifacts: []}
+  - {id: "st-1", description: "<subtask>", criterion: "<pass/fail>", done_when: "<machine-verifiable completion condition>", context_scope: ["<file1>", "<file2>"], depends_on: [], wave: 1, method: "Agent:general", status: "pending", artifacts: []}
+  - {id: "st-2", description: "<subtask>", criterion: "<pass/fail>", done_when: "<machine-verifiable completion condition>", context_scope: ["<file3>"], depends_on: ["st-1"], wave: 2, method: "Skill:/review", status: "pending", artifacts: []}
 ---
 
 ## Active Task
@@ -338,10 +351,10 @@ subtasks:
 
 ### Subtasks
 
-| # | Subtask | Criterion | Depends on | Wave | Method | Status |
-|---|---------|-----------|-----------|------|--------|--------|
-| 1 | ... | <verifiable pass/fail> | — | 1 | Agent:general | pending |
-| 2 | ... | <verifiable pass/fail> | 1 | 2 | Skill:/review | pending |
+| # | Subtask | Criterion | Done-When | Scope | Depends on | Wave | Method | Status |
+|---|---------|-----------|-----------|-------|-----------|------|--------|--------|
+| 1 | ... | <verifiable pass/fail> | <machine-check> | file1, file2 | — | 1 | Agent:general | pending |
+| 2 | ... | <verifiable pass/fail> | <machine-check> | file3 | 1 | 2 | Skill:/review | pending |
 
 ### Dependency Graph
 
@@ -386,6 +399,23 @@ Every subtask MUST use one of these 4 states:
 - Prefer "vertical slices" over "horizontal layers" — maximizes Wave 1 parallelism
 - If all subtasks end up in Wave 1, double-check they truly don't share files or state
 
+### Plan Chain Validation (PDDL-inspired, arXiv:2602.19260)
+
+After decomposition, validate the plan is executable by checking operator contracts:
+
+1. **For each subtask using a Skill**: read the skill's `input-contract`, `output-contract`, `preconditions`, `effects` from frontmatter
+2. **Chain compatibility check**: For each dependency edge (st-A → st-B):
+   - Verify: effects(A) or output-contract(A) satisfies preconditions(B) or input-contract(B)
+   - If mismatch: either add a bridging subtask or fix the decomposition
+3. **First subtask preconditions**: Verify all preconditions of Wave 1 subtasks are met by current state (scout results, existing files)
+4. **Log validation**: Record chain validation result in state.md (`chain_valid: true/false`)
+
+**Rules:**
+- Skip for light tier (1-2 subtasks, chain is obvious)
+- If a skill lacks contracts, assume compatible (backward compatible)
+- Validation failures are decomposition bugs, not runtime errors — fix the plan, don't proceed with a broken chain
+- This is a static check (no agent spawns) — takes <30 seconds
+
 ### Cost Gate (Pre-Execution ROI Check)
 
 After decomposition, validate planned agent count has positive ROI.
@@ -402,6 +432,13 @@ For detailed agent spawn templates, file access manifests, diversity framing, ou
 
 Core principles:
 - **Hierarchical context injection**: Orchestrator loads shared memory ONCE (Phase 0). Pass relevant context directly in agent prompts — agents do NOT re-read memory files.
+- **Operator-Scoped Context (Feature Selector φ)**: Each agent receives ONLY the context relevant to its subtask — not the full scout report or entire task description. Build the agent prompt from:
+  1. **Subtask description + criterion + done-when** (from state.md)
+  2. **Scoped files** (from `context_scope` field) — Read these files and include content directly
+  3. **Upstream artifacts** (from completed dependencies) — only outputs the agent needs
+  4. **Relevant learnings** (grep-matched, not all) — max 2-3 most relevant
+  5. **NOT included**: other subtasks, full scout report, budget details, unrelated decisions
+  Why: NSM Feature Selector φ (arXiv:2602.19260) — operator-scoped input eliminates irrelevant context noise. The paper showed 95% vs 34% success partly because each operator saw only task-relevant objects in relative coordinates. Same principle: each agent sees only task-relevant files and context, reducing hallucination and improving focus.
 - **File Access Manifest**: Every agent gets WRITE/READ/FORBIDDEN file lists to prevent conflicts.
 - **Pre-launch disjointness check**: Before parallel spawn, verify WRITE file lists don't overlap.
 - **Wave-based execution**: Execute wave by wave. Max 3 parallel agents per wave.
@@ -467,7 +504,18 @@ Before launching the next wave, verify completeness of the current wave:
 3. **Downstream readiness:** For each subtask in the next wave, confirm its `depends_on` subtasks all have artifacts available.
 If any check fails → do NOT launch next wave. Fix the gap first (re-run subtask or mark as blocked).
 (Ref: VMAO arXiv:2603.11445 — inter-phase completeness verifier raised quality 3.1→4.2 on 5-point scale.)
-4. **Budget gate**: Check if any counter hit its limit → stop and report
+4. **Mid-Execution Replanning** (standard/deep tier only, arXiv:2602.19260):
+   If any subtask in this wave FAILED (agent error or criterion not met):
+   a. **Assess plan validity**: Does the failure invalidate downstream subtasks? Check `depends_on` chains.
+   b. **If downstream invalidated**: Re-enter Phase 3 Decomposition with updated state:
+      - Mark failed subtask as `blocked:root-cause`
+      - Re-decompose ONLY the affected branch (not the entire plan)
+      - Preserve completed subtasks and their artifacts
+      - Update dependency graph and wave assignments
+   c. **If downstream still valid**: Standard retry (3-fix escalation) — no replanning needed
+   d. **Cost guard**: Max 1 replan per task. If replan also fails → circuit breaker → user.
+   Why: NSM classical planner recomputes plans from current state, not from scratch. VLA's inability to replan mid-task was the primary cause of 0% success on unseen variants. Same principle: partial plan recovery > full restart or blind retry.
+5. **Budget gate**: Check if any counter hit its limit → stop and report
 5. **De-sloppify check** (standard/deep only): Haiku agent scans for debug prints, TODO markers, mixed naming, commented-out code in changed files. Non-blocking — log findings for critic.
 6. Invoke `/critic` if tier allows. Light tier: skip per-subtask, critic once at end.
 7. If critic FAIL → re-execute ONCE. If FAIL again → circuit breaker → escalate to user
