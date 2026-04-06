@@ -50,10 +50,27 @@ If MISSING: tell user to add FAL_KEY to `~/.claude/settings.json` under `"env"` 
 
 ## Step 3: Optimize Prompt
 
-If `--for-video` flag is set, append to the user's prompt:
-- ", white background, centered subject, no text, no labels, clean edges, studio lighting, isolated object, suitable for video animation"
+### 3a: Load prompt-library (if available)
 
-This ensures the generated image works well as input for Kling 3.0 image-to-video.
+Check if `prompt-library.yaml` exists in project root or STOPA root (`C:/Users/stock/Documents/000_NGM/STOPA/prompt-library.yaml`).
+
+If found, load relevant templates:
+- `image_suffixes.for_video.template` → use instead of hardcoded --for-video suffix
+- `image_suffixes.no_text.template` → append when generating editorial/article images
+- `image_styles.*` → if user specifies a style name, use the library template as prefix
+
+If not found, fall back to hardcoded defaults below.
+
+### 3b: Apply modifiers
+
+If `--for-video` flag is set, append the `for_video` template from library (or fallback):
+- Fallback: ", white background, centered subject, no text, no labels, clean edges, studio lighting, isolated object, suitable for video animation"
+
+### 3c: Auto-enhance (optional)
+
+If the user's prompt is shorter than 30 characters, consider enhancing it with composition and lighting hints from the library's style templates. Do NOT override the user's creative intent — only ADD technical quality modifiers.
+
+This ensures the generated image works well and benefits from optimized templates maintained via `/prompt-evolve`.
 
 ## Step 4: Generate Image
 

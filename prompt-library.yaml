@@ -1,0 +1,239 @@
+# Prompt Library — STOPA Generative Prompt Templates
+# Self-optimizing: templates se vylepšují přes /prompt-evolve (GEPA-inspired)
+# Verze se inkrementuje po každé úspěšné optimalizaci
+#
+# Struktura:
+#   category.subcategory:
+#     template: "prompt text"
+#     version: N
+#     score: float (0-1, poslední eval score)
+#     optimized_at: YYYY-MM-DD
+#     notes: "co se změnilo"
+
+# ============================================================
+# IMAGE STYLES — prefixes pro image_generator.py STYLES dict
+# ============================================================
+image_styles:
+  national_geographic:
+    template: "National Geographic editorial photography style, cinematic, vivid natural colors, professional composition"
+    version: 1
+    score: null
+    optimized_at: null
+    notes: "baseline — extrahováno z image_generator.py"
+
+  photorealistic:
+    template: "Photorealistic, high detail, natural lighting, professional photography"
+    version: 1
+    score: null
+    optimized_at: null
+    notes: "baseline"
+
+  artistic:
+    template: "Artistic illustration, painterly style, creative composition, vibrant colors"
+    version: 1
+    score: null
+    optimized_at: null
+    notes: "baseline"
+
+  scientific:
+    template: "Scientific diagram, educational, precise labeling, medical-grade illustration"
+    version: 1
+    score: null
+    optimized_at: null
+    notes: "baseline"
+
+# ============================================================
+# IMAGE TYPES — prefixes pro image_generator.py IMAGE_TYPES dict
+# ============================================================
+image_types:
+  illustration:
+    template: ""
+    version: 1
+    score: null
+    optimized_at: null
+    notes: "výchozí — bez speciálního prefixu"
+
+  infographic:
+    template: "Clean infographic design, data visualization, structured layout, clear visual hierarchy"
+    version: 1
+    score: null
+    optimized_at: null
+    notes: "baseline"
+
+  banner:
+    template: "Advertising banner design, promotional layout, bold visual impact, marketing composition"
+    version: 1
+    score: null
+    optimized_at: null
+    notes: "baseline"
+
+# ============================================================
+# IMAGE SUFFIXES — přidávané na konec promptu
+# ============================================================
+image_suffixes:
+  no_text:
+    template: "Do not include any text, titles, captions, labels, watermarks or typography in the image. Pure visual content only."
+    version: 1
+    score: null
+    optimized_at: null
+    notes: "baseline — universální, nerozděleno per kategorie"
+
+  safe_content:
+    template: "This is a scientific educational illustration, safe for all audiences."
+    version: 1
+    score: null
+    optimized_at: null
+    notes: "baseline — appended po sanitizaci"
+
+  for_video:
+    template: "white background, centered subject, no text, no labels, clean edges, studio lighting, isolated object, suitable for video animation"
+    version: 1
+    score: null
+    optimized_at: null
+    notes: "baseline — /nano --for-video suffix"
+
+# ============================================================
+# VIDEO — negative prompts a patterns pro /klip
+# ============================================================
+video:
+  negative_prompt:
+    template: "blur, distort, low quality, watermark, text overlay"
+    version: 1
+    score: null
+    optimized_at: null
+    notes: "baseline — single negative prompt pro všechny žánry"
+
+  patterns:
+    rotating_object:
+      template: "smoothly rotating {object}, center of mass stays fixed, rotating on its axis"
+      version: 1
+      score: null
+      optimized_at: null
+      notes: "baseline"
+
+    exploding_view:
+      template: "exploding view diagram of {object}, components separate in all directions, white background"
+      version: 1
+      score: null
+      optimized_at: null
+      notes: "baseline"
+
+    camera_pan:
+      template: "cinematic slow pan across {scene}, smooth camera movement"
+      version: 1
+      score: null
+      optimized_at: null
+      notes: "baseline"
+
+    product_shot:
+      template: "product photography of {item}, slowly rotating on pedestal, studio lighting"
+      version: 1
+      score: null
+      optimized_at: null
+      notes: "baseline"
+
+    zoom_in:
+      template: "camera slowly zooming into {subject}, shallow depth of field"
+      version: 1
+      score: null
+      optimized_at: null
+      notes: "baseline"
+
+# ============================================================
+# SOCIAL MEDIA — pravidla pro image prompty v social posts
+# ============================================================
+social:
+  image_rules:
+    template: "One dominant visual element covering minimum 50% of frame, high contrast, saturated colors, social media optimized, scroll-stopping composition, no text, no letters, no typography, no watermarks"
+    version: 1
+    score: null
+    optimized_at: null
+    notes: "baseline — fallback z social_content_generator.py"
+
+# ============================================================
+# HERO IMAGE — templates pro image-prompt-generator
+# ============================================================
+hero_image:
+  mandatory_suffix:
+    template: "sharp outlines, highly detailed, polished finish, editorial aesthetics, no text, no letters, no typography, no watermarks, not a realistic photo"
+    version: 1
+    score: null
+    optimized_at: null
+    notes: "baseline — povinný suffix pro Nano Banana Pro hero images"
+
+  forbidden_elements:
+    template: "wireframes, graphs, diagrams, abstract patterns, clip art, stock photo feel"
+    version: 1
+    score: null
+    optimized_at: null
+    notes: "baseline — negative constraint pro hero images"
+
+# ============================================================
+# TTS / VOICE — voice settings pro ElevenLabs
+# ============================================================
+voice:
+  narrator:
+    stability: 0.5
+    similarity_boost: 0.75
+    style: 0.3
+    version: 1
+    score: null
+    optimized_at: null
+    notes: "baseline — default z remotion voiceover"
+
+  news:
+    stability: 0.7
+    similarity_boost: 0.8
+    style: 0.1
+    version: 1
+    score: null
+    optimized_at: null
+    notes: "initial — navrženo pro zpravodajský styl"
+
+  conversational:
+    stability: 0.3
+    similarity_boost: 0.6
+    style: 0.5
+    version: 1
+    score: null
+    optimized_at: null
+    notes: "initial — navrženo pro podcastový styl"
+
+# ============================================================
+# INFOGRAPHIC — schema hints a rendering constraints
+# ============================================================
+infographic:
+  color_palettes:
+    egyptian:
+      primary: "#C9A227"
+      notes: "baseline z visual-data-architect"
+    scientific:
+      primary: "#2E86AB"
+      notes: "baseline"
+    space:
+      primary: "#7EC8E3"
+      notes: "baseline"
+    nature:
+      primary: "#4CAF50"
+      notes: "navrženo — dosud chyběla"
+    history:
+      primary: "#8B4513"
+      notes: "navrženo — dosud chyběla"
+
+  map_camera_hint:
+    template: "perspective view, field of view 35-45 degrees, locator globe in corner, all labels in Czech with full diacritics"
+    version: 1
+    score: null
+    optimized_at: null
+    notes: "baseline z generators.py map detection block"
+
+# ============================================================
+# META — optimization config
+# ============================================================
+_meta:
+  format_version: 1
+  last_optimization: null
+  optimization_method: "GEPA"  # GEPA | TextGrad | manual
+  eval_model: "gemini-2.0-flash"  # pro vision eval obrázků
+  population_size: 5  # kolik variant generovat per run
+  selection: "pareto"  # pareto | tournament | greedy

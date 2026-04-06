@@ -200,6 +200,13 @@
             "command": "python .claude/hooks/critic-accuracy-tracker.py",
             "timeout": 3,
             "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "if": "Bash(*fal_client*)|Bash(*elevenlabs*)|Bash(*genai*)",
+            "command": "python .claude/hooks/generation-tracker.py",
+            "timeout": 3,
+            "statusMessage": ""
           }
         ]
       },

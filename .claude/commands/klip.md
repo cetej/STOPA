@@ -50,6 +50,16 @@ Note: On this Windows system, use `python` not `python3` — fal-client is insta
 
 If MISSING: tell user to add FAL_KEY to `~/.claude/settings.json` under `"env"` and restart Claude Code.
 
+## Step 2b: Load prompt-library (if available)
+
+Check if `prompt-library.yaml` exists in project root or STOPA root (`C:/Users/stock/Documents/000_NGM/STOPA/prompt-library.yaml`).
+
+If found, load:
+- `video.negative_prompt.template` → use as NEGATIVE_PROMPT value
+- `video.patterns.*` → use matching pattern template when user describes a known effect (rotating, zoom, pan, etc.)
+
+If not found, use hardcoded fallback: `"blur, distort, low quality, watermark, text overlay"`.
+
 ## Step 3: Determine Mode
 
 | `--image` provided? | Mode | Endpoint |
@@ -99,7 +109,7 @@ handler = fal_client.submit(
         "duration": "DURATION",
         "aspect_ratio": "ASPECT",
         "generate_audio": False,
-        "negative_prompt": "blur, distort, low quality, watermark, text overlay",
+        "negative_prompt": "NEGATIVE_PROMPT",
         "cfg_scale": 0.5,
     }
 )
