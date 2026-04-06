@@ -167,7 +167,15 @@ _promptguard_checked = False
 
 
 def _get_promptguard():
-    """Fully lazy PromptGuard init. Import + model load only on first call."""
+    """Fully lazy PromptGuard init. Import + model load only on first call.
+
+    Note: First load takes ~5s (torch + transformers + BERT). Subsequent calls
+    within the same process are instant (cached). In hook context each invocation
+    is a fresh process, so we suppress warnings and accept the cold-start cost.
+    The 3s hook timeout means PromptGuard will timeout on first call —
+    this is acceptable because regex layer already ran. PromptGuard adds value
+    only in long-running processes or when pre-warmed.
+    """
     global _promptguard_instance, _promptguard_checked
     if _promptguard_checked:
         return _promptguard_instance
@@ -178,8 +186,24 @@ def _get_promptguard():
         model_path = os.path.join(hf_home, "meta-llama--Llama-Prompt-Guard-2-86M")
         if not os.path.exists(model_path):
             return None  # Model not downloaded — skip silently, no heavy imports
-        from llamafirewall.scanners.promptguard_utils import PromptGuard
-        _promptguard_instance = PromptGuard()
+
+        # Suppress all transformers/tokenizer warnings before import
+        import warnings
+        import logging
+        os.environ["TOKENIZERS_PARALLELISM"] = "false"
+        os.environ["TRANSFORMERS_NO_ADVISORY_WARNINGS"] = "1"
+        warnings.filterwarnings("ignore")
+        logging.disable(logging.WARNING)
+        # Redirect stderr temporarily to catch tokenizer print() warnings
+        _real_stderr = sys.stderr
+        sys.stderr = open(os.devnull, "w", encoding="utf-8")
+        try:
+            from llamafirewall.scanners.promptguard_utils import PromptGuard
+            _promptguard_instance = PromptGuard()
+        finally:
+            sys.stderr.close()
+            sys.stderr = _real_stderr
+            logging.disable(logging.NOTSET)
         return _promptguard_instance
     except Exception:
         return None  # Import or load error — skip silently
@@ -259,9 +283,9 @@ def main() -> None:
         # Scan — two layers: regex (fast path) then ML (deep scan)
         findings = scan_content(tool_output)
 
-        # Layer 2: PromptGuard ML — run if regex found nothing AND content is substantial
+        # Layer 2: PromptGuard ML — run if regex found nothing AND content is non-trivial
         # Rationale: regex catches known patterns fast; ML catches novel/obfuscated attacks
-        if not findings and len(tool_output) > 500:
+        if not findings and len(tool_output) > 100:
             findings = scan_promptguard(tool_output)
 
         if not findings:

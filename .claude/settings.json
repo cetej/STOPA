@@ -132,7 +132,7 @@
           {
             "type": "command",
             "command": "python .claude/hooks/content-sanitizer.py",
-            "timeout": 3,
+            "timeout": 8,
             "statusMessage": ""
           }
         ]
