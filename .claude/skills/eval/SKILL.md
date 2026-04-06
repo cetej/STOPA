@@ -512,6 +512,85 @@ If yes: write to `.claude/memory/learnings/` with type `best_practice`, source `
 
 ---
 
+## Mode: --failures (HERA failure pattern analysis)
+
+Cross-task failure analysis inspired by HERA Experience Library (arXiv:2604.00901). Analyzes `.claude/memory/failures/` directory to find patterns, hotspots, and recommend preventive actions.
+
+### Step 1: Collect all failure records
+
+```bash
+ls .claude/memory/failures/*.md 2>/dev/null
+```
+
+Parse YAML frontmatter from each file: id, date, task_class, complexity, tier, failure_class, failure_agent, resolved.
+
+### Step 2: Failure class distribution
+
+| Failure Class | Count | % | Most Common Agent | Resolved % |
+|---|---|---|---|---|
+| logic | ? | ? | ? | ? |
+| assumption | ? | ? | ? | ? |
+| coordination | ? | ? | ? | ? |
+| ... | | | | |
+
+**Top 3 failure classes** — highest count, flag if any >30% of total.
+
+### Step 3: Agent failure hotspots
+
+Cross-reference with `agent-accountability.md`:
+
+| Agent | Total Failures | Top Failure Class | Failure Rate | Trend (last 10 vs all) |
+|---|---|---|---|---|
+| ? | ? | ? | ? | ↑/↓/→ |
+
+**Hotspot agents** — failure rate >20% OR increasing trend.
+
+### Step 4: Task context patterns
+
+Group failures by task_class × complexity:
+
+| Task Class | Complexity | Failures | Most Common Failure Class | Suggested Tier |
+|---|---|---|---|---|
+| multi_file | high | 5 | coordination | deep (currently standard) |
+
+**Tier mismatch** — if failures concentrate in tier below expected, recommend escalation.
+
+### Step 5: Failure correlation with learnings
+
+For each unresolved failure, check if a matching learning exists:
+```bash
+grep -r "failure_class: <class>" .claude/memory/learnings/
+```
+
+- Failures WITH matching learnings but still recurring → learning is ineffective (flag for review)
+- Failures WITHOUT matching learnings → knowledge gap (suggest `/learn-from-failure`)
+
+### Step 6: Failure report
+
+```
+## Failure Pattern Analysis
+Period: <date range>
+Total failures: N | Resolved: M (X%) | Unresolved: K
+
+### Top Failure Patterns
+1. <failure_class> by <agent> on <task_class> tasks — N occurrences
+   Suggested action: <specific recommendation>
+2. ...
+
+### Agent Hotspots
+- <agent>: X% failure rate, primarily <class> failures
+  Recommendation: <stronger model / different agent / add verification step>
+
+### Knowledge Gaps
+- No learnings for: <failure_class> × <agent> combinations
+  Trigger: /learn-from-failure for these patterns
+
+### Tier Accuracy
+- <task_class> tasks at <tier>: Y% failure rate → suggest <higher_tier>
+```
+
+---
+
 ## Anti-Rationalization Defense
 
 | Rationalization | Why Wrong | Do Instead |

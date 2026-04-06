@@ -38,6 +38,7 @@ Specialized skills for specific workflows:
 - `/radar` — proactive tool discovery & evaluation (auto-scan 2x/day + manual URL input)
 - `/compile` — synthesize learnings into thematic wiki articles for better retrieval
 - `/discover` — semantic behavior discovery from session traces (Tang "Semantic Observability" inspired)
+- `/learn-from-failure` — systematic failure pattern analysis with mental replay (RoPE-lite)
 
 ## Tier 3 — Advanced (only on explicit request)
 Generative/creative tools and meta-skills:
@@ -71,7 +72,7 @@ Skills mapped to SDLC phases. Use `phase:` in frontmatter for each skill.
 | `verify` | Testování, důkaz, validace | verify, critic, harness, eval, security-review, dependency-audit, autoharness |
 | `review` | Retrospektivní kvalita, peer audit | peer-review, pr-review, autoreason, self-evolve, sweep |
 | `ship` | Deployment, handoff, cleanup | checkpoint, handoff, compact |
-| `meta` | Introspekce, evoluce, budget | status, budget, scribe, evolve, compile, discover, skill-generator, radar, watch, liveprompt, xsearch, deepresearch, seo-audit, youtube-transcript, incident-runbook, systematic-debugging, project-sweep |
+| `meta` | Introspekce, evoluce, budget | status, budget, scribe, evolve, compile, discover, learn-from-failure, skill-generator, radar, watch, liveprompt, xsearch, deepresearch, seo-audit, youtube-transcript, incident-runbook, systematic-debugging, project-sweep |
 
 ### Using phases for skill selection
 1. Identifikuj fázi uživatelova úkolu (define → ship)
@@ -88,7 +89,7 @@ Every skill has `tags:` in frontmatter. Use tags to find skills by capability in
 | Code quality | `code-quality`, `review` | critic, verify, tdd, self-evolve, autoreason, sweep |
 | Research | `research`, `osint` | deepresearch, scout, liveprompt, watch, radar |
 | Testing | `testing` | verify, harness, eval, tdd, scenario |
-| Debugging | `debugging` | systematic-debugging, incident-runbook |
+| Debugging | `debugging` | systematic-debugging, incident-runbook, learn-from-failure |
 | Session mgmt | `session`, `memory` | checkpoint, handoff, compact, scribe |
 | DevOps/PRs | `devops` | fix-issue, autofix, pr-review, harness |
 | Planning | `planning` | orchestrate, brainstorm, scenario, build-project |

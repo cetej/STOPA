@@ -49,10 +49,11 @@ globs: ".claude/memory/**"
 ## Learnings (per-file YAML format)
 
 - Uloženy v `.claude/memory/learnings/` jako jednotlivé soubory
-- Každý soubor má YAML frontmatter: date, type, severity, component, tags, summary, source, uses, harmful_uses, confidence
+- Každý soubor má YAML frontmatter: date, type, severity, component, tags, summary, source, uses, harmful_uses, successful_uses, confidence
 - `summary:` = 1-2 věty popisující co se stalo a co dělat (generuje /scribe automaticky)
 - `source:` = odkud learning pochází — ovlivňuje write-time gating i retrieval scoring. Hodnoty: `user_correction` (1.5×), `critic_finding` (1.2×), `auto_pattern` (1.0×, default), `agent_generated` (0.8×), `external_research` (0.9×). Soubory bez `source:` se chovají jako `auto_pattern`.
 - `uses:` = kolikrát byl learning retrieven a aplikován (počáteční hodnota 0, inkrementuje se při použití)
+- `successful_uses:` = kolikrát vedl learning k úspěšnému výsledku (počáteční hodnota 0, inkrementuje se při PASS po aplikaci). `utility = successful_uses / uses` (HERA-inspired empirical success rate). Learnings bez tohoto pole: backward compatible, default 0.
 - `harmful_uses:` = kolikrát vedl learning ke špatnému výsledku (počáteční hodnota 0, inkrementuje /critic)
 - `supersedes:` = filename staršího learningu, který tento nahrazuje (volitelné, max 1). Superseded soubory se při retrieval přeskakují, ale zůstávají na disku
 - `related:` = array filenames souvisejících learnings pro multi-hop retrieval (volitelné, max 3). Pouze 1-hop — žádné řetězení
@@ -80,3 +81,54 @@ globs: ".claude/memory/**"
 - Type hodnoty: bug_fix | architecture | anti_pattern | best_practice | workflow
 - Severity: critical | high | medium | low
 - Component: skill | hook | memory | orchestration | pipeline | general
+- `failure_class:` = volitelné pole pro failure-sourced learnings. Klasifikace selhání (HERA-inspired, arXiv:2604.00901). Hodnoty: `logic` (špatný výstup, test fail) | `syntax` (parse/compile/import error) | `timeout` (rate limit, API timeout, 503) | `resource` (ENOENT, EACCES, OOM) | `integration` (component mismatch, API contract broken) | `assumption` (předpoklad o kódu/prostředí byl špatný) | `coordination` (agent interference, špatná delegace). Pole je povinné pro learnings s type=bug_fix nebo type=anti_pattern sourced from failures.
+- `failure_agent:` = volitelné pole — který agent/skill způsobil selhání (e.g., `orchestrate`, `scout`, `agent-worker`, `critic`). Používá se pro agent accountability tracking.
+- `task_context:` = volitelné pole — kontext úkolu při kterém learning vznikl. Format: `{task_class: single_edit|multi_file|refactor|bug_fix|feature|research|pipeline, complexity: low|medium|high, tier: light|standard|deep|farm}`. Umožňuje HERA-style query characterization pro přesnější retrieval.
+
+## Failures (per-failure YAML records)
+
+HERA-inspired failure trajectory storage (arXiv:2604.00901). Každý zaznamenaný failure uchovává kompletní rozhodovací řetězec.
+
+- Uloženy v `.claude/memory/failures/` jako jednotlivé soubory
+- Filename: `<date>-F<NNN>-<short-description>.md` (e.g., `2026-04-06-F001-auth-session-invalidation.md`)
+- Max 50 souborů — při překročení archivuj nejstarší do `failures/archive/`
+- Failures starší 60 dní: auto-archivace při `/sweep`
+
+### Failure File Format
+
+```yaml
+---
+id: F001
+date: YYYY-MM-DD
+task: "Short task description"
+task_class: single_edit | multi_file | refactor | bug_fix | feature | research | pipeline
+complexity: low | medium | high
+tier: light | standard | deep | farm
+failure_class: logic | syntax | timeout | resource | integration | assumption | coordination
+failure_agent: orchestrate | scout | critic | agent-worker | <skill-name>
+resolved: true | false
+resolution_learning: ""  # filename of learning that captured the fix (optional)
+---
+
+## Trajectory
+
+1. `orchestrate` → assigned tier:standard, 3 agents
+2. `scout` → found auth.py, middleware.py, tests/
+3. `agent-2` → edited middleware.py line 45
+4. `critic` → FAIL: session token not invalidated on logout
+
+## Root Cause
+
+Agent assumed stateless auth, but app uses server-side sessions.
+
+## Reflexion
+
+Příště přečíst existující testy PŘED editací — testy by odhalily session-based pattern.
+```
+
+### Failure Retrieval
+
+- Grep-first přes `failure_class:` a `failure_agent:` pro pattern matching
+- Orchestrator konzultuje failures PŘED agent assignmentem: `grep -r "failure_class: logic" failures/ | grep "failure_agent: agent-worker"` → zjistí opakující se vzory
+- Po 2+ failures se stejným failure_class + failure_agent: trigger `/learn-from-failure` pro systematickou analýzu
+- Cross-reference s agent-accountability.md pro per-agent failure rates

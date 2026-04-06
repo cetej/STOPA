@@ -435,7 +435,14 @@ Before reviewing, check `.claude/memory/budget.md`:
    - Grep the learning file, increment `harmful_uses:` counter by 1
    - If `harmful_uses >= 3` → add `[HARMFUL]` tag, flag for retirement in next `/evolve`
    - Example: `sed -i 's/harmful_uses: 2/harmful_uses: 3/' .claude/memory/learnings/<file>.md`
-   If PASS and a learning contributed positively, increment its `uses:` counter (if not already done by memory-whisper hook)
+   If PASS and a learning contributed positively, increment its `uses:` AND `successful_uses:` counters (if not already done by memory-whisper hook)
+8. **Failure classification (HERA-inspired):** On FAIL verdict, generate structured failure metadata for orchestrator:
+   - `failure_class:` — classify the root cause into one of: `logic` (wrong output/behavior), `syntax` (parse/compile/import), `timeout` (external service), `resource` (file/permission/memory), `integration` (component mismatch), `assumption` (wrong belief about code), `coordination` (agent conflict)
+   - `failure_agent:` — which agent/skill is most responsible (from Diff Impact Trace)
+   - `root_cause:` — 1-2 sentence root cause explanation
+   - `reflexion:` — what should be done differently next time (Reflexion-inspired, arXiv:2303.11366)
+   - Include these fields in the critic report output so orchestrator can write to `failures/` directory
+   - Example addition to report: `## Failure Metadata\nfailure_class: assumption\nfailure_agent: agent-2\nroot_cause: Agent assumed stateless auth\nreflexion: Read existing tests before editing auth code`
 
 ## Reasoning Isolation (BOULDER principle)
 
