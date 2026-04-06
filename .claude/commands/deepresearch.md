@@ -332,6 +332,23 @@ After the verifier completes:
 | [SINGLE-SOURCE] | N |
 ```
 
+### Step 5.5: Verification Checkpoint (Claim Inventory)
+
+**Before writing the final brief**, produce a structured claim inventory. This catches hallucinated details before they enter the output.
+
+1. Extract every factual claim from the synthesis (`outputs/.research/<slug>-synthesis.md`)
+2. For each claim, fill one row:
+
+| # | Claim | Source | Evidence type | Verified? |
+|---|-------|--------|---------------|-----------|
+| 1 | <specific assertion> | [N] <URL or file> | read directly / inferred / unresolved | yes/no |
+
+3. **Gate:** If >30% of claims are `unresolved` or `no` in Verified column → go back to Step 2 for targeted follow-up on the weakest claims
+4. **Gate:** If any claim has no source at all → remove it from the synthesis before proceeding
+5. Save the inventory as `outputs/.research/<slug>-claims.md` (audit trail)
+
+This step is NOT optional. Skipping it is the #1 cause of hallucinated details in otherwise correct research briefs.
+
 ### Step 6: Write Final Brief
 
 Produce the final research brief in `outputs/<slug>-research.md`:

@@ -313,6 +313,24 @@ If Reviewer raises concerns about missing milestones or weak criteria:
 2. Re-run Verifier on affected milestones only
 3. Re-run Reviewer (max 2 refinement rounds total to prevent loops)
 
+### Phase 3.5: Verification Checkpoint (Claim Inventory)
+
+**Before judging**, produce a structured claim inventory of all findings. This prevents verdict drift — where accumulated impressions overpower actual evidence.
+
+For each milestone and finding from Phases 2-3, fill one row:
+
+| Milestone | Claim | Evidence source | Tool output? | Confidence |
+|-----------|-------|-----------------|--------------|------------|
+| M1 | <what you're asserting> | <file:line or tool output> | yes/no | high/medium/low |
+
+**Rules:**
+- Every PASS claim MUST have `Tool output? = yes` — code reading impressions don't count
+- Every FAIL claim MUST reference specific line numbers or error output
+- Claims with `Tool output? = no` get automatic `Confidence = low`
+- If >50% of claims lack tool output evidence → re-run Verifier on gaps before proceeding
+
+This step takes 30 seconds and catches the #1 critic failure mode: verdicts based on impression rather than evidence.
+
 ### Phase 4: JUDGE — Final Verdict
 
 Synthesize the full evidence chain: milestones → verification results → reviewer concerns → into final verdict.

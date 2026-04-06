@@ -22,6 +22,39 @@ Při generování nebo editaci TEXTOVÉHO obsahu (články, emaily, docs, resear
 - Nepoužívej nominalizace ("provedení analýzy" → "analyzovat")
 - Pro plný audit s word-table a two-pass detection: `/clean-writing`
 
+## Visual Anti-Slop (auto-apply for HTML/design generation)
+
+Při generování HTML stránek, diagramů, dashboardů nebo jakéhokoliv vizuálního výstupu:
+
+**Zakázané fonty** (jako primary `--font-body`):
+- Inter, Roboto, Arial, Helvetica, `system-ui, sans-serif` samotné — generický AI default
+
+**Zakázané barvy** (accent):
+- `#8b5cf6`, `#7c3aed`, `#a78bfa` (indigo/violet range), `#d946ef` (fuchsia)
+- Cyan-magenta-pink neon gradient combo: `#06b6d4` → `#d946ef` → `#f472b6`
+
+**Zakázané efekty:**
+- Gradient text na nadpisech (`background-clip: text`)
+- Animated glowing box-shadows na kartách
+- Emoji jako ikony sekcí (🏗️ ⚙️ 🚀 🔧 📦 apod.)
+- Three-dot window chrome (červená/žlutá/zelená) na code blocích
+- Pulsing/breathing animace na statickém obsahu
+
+**Zakázané layouty:**
+- Uniformní card grid se stejným border-radius, shadow a spacing všude
+- Dokonale symetrické rozložení bez vizuální hierarchie
+- Každá sekce dostane stejné vizuální zacházení
+
+**Slop test** (před odevzdáním vizuálního výstupu):
+Pokud DVĚ nebo více z těchto podmínek platí, výstup je slop — přepracuj:
+1. Inter/Roboto font s purple/violet gradient akcenty
+2. Každý heading má `background-clip: text` gradient
+3. Emoji ikony vedou každou sekci
+4. Glowing cards s animovanými stíny
+5. Cyan-magenta-pink barevné schéma na tmavém pozadí
+6. Uniformní card grid bez vizuální hierarchie
+7. Three-dot code block chrome
+
 ## Autonomy
 
 - Neptej se krok po kroku — běž autonomně, ptej se jen u destruktivních/nevratných akcí.
