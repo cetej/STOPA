@@ -7,6 +7,10 @@ tags: [security, tokens, secrets, claude-desktop, env-vars]
 summary: "NEVER write API keys/tokens into JSON config files. Use environment variables or .env files excluded from git."
 source: auto_pattern
 verify_check: "Grep('ANTHROPIC_API_KEY.*:.*sk-ant|ghp_[a-zA-Z0-9]{36,}', path='.claude/settings.json') → 0 matches"
+confidence: 0.7
+uses: 0
+successful_uses: 0
+harmful_uses: 0
 ---
 
 # Tokeny a API klíče nesmí být přímo v config souborech

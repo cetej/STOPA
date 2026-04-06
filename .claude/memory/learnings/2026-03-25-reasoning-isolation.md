@@ -7,6 +7,10 @@ tags: [reasoning, BOULDER, CARE, multi-turn, debiasing, arXiv]
 summary: "BOULDER/CARE patterns: isolate reasoning from output generation to reduce bias. Apply in multi-turn skill prompts."
 source: external_research
 verify_check: "Glob('.claude/skills/critic/SKILL.md') → 1+ matches"
+confidence: 0.7
+uses: 0
+successful_uses: 0
+harmful_uses: 0
 ---
 
 # Reasoning Isolation & Judge Debiasing in Skills

@@ -11,6 +11,7 @@ uses: 0
 harmful_uses: 0
 impact_score: 0.0
 verify_check: "manual"
+successful_uses: 0
 ---
 
 # OSFT — Online SFT for LLM Reasoning (arXiv:2510.18814)

@@ -9,6 +9,8 @@ source: external_research
 uses: 1
 confidence: 0.8
 verify_check: "Glob('.claude/skills/critic/SKILL.md') → 1+ matches"
+successful_uses: 0
+harmful_uses: 0
 ---
 
 # Decomposed evaluation beats holistic review

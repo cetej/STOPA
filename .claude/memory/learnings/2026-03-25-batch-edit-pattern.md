@@ -7,6 +7,10 @@ tags: [autoloop, batch-edit, approval-fatigue, python]
 summary: "Editing 30+ files via Read/Edit causes approval fatigue. Use Python batch scripts with --dry-run for bulk mechanical changes."
 source: auto_pattern
 verify_check: "manual"
+confidence: 0.7
+uses: 0
+successful_uses: 0
+harmful_uses: 0
 ---
 
 ## Problém

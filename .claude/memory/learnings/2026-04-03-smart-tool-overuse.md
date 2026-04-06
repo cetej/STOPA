@@ -11,6 +11,7 @@ harmful_uses: 0
 confidence: 0.7
 verify_check: "Grep('Tool Necessity Check', path='.claude/skills/orchestrate/SKILL.md') -> 1+ matches"
 related: [2026-04-03-testing-bottleneck.md]
+successful_uses: 0
 ---
 
 ## SMART Tool Overuse Mitigation (arXiv:2502.11435)

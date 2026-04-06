@@ -11,6 +11,7 @@ harmful_uses: 0
 confidence: 0.8
 verify_check: "manual"
 related: [2026-04-03-description-optimizer-plan.md]
+successful_uses: 0
 ---
 
 ## Anthropic skill-creator patterns (from github.com/anthropics/skills)

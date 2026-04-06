@@ -11,6 +11,7 @@ harmful_uses: 0
 confidence: 0.9
 verify_check: "Grep('Verification is the bottleneck', path='.claude/skills/orchestrate/SKILL.md') -> 1+ matches"
 related: [2026-04-03-smart-tool-overuse.md]
+successful_uses: 0
 ---
 
 ## Testing as the New Bottleneck (Simon Willison, Lenny's Podcast, 2026-04-02)

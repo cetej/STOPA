@@ -11,6 +11,7 @@ uses: 0
 harmful_uses: 0
 impact_score: 0.0
 verify_check: "Glob('.claude/hooks/graduation-check.py') → 1+ matches"
+successful_uses: 0
 ---
 
 ## Description

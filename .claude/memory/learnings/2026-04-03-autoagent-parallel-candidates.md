@@ -11,6 +11,7 @@ harmful_uses: 0
 confidence: 0.6
 verify_check: manual
 related: [2026-04-03-autoagent-overfitting-guard.md]
+successful_uses: 0
 ---
 
 ## Parallel Candidate Evaluation Gap

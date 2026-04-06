@@ -7,6 +7,10 @@ tags: [fix-issue, git, solo-development, workflow-simplification]
 summary: "Solo dev projects should commit directly to main, skip branch/PR workflow in /fix-issue."
 source: auto_pattern
 verify_check: "manual"
+confidence: 0.7
+uses: 0
+successful_uses: 0
+harmful_uses: 0
 ---
 
 ## Problém

@@ -12,6 +12,7 @@ confidence: 0.8
 impact_score: 0.0
 verify_check: "Grep('Schema-Utility Decoupling', path='.claude/skills/') → 3+ matches"
 related: [2026-03-26-harness-simplification.md]
+successful_uses: 0
 ---
 
 ## Tool-Genesis Cascade Evaluation Pattern

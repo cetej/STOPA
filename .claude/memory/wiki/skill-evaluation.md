@@ -1,46 +1,52 @@
 ---
 generated: 2026-04-04
 cluster: skill-evaluation
-sources: 6
-last_updated: 2026-04-04
+sources: 8
+last_updated: 2026-04-07
 ---
 
 # Skill Evaluation & Optimization
 
-> **TL;DR**: Decomposed per-dimension scoring catches 3x more issues than holistic review. Optimization loops (Karpathy, AutoReason) work when feedback is dense and quantitative. Isolate reasoning from output to reduce bias.
+> **TL;DR**: Decomposed per-dimension scoring catches 3x more issues than holistic review. Schema compliance ≠ downstream utility (Schema-F1 0.964, SR 0.472) — always test on downstream data. Zero-shot CoT for critic, Reflexion verbal notes in 3-fix, SPP model gating in council.
 
 ## Overview
 
 Evaluation of skill outputs has converged on decomposed scoring: breaking review into independent dimensions rather than assigning a single holistic grade. OS-Themis and APM research shows this catches 3x more issues (ref: 2026-03-25-decomposed-evaluation.md). This applies directly to /critic and /verify phases.
 
-For iterative skill improvement, the Karpathy optimization loop (edit → measure → score → iterate) provides the structural backbone, combining structural heuristics with LLM-as-judge scoring (ref: karpathy-loop-autoloop.md). For subjective domains (prompts, arguments, copy), the AutoReason adversarial debate pattern extends this with cold-start agent isolation to prevent confirmation bias and randomized judge labels to prevent position bias (ref: 2026-04-01-autoreason-adversarial-debate.md).
+Tool-Genesis cascade evaluation (arXiv:2603.05578) revealed that minor L1 errors amplify through L2→L3→L4 into catastrophic downstream failures (Qwen3-8B: L1 68.6% → L4 1.2%). More critically, schema compliance decouples from downstream utility: Claude-Haiku-3.5 achieved Schema-F1 0.964 but SR only 0.472. The fix: always test format-compliant outputs against downstream data, never declare done from schema match alone. Iterative repair with execution feedback gives 2-5x SR improvement over one-shot (ref: 2026-04-04-toolgenesis-cascade-evaluation.md).
 
-Reasoning quality improves when reasoning and output generation are isolated — BOULDER/CARE patterns show this reduces bias in multi-turn conversations (ref: 2026-03-25-reasoning-isolation.md). Tool-specific learnings round out the picture: solo dev projects should skip branch/PR workflow in /fix-issue (ref: 2026-03-24-fix-issue-solo-workflow.md), and MCP youtube-transcript has been broken since 2026-03, requiring yt-dlp CLI as primary tool (ref: 2026-03-23-youtube-transcript-yt-dlp.md).
+EgoAlpha prompt pattern analysis mapped 38 research techniques to STOPA: Zero-shot CoT reasoning primer in critic/debugging ("Let me trace through this step by step"), Reflexion verbal notes in 3-fix escalation (explicit "what to do differently next time" after each FAIL), SPP model gating in council (high-stakes decisions require sonnet advisors, not haiku), and ICL order sensitivity (strongest examples at END for recency effect). STOPA implements 25/38 analyzed techniques, several before formal publication (ref: 2026-04-05-egoalpha-prompt-patterns.md).
+
+For iterative skill improvement, the AutoReason adversarial debate pattern uses cold-start agent isolation to prevent confirmation bias and randomized judge labels to prevent position bias (ref: 2026-04-01-autoreason-adversarial-debate.md). Reasoning quality improves when reasoning and output generation are isolated — BOULDER/CARE patterns reduce bias in multi-turn conversations (ref: 2026-03-25-reasoning-isolation.md).
 
 ## Key Rules
 
 1. **Decomposed evaluation over holistic**: score each dimension independently (ref: 2026-03-25-decomposed-evaluation.md)
-2. **Isolate reasoning from output**: prevents bias in multi-turn prompts (ref: 2026-03-25-reasoning-isolation.md)
-3. **Cold-start isolation for debate**: adversarial agents must not see each other's prior output (ref: 2026-04-01-autoreason-adversarial-debate.md)
-4. **Dense quantitative feedback**: optimization loops need measurable signals, not vibes (ref: karpathy-loop-autoloop.md)
-5. **yt-dlp over MCP for YouTube**: MCP server broken since 2026-03 (ref: 2026-03-23-youtube-transcript-yt-dlp.md)
-6. **Solo dev: commit to main**: skip branch/PR in solo projects (ref: 2026-03-24-fix-issue-solo-workflow.md)
+2. **Schema compliance ≠ utility**: after format check, ALWAYS test on downstream data (ref: 2026-04-04-toolgenesis-cascade-evaluation.md)
+3. **Cascade order**: verify L1 before jumping to L3 — early failures amplify (ref: 2026-04-04-toolgenesis-cascade-evaluation.md)
+4. **Zero-shot CoT in critic**: "Let me trace through this step by step" before verdict (ref: 2026-04-05-egoalpha-prompt-patterns.md)
+5. **Reflexion nota after FAIL**: generate explicit "what to do differently" before next attempt (ref: 2026-04-05-egoalpha-prompt-patterns.md)
+6. **SPP model gating**: council uses sonnet+ advisors; cognitive synergy requires GPT-4/Opus tier (ref: 2026-04-05-egoalpha-prompt-patterns.md)
+7. **Cold-start isolation for debate**: adversarial agents must not see each other's prior output (ref: 2026-04-01-autoreason-adversarial-debate.md)
 
 ## Patterns
 
 ### Do
 - Score each review dimension separately before aggregating (ref: 2026-03-25-decomposed-evaluation.md)
-- Use structural heuristics + LLM-as-judge together (ref: karpathy-loop-autoloop.md)
+- Run repair loop (max 3 iterations) with execution feedback for tool/skill generation (ref: 2026-04-04-toolgenesis-cascade-evaluation.md)
+- Use structural heuristics + LLM-as-judge together
 - Randomize judge labels in adversarial debate (ref: 2026-04-01-autoreason-adversarial-debate.md)
 
 ### Don't
+- Declare success from schema or format match alone (ref: 2026-04-04-toolgenesis-cascade-evaluation.md)
 - Assign a single holistic score when per-dimension is feasible (ref: 2026-03-25-decomposed-evaluation.md)
+- Use haiku for high-stakes council decisions — cognitive synergy only at stronger models (ref: 2026-04-05-egoalpha-prompt-patterns.md)
 - Let adversarial agents see each other's reasoning (ref: 2026-04-01-autoreason-adversarial-debate.md)
-- Rely on MCP youtube-transcript as primary (ref: 2026-03-23-youtube-transcript-yt-dlp.md)
 
 ## Open Questions
 
 - GAP: No data on how decomposed evaluation compares across model tiers (Haiku vs Sonnet vs Opus)
+- STOPA has zero positive demonstrations in skill bodies — Min et al. shows format matters more than label correctness; SKILL.examples.md for critic and orchestrate planned (ref: 2026-04-05-egoalpha-prompt-patterns.md)
 
 ## Related Articles
 
@@ -51,9 +57,11 @@ Reasoning quality improves when reasoning and output generation are isolated —
 
 | File | Date | Severity | Summary |
 |------|------|----------|---------|
+| [2026-04-05-egoalpha-prompt-patterns](../learnings/2026-04-05-egoalpha-prompt-patterns.md) | 2026-04-05 | high | Zero-shot CoT, Reflexion, SPP gating, ICL order sensitivity |
+| [2026-04-04-toolgenesis-cascade-evaluation](../learnings/2026-04-04-toolgenesis-cascade-evaluation.md) | 2026-04-04 | high | Schema compliance ≠ utility; L1→L4 cascade amplification |
 | [2026-04-01-autoreason-adversarial-debate](../learnings/2026-04-01-autoreason-adversarial-debate.md) | 2026-04-01 | medium | Adversarial debate loop for subjective optimization |
 | [2026-03-25-decomposed-evaluation](../learnings/2026-03-25-decomposed-evaluation.md) | 2026-03-25 | high | Per-dimension scoring catches 3x more issues |
 | [2026-03-25-reasoning-isolation](../learnings/2026-03-25-reasoning-isolation.md) | 2026-03-25 | high | BOULDER/CARE: isolate reasoning from output |
 | [2026-03-24-fix-issue-solo-workflow](../learnings/2026-03-24-fix-issue-solo-workflow.md) | 2026-03-24 | medium | Solo dev: commit to main, skip PR workflow |
 | [2026-03-23-youtube-transcript-yt-dlp](../learnings/2026-03-23-youtube-transcript-yt-dlp.md) | 2026-03-23 | high | MCP broken, use yt-dlp CLI |
-| [karpathy-loop-autoloop](../learnings/karpathy-loop-autoloop.md) | 2026-03-23 | medium | Karpathy loop: edit-measure-score-iterate |
+| [2026-04-03-anthropic-skill-creator-patterns](../learnings/2026-04-03-anthropic-skill-creator-patterns.md) | 2026-04-03 | high | Anthropic skill-creator validation of STOPA patterns |

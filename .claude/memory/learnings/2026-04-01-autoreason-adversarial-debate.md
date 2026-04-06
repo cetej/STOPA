@@ -11,6 +11,7 @@ harmful_uses: 0
 confidence: 0.6
 verify_check: "Glob('.claude/commands/autoreason.md') → 1+ matches"
 related: [2026-03-30-society-of-thought-orchestration.md]
+successful_uses: 0
 ---
 
 ## AutoReason — Adversarial Debate for Subjective Text Optimization

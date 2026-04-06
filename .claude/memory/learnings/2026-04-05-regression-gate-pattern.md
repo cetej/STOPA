@@ -12,6 +12,7 @@ harmful_uses: 0
 impact_score: 0.0
 related: []
 verify_check: "manual"
+successful_uses: 0
 ---
 
 # Regression Gate Pattern (NeoSigma auto-harness)

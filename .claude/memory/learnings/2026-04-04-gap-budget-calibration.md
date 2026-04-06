@@ -10,6 +10,7 @@ uses: 0
 harmful_uses: 0
 confidence: 0.5
 verify_check: manual
+successful_uses: 0
 ---
 
 ## Knowledge Gap: Budget Tracking Calibration

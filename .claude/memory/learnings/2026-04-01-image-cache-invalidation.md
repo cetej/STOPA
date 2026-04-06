@@ -10,6 +10,7 @@ confidence: 0.8
 uses: 0
 harmful_uses: 0
 verify_check: "manual"
+successful_uses: 0
 ---
 
 ## Image Presence Breaks Prompt Cache

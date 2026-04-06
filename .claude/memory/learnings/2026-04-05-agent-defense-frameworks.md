@@ -11,6 +11,7 @@ uses: 0
 harmful_uses: 0
 verify_check: "Grep('llamafirewall', path='.claude/memory/learnings/') → 1+ matches"
 origin: web_fetch
+successful_uses: 0
 ---
 
 # Agent Defense Frameworks — Research Verdicts (2026-04-05)

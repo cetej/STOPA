@@ -8,6 +8,10 @@ summary: "Modern Claude models handle multi-step reasoning natively. Simplify ha
 source: external_research
 related: [harness-engineering.md]
 verify_check: "manual"
+confidence: 0.7
+uses: 0
+successful_uses: 0
+harmful_uses: 0
 ---
 
 # Harness Simplification Principle

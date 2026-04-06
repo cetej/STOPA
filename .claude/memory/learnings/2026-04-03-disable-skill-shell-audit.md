@@ -10,6 +10,7 @@ uses: 0
 harmful_uses: 0
 confidence: 0.8
 verify_check: "Grep('```bash', path='.claude/skills/') → 20+ matches"
+successful_uses: 0
 ---
 
 ## CC v2.1.91 — `disableSkillShellExecution` Setting

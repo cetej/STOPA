@@ -11,6 +11,7 @@ uses: 0
 harmful_uses: 0
 model_gate: "sonnet-4.6"
 verify_check: "manual"
+successful_uses: 0
 ---
 
 ## Problém

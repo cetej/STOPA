@@ -11,6 +11,7 @@ uses: 0
 harmful_uses: 0
 impact_score: 0.0
 verify_check: "Glob('scripts/memory-search.py') → 1+ matches"
+successful_uses: 0
 ---
 
 ## BM25-Inspired Memory Retrieval

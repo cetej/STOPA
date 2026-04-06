@@ -10,6 +10,7 @@ confidence: 1.0
 uses: 1
 harmful_uses: 0
 verify_check: "manual"
+successful_uses: 0
 ---
 
 ## Cross-cutting changes require cross-cutting verification

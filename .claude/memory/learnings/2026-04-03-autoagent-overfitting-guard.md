@@ -11,6 +11,7 @@ harmful_uses: 0
 confidence: 0.7
 verify_check: "Grep('exact eval case disappeared', path='.claude/skills/autoloop/SKILL.md') → 1+ matches"
 related: []
+successful_uses: 0
 ---
 
 ## AutoAgent Overfitting Guard

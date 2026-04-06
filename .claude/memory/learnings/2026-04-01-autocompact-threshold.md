@@ -10,6 +10,7 @@ uses: 0
 harmful_uses: 0
 confidence: 0.6
 verify_check: "Grep('AUTOCOMPACT_PCT_OVERRIDE', path='~/.claude/settings.json') → 1+ matches"
+successful_uses: 0
 ---
 
 ## AUTOCOMPACT_PCT_OVERRIDE=70

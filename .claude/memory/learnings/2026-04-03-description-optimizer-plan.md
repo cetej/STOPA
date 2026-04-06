@@ -11,6 +11,7 @@ harmful_uses: 0
 confidence: 0.9
 verify_check: "manual"
 related: [2026-04-03-anthropic-skill-creator-patterns.md]
+successful_uses: 0
 ---
 
 ## Description Optimizer Integration Plan

@@ -9,6 +9,8 @@ source: auto_pattern
 uses: 1
 confidence: 0.9
 verify_check: "manual"
+successful_uses: 0
+harmful_uses: 0
 ---
 
 # AutoDream (`/dream`) — koexistence s STOPA memory systémem

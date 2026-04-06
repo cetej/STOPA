@@ -10,6 +10,7 @@ uses: 0
 harmful_uses: 0
 confidence: 0.8
 verify_check: "Grep('Zero-shot CoT', path='.claude/skills/critic/SKILL.md') → 1+ matches"
+successful_uses: 0
 ---
 
 ## EgoAlpha Prompt Engineering Patterns → STOPA Integration

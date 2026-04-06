@@ -7,6 +7,10 @@ tags: [source-of-truth, distribution, anti-pattern]
 summary: "Skills must be developed in STOPA first, then distributed. Never create skills directly in target projects."
 source: auto_pattern
 verify_check: "Glob('.claude/skills/*/SKILL.md') → 1+ matches"
+confidence: 0.7
+uses: 0
+successful_uses: 0
+harmful_uses: 0
 ---
 
 # Skills MUST be developed in STOPA first, then distributed

@@ -19,7 +19,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 242,
+      "token_estimate": 246,
       "retrieval_score": 2.951,
       "active": true
     },
@@ -40,7 +40,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 917,
+      "token_estimate": 922,
       "retrieval_score": 2.903,
       "active": true
     },
@@ -61,7 +61,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 264,
+      "token_estimate": 269,
       "retrieval_score": 1.905,
       "active": true
     },
@@ -82,7 +82,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 326,
+      "token_estimate": 331,
       "retrieval_score": 2.857,
       "active": true
     },
@@ -105,7 +105,7 @@
       "related": [
         "2026-03-26-harness-simplification.md"
       ],
-      "token_estimate": 486,
+      "token_estimate": 491,
       "retrieval_score": 2.857,
       "active": true
     },
@@ -128,7 +128,7 @@
       "related": [
         "2026-04-03-description-optimizer-plan.md"
       ],
-      "token_estimate": 580,
+      "token_estimate": 584,
       "retrieval_score": 2.812,
       "active": true
     },
@@ -151,7 +151,7 @@
       "related": [
         "2026-04-03-anthropic-skill-creator-patterns.md"
       ],
-      "token_estimate": 511,
+      "token_estimate": 516,
       "retrieval_score": 2.812,
       "active": true
     },
@@ -172,7 +172,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 386,
+      "token_estimate": 391,
       "retrieval_score": 2.812,
       "active": true
     },
@@ -195,7 +195,7 @@
       "related": [
         "2026-03-30-society-of-thought-orchestration.md"
       ],
-      "token_estimate": 496,
+      "token_estimate": 501,
       "retrieval_score": 1.818,
       "active": true
     },
@@ -217,7 +217,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 409,
+      "token_estimate": 424,
       "retrieval_score": 3.38,
       "active": true
     },
@@ -237,7 +237,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 417,
+      "token_estimate": 432,
       "retrieval_score": 2.535,
       "active": true
     },
@@ -259,7 +259,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 424,
+      "token_estimate": 432,
       "retrieval_score": 2.466,
       "active": true
     },
@@ -282,7 +282,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 430,
+      "token_estimate": 445,
       "retrieval_score": 2.466,
       "active": true
     },
@@ -303,7 +303,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 291,
+      "token_estimate": 306,
       "retrieval_score": 2.466,
       "active": true
     },
@@ -324,7 +324,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 226,
+      "token_estimate": 241,
       "retrieval_score": 1.622,
       "active": true
     },
@@ -345,7 +345,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 225,
+      "token_estimate": 240,
       "retrieval_score": 2.4,
       "active": true
     },
@@ -429,7 +429,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 490,
+      "token_estimate": 494,
       "retrieval_score": 1.967,
       "active": true
     },
@@ -472,7 +472,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 561,
+      "token_estimate": 566,
       "retrieval_score": 1.935,
       "active": true
     },
@@ -494,7 +494,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 574,
+      "token_estimate": 579,
       "retrieval_score": 2.903,
       "active": true
     },
@@ -515,7 +515,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 558,
+      "token_estimate": 563,
       "retrieval_score": 2.903,
       "active": true
     },
@@ -536,7 +536,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 235,
+      "token_estimate": 239,
       "retrieval_score": 1.905,
       "active": true
     },
@@ -558,7 +558,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 331,
+      "token_estimate": 336,
       "retrieval_score": 2.812,
       "active": true
     },
@@ -582,7 +582,7 @@
       "related": [
         "2026-04-03-autoagent-overfitting-guard.md"
       ],
-      "token_estimate": 339,
+      "token_estimate": 344,
       "retrieval_score": 1.875,
       "active": true
     },
@@ -605,7 +605,7 @@
       "related": [
         "2026-04-03-testing-bottleneck.md"
       ],
-      "token_estimate": 355,
+      "token_estimate": 360,
       "retrieval_score": 1.875,
       "active": true
     },
@@ -628,7 +628,7 @@
       "related": [
         "2026-04-03-smart-tool-overuse.md"
       ],
-      "token_estimate": 357,
+      "token_estimate": 362,
       "retrieval_score": 1.875,
       "active": true
     },
@@ -648,7 +648,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 370,
+      "token_estimate": 374,
       "retrieval_score": 3.692,
       "active": true
     },
@@ -669,7 +669,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 427,
+      "token_estimate": 432,
       "retrieval_score": 2.769,
       "active": true
     },
@@ -689,7 +689,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 353,
+      "token_estimate": 358,
       "retrieval_score": 1.818,
       "active": true
     },
@@ -709,7 +709,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 286,
+      "token_estimate": 291,
       "retrieval_score": 2.727,
       "active": true
     },
@@ -731,7 +731,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 633,
+      "token_estimate": 642,
       "retrieval_score": 2.647,
       "active": true
     },
@@ -752,7 +752,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 825,
+      "token_estimate": 834,
       "retrieval_score": 1.739,
       "active": true
     },
@@ -774,7 +774,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 531,
+      "token_estimate": 540,
       "retrieval_score": 2.609,
       "active": true
     },
@@ -800,7 +800,7 @@
         "gsd-patterns.md",
         "2026-03-26-harness-simplification.md"
       ],
-      "token_estimate": 545,
+      "token_estimate": 550,
       "retrieval_score": 1.739,
       "active": true
     },
@@ -822,7 +822,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 495,
+      "token_estimate": 504,
       "retrieval_score": 2.609,
       "active": true
     },
@@ -846,7 +846,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 503,
+      "token_estimate": 518,
       "retrieval_score": 2.5,
       "active": true
     },
@@ -869,7 +869,7 @@
       "related": [
         "harness-engineering.md"
       ],
-      "token_estimate": 542,
+      "token_estimate": 556,
       "retrieval_score": 2.5,
       "active": true
     },
@@ -891,7 +891,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 431,
+      "token_estimate": 440,
       "retrieval_score": 2.432,
       "active": true
     },
@@ -954,7 +954,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 276,
+      "token_estimate": 291,
       "retrieval_score": 2.466,
       "active": true
     },
@@ -976,7 +976,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 353,
+      "token_estimate": 358,
       "retrieval_score": 2.903,
       "active": true
     },
@@ -996,7 +996,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 279,
+      "token_estimate": 283,
       "retrieval_score": 1.905,
       "active": true
     },
@@ -1016,7 +1016,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 413,
+      "token_estimate": 417,
       "retrieval_score": 1.765,
       "active": true
     },
@@ -1042,7 +1042,7 @@
         "2026-03-29-paged-context-protocol.md",
         "2026-03-29-memcollab-agent-agnostic-memory.md"
       ],
-      "token_estimate": 503,
+      "token_estimate": 508,
       "retrieval_score": 2.647,
       "active": true
     },
@@ -1064,7 +1064,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 668,
+      "token_estimate": 672,
       "retrieval_score": 2.609,
       "active": true
     },
@@ -1086,7 +1086,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 333,
+      "token_estimate": 342,
       "retrieval_score": 2.5,
       "active": true
     },
@@ -1127,7 +1127,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 414,
+      "token_estimate": 419,
       "retrieval_score": 1.818,
       "active": true
     },
@@ -1151,7 +1151,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 782,
+      "token_estimate": 797,
       "retrieval_score": 3.38,
       "active": true
     },
@@ -1173,7 +1173,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 314,
+      "token_estimate": 328,
       "retrieval_score": 3.38,
       "active": true
     },
@@ -1237,7 +1237,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 610,
+      "token_estimate": 615,
       "retrieval_score": 3.636,
       "active": true
     },
@@ -1280,7 +1280,7 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 753,
+      "token_estimate": 758,
       "retrieval_score": 1.935,
       "active": true
     }

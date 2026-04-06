@@ -10,6 +10,7 @@ uses: 0
 harmful_uses: 0
 confidence: 0.6
 verify_check: manual
+successful_uses: 0
 ---
 
 # OpenFang Architecture Patterns pro STOPA

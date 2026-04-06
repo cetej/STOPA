@@ -9,6 +9,8 @@ source: external_research
 uses: 0
 harmful_uses: 0
 verify_check: "manual"
+confidence: 0.7
+successful_uses: 0
 ---
 
 ## Nález

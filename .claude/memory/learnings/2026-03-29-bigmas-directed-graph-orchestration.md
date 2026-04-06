@@ -10,6 +10,8 @@ uses: 0
 harmful_uses: 0
 related: []
 verify_check: "manual"
+confidence: 0.7
+successful_uses: 0
 ---
 
 ## Situace

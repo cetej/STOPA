@@ -10,6 +10,7 @@ confidence: 0.8
 uses: 0
 harmful_uses: 0
 verify_check: "Grep('Parallelizability Gate', path='.claude/commands/orchestrate.md') → 1+ matches"
+successful_uses: 0
 ---
 
 ## LLM Teams as Distributed Systems — Key Numbers

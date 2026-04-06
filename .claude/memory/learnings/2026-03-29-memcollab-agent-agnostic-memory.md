@@ -11,6 +11,7 @@ harmful_uses: 0
 related: []
 confidence: 0.8
 verify_check: "manual"
+successful_uses: 0
 ---
 
 ## Situace

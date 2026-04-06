@@ -15,6 +15,7 @@ verify_check: "Glob('.claude/memory/decisions.md') → 1+ matches"
 related:
   - 2026-03-29-claudini-autoresearch-loop.md
 confidence: 0.8
+successful_uses: 0
 ---
 
 ## CALM Semantic Bandwidth Principle for Memory
