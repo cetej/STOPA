@@ -1,30 +1,56 @@
 ---
 generated: 2026-04-07
 cluster: hook-infrastructure
-sources: 1
+sources: 4
 last_updated: 2026-04-07
 ---
 
 # Hook Infrastructure & Security
 
-> **TL;DR**: Hooks are the enforcement layer for behavioral rules and security scanning. LlamaFirewall PromptGuard (BERT, 19-92ms, AUC 0.98) is ADOPT for PostToolUse injection scanning. CaMeL [UNTRUSTED] tagging is ADOPT as a PreToolUse blocking convention.
+> **TL;DR**: 70+ hooks across 13 lifecycle events form STOPA's runtime enforcement layer. 5 categories: safety, memory, tracing, workflow, notification. Hooks survive context compression — if a rule breaks things when violated, it belongs in a hook.
 
-## Overview
+## Architecture Overview
 
-STOPA hooks operate as the runtime enforcement layer for behavioral constraints — rules that cannot be enforced via prompts alone because they must survive context compression and model forgetting. Hook design follows the principle: if a rule breaks things when violated, it belongs in a hook, not just a CLAUDE.md entry.
+STOPA hooks operate as the runtime enforcement layer for behavioral constraints — rules that cannot be enforced via prompts alone because they must survive context compression and model forgetting.
 
-Agent defense framework evaluation (2026-04-05) identified actionable hook integrations from three frameworks. LlamaFirewall PromptGuard 2 (Meta) is a BERT classifier (22M/86M params, pip install llamafirewall) running in 19-92ms — fast enough for synchronous PostToolUse hooks. It achieves AUC 0.98 and Recall@1%FPR 97.5% for prompt injection detection in tool outputs, complementing existing regex patterns in content-sanitizer.py with ML-based zero-day coverage. Combined PromptGuard+AlignmentCheck achieves ASR 1.75%. CodeShield (Semgrep+regex, ~70ms) covers 50+ CWE patterns for generated code. AlignmentCheck (860ms+, Together API) is too slow for synchronous hooks — viable only as async audit on suspicious behavior (ref: 2026-04-05-agent-defense-frameworks.md).
+### Lifecycle Events (13 active)
 
-The CaMeL pattern (DeepMind) contributes a prompt-only convention requiring no dependencies: tag tool outputs from external sources as `[UNTRUSTED]` in state.md, then use a PreToolUse hook to block direct use of untrusted data in privileged tools (Bash, Write, Edit on critical paths). Agents processing external data must not generate direct commands — untrusted content must pass through a sanitization step first (ref: 2026-04-05-agent-defense-frameworks.md).
+| Event | # Hooks | Key hooks |
+|-------|---------|-----------|
+| SessionStart | 11 | checkpoint-check, memory-maintenance, auto-scribe, verify-sweep, improvement-funnel, skill-detector |
+| PreToolUse | 5 | dippy (RTK), block-no-verify, config-protection, security-scan, tool-gate |
+| PostToolUse | 20+ | activity-log, trace-capture, panic-detector, content-sanitizer, acceptance-gate, ruff-lint, skill-sync |
+| UserPromptSubmit | 5 | skill-suggest, memory-whisper, correction-tracker, associative-recall |
+| PermissionRequest | 1 | permission-auto-approve |
+| PermissionDenied | 1 | permission-denied-logger |
+| PostCompact | 1 | post-compact (checkpoint reminder) |
+| Stop | 10 | completion-guard, scribe-reminder, cost-tracker, telegram-notify, session-summary, hebbian-consolidate |
+| TaskCompleted | 1 | task-completed (auto-compound) |
+| TeammateIdle | 1 | teammate-idle (quality gate) |
+| StopFailure | 1 | stop-failure (API error recovery) |
+| TaskCreated | 1 | task-created-gate (budget check) |
 
-## Key Rules
+### 5 Functional Categories
 
-1. **PromptGuard in PostToolUse**: scan tool output for injection before consuming in next step (ref: 2026-04-05-agent-defense-frameworks.md)
-2. **CodeShield for generated code**: run before executing any model-generated shell/Python (ref: 2026-04-05-agent-defense-frameworks.md)
-3. **[UNTRUSTED] tagging convention**: mark all external tool outputs; PreToolUse hook blocks privileged tool use on untrusted data (ref: 2026-04-05-agent-defense-frameworks.md)
-4. **AlignmentCheck as async audit only**: 860ms+ latency disqualifies it from sync hook path (ref: 2026-04-05-agent-defense-frameworks.md)
+1. **Safety**: config-protection, security-scan, block-no-verify, tool-gate, content-sanitizer, instruction-detector
+2. **Memory**: memory-maintenance, memory-integrity-check, memory-brief, memory-whisper, auto-relate, graduation-check, learning-admission, uses-tracker, learnings-sync, hebbian-consolidate
+3. **Tracing**: activity-log, trace-capture, session-trace, raw-capture, trace-bridge, session-summary, correction-tracker
+4. **Workflow**: skill-suggest, skill-sync, skill-chain-engine, eval-trigger, auto-checkpoint-suggest, completion-guard, panic-detector, acceptance-gate, suggest-compact
+5. **Notification**: telegram-notify, slack-notify, scribe-reminder, cost-tracker
 
-## Implementation Backlog
+## Key Failure Modes
+
+1. **Silent timeout kill**: Process killed at timeout with no error to Claude — memory hooks may leave partial writes
+2. **Stderr injection**: Hook stderr appears as system-reminder — instruction-detector.py monitors but has SessionStart gap
+3. **Cascading state corruption**: Multiple hooks write shared files (activity-log, concept-graph.json) — no global integrity check
+4. **Ordering dependencies**: Implicit ordering within lifecycle events (auto-scribe before memory-brief, trace-capture before session-trace)
+5. **Windows specifics**: File locking from antivirus, path separator issues, GNU grep incompatibilities
+
+## Security Layer (Agent Defense)
+
+LlamaFirewall PromptGuard (BERT, 19-92ms, AUC 0.98) is ADOPT for PostToolUse injection scanning. CaMeL [UNTRUSTED] tagging is ADOPT as a PreToolUse blocking convention (ref: 2026-04-05-agent-defense-frameworks.md).
+
+### Implementation Backlog
 
 | Priority | Action | Effort | Dependency |
 |----------|--------|--------|------------|
@@ -33,24 +59,31 @@ The CaMeL pattern (DeepMind) contributes a prompt-only convention requiring no d
 | 3 | CodeShield into security-scan.py | LOW | pip install llamafirewall |
 | 4 | AlignmentCheck async audit | HIGH | Together API key |
 
-## Patterns
+## Testing Patterns
 
-### Do
-- Layer ML detection (PromptGuard) behind regex patterns — complementary, not replacement (ref: 2026-04-05-agent-defense-frameworks.md)
-- Block privileged tool calls on `[UNTRUSTED]`-tagged input at PreToolUse (ref: 2026-04-05-agent-defense-frameworks.md)
-- Download PromptGuard models locally — independent of Claude/Llama, no external API (ref: 2026-04-05-agent-defense-frameworks.md)
+- **Isolated testing**: pipe mock JSON to stdin (`echo '{"tool_name":"Write",...}' | python hook.py`)
+- **Dry-run mode**: `STOPA_TOOL_GATE=log` for tool-gate, some hooks check `DRY_RUN=1`
+- **Debug via activity log**: `.claude/hooks/lib/activity-log.jsonl`
+- **Traces**: `.claude/traces/` from trace-capture.py and session-trace.py
 
-### Don't
-- Use AlignmentCheck as synchronous hook — latency exceeds hook budget (ref: 2026-04-05-agent-defense-frameworks.md)
-- Skip [UNTRUSTED] tagging on WebFetch, WebSearch, or external MCP results (ref: 2026-04-05-agent-defense-frameworks.md)
+## Distribution: Local vs Plugin
+
+| Aspect | Local (.claude/hooks/) | Plugin (stopa-orchestration/hooks/) |
+|--------|------------------------|-------------------------------------|
+| Count | 70+ | 24 (curated subset) |
+| Config | .claude/settings.json | hooks.json in plugin |
+| Scope | Development + production | Production-safe subset |
 
 ## Related Articles
 
-- See also: [general-security-environment](general-security-environment.md) — broader security posture and environment rules
-- See also: [orchestration-multi-agent](orchestration-multi-agent.md) — trust boundaries in multi-agent execution
+- [general-security-environment](general-security-environment.md) — broader security posture
+- [orchestration-multi-agent](orchestration-multi-agent.md) — trust boundaries in multi-agent execution
 
 ## Source Learnings
 
 | File | Date | Severity | Summary |
 |------|------|----------|---------|
-| [2026-04-05-agent-defense-frameworks](../learnings/2026-04-05-agent-defense-frameworks.md) | 2026-04-05 | medium | LlamaFirewall PromptGuard ADOPT; CaMeL tagging ADOPT; AlignmentCheck WATCH |
+| [2026-04-05-agent-defense-frameworks](../learnings/2026-04-05-agent-defense-frameworks.md) | 2026-04-05 | medium | LlamaFirewall PromptGuard ADOPT; CaMeL tagging ADOPT |
+| [2026-04-07-hook-architecture-patterns](../learnings/2026-04-07-hook-architecture-patterns.md) | 2026-04-07 | high | 70+ hooks, 13 events, 5 functional categories |
+| [2026-04-07-hook-failure-modes](../learnings/2026-04-07-hook-failure-modes.md) | 2026-04-07 | high | Silent timeout, stderr injection, cascading corruption |
+| [2026-04-07-hook-testing-patterns](../learnings/2026-04-07-hook-testing-patterns.md) | 2026-04-07 | medium | Isolated testing, dry-run, activity log debugging |
