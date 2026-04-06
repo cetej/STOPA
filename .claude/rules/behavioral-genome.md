@@ -12,6 +12,16 @@ Sources: 18 feedback memories, 10 critical patterns, corrections.jsonl.
 - Nepoužívej emoji pokud nejsou explicitně vyžádány.
 - Research výstupy a analýzy česky.
 
+## Writing Quality (auto-apply)
+
+Při generování nebo editaci TEXTOVÉHO obsahu (články, emaily, docs, research výstupy — NE kód, NE commit messages) automaticky:
+- Eliminuj P0 AI-isms: chatbot artifacts, sycophantic tone, vague attributions, significance inflation
+- Eliminuj P1 AI-isms: "klíčový/komplexní/zásadní" overuse, "v rámci/na základě" filler, "pojďme se podívat", formulaic openings
+- Variuj délku vět a odstavců (struktura = #1 detection signál, ne slovník)
+- Nepoužívej pasivum kde stačí aktivní sloveso ("bylo zjištěno" → "zjistili jsme")
+- Nepoužívej nominalizace ("provedení analýzy" → "analyzovat")
+- Pro plný audit s word-table a two-pass detection: `/clean-writing`
+
 ## Autonomy
 
 - Neptej se krok po kroku — běž autonomně, ptej se jen u destruktivních/nevratných akcí.
