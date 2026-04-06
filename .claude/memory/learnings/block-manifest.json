@@ -1,8 +1,28 @@
 {
-  "generated": "2026-04-05",
-  "total_blocks": 51,
-  "active_blocks": 51,
+  "generated": "2026-04-07",
+  "total_blocks": 59,
+  "active_blocks": 59,
   "blocks": {
+    "2026-04-06-deepresearch-agent-scope.md": {
+      "id": "2026-04-06-deepresearch-agent-scope.md",
+      "component": "skill",
+      "date": "2026-04-06",
+      "type": "anti_pattern",
+      "severity": "high",
+      "tags": [
+        "research",
+        "orchestration",
+        "deepresearch"
+      ],
+      "summary": "Researcher sub-agent s 30+ tool calls běží hodiny. Omezit na max 15 volání, široký scope rozdělit na víc menších agentů.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 242,
+      "retrieval_score": 2.951,
+      "active": true
+    },
     "2026-04-05-egoalpha-prompt-patterns.md": {
       "id": "2026-04-05-egoalpha-prompt-patterns.md",
       "component": "skill",
@@ -21,7 +41,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 917,
-      "retrieval_score": 3.0,
+      "retrieval_score": 2.903,
       "active": true
     },
     "2026-04-04-gap-compact-variant-measurement.md": {
@@ -42,7 +62,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 264,
-      "retrieval_score": 1.967,
+      "retrieval_score": 1.905,
       "active": true
     },
     "2026-04-04-skill0-dynamic-curriculum.md": {
@@ -63,7 +83,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 326,
-      "retrieval_score": 2.951,
+      "retrieval_score": 2.857,
       "active": true
     },
     "2026-04-04-toolgenesis-cascade-evaluation.md": {
@@ -86,7 +106,7 @@
         "2026-03-26-harness-simplification.md"
       ],
       "token_estimate": 486,
-      "retrieval_score": 2.951,
+      "retrieval_score": 2.857,
       "active": true
     },
     "2026-04-03-anthropic-skill-creator-patterns.md": {
@@ -109,7 +129,7 @@
         "2026-04-03-description-optimizer-plan.md"
       ],
       "token_estimate": 580,
-      "retrieval_score": 2.903,
+      "retrieval_score": 2.812,
       "active": true
     },
     "2026-04-03-description-optimizer-plan.md": {
@@ -131,8 +151,8 @@
       "related": [
         "2026-04-03-anthropic-skill-creator-patterns.md"
       ],
-      "token_estimate": 512,
-      "retrieval_score": 2.903,
+      "token_estimate": 511,
+      "retrieval_score": 2.812,
       "active": true
     },
     "2026-04-03-disable-skill-shell-audit.md": {
@@ -153,7 +173,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 386,
-      "retrieval_score": 2.903,
+      "retrieval_score": 2.812,
       "active": true
     },
     "2026-04-01-autoreason-adversarial-debate.md": {
@@ -176,7 +196,7 @@
         "2026-03-30-society-of-thought-orchestration.md"
       ],
       "token_estimate": 496,
-      "retrieval_score": 1.875,
+      "retrieval_score": 1.818,
       "active": true
     },
     "2026-03-27-commands-vs-skills-structure.md": {
@@ -198,7 +218,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 409,
-      "retrieval_score": 3.478,
+      "retrieval_score": 3.38,
       "active": true
     },
     "2026-03-27-skills-must-live-in-stopa.md": {
@@ -217,8 +237,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 401,
-      "retrieval_score": 2.609,
+      "token_estimate": 417,
+      "retrieval_score": 2.535,
       "active": true
     },
     "2026-03-25-decomposed-evaluation.md": {
@@ -239,8 +259,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 407,
-      "retrieval_score": 2.535,
+      "token_estimate": 424,
+      "retrieval_score": 2.466,
       "active": true
     },
     "2026-03-25-reasoning-isolation.md": {
@@ -262,8 +282,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 413,
-      "retrieval_score": 2.535,
+      "token_estimate": 430,
+      "retrieval_score": 2.466,
       "active": true
     },
     "2026-03-25-skill-description-triggers.md": {
@@ -283,8 +303,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 270,
-      "retrieval_score": 2.535,
+      "token_estimate": 291,
+      "retrieval_score": 2.466,
       "active": true
     },
     "2026-03-24-fix-issue-solo-workflow.md": {
@@ -304,8 +324,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 221,
-      "retrieval_score": 1.667,
+      "token_estimate": 226,
+      "retrieval_score": 1.622,
       "active": true
     },
     "2026-03-23-youtube-transcript-yt-dlp.md": {
@@ -325,8 +345,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 219,
-      "retrieval_score": 2.466,
+      "token_estimate": 225,
+      "retrieval_score": 2.4,
       "active": true
     },
     "karpathy-loop-autoloop.md": {
@@ -347,7 +367,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 211,
-      "retrieval_score": 1.644,
+      "retrieval_score": 1.6,
       "active": true
     },
     "superpowers-adoption.md": {
@@ -368,7 +388,92 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 226,
-      "retrieval_score": 2.466,
+      "retrieval_score": 2.4,
+      "active": true
+    },
+    "2026-04-07-nsm-neuro-symbolic-orchestration.md": {
+      "id": "2026-04-07-nsm-neuro-symbolic-orchestration.md",
+      "component": "orchestration",
+      "date": "2026-04-07",
+      "type": "architecture",
+      "severity": "high",
+      "tags": [
+        "orchestration",
+        "planning",
+        "agent-execution",
+        "context-management"
+      ],
+      "summary": "Neuro-symbolic architecture (PDDL planner + learned policies) outperforms end-to-end VLA by 3x on structured tasks. 5 patterns adopted: operator-scoped context, input/output contracts with plan chain validation, done-when completion criteria, mid-execution replanning, and primitive action sequence extraction.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 556,
+      "retrieval_score": 3.0,
+      "active": true
+    },
+    "2026-04-06-osft-self-sharpening.md": {
+      "id": "2026-04-06-osft-self-sharpening.md",
+      "component": "orchestration",
+      "date": "2026-04-06",
+      "type": "architecture",
+      "severity": "medium",
+      "tags": [
+        "research",
+        "self-improvement",
+        "model-training",
+        "temperature-decoupling"
+      ],
+      "summary": "OSFT (Online SFT) achieves RL-comparable reasoning improvement by self-sharpening — model finetunes on own outputs with decoupled temperatures (sampling sharp, training soft). No reward model needed, 8x cheaper than GRPO. Key insight: latent knowledge unlocking, not new learning.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 490,
+      "retrieval_score": 1.967,
+      "active": true
+    },
+    "2026-04-06-self-organizing-agents-ab-test.md": {
+      "id": "2026-04-06-self-organizing-agents-ab-test.md",
+      "component": "orchestration",
+      "date": "2026-04-06",
+      "type": "architecture",
+      "severity": "high",
+      "tags": [
+        "orchestration",
+        "agents",
+        "research"
+      ],
+      "summary": "A/B test potvrdil: self-organizing agenti (jen mise, bez rolí) překonávají hierarchické přiřazení o +8% na explorativních úkolech. Hierarchický přístup lepší na strukturovaném rankingu. Hybridní přístup v orchestrate by měl detekovat typ tasku.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 582,
+      "retrieval_score": 2.951,
+      "active": true
+    },
+    "2026-04-05-openfang-architecture-patterns.md": {
+      "id": "2026-04-05-openfang-architecture-patterns.md",
+      "component": "orchestration",
+      "date": "2026-04-05",
+      "type": "architecture",
+      "severity": "medium",
+      "tags": [
+        "agent-os",
+        "sandbox",
+        "audit-trail",
+        "scheduling",
+        "rust",
+        "architecture-reference"
+      ],
+      "summary": "OpenFang (Rust Agent OS) nabízí 3 architektonické vzory pro STOPA: sandbox izolaci skills, Merkle audit trail pro OSINT výstupy, a daemon-based scheduling bez session. Žádný není urgentní, ale všechny řeší reálné limity.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 561,
+      "retrieval_score": 1.935,
       "active": true
     },
     "2026-04-05-regression-gate-pattern.md": {
@@ -390,7 +495,28 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 574,
-      "retrieval_score": 3.0,
+      "retrieval_score": 2.903,
+      "active": true
+    },
+    "2026-04-05-self-improving-harness.md": {
+      "id": "2026-04-05-self-improving-harness.md",
+      "component": "orchestration",
+      "date": "2026-04-05",
+      "type": "architecture",
+      "severity": "high",
+      "tags": [
+        "memory",
+        "orchestration",
+        "self-improvement",
+        "traces"
+      ],
+      "summary": "Self-improving harness: 6 upgrades closing feedback loops — auto-scribe writes learnings automatically, trace-bridge unifies formats, graduation-check auto-detects promotable learnings, impact-tracker measures learning effectiveness via critic scores, strategy persistence enables warm-start across sessions, auto-handoff chains enforce skill transitions on PIVOT/PLATEAU",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 558,
+      "retrieval_score": 2.903,
       "active": true
     },
     "2026-04-04-gap-budget-calibration.md": {
@@ -411,7 +537,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 235,
-      "retrieval_score": 1.967,
+      "retrieval_score": 1.905,
       "active": true
     },
     "2026-04-03-autoagent-overfitting-guard.md": {
@@ -433,7 +559,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 331,
-      "retrieval_score": 2.903,
+      "retrieval_score": 2.812,
       "active": true
     },
     "2026-04-03-autoagent-parallel-candidates.md": {
@@ -457,7 +583,7 @@
         "2026-04-03-autoagent-overfitting-guard.md"
       ],
       "token_estimate": 339,
-      "retrieval_score": 1.935,
+      "retrieval_score": 1.875,
       "active": true
     },
     "2026-04-03-smart-tool-overuse.md": {
@@ -480,7 +606,7 @@
         "2026-04-03-testing-bottleneck.md"
       ],
       "token_estimate": 355,
-      "retrieval_score": 1.935,
+      "retrieval_score": 1.875,
       "active": true
     },
     "2026-04-03-testing-bottleneck.md": {
@@ -502,8 +628,8 @@
       "related": [
         "2026-04-03-smart-tool-overuse.md"
       ],
-      "token_estimate": 358,
-      "retrieval_score": 1.935,
+      "token_estimate": 357,
+      "retrieval_score": 1.875,
       "active": true
     },
     "2026-04-02-audit-must-verify-consumers.md": {
@@ -523,7 +649,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 370,
-      "retrieval_score": 3.81,
+      "retrieval_score": 3.692,
       "active": true
     },
     "2026-04-02-distributed-systems-amdahl-gate.md": {
@@ -544,7 +670,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 427,
-      "retrieval_score": 2.857,
+      "retrieval_score": 2.769,
       "active": true
     },
     "2026-04-01-autocompact-threshold.md": {
@@ -564,7 +690,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 353,
-      "retrieval_score": 1.875,
+      "retrieval_score": 1.818,
       "active": true
     },
     "2026-04-01-gsd2-error-classification.md": {
@@ -584,7 +710,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 286,
-      "retrieval_score": 2.812,
+      "retrieval_score": 2.727,
       "active": true
     },
     "2026-03-30-society-of-thought-orchestration.md": {
@@ -606,7 +732,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 633,
-      "retrieval_score": 2.727,
+      "retrieval_score": 2.647,
       "active": true
     },
     "2026-03-29-bigmas-directed-graph-orchestration.md": {
@@ -626,8 +752,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 820,
-      "retrieval_score": 1.791,
+      "token_estimate": 825,
+      "retrieval_score": 1.739,
       "active": true
     },
     "2026-03-29-claudini-autoresearch-loop.md": {
@@ -648,8 +774,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 525,
-      "retrieval_score": 2.687,
+      "token_estimate": 531,
+      "retrieval_score": 2.609,
       "active": true
     },
     "2026-03-29-paged-context-protocol.md": {
@@ -675,7 +801,7 @@
         "2026-03-26-harness-simplification.md"
       ],
       "token_estimate": 545,
-      "retrieval_score": 1.791,
+      "retrieval_score": 1.739,
       "active": true
     },
     "2026-03-29-slopcodebench-iterative-degradation.md": {
@@ -697,7 +823,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 495,
-      "retrieval_score": 2.687,
+      "retrieval_score": 2.609,
       "active": true
     },
     "2026-03-26-channels-24x7-architecture.md": {
@@ -720,8 +846,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 498,
-      "retrieval_score": 2.571,
+      "token_estimate": 503,
+      "retrieval_score": 2.5,
       "active": true
     },
     "2026-03-26-harness-simplification.md": {
@@ -743,8 +869,8 @@
       "related": [
         "harness-engineering.md"
       ],
-      "token_estimate": 536,
-      "retrieval_score": 2.571,
+      "token_estimate": 542,
+      "retrieval_score": 2.5,
       "active": true
     },
     "2026-03-24-openclaw-postmortem-patterns.md": {
@@ -765,8 +891,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 425,
-      "retrieval_score": 2.5,
+      "token_estimate": 431,
+      "retrieval_score": 2.432,
       "active": true
     },
     "gsd-patterns.md": {
@@ -787,7 +913,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 258,
-      "retrieval_score": 1.644,
+      "retrieval_score": 1.6,
       "active": true
     },
     "spec-kit-adoption.md": {
@@ -808,7 +934,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 258,
-      "retrieval_score": 1.644,
+      "retrieval_score": 1.6,
       "active": true
     },
     "2026-03-25-batch-edit-pattern.md": {
@@ -828,8 +954,30 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 271,
-      "retrieval_score": 2.535,
+      "token_estimate": 276,
+      "retrieval_score": 2.466,
+      "active": true
+    },
+    "2026-04-05-bm25-memory-search.md": {
+      "id": "2026-04-05-bm25-memory-search.md",
+      "component": "memory",
+      "date": "2026-04-05",
+      "type": "architecture",
+      "severity": "high",
+      "tags": [
+        "retrieval",
+        "search",
+        "ranking",
+        "bm25",
+        "learnings"
+      ],
+      "summary": "BM25-inspired memory-search.py replaces raw grep for learnings retrieval. IDF + term saturation + length normalization + metadata weights. 72 docs corpus, zero dependencies, synonym expansion. Ranked results vs unordered grep matches.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 353,
+      "retrieval_score": 2.903,
       "active": true
     },
     "2026-04-04-gap-cross-project-memory.md": {
@@ -849,7 +997,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 279,
-      "retrieval_score": 1.967,
+      "retrieval_score": 1.905,
       "active": true
     },
     "2026-03-30-calm-semantic-bandwidth.md": {
@@ -869,7 +1017,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 413,
-      "retrieval_score": 1.818,
+      "retrieval_score": 1.765,
       "active": true
     },
     "2026-03-30-write-time-gating-salience.md": {
@@ -894,8 +1042,8 @@
         "2026-03-29-paged-context-protocol.md",
         "2026-03-29-memcollab-agent-agnostic-memory.md"
       ],
-      "token_estimate": 504,
-      "retrieval_score": 2.727,
+      "token_estimate": 503,
+      "retrieval_score": 2.647,
       "active": true
     },
     "2026-03-29-memcollab-agent-agnostic-memory.md": {
@@ -916,8 +1064,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 662,
-      "retrieval_score": 2.687,
+      "token_estimate": 668,
+      "retrieval_score": 2.609,
       "active": true
     },
     "2026-03-26-autodream-coexistence.md": {
@@ -938,8 +1086,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 328,
-      "retrieval_score": 2.571,
+      "token_estimate": 333,
+      "retrieval_score": 2.5,
       "active": true
     },
     "checkpoint-versioning.md": {
@@ -959,7 +1107,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 182,
-      "retrieval_score": 2.308,
+      "retrieval_score": 2.25,
       "active": true
     },
     "2026-04-01-image-cache-invalidation.md": {
@@ -980,7 +1128,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 414,
-      "retrieval_score": 1.875,
+      "retrieval_score": 1.818,
       "active": true
     },
     "2026-03-27-playwright-mcp-download-hijack.md": {
@@ -1003,8 +1151,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 776,
-      "retrieval_score": 3.478,
+      "token_estimate": 782,
+      "retrieval_score": 3.38,
       "active": true
     },
     "2026-03-27-secrets-in-config-files.md": {
@@ -1026,7 +1174,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 314,
-      "retrieval_score": 3.478,
+      "retrieval_score": 3.38,
       "active": true
     },
     "ecosystem-scan.md": {
@@ -1046,7 +1194,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 218,
-      "retrieval_score": 0.822,
+      "retrieval_score": 0.8,
       "active": true
     },
     "environment-falai.md": {
@@ -1067,7 +1215,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 197,
-      "retrieval_score": 1.644,
+      "retrieval_score": 1.6,
       "active": true
     },
     "2026-04-01-sonnet46-thinking-effort-breaking-change.md": {
@@ -1090,7 +1238,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 610,
-      "retrieval_score": 3.75,
+      "retrieval_score": 3.636,
       "active": true
     },
     "harness-engineering.md": {
@@ -1113,7 +1261,27 @@
         "2026-03-26-harness-simplification.md"
       ],
       "token_estimate": 233,
-      "retrieval_score": 2.466,
+      "retrieval_score": 2.4,
+      "active": true
+    },
+    "2026-04-05-agent-defense-frameworks.md": {
+      "id": "2026-04-05-agent-defense-frameworks.md",
+      "component": "hook",
+      "date": "2026-04-05",
+      "type": "architecture",
+      "severity": "medium",
+      "tags": [
+        "security",
+        "orchestration",
+        "memory"
+      ],
+      "summary": "LlamaFirewall PromptGuard (BERT, 19-92ms, pip install) je ADOPT pro tool output scanning; AlignmentCheck (860ms+, Together API) je WATCH; CaMeL plná impl je SKIP (research artifact), ale capability tagging vzor je ADOPT jako STOPA konvence; TaskShield nemá veřejnou impl.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 753,
+      "retrieval_score": 1.935,
       "active": true
     }
   },
@@ -1138,11 +1306,20 @@
     "agent-degradation": [
       "2026-03-29-slopcodebench-iterative-degradation.md"
     ],
+    "agent-execution": [
+      "2026-04-07-nsm-neuro-symbolic-orchestration.md"
+    ],
     "agent-identity": [
       "2026-03-24-openclaw-postmortem-patterns.md"
     ],
     "agent-loop": [
       "2026-03-29-claudini-autoresearch-loop.md"
+    ],
+    "agent-os": [
+      "2026-04-05-openfang-architecture-patterns.md"
+    ],
+    "agents": [
+      "2026-04-06-self-organizing-agents-ab-test.md"
     ],
     "alignment": [
       "2026-03-30-society-of-thought-orchestration.md"
@@ -1168,8 +1345,14 @@
     "architecture": [
       "2026-03-26-harness-simplification.md"
     ],
+    "architecture-reference": [
+      "2026-04-05-openfang-architecture-patterns.md"
+    ],
     "audit": [
       "2026-04-02-audit-must-verify-consumers.md"
+    ],
+    "audit-trail": [
+      "2026-04-05-openfang-architecture-patterns.md"
     ],
     "autodream": [
       "2026-03-26-autodream-coexistence.md"
@@ -1196,6 +1379,9 @@
     ],
     "block-manifest": [
       "2026-03-29-paged-context-protocol.md"
+    ],
+    "bm25": [
+      "2026-04-05-bm25-memory-search.md"
     ],
     "bottleneck": [
       "2026-04-03-testing-bottleneck.md"
@@ -1282,6 +1468,7 @@
       "2026-03-29-paged-context-protocol.md"
     ],
     "context-management": [
+      "2026-04-07-nsm-neuro-symbolic-orchestration.md",
       "2026-04-01-autocompact-threshold.md"
     ],
     "contrastive-learning": [
@@ -1313,6 +1500,9 @@
     ],
     "dedup": [
       "2026-03-30-write-time-gating-salience.md"
+    ],
+    "deepresearch": [
+      "2026-04-06-deepresearch-agent-scope.md"
     ],
     "description": [
       "2026-04-03-anthropic-skill-creator-patterns.md",
@@ -1424,6 +1614,9 @@
     "lazy-allocation": [
       "2026-03-29-paged-context-protocol.md"
     ],
+    "learnings": [
+      "2026-04-05-bm25-memory-search.md"
+    ],
     "llm-as-judge": [
       "karpathy-loop-autoloop.md"
     ],
@@ -1441,6 +1634,8 @@
       "2026-04-04-gap-compact-variant-measurement.md"
     ],
     "memory": [
+      "2026-04-05-self-improving-harness.md",
+      "2026-04-05-agent-defense-frameworks.md",
       "2026-03-30-calm-semantic-bandwidth.md",
       "2026-03-29-paged-context-protocol.md"
     ],
@@ -1456,6 +1651,9 @@
     ],
     "model-capability": [
       "2026-03-26-harness-simplification.md"
+    ],
+    "model-training": [
+      "2026-04-06-osft-self-sharpening.md"
     ],
     "multi-agent": [
       "2026-04-02-distributed-systems-amdahl-gate.md",
@@ -1479,10 +1677,15 @@
       "karpathy-loop-autoloop.md"
     ],
     "orchestration": [
+      "2026-04-07-nsm-neuro-symbolic-orchestration.md",
+      "2026-04-06-deepresearch-agent-scope.md",
+      "2026-04-06-self-organizing-agents-ab-test.md",
       "2026-04-05-egoalpha-prompt-patterns.md",
+      "2026-04-05-self-improving-harness.md",
       "2026-04-04-skill0-dynamic-curriculum.md",
       "2026-04-02-distributed-systems-amdahl-gate.md",
       "2026-03-29-slopcodebench-iterative-degradation.md",
+      "2026-04-05-agent-defense-frameworks.md",
       "2026-03-30-calm-semantic-bandwidth.md"
     ],
     "orchestration-graph": [
@@ -1500,6 +1703,9 @@
     "pipeline": [
       "2026-03-29-claudini-autoresearch-loop.md"
     ],
+    "planning": [
+      "2026-04-07-nsm-neuro-symbolic-orchestration.md"
+    ],
     "playwright": [
       "2026-03-27-playwright-mcp-download-hijack.md"
     ],
@@ -1514,6 +1720,9 @@
       "harness-engineering.md",
       "environment-falai.md"
     ],
+    "ranking": [
+      "2026-04-05-bm25-memory-search.md"
+    ],
     "reasoning": [
       "2026-03-30-society-of-thought-orchestration.md",
       "2026-03-25-reasoning-isolation.md"
@@ -1522,30 +1731,44 @@
       "2026-04-05-regression-gate-pattern.md"
     ],
     "research": [
+      "2026-04-06-deepresearch-agent-scope.md",
+      "2026-04-06-self-organizing-agents-ab-test.md",
       "2026-04-05-egoalpha-prompt-patterns.md",
+      "2026-04-06-osft-self-sharpening.md",
       "2026-03-30-calm-semantic-bandwidth.md"
     ],
     "research-automation": [
       "2026-03-29-claudini-autoresearch-loop.md"
     ],
     "retrieval": [
+      "2026-04-05-bm25-memory-search.md",
       "2026-03-30-write-time-gating-salience.md",
       "2026-03-29-paged-context-protocol.md"
     ],
     "reward-hacking": [
       "2026-04-03-autoagent-overfitting-guard.md"
     ],
+    "rust": [
+      "2026-04-05-openfang-architecture-patterns.md"
+    ],
     "salience": [
       "2026-03-30-write-time-gating-salience.md"
     ],
     "sandbox": [
+      "2026-04-05-openfang-architecture-patterns.md",
       "2026-04-03-autoagent-parallel-candidates.md"
     ],
     "scheduled-maintenance": [
       "2026-03-24-openclaw-postmortem-patterns.md"
     ],
+    "scheduling": [
+      "2026-04-05-openfang-architecture-patterns.md"
+    ],
     "schema-utility": [
       "2026-04-04-toolgenesis-cascade-evaluation.md"
+    ],
+    "search": [
+      "2026-04-05-bm25-memory-search.md"
     ],
     "secrets": [
       "2026-03-27-secrets-in-config-files.md"
@@ -1553,11 +1776,16 @@
     "security": [
       "2026-03-27-playwright-mcp-download-hijack.md",
       "2026-03-27-secrets-in-config-files.md",
-      "2026-04-03-disable-skill-shell-audit.md"
+      "2026-04-03-disable-skill-shell-audit.md",
+      "2026-04-05-agent-defense-frameworks.md"
     ],
     "self-evolve": [
       "2026-04-05-regression-gate-pattern.md",
       "2026-04-03-autoagent-overfitting-guard.md"
+    ],
+    "self-improvement": [
+      "2026-04-05-self-improving-harness.md",
+      "2026-04-06-osft-self-sharpening.md"
     ],
     "session-continuity": [
       "checkpoint-versioning.md"
@@ -1616,6 +1844,9 @@
     "telegram": [
       "2026-03-26-channels-24x7-architecture.md"
     ],
+    "temperature-decoupling": [
+      "2026-04-06-osft-self-sharpening.md"
+    ],
     "testing": [
       "2026-04-05-regression-gate-pattern.md",
       "2026-04-03-testing-bottleneck.md"
@@ -1634,6 +1865,9 @@
     ],
     "tool-use": [
       "2026-04-03-smart-tool-overuse.md"
+    ],
+    "traces": [
+      "2026-04-05-self-improving-harness.md"
     ],
     "trajectory-distillation": [
       "2026-03-29-memcollab-agent-agnostic-memory.md"
@@ -1696,7 +1930,11 @@
       "environment-falai.md",
       "ecosystem-scan.md"
     ],
+    "hook": [
+      "2026-04-05-agent-defense-frameworks.md"
+    ],
     "memory": [
+      "2026-04-05-bm25-memory-search.md",
       "2026-03-30-write-time-gating-salience.md",
       "2026-03-29-memcollab-agent-agnostic-memory.md",
       "2026-03-26-autodream-coexistence.md",
@@ -1706,7 +1944,10 @@
     ],
     "orchestration": [
       "2026-04-02-audit-must-verify-consumers.md",
+      "2026-04-07-nsm-neuro-symbolic-orchestration.md",
+      "2026-04-06-self-organizing-agents-ab-test.md",
       "2026-04-05-regression-gate-pattern.md",
+      "2026-04-05-self-improving-harness.md",
       "2026-04-03-autoagent-overfitting-guard.md",
       "2026-04-02-distributed-systems-amdahl-gate.md",
       "2026-04-01-gsd2-error-classification.md",
@@ -1716,6 +1957,8 @@
       "2026-03-26-channels-24x7-architecture.md",
       "2026-03-26-harness-simplification.md",
       "2026-03-24-openclaw-postmortem-patterns.md",
+      "2026-04-06-osft-self-sharpening.md",
+      "2026-04-05-openfang-architecture-patterns.md",
       "2026-04-04-gap-budget-calibration.md",
       "2026-04-03-autoagent-parallel-candidates.md",
       "2026-04-03-smart-tool-overuse.md",
@@ -1732,6 +1975,7 @@
     ],
     "skill": [
       "2026-03-27-commands-vs-skills-structure.md",
+      "2026-04-06-deepresearch-agent-scope.md",
       "2026-04-05-egoalpha-prompt-patterns.md",
       "2026-04-04-skill0-dynamic-curriculum.md",
       "2026-04-04-toolgenesis-cascade-evaluation.md",

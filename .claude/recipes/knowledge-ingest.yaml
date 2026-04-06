@@ -1,0 +1,116 @@
+recipe: "1.0"
+name: knowledge-ingest
+title: "Knowledge Ingest"
+description: >
+  Use when you have raw content (articles, notes, research, URLs) to absorb
+  into the knowledge base. Dump anything — AI organizes it into learnings
+  and updates the wiki. Trigger on 'ingest', 'absorb', 'dump knowledge'.
+tags: [memory, documentation, workflow]
+model: sonnet
+effort: low
+maxTurns: 20
+
+parameters:
+  source:
+    type: string
+    description: "Path to file, URL, or 'clipboard' for pasted content"
+    required: true
+  topic:
+    type: string
+    description: "Topic hint (e.g., 'orchestration', 'security', 'tooling')"
+  component:
+    type: string
+    description: "STOPA component tag (skill|hook|memory|orchestration|pipeline|general)"
+    default: "general"
+
+steps:
+  - name: "Extract content"
+    prompt: |
+      Extract raw content from source: {{source}}
+
+      Rules:
+      - If source is a URL: use WebFetch to get clean text
+      - If source is a file path: Read it
+      - If source is 'clipboard': the user has pasted content in the conversation — use that
+      - Identify key claims, patterns, techniques, anti-patterns
+      - Note the source type (article, research paper, notes, documentation)
+
+      Output a mental summary (don't show to user yet) of:
+      - 3-7 key takeaways
+      - What component they relate to
+      - Any actionable rules or patterns
+    done: "content extracted and analyzed"
+
+  - name: "Check existing knowledge"
+    prompt: |
+      Before writing new learnings, check for overlap:
+
+      For each key takeaway from step 1, grep in .claude/memory/learnings/ for related terms.
+      Also check .claude/memory/learnings/critical-patterns.md.
+
+      Classify each takeaway as:
+      - NEW: no existing learning covers this
+      - UPDATE: existing learning should be updated/enriched
+      - DUPLICATE: already captured, skip
+      - CONTRADICTS: conflicts with existing learning — flag for user
+    done: "overlap check complete"
+
+  - name: "Write learnings"
+    prompt: |
+      For each NEW or UPDATE takeaway:
+
+      Create/update learning files in .claude/memory/learnings/ using standard format:
+      ```yaml
+      ---
+      date: {{current_date}}
+      type: best_practice  # or: architecture, anti_pattern, workflow, bug_fix
+      severity: medium  # or: critical, high, low
+      component: {{component}}
+      tags: [relevant, tags, here]
+      summary: "One-line summary of what to do and why"
+      source: external_research
+      confidence: 0.6
+      uses: 0
+      successful_uses: 0
+      harmful_uses: 0
+      ---
+
+      Full description of the learning with context.
+      ```
+
+      Filename: YYYY-MM-DD-short-description.md
+
+      For CONTRADICTS items: show the conflict to the user and ask which to keep.
+      For UPDATE items: edit the existing file, bump the date.
+
+      Also update block-manifest.json if it exists.
+    done: "learnings written to disk"
+
+  - name: "Update wiki"
+    prompt: |
+      Check if wiki articles need updating:
+
+      1. Read .claude/memory/wiki/INDEX.md
+      2. For each new learning, find which wiki article it belongs to
+      3. If the article exists: append the new knowledge (keep under 150 lines)
+      4. If no article fits: note it as a gap for next /compile run
+
+      DON'T rewrite entire wiki — just patch relevant articles.
+      Update INDEX.md health metrics (source count, last updated).
+    done: "wiki updated incrementally"
+
+  - name: "Report"
+    prompt: |
+      Summarize what was absorbed, in Czech:
+
+      ## Knowledge Ingest Report
+      - **Zdroj:** (source type and topic)
+      - **Nove:** N new learnings created (list filenames)
+      - **Aktualizovano:** N existing learnings updated
+      - **Preskoceno:** N duplicates
+      - **Konflikty:** any contradictions found
+      - **Wiki:** which articles were updated
+      - **Tip:** suggest what to explore next with /deepresearch if gaps found
+    done: "report displayed to user"
+
+verify: "At least one learning was created or updated, and wiki was checked."

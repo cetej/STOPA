@@ -1,0 +1,138 @@
+recipe: "1.0"
+name: knowledge-health
+title: "Knowledge Health Check"
+description: >
+  Use for monthly knowledge base audit. Finds contradictions, gaps,
+  stale content, and unsupported claims. Lighter than /evolve.
+  Trigger on 'health check', 'audit knowledge', 'knowledge review'.
+tags: [memory, documentation, review]
+model: sonnet
+effort: low
+maxTurns: 20
+
+parameters:
+  scope:
+    type: string
+    description: "What to audit: 'full' (everything), 'wiki' (articles only), 'learnings' (raw knowledge)"
+    default: "full"
+  fix:
+    type: boolean
+    description: "Auto-fix minor issues (stale dates, missing tags) or just report"
+    default: false
+
+steps:
+  - name: "Inventory"
+    prompt: |
+      Take stock of the knowledge base:
+
+      1. Count files in .claude/memory/learnings/ (exclude archive/, block-manifest.json, index-*.md)
+      2. Count wiki articles in .claude/memory/wiki/
+      3. Read .claude/memory/wiki/INDEX.md for last health metrics
+      4. Check .compile-state.json for last compile date
+      5. Read .claude/memory/learnings/critical-patterns.md — count entries
+
+      Build a mental inventory: total learnings, total wiki articles, last compile,
+      last evolve, oldest learning, newest learning.
+    done: "inventory complete"
+
+  - name: "Freshness scan"
+    prompt: |
+      Check for stale content:
+
+      1. Find learnings older than 90 days (from date: field) — these need verification
+      2. Find learnings with confidence < 0.4 — these are decaying
+      3. Check if wiki was compiled in the last 14 days
+      4. Find learnings with uses: 0 older than 60 days — never retrieved, possibly useless
+      5. Check if any learning file exceeds 50 lines (bloated)
+
+      {% if scope == 'wiki' %}Only check wiki articles, skip learnings scan.{% endif %}
+      {% if scope == 'learnings' %}Only check learnings, skip wiki.{% endif %}
+
+      Classify each finding as:
+      - STALE: needs verification or refresh
+      - DECAYING: confidence dropping, consider pruning
+      - UNUSED: never retrieved, low value signal
+      - BLOATED: too long, should be split
+    done: "freshness issues identified"
+
+  - name: "Contradiction scan"
+    prompt: |
+      Look for contradictions in the knowledge base:
+
+      1. Read all learnings tagged with the same component
+      2. Within each component group, compare claims — do any conflict?
+      3. Check wiki articles: do summaries match their source learnings?
+      4. Cross-reference critical-patterns.md with learnings — any disagreements?
+
+      For each contradiction found, note:
+      - Which files conflict
+      - What the conflict is about
+      - Which one is likely more current/correct
+    done: "contradictions identified"
+
+  - name: "Gap analysis"
+    prompt: |
+      Identify knowledge gaps:
+
+      1. List all unique component values across learnings
+      2. For each component: are there wiki articles covering it?
+      3. Check tag distribution — any tags with only 1 learning? (fragile knowledge)
+      4. Are there components mentioned in CLAUDE.md rules but with no learnings?
+      5. Read .claude/memory/news.md — any ACTION items that never became learnings?
+
+      Classify gaps as:
+      - MISSING_WIKI: component has learnings but no wiki article
+      - THIN_COVERAGE: only 1-2 learnings on a topic
+      - UNACTIONED: news items that should have been captured
+    done: "gaps identified"
+
+  - name: "Auto-fix"
+    prompt: |
+      {% if fix %}
+      Apply safe auto-fixes:
+
+      1. Learnings missing confidence: field → add default 0.7
+      2. Learnings missing uses: field → add default 0
+      3. Learnings with date > 90 days and confidence > 0.7 → apply decay
+      4. Update block-manifest.json if out of sync with actual files
+      5. DON'T delete or prune anything — only add missing fields and update manifest
+
+      Report what was fixed.
+      {% else %}
+      Skip auto-fix (fix=false). List what WOULD be fixed if enabled.
+      {% endif %}
+    done: "auto-fix applied or skipped"
+
+  - name: "Health report"
+    prompt: |
+      Generate a health report in Czech:
+
+      ## Knowledge Base Health Report
+
+      ### Inventar
+      - **Learnings:** N total (N active, N archived)
+      - **Wiki clanky:** N articles, last compiled YYYY-MM-DD
+      - **Critical patterns:** N/10 slots used
+      - **Pokryti:** X% components have wiki articles
+
+      ### Cerstvost
+      - **Stale (>90 dni):** list or "zadne"
+      - **Decaying (confidence <0.4):** list or "zadne"
+      - **Nepouzite (uses=0, >60 dni):** list or "zadne"
+
+      ### Konzistence
+      - **Konflikty:** list contradictions or "zadne"
+      - **Mezery:** list gaps with priority
+
+      ### Doporuceni
+      1. Most urgent action (what to fix first)
+      2. Suggested /compile if wiki is stale
+      3. Suggested /evolve if many decaying learnings
+      4. Topics worth researching to fill gaps
+
+      ### Skore: X/10
+      Calculate: 10 - (stale×0.5) - (contradictions×1.5) - (gaps×0.5) - (unused×0.3)
+      Clamp to 1-10 range.
+    done: "health report displayed"
+
+verify: "Health report with score was displayed. All scope areas were checked."
