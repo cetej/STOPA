@@ -420,6 +420,82 @@ def activate(cue: str, workspace: str = "", graph: dict = None) -> list[Activate
     return results[:MAX_ACTIVATED]
 
 
+# --- Graph Walk (LLM Wiki v2 Gap 1: knowledge graph → retrieval pipeline) ---
+
+def graph_walk_from_files(
+    seed_files: list[str],
+    graph: dict | None = None,
+    max_new: int = 6,
+) -> list[str]:
+    """1-hop graph walk seeded from matched learning filenames.
+
+    seed_files → reverse lookup entities → 1-hop neighbors (weight desc)
+    → return additional learning filenames not in seed set.
+
+    Used by hybrid-retrieve.py to add graph signal to RRF pipeline.
+    """
+    if graph is None:
+        graph = load_graph()
+
+    entities = graph.get("entities", {})
+    edges = graph.get("edges", {})
+    if not entities or not seed_files:
+        return []
+
+    # Normalize seed filenames (strip path, keep basename)
+    seed_basenames = {Path(f).name for f in seed_files}
+
+    # Step 1: Reverse index — filename → entity IDs
+    file_to_entities: dict[str, list[str]] = {}
+    for eid, ent in entities.items():
+        for lf in ent.get("learning_files", []):
+            basename = Path(lf).name
+            file_to_entities.setdefault(basename, []).append(eid)
+
+    # Step 2: Collect seed entity IDs
+    seed_eids: set[str] = set()
+    for fname in seed_basenames:
+        seed_eids.update(file_to_entities.get(fname, []))
+
+    if not seed_eids:
+        return []
+
+    # Step 3: 1-hop neighbors sorted by edge weight
+    neighbor_scores: dict[str, float] = {}  # eid → best weight
+    for edge_key, edge in edges.items():
+        parts = edge_key.split("|")
+        if len(parts) != 2:
+            continue
+        w = edge.get("weight", 0)
+        if w < MIN_EDGE_WEIGHT:
+            continue
+
+        a, b = parts
+        if a in seed_eids and b not in seed_eids:
+            neighbor_scores[b] = max(neighbor_scores.get(b, 0), w)
+        elif b in seed_eids and a not in seed_eids:
+            neighbor_scores[a] = max(neighbor_scores.get(a, 0), w)
+
+    # Step 4: Collect learning files from neighbors
+    ranked_neighbors = sorted(neighbor_scores.items(), key=lambda x: -x[1])
+    new_files: list[str] = []
+    seen: set[str] = set(seed_basenames)
+
+    for eid, _weight in ranked_neighbors:
+        ent = entities.get(eid, {})
+        for lf in ent.get("learning_files", []):
+            basename = Path(lf).name
+            # Skip index files and already-seen
+            if basename in seen or basename.startswith("index-") or basename == "critical-patterns.md":
+                continue
+            seen.add(basename)
+            new_files.append(basename)
+            if len(new_files) >= max_new:
+                return new_files
+
+    return new_files
+
+
 # --- Context Packet ---
 
 def compress_to_packet(nodes: list[ActivatedNode], max_tokens: int = CONTEXT_PACKET_MAX_TOKENS) -> str:

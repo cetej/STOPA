@@ -1,5 +1,42 @@
 # Agent Execution — Phase 4 Details
 
+## Pre-Spawn: Task Directory Setup (LLM Wiki v2 — Gap 3: shared/private scoping)
+
+Before spawning the first agent wave, create the task directory for memory isolation:
+
+```
+.claude/memory/intermediate/{task-id}/     ← agent private scratch
+.claude/memory/intermediate/shared/        ← cross-agent shared findings
+```
+
+Where `task-id` is a slug from the Phase 1 goal (lowercase, underscores, max 32 chars).
+If `intermediate/{task-id}/manifest.json` already exists and is <1h old, append timestamp suffix.
+
+Write `intermediate/{task-id}/manifest.json`:
+```json
+{"task_id": "<slug>", "created": "<ISO datetime>", "tier": "<tier>", "agents": []}
+```
+
+Also ensure `intermediate/shared/` exists (it persists across tasks).
+
+### Agent Directory Scoping
+
+Each agent's File Access Manifest includes scoped paths:
+
+```
+## File Access Manifest
+- WRITE: [.claude/memory/intermediate/{task-id}/{subtask-id}.json, <owned source files>]
+- READ:  [.claude/memory/intermediate/shared/, <reference files>]
+- SHARED_WRITE: [.claude/memory/intermediate/shared/] — only for cross-agent findings
+- FORBIDDEN: [.claude/memory/intermediate/{task-id}/<other-subtask>.json]
+```
+
+Rules:
+- Each agent owns exactly ONE output file in `{task-id}/`
+- Agents may read `shared/` freely
+- Agents may write to `shared/` ONLY when explicitly granted `SHARED_WRITE` (findings that affect other agents)
+- Self-organizing agents (exploratory) get READ on the full `{task-id}/` directory (they discover relevant files)
+
 ## Agent Prompt Template
 
 **Hierarchical context injection**: The orchestrator loads shared memory ONCE (Phase 0). When spawning agents, pass the relevant context directly in the prompt — do NOT instruct agents to re-read memory files. This saves 60-80% of token usage on memory loading across agents.

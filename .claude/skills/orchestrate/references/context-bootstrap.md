@@ -32,6 +32,21 @@ Where:
 
 Also apply **synonym expansion**: if no matches on primary keywords, retry with 2-3 related terms (e.g., "validation" → "sanitization", "input checking"). Max 2 rounds.
 
+## Step 2b — Hybrid expansion (when <3 manifest hits or deep tier)
+
+If `context_score > 1.0` for fewer than 3 blocks, OR tier is `deep`:
+
+```bash
+python scripts/hybrid-retrieve.py "<task-keywords>" --task-tier <tier> --top 8 --json
+```
+
+Parse JSON output. For each result not already in the manifest selection:
+- Add to candidate pool with `context_score = rrf_score × 120` (RRF scores are ~0.01-0.03, multiply to match manifest scale)
+- Mark source as `hybrid` for debugging
+
+This step adds at most 5 extra blocks before the token budget gate (Step 3).
+If `hybrid-retrieve.py` is unavailable (script missing), fall back to existing synonym fallback.
+
 ## Step 3 — Apply token budget
 
 Context budget for learnings: **~2 000 tokens** (standard tier), **~4 000 tokens** (deep tier).
@@ -43,6 +58,16 @@ This is the paged allocation: only top-N blocks get fetched, the rest stay on di
 ## Step 4 — Fetch selected blocks
 
 Read the actual files for the selected top-N block IDs. Expand `related:` links (1-hop, max 3 extras per block) if budget allows.
+
+### Step 4b — Graph walk expansion (budget permitting, light tier only)
+
+If Step 2b was NOT run (light tier with good grep hits), optionally expand via graph:
+1. For each selected block with component/tags matching task, look up entity IDs in `concept-graph.json`
+2. Find 1-hop neighbors (weight >= 0.5)
+3. Fetch their learning_files if not already loaded and budget allows
+4. Max 3 extra files from graph walk. Skip if `concept-graph.json` is >7 days old.
+
+Note: when hybrid-retrieve.py ran in Step 2b, graph walk is already included — skip this step.
 
 Pass fetched content directly in Phase 4 agent prompts. Agents do NOT re-read memory.
 

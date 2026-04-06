@@ -55,6 +55,8 @@ if [ -f "$INDEX_SCRIPT" ]; then
 
     if [ "$NEEDS_REBUILD" = true ]; then
         python "$INDEX_SCRIPT" > /dev/null 2>&1
-        echo "[LEARNINGS-SYNC] Rebuilt component indexes and block manifest"
+        # Also rebuild concept graph for hybrid retrieval (LLM Wiki v2 integration)
+        python .claude/hooks/lib/associative_engine.py build > /dev/null 2>&1
+        echo "[LEARNINGS-SYNC] Rebuilt component indexes, block manifest, and concept graph"
     fi
 fi

@@ -51,6 +51,19 @@ Record learnings via `/scribe learning` to `.claude/memory/learnings/` (per-file
 
 If a new repeatable pattern was discovered → suggest creating a skill via `/skill-generator`.
 
+## Task directory cleanup (LLM Wiki v2 — Gap 3)
+
+After critic PASS, clean up private agent scratch space:
+
+1. Read all files in `.claude/memory/intermediate/{task-id}/`
+2. Extract key findings from each agent's JSON (`findings`, `concerns`, `files_changed`)
+3. Write merged summary to `.claude/memory/intermediate/shared/{task-id}-summary.md`:
+   - Format: `## {task-id} — {date}`, then bullet list of findings, files changed, open concerns
+4. Delete `.claude/memory/intermediate/{task-id}/` directory
+
+Rationale: private scratch = RAM (ephemeral). Findings that matter get promoted to shared/ summary.
+Shared summaries persist until next `/sweep` or manual cleanup (max 10 summaries, oldest first).
+
 ## Entropy sweep (standard/deep tier, auto)
 
 If `git diff --stat` shows 5+ files changed in this session, auto-invoke `/sweep --scope blast-radius --auto` to clean up stale docs, dead code, and contradictions. This runs AFTER critic pass (so the code is correct) but BEFORE declaring done to user. Skip if tier is light or farm.
