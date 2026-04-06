@@ -120,6 +120,7 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
 ## Scan History
 
+### 2026-04-06 #2 — quick (scheduled) | Searches: 3 | Fetches: 2 | Items: 0 action, 0 watch, 4 info — API bugfixes: Extended Thinking whitespace fix, Tool Streaming fix, Write Tool +60% perf, Message Batches 300k confirmed official (item 49w status update)
 ### 2026-04-06 — full | Searches: 16 | Fetches: 3 | Items: 1 action, 2 watch, 3 info
 ### 2026-04-05 — quick (scheduled) | Searches: 3 | Fetches: 1 | Items: 0 action, 0 watch, 0 info — No new releases since 2026-04-04
 ### 2026-04-04 #6 — targeted content (Meta-Harness thread) | Fetches: 0 | Items: 1 action, 0 watch, 0 info
@@ -137,3 +138,15 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 ### 2026-03-27 — targeted (CC v2.1.85)
 
 Older: see `news-archive.md`
+
+## Weekly Digest 2026-04-06
+
+**Aktivita projektů:** STOPA 50 commitů (prompt-evolve GEPA, HERA failure-learning fáze 1-5, PromptGuard+CodeShield, BM25 memory search, permission hook v3.0, Command Center+/design, deepresearch fix, /clean-writing). NG-ROBOT aktivní (SEO phase 7b, Preview Hub). Ostatní projekty bez commitů.
+
+**Novinky:** 5 ACTION items — #73 Meta-Harness (/eval median + /orchestrate tool inventory), #70 agent-browser, #74 Sonnet 5 (čeká na rollout), #42 Voice Mode CZ. ~20 WATCH položek. Trend: agent defense + self-improvement smyčky.
+
+**Poučení:** 27 nových learnings v dubnu — SKILL0 dynamic curriculum, OSFT self-sharpening, agent defense frameworks, BM25 memory retrieval.
+
+**Údržba:** news.md 139 řádků (PŘES LIMIT 120) → archivovat. decisions.md OK (27). budget.md OK (36).
+
+**Doporučení:** 1) Archivovat news.md, 2) Implementovat #73 Meta-Harness, 3) Otestovat agent-browser (#70).

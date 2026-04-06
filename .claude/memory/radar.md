@@ -4,7 +4,7 @@ Tracked findings from `/radar` scans and manual evaluations.
 Archived: `radar-archive.md` (when >400 lines)
 
 ## Stats
-Last scan: 2026-04-05 (scheduled, proactive scan #4) | Mode: auto | Total: 20 tools | 🔴 3 | 🟡 16 | 🟢 1
+Last scan: 2026-04-06 (scheduled, proactive scan #5) | Mode: auto | Total: 24 tools | 🔴 3 | 🟡 20 | 🟢 1
 
 ## Active Research (🔴)
 | Tool | Category | Score | Source | Captured | Status | Project fit |
@@ -32,6 +32,10 @@ Last scan: 2026-04-05 (scheduled, proactive scan #4) | Mode: auto | Total: 20 to
 | [openai-agents-js](https://github.com/openai/openai-agents-js) | Agent framework / TypeScript | 5/10 | scan | 2026-04-05 | Produkční Swarm nástupce, 2.6k★, MIT. Differentiator: voice/realtime (WebRTC/SIP). STOPA Python → awareness only; lepší než Mastra pro voice use cases. |
 | [OpenFang](https://github.com/RightNow-AI/openfang) | Agent OS / Rust | 6/10 | manual | 2026-04-05 | 137K LOC, 14 crates, 1767+ testy, 40MB idle, 180ms cold start. WASM sandbox, Merkle audit chain. Pre-1.0 (v0.3.30). Bundled "Hands": OSINT Collector (→MONITOR), Predictor (→POLYBOT), Researcher. REST API 140+ endpoints → použitelné z Pythonu. Stack mismatch (Rust vs Python), ale architektura zajímavá jako reference. |
 | [Memvid](https://github.com/memvid/memvid) | Agent memory / single-file | 6/10 | manual/GH trending | 2026-04-05 | Rust core, Python/Node SDK, Apache 2.0. Single `.mv2` file = embeddings + HNSW + Tantivy FTS + temporal index + WAL. v2.0.139+, active (2-4wk releases). Claims +35% LoCoMo, 0.025ms P50. AES-256-GCM encryption. Zero-infra vs Mem0/Zep. Pro NG-ROBOT/MONITOR scaling, ne pro STOPA (markdown grep-first stačí). |
+| [oh-my-pi](https://github.com/can1357/oh-my-pi) | Terminal coding agent | 7/10 | scan | 2026-04-06 | TypeScript+Rust+Bun, 2.7k★, fork pi-mono. **Hash-anchored edits** = 10× méně whitespace chyb. LSP pro 40+ jazyků. Parallel subagenti. MCP support. `bun install -g @oh-my-pi/pi-coding-agent`. CC competitor s unikátní architekturou. |
+| [open-swe](https://github.com/langchain-ai/open-swe) | Async coding agent | 7/10 | scan | 2026-04-06 | Python, MIT, LangGraph, 9.2k★. Async multi-task — Slack/Linear/GitHub triggery, každý task v izolovaném sandboxu, auto-PR. Subagenti. 15 cílených tools. Enterprise pattern study pro NG-ROBOT/STOPA orchestration. |
+| [microsoft/agent-framework](https://github.com/microsoft/agent-framework) | Agent orchestration framework | 5/10 | scan | 2026-04-06 | Python+.NET, MIT, 8.9k★. Graph-based, DevUI, OpenTelemetry, RL labs. Nahrazuje Semantic Kernel + AutoGen. Generický (podobný LangGraph/Mastra), ale Microsoft authority. |
+| [simonw/scan-for-secrets](https://github.com/simonw/scan-for-secrets) | Security / secrets scanner | 6/10 | scan | 2026-04-06 | Python, simonw, v0.2. Skenuje soubory na secrets před sdílením. Stream výsledků, multi-dir, Python API. Komplementuje mcp-scan pro pre-share security checks. `pip install scan-for-secrets`. |
 
 ## Archive (🟢 — last 30, older → radar-archive.md)
 | Tool | Score | Captured | Why low |
@@ -75,6 +79,14 @@ Last scan: 2026-04-05 (scheduled, proactive scan #4) | Mode: auto | Total: 20 to
 - [Maritime](https://maritime.sh/) — 5/10 🟡 — Stateful agent hosting platform. Sleep/wake (no cold starts), $1-10/mo. Private beta. Future relevance for deploying ZACHVEV/MONITOR/POLYBOT agents.
 - [openai-agents-js](https://github.com/openai/openai-agents-js) — 5/10 🟡 — Production Swarm for TypeScript, MIT, 2.6k★. Voice/realtime differentiator. STOPA is Python → awareness only.
 - Skipped (already tracked): FastMCP 2.0 (upgrade noted — enterprise auth added), Jolt AI, LiteParse, Junie CLI, Google ADK JS, Strands, Colab MCP, Gemini CLI, Mastra, MCPCore, VoltAgent, auto-harness
+
+### 2026-04-06 — scheduled scan #5 | Searches: 11 | Fetches: 5 | Found: 4 new
+- [oh-my-pi](https://github.com/can1357/oh-my-pi) — 7/10 🟡 — Terminal AI coding agent (TypeScript+Rust+Bun). Hash-anchored edits (10× whitespace fix), LSP 40+ langs, parallel subagents, MCP. 2.7k★ fork of pi-mono. CC competitor with novel edit anchoring architecture.
+- [open-swe](https://github.com/langchain-ai/open-swe) — 7/10 🟡 — LangChain async coding agent on LangGraph. 9.2k★, MIT, Python. Trigger via Slack/Linear/GitHub, isolated cloud sandboxes per task, auto-PR, subagents. Enterprise orchestration patterns relevant to NG-ROBOT.
+- [simonw/scan-for-secrets](https://github.com/simonw/scan-for-secrets) — 6/10 🟡 — Simon Willison secrets scanner v0.2. Scans files before sharing, Python API, streaming results. Complements mcp-scan for pre-commit/pre-share security.
+- [microsoft/agent-framework](https://github.com/microsoft/agent-framework) — 5/10 🟡 — Microsoft Python+.NET agent framework, 8.9k★, MIT. Graph orchestration, DevUI, RL labs. Supercedes Semantic Kernel + AutoGen.
+- Ecosystem note: OpenAI Responses API (March 2026) now uses **SKILL.md format** compatible with Anthropic Claude — STOPA skills theoretically portable to OpenAI. No action needed now, but important for future multi-provider distribution.
+- Skipped: research-llm-apis (simonw reference repo, not actionable tool), scan results overlapping with existing entries (Gemini CLI, Strands, FastMCP, Google ADK TS, LiteParse, Mastra)
 
 ### 2026-04-05 — manual | Fetches: 1 | Found: 1 new
 - [auto-harness](https://github.com/neosigmaai/auto-harness) — 6/10 🟡 — NeoSigma self-improving loop: failure mining → root-cause clustering → eval gen → regression gate. Tau3 0.56→0.78. Concepts adoptable do STOPA /autoharness + /eval.

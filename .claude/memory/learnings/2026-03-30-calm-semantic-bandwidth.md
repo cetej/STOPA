@@ -14,7 +14,7 @@ harmful_uses: 0
 verify_check: "Glob('.claude/memory/decisions.md') → 1+ matches"
 related:
   - 2026-03-29-claudini-autoresearch-loop.md
-confidence: 0.75
+confidence: 0.8
 ---
 
 ## CALM Semantic Bandwidth Principle for Memory
