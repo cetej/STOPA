@@ -4,7 +4,7 @@ Tracked findings from `/radar` scans and manual evaluations.
 Archived: `radar-archive.md` (when >400 lines)
 
 ## Stats
-Last scan: 2026-04-06 (scheduled, proactive scan #5) | Mode: auto | Total: 24 tools | 🔴 3 | 🟡 20 | 🟢 1
+Last scan: 2026-04-06 (scheduled, proactive scan #6) | Mode: auto | Total: 29 tools | 🔴 4 | 🟡 23 | 🟢 2
 
 ## Active Research (🔴)
 | Tool | Category | Score | Source | Captured | Status | Project fit |
@@ -12,10 +12,13 @@ Last scan: 2026-04-06 (scheduled, proactive scan #5) | Mode: auto | Total: 24 to
 | [claude-code-sdk-python](https://github.com/anthropics/claude-code-sdk-python) | SDK / orchestration | 8/10 | manual | 2026-04-03 | **DONE** — [report](../outputs/radar-claude-code-sdk-python-2026-04-03.md) | STOPA — programmatic CC control, scheduled agents, budget per subagent |
 | [Claw Code](https://github.com/instructkr/claw-code) | Agent harness / open-source CC clone | 9/10 | scan/PR | 2026-04-04 | **EVALUATE** | STOPA — open inspectable agent harness (Python+Rust), study for architecture patterns |
 | [mcp-scan](https://github.com/invariantlabs-ai/mcp-scan) | MCP security scanner | 8/10 | scan | 2026-04-05 | **EVALUATE** | STOPA — scan all MCP servers before adding; rug pull + tool poisoning attack vector |
+| [TradingAgents](https://github.com/TauricResearch/TradingAgents) | Financial multi-agent framework | 8/10 | scan | 2026-04-06 | **EVALUATE** | POLYBOT + ORAKULUM — multi-agent LLM trading (Analyst/Trader/Risk roles, LangGraph, Apache-2.0, 47k★) |
 
 ## Watch List (🟡)
 | Tool | Category | Score | Source | Captured | Notes |
 |------|----------|-------|--------|----------|-------|
+| [T² Scaling Laws](https://arxiv.org/abs/2604.01411) | Research / scaling | 7/10 | manual/user | 2026-04-06 | Train-to-Test scaling: overtraining menší model + pass@k inference > Chinchilla-optimal velký model. Implikace pro STOPA model tier selection (haiku overtrained + sampling > sonnet one-shot). Roberts et al., UW-Madison. |
+| [RLSD (Self-Distilled RLVR)](https://arxiv.org/abs/2604.03128) | Research / training | 5/10 | manual/user | 2026-04-06 | Hybrid RLVR + self-distillation: teacher moduluje update magnitude, env reward určuje směr. Řeší info leakage kolaps čisté distillation. Qwen3-VL-8B, +2.3% nad GRPO. WIP paper. Pro nás: mentální model, ne přímé použití. |
 | [FastMCP](https://github.com/jlowin/fastmcp) | MCP framework | 7/10 | scan/GitHub | 2026-04-03 | v3.2.0, 24.2k★, 1M dl/day. Pro STOPA MCP server building |
 | [Sonatype Guide MCP](https://github.com/sonatype/dependency-management-mcp-server) | MCP / dependency safety | 7/10 | scan | 2026-04-04 | Free MCP server pro Claude Code. Prevents hallucinated packages (27% LLM error rate). `claude mcp add sonatype-mcp` |
 | [Jolt AI](https://www.usejolt.ai/) | Coding assistant / large codebase | 5/10 | scan/PH | 2026-04-04 | AI codegen pro 100K-8M line codebases. VS Code + JetBrains. Commercial SaaS. |
@@ -36,13 +39,21 @@ Last scan: 2026-04-06 (scheduled, proactive scan #5) | Mode: auto | Total: 24 to
 | [open-swe](https://github.com/langchain-ai/open-swe) | Async coding agent | 7/10 | scan | 2026-04-06 | Python, MIT, LangGraph, 9.2k★. Async multi-task — Slack/Linear/GitHub triggery, každý task v izolovaném sandboxu, auto-PR. Subagenti. 15 cílených tools. Enterprise pattern study pro NG-ROBOT/STOPA orchestration. |
 | [microsoft/agent-framework](https://github.com/microsoft/agent-framework) | Agent orchestration framework | 5/10 | scan | 2026-04-06 | Python+.NET, MIT, 8.9k★. Graph-based, DevUI, OpenTelemetry, RL labs. Nahrazuje Semantic Kernel + AutoGen. Generický (podobný LangGraph/Mastra), ale Microsoft authority. |
 | [simonw/scan-for-secrets](https://github.com/simonw/scan-for-secrets) | Security / secrets scanner | 6/10 | scan | 2026-04-06 | Python, simonw, v0.2. Skenuje soubory na secrets před sdílením. Stream výsledků, multi-dir, Python API. Komplementuje mcp-scan pro pre-share security checks. `pip install scan-for-secrets`. |
+| [MAI-Transcribe-1](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/mai-transcribe) | Speech-to-text / Azure API | 7/10 | scan | 2026-04-06 | Microsoft Foundry, closed weights, Azure preview. #1 FLEURS WER (3.9% avg, 25 langs incl. Czech). Python SDK `azure-ai-transcription`, $0.36/hod. Whisper alternative pro NG-ROBOT media expansion. Žádné SLA v preview. |
 
 ## Archive (🟢 — last 30, older → radar-archive.md)
 | Tool | Score | Captured | Why low |
 |------|-------|----------|---------|
 | [VoltAgent](https://voltagent.dev/) | 4/10 | 2026-04-03 | TS agent framework, nic unikátního vs LangGraph/ADK, 7.2k★ |
+| [Perplexity Computer](https://www.perplexity.ai/hub/blog/introducing-perplexity-computer) | AI super-agent / commercial | 4/10 | scan | 2026-04-06 | $200/mo, closed, cloud-only. Orchestruje 19 modelů autonomně. MCP odmítli (context window + auth tření). Perplexity API Platform existuje. Local agent pouze macOS. Gate 2 fail pro většinu STOPA use-cases. |
 
 ## Scan Log
+### 2026-04-06 — scheduled scan #6 | Searches: 11 | Fetches: 3 | Found: 3 new
+- [TradingAgents](https://github.com/TauricResearch/TradingAgents) — 8/10 🔴 — Python+LangGraph multi-agent financial trading. Roles: Fundamentals/Sentiment/News/Technical Analysts, Researcher duo, Trader, Risk Mgmt, Portfolio Mgr. 47k★, Apache-2.0, v0.2.2, cross-platform (Docker). Přímý fit pro POLYBOT (paper trading) + ORAKULUM (multi-agent debate pattern). `pip install .`
+- [MAI-Transcribe-1](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/mai-transcribe) — 7/10 🟡 — Microsoft SOTA speech-to-text, #1 FLEURS WER 3.9% (25 jazyků vč. češtiny). Closed weights, Azure preview, $0.36/hod, 2.5× rychlejší než Azure Fast Transcription. Python SDK `azure-ai-transcription`. Relevantní pro NG-ROBOT media expansion jako Whisper alternative.
+- [Perplexity Computer](https://www.perplexity.ai/hub/blog/introducing-perplexity-computer) — 4/10 🟢 — Komerční AI super-agent ($200/mo), orchestruje 19 modelů. MCP odmítli pro produkci (context overhead). Gate 2 fail. API Platform zajímavá ale commercial.
+- Skipped (already tracked): TradingAgents ecosystem references to LangGraph, FastMCP, Gemma 4 (model →/watch), OpenAI Responses API (→/watch), AutoResearch Karpathy (→/autoresearch), AISuite (established 2024), Dify (established 2023), Cursor Composer 2 (commercial product)
+
 ### 2026-04-05 — manual | Memvid (memvid/memvid) — 6/10 🟡
 - #1 GitHub trending. Rust single-file memory layer for AI agents. `.mv2` = HNSW vectors + Tantivy FTS + temporal + WAL + encryption. Python SDK available. Zero-infra alternative to Mem0/Zep/LangMem. Unique in portability. STOPA nepotřebuje (markdown grep stačí), ale NG-ROBOT archiv a MONITOR OSINT corpus = budoucí fit.
 

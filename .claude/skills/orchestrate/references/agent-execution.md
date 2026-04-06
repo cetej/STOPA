@@ -66,6 +66,58 @@ Agent(subagent_type: "general-purpose", prompt: "
 ")
 ```
 
+## Self-Organizing Agent Template (exploratory tasks)
+
+When `task_style == exploratory` (classified in Phase 1), use this lighter template instead of the full prescribed template above. The agent receives the mission and quality goal — it decides HOW to approach it.
+
+```
+Agent(subagent_type: "general-purpose", prompt: "
+  ## Mission
+  <overall goal from state.md — what needs to be accomplished>
+
+  ## Quality Goal
+  <what a good result looks like — not HOW to get there>
+
+  ## Context
+  <relevant learnings, decisions, conventions — same as structured template>
+
+  ## Scope
+  - Files/directories in scope: <list>
+  - Standards to check against: <file paths if applicable>
+  - Time/budget constraint: step <N> of <max>, budget remaining: <from budget.md>
+
+  ## Constraints (what NOT to do)
+  - Do NOT edit any files — this is analysis/research only
+  - <any task-specific constraints>
+
+  Figure out the best approach yourself — what to read, what to check, in what order.
+
+  IMPORTANT: All project context you need is provided above. Do NOT read .claude/memory/ files.
+
+  LAST ACTION: End with Status block:
+  ## Status
+  - code: DONE | DONE_WITH_CONCERNS | NEEDS_CONTEXT | BLOCKED
+  - concerns: <if applicable>
+")
+```
+
+**Key differences from structured template:**
+- No prescribed steps (MUST/MUST NOT/AUTONOMY SCOPE replaced by mission + quality goal)
+- No File Access Manifest (agent discovers relevant files itself)
+- No Execution Chain framing (agent decides its own sequence)
+- Constraints section is minimal — only hard limits
+- Results in broader exploration, more issues found (+8% quality on exploratory tasks)
+
+**When to use which:**
+
+| task_style | Template | Reason |
+|------------|----------|--------|
+| `exploratory` | Self-organizing (above) | Agent discovers what matters — finds unexpected issues |
+| `structured` | Full prescribed (above) | Steps ensure consistent, well-formatted output |
+| Mixed (some subtasks each) | Per-subtask choice | Exploratory subtasks get self-org, structured get prescribed |
+
+**Farm tier exception:** Always use structured template — mechanical tasks need prescribed steps regardless.
+
 ## Auto-summary rule
 
 Every spawned agent MUST set a status summary as its first action. This applies to:

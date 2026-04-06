@@ -136,6 +136,24 @@ Parse `$ARGUMENTS` and determine:
 
 If unclear, ask the user before proceeding. Never guess on ambiguous requirements.
 
+### Classify Task Style (arXiv:2603.28990)
+
+Before tier selection, classify the task's **delegation style** — this determines how much structure agents receive:
+
+| Signal | → `exploratory` | → `structured` |
+|--------|-----------------|----------------|
+| Task keywords | audit, review, scout, research, investigate, explore, find issues, analyze | implement, migrate, rename, rank, score, format, generate report |
+| Goal clarity | Open-ended ("find quality issues") | Specific deliverable ("produce ranked list of X") |
+| Output format | Varies — agent discovers what matters | Predefined — table, ranking, specific schema |
+| File scope | Unknown until explored | Known from task description |
+
+**Default**: `exploratory` (safer — structured agents miss unexpected issues).
+**Override**: User can force with `--style exploratory` or `--style structured`.
+
+**Why:** A/B test (2026-04-06) confirmed: self-organizing agents outperform prescribed-role agents by +8% on exploratory tasks (audit, research). Prescribed steps produce better structured output (ranking, scoring). Ref: learning `2026-04-06-self-organizing-agents-ab-test.md`.
+
+Log: `"Task style: {style} (signals: {keywords_matched})"`
+
 ### Assign Complexity Tier
 
 **First, check learned heuristics:** Read `${CLAUDE_SKILL_DIR}/tier-heuristics.md` for patterns extracted from past task traces. If the current task matches a heuristic, use its recommended tier.
@@ -282,6 +300,10 @@ Based on scout results:
 1. **Decompose** the task into subtasks
 2. **Identify dependencies** between subtasks (what blocks what)
 3. **Classify each subtask**: known pattern → skill; new repeatable → create skill; one-off complex → Agent; one-off simple → direct
+3b. **Assign delegation style per subtask** based on `task_style` from Phase 1:
+   - `exploratory` task → subtasks default to self-org template (mission-only prompt)
+   - `structured` task → subtasks default to prescribed template (full Process Frame)
+   - Override per subtask: mark `style: exploratory` or `style: structured` in subtask YAML if a subtask differs from task default (e.g., structured task with one exploratory research subtask)
 4. **Tool Necessity Check (SMART gate)**: For each subtask, ask: "Is this answerable from context already loaded?" If yes → resolve directly without spawning an agent. Eliminates ~20% of unnecessary spawns.
 5. **Assign waves** (topological sort):
    - No dependencies → Wave 1
@@ -384,6 +406,7 @@ Core principles:
 - **Pre-launch disjointness check**: Before parallel spawn, verify WRITE file lists don't overlap.
 - **Wave-based execution**: Execute wave by wave. Max 3 parallel agents per wave.
 - **Agent Status Codes**: DONE | DONE_WITH_CONCERNS | NEEDS_CONTEXT | BLOCKED
+- **Template selection by task_style**: Use self-organizing template for `exploratory` subtasks, prescribed template for `structured` subtasks. See `agent-execution.md` for both templates. Log which template was used per agent.
 
 ### If using a Skill:
 Invoke the appropriate `/skill-name` with arguments.
