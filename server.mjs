@@ -42,7 +42,7 @@ const PROJECTS = [
     ]},
   { id: 'adobe', name: 'ADOBE-AUTOMAT', path: `${ROOT}/ADOBE-AUTOMAT`, port: 8100,
     extraPorts: [{ port: 5173, label: 'UI' }],
-    cmd: 'uvicorn', args: ['main:app', '--host', '127.0.0.1', '--port', '8100'],
+    cmd: 'python', args: ['-m', 'uvicorn', 'main:app', '--host', '127.0.0.1', '--port', '8100'],
     startCwd: `${ROOT}/ADOBE-AUTOMAT/backend`,
     tech: 'FastAPI + Svelte', stack: ['Python', 'FastAPI', 'Svelte 5', 'Tailwind 4', 'Adobe MCP'],
     desc: 'NGM Localizer — magazine localization, map text extraction, Adobe automation',
@@ -53,7 +53,7 @@ const PROJECTS = [
     ]},
   { id: 'grafik', name: 'GRAFIK', path: `${ROOT}/GRAFIK`, port: 8300,
     extraPorts: [{ port: 8503, label: 'UI' }],
-    cmd: 'uvicorn', args: ['grafik.api.app:app', '--port', '8300', '--host', '127.0.0.1'],
+    cmd: 'python', args: ['-m', 'uvicorn', 'grafik.api.app:app', '--port', '8300', '--host', '127.0.0.1'],
     tech: 'FastAPI + Streamlit', stack: ['Python', 'FastAPI', 'Streamlit', 'fal.ai', 'Pillow'],
     desc: 'Modular layered image editor — Qwen-Image-Layered, layer decomposition, map localization',
     commands: [
@@ -84,7 +84,7 @@ const PROJECTS = [
       { cmd: 'npm run build && npm start', desc: 'Production build + start' },
     ]},
   { id: 'orakulum', name: 'ORAKULUM', path: `${ROOT}/ORAKULUM`, port: 8000,
-    cmd: 'uvicorn', args: ['orakulum.serve.app:create_app', '--factory', '--port', '8000'], tech: 'FastAPI', stack: ['Python', 'FastAPI', 'scikit-learn', 'Tigramite'],
+    cmd: 'python', args: ['-m', 'uvicorn', 'orakulum.serve.app:create_app', '--factory', '--port', '8000'], tech: 'FastAPI', stack: ['Python', 'FastAPI', 'scikit-learn', 'Tigramite'],
     desc: 'Prediction & correlation engine — anomaly detection, causal inference, shared by MONITOR/POLYBOT',
     commands: [
       { cmd: 'uvicorn orakulum.serve.app:create_app --factory --port 8000', desc: 'Start API on :8000' },
@@ -92,20 +92,20 @@ const PROJECTS = [
     ]},
   { id: 'zachvev', name: 'ZACHVEV', path: `${ROOT}/ZACHVEV`, port: 8502,
     extraPorts: [{ port: 8001, label: 'API' }],
-    cmd: 'streamlit', args: ['run', 'ui/app.py', '--server.port', '8502'], tech: 'Streamlit + FastAPI', stack: ['Python', 'Streamlit', 'FastAPI', 'DistilBERT', 'HDBSCAN'],
+    cmd: 'python', args: ['-m', 'streamlit', 'run', 'ui/app.py', '--server.port', '8502'], tech: 'Streamlit + FastAPI', stack: ['Python', 'Streamlit', 'FastAPI', 'DistilBERT', 'HDBSCAN'],
     desc: 'Opinion avalanche detection — Reddit narrative cascades, EWS, CRI index, embedding clustering',
     commands: [
       { cmd: 'streamlit run ui/app.py --server.port 8502', desc: 'Start Streamlit UI on :8502' },
       { cmd: 'uvicorn zachvev.api.app:app --port 8001', desc: 'Start API on :8001 (ORAKULUM uses :8000)' },
     ]},
   { id: 'rozhovor', name: 'ROZHOVOR', path: `${ROOT}/ROZHOVOR`, port: 8504,
-    cmd: 'streamlit', args: ['run', 'ui/app.py', '--server.port', '8504'], tech: 'Streamlit', stack: ['Python', 'Streamlit', 'VibeVoice-ASR', 'Whisper', 'Claude API'],
+    cmd: 'python', args: ['-m', 'streamlit', 'run', 'ui/app.py', '--server.port', '8504'], tech: 'Streamlit', stack: ['Python', 'Streamlit', 'VibeVoice-ASR', 'Whisper', 'Claude API'],
     desc: 'Audio transcription + AI processing — 8 modes (summary, key points, speakers, Q&A...)',
     commands: [
       { cmd: 'streamlit run ui/app.py --server.port 8504', desc: 'Start transcription UI on :8504' },
     ]},
   { id: 'dane', name: 'DANE', path: `${ROOT}/DANE`, port: 8505,
-    cmd: 'streamlit', args: ['run', 'ui/app.py', '--server.port', '8505'], tech: 'Streamlit', stack: ['Python', 'Streamlit', 'Pydantic', 'PyMuPDF', 'Claude API'],
+    cmd: 'python', args: ['-m', 'streamlit', 'run', 'ui/app.py', '--server.port', '8505'], tech: 'Streamlit', stack: ['Python', 'Streamlit', 'Pydantic', 'PyMuPDF', 'Claude API'],
     desc: 'Czech tax calculator — automated 2025 tax return for FO (employees, OSVČ, rental)',
     commands: [
       { cmd: 'streamlit run ui/app.py --server.port 8505', desc: 'Start tax calculator UI on :8505' },
@@ -120,7 +120,35 @@ const PROJECTS = [
 ];
 
 // ─── Process Tracking ────────────────────────────────────────────────
-const processes = new Map(); // id → { pid, child }
+const processes = new Map(); // id → { pid, child, log[] }
+
+function spawnProject(proj) {
+  const child = spawn(proj.cmd, proj.args, {
+    cwd: proj.startCwd || proj.path,
+    detached: true,
+    stdio: ['ignore', 'pipe', 'pipe'],
+    shell: true,
+    windowsHide: true,
+    env: { ...process.env, PORT: String(proj.port) },
+  });
+  const log = [];
+  const collect = stream => {
+    if (!stream) return;
+    stream.setEncoding('utf8');
+    stream.on('data', chunk => {
+      log.push(chunk);
+      if (log.length > 50) log.shift();
+    });
+  };
+  collect(child.stdout);
+  collect(child.stderr);
+  child.on('exit', (code) => {
+    log.push(`[process exited with code ${code}]`);
+  });
+  child.unref();
+  processes.set(proj.id, { pid: child.pid, child, log });
+  return child;
+}
 
 function checkPort(port) {
   return new Promise(resolve => {
@@ -198,16 +226,7 @@ app.post('/api/projects/:id/start', async (req, res) => {
   if (running) return res.status(409).json({ error: 'Already running', port: proj.port });
 
   try {
-    const child = spawn(proj.cmd, proj.args, {
-      cwd: proj.startCwd || proj.path,
-      detached: true,
-      stdio: 'ignore',
-      shell: true,
-      windowsHide: true,
-      env: { ...process.env, PORT: String(proj.port) },
-    });
-    child.unref();
-    processes.set(proj.id, { pid: child.pid, child });
+    const child = spawnProject(proj);
     res.json({ ok: true, pid: child.pid });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -241,20 +260,18 @@ app.post('/api/projects/:id/restart', async (req, res) => {
   await new Promise(r => setTimeout(r, 1500));
 
   try {
-    const child = spawn(proj.cmd, proj.args, {
-      cwd: proj.startCwd || proj.path,
-      detached: true,
-      stdio: 'ignore',
-      shell: true,
-      windowsHide: true,
-      env: { ...process.env, PORT: String(proj.port) },
-    });
-    child.unref();
-    processes.set(proj.id, { pid: child.pid, child });
+    const child = spawnProject(proj);
     res.json({ ok: true, pid: child.pid });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+});
+
+// GET /api/projects/:id/log — process stdout/stderr
+app.get('/api/projects/:id/log', (req, res) => {
+  const tracked = processes.get(req.params.id);
+  if (!tracked) return res.json({ log: [] });
+  res.json({ log: tracked.log.slice(-30) });
 });
 
 // GET /api/projects/:id/git-log

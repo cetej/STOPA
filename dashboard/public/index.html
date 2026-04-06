@@ -212,9 +212,38 @@ async function projectAction(id, action) {
   try {
     const res = await fetch(`/api/projects/${id}/${action}`, { method: 'POST' });
     const data = await res.json();
-    toast(data.ok ? `${action} ${id} — OK` : (data.error || 'Failed'), data.ok ? 'success' : 'error');
+    if (data.ok && (action === 'start' || action === 'restart')) {
+      toast(`${action} ${id} — waiting for port...`);
+      waitForPortAndOpen(id);
+    } else {
+      toast(data.ok ? `${action} ${id} — OK` : (data.error || 'Failed'), data.ok ? 'success' : 'error');
+      setTimeout(fetchProjects, 1500);
+    }
   } catch (e) { toast(e.message, 'error'); }
-  setTimeout(fetchProjects, 1500);
+}
+
+async function waitForPortAndOpen(id) {
+  const p = projects.find(x => x.id === id);
+  if (!p || !p.port) return;
+  for (let i = 0; i < 10; i++) {
+    await new Promise(r => setTimeout(r, 2000));
+    await fetchProjects();
+    const updated = projects.find(x => x.id === id);
+    if (updated?.running) {
+      toast(`${p.name} running on :${p.port}`, 'success');
+      window.open(`http://127.0.0.1:${p.port}`, '_blank');
+      return;
+    }
+  }
+  // Fetch process log for error info
+  try {
+    const logRes = await fetch(`/api/projects/${id}/log`);
+    const logData = await logRes.json();
+    const lastLines = logData.log.join('').trim().split('\n').slice(-3).join(' | ');
+    toast(`${p.name} failed: ${lastLines || 'no output'}`, 'error');
+  } catch {
+    toast(`${p.name} — port :${p.port} not responding after 20s`, 'error');
+  }
 }
 
 async function fetchProjectActivity(id) {
