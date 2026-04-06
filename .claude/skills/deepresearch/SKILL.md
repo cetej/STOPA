@@ -127,30 +127,81 @@ Analyze the research question using extended thinking. Produce:
 
 Present the plan to the user. Wait for confirmation before proceeding.
 
-### Step 2: Parallel Evidence Gathering
+### Step 2: Three-Phase Evidence Gathering
 
-Spawn **2-4 researcher subagents** (Sonnet model) in parallel using the Agent tool. Each agent gets:
-- One disjoint sub-question
-- The integrity commandments (copy them into the agent prompt)
-- Instructions to write results to a specific file: `outputs/.research/<slug>-research-<N>.md`
+Evidence gathering uses a **three-phase pipeline** to minimize token waste. Each phase writes to files — the next phase reads only files, never inheriting bloated agent context.
 
-**Agent prompt template:**
+**Time budget (tell user BEFORE launching):**
+
+| Phase | Model | Agents | Max calls/agent | Wall time |
+|-------|-------|--------|----------------|-----------|
+| Discovery | Haiku | 3-5 parallel | 5 | ~3 min |
+| Reading | Sonnet | 2-3 parallel | 8 | ~10 min |
+| Synthesis | Lead (you) | — | — | ~3 min |
+| **Total** | | | | **~16 min max** |
+
+**Why three phases:** One Sonnet agent doing 34 calls costs ~2.8M tokens (context grows per roundtrip, cost is quadratic). Five Haiku agents × 5 calls + three Sonnet agents × 8 calls costs ~1M tokens total — same coverage, 65% cheaper, 4× faster.
+
+#### Phase 2a: Discovery (Haiku, ~3 min)
+
+Spawn **3-5 discovery agents** (Haiku model) in parallel. Each agent gets ONE sub-question and does **only WebSearch** — no fetching, no reading. Output: ranked URL list with one-sentence descriptions.
+
+**Discovery agent prompt template:**
+```
+You are a URL discovery agent. Your task: find the best sources for <sub-question>.
+
+BUDGET: MAX 5 tool calls. After 5 calls, write what you have and STOP.
+
+RULES:
+- Use ONLY WebSearch (no WebFetch, no reading content)
+- For each result, write: URL + one-sentence description of why it's relevant
+- Rank by expected quality: academic papers > official docs > reputable journalism > blogs
+- Note: Claude's web search has auto-depth Research mode — phrase queries as full questions to trigger deeper search.
+- If first 2 searches cover the topic well, STOP early — don't use all 5 calls
+
+OUTPUT — write to file <output-path> (outputs/.research/<slug>-discovery-<N>.md):
+
+## URLs for: <sub-question>
+
+| # | URL | Description | Expected quality |
+|---|-----|-------------|-----------------|
+| 1 | ... | ... | high/medium/low |
+
+Total searches performed: N/5
+```
+
+#### Phase 2b: Reading (Sonnet, ~10 min)
+
+After ALL discovery agents complete:
+1. Read all `outputs/.research/<slug>-discovery-*.md` files
+2. Deduplicate URLs, select **top 8-12 most promising** across all sub-questions
+3. Group URLs by sub-question → assign to **2-3 reading agents** (Sonnet)
+
+Each reading agent gets pre-selected URLs and does focused extraction.
+
+**Reading agent prompt template:**
 ```
 You are a research evidence gatherer. Your task: <sub-question>
+
+BUDGET: MAX 8 tool calls. After 8 calls, write what you have and STOP.
+You have pre-selected URLs to read. Prioritize the highest-quality ones first.
 
 INTEGRITY RULES (non-negotiable):
 - Never fabricate sources. URL or it didn't happen.
 - Never describe contents you haven't read.
 - Mark confidence honestly: high | medium | low.
 
-SEARCH STRATEGY:
-1. Start with 2-4 broad WebSearch queries to map the landscape
-   - Note: Claude's web search has auto-depth Research mode — it automatically adjusts search depth based on query complexity. For complex research questions, phrase queries as full questions rather than keyword lists to trigger deeper search.
-2. Progressively narrow based on findings
-3. Use WebFetch on the most important results for full content
-   - For cleaner article text, use Jina Reader: `WebFetch("https://r.jina.ai/{url}", ...)`
-   - Jina removes ads/nav/clutter — prefer it for news articles, docs, blog posts
-4. Cross-reference claims across sources
+PRE-SELECTED URLs (read these, highest priority first):
+1. <url-1> — <description>
+2. <url-2> — <description>
+...
+
+STRATEGY:
+1. Fetch top URLs using Jina Reader: WebFetch("https://r.jina.ai/{url}", ...)
+   - Jina removes ads/nav/clutter — prefer it for articles, docs, blog posts
+2. Extract key claims, numbers, and evidence from each source
+3. If a source references another critical source, fetch that too (counts toward your 8 calls)
+4. After 6 calls: STOP fetching and write up findings with remaining budget
 
 SOURCE QUALITY (prefer → accept → reject):
 - Prefer: academic papers, official docs, primary datasets, reputable journalism
@@ -163,7 +214,7 @@ After reading each source, generate a structured reading note:
 - [PARTIAL] — source has tangential info but doesn't directly answer
 - [IRRELEVANT] — source doesn't contribute; do not cite
 - [UNCERTAIN] — can't fully assess without reading more context
-Only cite [RELEVANT] and [PARTIAL] sources. This prevents blind citation of retrieved content.
+Only cite [RELEVANT] and [PARTIAL] sources.
 
 OUTPUT FORMAT — write to file <output-path> (in outputs/.research/ directory):
 
@@ -187,7 +238,16 @@ OUTPUT FORMAT — write to file <output-path> (in outputs/.research/ directory):
 - Checked directly: ...
 - Uncertain / needs follow-up: ...
 - Could not find: ...
+
+Tool calls used: N/8
 ```
+
+#### Phase Budget Enforcement
+
+- Discovery agents that exceed 5 calls: their prompt says STOP, but if they continue, their output is still usable
+- Reading agents that exceed 8 calls: same — soft cap via prompt instruction
+- **Lead researcher (you):** If Phase 2a takes >3 min or Phase 2b takes >10 min, proceed with whatever data is available. Incomplete data + honest gaps > perfect data at 4× cost
+- **Run agents with `run_in_background: true`** when possible — communicate status to user while waiting
 
 ### Step 3: Synthesis
 
@@ -330,12 +390,12 @@ Produce the final research brief in `outputs/<slug>-research.md`:
 
 Classify the research question **before** Step 2 to determine execution scale:
 
-| Query Type | Scale | Sub-agents | Verifier? | Provenance? |
-|-----------|-------|-----------|-----------|-------------|
-| Narrow factual question | **direct** | 0 (you search directly, 3-10 tool calls) | No | No |
-| Comparison (2-3 items) | **comparison** | 2 parallel researchers | Yes (top 5 claims) | Yes |
-| Broad survey / overview | **survey** | 3-4 parallel researchers | Yes (top 10 claims) | Yes |
-| Complex multi-domain | **complex** | 4-6 parallel researchers | Yes (full) | Yes |
+| Query Type | Scale | Discovery (Haiku) | Reading (Sonnet) | Verifier? | Est. time | Est. tokens |
+|-----------|-------|-------------------|------------------|-----------|-----------|-------------|
+| Narrow factual | **direct** | 0 (you search directly) | 0 | No | ~3 min | ~50K |
+| Comparison (2-3 items) | **comparison** | 2-3 agents × 5 calls | 2 agents × 8 calls | Yes (top 5) | ~16 min | ~800K |
+| Broad survey | **survey** | 4-5 agents × 5 calls | 3 agents × 8 calls | Yes (top 10) | ~16 min | ~1.2M |
+| Complex multi-domain | **complex** | 5 agents × 5 calls | 3 agents × 8 calls | Yes (full) | ~16 min | ~1.5M |
 
 **Classification rules:**
 - Default to **comparison** when unsure
@@ -343,8 +403,14 @@ Classify the research question **before** Step 2 to determine execution scale:
 - Use **survey** for "landscape", "overview", "state of the art" queries
 - Use **complex** only when 3+ distinct domains or disciplines are involved
 - Never spawn subagents for work you can do in 5 tool calls
+- **Hard cap: no single agent may exceed 8 tool calls.** Split wider scope into more agents instead.
 
 **Budget mapping:** direct → light tier, comparison → standard tier, survey/complex → deep tier.
+
+**Time caps (wall clock):**
+- Discovery phase: **3 min max** — proceed with whatever URLs are found
+- Reading phase: **10 min max** — synthesize available evidence, note gaps
+- Total pipeline: **~16 min max** — never let research run unattended for hours
 
 ## Error Handling
 
