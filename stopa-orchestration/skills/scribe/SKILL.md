@@ -125,10 +125,17 @@ tags: [tag1, tag2]
 summary: "1-2 sentence summary: what happened + what to do. Used by memory-whisper for semantic matching."
 source: user_correction | critic_finding | auto_pattern | agent_generated | external_research
 uses: 0
+successful_uses: 0      # HERA utility: incremented on PASS after applying this learning
 harmful_uses: 0
 confidence: 0.7         # initial confidence based on source: user_correction=0.9, critic_finding=0.8, auto_pattern=0.7, external_research=0.6, agent_generated=0.5
 supersedes: ""          # optional — filename of older learning this one replaces (max 1)
 related: []             # optional — filenames of related learnings for multi-hop retrieval (max 3)
+failure_class: ""       # optional — logic|syntax|timeout|resource|integration|assumption|coordination
+failure_agent: ""       # optional — which agent/skill caused the failure
+task_context:           # optional — HERA query characterization
+  task_class: ""        # single_edit|multi_file|refactor|bug_fix|feature|research|pipeline
+  complexity: ""        # low|medium|high
+  tier: ""              # light|standard|deep|farm
 ---
 
 ## Problém
@@ -143,6 +150,11 @@ What helped or what to do.
 ## Prevence
 How to prevent this in the future.
 ```
+
+**Failure-sourced learnings**: When recording a learning from a failure (handoff from orchestrator with failure metadata):
+- Copy `failure_class`, `failure_agent`, and `task_context` from the failure record
+- Set `source: critic_finding` (if from critic FAIL) or `auto_pattern` (if from pattern detection)
+- These fields enable HERA-style experience retrieval: `grep -r "failure_class: logic" learnings/` finds all learnings from logic failures
 
 **Counter semantics (ACE-inspired):**
 - `uses` — incremented when this learning is retrieved and applied in a session

@@ -159,15 +159,26 @@ For each changed file/function, ask: "What is the ONE thing that must be true ab
 - Prioritize: security > correctness > completeness > quality
 - Skip trivial changes (whitespace, comments, formatting) — they are not milestones
 
-### Phase 2: VERIFIER — Check Each Milestone
+### Phase 2: VERIFIER — Cascade-Aware Milestone Check
+
+**Cascade Evaluation Protocol** (ref: Tool-Genesis arXiv:2603.05578 — minor L1 errors cascade into catastrophic L4 failures):
+
+Verify milestones in **cascade order**: Surface (L1) → Interface (L2) → Functional (L3) → Utility (L4). If a milestone fails at L1 (syntax, format, basic compliance), do NOT evaluate L2-L4 for that milestone — report L1 failure immediately. Cascade failures compound: fixing surface issues first is cheaper and often resolves downstream problems.
+
+**Schema-Utility Decoupling Warning:** A milestone can PASS at L1-L2 (correct format, valid interface) yet FAIL at L3-L4 (wrong behavior, broken downstream). Tool-Genesis showed Schema-F1 0.964 with SR only 0.472. After format checks pass, allocate EXTRA scrutiny to functional and utility checks — passing surface checks creates false confidence.
 
 For each milestone from Phase 1, verify the assignment goal against the actual code.
 
+**Hypothesis-first verification:** Before reading code for each milestone, state your expected finding in one sentence: "I expect this milestone to PASS/FAIL because [specific reason]." Then read and compare against your hypothesis. Surprises (hypothesis ≠ reality) deserve extra scrutiny. (Ref: COT STEP arXiv:2501.13122 — structured step verification improves accuracy.)
+
 **For each milestone:**
 1. Read the relevant code (pre and post change if available)
-2. Check against the assignment goal — does the code actually satisfy it?
-3. Check against relevant review dimensions (see below)
-4. Record verdict: `PASS` or `FAIL` with **grounded evidence**
+2. **Reasoning primer** (Zero-shot CoT, arXiv:2205.11916): Before each verification, explicitly think through the logic: "Let me trace through this step by step — what does this code actually do, and does it satisfy the assignment goal?" This prevents surface-level "looks fine" verdicts.
+3. **L1 surface check**: Does it compile/parse? Valid syntax? Imports resolve?
+3. **L2 interface check**: Does the API/signature match expected contract?
+4. **L3 functional check**: Does it actually do what the assignment goal says? (Check against the assignment goal)
+5. Check against relevant review dimensions (see below)
+6. Record verdict: `PASS` or `FAIL` with **grounded evidence** and the failing cascade level (L1/L2/L3/L4)
 
 **Grounded evidence rules:**
 - PASS evidence: quote the specific code that satisfies the goal
@@ -288,6 +299,13 @@ Evaluators have a documented tendency to "identify legitimate issues, then talk 
 | C2 | Hidden failure | M1 | Token expiry check doesn't handle clock skew | No leeway parameter in jwt.verify() call |
 | C3 | Weak criteria | M2 | Assignment goal only checks 401/200 but not rate limiting | New endpoint has no rate limit middleware |
 ```
+
+**DEEP path only — Self-Consistency Check (before Refinement):**
+For borderline milestones (where your confidence is <80%), run the Verifier a second time with a fresh perspective — re-read the code without referencing your first verdict. Compare both verdicts:
+- Both PASS → PASS (high confidence)
+- Both FAIL → FAIL (high confidence)
+- Disagreement → automatic FAIL or escalate to Reviewer with both verdicts
+This catches verdict variance that single-pass review misses. (Ref: Wang et al. arXiv:2203.11171 — Self-Consistency, +20% accuracy via majority voting.)
 
 **DEEP path only — Refinement Loop:**
 If Reviewer raises concerns about missing milestones or weak criteria:
@@ -417,7 +435,14 @@ Before reviewing, check `.claude/memory/budget.md`:
    - Grep the learning file, increment `harmful_uses:` counter by 1
    - If `harmful_uses >= 3` → add `[HARMFUL]` tag, flag for retirement in next `/evolve`
    - Example: `sed -i 's/harmful_uses: 2/harmful_uses: 3/' .claude/memory/learnings/<file>.md`
-   If PASS and a learning contributed positively, increment its `uses:` counter (if not already done by memory-whisper hook)
+   If PASS and a learning contributed positively, increment its `uses:` AND `successful_uses:` counters (if not already done by memory-whisper hook)
+8. **Failure classification (HERA-inspired):** On FAIL verdict, generate structured failure metadata for orchestrator:
+   - `failure_class:` — classify the root cause into one of: `logic` (wrong output/behavior), `syntax` (parse/compile/import), `timeout` (external service), `resource` (file/permission/memory), `integration` (component mismatch), `assumption` (wrong belief about code), `coordination` (agent conflict)
+   - `failure_agent:` — which agent/skill is most responsible (from Diff Impact Trace)
+   - `root_cause:` — 1-2 sentence root cause explanation
+   - `reflexion:` — what should be done differently next time (Reflexion-inspired, arXiv:2303.11366)
+   - Include these fields in the critic report output so orchestrator can write to `failures/` directory
+   - Example addition to report: `## Failure Metadata\nfailure_class: assumption\nfailure_agent: agent-2\nroot_cause: Agent assumed stateless auth\nreflexion: Read existing tests before editing auth code`
 
 ## Reasoning Isolation (BOULDER principle)
 
@@ -440,6 +465,7 @@ Before submitting your report, check yourself:
 | "Big refactor needed to fix" | Team needs to know | Report medium + note scope |
 | "Just a refactor" | Refactors introduce subtle regressions | Verify before/after |
 | "AI generated it, probably fine" | AI output needs MORE scrutiny, not less | Check for slop patterns |
+| "Format/schema checks pass, logic is probably fine" | Schema compliance ≠ functional correctness (Tool-Genesis: Schema-F1 0.964, SR 0.472) | After L1-L2 pass, run L3-L4 with EXTRA scrutiny — surface compliance creates false confidence |
 
 ## Red Flags
 

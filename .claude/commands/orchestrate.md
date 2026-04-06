@@ -499,6 +499,53 @@ If any issue is found → fix it before critic.
 3. If issues found → iterate (go back to Phase 4 for specific subtasks)
 4. If clean → proceed to Phase 6
 
+### Failure Logging (HERA-inspired, arXiv:2604.00901)
+
+When a subtask FAILS (critic FAIL or agent error):
+
+1. **Classify failure** — ask critic or infer from error:
+   - `logic` = wrong output, test fail, wrong behavior
+   - `syntax` = parse/compile/import error
+   - `timeout` = rate limit, API timeout, 503
+   - `resource` = ENOENT, EACCES, OOM, disk full
+   - `integration` = component mismatch, API contract broken
+   - `assumption` = wrong assumption about code/environment
+   - `coordination` = agent interference, wrong delegation
+
+2. **Attribute fault** — identify which agent/skill caused it:
+   - Critic found bug in agent's code → that agent
+   - Test fails after edit → agent who edited
+   - Scout missed relevant file → scout
+   - Wrong tier/decomposition → orchestrate
+   - Two agents conflicting → orchestrate (coordination)
+
+3. **Record failure** — write to `.claude/memory/failures/<date>-F<NNN>-<desc>.md`:
+   ```yaml
+   ---
+   id: F<NNN>
+   date: <today>
+   task: "<subtask description>"
+   task_class: <from state.md>
+   complexity: <from tier>
+   tier: <current tier>
+   failure_class: <from step 1>
+   failure_agent: <from step 2>
+   resolved: false
+   ---
+   ## Trajectory
+   <numbered list of steps leading to failure>
+   ## Root Cause
+   <1-2 sentences>
+   ## Reflexion
+   <what to do differently next time>
+   ```
+
+4. **Check for patterns** — `Grep failure_class: <class> .claude/memory/failures/` + `Grep failure_agent: <agent>`:
+   - If 2+ matches with same failure_class + failure_agent → flag for `/learn-from-failure`
+   - If 3+ matches → circuit breaker: STOP, escalate to user
+
+5. **After resolution** — update failure record: `resolved: true`, add `resolution_learning:` pointing to the learning file
+
 ## Phase 6: Learn & Close
 
 For detailed close workflow (budget report, execution trace capture, entropy sweep, trace milestone check):
@@ -509,10 +556,15 @@ Summary of Phase 6 actions:
 1. **Budget report**: Update budget.md — summary, history, reset counters. Show user cost.
 2. **Execution trace**: Append structured trace row to Budget History table.
 3. **State update**: Mark task complete in state.md.
-4. **Learnings capture**: Record via `/scribe learning` — patterns, anti-patterns, skill gaps, tier accuracy.
-5. **Entropy sweep** (standard/deep, 5+ files): Auto-invoke `/sweep --scope blast-radius --auto`.
-6. **Summarize** results to user with cost summary.
-7. **Trace milestone** (20+ traces): Auto-run tier analysis, generate heuristics.
+4. **Failure analysis** (HERA-inspired): If any failures occurred during this orchestration:
+   a. Update `agent-accountability.md` — increment counters per agent per failure_class
+   b. Record topology snapshot to `topology-evolution.md` (agents, node efficiency, retries, critic loops, result)
+   c. Mark resolved failures in `failures/` directory
+   d. If 2+ unresolved failures with same pattern → suggest `/learn-from-failure` to user
+5. **Learnings capture**: Record via `/scribe learning` — patterns, anti-patterns, skill gaps, tier accuracy. Include `failure_class`, `failure_agent`, `task_context` fields for failure-sourced learnings. Include `successful_uses` tracking.
+6. **Entropy sweep** (standard/deep, 5+ files): Auto-invoke `/sweep --scope blast-radius --auto`.
+7. **Summarize** results to user with cost summary.
+8. **Trace milestone** (20+ traces): Auto-run tier analysis, generate heuristics.
 
 ## Decision Framework: Agent vs. Skill vs. Direct
 
