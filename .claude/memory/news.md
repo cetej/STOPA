@@ -2,12 +2,13 @@
 
 Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
-## Last Scan: 2026-04-05 (quick, scheduled) | Next: ~2026-04-10
+## Last Scan: 2026-04-06 (full) | Next: ~2026-04-13
 
 ## Action Items
 
 | # | Item | Urgency | Next Step |
 |---|------|---------|-----------|
+| 74 | **Claude Sonnet 5** (`claude-sonnet-5-20260401`) — postupný rollout | MED | GA od 1.4., ale ještě ne na všech účtech. Až bude dostupný: přepnout v STOPA model tiers (standard + deep). 92.4% SWE-bench, 2M context, $3/$15/M. |
 | 65 | CC v2.1.92 — `forceRemoteSettingsRefresh` policy | LOW | Fail-closed při nenačtení remote managed settings. Sledovat při distribuci do target projektů. |
 | 42 | CC Voice Mode (`/voice`) — Czech included | MED | Otestovat až se rolling out dostane k účtu; 20 jazyků vč. češtiny |
 | 44 | CC HTTP hooks (POST JSON → URL) | PARKED | Adopt při remote agents; pro teď nepotřebujeme |
@@ -40,6 +41,8 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 ### Models & Releases
 | Item | Detail | Trigger |
 |------|--------|---------|
+| 75. Gemini CLI (Google) | Apache 2.0, ReAct loop, MCP support, 1M context. Direct competitor to Claude Code. FastMCP integration v dubnu 2026. [github](https://github.com/google-gemini/gemini-cli) | Sledovat adopci; patterns pro STOPA |
+| 76. Google Colab MCP Server | Open-source MCP server pro Colab runtimes s GPU přístupem z libovolného AI agenta. [blog](https://developers.googleblog.com/announcing-the-colab-mcp-server-connect-any-ai-agent-to-google-colab/) | Kandidát pro POLYBOT/test1 inference |
 | 40. Mythos/Capybara | **Training dokončen, piloting s early customers** (2026-04-03). "Nejschopnější model ever." Step change coding+reasoning. | GA datum → přeplánovat STOPA model tiers |
 | 61. Gemma 4 | Google DeepMind, 2026-04-02. 4 modely (2B, 4B, 26B MoE, 31B), Apache 2.0, vision+reasoning. Simon Willison covered. | Open-weight alternativa — zvážit pro levné lokální inference tiery |
 | 58. Mistral Small 4 | 119B, Apache 2.0, reasoning+multimodal+agentic coding unifikovaný model | Open-weight alternativa k Claude pro lokální nasazení |
@@ -117,6 +120,7 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
 ## Scan History
 
+### 2026-04-06 — full | Searches: 16 | Fetches: 3 | Items: 1 action, 2 watch, 3 info
 ### 2026-04-05 — quick (scheduled) | Searches: 3 | Fetches: 1 | Items: 0 action, 0 watch, 0 info — No new releases since 2026-04-04
 ### 2026-04-04 #6 — targeted content (Meta-Harness thread) | Fetches: 0 | Items: 1 action, 0 watch, 0 info
 ### 2026-04-04 #5 — targeted URL (Multiscreen arXiv:2604.01178) | Fetches: 2 | Items: 0 action, 1 watch, 0 info

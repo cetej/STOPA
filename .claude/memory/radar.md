@@ -4,7 +4,7 @@ Tracked findings from `/radar` scans and manual evaluations.
 Archived: `radar-archive.md` (when >400 lines)
 
 ## Stats
-Last scan: 2026-04-05 (scheduled, proactive scan #4) | Mode: auto | Total: 18 tools | 🔴 3 | 🟡 14 | 🟢 1
+Last scan: 2026-04-05 (scheduled, proactive scan #4) | Mode: auto | Total: 20 tools | 🔴 3 | 🟡 16 | 🟢 1
 
 ## Active Research (🔴)
 | Tool | Category | Score | Source | Captured | Status | Project fit |
@@ -30,6 +30,8 @@ Last scan: 2026-04-05 (scheduled, proactive scan #4) | Mode: auto | Total: 18 to
 | [auto-harness](https://github.com/neosigmaai/auto-harness) | Self-improving agent loop | 6/10 | manual/Twitter | 2026-04-05 | Failure mining → clustering → eval gen → regression gate. OpenAI SDK, adaptable. Key insight: regression gate compounds gains. |
 | [Maritime](https://maritime.sh/) | Agent hosting / cloud infra | 5/10 | scan/PH | 2026-04-05 | Stateful agent hosting, sleep/wake (no cold starts), $1-10/mo, private beta. Commercial. Pro deployment ZACHVEV/MONITOR agents v budoucnu. |
 | [openai-agents-js](https://github.com/openai/openai-agents-js) | Agent framework / TypeScript | 5/10 | scan | 2026-04-05 | Produkční Swarm nástupce, 2.6k★, MIT. Differentiator: voice/realtime (WebRTC/SIP). STOPA Python → awareness only; lepší než Mastra pro voice use cases. |
+| [OpenFang](https://github.com/RightNow-AI/openfang) | Agent OS / Rust | 6/10 | manual | 2026-04-05 | 137K LOC, 14 crates, 1767+ testy, 40MB idle, 180ms cold start. WASM sandbox, Merkle audit chain. Pre-1.0 (v0.3.30). Bundled "Hands": OSINT Collector (→MONITOR), Predictor (→POLYBOT), Researcher. REST API 140+ endpoints → použitelné z Pythonu. Stack mismatch (Rust vs Python), ale architektura zajímavá jako reference. |
+| [Memvid](https://github.com/memvid/memvid) | Agent memory / single-file | 6/10 | manual/GH trending | 2026-04-05 | Rust core, Python/Node SDK, Apache 2.0. Single `.mv2` file = embeddings + HNSW + Tantivy FTS + temporal index + WAL. v2.0.139+, active (2-4wk releases). Claims +35% LoCoMo, 0.025ms P50. AES-256-GCM encryption. Zero-infra vs Mem0/Zep. Pro NG-ROBOT/MONITOR scaling, ne pro STOPA (markdown grep-first stačí). |
 
 ## Archive (🟢 — last 30, older → radar-archive.md)
 | Tool | Score | Captured | Why low |
@@ -37,6 +39,12 @@ Last scan: 2026-04-05 (scheduled, proactive scan #4) | Mode: auto | Total: 18 to
 | [VoltAgent](https://voltagent.dev/) | 4/10 | 2026-04-03 | TS agent framework, nic unikátního vs LangGraph/ADK, 7.2k★ |
 
 ## Scan Log
+### 2026-04-05 — manual | Memvid (memvid/memvid) — 6/10 🟡
+- #1 GitHub trending. Rust single-file memory layer for AI agents. `.mv2` = HNSW vectors + Tantivy FTS + temporal + WAL + encryption. Python SDK available. Zero-infra alternative to Mem0/Zep/LangMem. Unique in portability. STOPA nepotřebuje (markdown grep stačí), ale NG-ROBOT archiv a MONITOR OSINT corpus = budoucí fit.
+
+### 2026-04-05 — manual | OpenFang (RightNow-AI/openfang) — 6/10 🟡
+- Rust Agent OS, 14 crates, WASM sandbox, bundled OSINT/Predictor/Researcher hands. Pre-1.0. REST API → Python-compatible přes HTTP. MONITOR+POLYBOT fit.
+
 ### 2026-04-04 morning — proactive scan #3 | Searches: 10 | Fetches: 0 | Found: 3 new
 - [Claw Code](https://github.com/instructkr/claw-code) — 9/10 🔴 — Open-source Claude Code clean-room rewrite (Python+Rust), 72k+ stars in days. Agent harness architecture study value.
 - [Sonatype Guide MCP](https://github.com/sonatype/dependency-management-mcp-server) — 7/10 🟡 — Free MCP server for Claude Code. Real-time dependency safety, prevents hallucinated packages.

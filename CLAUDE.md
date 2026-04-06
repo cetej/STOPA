@@ -122,9 +122,10 @@ Větší modely lépe exploitují execution feedback v iterativních smyčkách 
 | Validace, kontrola (critic, verify) | haiku/sonnet | Read-only, stačí menší model |
 | Sub-agent s repair loop (self-evolve, tdd) | sonnet+ | Repair loop = iterativní → silnější model |
 
-> **Claude Mythos/Capybara** (training dokončen, piloting s early customers — 2026-04-03): nový tier nad Opus.
+> **Claude Sonnet 5** (`claude-sonnet-5-20260401`, GA 2026-04-01, postupný rollout): 92.4% SWE-bench, 2M context, stejná cena jako Sonnet 4.6.
+> Až bude dostupný na účtu, nahradí Sonnet 4.6 ve `standard` a `deep` tieru.
+> **Claude Mythos/Capybara** (piloting s early customers — 2026-04-03): nový tier nad Opus.
 > Až bude GA, nahradí Opus v `deep` tieru. Sledovat datum vydání.
-> **Sonnet 4.6** je nyní GA s 1M context na standardní ceně (bez beta headeru). Nahrazuje Sonnet 4.5 pro 1M use-cases.
 
 ### Circuit breakers
 - Agent loop: 3× stejný agent na stejný subtask → STOP
