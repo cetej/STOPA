@@ -261,6 +261,26 @@ Scale exploration to the assigned tier:
 
 **After scouting**: Re-evaluate the tier. If scope is smaller than expected, **downgrade**. If larger, propose upgrade to user.
 
+### Scout Quality Gate (upstream-first, MoM-inspired)
+
+MoM (arXiv:2510.20176) shows upstream agent quality is the bottleneck — fixing planner = fixing everything downstream. Before proceeding to Phase 3, validate scout output completeness:
+
+| Check | Condition | Action on fail |
+|-------|-----------|---------------|
+| **File coverage** | Scout identified files matching task scope | Re-scout with broader glob patterns |
+| **Dependency map** | For standard+ tier: imports/callers of changed files listed | Run `Grep` for importers before planning |
+| **Test discovery** | Test files for affected modules identified (if they exist) | Glob `test_*` / `*_test*` in affected dirs |
+| **Risk signals** | Auth/payment/API paths flagged if present in scope | Re-scout with security focus |
+
+**Rules:**
+- Light tier: only File Coverage check (others are overkill)
+- Standard tier: File Coverage + Dependency Map + Test Discovery
+- Deep tier: all 4 checks mandatory
+- Gate failure = re-scout (max 1 retry), NOT proceed with incomplete map
+- If re-scout still fails gate: proceed but log gap in state.md as risk
+
+**Model upgrade for scout:** If budget allows AND tier is standard+, run scout on **one model tier higher** than workers. Rationale: MoM sequential training shows upstream quality improvement has outsized downstream impact (+5-17%). A sonnet scout feeding haiku workers outperforms haiku scout feeding haiku workers.
+
 ### Tier Auto-Escalation (runtime adaptation)
 
 | Trigger | From → To | Action |
@@ -444,6 +464,51 @@ Core principles:
 - **Wave-based execution**: Execute wave by wave. Max 3 parallel agents per wave.
 - **Agent Status Codes**: DONE | DONE_WITH_CONCERNS | NEEDS_CONTEXT | BLOCKED
 - **Template selection by task_style**: Use self-organizing template for `exploratory` subtasks, prescribed template for `structured` subtasks. See `agent-execution.md` for both templates. Log which template was used per agent.
+
+### Per-Subtask Adaptive Model Routing (TARo-inspired, arXiv:2603.18411)
+
+Instead of assigning one model to all agents in a tier, select model per subtask based on complexity signals. TARo shows adaptive per-step routing beats fixed allocation by +8.4% while cutting cost 40-60%.
+
+**Heuristic Router (Phase 1 — no training data needed):**
+
+| Signal | → haiku | → sonnet | → opus |
+|--------|---------|----------|--------|
+| Single file, <30 lines changed | x | | |
+| Mechanical edit (rename, format, lint fix) | x | | |
+| Multi-file, logic changes, new functions | | x | |
+| Tests + implementation together | | x | |
+| Cross-cutting refactor, 6+ files | | | x |
+| Security/auth/payment paths | | | x |
+| Previous attempt FAILED on this subtask | | upgrade +1 tier | |
+
+**Rules:**
+- Router runs BEFORE agent spawn, per subtask (not per task)
+- Log model selection per subtask in state.md: `model: haiku` / `sonnet` / `opus`
+- Overrides tier-level model default — a standard-tier task can have haiku workers for simple subtasks
+- Never downgrade below haiku; never upgrade above opus
+- If budget is tight: bias toward haiku unless subtask has security/auth signals
+
+### Haiku-First Difficulty Estimation (Weak-to-Strong, TARo-inspired)
+
+TARo proves routers trained on small models transfer to large ones — they learn abstract problem properties, not model artifacts. Apply this principle:
+
+**Pattern:** For standard+ tier subtasks where model choice is ambiguous:
+1. Run subtask through **haiku first** (cheapest option)
+2. If haiku succeeds AND critic scores ≥ 3.5 → **keep haiku result** (save 80% cost)
+3. If haiku fails OR critic scores < 3.5 → route to sonnet/opus with haiku's partial work as context
+4. Track success patterns: `{task_class, subtask_type, haiku_success: bool}` in budget.md traces
+
+**When to use haiku-first:**
+- Subtask has no security/auth/payment signals
+- Subtask is NOT in the critical path (failure doesn't block all downstream)
+- Budget is standard tier or above (light tier already uses minimal resources)
+
+**When to skip haiku-first (go directly to tier-selected model):**
+- Subtask is security-critical or in auth/payment paths
+- Subtask failed once already (escalation, not exploration)
+- Deep tier with explicit opus assignment
+
+**Expected savings:** NG-ROBOT article processing: ~70% of articles are simple news → haiku handles them. Záchvěv: baseline trend monitoring → haiku. MONITOR: routine OSINT collection → haiku.
 
 ### If using a Skill:
 Invoke the appropriate `/skill-name` with arguments.

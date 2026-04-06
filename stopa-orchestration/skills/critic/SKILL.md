@@ -313,6 +313,24 @@ If Reviewer raises concerns about missing milestones or weak criteria:
 2. Re-run Verifier on affected milestones only
 3. Re-run Reviewer (max 2 refinement rounds total to prevent loops)
 
+### Phase 3.5: Verification Checkpoint (Claim Inventory)
+
+**Before judging**, produce a structured claim inventory of all findings. This prevents verdict drift — where accumulated impressions overpower actual evidence.
+
+For each milestone and finding from Phases 2-3, fill one row:
+
+| Milestone | Claim | Evidence source | Tool output? | Confidence |
+|-----------|-------|-----------------|--------------|------------|
+| M1 | <what you're asserting> | <file:line or tool output> | yes/no | high/medium/low |
+
+**Rules:**
+- Every PASS claim MUST have `Tool output? = yes` — code reading impressions don't count
+- Every FAIL claim MUST reference specific line numbers or error output
+- Claims with `Tool output? = no` get automatic `Confidence = low`
+- If >50% of claims lack tool output evidence → re-run Verifier on gaps before proceeding
+
+This step takes 30 seconds and catches the #1 critic failure mode: verdicts based on impression rather than evidence.
+
 ### Phase 4: JUDGE — Final Verdict
 
 Synthesize the full evidence chain: milestones → verification results → reviewer concerns → into final verdict.
@@ -339,7 +357,9 @@ Synthesize the full evidence chain: milestones → verification results → revi
 
 **Adaptive Weight Selection** (ref: Anthropic harness design grading criteria):
 
-Select the weight profile matching the task type. The principle: **upweight areas where Claude typically underperforms**, downweight areas where it's naturally strong.
+Select the weight profile matching the task type AND agent role. The principle: **upweight areas where Claude typically underperforms**, downweight areas where it's naturally strong.
+
+#### Weight Profiles by Task Type
 
 | Criteria | Default | Security/Auth | Refactor | New Feature | Skill/Config |
 |----------|---------|---------------|----------|-------------|--------------|
@@ -349,7 +369,34 @@ Select the weight profile matching the task type. The principle: **upweight area
 | Safety (regressions, security) | 0.15 | 0.30 | 0.15 | 0.15 | 0.10 |
 | Test Coverage | 0.10 | 0.05 | 0.10 | 0.15 | 0.25 |
 
-**How to select:** Match the task type from `.claude/memory/state.md` or infer from the diff. If unclear, use Default.
+#### Role-Specific Weight Modifiers (MoM-inspired, arXiv:2510.20176)
+
+MoM shows different reward functions per agent role improve quality +5-17%. When the `--role` flag is passed (or inferred from orchestrator context), apply role-specific modifier AFTER task-type selection:
+
+| Criteria | Scout/Planner | Worker/Builder | Verifier/Reviewer | Researcher |
+|----------|---------------|----------------|-------------------|------------|
+| Correctness | 0.15 | **0.35** | 0.25 | 0.15 |
+| Completeness | **0.35** | 0.20 | 0.15 | 0.25 |
+| Code Quality | 0.10 | 0.20 | 0.10 | 0.05 |
+| Safety | 0.10 | 0.15 | **0.30** | 0.10 |
+| Test Coverage | 0.05 | 0.10 | 0.20 | 0.05 |
+| **Evidence Grounding** | 0.25 | — | — | **0.40** |
+
+**Role-specific criteria (replaces Test Coverage weight when applicable):**
+- **Scout/Planner**: Evidence Grounding = coverage completeness, file relevance, plan coherence. "Did the scout find all affected files and map dependencies?"
+- **Worker/Builder**: Standard criteria apply. Focus on Correctness. "Does the implementation work?"
+- **Verifier/Reviewer**: Safety upweighted. "Did the verifier catch real issues with evidence?"
+- **Researcher**: Evidence Grounding = source quality, citation accuracy, claim-evidence alignment. "Are findings backed by verifiable sources?"
+
+**How to select role:**
+1. Explicit `--role scout|worker|verifier|researcher` flag (highest priority)
+2. Inferred from orchestrator context: if critic is reviewing scout output → auto-select Scout/Planner profile
+3. Inferred from file type: if reviewing research output (`outputs/*-research.md`) → Researcher profile
+4. Default: no role modifier (task-type weights only)
+
+**Combination rule:** When both task type AND role modifier apply, use the **role modifier weights** (they already account for task context). Task type is fallback when role is unknown.
+
+**How to select task type:** Match from `.claude/memory/state.md` or infer from the diff. If unclear, use Default.
 
 **Faithfulness modifier (AH cross-check):** If any AH-1 through AH-4 violations are found, apply -0.5 penalty to final weighted score. This is a modifier, not a separate weight — it catches false completion claims regardless of task type.
 
