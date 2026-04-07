@@ -150,7 +150,7 @@
     "openclaw": {
       "name": "OpenClaw",
       "type": "concept",
-      "mentions": 5,
+      "mentions": 6,
       "last_seen": "2026-04-07",
       "learning_files": [
         "2026-03-24-openclaw-postmortem-patterns.md",
@@ -5504,6 +5504,37 @@
       "learning_files": [
         "xrouter.md"
       ]
+    },
+    "kaizen-loop": {
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "2026-04-07-kaizen-loop-weekly-improvement.md"
+      ]
+    },
+    "daily-notes-memory-pattern": {
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": []
+    },
+    "judgment-script-separation": {
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "2026-04-07-judgment-script-separation-reliability.md"
+      ]
+    },
+    "operational-rhythm-pattern": {
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "2026-04-07-operational-rhythm-silence-discipline.md"
+      ]
+    },
+    "per-person-commitment-tracking": {
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": []
     }
   },
   "edges": {
@@ -28717,6 +28748,26 @@
       "count": 1,
       "last_ts": "2026-04-07",
       "contexts": []
+    },
+    "kaizen-loop|openclaw": {
+      "weight": 1.0,
+      "count": 1
+    },
+    "daily-notes-memory-pattern|openclaw": {
+      "weight": 1.0,
+      "count": 1
+    },
+    "judgment-script-separation|openclaw": {
+      "weight": 1.0,
+      "count": 1
+    },
+    "kaizen-loop|operational-rhythm-pattern": {
+      "weight": 1.0,
+      "count": 1
+    },
+    "daily-notes-memory-pattern|per-person-commitment-tracking": {
+      "weight": 1.0,
+      "count": 1
     }
   },
   "meta": {

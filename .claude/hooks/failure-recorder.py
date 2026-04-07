@@ -20,6 +20,61 @@ OUTCOMES_DIR = "memory/outcomes/"
 FAILURES_DIR = Path(".claude/memory/failures")
 MAX_FAILURES = 50
 
+# --- ASI-Evolve Structured Diagnostics (arXiv:2603.29640) ---
+
+# Fine-grained pattern types within each failure_class
+PATTERN_KEYWORDS = [
+    ("logic_wrong_assumption", [r"assumed", r"expected.*but got", r"wrong model", r"incorrect assumption"]),
+    ("logic_scope_creep", [r"too many files", r"scope expanded", r"cross-cutting", r"more files than"]),
+    ("resource_oom", [r"oom", r"memory", r"context window", r"token limit"]),
+    ("timeout_long_task", [r"too long", r"many iterations", r"time limit"]),
+    ("timeout_stuck_loop", [r"stuck", r"crash_loop", r"same error", r"repeating"]),
+    ("integration_dependency", [r"missing dep", r"import error", r"hook blocked", r"not found"]),
+]
+
+APPROACH_CHANGES = {
+    "logic_wrong_assumption": "Verify assumptions with a scout pass before writing code.",
+    "logic_scope_creep": "Constrain scope with glob-first file enumeration before starting.",
+    "resource_budget_exceeded": "Break task into smaller subtasks; use light tier for initial pass.",
+    "resource_oom": "Use haiku for exploration phases; avoid loading all files at once.",
+    "timeout_long_task": "Add intermediate checkpoints; split into 2-3 sequential subtasks.",
+    "timeout_stuck_loop": "Check circuit breakers; use /systematic-debugging before retry.",
+    "integration_dependency": "Run env snapshot before agent dispatch; pre-check requires: field.",
+    "unknown": "Run /learn-from-failure for manual analysis.",
+}
+
+
+def classify_pattern_type(content: str, exit_reason: str, failure_class: str) -> str:
+    """Classify fine-grained pattern type from outcome body text."""
+    if exit_reason == "budget_exceeded":
+        return "resource_budget_exceeded"
+    body_lower = content.lower()
+    for pattern_type, keywords in PATTERN_KEYWORDS:
+        if any(re.search(kw, body_lower) for kw in keywords):
+            return pattern_type
+    return f"{failure_class}_unspecified" if failure_class != "logic" else "unknown"
+
+
+def extract_root_cause_hypothesis(content: str) -> str:
+    """Extract the most informative sentence about root cause from outcome body."""
+    cause_re = re.compile(
+        r"\b(fail|error|because|cause|wrong|issue|problem|blocked|broke|crash)\b", re.I
+    )
+    for line in content.splitlines():
+        line = line.strip()
+        if 20 < len(line) < 200 and cause_re.search(line):
+            if not line.startswith("#") and not line.startswith("---"):
+                return line.lstrip("- *").strip()
+    return "No hypothesis extractable — review outcome file manually."
+
+
+def recommend_approach_change(pattern_type: str, same_count: int) -> str:
+    """Return recommended approach change for this failure pattern."""
+    rec = APPROACH_CHANGES.get(pattern_type, APPROACH_CHANGES["unknown"])
+    if same_count >= 3:
+        rec = f"RECURRING ({same_count}x): {rec}"
+    return rec
+
 
 def parse_frontmatter(content: str) -> dict:
     """Parse YAML frontmatter from file content."""
@@ -121,6 +176,10 @@ def main():
     }
     failure_class = class_map.get(exit_reason, "logic")
 
+    # ASI-Evolve structured diagnostics
+    pattern_type = classify_pattern_type(content, exit_reason, failure_class)
+    root_cause = extract_root_cause_hypothesis(content)
+
     # Create failure record
     FAILURES_DIR.mkdir(parents=True, exist_ok=True)
     fid = next_failure_id()
@@ -140,11 +199,16 @@ def main():
         if in_traj:
             trajectory += line + "\n"
 
+    # Count before writing so we include current record
+    same_count = count_same_class(failure_class, skill) + 1
+    approach = recommend_approach_change(pattern_type, same_count)
+
     failure_content = f"""---
 id: {fid}
 date: {today}
 task: "{task}"
 failure_class: {failure_class}
+pattern_type: {pattern_type}
 failure_agent: {skill}
 resolved: false
 resolution_learning: ""
@@ -157,7 +221,12 @@ source_outcome: "{outcome_path.name}"
 
 ## Root Cause
 
-To be analyzed — auto-generated from outcome record.
+{root_cause}
+
+## Diagnostic
+
+- **pattern_type**: {pattern_type}
+- **recommended_change**: {approach}
 
 ## Reflexion
 

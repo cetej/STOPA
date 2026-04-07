@@ -3,7 +3,7 @@ name: OpenClaw
 type: tool
 first_seen: 2026-04-07
 last_updated: 2026-04-07
-sources: [swarm-kb-research, idea-file-research]
+sources: [swarm-kb-research, idea-file-research, chief-of-staff-openclaw]
 tags: [memory, orchestration, session]
 ---
 
@@ -23,7 +23,13 @@ tags: [memory, orchestration, session]
 
 Pre-compaction flush is STOPA's P2 gap — extend `/compact` skill to extract key decisions to daily memory file before compaction. Bootstrap injection pattern validates STOPA's checkpoint.md approach.
 
+- Real-world production deployment: VC with 100+ LP contacts uses it for full fundraise pipeline management (ref: sources/chief-of-staff-openclaw.md)
+- Named AI: deployed as "Stella" with persistent identity and memory (ref: sources/chief-of-staff-openclaw.md)
+- Two-layer memory in practice: daily log files + curated MEMORY.md synthesized by AI from daily notes (ref: sources/chief-of-staff-openclaw.md)
+- Kaizen loop: Friday cron research + Sunday human review = weekly improvement cadence (ref: sources/chief-of-staff-openclaw.md)
+
 ## Mentioned In
 
 - [Swarm KB Research](../sources/swarm-kb-research.md)
 - [Idea File Research](../sources/idea-file-research.md)
+- [How I Built a Chief of Staff on OpenClaw](../sources/chief-of-staff-openclaw.md)

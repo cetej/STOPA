@@ -92,6 +92,15 @@ Read `.claude/memory/optstate/autoloop.json` if it exists. Extract:
 
 If file doesn't exist: proceed normally (no prior state).
 
+**UCB1 Strategy Recommendation (when optstate has 3+ ledger entries):**
+
+Run `python scripts/ucb1-selector.py` to get data-driven strategy priority for this session.
+Output overrides the default priority order in Phase 1 Step 1 (Review). If the script is
+unavailable or optstate is empty, fall back to the default priority list.
+
+UCB1 balances exploit (high avg_reward strategies) with explore (under-tried strategies).
+Exploration constant c=1.41 (sqrt(2)) per Auer et al. 2002. Ref: ASI-Evolve (arXiv:2603.29640).
+
 ### Precondition checks
 
 ```bash

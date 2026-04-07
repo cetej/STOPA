@@ -55,3 +55,33 @@ cost_levers:
   - lever: "Fewer agent spawns"
     savings: "Direct cost reduction"
     when: "Light/standard tier"
+
+# L_task Difficulty Dimensions (ASI-Evolve, arXiv:2603.29640)
+# Three dimensions independently scored, summed to derive tier
+ltask_model:
+  dimensions:
+    c_exec:
+      description: "Estimated compute cost per trial (agent count, model tier)"
+      levels:
+        none:  {score: 0, signals: ["single file", "haiku", "1 agent"]}
+        light: {score: 1, signals: ["sonnet", "2-4 agents", "feature"]}
+        heavy: {score: 2, signals: ["opus", "5+ agents", "architecture", "multi-wave"]}
+    s_space:
+      description: "Search space breadth (file count, cross-cutting scope)"
+      levels:
+        narrow:   {score: 0, signals: ["1-2 files", "known path"]}
+        moderate: {score: 1, signals: ["3-10 files", "module-scoped"]}
+        broad:    {score: 2, signals: ["11+ files", "cross-module"]}
+        unknown:  {score: 3, signals: ["unknown scope", "investigate", "audit"]}
+    d_feedback:
+      description: "Feedback signal quality (tests, metrics, manual review)"
+      levels:
+        strong: {score: 0, signals: ["test suite", "benchmark", "coverage"]}
+        weak:   {score: 1, signals: ["partial tests", "linter only"]}
+        manual: {score: 2, signals: ["no tests", "only visual review", "manual check"]}
+  tier_thresholds:
+    light:    {min: 0, max: 1}
+    standard: {min: 2, max: 3}
+    deep:     {min: 4, max: 5}
+    farm:     {min: 6, max: 7}
+  usage: "python ${CLAUDE_SKILL_DIR}/scripts/tier-detector.py --ltask --c-exec <level> --s-space <level> --d-feedback <level>"

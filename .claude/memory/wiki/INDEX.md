@@ -11,6 +11,7 @@ New to this knowledge base? Read these first:
 3. **critical-patterns.md** — the 10 rules that matter most
 
 Recent additions (last 14 days):
+- `2026-04-07-chief-of-staff-openclaw` — Two-layer memory + kaizen loop + judgment-script separation validated at production scale (800K-view post)
 - `2026-04-07-nsm-neuro-symbolic-orchestration` — PDDL planner + I/O contracts outperform end-to-end VLA 3x
 - `2026-04-06-self-organizing-agents-ab-test` — A/B test: self-org +8% on exploratory tasks vs hierarchical
 - `2026-04-06-deepresearch-agent-scope` — Researcher agents capped at max 15 tool calls (34-call run = 4 hours)

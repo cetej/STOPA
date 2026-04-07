@@ -4,7 +4,7 @@ Tracked findings from `/radar` scans and manual evaluations.
 Archived: `radar-archive.md` (when >400 lines)
 
 ## Stats
-Last scan: 2026-04-07 (scheduled #7) | Total: 34 tools | 🔴 4 | 🟡 28 | 🟢 2
+Last scan: 2026-04-07 (scheduled #8) | Total: 38 tools | 🔴 4 | 🟡 32 | 🟢 2
 
 ## Active Research (🔴)
 | Tool | Category | Score | Source | Captured | Status | Project fit |
@@ -48,6 +48,10 @@ Last scan: 2026-04-07 (scheduled #7) | Total: 34 tools | 🔴 4 | 🟡 28 | 🟢
 | [microsoft/agent-framework](https://github.com/microsoft/agent-framework) | Agent orchestration framework | 5/10 | scan | 2026-04-06 | Python+.NET, MIT, 8.9k★. Graph-based, DevUI, OpenTelemetry, RL labs. Nahrazuje Semantic Kernel + AutoGen. Generický (podobný LangGraph/Mastra), ale Microsoft authority. |
 | [simonw/scan-for-secrets](https://github.com/simonw/scan-for-secrets) | Security / secrets scanner | 6/10 | scan | 2026-04-06 | Python, simonw, v0.2. Skenuje soubory na secrets před sdílením. Stream výsledků, multi-dir, Python API. Komplementuje mcp-scan pro pre-share security checks. `pip install scan-for-secrets`. |
 | [MAI-Transcribe-1](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/mai-transcribe) | Speech-to-text / Azure API | 7/10 | scan | 2026-04-06 | Microsoft Foundry, closed weights, Azure preview. #1 FLEURS WER (3.9% avg, 25 langs incl. Czech). Python SDK `azure-ai-transcription`, $0.36/hod. Whisper alternative pro NG-ROBOT media expansion. Žádné SLA v preview. |
+| [Baton](https://getbaton.dev/) | Multi-agent desktop orchestrator | 7/10 | scan | 2026-04-07 | Desktopová GUI aplikace pro paralelní AI agenty v izolovaných git worktrees. Unified dashboard, Monaco diff viewer s rollbackem, built-in MCP server (agent-spawns-agent pattern), podpora Claude Code+Codex CLI+Gemini CLI+OpenCode. Closed-source, free (max 4 workspaces) / $49 unlimited. Windows Beta (x64+ARM64). Gate 2 partial: closed-source limituje přímou integraci. Referenční design pro STOPA farm tier + agent-spawns-agent přes MCP. |
+| [Codex SDK](https://github.com/openai/codex) | OpenAI coding agent SDK | 6/10 | scan | 2026-04-07 | `@openai/codex-sdk` (v0.118.0, MIT, npm). TypeScript wrapper over Codex CLI communication via JSONL stdio. Thread-based sessions (`run()`/`runStreamed()`/`resumeThread()`), OS-level sandboxing (macOS Seatbelt/cloud). MCP podpora. STOPA je Claude-centric — přímé nasazení nevýhodné (méně hook points, sandboxing nefunguje nativně na Windows). Cenné jako referenční srovnání architektury (AGENTS.md ≈ CLAUDE.md pattern confirmed). |
+| [PrismML Bonsai 8B](https://prismml.com/) | Edge LLM inference / 1-bit | 5/10 | scan | 2026-04-07 | Caltech lab, 1-bitový LLM 8B: 1.15 GB footprint, 8× rychlejší inference, 14× méně paměti vs full-precision. Benchmarks: konkurenceschopné s Qwen3 8B. Stealth fáze — žádný veřejný GitHub ani PyPI. API/SDK neznámé. Potenciálně zajímavé pro POLYBOT/ORAKULUM edge inference. Revisit Q3 2026 po veřejném releasu. |
+| [Claudoscope](https://github.com/cordwainersmith/Claudoscope) | Claude Code session analytics | 5/10 | scan | 2026-04-07 | macOS menu bar app (MIT, v0.5.0, Homebrew). Čte JSONL session soubory CC z `~/.claude/projects/`, real-time dashboard: token usage, cost estimation (Anthropic+Vertex), session history, 19 lint pravidel pro settings.json health. Secret scanning v session history. **macOS 14+ / Apple Silicon only — Gate 2 fail pro Windows STOPA.** Inspirace pro `/budget` skill rozšíření a config health checker. |
 
 ## Archive (🟢 — last 30, older → radar-archive.md)
 | Tool | Score | Captured | Why low |
@@ -59,6 +63,14 @@ Last scan: 2026-04-07 (scheduled #7) | Total: 34 tools | 🔴 4 | 🟡 28 | 🟢
 - Fork karpathy/llm-wiki. 6 chybějících vrstev: memory lifecycle, knowledge graph, hybrid search, automation, quality controls, multi-agent. Core teze: bottleneck = bookkeeping. Memory pipeline: Working→Episodic→Semantic→Procedural. Hybrid search: BM25+vector+graph→RRF fusion. Gap analýza vs STOPA: knowledge graph (biggest gap, typed entities > flat MD) + shared/private memory scoping pro paralelní agenty. Žádný veřejný GitHub repo. Artifact: claude.ai/public/artifacts/bd55c656-de32-414e-ba8f-81454c66bd62
 
 ## Scan Log
+### 2026-04-07 — scheduled scan #8 | Searches: 10 | Fetches: 4 | Found: 4 new
+- [Baton](https://getbaton.dev/) — 7/10 🟡 — Desktop GUI pro paralelní AI coding agenty v izolovaných git worktrees. Unified dashboard, Monaco diff viewer, built-in MCP server (agent-spawns-agent). Podpora CC+Codex+Gemini CLI. Closed-source, Windows Beta, free(4)/paid(unlimited). Reference design pro STOPA farm tier.
+- [Codex SDK](https://github.com/openai/codex) — 6/10 🟡 — `@openai/codex-sdk` v0.118.0 (MIT, npm). TypeScript CLI wrapper pro OpenAI coding agent. JSONL stdio, thread sessions, MCP. Awareness: AGENTS.md≈CLAUDE.md konvence potvrzena. Přímé nasazení nevýhodné (méně hooks, Windows sandbox problém), ale referenční srovnání.
+- [PrismML Bonsai 8B](https://prismml.com/) — 5/10 🟡 — 1-bit LLM (Caltech), 1.15GB, 8× rychlejší. Stealth fáze, žádný veřejný SDK. Revisit Q3 2026.
+- [Claudoscope](https://github.com/cordwainersmith/Claudoscope) — 5/10 🟡 — Claude Code session analytics, MIT. macOS 14+/Apple Silicon only — Gate 2 fail pro Windows. Inspirace pro /budget rozšíření.
+- Skipped (already tracked): Goose, LiteRT-LM, Jolt AI, FastMCP, Junie CLI, Google ADK TS, VoltAgent, Mastra, Maritime, openai-agents-js, Google Colab MCP, oh-my-codex, Gemini CLI, open-swe, simonw/scan-for-secrets, TradingAgents, MAI-Transcribe-1
+- Skipped (not actionable tools): Karpathy LLM Knowledge Base (methodology), simonw/tools utility scripts (cleanup-claude-code-paste, syntaqlite — micro-tools), Allen AI OLMo 3 (model, →/watch), Gemma 4 (model →/watch), OpenAI Responses API shell tool (API update →/watch), LangChain v3.2/LangSmith v2.1 (established, no new fit), Google ADK TS April release (already tracked)
+
 ### 2026-04-07 — scheduled scan #7 | Searches: 9 | Fetches: 6 | Found: 3 new
 - [Goose](https://github.com/aaif-goose/goose) — 7/10 🟡 — Block (Jack Dorsey) open-source autonomous engineering agent. Model-agnostic (any LLM), YAML recipes analogous to STOPA recipes, CI/CD support, Windows installer, Rust+TS, 38.4k★, Apache-2.0. Desktop app + CLI. Strong study value for STOPA autonomous/batch execution patterns.
 - [oh-my-codex/OMX](https://github.com/Yeachan-Heo/oh-my-codex) — 7/10 🟡 — STOPA-like architecture built on top of OpenAI Codex: 36 skills, hooks, 5 MCP servers, git worktree agent teams (parallel isolated execution), mixed-provider teams, psmux for Windows parallelism. 17.8k★, MIT, TypeScript. Architecture mirror — study for farm tier worktree pattern and Windows multi-agent parallelism.

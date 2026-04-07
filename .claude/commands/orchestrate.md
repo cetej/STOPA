@@ -163,6 +163,12 @@ Log: `"Task style: {style} (signals: {keywords_matched})"`
 2. **Task keyword signals**: fix/typo/rename → light; refactor/implement → standard; redesign/architecture → deep; bulk/lint/20+ → farm
 3. **File count estimate**: Glob affected paths. 1 file → light, 2-5 → standard, 6+ → deep, 20+ mechanical → farm
 4. **Uncertainty factor**: Vague scope → start one tier higher (never above deep)
+5. **L_task score (for ambiguous cases)**: When steps 1-4 give conflicting signals or scope is unclear, assess three dimensions:
+   - **C_exec** — compute per trial (none/light/heavy)
+   - **S_space** — search space breadth (narrow/moderate/broad/unknown)
+   - **D_feedback** — feedback signal quality (strong/weak/manual)
+   Run: `python ${CLAUDE_SKILL_DIR}/scripts/tier-detector.py --ltask --c-exec <level> --s-space <level> --d-feedback <level>`
+   Take max of keyword, file, and L_task tier. Ref: ASI-Evolve (arXiv:2603.29640).
 
 For tier details (agent limits, critic limits, models): `Read ${CLAUDE_SKILL_DIR}/references/tier-definitions.yaml`
 

@@ -4,8 +4,9 @@
 Usage:
     python tier-detector.py "<task description>" [file_count]
     python tier-detector.py --roi <total_subtasks> <independent_subtasks> <agent_count>
+    python tier-detector.py --ltask --c-exec <none|light|heavy> --s-space <narrow|moderate|broad|unknown> --d-feedback <strong|weak|manual>
 
-Output: JSON with recommended tier, reasoning, and (for ROI) cost analysis.
+Output: JSON with recommended tier, reasoning, and (for ROI/L_task) analysis.
 """
 
 import json
@@ -104,6 +105,47 @@ def resolve_tier(keyword_tier: str | None, file_tier: str, description: str) -> 
     return final, reasoning
 
 
+# --- L_task Difficulty Model (ASI-Evolve, arXiv:2603.29640) ---
+
+C_EXEC_SCORES = {"none": 0, "light": 1, "heavy": 2}
+S_SPACE_SCORES = {"narrow": 0, "moderate": 1, "broad": 2, "unknown": 3}
+D_FEEDBACK_SCORES = {"strong": 0, "weak": 1, "manual": 2}
+
+LTASK_TIER_THRESHOLDS = [(1, "light"), (3, "standard"), (5, "deep"), (7, "farm")]
+
+
+def compute_ltask(c_exec: str, s_space: str, d_feedback: str) -> dict:
+    """Compute L_task difficulty score and recommended tier.
+
+    L_task = <C_exec, S_space, D_feedback> — three independent dimensions
+    summed to derive tier assignment. ASI-Evolve integration.
+    """
+    scores = {
+        "c_exec": C_EXEC_SCORES.get(c_exec, 1),
+        "s_space": S_SPACE_SCORES.get(s_space, 1),
+        "d_feedback": D_FEEDBACK_SCORES.get(d_feedback, 1),
+    }
+    total = sum(scores.values())
+
+    recommended_tier = "deep"  # default
+    for threshold, tier in LTASK_TIER_THRESHOLDS:
+        if total <= threshold:
+            recommended_tier = tier
+            break
+
+    return {
+        "ltask": {
+            "c_exec": c_exec,
+            "s_space": s_space,
+            "d_feedback": d_feedback,
+            "scores": scores,
+            "total": total,
+            "recommended_tier": recommended_tier,
+        },
+        "limits": TIER_AGENT_LIMITS[recommended_tier],
+    }
+
+
 def compute_roi(total_subtasks: int, independent_subtasks: int, agent_count: int) -> dict:
     """Compute Amdahl-based ROI for agent parallelization.
 
@@ -150,6 +192,29 @@ def main() -> None:
     if len(sys.argv) < 2:
         print(__doc__)
         sys.exit(1)
+
+    # L_task mode (ASI-Evolve)
+    if sys.argv[1] == "--ltask":
+        c_exec = "light"
+        s_space = "moderate"
+        d_feedback = "weak"
+        args = sys.argv[2:]
+        i = 0
+        while i < len(args):
+            if args[i] == "--c-exec" and i + 1 < len(args):
+                c_exec = args[i + 1]
+                i += 2
+            elif args[i] == "--s-space" and i + 1 < len(args):
+                s_space = args[i + 1]
+                i += 2
+            elif args[i] == "--d-feedback" and i + 1 < len(args):
+                d_feedback = args[i + 1]
+                i += 2
+            else:
+                i += 1
+        result = compute_ltask(c_exec, s_space, d_feedback)
+        print(json.dumps(result, indent=2))
+        return
 
     # ROI mode
     if sys.argv[1] == "--roi":
