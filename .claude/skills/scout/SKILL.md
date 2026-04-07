@@ -138,7 +138,8 @@ For complex explorations, use `Agent(subagent_type: "general-purpose")` to:
 
 ## Output Format
 
-Produce a structured report:
+Produce a structured report with **3-level vertical hierarchy** (standard + deep tiers).
+Light tier: flat format (Files + Architecture only, no level decomposition).
 
 ```markdown
 ## Scout Report: <target>
@@ -146,17 +147,43 @@ Produce a structured report:
 ### Scope
 <what was explored and how deep>
 
-### Files Involved
-| File | Role | Key exports |
-|------|------|-------------|
-| ... | ... | ... |
+### Level 1 — MAKRO (Project Architecture)
+<Architectural context relevant to the task. What are the project-wide rules,
+patterns, and constraints that this change must respect?>
+- Architecture style: <monolith / microservices / modular / ...>
+- Relevant architectural decisions: <ADR refs or inline rules>
+- Business constraints: <what the project assumes at the highest level>
+- Cross-module impact: <which other parts of the system are affected?>
 
-### Architecture
-<how the pieces fit together, data flow>
+### Level 2 — MEZO (Module Contracts)
+<How do the affected modules interact? What are the API contracts,
+dependency chains, and test boundaries?>
 
-### Patterns Found
-- <pattern 1>: <where and how>
-- <pattern 2>: <where and how>
+| Module | Exports | Depends on | Depended by |
+|--------|---------|------------|-------------|
+| auth/ | validateToken(), refreshToken() | jwt, config | payments, admin |
+| payments/ | processPayment() | auth, stripe | api/routes |
+
+- API contracts at risk: <which interfaces change?>
+- Test coverage: <which test files cover this area?>
+- Coupling assessment: <tight / loose / none>
+
+### Level 3 — MIKRO (Implementation Scope)
+
+| File | Role | Key exports | Lines of interest |
+|------|------|-------------|-------------------|
+| auth/routes.ts | Endpoints | POST /login, GET /me | 23-45 |
+| auth/middleware.ts | JWT validation | authMiddleware | 12-30 |
+
+- Entry points: <where execution starts>
+- Data flow: <how data moves through the relevant code>
+- Edge cases spotted: <anything unusual in the implementation>
+
+### Cross-Level Assessment
+<How do the three levels interact for this specific task?>
+- **Vertical consistency:** <Does the mikro implementation align with makro constraints?>
+- **Bottleneck:** <Which level is the weakest link for this change?>
+- **Emergence risk:** <Could this mikro change cause mezo or makro side-effects?>
 
 ### Dependencies
 - Internal: <modules this depends on>
@@ -168,6 +195,14 @@ Produce a structured report:
 ### Recommendations
 - <suggested approach based on findings>
 ```
+
+**Rules for the 3-level output:**
+- **MAKRO** info comes from: CLAUDE.md, ADRs, decisions.md, project README, architectural patterns visible in directory structure
+- **MEZO** info comes from: imports/exports analysis, dependency graphs, test file mapping
+- **MIKRO** info comes from: file reading, grep for specific patterns, code structure
+- If ADRs/decisions.md don't exist, MAKRO falls back to git history patterns + CLAUDE.md conventions
+- Cross-Level Assessment is the most valuable section — it's where vertical conflicts surface
+- Light tier skips the 3-level structure (simple flat output only)
 
 ### Step 5: Assumptions Analysis (when `--assumptions` flag is present)
 
