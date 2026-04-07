@@ -3,7 +3,7 @@ name: Tigramite
 type: tool
 first_seen: 2026-04-07
 last_updated: 2026-04-07
-sources: [prediction-research]
+sources: [prediction-research, orakulum-spec]
 tags: [causal-discovery, time-series, correlation, python]
 ---
 
@@ -26,3 +26,4 @@ Recommended causal discovery layer in ORAKULUM prediction pipeline. Step 2 of re
 ## Mentioned In
 
 - [Prediction Systems Research](../sources/prediction-research.md)
+- [ORAKULUM Project Specification](../sources/orakulum-spec.md)

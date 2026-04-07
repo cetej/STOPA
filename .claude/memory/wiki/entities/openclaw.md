@@ -3,7 +3,7 @@ name: OpenClaw
 type: tool
 first_seen: 2026-04-07
 last_updated: 2026-04-07
-sources: [swarm-kb-research]
+sources: [swarm-kb-research, idea-file-research]
 tags: [memory, orchestration, session]
 ---
 
@@ -26,3 +26,4 @@ Pre-compaction flush is STOPA's P2 gap — extend `/compact` skill to extract ke
 ## Mentioned In
 
 - [Swarm KB Research](../sources/swarm-kb-research.md)
+- [Idea File Research](../sources/idea-file-research.md)

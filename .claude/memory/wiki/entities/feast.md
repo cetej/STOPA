@@ -3,7 +3,7 @@ name: Feast
 type: tool
 first_seen: 2026-04-07
 last_updated: 2026-04-07
-sources: [prediction-research]
+sources: [prediction-research, orakulum-spec]
 tags: [feature-store, mlops, multi-project]
 ---
 
@@ -26,3 +26,4 @@ Recommended as the shared backbone for prediction features across MONITOR, POLYB
 ## Mentioned In
 
 - [Prediction Systems Research](../sources/prediction-research.md)
+- [ORAKULUM Project Specification](../sources/orakulum-spec.md)

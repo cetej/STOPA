@@ -3,7 +3,7 @@ name: SkillReducer
 type: paper
 first_seen: 2026-04-07
 last_updated: 2026-04-07
-sources: [vertical-scaling-research]
+sources: [vertical-scaling-research, vertical-scaling-report]
 tags: [skill-design, token-efficiency, context-engineering]
 ---
 
@@ -26,3 +26,4 @@ Direct justification for SKILL.compact.md variants and progressive skill withdra
 ## Mentioned In
 
 - [Vertikální škálování Research](../sources/vertical-scaling-research.md)
+- [Vertikální škálování STOPA orchestrace — Technická zpráva](../sources/vertical-scaling-report.md)

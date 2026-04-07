@@ -3,7 +3,7 @@ name: Post-it State Protocol
 type: concept
 first_seen: 2026-04-07
 last_updated: 2026-04-07
-sources: [mbif-cpr-research]
+sources: [mbif-cpr-research, mbif-cpr-implementation-plan]
 tags: [memory, session, orchestration]
 ---
 
@@ -27,3 +27,4 @@ Already adopted in STOPA as `.claude/memory/intermediate/{skill-name}-state.md` 
 ## Mentioned In
 
 - [MBIF vs CPR Research](../sources/mbif-cpr-research.md)
+- [MBIF/CPR Implementation Plan](../sources/mbif-cpr-implementation-plan.md)

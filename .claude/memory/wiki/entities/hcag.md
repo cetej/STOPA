@@ -3,7 +3,7 @@ name: HCAG
 type: paper
 first_seen: 2026-04-07
 last_updated: 2026-04-07
-sources: [vertical-scaling-research]
+sources: [vertical-scaling-research, vertical-scaling-report]
 tags: [rag, code-reasoning, hierarchical, cost-optimization]
 ---
 
@@ -26,3 +26,4 @@ Maps directly to orchestrate→scout→worker chain: macro architecture scan →
 ## Mentioned In
 
 - [Vertikální škálování Research](../sources/vertical-scaling-research.md)
+- [Vertikální škálování STOPA orchestrace — Technická zpráva](../sources/vertical-scaling-report.md)

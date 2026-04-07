@@ -3,7 +3,7 @@ name: HexMachina
 type: paper
 first_seen: 2026-04-07
 last_updated: 2026-04-07
-sources: [vertical-scaling-research]
+sources: [vertical-scaling-research, vertical-scaling-report]
 tags: [multi-agent, orchestration, phase-separation, planning]
 ---
 
@@ -26,3 +26,4 @@ Validates STOPA's orchestrate→scout→worker chain and budget tier limits (3-4
 ## Mentioned In
 
 - [Vertikální škálování Research](../sources/vertical-scaling-research.md)
+- [Vertikální škálování STOPA orchestrace — Technická zpráva](../sources/vertical-scaling-report.md)

@@ -3,7 +3,7 @@ name: CPR (Compress-Preserve-Resume)
 type: tool
 first_seen: 2026-04-07
 last_updated: 2026-04-07
-sources: [mbif-cpr-research]
+sources: [mbif-cpr-research, mbif-cpr-implementation-plan]
 tags: [memory, session, claude-code]
 ---
 
@@ -28,3 +28,4 @@ Truncation boundary pattern already adopted in STOPA checkpoint.md. Confidence k
 ## Mentioned In
 
 - [MBIF vs CPR Research](../sources/mbif-cpr-research.md)
+- [MBIF/CPR Implementation Plan](../sources/mbif-cpr-implementation-plan.md)

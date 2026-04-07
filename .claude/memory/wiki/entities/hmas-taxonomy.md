@@ -3,7 +3,7 @@ name: HMAS Taxonomy
 type: paper
 first_seen: 2026-04-07
 last_updated: 2026-04-07
-sources: [vertical-scaling-research]
+sources: [vertical-scaling-research, vertical-scaling-report]
 tags: [multi-agent, orchestration, architecture, taxonomy]
 ---
 
@@ -25,3 +25,4 @@ Provides formal framework for STOPA's vertical scaling design. Temporal layering
 ## Mentioned In
 
 - [Vertikální škálování Research](../sources/vertical-scaling-research.md)
+- [Vertikální škálování STOPA orchestrace — Technická zpráva](../sources/vertical-scaling-report.md)

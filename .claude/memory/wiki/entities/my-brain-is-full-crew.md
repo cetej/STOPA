@@ -3,7 +3,7 @@ name: My-Brain-Is-Full-Crew
 type: tool
 first_seen: 2026-04-07
 last_updated: 2026-04-07
-sources: [mbif-cpr-research]
+sources: [mbif-cpr-research, mbif-cpr-implementation-plan]
 tags: [orchestration, memory, session, claude-code]
 ---
 
@@ -28,3 +28,4 @@ Pull-based chaining and post-it state are directly adoptable in STOPA. Post-it p
 ## Mentioned In
 
 - [MBIF vs CPR Research](../sources/mbif-cpr-research.md)
+- [MBIF/CPR Implementation Plan](../sources/mbif-cpr-implementation-plan.md)

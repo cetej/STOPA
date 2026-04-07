@@ -150,7 +150,7 @@
     "openclaw": {
       "name": "OpenClaw",
       "type": "concept",
-      "mentions": 4,
+      "mentions": 5,
       "last_seen": "2026-04-07",
       "learning_files": [
         "2026-03-24-openclaw-postmortem-patterns.md",
@@ -1401,7 +1401,7 @@
     "dev-browser": {
       "name": "dev-browser",
       "type": "concept",
-      "mentions": 2,
+      "mentions": 3,
       "last_seen": "2026-04-07",
       "learning_files": [
         "2026-03-27-playwright-mcp-download-hijack.md",
@@ -4212,7 +4212,7 @@
     "a-mac": {
       "name": "A-MAC",
       "type": "paper",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "a-mac.md"
@@ -4221,7 +4221,7 @@
     "ace--agentic-context-engineering": {
       "name": "ACE (Agentic Context Engineering)",
       "type": "tool",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "ace.md"
@@ -4230,7 +4230,7 @@
     "adamw": {
       "name": "AdamW",
       "type": "concept",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "adamw.md"
@@ -4239,7 +4239,7 @@
     "agentdojo-benchmark": {
       "name": "AgentDojo benchmark",
       "type": "concept",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "agentdojo-benchmark.md"
@@ -4248,7 +4248,7 @@
     "arxiv-2601-10825--kim-et-al": {
       "name": "arXiv:2601.10825 (Kim et al.)",
       "type": "paper",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "arxiv-2601-10825.md"
@@ -4257,7 +4257,7 @@
     "arxiv-2603-20639--evans-et-al": {
       "name": "arXiv:2603.20639 (Evans et al.)",
       "type": "paper",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "arxiv-2603-20639.md"
@@ -4266,7 +4266,7 @@
     "5-tier-progressive-retrieval": {
       "name": "5-Tier Progressive Retrieval",
       "type": "concept",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "byterover-tiered-retrieval.md"
@@ -4275,7 +4275,7 @@
     "byterover": {
       "name": "ByteRover",
       "type": "paper",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "byterover.md"
@@ -4284,7 +4284,7 @@
     "camel": {
       "name": "CaMeL",
       "type": "tool",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "camel.md"
@@ -4293,7 +4293,7 @@
     "chronos-2": {
       "name": "Chronos-2",
       "type": "tool",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "chronos-2.md"
@@ -4302,7 +4302,7 @@
     "claw-code": {
       "name": "Claw Code",
       "type": "tool",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "claw-code.md"
@@ -4311,7 +4311,7 @@
     "context-collapse": {
       "name": "Context Collapse",
       "type": "concept",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "context-collapse.md"
@@ -4320,7 +4320,7 @@
     "context-rot": {
       "name": "Context Rot",
       "type": "concept",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "context-rot.md"
@@ -4329,7 +4329,7 @@
     "coordinator-mode": {
       "name": "COORDINATOR_MODE",
       "type": "concept",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "coordinator-mode.md"
@@ -4338,7 +4338,7 @@
     "cpr--compress-preserve-resume": {
       "name": "CPR (Compress-Preserve-Resume)",
       "type": "tool",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "cpr-compress-preserve-resume.md"
@@ -4347,7 +4347,7 @@
     "differential-attention": {
       "name": "Differential Attention",
       "type": "concept",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "differential-attention.md"
@@ -4356,7 +4356,7 @@
     "feast": {
       "name": "Feast",
       "type": "tool",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "feast.md"
@@ -4365,7 +4365,7 @@
     "forecastbench": {
       "name": "ForecastBench",
       "type": "concept",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "forecatbench.md"
@@ -4374,7 +4374,7 @@
     "gift-eval": {
       "name": "GIFT-Eval",
       "type": "concept",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "gift-eval.md"
@@ -4383,7 +4383,7 @@
     "graphrag": {
       "name": "GraphRAG",
       "type": "tool",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "graphrag.md"
@@ -4392,7 +4392,7 @@
     "hallucination-snowballing": {
       "name": "Hallucination Snowballing",
       "type": "concept",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "hallucination-snowballing.md"
@@ -4401,7 +4401,7 @@
     "hcag": {
       "name": "HCAG",
       "type": "paper",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "hcag.md"
@@ -4410,7 +4410,7 @@
     "hermes-agent": {
       "name": "Hermes Agent",
       "type": "tool",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "hermes-agent.md"
@@ -4419,7 +4419,7 @@
     "hexmachina": {
       "name": "HexMachina",
       "type": "paper",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "hexmachina.md"
@@ -4428,7 +4428,7 @@
     "hipporag": {
       "name": "HippoRAG",
       "type": "paper",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "hipprag.md"
@@ -4437,7 +4437,7 @@
     "hmas-taxonomy": {
       "name": "HMAS Taxonomy",
       "type": "paper",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "hmas-taxonomy.md"
@@ -4446,7 +4446,7 @@
     "institutional-alignment": {
       "name": "Institutional Alignment",
       "type": "concept",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "institutional-alignment.md"
@@ -4455,7 +4455,7 @@
     "ircot": {
       "name": "IRCoT",
       "type": "paper",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "ircot.md"
@@ -4464,7 +4464,7 @@
     "karpathy-wiki-pattern": {
       "name": "Karpathy Wiki Pattern",
       "type": "concept",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "karpathy-wiki-pattern.md"
@@ -4473,7 +4473,7 @@
     "lats": {
       "name": "LATS",
       "type": "paper",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "lats.md"
@@ -4482,7 +4482,7 @@
     "llamafirewall": {
       "name": "LlamaFirewall",
       "type": "tool",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "llamafirewall.md"
@@ -4491,7 +4491,7 @@
     "memgpt": {
       "name": "MemGPT",
       "type": "paper",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "memgpt.md"
@@ -4500,7 +4500,7 @@
     "memorygraft": {
       "name": "MemoryGraft",
       "type": "paper",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "memorygraft.md"
@@ -4509,7 +4509,7 @@
     "metagpt-sops": {
       "name": "MetaGPT SOPs",
       "type": "paper",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "metagpt-sops.md"
@@ -4518,7 +4518,7 @@
     "minja": {
       "name": "MINJA",
       "type": "paper",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "minja.md"
@@ -4527,7 +4527,7 @@
     "mla--multi-head-latent-attention": {
       "name": "MLA (Multi-Head Latent Attention)",
       "type": "concept",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "mla-multi-head-latent-attention.md"
@@ -4536,7 +4536,7 @@
     "my-brain-is-full-crew": {
       "name": "My-Brain-Is-Full-Crew",
       "type": "tool",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "my-brain-is-full-crew.md"
@@ -4545,7 +4545,7 @@
     "nsa--native-sparse-attention": {
       "name": "NSA (Native Sparse Attention)",
       "type": "concept",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "nsa-native-sparse-attention.md"
@@ -4554,7 +4554,7 @@
     "pal": {
       "name": "PAL",
       "type": "paper",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "pal.md"
@@ -4563,7 +4563,7 @@
     "playwright-mcp": {
       "name": "Playwright MCP",
       "type": "tool",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "playwright-mcp.md"
@@ -4572,7 +4572,7 @@
     "post-it-state-protocol": {
       "name": "Post-it State Protocol",
       "type": "concept",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "post-it-state-protocol.md"
@@ -4581,7 +4581,7 @@
     "pre-compaction-flush": {
       "name": "Pre-compaction Flush",
       "type": "concept",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "pre-compaction-flush.md"
@@ -4590,7 +4590,7 @@
     "prodigy-optimizer": {
       "name": "Prodigy Optimizer",
       "type": "concept",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "prodigy-optimizer.md"
@@ -4599,7 +4599,7 @@
     "pull-based-agent-chaining": {
       "name": "Pull-based Agent Chaining",
       "type": "concept",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "pull-based-agent-chaining.md"
@@ -4608,7 +4608,7 @@
     "quickjs-wasm": {
       "name": "QuickJS WASM",
       "type": "concept",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "quickjs-wasm.md"
@@ -4617,7 +4617,7 @@
     "react": {
       "name": "ReAct",
       "type": "paper",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "react.md"
@@ -4626,7 +4626,7 @@
     "reflexion": {
       "name": "Reflexion",
       "type": "paper",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "reflexion.md"
@@ -4635,7 +4635,7 @@
     "sawyer-hood": {
       "name": "Sawyer Hood",
       "type": "person",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "sawyer-hood.md"
@@ -4644,7 +4644,7 @@
     "schedule-free-optimizer": {
       "name": "Schedule-Free Optimizer",
       "type": "concept",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "schedule-free-optimizer.md"
@@ -4653,7 +4653,7 @@
     "sebastian-ruder": {
       "name": "Sebastian Ruder",
       "type": "person",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "sebastian-ruder.md"
@@ -4662,7 +4662,7 @@
     "self-discover": {
       "name": "Self-Discover",
       "type": "paper",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "self-discover.md"
@@ -4671,7 +4671,7 @@
     "skillreducer": {
       "name": "SkillReducer",
       "type": "paper",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "skillreducer.md"
@@ -4680,7 +4680,7 @@
     "society-of-thought": {
       "name": "Society of Thought",
       "type": "concept",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "society-of-thought.md"
@@ -4689,7 +4689,7 @@
     "structrag": {
       "name": "StructRAG",
       "type": "paper",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "structrag.md"
@@ -4698,7 +4698,7 @@
     "tigramite": {
       "name": "Tigramite",
       "type": "tool",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "tigramite.md"
@@ -4707,7 +4707,7 @@
     "tree-of-thoughts": {
       "name": "Tree of Thoughts",
       "type": "paper",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "tree-of-thoughts.md"
@@ -4716,10 +4716,793 @@
     "zep": {
       "name": "Zep",
       "type": "tool",
-      "mentions": 1,
+      "mentions": 2,
       "last_seen": "2026-04-07",
       "learning_files": [
         "zep.md"
+      ]
+    },
+    "aaif": {
+      "name": "AAIF",
+      "type": "company",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "aaif.md"
+      ]
+    },
+    "acceptance-gated-self-evolution": {
+      "name": "Acceptance-Gated Self-Evolution",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "acceptance-gated-self-evolution.md"
+      ]
+    },
+    "arxiv-2603-19138": {
+      "name": "arXiv:2603.19138",
+      "type": "paper",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "arxiv-2603-19138.md"
+      ]
+    },
+    "autoresearchclaw": {
+      "name": "AutoResearchClaw",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "autoresearchclaw.md"
+      ]
+    },
+    "blaise-ag-era-y-arcas": {
+      "name": "Blaise Agüera y Arcas",
+      "type": "person",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "blaise-aguera-y-arcas.md"
+      ]
+    },
+    "call-chain-tracking": {
+      "name": "Call Chain Tracking",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "call-chain-tracking.md"
+      ]
+    },
+    "causal-learn": {
+      "name": "causal-learn",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "causal-learn.md"
+      ]
+    },
+    "chatterbox--resemble-ai": {
+      "name": "Chatterbox (Resemble AI)",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "chatterbox.md"
+      ]
+    },
+    "claude-agent-sdk": {
+      "name": "claude-agent-sdk",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "claude-agent-sdk.md"
+      ]
+    },
+    "claude-code-auto-mode": {
+      "name": "Claude Code Auto Mode",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "claude-code-auto-mode.md"
+      ]
+    },
+    "claude-subconscious": {
+      "name": "Claude Subconscious",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "claude-subconscious.md"
+      ]
+    },
+    "claudini": {
+      "name": "Claudini",
+      "type": "paper",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "claudini.md"
+      ]
+    },
+    "code-agent--react-repair-loop": {
+      "name": "Code-Agent (ReAct repair loop)",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "code-agent-react-repair.md"
+      ]
+    },
+    "confidence-keywords": {
+      "name": "Confidence Keywords",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "confidence-keywords.md"
+      ]
+    },
+    "conformal-prediction-for-llms": {
+      "name": "Conformal Prediction for LLMs",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "conformal-prediction-llm.md"
+      ]
+    },
+    "critic-accuracy-ledger": {
+      "name": "Critic Accuracy Ledger",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "critic-accuracy-ledger.md"
+      ]
+    },
+    "cross-level-critic": {
+      "name": "Cross-Level Critic",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "cross-level-critic.md"
+      ]
+    },
+    "d3-js": {
+      "name": "D3.js",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "d3js.md"
+      ]
+    },
+    "darts": {
+      "name": "Darts",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "darts.md"
+      ]
+    },
+    "deepseek-r1": {
+      "name": "DeepSeek-R1",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "deepseek-r1.md"
+      ]
+    },
+    "derinet": {
+      "name": "DeriNet",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "derinet.md"
+      ]
+    },
+    "discouq": {
+      "name": "DiscoUQ",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "discouq.md"
+      ]
+    },
+    "ecc-tools": {
+      "name": "ECC Tools",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "ecc-tools.md"
+      ]
+    },
+    "evermemos": {
+      "name": "EverMemOS",
+      "type": "paper",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "evermemos.md"
+      ]
+    },
+    "evolvetool-bench": {
+      "name": "EvolveTool-Bench",
+      "type": "paper",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "evolvetool-bench.md"
+      ]
+    },
+    "factscore": {
+      "name": "FActScore",
+      "type": "paper",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "factscore.md"
+      ]
+    },
+    "file-backed-state-module": {
+      "name": "File-backed state module",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "file-backed-state.md"
+      ]
+    },
+    "fish-speech-s2": {
+      "name": "Fish Speech S2",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "fish-speech-s2.md"
+      ]
+    },
+    "flashinfer": {
+      "name": "FlashInfer",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "flashinfer.md"
+      ]
+    },
+    "gdelt": {
+      "name": "GDELT",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "gdelt.md"
+      ]
+    },
+    "grpo--group-relative-policy-optimization": {
+      "name": "GRPO (Group Relative Policy Optimization)",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "grpo.md"
+      ]
+    },
+    "htn-llm--arxiv-2511-18165": {
+      "name": "HTN+LLM (arXiv:2511.18165)",
+      "type": "paper",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "htn-llm-arxiv-2511-18165.md"
+      ]
+    },
+    "human-ai-centauri": {
+      "name": "Human-AI Centauri",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "human-ai-centauri.md"
+      ]
+    },
+    "idea-file": {
+      "name": "Idea File",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "idea-file.md"
+      ]
+    },
+    "indexcache": {
+      "name": "IndexCache",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "indexcache.md"
+      ]
+    },
+    "ingest-pipeline": {
+      "name": "Ingest Pipeline",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "ingest-pipeline.md"
+      ]
+    },
+    "james-evans": {
+      "name": "James Evans",
+      "type": "person",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "james-evans.md"
+      ]
+    },
+    "kaikki-org": {
+      "name": "kaikki.org",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "kaikki-org.md"
+      ]
+    },
+    "kalshibench": {
+      "name": "KalshiBench",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "kalshibench.md"
+      ]
+    },
+    "kascade": {
+      "name": "Kascade",
+      "type": "paper",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "kascade.md"
+      ]
+    },
+    "knowledge-graph-visualization": {
+      "name": "Knowledge Graph Visualization",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "knowledge-graph-visualization.md"
+      ]
+    },
+    "langgraph": {
+      "name": "LangGraph",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "langgraph.md"
+      ]
+    },
+    "letta-sleep-time-compute": {
+      "name": "Letta sleep-time compute",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "letta-sleep-time.md"
+      ]
+    },
+    "letta--formerly-memgpt": {
+      "name": "Letta (formerly MemGPT)",
+      "type": "company",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "letta.md"
+      ]
+    },
+    "magic-resume": {
+      "name": "Magic Resume",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "magic-resume.md"
+      ]
+    },
+    "markitdown--microsoft": {
+      "name": "MarkItDown (Microsoft)",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "markitdown.md"
+      ]
+    },
+    "metaclaw": {
+      "name": "MetaClaw",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "metaclaw.md"
+      ]
+    },
+    "miroshark": {
+      "name": "MiroShark",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "miroshark.md"
+      ]
+    },
+    "mixmcp": {
+      "name": "MixMCP",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "mixmcp.md"
+      ]
+    },
+    "mom--mixture-of-minds": {
+      "name": "MoM (Mixture-of-Minds)",
+      "type": "paper",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "mom-mixture-of-minds.md"
+      ]
+    },
+    "morfflex-cz": {
+      "name": "MorfFlex CZ",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "morfflex-cz.md"
+      ]
+    },
+    "multi-answer-rl--arxiv-2603-24844": {
+      "name": "Multi-Answer RL (arXiv:2603.24844)",
+      "type": "paper",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "multi-answer-rl.md"
+      ]
+    },
+    "nlah--natural-language-agent-harness": {
+      "name": "NLAH (Natural-Language Agent Harness)",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "nlah.md"
+      ]
+    },
+    "notebooklm-podcast-api": {
+      "name": "NotebookLM Podcast API",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "notebooklm-podcast-api.md"
+      ]
+    },
+    "oasis--camel-ai-simulation-engine": {
+      "name": "OASIS (CAMEL-AI simulation engine)",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "oasis-camel.md"
+      ]
+    },
+    "obsidian": {
+      "name": "Obsidian",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "obsidian.md"
+      ]
+    },
+    "oh-my-claudecode": {
+      "name": "oh-my-claudecode",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "oh-my-claudecode.md"
+      ]
+    },
+    "path-addressable-state": {
+      "name": "Path-Addressable State",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "path-addressable-state.md"
+      ]
+    },
+    "process-reward-models--prms": {
+      "name": "Process Reward Models (PRMs)",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "process-reward-models.md"
+      ]
+    },
+    "reactive-resume": {
+      "name": "Reactive-Resume",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "reactive-resume.md"
+      ]
+    },
+    "rendercv": {
+      "name": "RenderCV",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "rendercv.md"
+      ]
+    },
+    "research-memory-bridge": {
+      "name": "Research-Memory Bridge",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "research-memory-bridge.md"
+      ]
+    },
+    "reward-hacking--emergent-in-autoresearch": {
+      "name": "Reward hacking (emergent in autoresearch)",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "reward-hacking-emergent.md"
+      ]
+    },
+    "route-to-reason--rtr": {
+      "name": "Route-to-Reason (RTR)",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "route-to-reason.md"
+      ]
+    },
+    "routellm": {
+      "name": "RouteLLM",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "routellm.md"
+      ]
+    },
+    "sabmemory": {
+      "name": "sabmemory",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "sabmemory.md"
+      ]
+    },
+    "schema-utility-decoupling": {
+      "name": "Schema-utility decoupling",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "schema-utility-decoupling.md"
+      ]
+    },
+    "sesame-csm-1b": {
+      "name": "Sesame CSM-1B",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "sesame-csm-1b.md"
+      ]
+    },
+    "skill0--progressive-skill-withdrawal": {
+      "name": "SKILL0 (progressive skill withdrawal)",
+      "type": "paper",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "skill0.md"
+      ]
+    },
+    "spargeattn": {
+      "name": "SpargeAttn",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "spargeattn.md"
+      ]
+    },
+    "specification-engineering": {
+      "name": "Specification Engineering",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "specification-engineering.md"
+      ]
+    },
+    "sqlite-fts5": {
+      "name": "SQLite FTS5",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "sqlite-fts5.md"
+      ]
+    },
+    "step-level-q-value-models": {
+      "name": "Step-Level Q-Value Models",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "step-level-q-value-models.md"
+      ]
+    },
+    "stumpy": {
+      "name": "STUMPY",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "stumpy.md"
+      ]
+    },
+    "taro--token-level-adaptive-routing": {
+      "name": "TARo (Token-level Adaptive Routing)",
+      "type": "paper",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "taro-adaptive-routing.md"
+      ]
+    },
+    "telescope-skill": {
+      "name": "/telescope skill",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "telescope-skill.md"
+      ]
+    },
+    "template-registry-pattern": {
+      "name": "Template Registry Pattern",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "template-registry-pattern.md"
+      ]
+    },
+    "three-panel-workbench": {
+      "name": "Three-Panel Workbench",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "three-panel-workbench.md"
+      ]
+    },
+    "tool-genesis": {
+      "name": "Tool-Genesis",
+      "type": "paper",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "tool-genesis.md"
+      ]
+    },
+    "typst": {
+      "name": "Typst",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "typst.md"
+      ]
+    },
+    "verifiedregistry": {
+      "name": "VerifiedRegistry",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "verified-registry.md"
+      ]
+    },
+    "verifier-divergence": {
+      "name": "Verifier Divergence",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "verifier-divergence.md"
+      ]
+    },
+    "vertical-scaling--orchestration": {
+      "name": "Vertical Scaling (Orchestration)",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "vertical-scaling-orchestration.md"
+      ]
+    },
+    "vmao--inter-phase-completeness-verifier": {
+      "name": "VMAO (inter-phase completeness verifier)",
+      "type": "paper",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "vmao.md"
+      ]
+    },
+    "voyager--skill-library": {
+      "name": "Voyager (skill library)",
+      "type": "paper",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "voyager.md"
+      ]
+    },
+    "whispering-pattern": {
+      "name": "Whispering Pattern",
+      "type": "concept",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "whispering-pattern.md"
+      ]
+    },
+    "xrouter": {
+      "name": "xRouter",
+      "type": "tool",
+      "mentions": 1,
+      "last_seen": "2026-04-07",
+      "learning_files": [
+        "xrouter.md"
       ]
     }
   },
@@ -26370,564 +27153,1566 @@
       "last_ts": "2026-03-23"
     },
     "ace--agentic-context-engineering|context-collapse": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "agentdojo-benchmark|llamafirewall": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "camel|llamafirewall": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "agentdojo-benchmark|camel": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "hallucination-snowballing|memorygraft": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "a-mac|hallucination-snowballing": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "hallucination-snowballing|memgpt": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "hallucination-snowballing|minja": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "a-mac|memorygraft": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "memgpt|memorygraft": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "memorygraft|minja": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "a-mac|memgpt": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "a-mac|minja": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "memgpt|minja": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "arxiv-2603-20639--evans-et-al|institutional-alignment": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "arxiv-2601-10825--kim-et-al|arxiv-2603-20639--evans-et-al": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "arxiv-2603-20639--evans-et-al|society-of-thought": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "arxiv-2601-10825--kim-et-al|institutional-alignment": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "institutional-alignment|society-of-thought": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "arxiv-2601-10825--kim-et-al|society-of-thought": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "mla--multi-head-latent-attention|nsa--native-sparse-attention": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "differential-attention|nsa--native-sparse-attention": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "differential-attention|mla--multi-head-latent-attention": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "5-tier-progressive-retrieval|byterover": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "claw-code|coordinator-mode": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "playwright-mcp|quickjs-wasm": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "quickjs-wasm|sawyer-hood": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "dev-browser|quickjs-wasm": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "playwright-mcp|sawyer-hood": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "dev-browser|playwright-mcp": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "dev-browser|sawyer-hood": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 3.0,
+      "count": 3,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "reflexion|tree-of-thoughts": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "metagpt-sops|tree-of-thoughts": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "lats|tree-of-thoughts": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "self-discover|tree-of-thoughts": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "react|tree-of-thoughts": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "metagpt-sops|reflexion": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "lats|reflexion": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "reflexion|self-discover": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "react|reflexion": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "lats|metagpt-sops": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "metagpt-sops|self-discover": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "metagpt-sops|react": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "lats|self-discover": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "lats|react": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "react|self-discover": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "prodigy-optimizer|sebastian-ruder": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "schedule-free-optimizer|sebastian-ruder": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "adamw|sebastian-ruder": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "prodigy-optimizer|schedule-free-optimizer": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "adamw|prodigy-optimizer": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "adamw|schedule-free-optimizer": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "cpr--compress-preserve-resume|my-brain-is-full-crew": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 3.0,
+      "count": 3,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "my-brain-is-full-crew|post-it-state-protocol": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 3.0,
+      "count": 3,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "my-brain-is-full-crew|pull-based-agent-chaining": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "cpr--compress-preserve-resume|post-it-state-protocol": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 3.0,
+      "count": 3,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "cpr--compress-preserve-resume|pull-based-agent-chaining": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "post-it-state-protocol|pull-based-agent-chaining": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "feast|forecastbench": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "chronos-2|feast": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 3.0,
+      "count": 3,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "feast|tigramite": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 3.0,
+      "count": 3,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "feast|gift-eval": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "chronos-2|forecastbench": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "forecastbench|tigramite": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "forecastbench|gift-eval": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "chronos-2|tigramite": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 3.0,
+      "count": 3,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "chronos-2|gift-eval": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "gift-eval|tigramite": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "ircot|pal": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "graphrag|pal": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "hipporag|pal": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "pal|structrag": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "graphrag|ircot": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "hipporag|ircot": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "ircot|structrag": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "graphrag|hipporag": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "graphrag|structrag": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "hipporag|structrag": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "hermes-agent|pre-compaction-flush": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "openclaw|pre-compaction-flush": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "karpathy-wiki-pattern|pre-compaction-flush": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "hermes-agent|openclaw": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "hermes-agent|karpathy-wiki-pattern": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "karpathy-wiki-pattern|openclaw": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "context-rot|skillreducer": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "hmas-taxonomy|skillreducer": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "hexmachina|skillreducer": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 3.0,
+      "count": 3,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "hcag|skillreducer": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "context-rot|hmas-taxonomy": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "context-rot|hexmachina": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "context-rot|hcag": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "hexmachina|hmas-taxonomy": {
-      "weight": 1.0,
-      "count": 1,
+      "weight": 2.0,
+      "count": 2,
       "last_ts": "2026-04-07",
       "contexts": []
     },
     "hcag|hmas-taxonomy": {
+      "weight": 2.0,
+      "count": 2,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "hcag|hexmachina": {
+      "weight": 2.0,
+      "count": 2,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "human-ai-centauri|institutional-alignment": {
       "weight": 1.0,
       "count": 1,
       "last_ts": "2026-04-07",
       "contexts": []
     },
-    "hcag|hexmachina": {
+    "deepseek-r1|human-ai-centauri": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "human-ai-centauri|james-evans": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "blaise-ag-era-y-arcas|human-ai-centauri": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "deepseek-r1|institutional-alignment": {
+      "weight": 2.0,
+      "count": 2,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "institutional-alignment|james-evans": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "blaise-ag-era-y-arcas|institutional-alignment": {
+      "weight": 2.0,
+      "count": 2,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "deepseek-r1|james-evans": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "blaise-ag-era-y-arcas|deepseek-r1": {
+      "weight": 2.0,
+      "count": 2,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "blaise-ag-era-y-arcas|james-evans": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "deepseek-r1|society-of-thought": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "blaise-ag-era-y-arcas|society-of-thought": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "arxiv-2601-10825--kim-et-al|deepseek-r1": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "arxiv-2601-10825--kim-et-al|blaise-ag-era-y-arcas": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "arxiv-2603-20639--evans-et-al|deepseek-r1": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "arxiv-2603-20639--evans-et-al|blaise-ag-era-y-arcas": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "autoresearchclaw|verifiedregistry": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "metaclaw|verifiedregistry": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "autoresearchclaw|metaclaw": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "conformal-prediction-for-llms|discouq": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "conformal-prediction-for-llms|kalshibench": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "conformal-prediction-for-llms|grpo--group-relative-policy-optimization": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "conformal-prediction-for-llms|mixmcp": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "conformal-prediction-for-llms|multi-answer-rl--arxiv-2603-24844": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "discouq|kalshibench": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "discouq|grpo--group-relative-policy-optimization": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "discouq|mixmcp": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "discouq|multi-answer-rl--arxiv-2603-24844": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "grpo--group-relative-policy-optimization|kalshibench": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "kalshibench|mixmcp": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "kalshibench|multi-answer-rl--arxiv-2603-24844": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "grpo--group-relative-policy-optimization|mixmcp": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "grpo--group-relative-policy-optimization|multi-answer-rl--arxiv-2603-24844": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "mixmcp|multi-answer-rl--arxiv-2603-24844": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "claude-subconscious|whispering-pattern": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "letta--formerly-memgpt|whispering-pattern": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "claude-subconscious|letta--formerly-memgpt": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "claudini|reward-hacking--emergent-in-autoresearch": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "derinet|kaikki-org": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "kaikki-org|morfflex-cz": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "derinet|morfflex-cz": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "vmao--inter-phase-completeness-verifier|voyager--skill-library": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "factscore|voyager--skill-library": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "skill0--progressive-skill-withdrawal|voyager--skill-library": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "factscore|vmao--inter-phase-completeness-verifier": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "skill0--progressive-skill-withdrawal|vmao--inter-phase-completeness-verifier": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "factscore|skill0--progressive-skill-withdrawal": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "aaif|specification-engineering": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "letta-sleep-time-compute|specification-engineering": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "evermemos|specification-engineering": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "openclaw|specification-engineering": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "aaif|letta-sleep-time-compute": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "aaif|evermemos": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "aaif|openclaw": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "evermemos|letta-sleep-time-compute": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "letta-sleep-time-compute|openclaw": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "evermemos|openclaw": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "flashinfer|indexcache": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "flashinfer|kascade": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "flashinfer|spargeattn": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "flashinfer|nsa--native-sparse-attention": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "indexcache|kascade": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "indexcache|spargeattn": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "indexcache|nsa--native-sparse-attention": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "kascade|spargeattn": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "kascade|nsa--native-sparse-attention": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "nsa--native-sparse-attention|spargeattn": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "reactive-resume|rendercv": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "reactive-resume|typst": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "rendercv|typst": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "magic-resume|three-panel-workbench": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "template-registry-pattern|three-panel-workbench": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "reactive-resume|three-panel-workbench": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "magic-resume|template-registry-pattern": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "magic-resume|reactive-resume": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "reactive-resume|template-registry-pattern": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "confidence-keywords|cpr--compress-preserve-resume": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "call-chain-tracking|confidence-keywords": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "confidence-keywords|post-it-state-protocol": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "confidence-keywords|my-brain-is-full-crew": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "call-chain-tracking|cpr--compress-preserve-resume": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "call-chain-tracking|post-it-state-protocol": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "call-chain-tracking|my-brain-is-full-crew": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "miroshark|oasis--camel-ai-simulation-engine": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "routellm|xrouter": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "step-level-q-value-models|xrouter": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "route-to-reason--rtr|xrouter": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "routellm|step-level-q-value-models": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "route-to-reason--rtr|routellm": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "route-to-reason--rtr|step-level-q-value-models": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "mom--mixture-of-minds|process-reward-models--prms": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "mom--mixture-of-minds|routellm": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "mom--mixture-of-minds|taro--token-level-adaptive-routing": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "process-reward-models--prms|routellm": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "process-reward-models--prms|taro--token-level-adaptive-routing": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "routellm|taro--token-level-adaptive-routing": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "acceptance-gated-self-evolution|verifier-divergence": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "path-addressable-state|verifier-divergence": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "critic-accuracy-ledger|verifier-divergence": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "acceptance-gated-self-evolution|path-addressable-state": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "acceptance-gated-self-evolution|critic-accuracy-ledger": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "critic-accuracy-ledger|path-addressable-state": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "file-backed-state-module|nlah--natural-language-agent-harness": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "feast|stumpy": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "causal-learn|feast": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "darts|feast": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "feast|gdelt": {
+      "weight": 2.0,
+      "count": 2,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "causal-learn|stumpy": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "darts|stumpy": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "chronos-2|stumpy": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "gdelt|stumpy": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "stumpy|tigramite": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "causal-learn|darts": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "causal-learn|chronos-2": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "causal-learn|gdelt": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "causal-learn|tigramite": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "chronos-2|darts": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "darts|gdelt": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "darts|tigramite": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "chronos-2|gdelt": {
+      "weight": 2.0,
+      "count": 2,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "gdelt|tigramite": {
+      "weight": 2.0,
+      "count": 2,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "fish-speech-s2|sesame-csm-1b": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "notebooklm-podcast-api|sesame-csm-1b": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "chatterbox--resemble-ai|sesame-csm-1b": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "fish-speech-s2|notebooklm-podcast-api": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "chatterbox--resemble-ai|fish-speech-s2": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "chatterbox--resemble-ai|notebooklm-podcast-api": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "forecastbench|gdelt": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "gdelt|gift-eval": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "claude-agent-sdk|langgraph": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "sabmemory|sqlite-fts5": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "karpathy-wiki-pattern|obsidian": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "d3-js|karpathy-wiki-pattern": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "karpathy-wiki-pattern|research-memory-bridge": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "karpathy-wiki-pattern|knowledge-graph-visualization": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "d3-js|obsidian": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "obsidian|research-memory-bridge": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "knowledge-graph-visualization|obsidian": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "d3-js|research-memory-bridge": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "d3-js|knowledge-graph-visualization": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "knowledge-graph-visualization|research-memory-bridge": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "evolvetool-bench|schema-utility-decoupling": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "code-agent--react-repair-loop|evolvetool-bench": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "evolvetool-bench|tool-genesis": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "code-agent--react-repair-loop|schema-utility-decoupling": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "schema-utility-decoupling|tool-genesis": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "code-agent--react-repair-loop|tool-genesis": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "cross-level-critic|vertical-scaling--orchestration": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "skillreducer|telescope-skill": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "htn-llm--arxiv-2511-18165|skillreducer": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "hexmachina|telescope-skill": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "htn-llm--arxiv-2511-18165|telescope-skill": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "hexmachina|htn-llm--arxiv-2511-18165": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "ecc-tools|sawyer-hood": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "dev-browser|ecc-tools": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "ecc-tools|oh-my-claudecode": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "claude-code-auto-mode|ecc-tools": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "ecc-tools|markitdown--microsoft": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "oh-my-claudecode|sawyer-hood": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "claude-code-auto-mode|sawyer-hood": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "markitdown--microsoft|sawyer-hood": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "dev-browser|oh-my-claudecode": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "claude-code-auto-mode|dev-browser": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "dev-browser|markitdown--microsoft": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "claude-code-auto-mode|oh-my-claudecode": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "markitdown--microsoft|oh-my-claudecode": {
+      "weight": 1.0,
+      "count": 1,
+      "last_ts": "2026-04-07",
+      "contexts": []
+    },
+    "claude-code-auto-mode|markitdown--microsoft": {
       "weight": 1.0,
       "count": 1,
       "last_ts": "2026-04-07",

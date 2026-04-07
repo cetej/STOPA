@@ -3,7 +3,7 @@ name: Institutional Alignment
 type: concept
 first_seen: 2026-04-07
 last_updated: 2026-04-07
-sources: [agentic-ai-research]
+sources: [agentic-ai-research, agentic-ai-intelligence-explosion]
 tags: [orchestration, multi-agent, security]
 ---
 
@@ -26,3 +26,4 @@ Validates STOPA's external enforcement design (hooks, critic agent). Orchestrato
 ## Mentioned In
 
 - [Agentic AI Research](../sources/agentic-ai-research.md)
+- [Agentic AI and the Next Intelligence Explosion](../sources/agentic-ai-intelligence-explosion.md)

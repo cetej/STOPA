@@ -3,7 +3,7 @@ name: Karpathy Wiki Pattern
 type: concept
 first_seen: 2026-04-07
 last_updated: 2026-04-07
-sources: [swarm-kb-research]
+sources: [swarm-kb-research, idea-file-research, second-brain-gap-analysis]
 tags: [memory, knowledge-management, orchestration]
 ---
 
@@ -26,3 +26,5 @@ Direct model for STOPA's `/compile` skill and wiki/ directory. P1 gap: unify age
 ## Mentioned In
 
 - [Swarm KB Research](../sources/swarm-kb-research.md)
+- [Idea File Research](../sources/idea-file-research.md)
+- [Second Brain Gap Analysis](../sources/second-brain-gap-analysis.md)

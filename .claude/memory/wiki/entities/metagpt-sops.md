@@ -3,7 +3,7 @@ name: MetaGPT SOPs
 type: paper
 first_seen: 2026-04-07
 last_updated: 2026-04-07
-sources: [egoa-prompt-techniques]
+sources: [egoa-prompt-techniques, egoalpha-stopa-research]
 tags: [orchestration, multi-agent, output-contracts]
 ---
 
@@ -25,3 +25,4 @@ STOPA skills/skill-files.md již obsahuje `output-contract:` a `input-contract:`
 ## Mentioned In
 
 - [EgoAlpha/prompt-in-context-learning Research Brief](../sources/egoa-prompt-techniques.md)
+- [EgoAlpha Prompt Techniques vs. STOPA](../sources/egoalpha-stopa-research.md)
