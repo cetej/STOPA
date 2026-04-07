@@ -3,29 +3,29 @@
 **Saved**: 2026-04-07 (auto-saved (session end))
 **Task**: none
 **Branch**: main
-**Last commit**: `f104952` feat: RCL integrace — outcomes, optstate, failure replay, credit loop
+**Last commit**: `f4073ce` feat: ASI-Evolve integrace — structured diagnostics, UCB1 selector, L_task tiers
 
 ---
 
 ## Session Activity
 
-Session: 140 file edits, 47 agent spawns, 0 skill calls. Skills: autoloop, fetch, watch
-Duration: ~15263 min
+Session: 92 file edits, 17 agent spawns, 0 skill calls. Skills: fetch, ingest, watch
+Duration: ~15315 min
 
 ## Files Touched
 
 | File | Operations | Date |
 |------|-----------|------|
-| settings.json | 6 edits | 2026-04-07 |
 | news.md | 6 edits | 2026-04-07 |
 | correction-tracker.py | 6 edits | 2026-04-07 |
-| session-summary.sh | 5 edits | 2026-04-07 |
 | verify-sweep.py | 4 edits | 2026-04-07 |
-| SKILL.md | 4 edits | 2026-04-07 |
+| settings.json | 4 edits | 2026-04-07 |
 | tier-detector.py | 3 edits | 2026-04-07 |
-| file-read-dedup.py | 3 edits | 2026-04-07 |
+| session-summary.sh | 3 edits | 2026-04-07 |
 | auto-scribe.py | 3 edits | 2026-04-07 |
-| MEMORY.md | 3 edits | 2026-04-07 |
+| INDEX.md | 3 edits | 2026-04-07 |
+| memory-brief.sh | 2 edits | 2026-04-07 |
+| file-read-dedup.py | 2 edits | 2026-04-07 |
 
 ## Key Results
 
@@ -41,7 +41,7 @@ _No commits this session_
 
 ## Learnings Captured
 
-learnings_this_session: 12
+learnings_this_session: 15
   - 2026-04-07-agents-md-efficiency-validated
   - 2026-04-07-budget-calibration-baseline
   - 2026-04-07-compact-variant-baseline
@@ -63,7 +63,7 @@ _No pending subtasks detected in state.md_
 
 > **Task**: none
 >
-> **Context**: Last commit `f104952` (feat: RCL integrace — outcomes, optstate, failure replay, credit loop). Branch: main.
-> Session had 140 edits, 47 agents, 0 skill calls, 0 errors.
+> **Context**: Last commit `f4073ce` (feat: ASI-Evolve integrace — structured diagnostics, UCB1 selector, L_task tiers). Branch: main.
+> Session had 92 edits, 17 agents, 0 skill calls, 0 errors.
 
 

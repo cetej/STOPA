@@ -6,10 +6,10 @@ component: hook
 tags: [hook, failure-modes, timeout, error-handling]
 summary: "Hook failure modes: timeout kills silently (no error to Claude), stderr output becomes system-reminder injection vector, cascading failures when shared state corrupted."
 source: auto_pattern
-uses: 0
+uses: 1
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.75
+confidence: 0.80
 verify_check: "Grep('timeout', path='.claude/settings.json') → 1+ matches"
 ---
 
