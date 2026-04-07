@@ -10,6 +10,7 @@ globs: "**/skills/*/SKILL.md"
 - Why: tested by obra/superpowers — workflow summaries cause Claude to shortcut the description instead of reading full skill body
 - Bad: "Multi-persona code review — 6 expert perspectives (Developer, Security, QA...)"
 - Good: "Use when reviewing a PR and /critic alone is not thorough enough. Trigger on 'review PR'..."
+- **Context engineering, not prompt engineering**: Skill files are *context engineering* artifacts — they shape what the model reads, not what the user writes (ref: Goodside 2026). `description:` = routing trigger, skill body = injected context. Write instructions as context the model consumes, not prompts the user composes.
 - `allowed-tools`: least privilege — jen tools které skill skutečně potřebuje
 - `deny-tools`: array of tools explicitly DENIED to this skill (overrides allowed-tools). Use for coordinator-pattern skills that must delegate, not execute.
 - `permission-tier`: optional, one of `read-only` | `workspace-write` | `full-access` | `coordinator`

@@ -203,6 +203,8 @@ Log: "Amdahl gate: p={p:.1f} ({I}/{T} independent). Tier: {original} -> {capped}
 **Trigger:** tier == `deep` OR `$ARGUMENTS` contains `--gate`. Skip for light/standard unless `--gate`.
 
 Display advisory, then continue (don't wait):
+- **Design gate**: Are architectural decisions resolved? AI agents excel at implementation but defer design decisions when refactoring is cheap — this leads to incoherent codebases (ref: Willison 2026-04-05). If task requires architecture choices (new module boundaries, API shape, data model), these MUST be decided by the user or orchestrator BEFORE agents start. Agents receive a spec, not an open question.
+  → My read: [design resolved / needs user input — NOT optional]
 - **Product gate**: What does success look like? Simpler solution for 80% of the goal?
   → My read: [1-sentence assessment — NOT optional]
 - **Engineering gate**: Where could this fail? Side-effects on existing code?

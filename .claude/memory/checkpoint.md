@@ -51,7 +51,7 @@ resume:
 
 | # | Proposal | Effort | Impact | Notes |
 |---|----------|--------|--------|-------|
-| P2.2 | Data-driven router | 1-2 weeks | High | Needs trace collection from budget.md first |
+| P2.2 | Data-driven router | 1-2 weeks | High | Scheduled task `p22-router-trace-check` (po+čt 10:00) sleduje akumulaci traces. Notifikuje při 50+ záznamech. |
 
 ## Co NEdělat
 

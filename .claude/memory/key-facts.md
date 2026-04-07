@@ -13,6 +13,12 @@ Updated when infrastructure changes. Checked before guessing configs or suggesti
 | Orchestration | Claude Code | latest | Skills + shared memory |
 | VCS | Git + GitHub | — | cetej/STOPA |
 
+## APIs
+
+| API | Endpoint | What It Returns | Use Case |
+|-----|----------|----------------|----------|
+| Model Capabilities | `GET /v1/models/{model_id}` | `max_input_tokens`, `max_tokens`, `capabilities` object | Dynamic model verification in orchestrate pre-flight (instead of hardcoded tier tables) |
+
 ## Services & Endpoints
 
 | Service | Environment | URL / Port | Notes |

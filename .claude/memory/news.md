@@ -2,12 +2,14 @@
 
 Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
-## Last Scan: 2026-04-06 (full) | Next: ~2026-04-13
+## Last Scan: 2026-04-07 (full) | Next: ~2026-04-14
 
 ## Action Items
 
 | # | Item | Urgency | Next Step |
 |---|------|---------|-----------|
+| 77 | **Model Capabilities API** — `GET /v1/models` vrací `max_input_tokens`, `max_tokens`, `capabilities` objekt. Strojové zjišťování možností modelu. | MED | STOPA orchestrate pre-flight: ověřit model capabilities dynamicky místo hardcoded tier tabulky |
+| 78 | **AGENTS.md efficiency study** (arXiv:2601.20404, JAWs Apr 2026) — 28.64% runtime ↓, 16.58% token ↓ s repo-level instrukcemi. Empirická validace STOPA CLAUDE.md přístupu. | MED | Zapsat learning (best_practice/high); přidat do onboarding checklistu pro target projekty |
 | 74 | **Claude Sonnet 5** (`claude-sonnet-5-20260401`) — postupný rollout | MED | GA od 1.4., ale ještě ne na všech účtech. Až bude dostupný: přepnout v STOPA model tiers (standard + deep). 92.4% SWE-bench, 2M context, $3/$15/M. |
 | 65 | CC v2.1.92 — `forceRemoteSettingsRefresh` policy | LOW | Fail-closed při nenačtení remote managed settings. Sledovat při distribuci do target projektů. |
 | 42 | CC Voice Mode (`/voice`) — Czech included | MED | Otestovat až se rolling out dostane k účtu; 20 jazyků vč. češtiny |
@@ -65,6 +67,8 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
 ### Agent/Tool Research
 | Item | Detail |
+| 79. Context Engineering (Goodside) | "Context engineering = co model čte, prompt engineering = co user píše." Terminologická divergence. Relevantní pro skill design filozofii. [interconnects.ai](https://www.interconnects.ai/p/riley-goodside-on-science-of-prompting) |
+| 80. AI defers architecture decisions (Willison) | "AI udělalo refactoring levným → design se odkládal → zmatený kód → rewrite." Design musí přijít od člověka PŘED agentem. [simonwillison.net](https://simonwillison.net/2026/Apr/5/building-with-ai/) |
 |------|--------|
 | 73. Meta-Harness median gap | **[ACTION]** arXiv:2603.28052 — MEDIAN full traces: 50.0 vs scores-only: 34.6 (+15 pts). Best numbers (56.7 vs 41.3) zakrývají sílu nálezu. Iteration 7: 80-line env snapshot → #1 Haiku 4.5 TerminalBench-2 (37.6%). Cross-model transfer na 5 held-out modelů. STOPA: `/eval` musí reportovat median; `/orchestrate` přidat tool inventory jako P1 krok. |
 | 71. MCP Toolbox for Databases (Google) | Production MCP server, 30+ DB (PostgreSQL, MongoDB, Redis, Snowflake, Neo4j…), one config, NL2SQL, connection pooling, IAM auth, OpenTelemetry. Pre-datuje MCP — není trend-chasing. [github](https://github.com/googleapis/genai-toolbox) — Trigger [ACTION] až POLYBOT/MONITOR implementuje DB layer |
@@ -120,6 +124,8 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
 ## Scan History
 
+### 2026-04-07 #2 — full | Searches: 15 | Fetches: 3 | Items: 2 action, 2 watch, 3 info — Model Capabilities API, AGENTS.md study (+28.64% runtime), Context Engineering framing, AI+architecture anti-pattern
+### 2026-04-07 — quick (scheduled) | Searches: 3 | Fetches: 3 | Items: 0 action, 0 watch, 0 info — No new releases since 2026-04-04 (v2.1.92). API notes unchanged since 2026-03-30.
 ### 2026-04-06 #2 — quick (scheduled) | Searches: 3 | Fetches: 2 | Items: 0 action, 0 watch, 4 info — API bugfixes: Extended Thinking whitespace fix, Tool Streaming fix, Write Tool +60% perf, Message Batches 300k confirmed official (item 49w status update)
 ### 2026-04-06 — full | Searches: 16 | Fetches: 3 | Items: 1 action, 2 watch, 3 info
 ### 2026-04-05 — quick (scheduled) | Searches: 3 | Fetches: 1 | Items: 0 action, 0 watch, 0 info — No new releases since 2026-04-04

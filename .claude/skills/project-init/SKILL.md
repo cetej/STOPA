@@ -151,6 +151,8 @@ Historical budget data moved here by /scribe maintenance.
 
 Only create if `CLAUDE.md` does not already exist in project root.
 
+> **Why this matters**: Empirical study (arXiv:2601.20404, JAWs 2026, 10 repos, 124 PRs) shows repo-level instruction files reduce AI agent runtime by **28.64%** and output tokens by **16.58%** with zero loss in task completion. CLAUDE.md is not optional boilerplate — it's a direct performance lever.
+
 Use this template — replace `{{PROJECT_NAME}}` with the project name:
 
 ```markdown
