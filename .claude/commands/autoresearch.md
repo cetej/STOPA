@@ -496,6 +496,8 @@ After loop ends, write synthesis report. Read `${CLAUDE_SKILL_DIR}/references/sy
 3. Ask user: "Merge branch `autoresearch/<slug>` into current, or keep for review?"
 4. Update `.claude/memory/budget.md` with experiment costs
 5. If significant findings: suggest `/scribe` to record learnings
+6. Write outcome record (see Outcome Record section below)
+7. Update optimization state (see Optimization State section below)
 
 ## Budget Tiers
 
@@ -535,6 +537,63 @@ Read `${CLAUDE_SKILL_DIR}/references/failure-taxonomy.md` for the 10-category cl
 | "I'll clean up the code while I'm at it" | Conflates optimization with refactoring | Stay in scope |
 | "I'll add a 2nd file to this iteration" | Violates single-file mutation, can't isolate cause | Split into two sequential hypotheses |
 | "I'll fix the prompt AND restructure the loop in this iteration" | Bundling structural+prompt changes confounds diagnosis — Meta-Harness showed 2/2 regressions | Structural change first, verify, THEN prompt change in separate iteration |
+
+### Outcome Record (RCL credit loop)
+
+Write an outcome record to `.claude/memory/outcomes/<date>-autoresearch-<outcome>-<slug>.md`:
+
+```markdown
+---
+skill: autoresearch
+run_id: autoresearch-<slug>-<timestamp>
+date: <YYYY-MM-DD>
+task: "<research question>"
+outcome: success | partial | failure
+score_start: <baseline>
+score_end: <best>
+iterations: <used>
+kept: <count>
+discarded: <count>
+exit_reason: <budget|plateau|solved|crash_loop|abort>
+---
+
+## Trajectory Summary
+1. Baseline: <score>, <context>
+2. Hypothesis "<name>": <approach> → <delta> (<keep/discard>)
+... (max 15 key experiments)
+
+## Learnings Applied
+- file: <learning-filename.md> | credit: helpful | evidence: <1-sentence>
+- file: <other.md> | credit: harmful | evidence: <why>
+
+## What Worked (if outcome != failure)
+- <key hypothesis/approach that drove improvement>
+
+## What Failed (if outcome != success)
+- <key gap, wrong assumption, or dead-end approach>
+```
+
+**Outcome classification:** success = solved OR (delta > 0 AND exit == budget/plateau); partial = some improvement but not solved; failure = delta <= 0 OR crash_loop OR abort.
+
+**Learnings Applied:** List every learning file consulted during this run. Credit: `helpful` if it informed a kept hypothesis, `harmful` if it led to a discard, `neutral` otherwise.
+
+### Optimization State Update
+
+Read `.claude/memory/optstate/autoresearch.json` at Phase 0 (before Shared Memory reads). Use it to:
+- Prefer `strategies_that_work` approaches
+- Avoid `strategies_that_fail` patterns
+- Check `recurring_failure_patterns` watchlist
+
+After Phase 4, update optstate with new run data (same format as autoloop — change_ledger, strategies, velocity).
+
+### Per-Iteration Attribution (lightweight PP)
+
+After each KEEP/DISCARD, extend `proposals.jsonl` entry with attribution:
+
+```jsonl
+{"iteration": N, "hypothesis": "name", "status": "keep", "attribution": {"learning": "<file>", "credit": "helpful", "evidence": "..."}}
+{"iteration": N, "hypothesis": "name", "status": "discard", "diagnosis": {"gap": "<missing>", "failure_class": "logic|assumption"}}
+```
 
 ## Known Failure Modes (Karpathy Loop-Specific)
 

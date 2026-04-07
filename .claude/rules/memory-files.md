@@ -87,6 +87,32 @@ globs: ".claude/memory/**"
 - `failure_agent:` = volitelné pole — který agent/skill způsobil selhání (e.g., `orchestrate`, `scout`, `agent-worker`, `critic`). Používá se pro agent accountability tracking.
 - `task_context:` = volitelné pole — kontext úkolu při kterém learning vznikl. Format: `{task_class: single_edit|multi_file|refactor|bug_fix|feature|research|pipeline, complexity: low|medium|high, tier: light|standard|deep|farm}`. Umožňuje HERA-style query characterization pro přesnější retrieval.
 
+## Outcomes (per-run RCL credit records)
+
+RCL-inspired outcome storage (arXiv:2604.03189). Captures both success and failure trajectories for dual-trace credit assignment.
+
+- Stored in `.claude/memory/outcomes/` as individual files
+- Filename: `<date>-<skill>-<outcome>-<short>.md` (e.g., `2026-04-07-autoloop-success-critic-optimization.md`)
+- Max 100 files — archive oldest to `outcomes/archive/` on overflow
+- YAML frontmatter: `skill`, `run_id`, `date`, `task`, `outcome` (success|partial|failure), `score_start`, `score_end`, `iterations`, `kept`, `discarded`, `exit_reason`
+- Body sections: `## Trajectory Summary` (max 15 key iterations), `## Learnings Applied` (file + credit + evidence), `## What Worked`, `## What Failed`
+- **Learnings Applied format**: `- file: <filename.md> | credit: helpful|harmful|neutral | evidence: <1-sentence>`
+- Hook `outcome-credit.py` auto-updates learning counters on write
+- Hook `failure-recorder.py` auto-creates failure record when outcome = failure|partial
+- Skills that write outcomes: autoloop, autoresearch, self-evolve (at their Report/Handoff phase)
+
+## Optimization State (per-skill momentum)
+
+RCL-inspired optimizer state (arXiv:2604.03189). Rolling JSON capturing cross-run learning for each iterative skill.
+
+- Stored in `.claude/memory/optstate/` as JSON files
+- Filename: `<skill>.json` (e.g., `autoloop.json`, `autoresearch.json`, `self-evolve.json`)
+- Schema: `last_updated`, `total_runs`, `health`, `change_ledger[]` (max 20 FIFO), `strategies_that_work[]`, `strategies_that_fail[]`, `recurring_failure_patterns[]`, `optimization_velocity{stage, trend}`
+- Read at skill Phase 0 (Setup) — strategies inform initial approach
+- Updated at skill Phase 3 (Report) — merge new run data into existing state
+- Haiku summarization for merge if state exceeds 50 lines
+- If file doesn't exist: skill proceeds normally (no prior state)
+
 ## Failures (per-failure YAML records)
 
 HERA-inspired failure trajectory storage (arXiv:2604.00901). Každý zaznamenaný failure uchovává kompletní rozhodovací řetězec.

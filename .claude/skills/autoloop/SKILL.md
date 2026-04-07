@@ -82,6 +82,16 @@ Examples:
 /autoloop .claude/skills/critic/SKILL.md verify:"python eval_skill.py" cost_metric:"wc -c < .claude/skills/critic/SKILL.md"
 ```
 
+### Optimization State Load (RCL momentum)
+
+Read `.claude/memory/optstate/autoloop.json` if it exists. Extract:
+- `strategies_that_work` → prefer these approaches in early iterations
+- `strategies_that_fail` → avoid these patterns
+- `recurring_failure_patterns` → add to watchlist
+- `change_ledger` → last 5 entries for "what was tried before"
+
+If file doesn't exist: proceed normally (no prior state).
+
 ### Precondition checks
 
 ```bash
@@ -476,6 +486,77 @@ Write a JSON file to `.claude/memory/performance/autoloop-<slug>-<timestamp>.jso
 ```
 
 Ask the user: "Merge branch `autoloop/<name>` into current branch, or discard?"
+
+### Outcome Record (RCL credit loop)
+
+Write an outcome record to `.claude/memory/outcomes/<date>-autoloop-<outcome>-<slug>.md`:
+
+```markdown
+---
+skill: autoloop
+run_id: autoloop-<slug>-<timestamp>
+date: <YYYY-MM-DD>
+task: "<goal>"
+outcome: success | partial | failure
+score_start: <baseline>
+score_end: <final>
+iterations: <used>
+kept: <count>
+discarded: <count>
+exit_reason: <budget|plateau|max_score|crash_loop>
+---
+
+## Trajectory Summary
+1. Baseline: <score>, <context>
+2. Iter N: <change> → <delta> (<keep/discard>)
+... (max 15 key iterations)
+
+## Learnings Applied
+- file: <learning-filename.md> | credit: helpful | evidence: <1-sentence why>
+- file: <other.md> | credit: neutral | evidence: <why>
+
+## What Worked (if outcome != failure)
+- <key mutation that drove improvement>
+
+## What Failed (if outcome != success)
+- <key gap or wrong assumption>
+```
+
+**Outcome classification:** success = delta > 0 AND exit != crash_loop; partial = delta > 0 BUT exit == plateau/budget before target; failure = delta <= 0 OR crash_loop.
+
+**Learnings Applied:** List every learning file that was Read/Grep'd during this run and influenced a decision. Assign credit: `helpful` if it led to a kept iteration, `harmful` if it led to a discarded one, `neutral` if consulted but not decisive.
+
+### Optimization State Update
+
+Read `.claude/memory/optstate/autoloop.json` at Phase 0 (Setup). After Phase 3 report, update it:
+
+```json
+{
+  "last_updated": "<YYYY-MM-DD>",
+  "total_runs": <N+1>,
+  "health": "exploration|developing|mature",
+  "change_ledger": [
+    {"date": "<date>", "run_id": "<id>", "mutations": ["<key changes>"], "effect": "<delta>", "outcome": "<outcome>"}
+  ],
+  "strategies_that_work": ["<patterns that led to kept iterations>"],
+  "strategies_that_fail": ["<patterns that led to discards>"],
+  "recurring_failure_patterns": ["<repeated failure modes>"],
+  "optimization_velocity": {"stage": "exploration|development|refinement", "trend": "improving|flat|declining"}
+}
+```
+
+Keep `change_ledger` max 20 entries (FIFO). Merge new run data with existing — don't overwrite, append and summarize.
+
+### Per-Iteration Attribution (lightweight PP)
+
+After each KEEP/DISCARD decision, append a structured attribution to `proposals.jsonl`:
+
+```jsonl
+{"iteration": N, "status": "keep", "attribution": {"learning": "<filename.md>", "credit": "helpful", "evidence": "..."}}
+{"iteration": N, "status": "discard", "diagnosis": {"gap": "<what was missing>", "failure_class": "logic|assumption|integration"}}
+```
+
+This replaces RCL's expensive dual-trace (2× execution) with a lightweight post-hoc reflection step.
 
 ## Scoring: SKILL.md (built-in)
 

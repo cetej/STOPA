@@ -248,6 +248,65 @@ If yes: write to `.claude/memory/intermediate/self-evolve-meta/<target>.json`
    - Yes: `git checkout main && git merge self-evolve/<target>`
    - No: keep branch for later review
 4. Suggest: "Record findings via /scribe?" if key patterns discovered
+5. Write outcome record (see Outcome Record section below)
+6. Update optimization state (see Optimization State section below)
+
+### Outcome Record (RCL credit loop)
+
+Write to `.claude/memory/outcomes/<date>-self-evolve-<outcome>-<target>.md`:
+
+```markdown
+---
+skill: self-evolve
+run_id: self-evolve-<target>-<timestamp>
+date: <YYYY-MM-DD>
+task: "Evolve <target> skill"
+outcome: success | partial | failure
+score_start: <baseline_pass_rate>
+score_end: <final_pass_rate>
+iterations: <rounds>
+kept: <count>
+discarded: <reverts>
+exit_reason: <convergence|budget|circuit-breaker>
+---
+
+## Trajectory Summary
+1. Baseline: <pass_rate>%, <N> cases
+2. Round N: <FIX/ESCALATE> → <delta> (<keep/revert>)
+... (max 15 key rounds)
+
+## Learnings Applied
+- file: <learning.md> | credit: helpful | evidence: <why>
+
+## What Worked (if outcome != failure)
+- <key edit pattern or strategy>
+
+## What Failed (if outcome != success)
+- <what the executor couldn't handle>
+```
+
+### Optimization State Update
+
+Read `.claude/memory/optstate/self-evolve.json` at Phase 0 (Setup, after step 3). Use it to:
+- Know what strategies worked on this target before
+- Avoid repeating failed approaches
+- Check if previous runs hit same circuit breaker
+
+After Phase 3, update optstate (same format as autoloop — change_ledger max 20, strategies, velocity).
+
+### Replay Buffer from Outcomes (RCL failure replay)
+
+At Phase 0, after loading eval cases:
+
+1. Read `memory/outcomes/` filtered by `skill: self-evolve` AND target matches AND `outcome != success`
+2. Extract failure patterns from "What Failed" sections
+3. Cross-reference with existing eval cases — identify gaps
+4. If failed outcomes describe failure modes not covered by current cases:
+   - Generate 1-2 targeted replay eval cases covering those modes
+   - Add to eval suite with source note: `# Source: replay from outcome <run_id>`
+5. Reserve at least 30% of eval budget for these replay cases
+6. **Graduation**: if a replay case passes 3× consecutive across runs, mark as graduated (no longer priority)
+7. **Eviction**: if a replay case fails 5× consecutive post-reflection, mark as intractable and skip
 
 ## Eval Case Format
 

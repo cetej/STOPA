@@ -331,6 +331,20 @@
             "command": "python .claude/hooks/graduation-check.py",
             "timeout": 3,
             "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "if": "Write(**/outcomes/**)",
+            "command": "python .claude/hooks/outcome-credit.py",
+            "timeout": 5,
+            "statusMessage": "Updating learning credit counters..."
+          },
+          {
+            "type": "command",
+            "if": "Write(**/outcomes/**)",
+            "command": "python .claude/hooks/failure-recorder.py",
+            "timeout": 5,
+            "statusMessage": "Checking for failure recording..."
           }
         ]
       }

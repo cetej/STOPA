@@ -95,6 +95,52 @@ Before starting:
 2. Grep `.claude/memory/learnings/` for topic-relevant patterns (max 3 queries by component/tags)
 3. Read `.claude/memory/budget.md` — check remaining budget
 
+### Cross-session strategy persistence (warm-start)
+
+Check for prior autoresearch runs on the same topic:
+```bash
+# Find prior strategy state for same target/question
+strategy_file=".claude/memory/intermediate/autoresearch-strategy-$(echo '<target>' | md5sum | cut -c1-8).json"
+prior_run=$(ls -td .traces/autoresearch-*/iterations.jsonl 2>/dev/null | head -1)
+```
+
+**Strategy state file** (`strategy_file`) persists between sessions:
+```json
+{
+  "target": "<target path>",
+  "question": "<research question>",
+  "last_run": "2026-04-05T14:30:00",
+  "best_score": 0.82,
+  "best_commit": "abc1234",
+  "approaches_tried": [
+    {"name": "orjson", "score": 0.82, "status": "KEEP"},
+    {"name": "ujson", "score": 0.65, "status": "DISCARD"},
+    {"name": "msgspec", "score": 0.78, "status": "KEEP"}
+  ],
+  "failure_categories": ["timeout on large inputs", "API compatibility"],
+  "preferred_strategy": "mutation",
+  "strategy_weights": {"mutation": 0.6, "crossover": 0.3, "radical": 0.1}
+}
+```
+
+If strategy file exists and is < 7 days old:
+1. Load it and log: `"⚡ Warm-start: prior run best=<best_score> with <N> approaches tried"`
+2. Skip already-tried approaches (unless `--fresh` flag)
+3. Use `strategy_weights` to bias approach selection
+4. Set `"warm_start": "<prior_run_id>"` in `trace-active.json`
+
+If prior run traces exist but no strategy file: extract best/worst from `iterations.jsonl` and create the file.
+
+### Strategy state write-back
+
+At the END of every autoresearch run (Phase 3), update the strategy state file:
+- Append new approaches to `approaches_tried`
+- Update `best_score` / `best_commit` if improved
+- Recalculate `strategy_weights` based on keep/discard ratio per strategy type
+- Update `failure_categories` from DISCARD notes
+
+This enables the Gentilcore "trace learning" pattern: the harness improves across sessions.
+
 <!-- CACHE_BOUNDARY -->
 
 ## Phase 0: Research Setup
@@ -450,6 +496,8 @@ After loop ends, write synthesis report. Read `${CLAUDE_SKILL_DIR}/references/sy
 3. Ask user: "Merge branch `autoresearch/<slug>` into current, or keep for review?"
 4. Update `.claude/memory/budget.md` with experiment costs
 5. If significant findings: suggest `/scribe` to record learnings
+6. Write outcome record (see Outcome Record section below)
+7. Update optimization state (see Optimization State section below)
 
 ## Budget Tiers
 
@@ -489,6 +537,63 @@ Read `${CLAUDE_SKILL_DIR}/references/failure-taxonomy.md` for the 10-category cl
 | "I'll clean up the code while I'm at it" | Conflates optimization with refactoring | Stay in scope |
 | "I'll add a 2nd file to this iteration" | Violates single-file mutation, can't isolate cause | Split into two sequential hypotheses |
 | "I'll fix the prompt AND restructure the loop in this iteration" | Bundling structural+prompt changes confounds diagnosis — Meta-Harness showed 2/2 regressions | Structural change first, verify, THEN prompt change in separate iteration |
+
+### Outcome Record (RCL credit loop)
+
+Write an outcome record to `.claude/memory/outcomes/<date>-autoresearch-<outcome>-<slug>.md`:
+
+```markdown
+---
+skill: autoresearch
+run_id: autoresearch-<slug>-<timestamp>
+date: <YYYY-MM-DD>
+task: "<research question>"
+outcome: success | partial | failure
+score_start: <baseline>
+score_end: <best>
+iterations: <used>
+kept: <count>
+discarded: <count>
+exit_reason: <budget|plateau|solved|crash_loop|abort>
+---
+
+## Trajectory Summary
+1. Baseline: <score>, <context>
+2. Hypothesis "<name>": <approach> → <delta> (<keep/discard>)
+... (max 15 key experiments)
+
+## Learnings Applied
+- file: <learning-filename.md> | credit: helpful | evidence: <1-sentence>
+- file: <other.md> | credit: harmful | evidence: <why>
+
+## What Worked (if outcome != failure)
+- <key hypothesis/approach that drove improvement>
+
+## What Failed (if outcome != success)
+- <key gap, wrong assumption, or dead-end approach>
+```
+
+**Outcome classification:** success = solved OR (delta > 0 AND exit == budget/plateau); partial = some improvement but not solved; failure = delta <= 0 OR crash_loop OR abort.
+
+**Learnings Applied:** List every learning file consulted during this run. Credit: `helpful` if it informed a kept hypothesis, `harmful` if it led to a discard, `neutral` otherwise.
+
+### Optimization State Update
+
+Read `.claude/memory/optstate/autoresearch.json` at Phase 0 (before Shared Memory reads). Use it to:
+- Prefer `strategies_that_work` approaches
+- Avoid `strategies_that_fail` patterns
+- Check `recurring_failure_patterns` watchlist
+
+After Phase 4, update optstate with new run data (same format as autoloop — change_ledger, strategies, velocity).
+
+### Per-Iteration Attribution (lightweight PP)
+
+After each KEEP/DISCARD, extend `proposals.jsonl` entry with attribution:
+
+```jsonl
+{"iteration": N, "hypothesis": "name", "status": "keep", "attribution": {"learning": "<file>", "credit": "helpful", "evidence": "..."}}
+{"iteration": N, "hypothesis": "name", "status": "discard", "diagnosis": {"gap": "<missing>", "failure_class": "logic|assumption"}}
+```
 
 ## Known Failure Modes (Karpathy Loop-Specific)
 
