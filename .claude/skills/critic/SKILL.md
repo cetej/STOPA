@@ -4,6 +4,7 @@ description: Use when reviewing code in the current working context to catch qua
 context:
   - gotchas.md
 argument-hint: [what to review — file path, skill name, or "last changes"]
+discovery-keywords: [review code, check quality, find bugs, audit, kvalita, zkontroluj, code review, lint, verify changes]
 tags: [code-quality, review, post-edit]
 phase: verify
 user-invocable: true
@@ -523,6 +524,39 @@ Before reviewing, check `.claude/memory/budget.md`:
    - `reflexion:` — what should be done differently next time (Reflexion-inspired, arXiv:2303.11366)
    - Include these fields in the critic report output so orchestrator can write to `failures/` directory
    - Example addition to report: `## Failure Metadata\nfailure_class: assumption\nfailure_agent: agent-2\nroot_cause: Agent assumed stateless auth\nreflexion: Read existing tests before editing auth code`
+
+## Skill Selection Audit (post-orchestration, arXiv:2604.04323)
+
+**When:** Only when critic is reviewing output from an `/orchestrate` run (STANDARD or DEEP path). Skip for QUICK path, non-orchestrated reviews, and direct code reviews.
+
+**Why:** arXiv:2604.04323 shows agents voluntarily load only 49% of relevant skills. This audit catches missed skills post-hoc so future orchestrations improve.
+
+**Process (max 2 minutes, read-only):**
+
+1. Read `.claude/memory/state.md` to get the task description and list of skills that were used
+2. Extract 2-3 domain keywords from the task goal
+3. Grep `.claude/skills/*/SKILL.md` for those keywords in `description:` AND `discovery-keywords:` fields
+4. Compare matched skills against skills actually used in the orchestration
+
+**Output:** Append to critic report under `## Skill Selection Audit`:
+
+```markdown
+## Skill Selection Audit
+
+Skills used: /orchestrate, /scout, /critic
+Potentially relevant but unused:
+- /security-review — matched on "auth" in discovery-keywords (task involves auth middleware)
+- /scenario — matched on "edge cases" in discovery-keywords (refactor with side effects)
+
+Recommendation: Consider /security-review in future auth-related orchestrations.
+```
+
+**Rules:**
+- Only flag skills with strong keyword match (not tangential)
+- Max 3 recommendations per audit (force prioritization)
+- If all relevant skills were used → note "No missed skills detected" (positive signal)
+- This is advisory, not blocking — never downgrade verdict based on missed skills
+- Don't flag Tier 3/4 skills unless they're clearly essential (avoid suggesting /nano for a code task)
 
 ## Reasoning Isolation (BOULDER principle)
 

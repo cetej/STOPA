@@ -2,6 +2,7 @@
 name: scribe
 description: Use when capturing decisions or discovered patterns worth remembering. Trigger on 'record this', 'remember that', 'update state'. Do NOT use for ephemeral notes.
 argument-hint: [what to record — "decision", "learning", "state", or free text]
+discovery-keywords: [remember this, record decision, save learning, zapamatuj, zapiš, note pattern, document finding]
 tags: [memory, documentation]
 phase: meta
 user-invocable: true

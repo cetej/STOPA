@@ -2,6 +2,7 @@
 name: status
 description: Use when checking current system state — active task, budget, checkpoint, last news scan, memory health. Trigger on 'status', 'what's the state', 'kde jsem', 'stav'. Do NOT use for budget details (/budget) or checkpoint management (/checkpoint).
 argument-hint: (no arguments)
+discovery-keywords: [what state, current task, kde jsem, co se děje, system health, dashboard, overview]
 tags: [session, orchestration]
 phase: meta
 user-invocable: true

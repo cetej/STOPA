@@ -2,6 +2,7 @@
 name: deepresearch
 description: "Use when investigating a topic requiring multiple sources, evidence synthesis, and citations. Trigger on 'research', 'investigate', 'deep dive', 'prozkoumej', 'find out about'. Do NOT use for codebase search (/scout) or ecosystem news (/watch)."
 argument-hint: <topic or research question>
+discovery-keywords: [investigate, evidence, citations, literature, prozkoumej, find out, compare approaches, state of art, survey]
 context-required:
   - "research question — specific and answerable, not a vague topic"
   - "output format — brief, analysis, comparison table, or raw evidence"

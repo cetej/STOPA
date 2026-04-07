@@ -2,6 +2,7 @@
 name: fix-issue
 description: Use when user provides a GitHub issue to resolve with code fix and commit. Trigger on 'fix issue', 'resolve issue', 'close issue #N'. Do NOT use for feature requests without criteria.
 argument-hint: <issue number or URL> [--no-commit]
+discovery-keywords: [github issue, bug fix, close issue, oprav issue, resolve bug, pr for issue, implement fix]
 context-required:
   - "issue number or URL — required; without it there is nothing to fix"
   - "reproduction steps — if not in the issue body, ask before diving into code"

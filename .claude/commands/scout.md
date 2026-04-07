@@ -2,6 +2,7 @@
 name: scout
 description: Use when you need to map existing code and patterns within a single project before implementing changes. Trigger on 'map this area', 'scope this', 'what do we have'. Do NOT use for cross-project pattern search (/xsearch) or known file locations.
 argument-hint: [what to explore] [--refresh-map]
+discovery-keywords: [explore codebase, find files, map dependencies, understand code, jak to funguje, where is, codebase map, architecture]
 tags: [exploration, research]
 phase: plan
 user-invocable: true

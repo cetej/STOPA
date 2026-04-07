@@ -23,6 +23,11 @@ globs: "**/skills/*/SKILL.md"
   - Semantics: Bash is allowed, but only commands matching the glob patterns
   - Enforced at runtime by `tool-gate.py` PreToolUse hook (STOPA_TOOL_GATE=enforce)
   - Currently supported: Bash command matching. Future: Write/Edit path matching
+- `discovery-keywords`: optional array of alternative terms, synonyms, and use-case patterns that expand skill discoverability beyond `description:`. While `description:` is the primary routing trigger, `discovery-keywords:` captures how users *actually phrase* tasks — colloquial terms, related concepts, and indirect signals that map to this skill. Used by `/triage` for fuzzy matching when `description:` doesn't match directly. (Ref: arXiv:2604.04323 — agents miss 51% of relevant skills from metadata alone; supplementary keywords improve selection rate.)
+  - Example: `discovery-keywords: [multi-step, decompose, parallel agents, complex task, plan execution, coordinate, rozděl úkol]`
+  - Max 10 keywords per skill (force prioritization)
+  - Keywords should be lowercase, no duplicates with words already in `description:`
+  - Include both English and Czech variants where applicable
 - `tags`: array of cross-cutting capability tags for discovery (viz taxonomie níže)
 - `phase`: lifecycle phase — one of `define` | `plan` | `build` | `verify` | `review` | `ship` | `meta`
   - `define` — routing, klasifikace, porozumění požadavkům (triage, brainstorm, council)

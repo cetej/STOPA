@@ -4,6 +4,7 @@ description: Use when ending an active session to save progress for resumption i
 context:
   - gotchas.md
 argument-hint: [save / resume / status]
+discovery-keywords: [save progress, resume later, session state, pokračuj, ulož stav, context save, pause work]
 tags: [session, memory]
 phase: ship
 user-invocable: true

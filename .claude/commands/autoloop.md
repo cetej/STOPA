@@ -6,6 +6,7 @@ context:
   - meta-mode.md
   - trace-review.md
 argument-hint: <target file/scope> [goal] [verify:<command>] [guard:<command>] [cost_metric:<command>] [budget:N] [mode:linear|tree] [meta:true] [escalate:true]
+discovery-keywords: [optimize iteratively, improve metric, karpathy loop, target score, auto-improve, iterate until]
 context-required:
   - "target file or scope — one file to optimize (single-file mutation rule)"
   - "optimization goal — what to improve and in which direction"

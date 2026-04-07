@@ -2,6 +2,7 @@
 name: orchestrate
 description: Use when a task is clearly specified and requires multiple steps or touches 3+ files. Trigger on 'plan this', 'break this down', 'orchestrate'. Do NOT use for vague ideas without clear spec (/brainstorm) or single-file edits.
 argument-hint: [task description]
+discovery-keywords: [multi-step, decompose, parallel agents, complex task, plan execution, coordinate, rozděl úkol, wave, delegate]
 context-required:
   - "task description — what to accomplish and why"
   - "success criteria — what 'done' looks like (prevents open-ended delivery)"
@@ -449,6 +450,50 @@ After decomposition, validate the plan is executable by checking operator contra
 After decomposition, validate planned agent count has positive ROI.
 
 `Read ${CLAUDE_SKILL_DIR}/references/cost-gate.md`
+
+## Phase 3.7: Skill Adaptation (--adapt or auto)
+
+**Ref:** arXiv:2604.04323 — query-specific refinement acts as a "multiplier on existing skill quality" (57.7% → 65.5%).
+
+When the orchestrator dispatches a subtask to a Skill (not a raw Agent), assess skill-task fit and generate an **adaptation prefix** if needed.
+
+### When to adapt
+
+| Condition | Action |
+|-----------|--------|
+| Subtask criterion is domain-specific AND skill is general-purpose | Generate adapt prefix |
+| `--adapt` flag passed by user | Always generate adapt prefix for every skill subtask |
+| Skill has `effort: high` AND subtask has `context_scope` with 3+ files | Generate adapt prefix |
+| Subtask is simple mechanical edit (lint, rename) | Skip adaptation |
+
+### How to adapt (Haiku, max 30s)
+
+1. Read the skill's `SKILL.md` description + first 20 lines of process section
+2. Compare against the subtask's `description`, `criterion`, and `context_scope`
+3. Generate a **task-adapted context prefix** (3-5 lines) that narrows the skill's focus:
+   - What aspects of the domain to prioritize
+   - What aspects to skip (irrelevant for this task)
+   - Any task-specific terminology or patterns from scout results
+
+**Example:**
+```
+Subtask: "Refactor auth middleware to use JWT instead of sessions"
+Skill: /critic
+
+Adapt prefix:
+  Focus: auth middleware patterns, JWT validation, session migration completeness.
+  Skip: UI concerns, unrelated API endpoints, formatting.
+  Domain terms: Bearer token, refresh token rotation, middleware ordering in Express.
+```
+
+4. Prepend the adapt prefix to the skill invocation prompt (before $ARGUMENTS)
+5. The prefix is **ephemeral** — session-only, not saved to skill file
+
+### Coverage threshold
+
+If scout confidence on the subtask domain is low (fragmented knowledge, no matching learnings, unfamiliar tech stack), skip adaptation — it would amplify noise, not signal. This maps to the paper's coverage threshold (≥3.83 = adapt helps, ≤3.49 = doesn't).
+
+**Heuristic:** If grep for subtask keywords in `learnings/` returns 0 matches AND scout found <2 relevant files → skip adapt for this subtask.
 
 ## Phase 4: Execute
 

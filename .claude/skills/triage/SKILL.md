@@ -2,6 +2,7 @@
 name: triage
 description: "Use when the user has an idea, request, or task and needs to know WHERE to work on it, or when the right skill is ambiguous. Trigger on 'triage', 'kam s tím', 'where should I', 'roztřiď', 'not sure which skill'. Do NOT use for task execution — only routing and skill selection."
 argument-hint: [idea or task description]
+discovery-keywords: [where to work, which skill, kam s tím, roztřiď, route task, wrong project, skill selection]
 tags: [orchestration, planning, session]
 phase: define
 user-invocable: true
@@ -56,6 +57,22 @@ Extract from the user's input:
 - **What** they want (goal)
 - **Why** (if stated)
 - **Implicit scope** — does it mention specific files, modules, or generic workflow?
+
+### Step 1.5a: Discovery-Keywords Fuzzy Match (arXiv:2604.04323)
+
+If Step 2b query-type routing doesn't yield a clear skill match, run a secondary match against `discovery-keywords:` fields:
+
+1. Extract 2-3 key terms from the user's input (nouns + verbs, both CZ and EN)
+2. Grep across all skills: `Grep pattern="<term>" path=".claude/skills/" glob="*/SKILL.md"`
+3. Check matches in both `description:` AND `discovery-keywords:` fields
+4. If a skill matches on `discovery-keywords:` but NOT `description:` — it's a **discovery hit**: include it as secondary recommendation with note "(matched via discovery-keywords)"
+
+**Why:** arXiv:2604.04323 shows agents miss 51% of relevant skills from description metadata alone. `discovery-keywords:` captures alternative phrasings and indirect signals.
+
+**Rules:**
+- Only run this step when primary routing (Step 2b) is ambiguous or returns no match
+- Max 2 grep queries (budget: triage should stay fast)
+- If discovery hit contradicts primary routing: include both, let user decide
 
 ### Step 1.5: Self-Discover Reasoning Module Selection (arXiv:2402.03620)
 

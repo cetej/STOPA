@@ -2,6 +2,7 @@
 name: brainstorm
 description: Use when user has a vague idea without clear spec. Trigger on 'brainstorm', 'I have an idea', 'spec this out'. Do NOT use for clear tasks (/orchestrate) or review (/critic).
 argument-hint: <idea or topic to explore>
+discovery-keywords: [vague idea, spec it out, what should I build, nápad, requirements, refine concept, unclear scope]
 tags: [planning, documentation]
 phase: define
 user-invocable: true

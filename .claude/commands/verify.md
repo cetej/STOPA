@@ -2,6 +2,7 @@
 name: verify
 description: Use when you need to prove something works end-to-end on real data. Trigger on verify this, prove it, funguje to. Do NOT use for unit tests only.
 argument-hint: [what to verify — pipeline name, feature, endpoint, or 'last changes']
+discovery-keywords: [prove it works, end-to-end test, funguje to, dokaž, integration test, real data, smoke test]
 context-required:
   - "what to verify — pipeline name, feature, endpoint, or 'last changes'"
   - "expected behavior — what PASS looks like (prevents false positives)"

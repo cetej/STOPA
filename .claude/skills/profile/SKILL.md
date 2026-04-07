@@ -2,6 +2,7 @@
 name: profile
 description: "Use when entering a new project or onboarding to detect tech stack and recommend relevant STOPA skills. Trigger on 'profile', 'what stack', 'jaký stack', 'recommend skills', 'doporuč skills', 'onboard'. Do NOT use for task routing (/triage) or codebase exploration (/scout)."
 argument-hint: [project-path] [--json]
+discovery-keywords: [what stack, detect technology, onboard, jaký stack, recommend skills, new project, tech detection]
 tags: [exploration, orchestration, planning]
 phase: define
 user-invocable: true
