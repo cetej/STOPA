@@ -403,6 +403,19 @@ Produce the final research brief in `outputs/<slug>-research.md`:
 3. Keep intermediate files in `outputs/.research/` — they serve as provenance evidence. Only clean up if user explicitly requests it.
 4. Update `.claude/memory/budget.md` with search/agent costs
 
+### Step 8: Knowledge Ingest (auto, skip with `--no-ingest`)
+
+After delivering the research brief, automatically ingest the output into the memory system:
+
+1. Run `/ingest <output-file-path>` on the final research brief
+   - This extracts entities, claims, and relations into `wiki/sources/` and `wiki/entities/`
+   - Updates `concept-graph.json` with new knowledge connections
+   - Optionally creates learnings for STOPA-actionable findings
+2. If `/ingest` is not available (e.g., target project without STOPA skills): skip silently
+3. Report to user: "Ingested N entities, M claims into knowledge graph"
+
+**Why:** Research outputs in `outputs/` are dead data — they don't compound. Auto-ingest ensures every research session enriches the knowledge graph for future retrieval.
+
 ## Scale Decision Matrix
 
 Classify the research question **before** Step 2 to determine execution scale:

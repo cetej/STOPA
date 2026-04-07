@@ -398,6 +398,78 @@ NEWS→LEARNING BRIDGE: N unmatched action items found
 
 ---
 
+## Phase 7.8: Research Synthesis Bridge (opt-in: `--include-research`)
+
+Scan `outputs/` for research reports and generate cross-research synthesis articles.
+
+**Skip this phase unless `--include-research` flag is present or `wiki/sources/` has 10+ files.**
+
+### Step 7.8.1: Inventory research outputs
+Glob `outputs/*.md` (exclude `*-provenance.md`, `outputs/.research/*`).
+Cross-reference with `wiki/sources/` — identify reports not yet ingested.
+
+### Step 7.8.2: Cluster research by theme
+Group research reports by topic overlap (title keywords + first 200 chars):
+- Agent memory, agent teams, orchestration → "Agent Architecture" cluster
+- Security, defense, injection → "Security" cluster
+- Tools, frameworks, libraries → "Tooling" cluster
+- etc.
+
+Only create synthesis for clusters with 3+ reports.
+
+### Step 7.8.3: Generate synthesis articles
+For each cluster with 3+ reports, generate:
+
+```markdown
+---
+generated: YYYY-MM-DD
+cluster: research-synthesis-<theme>
+sources: N
+type: synthesis
+last_updated: YYYY-MM-DD
+---
+
+# Research Synthesis: <Theme>
+
+> **TL;DR**: What N research reports collectively say about <theme>
+
+## Consensus
+<What multiple reports agree on, with (ref: sources/<slug>.md) citations>
+
+## Disagreements
+<Where reports conflict or present different conclusions>
+
+## Evolution
+<How understanding of this topic evolved across reports, chronologically>
+
+## Gaps
+<What no report covers but the cluster suggests is important>
+
+## Source Reports
+| Report | Date | Key Contribution |
+```
+
+### Rules:
+- Max 1 synthesis article per cluster (prevent bloat)
+- Synthesis articles go to `wiki/` (same level as other wiki articles, not in sources/)
+- Only cite reports that exist in `wiki/sources/` (ingested) — suggest `/ingest --backfill` for un-ingested ones
+- Cross-link synthesis articles with existing wiki articles where topics overlap
+
+---
+
+## Phase 7.9: Knowledge Graph Export
+
+Generate visual knowledge graph from concept-graph.json:
+
+```bash
+python scripts/generate-knowledge-graph.py --output outputs/knowledge-graph.html
+```
+
+If script doesn't exist or fails: skip silently (optional enhancement).
+Report: "Knowledge graph: outputs/knowledge-graph.html (N nodes, M edges)"
+
+---
+
 ## Phase 8: Report
 
 Output final report:
