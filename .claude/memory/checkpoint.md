@@ -1,21 +1,26 @@
 ---
-saved: "2026-04-07"
-session_id: null
-task_ref: null
+saved: "2026-04-07T20:15"
+session_id: "s-20260407-mom-taro-phase2"
+task_ref: "mom-taro-phase2"
 branch: main
 progress:
-  completed: ["knowledge-ingest-recipe", "knowledge-health-recipe", "compile-index-ux", "incremental-compile", "health-audit"]
+  completed: ["p3-best-of-n-rollouts", "p6-heterogeneous-teams", "p1.2-per-role-prms", "sync", "commit-push"]
   in_progress: []
   blocked: []
 artifacts_modified:
-  - ".claude/recipes/knowledge-ingest.yaml"
-  - ".claude/recipes/knowledge-health.yaml"
-  - ".claude/commands/compile.md"
-  - ".claude/commands/status.md"
-  - ".claude/memory/wiki/ (9 articles)"
-  - ".claude/memory/knowledge-health-report.md"
+  - .claude/commands/orchestrate.md
+  - .claude/commands/critic.md
+keywords:
+  - MoM
+  - TARo
+  - best-of-N
+  - heterogeneous-teams
+  - PRM
+  - GDPO
+  - orchestrate
+  - critic
 resume:
-  next_action: "Fill 4 knowledge gaps from health audit"
+  next_action: "Phase 2 complete. Remaining: P2.2 data-driven router (1-2 weeks, needs trace data)"
   blockers: []
   decisions_pending: []
   failed_approaches: []
@@ -23,79 +28,45 @@ resume:
 
 # Session Checkpoint
 
-**Saved**: 2026-04-07
-**Task**: Knowledge Base UX + Gap Fill
+**Saved**: 2026-04-07 ~20:15
+**Task**: MoM + TARo → orchestration upgrades (Phase 2 done)
 **Branch**: main
+**Progress**: Phase 2 complete (3/3 proposals implemented)
 
 ## Co je hotovo
 
-- `knowledge-ingest` recipe — dump & organize workflow
-- `knowledge-health` recipe — monthly audit with score X/10
-- Compile INDEX.md — "Start Here" section, health score, recent additions
-- `/status` wiki_health shows score/10
-- Scheduled task `knowledge-health-monthly` (1st of month, 9:17)
-- Incremental compile: 14 learnings → 9 wiki articles, 100% coverage
-- Health audit: 7/10 score, auto-fix 49 files
+### Phase 1 (commit 97d8512)
+- **P5 Scout Quality Gate** — orchestrate.md Phase 2: tier-scaled completeness checks
+- **P1 Role-Specific Critic** — critic.md Phase 4: weight profiles per role
+- **P2.1 Per-Subtask Adaptive Routing** — orchestrate.md Phase 4: heuristic router
+- **P4 Haiku-First Difficulty Estimation** — orchestrate.md Phase 4: cheap probe + escalation
 
-## Co zbývá — 4 Knowledge Gaps
+### Phase 2 (this session)
+- **P3 Best-of-N Parallel Rollouts** — orchestrate.md Phase 4: spawn 2-3 agents per deep-tier subtask, rank via critic score (not self-certainty), select best. Includes N selection table, execution protocol, merge-vs-select rules, budget guards.
+- **P6 Heterogeneous Rollout Teams** — integrated into P3: mix haiku+sonnet+opus within rollout waves for maximum search space diversity. Team composition tables for N=2 and N=3.
+- **P1.2 Per-Role PRMs** — critic.md: GDPO-inspired lightweight inference-time scoring functions per role (plan_coherence, impl_correctness, evidence_depth, source_quality). Fast pre-filter at ~10% cost of full critic. GDPO normalization for cross-role comparison.
+- Sync commands/ ↔ skills/ ↔ stopa-orchestration/ — verified identical
 
-Máš 4 knowledge gaps identifikované health auditem (7/10 score). Každý gap potřebuje research + learning file. Pracuj postupně, po každém gapu commitni.
+## Co zbývá
 
-### Gap 1: Budget Calibration (orchestration)
-
-**Problém:** Nikdy jsme neporovnali odhadované náklady (budget.md tier assignments) vs skutečné API costs. Nevíme jestli budget tiers systematicky nad/pod-odhadují.
-
-**Úkol:**
-1. Přečti `.claude/memory/budget.md` a `budget-archive.md` — extrahuj tier assignmenty a estimated costs
-2. Pokud existuje `ccusage` nebo jiný zdroj actual costs, porovnej
-3. Pokud ne, navrhni měřicí protokol (co logovat, jak porovnávat)
-4. Zapiš learning: `2026-04-XX-budget-calibration-baseline.md` (component: orchestration, tags: budget, calibration, measurement)
-5. Aktualizuj `2026-04-04-gap-budget-calibration.md` — buď ho supersedni novým, nebo rozšiř
-
-### Gap 2: Compact Variant Measurement (skill)
-
-**Problém:** SKILL.compact.md tvrdí ~80% token reduction, ale nikdy to nebylo změřeno. Nemáme before/after data.
-
-**Úkol:**
-1. Najdi skills které mají SKILL.compact.md variantu (Glob `.claude/skills/*/SKILL.compact.md`)
-2. Pro každý: spočítej tokeny full vs compact (wc -w jako proxy, nebo python tiktoken pokud dostupný)
-3. Zapiš výsledky: actual reduction %, které sekce se ztratily
-4. Zapiš learning: `2026-04-XX-compact-variant-baseline.md` (component: skill, tags: compact-variant, measurement, tokens)
-5. Supersedni `2026-04-04-gap-compact-variant-measurement.md`
-
-### Gap 3: Cross-Project Memory Transfer (memory)
-
-**Problém:** Sync script kopíruje skills ale ne learnings. Není jasné jak by se měla memory sdílet mezi STOPA → NG-ROBOT/test1/ADOBE-AUTOMAT.
-
-**Úkol:**
-1. Přečti `scripts/sync-orchestration.sh` — co přesně kopíruje a co ne
-2. Přečti auto-memory feedback: `feedback_crossproject_memory.md` v ~/.claude/projects/*/memory/
-3. Navrhni mechanismus: co sdílet (critical-patterns? wiki? briefings?), co ne (project-specific learnings)
-4. Zapiš learning: `2026-04-XX-cross-project-memory-design.md` (component: memory, tags: cross-project, sync, distribution)
-5. Supersedni `2026-04-04-gap-cross-project-memory.md`
-6. Pokud design je jasný: implementuj do sync scriptu
-
-### Gap 4: Hook Component Coverage (hook)
-
-**Problém:** Jen 1 learning pro hook komponent (agent-defense-frameworks). Wiki článek hook-infrastructure.md je tenký.
-
-**Úkol:**
-1. Projdi `.claude/hooks/` a `stopa-orchestration/hooks/` — jaké hooky máme, co dělají
-2. Projdi `settings.json` hook config — které hooky jsou aktivní
-3. Zdokumentuj existující hooky jako learnings (min 2-3 nové):
-   - Hook architecture patterns (jak hooky interagují s Claude Code lifecycle)
-   - Hook failure modes (co se stane když hook selže, timeout, chybný output)
-   - Hook testing patterns (jak testovat hooky bez production side-effects)
-4. Aktualizuj wiki článek `hook-infrastructure.md`
-
-## Po dokončení všech 4 gapů
-
-1. Spusť `/recipe knowledge-health` — ověř že score se zlepšilo
-2. Spusť `/compile --incremental` — zahrň nové learnings do wiki
-3. Commitni a pushni
+| # | Proposal | Effort | Impact | Notes |
+|---|----------|--------|--------|-------|
+| P2.2 | Data-driven router | 1-2 weeks | High | Needs trace collection from budget.md first |
 
 ## Co NEdělat
-- Nemíchat gap-fill s jinými tasky
-- Nearchivovat existující gap-learnings — supersedni je novými
 
+- Neměnit Phase 1 nebo Phase 2 implementace — ověřeny
+- Self-certainty BoN závisí na raw logits — Claude API je nemá, proto critic-based selection
+- Nearchivovat research files v `outputs/.research/`
+
+## Resume Prompt
+
+> MoM+TARo orchestration upgrades complete (Phase 1 + Phase 2). All 7 proposals implemented except P2.2 (data-driven router — needs trace data, 1-2 weeks effort). Files: orchestrate.md (Best-of-N, heterogeneous teams, adaptive routing, haiku-first), critic.md (role-specific weights, per-role PRMs). Next: collect traces from budget.md to train P2.2 router.
+
+---
 ## Session Detail Log
+
+### Changes Made
+- orchestrate.md: +45 lines (Best-of-N Parallel Rollouts section with heterogeneous teams)
+- critic.md: +30 lines (Per-Role PRM section with GDPO normalization)
+- Synced to 4 locations (commands/, skills/, stopa-orchestration/)

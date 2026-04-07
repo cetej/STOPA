@@ -396,6 +396,39 @@ MoM shows different reward functions per agent role improve quality +5-17%. When
 
 **Combination rule:** When both task type AND role modifier apply, use the **role modifier weights** (they already account for task context). Task type is fallback when role is unknown.
 
+#### Per-Role Process Reward Functions (PRMs, GDPO-inspired, arXiv:2601.05242)
+
+Lightweight inference-time scoring functions that evaluate agent output quality per role. Unlike the weight profiles above (which tune the critic rubric), PRMs are **step-level checks** applied during or immediately after agent execution — before the full critic pipeline runs. Think of them as fast pre-filters.
+
+**When to use PRMs:**
+- Orchestrator requests `--prm` flag or Best-of-N rollout selection needs fast ranking
+- Per-subtask critic is too expensive (light/standard tiers where full critic runs only at end)
+- Quick quality gate between waves (inter-wave completeness check)
+
+**PRM per role:**
+
+| Role | PRM function | Inputs | Score (0-5) | What it measures |
+|------|-------------|--------|-------------|------------------|
+| **Scout/Planner** | `plan_coherence` | scout report, file list, dependency map | 0-5 | Are all affected files found? Are dependencies mapped? Is the plan executable? |
+| **Worker/Builder** | `impl_correctness` | diff, subtask criterion, test results | 0-5 | Does the diff satisfy the criterion? Do tests pass? Any regressions? |
+| **Verifier/Reviewer** | `evidence_depth` | review report, citations | 0-5 | Are verdicts grounded in tool output? Any unsubstantiated claims? |
+| **Researcher** | `source_quality` | research output, citations, claim count | 0-5 | Citation density, source diversity, claim-evidence alignment |
+
+**PRM scoring protocol (fast — max 2 minutes per evaluation):**
+1. Read agent output
+2. Apply the role-specific PRM function (single-pass, no decomposition)
+3. Score 0-5 using role-specific criteria above
+4. Return score + 1-sentence justification
+
+**PRM vs full critic:**
+- PRM: ~10% cost of full critic, single dimension, no milestone decomposition
+- Full critic: 4-phase pipeline, multi-dimensional rubric, grounded evidence
+- Use PRM for: Best-of-N ranking, inter-wave gates, budget-constrained reviews
+- Use full critic for: final quality gate, FAIL/PASS verdicts, audit trail
+
+**GDPO normalization (arXiv:2601.05242):**
+When comparing PRM scores across roles (e.g., in Best-of-N with heterogeneous teams), normalize per dimension to prevent reward collapse. A scout scoring 4.0 on plan_coherence and a worker scoring 4.0 on impl_correctness are NOT directly comparable — normalize within role before cross-role ranking.
+
 **How to select task type:** Match from `.claude/memory/state.md` or infer from the diff. If unclear, use Default.
 
 **Faithfulness modifier (AH cross-check):** If any AH-1 through AH-4 violations are found, apply -0.5 penalty to final weighted score. This is a modifier, not a separate weight — it catches false completion claims regardless of task type.

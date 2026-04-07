@@ -545,6 +545,56 @@ Independent subtasks?
 |-- 3+, deep tier        → Agent Teams (full)
 ```
 
+### Best-of-N Parallel Rollouts (deep tier only, MoM-inspired, arXiv:2510.20176)
+
+MoM test-time scaling adds +3.65% quality via parallel rollouts. For deep-tier subtasks where quality matters more than speed, spawn multiple agents on the same subtask and select the best output.
+
+**When to use Best-of-N:**
+- Tier is `deep` (never for light/standard/farm)
+- Subtask is on the critical path (failure blocks downstream)
+- Subtask is NOT mechanical (rename, format, lint fix → single agent suffices)
+- Budget allows: N agents × subtask cost must fit remaining budget
+
+**N selection:**
+| Subtask complexity | N | Rationale |
+|-------------------|---|-----------|
+| High-value, architectural | 3 | Maximum coverage of solution space |
+| Complex logic, multi-file | 2 | Cost-effective quality boost |
+| Simple but critical-path | 1 | Single agent with escalation on failure |
+
+**Execution protocol:**
+1. **Spawn N agents in parallel** on the same subtask with identical prompts
+   - Each agent gets the same context (files, upstream artifacts, learnings)
+   - Vary the approach framing: agent-1 gets baseline prompt, agent-2 gets "consider edge cases first", agent-3 gets "prioritize simplicity"
+2. **Collect all N outputs** — wait for all agents to complete
+3. **Rank via critic scoring** (NOT self-certainty — Claude API doesn't expose logits):
+   - Run `/critic --role worker` on each output (haiku critic for cost efficiency)
+   - Compare weighted scores from critic rubric
+   - **Selection rule**: highest weighted average wins. On tie: prefer the simpler solution (fewer files changed, less code added)
+4. **Merge or select**:
+   - If scores differ by ≥ 0.5 → select winner, discard others
+   - If scores within 0.5 → check if outputs are complementary (one covers edge cases the other missed). If yes: merge best parts. If no: select higher score.
+5. **Log rollout traces** in `budget.md`: `{subtask, N, scores: [3.8, 4.1, 3.5], selected: agent-2, cost: $X}`
+
+**Heterogeneous rollout teams (P6, arXiv:2506.12928):**
+
+Heterogeneous LLM teams maximize search space diversity better than N copies of the same model. When N ≥ 2, mix models:
+
+| N | Team composition | Rationale |
+|---|------------------|-----------|
+| 2 | sonnet + opus | Balance between cost and depth |
+| 3 | haiku + sonnet + opus | Full spectrum: fast/broad + balanced + deep |
+
+Each model targets a different axis: haiku finds straightforward solutions fast, sonnet balances quality and coverage, opus reasons through complex edge cases. The critic (always same model) provides fair comparison.
+
+**Anti-patterns:**
+- Do NOT use Best-of-N on mechanical subtasks — waste of budget
+- Do NOT let agents see each other's outputs — independence is critical for diversity
+- Do NOT use self-reported confidence as ranking signal — use external critic only
+- Do NOT run Best-of-N when budget remaining < 2× subtask estimated cost
+
+**Expected impact:** +5-15% quality on critical subtasks at 2-3× cost per subtask. Net positive when subtask failure would trigger expensive re-planning.
+
 ### Auto-Summarization of Agent Results
 
 For intermediate offloading, findings ledger, scratchpad format, and auto-summarization workflow:
