@@ -1,0 +1,10 @@
+{
+  "last_updated": "2026-04-08",
+  "total_runs": 0,
+  "health": "cold_start",
+  "change_ledger": [],
+  "strategies_that_work": [],
+  "strategies_that_fail": [],
+  "recurring_failure_patterns": [],
+  "optimization_velocity": {"stage": "exploration", "trend": "neutral"}
+}

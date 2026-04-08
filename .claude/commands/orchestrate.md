@@ -155,6 +155,24 @@ Before tier selection, classify the task's **delegation style** — this determi
 
 Log: `"Task style: {style} (signals: {keywords_matched})"`
 
+### Verifiability Assessment (Karpathy gate)
+
+Before decomposition, classify task verifiability — determines which skills are eligible downstream:
+
+| Level | Criteria | Eligible skills | Example |
+|-------|----------|----------------|---------|
+| **METRIC** | Objective, machine-checkable metric (tests, benchmarks, scores, pass/fail) | autoloop, autoresearch, self-evolve, harness | "Optimize critic pass rate", "Reduce latency by 30%" |
+| **HEURISTIC** | Subjective quality criteria (code review, UX, text quality) | autoreason, critic, peer-review | "Improve this prompt", "Review code quality" |
+| **UNVERIFIABLE** | No clear done-when (exploration, open research, creative) | scout, deepresearch, brainstorm + milestone checkpoints | "Investigate memory options", "Explore new tools" |
+
+**Rules:**
+- Log assessment to state.md: `"Verifiability: {level} (metric: {description if METRIC})"`
+- If task routes to auto-* skill but classified UNVERIFIABLE → **WARNING**: "Task has no verifiable metric — auto-* skills will likely waste tokens. Consider milestone-based approach instead."
+- METRIC tasks get priority for autonomous loops (fewer human checkpoints needed)
+- UNVERIFIABLE tasks should have explicit exit criteria defined upfront to prevent unbounded exploration
+
+**Why:** Karpathy (2026-03): "Auto-research is extremely well suited to anything that has objective metrics that are easy to evaluate. If you can't evaluate it, you can't auto-research it."
+
 ### Assign Complexity Tier
 
 **First, check learned heuristics:** Read `${CLAUDE_SKILL_DIR}/tier-heuristics.md` for patterns extracted from past task traces. If the current task matches a heuristic, use its recommended tier.
@@ -321,6 +339,26 @@ Reuse Episodic Recall matches from Phase 1. DONE decisions overlapping the curre
 **Skip for light, standard, and farm tiers.** Only deep tier warrants multi-plan evaluation.
 
 `Read ${CLAUDE_SKILL_DIR}/references/n-plan-selection.md`
+
+### Batch Detection (Steinberg macro-action pattern)
+
+Before decomposing, check if the task is actually N independent tasks bundled together:
+
+**Batch signals:**
+- User listed 2+ tasks with "and" / "," / numbered list
+- Tasks target different files/directories with no shared state
+- No data dependency between tasks (output of A is not input of B)
+
+**If batch detected:**
+1. Skip full decomposition — each task IS a subtask already
+2. Skip inter-task dependency analysis (they're independent by definition)
+3. Each agent gets its own mini-scout (Haiku, 2 turns max) instead of shared scout
+4. All agents spawn in Wave 1 (full parallelization)
+5. Log: `"Batch mode: {N} independent tasks detected, skipping decomposition"`
+
+**Savings:** ~3-5K tokens per skipped decomposition step + faster execution via full parallelization.
+
+**Why:** Peter Steinberg pattern (Karpathy, 2026-03): 10 repos tiled on monitor, each agent ~20 min. "Macro actions over your repository" — don't micro-decompose what's already decomposed.
 
 ### Decomposition
 
@@ -496,6 +534,28 @@ If scout confidence on the subtask domain is low (fragmented knowledge, no match
 **Heuristic:** If grep for subtask keywords in `learnings/` returns 0 matches AND scout found <2 relevant files → skip adapt for this subtask.
 
 ## Phase 4: Execute
+
+### Budget Soft Gate (Karpathy throughput awareness)
+
+Before spawning agents, estimate execution cost and compare to remaining budget:
+
+```
+planned_agents = count of subtasks that need agent spawn
+avg_cost_per_agent = {light: 0.02, standard: 0.05, deep: 0.10, farm: 0.03}[tier]
+estimated_cost = planned_agents × avg_cost_per_agent
+remaining_budget = read from budget.md
+
+IF estimated_cost > remaining_budget × 0.8:
+  WARNING to user: "Estimated cost ($X.XX for N agents) exceeds 80% of remaining budget ($Y.YY)."
+  Suggest: "Downgrade to {lower_tier}? Or reduce to {N-2} agents by merging subtasks {A+B}?"
+  Wait for user response before proceeding.
+
+IF estimated_cost > remaining_budget:
+  HARD STOP: "Budget insufficient for planned execution. Remaining: $Y.YY, needed: $X.XX."
+  Options: reduce tier, reduce agent count, or increase budget.
+```
+
+Log budget gate result to budget.md: `"Budget gate: {PASS|WARNING|STOP} — est ${est} / rem ${rem}"`
 
 ### Agent Execution
 

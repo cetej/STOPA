@@ -2,8 +2,8 @@
 name: OpenClaw
 type: tool
 first_seen: 2026-04-07
-last_updated: 2026-04-07
-sources: [swarm-kb-research, idea-file-research, chief-of-staff-openclaw]
+last_updated: 2026-04-08
+sources: [swarm-kb-research, idea-file-research, chief-of-staff-openclaw, karpathy-nopriors-autoagent-loopy-era]
 tags: [memory, orchestration, session]
 ---
 
@@ -28,8 +28,13 @@ Pre-compaction flush is STOPA's P2 gap — extend `/compact` skill to extract ke
 - Two-layer memory in practice: daily log files + curated MEMORY.md synthesized by AI from daily notes (ref: sources/chief-of-staff-openclaw.md)
 - Kaizen loop: Friday cron research + Sunday human review = weekly improvement cadence (ref: sources/chief-of-staff-openclaw.md)
 
+- Created by Peter Steinberg; famous setup: 10 repos tiled on monitor, each Codex agent running 20-min tasks = "macro actions over repository" (ref: sources/karpathy-nopriors-autoagent-loopy-era.md)
+- Karpathy's "Dobby the Elf" deployment: WhatsApp interface controlling Sonos, lights, HVAC, shades, pool, spa, security camera + Quinn vision model for visitor detection (ref: sources/karpathy-nopriors-autoagent-loopy-era.md)
+- Five simultaneous innovations: SOUL.md personality, dialed-back sycophancy, memory system, single WhatsApp portal, home automation — all combined by Steinberg (ref: sources/karpathy-nopriors-autoagent-loopy-era.md)
+
 ## Mentioned In
 
 - [Swarm KB Research](../sources/swarm-kb-research.md)
 - [Idea File Research](../sources/idea-file-research.md)
 - [How I Built a Chief of Staff on OpenClaw](../sources/chief-of-staff-openclaw.md)
+- [No Priors: Code Agents, AutoResearch, and the Loopy Era](../sources/karpathy-nopriors-autoagent-loopy-era.md)

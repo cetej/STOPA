@@ -162,8 +162,8 @@
     "openclaw": {
       "name": "OpenClaw",
       "type": "concept",
-      "mentions": 70,
-      "last_seen": "2026-04-07",
+      "mentions": 71,
+      "last_seen": "2026-04-08",
       "learning_files": [
         "2026-03-24-openclaw-postmortem-patterns.md",
         "2026-03-26-channels-24x7-architecture.md",
@@ -11380,6 +11380,35 @@
       "tags": [
         "orchestration",
         "prompting"
+      ]
+    },
+    "andrej-karpathy": {
+      "mentions": 1,
+      "last_seen": "2026-04-08",
+      "learning_files": []
+    },
+    "auto-research-loop": {
+      "mentions": 1,
+      "last_seen": "2026-04-08",
+      "learning_files": [
+        "2026-04-08-auto-research-removes-human-bottleneck.md"
+      ]
+    },
+    "agent-psychosis": {
+      "mentions": 1,
+      "last_seen": "2026-04-08",
+      "learning_files": []
+    },
+    "program-md-research-org": {
+      "mentions": 1,
+      "last_seen": "2026-04-08",
+      "learning_files": []
+    },
+    "jevons-paradox-coding": {
+      "mentions": 1,
+      "last_seen": "2026-04-08",
+      "learning_files": [
+        "2026-04-08-jevons-paradox-ai-coding.md"
       ]
     }
   },
@@ -125065,6 +125094,41 @@
       "weight": 1.0,
       "count": 1,
       "source": "llms-follow-instructions-skillful-coordination"
+    },
+    "andrej-karpathy|auto-research-loop": {
+      "weight": 1.0,
+      "count": 1,
+      "source": "karpathy-nopriors-autoagent-loopy-era"
+    },
+    "andrej-karpathy|program-md-research-org": {
+      "weight": 1.0,
+      "count": 1,
+      "source": "karpathy-nopriors-autoagent-loopy-era"
+    },
+    "agent-psychosis|andrej-karpathy": {
+      "weight": 1.0,
+      "count": 1,
+      "source": "karpathy-nopriors-autoagent-loopy-era"
+    },
+    "andrej-karpathy|openclaw": {
+      "weight": 1.0,
+      "count": 1,
+      "source": "karpathy-nopriors-autoagent-loopy-era"
+    },
+    "auto-research-loop|program-md-research-org": {
+      "weight": 1.0,
+      "count": 1,
+      "source": "karpathy-nopriors-autoagent-loopy-era"
+    },
+    "auto-research-loop|autoresearchclaw": {
+      "weight": 1.0,
+      "count": 1,
+      "source": "karpathy-nopriors-autoagent-loopy-era"
+    },
+    "auto-research-loop|jevons-paradox-coding": {
+      "weight": 1.0,
+      "count": 1,
+      "source": "karpathy-nopriors-autoagent-loopy-era"
     }
   },
   "meta": {

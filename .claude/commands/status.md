@@ -64,6 +64,20 @@ From each file, extract ONLY:
 | eval-baseline.tsv | Last 2 data rows: compute health_score delta, format trend arrow (↑ if delta > 0.1, ↓ if < -0.1, → if within ±0.1) |
 | performance/*.json | Last 3 runs: skill name, delta, exit_reason |
 | session-stats.json | `used_tokens`, `total_tokens`, `pct` (0-100). If file absent: n/a |
+| budget.md | Count "Agent spawned" lines → total agents this session. Count parallel spawns (same timestamp ±1s) → parallelization ratio. Sum estimated costs if available. |
+
+### Step 2b: Compute Token Throughput (Karpathy metric)
+
+From budget.md counters:
+- `total_agents` = count agent spawn entries this session
+- `parallel_agents` = count agents spawned in same wave/batch (parallel Agent calls)
+- `parallel_ratio` = parallel_agents / total_agents (0-100%, higher = better throughput)
+- `session_cost` = sum of cost estimates from budget.md (or "n/a" if not tracked)
+
+This metric answers Karpathy's question: "Am I maximizing my token throughput?"
+- parallel_ratio < 30% → LOW (mostly sequential, look for parallelization opportunities)
+- parallel_ratio 30-60% → MEDIUM (some parallelization)
+- parallel_ratio > 60% → HIGH (good throughput maximization)
 
 ### Step 3: Check memory health
 
@@ -82,6 +96,7 @@ last_watch:     <date> (<N days ago>)
 eval_trend:     <health_score> <arrow> (<delta> vs <previous_date>)
 perf_trend:     <skill1: +delta1> | <skill2: +delta2> | ... (last 3 runs, or "no data")
 context_budget: <pct>% used (<used_tokens>/<total_tokens>) [LOW|MEDIUM|HIGH|CRITICAL] — or "n/a (no session-stats.json)"
+throughput:     <N> agents | <M>% parallel | ~$<X.XX> spent — or "no agents this session"
 memory_health:  <"ok" or list of warnings>
 wiki_health:    <score>/10 — <N articles, M learnings> — <"ok" | "stale (N days)" | "N contradictions" | "run /compile">
                 score = 10 - (stale_articles × 0.5) - (contradictions × 1.5) - (gaps × 0.5) - (unused_learnings × 0.3), clamp 1-10
