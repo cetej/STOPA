@@ -1,7 +1,7 @@
 ---
 name: self-evolve
 description: "Use when iteratively improving a skill through adversarial co-evolution with auto-generated eval cases. Trigger on 'self-evolve', 'evolve skill', 'improve skill with evals'. Do NOT use for learning audits (/evolve) or file optimization (/autoloop)."
-argument-hint: <target-skill> [budget:N] [bootstrap:true|false] [meta:true|false]
+argument-hint: <target-skill> [budget:N] [bootstrap:true|false] [meta:true|false] [group:N]
 discovery-keywords: [improve skill, evolve skill, skill quality, adversarial eval, co-evolution, benchmark skill]
 tags: [orchestration, testing, code-quality]
 phase: review
@@ -63,6 +63,10 @@ Validation:
 - Parse budget as integer, clamp to [1, 12]
 - Parse bootstrap as boolean
 - Parse meta as boolean
+- **group**: number of parallel evolution branches (default: 1 = standard single-branch). Clamp to [1, 3].
+  - If group > 1: read `references/group-evolution.md` for parallel branch protocol (GEA-inspired)
+  - Group mode uses git worktrees for isolation, shared eval cases, tournament selection every 2 rounds
+  - Prerequisite: at least 1 prior single-branch run on this target (optstate must exist)
 
 ## Process
 
@@ -108,6 +112,13 @@ Spawn a **Haiku** sub-agent with adversarial-thinking system prompt:
 > "You are a red-team curriculum designer. Your job is to find weaknesses, edge cases,
 > and failure modes in the target skill. Think like an attacker — what inputs would
 > break this skill? What assumptions does it make that could be violated?"
+
+**Cross-run context injection** (if optstate exists):
+Include in Curriculum agent prompt:
+- `strategies_that_work` from optstate → "Strategies that worked on previous runs of this target: {list}"
+- `recurring_failure_patterns` from optstate → "Known recurring failures to target: {list}"
+- `per_target.<target>.dominant_strategy` → "Most effective strategy historically: {strategy}"
+This steers Curriculum toward proven approaches while UCB1 handles exploration/exploitation balance.
 
 Two modes based on current state:
 
@@ -351,6 +362,10 @@ At Phase 0, after loading eval cases:
 5. Reserve at least 30% of eval budget for these replay cases
 6. **Graduation**: if a replay case passes 3× consecutive across runs, mark as graduated (no longer priority)
 7. **Eviction**: if a replay case fails 5× consecutive post-reflection, mark as intractable and skip
+8. **Optstate feedback loop**: After replay case generation, update optstate:
+   - Add generated replay case descriptions to `recurring_failure_patterns` (so future runs know what was problematic)
+   - If a replay case graduates: add the strategy that fixed it to `strategies_that_work`
+   - If a replay case is evicted: add the failure mode to `strategies_that_fail` with note "intractable after 5 attempts"
 
 ## Eval Case Format
 
