@@ -235,6 +235,52 @@ PATTERN: [name]
 
 ---
 
+## Step 5b: Rule Demotion Audit (Bidirectional Evolution)
+
+MIA-inspired (arXiv:2604.04503): knowledge must flow BOTH directions — promotion (learning → rule) AND demotion (rule → learning for re-evaluation).
+
+For each entry in `critical-patterns.md`:
+
+1. **Staleness check**: Read `last_confirmed:` field.
+   - Missing → flag as `NEEDS_CONFIRMATION` (add the field with today's date after review)
+   - Present but >90 days old → flag as `STALE` → propose DEMOTE
+   - Present and <90 days → OK
+
+2. **Challenge check**: Read `challenge:` field (if present).
+   - Evaluate the condition (e.g., model version changed, feature removed)
+   - If condition is TRUE → propose DEMOTE with evidence
+   - If condition is FALSE or absent → OK
+
+3. **Verify check**: Run `verify:` assertion.
+   - If verify FAILS → propose DEMOTE (rule no longer reflects reality)
+   - If verify PASSES → update `last_confirmed:` to today
+
+**DEMOTE action**: Move the entry from `critical-patterns.md` back to `learnings/` as a file with:
+- `confidence: 0.5` (uncertain — needs revalidation)
+- `source: auto_pattern` (was auto-demoted)
+- Add `demoted_from: critical-patterns` in frontmatter
+- Add `demotion_reason:` explaining why
+
+For `behavioral-genome.md` rules with `<!-- valid: ... | trigger: ... -->` markers:
+
+1. Parse `valid:` date — if >180 days old → flag as `GENOME_STALE`
+2. Parse `trigger:` condition — if evaluable and TRUE → flag as `GENOME_CHALLENGE`
+3. Flagged genome rules → propose UPDATE or DEMOTE to learning
+
+Show:
+```
+DEMOTION AUDIT: [N entries checked]
+  Confirmed (fresh): [list]
+  Stale (>90 days):  [list with last_confirmed date]
+  Challenged:        [list with triggered condition]
+  Verify failed:     [list with assertion]
+  Action: DEMOTE [entry] | UPDATE_CONFIRMED [entry] | NEEDS_CONFIRMATION [entry]
+```
+
+Include demotion proposals in Step 7 alongside promotion proposals.
+
+---
+
 ## Step 6: Check Evolution Log
 
 Read `.claude/memory/evolution-log.md` (or decisions.md if no evolution-log).
@@ -257,6 +303,7 @@ PROPOSE: [action type]
 Action types:
 - **PROMOTE**: Add correction pattern to critical-patterns.md (with verify: check)
 - **GRADUATE**: Move from critical-patterns.md to core-invariants.md (persists through compaction)
+- **DEMOTE**: Move rule from critical-patterns.md or behavioral-genome.md back to learnings/ (stale, challenged, or verify failed — confidence reset to 0.5)
 - **ADD_VERIFY**: Add verify: annotation to existing pattern that lacks one
 - **PRUNE**: Remove pattern that's now redundant or internalized
 - **UPDATE**: Modify existing rule based on new evidence

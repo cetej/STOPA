@@ -3,7 +3,7 @@ name: GRPO
 type: concept
 first_seen: 2026-04-07
 last_updated: 2026-04-07
-sources: [gdpo-multi-reward-rl-optimization]
+sources: [gdpo-multi-reward-rl-optimization, memory-intelligence-agent-mia]
 tags: [rl-training, policy-optimization, llm-optimization]
 ---
 
@@ -18,10 +18,13 @@ tags: [rl-training, policy-optimization, llm-optimization]
 - GRPO without std normalization: theoretically more diverse but causes training instability — 0% format correctness in tool-calling experiments (ref: sources/gdpo-multi-reward-rl-optimization.md)
 - Works acceptably for single-objective RL; problematic for 2+ reward objectives (ref: sources/gdpo-multi-reward-rl-optimization.md)
 
+- MIA uses GRPO to train Executor first, then Planner (alternating schedule); synergistic cooperation results (ref: sources/memory-intelligence-agent-mia.md)
+
 ## Relevance to STOPA
 
-GRPO's collapse limitation is context for any multi-reward optimization in STOPA skills (/autoloop optimizing correctness + length simultaneously).
+GRPO's collapse limitation is context for any multi-reward optimization in STOPA skills (/autoloop optimizing correctness + length simultaneously). MIA demonstrates GRPO works well for single-objective agent component training when applied alternately.
 
 ## Mentioned In
 
 - [GDPO: Group reward-Decoupled Normalization Policy Optimization](../sources/gdpo-multi-reward-rl-optimization.md)
+- [Memory Intelligence Agent (MIA)](../sources/memory-intelligence-agent-mia.md)
