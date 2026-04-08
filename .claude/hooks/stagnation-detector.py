@@ -36,8 +36,10 @@ _levels = {"minimal": 1, "standard": 2, "strict": 3}
 if _levels.get(os.environ.get("STOPA_HOOK_PROFILE", "standard"), 2) < _levels.get("standard", 2):
     sys.exit(0)
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+# hooks/ → .claude/ → STOPA/ → scripts/
+_hook_dir = Path(__file__).resolve().parent
+sys.path.insert(0, str(_hook_dir.parent.parent / "scripts"))
+sys.path.insert(0, str(_hook_dir))
 from atomic_utils import atomic_write
 
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')

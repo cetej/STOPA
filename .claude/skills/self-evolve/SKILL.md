@@ -215,6 +215,10 @@ Apply in sandbox, evaluate next round, keep or revert.
 
 CORAL-inspired mid-run steering — catches unproductive exploration BEFORE circuit breaker fires.
 
+> **Hook-backed**: `stagnation-detector.py` PostToolUse hook monitors result files and injects
+> `[stagnation-steering:yellow/red]` messages automatically. If you see one, follow it immediately.
+> The in-skill check below is defense-in-depth for cases where TSV format differs.
+
 ```
 IF last 2 rounds were both "discard" OR "crash":
   1. PAUSE — do NOT iterate further automatically
