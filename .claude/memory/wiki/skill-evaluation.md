@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: skill-evaluation
-sources: 8
-last_updated: 2026-04-07
+sources: 9
+last_updated: 2026-04-08
 ---
 
 # Skill Evaluation & Optimization
@@ -17,6 +17,8 @@ Tool-Genesis cascade evaluation (arXiv:2603.05578) revealed that minor L1 errors
 
 EgoAlpha prompt pattern analysis mapped 38 research techniques to STOPA: Zero-shot CoT reasoning primer in critic/debugging ("Let me trace through this step by step"), Reflexion verbal notes in 3-fix escalation (explicit "what to do differently next time" after each FAIL), SPP model gating in council (high-stakes decisions require sonnet advisors, not haiku), and ICL order sensitivity (strongest examples at END for recency effect). STOPA implements 25/38 analyzed techniques, several before formal publication (ref: 2026-04-05-egoalpha-prompt-patterns.md).
 
+For generative media prompts (image/video), only describe observable outputs — what the renderer can see — never internal states like emotions or intentions. "Tears streaming down her cheeks" instead of "she feels sad." Rhythm words outperform technical parameters because models parse semantics, not numbers (ref: 2026-04-08-descriptive-over-narrative-generative.md).
+
 For iterative skill improvement, the AutoReason adversarial debate pattern uses cold-start agent isolation to prevent confirmation bias and randomized judge labels to prevent position bias (ref: 2026-04-01-autoreason-adversarial-debate.md). Reasoning quality improves when reasoning and output generation are isolated — BOULDER/CARE patterns reduce bias in multi-turn conversations (ref: 2026-03-25-reasoning-isolation.md).
 
 ## Key Rules
@@ -28,6 +30,7 @@ For iterative skill improvement, the AutoReason adversarial debate pattern uses 
 5. **Reflexion nota after FAIL**: generate explicit "what to do differently" before next attempt (ref: 2026-04-05-egoalpha-prompt-patterns.md)
 6. **SPP model gating**: council uses sonnet+ advisors; cognitive synergy requires GPT-4/Opus tier (ref: 2026-04-05-egoalpha-prompt-patterns.md)
 7. **Cold-start isolation for debate**: adversarial agents must not see each other's prior output (ref: 2026-04-01-autoreason-adversarial-debate.md)
+8. **Descriptive over narrative in generative prompts**: observable outputs only, no internal states (ref: 2026-04-08-descriptive-over-narrative-generative.md)
 
 ## Patterns
 
@@ -64,4 +67,5 @@ For iterative skill improvement, the AutoReason adversarial debate pattern uses 
 | [2026-03-25-reasoning-isolation](../learnings/2026-03-25-reasoning-isolation.md) | 2026-03-25 | high | BOULDER/CARE: isolate reasoning from output |
 | [2026-03-24-fix-issue-solo-workflow](../learnings/2026-03-24-fix-issue-solo-workflow.md) | 2026-03-24 | medium | Solo dev: commit to main, skip PR workflow |
 | [2026-03-23-youtube-transcript-yt-dlp](../learnings/2026-03-23-youtube-transcript-yt-dlp.md) | 2026-03-23 | high | MCP broken, use yt-dlp CLI |
+| [2026-04-08-descriptive-over-narrative-generative](../learnings/2026-04-08-descriptive-over-narrative-generative.md) | 2026-04-08 | medium | Observable descriptions only for generative prompts |
 | [2026-04-03-anthropic-skill-creator-patterns](../learnings/2026-04-03-anthropic-skill-creator-patterns.md) | 2026-04-03 | high | Anthropic skill-creator validation of STOPA patterns |

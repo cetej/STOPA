@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-07
 cluster: hook-infrastructure
-sources: 4
-last_updated: 2026-04-07
+sources: 5
+last_updated: 2026-04-08
 ---
 
 # Hook Infrastructure & Security
@@ -46,6 +46,10 @@ STOPA hooks operate as the runtime enforcement layer for behavioral constraints 
 4. **Ordering dependencies**: Implicit ordering within lifecycle events (auto-scribe before memory-brief, trace-capture before session-trace)
 5. **Windows specifics**: File locking from antivirus, path separator issues, GNU grep incompatibilities
 
+## Design Principle: Judgment vs Script Separation
+
+LLMs handle judgment (synthesis, prioritization, drafting); Python scripts handle deterministic work (API calls, file I/O, timestamps). Mixing LLMs into deterministic paths causes unpredictable failures and erodes trust. Validated by production deployment at scale — the boundary should be clean and never crossed (ref: 2026-04-07-judgment-script-separation-reliability.md).
+
 ## Security Layer (Agent Defense)
 
 LlamaFirewall PromptGuard (BERT, 19-92ms, AUC 0.98) is ADOPT for PostToolUse injection scanning. CaMeL [UNTRUSTED] tagging is ADOPT as a PreToolUse blocking convention (ref: 2026-04-05-agent-defense-frameworks.md).
@@ -87,3 +91,4 @@ LlamaFirewall PromptGuard (BERT, 19-92ms, AUC 0.98) is ADOPT for PostToolUse inj
 | [2026-04-07-hook-architecture-patterns](../learnings/2026-04-07-hook-architecture-patterns.md) | 2026-04-07 | high | 70+ hooks, 13 events, 5 functional categories |
 | [2026-04-07-hook-failure-modes](../learnings/2026-04-07-hook-failure-modes.md) | 2026-04-07 | high | Silent timeout, stderr injection, cascading corruption |
 | [2026-04-07-hook-testing-patterns](../learnings/2026-04-07-hook-testing-patterns.md) | 2026-04-07 | medium | Isolated testing, dry-run, activity log debugging |
+| [2026-04-07-judgment-script-separation-reliability](../learnings/2026-04-07-judgment-script-separation-reliability.md) | 2026-04-07 | high | LLMs=judgment, scripts=deterministic — never mix |

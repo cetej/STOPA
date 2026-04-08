@@ -47,3 +47,32 @@ Focused audit triggered by overlap detection between two skill-component learnin
 
 ### Rejected
 - REVIEW: sonnet46-thinking model_gate — gate is correctly scoped to Sonnet, content also covered by critical-patterns #9 for universal access
+
+---
+
+## Evolution Run — 2026-04-08
+
+### Signals
+- 12 corrections (no new clusters since evolve #2 — mostly article ingestion + project frustrations)
+- 2 violations (both resolved in previous runs, 0 new since 2026-03-29)
+- 70 learnings scanned, 0 graduation-ready (max uses=1, system 16 days old)
+- 1 model_gate learning (sonnet-4.6), correctly scoped
+- 3 supersedes chains active and correct
+- Wiki 1 day stale (2026-04-07), 4 new learnings since
+- No panic-episodes, critic-accuracy, skill-usage, discovered-patterns data yet
+
+### Proposals
+- 5 proposed, 5 approved, 0 rejected
+
+### Applied
+- PRUNE: critical-patterns #8 (3-Fix Escalation) — redundant with core-invariants #7, freed 1 slot (now 9/10)
+- ADD_VERIFY: critical-patterns #8 (formerly #9, Sonnet 4.6) — added machine-checkable verify: Grep("model_gate.*sonnet")
+- RESOLVE: improvement-queue dedup budget-calibration — already handled by supersedes: field
+- RESOLVE: improvement-queue dedup skill-creator — already linked via related: pointers (evolve #2)
+- RECOMMEND: /compile (4 new learnings since wiki build 2026-04-07)
+
+### Renumbering
+- Old #8 (3-Fix Escalation): REMOVED
+- Old #9 (Sonnet 4.6): → new #8
+- Old #10 (Anti-Hallucination): → new #9
+- critical-patterns now at 9/10 capacity (1 free slot)

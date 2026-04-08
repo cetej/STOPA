@@ -2,7 +2,7 @@
 generated: 2026-04-04
 cluster: orchestration-resilience
 sources: 8
-last_updated: 2026-04-07
+last_updated: 2026-04-08
 ---
 
 # Orchestration Resilience & Verification
@@ -46,7 +46,7 @@ The broader insight is that code generation is no longer the bottleneck — veri
 
 ## Open Questions
 
-- GAP: Budget tracking accuracy — no actual vs estimated cost comparison (ref: 2026-04-04-gap-budget-calibration.md)
+- Budget calibration baseline established: 7 historical tasks analyzed, measurement protocol defined using ccusage + session tagging. No actual vs estimated comparison data yet — protocol needs execution (ref: 2026-04-07-budget-calibration-baseline.md).
 - WARNING: `harness-simplification.md` advocates simplifying scaffolding, while deterministic harnesses are emphasized for critical pipelines. Resolution: simplify advisory scaffolding but keep deterministic harnesses for critical pipelines.
 
 ## Related Articles
@@ -60,7 +60,7 @@ The broader insight is that code generation is no longer the bottleneck — veri
 |------|------|----------|---------|
 | [2026-04-05-regression-gate-pattern](../learnings/2026-04-05-regression-gate-pattern.md) | 2026-04-05 | high | Fixed failures become permanent test cases — bar rises additively |
 | [2026-04-05-self-improving-harness](../learnings/2026-04-05-self-improving-harness.md) | 2026-04-05 | high | 6 feedback loop upgrades closing harness gaps |
-| [2026-04-04-gap-budget-calibration](../learnings/2026-04-04-gap-budget-calibration.md) | 2026-04-04 | medium | GAP: no actual vs estimated cost comparison |
+| [2026-04-07-budget-calibration-baseline](../learnings/2026-04-07-budget-calibration-baseline.md) | 2026-04-07 | medium | Budget calibration baseline: 7 tasks analyzed, protocol defined |
 | [2026-04-03-smart-tool-overuse](../learnings/2026-04-03-smart-tool-overuse.md) | 2026-04-03 | medium | SMART gate eliminates 20% unnecessary calls |
 | [2026-04-03-testing-bottleneck](../learnings/2026-04-03-testing-bottleneck.md) | 2026-04-03 | medium | Verification is the new bottleneck |
 | [2026-04-02-audit-must-verify-consumers](../learnings/2026-04-02-audit-must-verify-consumers.md) | 2026-04-02 | critical | Must verify ALL consumers on interface changes |

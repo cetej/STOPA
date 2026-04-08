@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: memory-architecture
-sources: 7
-last_updated: 2026-04-07
+sources: 8
+last_updated: 2026-04-08
 ---
 
 # Memory Architecture
@@ -17,6 +17,10 @@ BM25-inspired retrieval (`scripts/memory-search.py`) replaces raw grep for learn
 
 For multi-model environments (Haiku/Sonnet/Opus), agent-agnostic memory via contrastive trajectory distillation runs multiple agents on the same task, contrasts their reasoning paths, and distills shared constraints. The resulting memory improves all agents, not just the one that generated it (ref: 2026-03-29-memcollab-agent-agnostic-memory.md).
 
+Cross-project memory transfer is now designed as a two-tier system: shared knowledge (critical-patterns.md + wiki articles = universal) syncs via the distribution script, while project-specific learnings stay local in auto-memory. This replaces the earlier open gap about cross-project mechanics (ref: 2026-04-07-cross-project-memory-design.md).
+
+A counterintuitive finding from streaming video benchmarks: simple sliding-window recency (last N items) matches or beats complex memory accumulation in time-sensitive tasks. More history can actually hurt real-time perception even when it helps recall. This suggests STOPA should bias toward recency for context loading, using full history only when explicitly needed for longitudinal analysis (ref: 2026-04-08-recency-beats-complex-memory.md).
+
 AutoDream (/dream) coexists with STOPA's structured memory: dream acts as janitor (cleanup, consolidation), while /scribe acts as architect (structured writes with YAML frontmatter). The key boundary is protecting YAML frontmatter from dream's modifications (ref: 2026-03-26-autodream-coexistence.md).
 
 ## Key Rules
@@ -26,6 +30,8 @@ AutoDream (/dream) coexists with STOPA's structured memory: dream acts as janito
 3. **BM25 retrieval over raw grep**: use memory-search.py for ranked, metadata-weighted results (ref: 2026-04-05-bm25-memory-search.md)
 4. **Contrastive distillation for cross-model memory**: run multiple agents, distill shared constraints (ref: 2026-03-29-memcollab-agent-agnostic-memory.md)
 5. **Dream = janitor, Scribe = architect**: protect YAML frontmatter (ref: 2026-03-26-autodream-coexistence.md)
+6. **Cross-project: sync universal, keep local local**: critical-patterns + wiki sync; learnings stay per-project (ref: 2026-04-07-cross-project-memory-design.md)
+7. **Recency bias for context loading**: sliding-window recency ≥ complex accumulation in time-sensitive tasks (ref: 2026-04-08-recency-beats-complex-memory.md)
 
 ## Patterns
 
@@ -41,7 +47,7 @@ AutoDream (/dream) coexists with STOPA's structured memory: dream acts as janito
 
 ## Open Questions
 
-- GAP: No documented mechanics for cross-project memory transfer between STOPA and target projects — which learnings are universal vs project-local? (ref: 2026-04-04-gap-cross-project-memory.md)
+- ~~GAP: Cross-project memory transfer~~ — RESOLVED: two-tier design (universal sync + local learnings) (ref: 2026-04-07-cross-project-memory-design.md)
 
 ## Related Articles
 
@@ -53,7 +59,8 @@ AutoDream (/dream) coexists with STOPA's structured memory: dream acts as janito
 | File | Date | Severity | Summary |
 |------|------|----------|---------|
 | [2026-04-05-bm25-memory-search](../learnings/2026-04-05-bm25-memory-search.md) | 2026-04-05 | high | BM25 replaces grep: IDF + saturation + length norm + metadata weights |
-| [2026-04-04-gap-cross-project-memory](../learnings/2026-04-04-gap-cross-project-memory.md) | 2026-04-04 | medium | GAP: no mechanics for cross-project memory transfer |
+| [2026-04-07-cross-project-memory-design](../learnings/2026-04-07-cross-project-memory-design.md) | 2026-04-07 | high | Two-tier: universal sync + local learnings |
+| [2026-04-08-recency-beats-complex-memory](../learnings/2026-04-08-recency-beats-complex-memory.md) | 2026-04-08 | medium | Sliding-window recency ≥ complex accumulation |
 | [2026-03-30-write-time-gating-salience](../learnings/2026-03-30-write-time-gating-salience.md) | 2026-03-30 | high | Write-time gating holds 100% at 8:1 distractor ratio |
 | [2026-03-30-calm-semantic-bandwidth](../learnings/2026-03-30-calm-semantic-bandwidth.md) | 2026-03-30 | medium | Semantic bandwidth limits for memory retrieval |
 | [2026-03-29-memcollab-agent-agnostic-memory](../learnings/2026-03-29-memcollab-agent-agnostic-memory.md) | 2026-03-29 | high | Agent-agnostic memory via contrastive distillation |

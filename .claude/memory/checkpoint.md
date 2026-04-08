@@ -1,31 +1,31 @@
 # Session Checkpoint
 
-**Saved**: 2026-04-07 (auto-saved (session end))
+**Saved**: 2026-04-08 (auto-saved (session end))
 **Task**: none
 **Branch**: main
-**Last commit**: `91fb961` feat: ingest 2 sources — SAS vs MAS thinking budget, Open-Higgsfield-AI patterns
+**Last commit**: `e2ccace` feat: skill discovery vylepšení z arXiv:2604.04323 — discovery-keywords, --adapt, selection audit
 
 ---
 
 ## Session Activity
 
-Session: 125 file edits, 19 agent spawns, 0 skill calls. Skills: fetch, ingest, watch
-Duration: ~15336 min
+Session: 118 file edits, 3 agent spawns, 0 skill calls. Skills: fetch, ingest, watch
+Duration: ~15986 min
 
 ## Files Touched
 
 | File | Operations | Date |
 |------|-----------|------|
-| SKILL.md | 19 edits | 2026-04-07 |
-| news.md | 6 edits | 2026-04-07 |
-| correction-tracker.py | 6 edits | 2026-04-07 |
-| verify-sweep.py | 4 edits | 2026-04-07 |
-| settings.json | 4 edits | 2026-04-07 |
-| tier-detector.py | 3 edits | 2026-04-07 |
-| session-summary.sh | 3 edits | 2026-04-07 |
-| auto-scribe.py | 3 edits | 2026-04-07 |
-| INDEX.md | 3 edits | 2026-04-07 |
-| status.md | 2 edits | 2026-04-07 |
+| SKILL.md | 21 edits | 2026-04-08 |
+| INDEX.md | 8 edits | 2026-04-08 |
+| skill-design.md | 6 edits | 2026-04-08 |
+| orchestration-multi-agent.md | 5 edits | 2026-04-08 |
+| memory-architecture.md | 5 edits | 2026-04-08 |
+| skill-evaluation.md | 4 edits | 2026-04-08 |
+| orchestration-resilience.md | 3 edits | 2026-04-08 |
+| orchestration-infrastructure.md | 3 edits | 2026-04-08 |
+| hook-infrastructure.md | 3 edits | 2026-04-08 |
+| general-security-environment.md | 3 edits | 2026-04-08 |
 
 ## Key Results
 
@@ -41,12 +41,11 @@ _No commits this session_
 
 ## Learnings Captured
 
-learnings_this_session: 15
-  - 2026-04-07-agents-md-efficiency-validated
-  - 2026-04-07-budget-calibration-baseline
-  - 2026-04-07-compact-variant-baseline
-  - 2026-04-07-cross-project-memory-design
-  - 2026-04-07-hook-architecture-patterns
+learnings_this_session: 4
+  - 2026-04-08-descriptive-over-narrative-generative
+  - 2026-04-08-llm-native-validation-hardstop
+  - 2026-04-08-progressive-knowledge-routing
+  - 2026-04-08-recency-beats-complex-memory
 
 ## Workflow Decisions
 
@@ -63,7 +62,7 @@ _No pending subtasks detected in state.md_
 
 > **Task**: none
 >
-> **Context**: Last commit `91fb961` (feat: ingest 2 sources — SAS vs MAS thinking budget, Open-Higgsfield-AI patterns). Branch: main.
-> Session had 125 edits, 19 agents, 0 skill calls, 0 errors.
+> **Context**: Last commit `e2ccace` (feat: skill discovery vylepšení z arXiv:2604.04323 — discovery-keywords, --adapt, selection audit). Branch: main.
+> Session had 118 edits, 3 agents, 0 skill calls, 0 errors.
 
 

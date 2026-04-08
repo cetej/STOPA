@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: general-security-environment
-sources: 4
-last_updated: 2026-04-07
+sources: 6
+last_updated: 2026-04-08
 ---
 
 # Security, Environment & Ecosystem
@@ -37,6 +37,12 @@ Defense framework evaluation (2026-04-05) produced clear verdicts: LlamaFirewall
 - Write tokens into claude_desktop_config.json or settings.json (ref: 2026-03-27-secrets-in-config-files.md)
 - Use AlignmentCheck as synchronous hook — 860ms+ is too slow (ref: 2026-04-05-agent-defense-frameworks.md)
 
+## Ecosystem Patterns
+
+Model metadata as single source of truth for dynamic UI: one JSON file defines inputs, limits, and control types for 200+ models; UI generates automatically. This eliminates O(N) components per model → O(1) generic form. Applicable to GRAFIK layers/effects and any multi-model tool (ref: 2026-04-07-model-metadata-dynamic-ui-pattern.md).
+
+When optimizing against multiple reward metrics simultaneously, normalize each metric independently before aggregating. Direct sum-then-normalize collapses distinct metric combinations to identical advantage values, destroying signal resolution. GDPO (arXiv:2601.05242) fixes this with decoupled normalization + conditional gating for priority ordering (ref: 2026-04-07-multi-reward-normalization-collapse.md).
+
 ## Related Articles
 
 - See also: [hook-infrastructure](hook-infrastructure.md) — hook-level security patterns
@@ -50,4 +56,6 @@ Defense framework evaluation (2026-04-05) produced clear verdicts: LlamaFirewall
 | [2026-04-05-agent-defense-frameworks](../learnings/2026-04-05-agent-defense-frameworks.md) | 2026-04-05 | medium | LlamaFirewall PromptGuard ADOPT; CaMeL tagging ADOPT |
 | [2026-04-01-image-cache-invalidation](../learnings/2026-04-01-image-cache-invalidation.md) | 2026-04-01 | medium | Image changes invalidate entire prompt cache |
 | [2026-03-27-playwright-mcp-download-hijack](../learnings/2026-03-27-playwright-mcp-download-hijack.md) | 2026-03-27 | critical | Playwright MCP hijacks Chrome downloads |
+| [2026-04-07-model-metadata-dynamic-ui-pattern](../learnings/2026-04-07-model-metadata-dynamic-ui-pattern.md) | 2026-04-07 | medium | Model metadata → dynamic UI (O(1) generic form) |
+| [2026-04-07-multi-reward-normalization-collapse](../learnings/2026-04-07-multi-reward-normalization-collapse.md) | 2026-04-07 | medium | Decouple multi-reward normalization to prevent signal collapse |
 | [2026-03-27-secrets-in-config-files](../learnings/2026-03-27-secrets-in-config-files.md) | 2026-03-27 | critical | Never put secrets in JSON configs |

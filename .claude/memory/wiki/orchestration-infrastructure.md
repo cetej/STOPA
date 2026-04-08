@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: orchestration-infrastructure
-sources: 6
-last_updated: 2026-04-07
+sources: 8
+last_updated: 2026-04-08
 ---
 
 # Orchestration Infrastructure & Sessions
@@ -17,6 +17,8 @@ Session persistence presents different challenges. Claude Channels has no messag
 
 OSFT (Online SFT, arXiv:2510.18814) demonstrates that self-sharpening — a model finetuning on its own outputs with decoupled sampling temperature (tau_s < tau_t, e.g. 0.6/1.0) — achieves RL-comparable reasoning improvement at 8x lower compute with no reward model. The latent knowledge insight maps to STOPA's learnings system: structured self-feedback unlocks existing capabilities rather than teaching new ones. The multi-tier model system (Haiku/Sonnet/Opus) is structurally analogous to temperature decoupling — different tiers for generation vs validation (ref: 2026-04-06-osft-self-sharpening.md).
 
+Operational rhythm transforms an AI tool into a persistent collaborator. A weekly kaizen loop — Friday cron research scan + Sunday human review — combines external community monitoring (/watch) with internal friction detection (/evolve), producing measurable improvement on cadence rather than ad-hoc tinkering (ref: 2026-04-07-kaizen-loop-weekly-improvement.md). Scheduled morning briefs and evening wraps, delivered via messaging channel with strict "silence when nothing to say" discipline, create a chief-of-staff dynamic. The silence rule is as important as the content — noise destroys trust faster than value builds it (ref: 2026-04-07-operational-rhythm-silence-discipline.md).
+
 ## Key Rules
 
 1. **Autocompact at 70%**: set CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=70 (ref: 2026-04-01-autocompact-threshold.md)
@@ -25,6 +27,8 @@ OSFT (Online SFT, arXiv:2510.18814) demonstrates that self-sharpening — a mode
 4. **Watch for 5 degradation patterns**: identity collapse, memory bloat, budget blindness, browser loops, session amnesia (ref: 2026-03-24-openclaw-postmortem-patterns.md)
 5. **Stronger model for iterative loops, not one-shot**: OSFT validates tier escalation for iterative tasks (ref: 2026-04-06-osft-self-sharpening.md)
 6. **Latent knowledge over new learning**: structured self-feedback retrieval unlocks capabilities; same principle as learnings system (ref: 2026-04-06-osft-self-sharpening.md)
+7. **Weekly kaizen cadence**: research scan + friction review on fixed schedule, not ad-hoc (ref: 2026-04-07-kaizen-loop-weekly-improvement.md)
+8. **Silence when nothing to say**: scheduled notifications must skip empty reports — noise destroys trust (ref: 2026-04-07-operational-rhythm-silence-discipline.md)
 
 ## Patterns
 
@@ -58,4 +62,6 @@ OSFT (Online SFT, arXiv:2510.18814) demonstrates that self-sharpening — a mode
 | [2026-03-29-paged-context-protocol](../learnings/2026-03-29-paged-context-protocol.md) | 2026-03-29 | medium | Paged retrieval via block-manifest.json |
 | [2026-03-26-channels-24x7-architecture](../learnings/2026-03-26-channels-24x7-architecture.md) | 2026-03-26 | high | Channels has no queue, needs persistence layer |
 | [2026-03-24-openclaw-postmortem-patterns](../learnings/2026-03-24-openclaw-postmortem-patterns.md) | 2026-03-24 | high | 5 degradation patterns from $12K burn |
+| [2026-04-07-kaizen-loop-weekly-improvement](../learnings/2026-04-07-kaizen-loop-weekly-improvement.md) | 2026-04-07 | high | Weekly kaizen: research + friction review on cadence |
+| [2026-04-07-operational-rhythm-silence-discipline](../learnings/2026-04-07-operational-rhythm-silence-discipline.md) | 2026-04-07 | medium | Silence discipline: skip empty reports |
 | [2026-03-25-batch-edit-pattern](../learnings/2026-03-25-batch-edit-pattern.md) | 2026-03-25 | high | Batch scripts for bulk file edits |

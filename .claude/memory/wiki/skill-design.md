@@ -1,13 +1,13 @@
 ---
 generated: 2026-04-04
 cluster: skill-design
-sources: 9
-last_updated: 2026-04-07
+sources: 13
+last_updated: 2026-04-08
 ---
 
 # Skill Design & Architecture
 
-> **TL;DR**: Skills live canonically in STOPA, exist in two synced locations (commands/ and skills/), and their `description` field is the single most important routing mechanism. Progressive disclosure via compact variants reduces token overhead by ~80% on repeat invocations — but no measurement data exists yet to validate the claim.
+> **TL;DR**: Skills live canonically in STOPA, exist in two synced locations (commands/ and skills/), and their `description` field is the single most important routing mechanism. Compact variants deliver 87-94% word reduction on repeat invocations (measured). Skills with reference files should use 3-layer knowledge routing. Agents voluntarily load only 49% of relevant skills — supplementary discovery-keywords improve selection rate.
 
 ## Overview
 
@@ -19,6 +19,10 @@ The SKILL0 Dynamic Curriculum pattern introduces compact skill variants (~7% of 
 
 An important operational boundary: deepresearch researcher sub-agents must be capped at max 15 tool calls. A 34-call run took ~4 hours; wide scopes must be split into 2-3 smaller agents of 8-12 calls each (ref: 2026-04-06-deepresearch-agent-scope.md).
 
+Compact variant measurement confirmed 87-94% word reduction across 6 skills — the original ~80% claim was conservative (ref: 2026-04-07-compact-variant-baseline.md). Skill autodiscovery has a retrieval bottleneck: agents voluntarily load only 49% of relevant skills from metadata alone (arXiv:2604.04323). Query-specific refinement and supplementary `discovery-keywords` recover performance; offline refinement doesn't help (ref: 2026-04-07-skill-retrieval-bottleneck.md).
+
+Skills with reference files should use 3-layer knowledge routing: always-on baseline (quality floor), semantic-inference auto-load (from natural language signals), and explicit-override (user-named). The bias should favor loading — cost of extra tokens is lower than cost of low-quality output from missing context (ref: 2026-04-08-progressive-knowledge-routing.md). For output validation, structured numbered rules with explicit error/warning tiers executed by the LLM itself with a hard-stop before delivery outperform advisory self-checks. Python scripts should be decoupled to CI/CD only (ref: 2026-04-08-llm-native-validation-hardstop.md).
+
 ## Key Rules
 
 1. **Skills develop in STOPA first**: never create skills directly in target projects (ref: 2026-03-27-skills-must-live-in-stopa.md)
@@ -28,6 +32,10 @@ An important operational boundary: deepresearch researcher sub-agents must be ca
 5. **Compact variants for repeat invocations**: SKILL.compact.md at ~7% token size (ref: 2026-04-04-skill0-dynamic-curriculum.md)
 6. **Researcher sub-agents: max 15 tool calls**: split wide scope into smaller agents (ref: 2026-04-06-deepresearch-agent-scope.md)
 7. **Do NOT enable disableSkillShellExecution**: 52% of skills would break (ref: 2026-04-03-disable-skill-shell-audit.md)
+8. **Compact variants: 87-94% reduction** (measured): conservative ~80% claim confirmed (ref: 2026-04-07-compact-variant-baseline.md)
+9. **discovery-keywords for autodiscovery**: 49% voluntary load rate without them (ref: 2026-04-07-skill-retrieval-bottleneck.md)
+10. **3-layer knowledge routing**: always-on baseline + semantic-inference + explicit-override (ref: 2026-04-08-progressive-knowledge-routing.md)
+11. **LLM-native validation with hard-stop**: numbered rules + error/warning tiers before output delivery (ref: 2026-04-08-llm-native-validation-hardstop.md)
 
 ## Patterns
 
@@ -45,7 +53,8 @@ An important operational boundary: deepresearch researcher sub-agents must be ca
 
 ## Open Questions
 
-- GAP: No measurement data on compact variant effectiveness — how much context is actually saved in practice? (ref: 2026-04-04-gap-compact-variant-measurement.md)
+- ~~GAP: Compact variant measurement~~ — RESOLVED: 87-94% word reduction measured (ref: 2026-04-07-compact-variant-baseline.md)
+- GAP: SKILL.examples.md for positive demonstrations — planned but not yet implemented
 
 ## Related Articles
 
@@ -64,4 +73,8 @@ An important operational boundary: deepresearch researcher sub-agents must be ca
 | [2026-04-03-disable-skill-shell-audit](../learnings/2026-04-03-disable-skill-shell-audit.md) | 2026-04-03 | high | Shell audit: 52% skills use inline shell |
 | [2026-03-27-commands-vs-skills-structure](../learnings/2026-03-27-commands-vs-skills-structure.md) | 2026-03-27 | critical | Dual location must stay synced |
 | [2026-03-27-skills-must-live-in-stopa](../learnings/2026-03-27-skills-must-live-in-stopa.md) | 2026-03-27 | high | Skills develop in STOPA first |
+| [2026-04-08-progressive-knowledge-routing](../learnings/2026-04-08-progressive-knowledge-routing.md) | 2026-04-08 | high | 3-layer knowledge routing for skills with ref files |
+| [2026-04-08-llm-native-validation-hardstop](../learnings/2026-04-08-llm-native-validation-hardstop.md) | 2026-04-08 | high | Numbered validation rules with hard-stop |
+| [2026-04-07-skill-retrieval-bottleneck](../learnings/2026-04-07-skill-retrieval-bottleneck.md) | 2026-04-07 | high | 49% voluntary skill loading; discovery-keywords fix |
+| [2026-04-07-compact-variant-baseline](../learnings/2026-04-07-compact-variant-baseline.md) | 2026-04-07 | medium | 87-94% word reduction measured |
 | [2026-03-25-skill-description-triggers](../learnings/2026-03-25-skill-description-triggers.md) | 2026-03-25 | high | Description must contain all trigger words |

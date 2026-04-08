@@ -60,6 +60,37 @@ If found, load:
 
 If not found, use hardcoded fallback: `"blur, distort, low quality, watermark, text overlay"`.
 
+## Step 2c: Prompt Quality Gate
+
+Before sending to the API, validate and enhance the prompt. This is a hard gate — fix issues before proceeding, do NOT call API with invalid prompts.
+
+### Validation Rules (LLM-native — execute mentally, no Python)
+
+| # | Rule | Severity | Check |
+|---|------|----------|-------|
+| ① | Prompt length 15–150 words | ❌ error if <15 or >200 | Too short = vague; too long = concept drift |
+| ② | At least 1 camera/motion term | ⚠️ warning | Without motion direction, output looks like a slideshow. Add one: pan, zoom, tracking, dolly, rotate, drift, push-in, pull-back, orbit, tilt |
+| ③ | No filler words | ❌ error | Hard-block: masterpiece, ultra-HD, 8K, best quality, hyper-realistic, extremely detailed, super resolution, ultra-clear. Use physical material/light words instead |
+| ④ | Descriptive, not narrative | ⚠️ warning | Emotions → physical expressions. "She feels sad" → "tears streaming down her cheeks". Only describe what the renderer can SEE |
+| ⑤ | No style conflicts | ❌ error | See conflict matrix below |
+| ⑥ | I2V: changes only | ⚠️ warning | If `--image` provided: describe only motion/changes from the input image, not static content already visible. Prepend `preserve composition and colors` |
+
+### Style Conflict Matrix (mutually exclusive — ❌ error if combined)
+
+- Photorealistic + cartoon/anime style
+- Film grain/vintage + ultra-sharp/crystal-clear
+- Slow motion + speed ramp in same segment
+- Wide-angle fisheye + shallow depth-of-field bokeh (physically impossible)
+- Handheld shaky cam + perfect geometric symmetry
+
+### Enhancement (auto-apply before API call)
+
+- Convert emotional/narrative descriptions → observable physical actions
+- Add motion intensity modifier if action verbs are vague (see Motion Intensity Scale below)
+- Prefer semantic rhythm words (gentle, gradual, smooth) over technical params (24fps, f/2.8) — Kling parses semantics, not numbers
+
+If any ❌ error after enhancement: inform user of the conflict and suggest fix. Do NOT proceed to API.
+
 ## Step 3: Determine Mode
 
 | `--image` provided? | Mode | Endpoint |
@@ -67,6 +98,8 @@ If not found, use hardcoded fallback: `"blur, distort, low quality, watermark, t
 | No | Text-to-Video | `fal-ai/kling-video/v3/{tier}/text-to-video` |
 | Yes (URL) | Image-to-Video | `fal-ai/kling-video/v3/{tier}/image-to-video` |
 | Yes (local file) | Image-to-Video | Upload file first, then use URL |
+
+**I2V Golden Rule**: In image-to-video mode, the prompt must describe only **motion and changes** — never re-describe static content already visible in the input image (character appearance, scene layout, composition). Auto-prepend `preserve composition and colors,` to the prompt to lock visual consistency.
 
 ## Step 4: Upload Local Image (if needed)
 
@@ -183,7 +216,7 @@ Cost estimate: ~$0.56 (5s × $0.112/s pro, no audio)
 
 ## Prompt Tips
 
-For best results with Kling 3.0:
+### Effect Patterns (Kling 3.0)
 
 | Effect | Prompt Pattern |
 |--------|---------------|
@@ -192,6 +225,31 @@ For best results with Kling 3.0:
 | Camera pan | "cinematic slow pan across [scene], smooth camera movement" |
 | Product shot | "product photography of [item], slowly rotating on pedestal, studio lighting" |
 | Zoom in | "camera slowly zooming into [subject], shallow depth of field" |
+
+### Descriptive Over Narrative
+
+Only describe what the renderer can SEE — not emotions, intentions, or backstory:
+
+| Don't write | Write instead |
+|-------------|---------------|
+| "She feels lonely" | "She sits motionless, staring at an empty chair across the table" |
+| "An exciting chase" | "Man sprinting through rain-soaked alley, coat flapping violently behind him" |
+| "Peaceful morning" | "Morning light through thin curtains, dust particles drifting slowly through beam" |
+| "He is angry" | "Jaw clenched, fists tightening, veins visible on forearms" |
+
+### Motion Intensity Scale
+
+Use specific modifiers — avoid vague motion ("the camera moves", "object moves"):
+
+| Intensity | Modifiers | Example |
+|-----------|-----------|---------|
+| Explosive | violent, sudden, snapping | "hair whipping violently in wind" |
+| Dramatic | sweeping, surging, crashing | "waves crashing dramatically against cliff face" |
+| Steady | smooth, flowing, continuous | "smooth tracking shot across landscape" |
+| Gentle | gradual, drifting, easing | "petals gradually falling from branch" |
+| Minimal | barely, subtly, faintly | "candle flame subtly flickering" |
+
+Prefer rhythm words over technical params — `gentle gradual push-in` > `24fps f/2.8 slow dolly`.
 
 ## Error Handling
 

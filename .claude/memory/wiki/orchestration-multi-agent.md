@@ -1,13 +1,13 @@
 ---
 generated: 2026-04-04
 cluster: orchestration-multi-agent
-sources: 10
-last_updated: 2026-04-07
+sources: 13
+last_updated: 2026-04-08
 ---
 
 # Multi-Agent Orchestration
 
-> **TL;DR**: Centralized orchestration beats decentralized (1.36x vs 0.88x speedup). Serial tasks below 40% parallelizability waste 5.83x tokens. Self-organizing agents outperform hierarchical on exploratory tasks (+8%); hierarchical wins on structured output. PDDL-inspired I/O contracts with plan chain validation cut orchestration failures 3x.
+> **TL;DR**: Centralized orchestration beats decentralized (1.36x vs 0.88x speedup). At equal thinking-token budgets, single-agent systems match or beat multi-agent — MAS advantage comes from unconstrained compute, not architecture. Self-organizing +8% on exploratory; hierarchical wins on structured. PDDL I/O contracts cut failures 3x. Repo-level instruction files (AGENTS.md) reduce agent runtime by 28.64%.
 
 ## Overview
 
@@ -18,6 +18,10 @@ Dynamic agent graph orchestration (BiGMAS) demonstrates that task-specific graph
 A/B testing confirmed that self-organizing agents (given only a mission, no prescribed roles) outperform hierarchical assignment by +8% on exploratory tasks (audit, research, scouting), while hierarchical assignment wins on structured output tasks like ranking and scoring. Orchestrate should detect task style and adjust prescription level accordingly (ref: 2026-04-06-self-organizing-agents-ab-test.md).
 
 Neuro-symbolic orchestration patterns from PDDL research (arXiv:2602.19260) show that explicit operator interfaces — `input-contract`, `preconditions`, `effects` per skill — enable plan chain validation BEFORE agent execution, eliminating downstream failures from incompatible handoffs. Combined with `done_when` completion criteria and mid-execution replanning, these patterns outperform end-to-end VLA approaches 3x (ref: 2026-04-07-nsm-neuro-symbolic-orchestration.md).
+
+A key compute-budget finding (DPI research, arXiv 2026) shows that at equal thinking-token budgets, single-agent systems achieve equal or better performance than multi-agent ones. MAS advantage comes from unconstrained compute scaling, not architectural superiority. The remaining justifications for MAS are parallelization, specialization, and fault isolation (ref: 2026-04-07-sas-beats-mas-equal-compute.md).
+
+MoM/TARo-inspired upgrades brought four improvements to orchestrate: scout quality gate (upstream-first verification), role-specific critic weights, per-subtask adaptive model routing, and haiku-first difficulty estimation (ref: 2026-04-07-mom-taro-orchestration-upgrades.md). Empirical validation from agent benchmarks confirmed that repo-level instruction files (AGENTS.md / CLAUDE.md / skills) reduce agent runtime by 28.64% and output token consumption by 16.58% while maintaining task completion — validating STOPA's design philosophy (ref: 2026-04-07-agents-md-efficiency-validated.md).
 
 OpenFang (Rust Agent OS) contributes three reference patterns: sandbox isolation via runtime metering in tool-gate.py, Merkle audit trail for OSINT outputs, and daemon-based scheduling without a running session (ref: 2026-04-05-openfang-architecture-patterns.md).
 
@@ -33,6 +37,9 @@ Iterative agent work suffers from structural erosion: SlopCodeBench shows AI age
 6. **Anti-overfitting guard**: ask "would this change be worthwhile without this eval case?" (ref: 2026-04-03-autoagent-overfitting-guard.md)
 7. **Checkpoints between iterations**: agents degrade without quality gates (ref: 2026-03-29-slopcodebench-iterative-degradation.md)
 8. **Daemon scheduling for headless**: Python daemon + claude-code-sdk-python for session-independent scheduling (ref: 2026-04-05-openfang-architecture-patterns.md)
+9. **SAS ≥ MAS at equal compute**: only use MAS when parallelization, specialization, or fault isolation justify overhead (ref: 2026-04-07-sas-beats-mas-equal-compute.md)
+10. **AGENTS.md saves 28.64% runtime**: maintain quality instruction files at repo level (ref: 2026-04-07-agents-md-efficiency-validated.md)
+11. **Upstream-first scout gate**: verify source quality before processing (ref: 2026-04-07-mom-taro-orchestration-upgrades.md)
 
 ## Patterns
 
@@ -70,4 +77,7 @@ Iterative agent work suffers from structural erosion: SlopCodeBench shows AI age
 | [2026-03-30-society-of-thought-orchestration](../learnings/2026-03-30-society-of-thought-orchestration.md) | 2026-03-30 | high | RL spontaneously creates multi-agent debate |
 | [2026-03-29-bigmas-directed-graph-orchestration](../learnings/2026-03-29-bigmas-directed-graph-orchestration.md) | 2026-03-29 | medium | Dynamic graph topology scales with task |
 | [2026-03-29-claudini-autoresearch-loop](../learnings/2026-03-29-claudini-autoresearch-loop.md) | 2026-03-29 | high | Autoresearch succeeds from existing code |
+| [2026-04-07-sas-beats-mas-equal-compute](../learnings/2026-04-07-sas-beats-mas-equal-compute.md) | 2026-04-07 | high | SAS ≥ MAS at equal thinking-token budget |
+| [2026-04-07-mom-taro-orchestration-upgrades](../learnings/2026-04-07-mom-taro-orchestration-upgrades.md) | 2026-04-07 | high | Scout gate, role-specific critic, adaptive routing |
+| [2026-04-07-agents-md-efficiency-validated](../learnings/2026-04-07-agents-md-efficiency-validated.md) | 2026-04-07 | high | AGENTS.md reduces runtime 28.64%, output tokens 16.58% |
 | [2026-03-29-slopcodebench-iterative-degradation](../learnings/2026-03-29-slopcodebench-iterative-degradation.md) | 2026-03-29 | high | 2.2x redundancy, iterative degradation |

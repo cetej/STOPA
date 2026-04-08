@@ -10,7 +10,7 @@ uses: 1
 harmful_uses: 0
 related: [gsd-patterns.md, 2026-03-26-harness-simplification.md]
 verify_check: "Glob('.claude/memory/learnings/block-manifest.json') → 1+ matches"
-confidence: 0.85
+confidence: 0.9
 successful_uses: 0
 ---
 

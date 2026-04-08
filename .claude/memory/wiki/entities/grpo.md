@@ -1,26 +1,27 @@
 ---
-name: GRPO (Group Relative Policy Optimization)
+name: GRPO
 type: concept
 first_seen: 2026-04-07
 last_updated: 2026-04-07
-sources: [beyond-mode-research]
-tags: [reinforcement-learning, fine-tuning, rlvr, deepseek]
+sources: [gdpo-multi-reward-rl-optimization]
+tags: [rl-training, policy-optimization, llm-optimization]
 ---
-# GRPO (Group Relative Policy Optimization)
 
-> RL training objective used in DeepSeek-R1 and Multi-Answer RL that eliminates the value model by normalizing rewards within a group of K sampled outputs; enables RLVR without a separate critic network.
+# GRPO
+
+> Group Relative Policy Optimization — RL policy gradient method for LLMs normalizing rewards at group level; baseline for GDPO.
 
 ## Key Facts
 
-- Eliminates value model by normalizing reward across K outputs in the same group (ref: sources/beyond-mode-research.md)
-- Used in DeepSeek-R1 (arXiv:2501.12948) at scale; adopted in Multi-Answer RL for diversity training (ref: sources/beyond-mode-research.md)
-- Implementation: TRL + DeepSpeed stack; requires 4× A100 for 8B model training (ref: sources/beyond-mode-research.md)
-- Key advantage over PPO: cheaper to run (no separate value model inference) (ref: sources/beyond-mode-research.md)
+- Applies group-level normalization to aggregated (summed) rewards across objectives (ref: sources/gdpo-multi-reward-rl-optimization.md)
+- Critical flaw in multi-reward settings: distinct reward combinations collapse to identical advantage values, destroying inter-objective signal (ref: sources/gdpo-multi-reward-rl-optimization.md)
+- GRPO without std normalization: theoretically more diverse but causes training instability — 0% format correctness in tool-calling experiments (ref: sources/gdpo-multi-reward-rl-optimization.md)
+- Works acceptably for single-objective RL; problematic for 2+ reward objectives (ref: sources/gdpo-multi-reward-rl-optimization.md)
 
 ## Relevance to STOPA
 
-Technical foundation if STOPA ever needs RL fine-tuning for a specialized model (e.g., ORAKULUM forecasting model). GRPO is the standard choice for RLVR tasks.
+GRPO's collapse limitation is context for any multi-reward optimization in STOPA skills (/autoloop optimizing correctness + length simultaneously).
 
 ## Mentioned In
 
-- [Reaching Beyond the Mode — Multi-Answer RL and Uncertainty Quantification](../sources/beyond-mode-research.md)
+- [GDPO: Group reward-Decoupled Normalization Policy Optimization](../sources/gdpo-multi-reward-rl-optimization.md)
