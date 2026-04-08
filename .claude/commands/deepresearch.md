@@ -7,6 +7,12 @@ context-required:
   - "research question — specific and answerable, not a vague topic"
   - "output format — brief, analysis, comparison table, or raw evidence"
   - "scope constraints — time range, domain, credibility bar (optional but saves iterations)"
+curriculum-hints:
+  - "Decompose research question into 3-5 searchable sub-questions"
+  - "Spawn parallel researcher agents per sub-question"
+  - "Cross-reference and deduplicate findings across agents"
+  - "Verify source credibility and check for contradictions"
+  - "Synthesize into cited brief with confidence levels"
 tags: [research, osint]
 phase: meta
 user-invocable: true

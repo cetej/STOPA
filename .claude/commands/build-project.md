@@ -1,6 +1,12 @@
 ---
 name: build-project
 description: "Use when building a new project from requirements end-to-end. Trigger on 'build project', 'create project', 'postav projekt'. Do NOT use for single features or existing project modifications."
+curriculum-hints:
+  - "Analyze requirements and identify tech stack before writing any code"
+  - "Create project structure and config files first"
+  - "Implement core functionality in dependency order"
+  - "Add tests and verify each module works"
+  - "Wire up integration, run full build, and deploy"
 tags: [planning, orchestration]
 phase: plan
 user-invocable: true
