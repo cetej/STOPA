@@ -1,0 +1,113 @@
+{
+  "api_key_env": "ANTHROPIC_API_KEY",
+  "beta_header": "managed-agents-2026-04-01",
+  "telegram_bot_token_env": "TELEGRAM_BOT_TOKEN",
+  "telegram_chat_id": "1328589040",
+  "memory_base": ".claude/memory",
+  "memory_store_id": null,
+  "environment_id": "env_01D99TDvYEybx77zhDg7E2Mw",
+  "cost_limits": {
+    "per_run_usd": 2.0,
+    "daily_usd": 5.0,
+    "monthly_usd": 50.0
+  },
+  "agents": [
+    {
+      "name": "stopa-watch",
+      "agent_id": "agent_011CZrw2XxPtA5hzyCd3iQ6d",
+      "model": "claude-sonnet-4-6",
+      "prompt_file": "prompts/watch-agent.md",
+      "tools": [
+        "web_search",
+        "web_fetch",
+        "bash",
+        "read",
+        "write"
+      ],
+      "schedule": "0 7 * * *",
+      "enabled": true,
+      "description": "Daily news scanner — Claude Code, Anthropic API, AI/ML ecosystem"
+    },
+    {
+      "name": "stopa-research",
+      "agent_id": null,
+      "model": "claude-sonnet-4-6",
+      "prompt_file": "prompts/research-agent.md",
+      "tools": [
+        "web_search",
+        "web_fetch",
+        "bash",
+        "read",
+        "write",
+        "glob",
+        "grep"
+      ],
+      "schedule": null,
+      "enabled": false,
+      "description": "Deep research — multi-source evidence synthesis (on-demand)"
+    },
+    {
+      "name": "stopa-ingest",
+      "agent_id": null,
+      "model": "claude-sonnet-4-6",
+      "prompt_file": "prompts/ingest-agent.md",
+      "tools": [
+        "web_fetch",
+        "bash",
+        "read",
+        "write"
+      ],
+      "schedule": null,
+      "enabled": false,
+      "description": "Knowledge ingestion — URL to structured wiki (on-demand)"
+    },
+    {
+      "name": "stopa-compile",
+      "agent_id": null,
+      "model": "claude-sonnet-4-6",
+      "prompt_file": "prompts/compile-agent.md",
+      "tools": [
+        "bash",
+        "read",
+        "write",
+        "glob",
+        "grep"
+      ],
+      "schedule": "0 20 * * 0",
+      "enabled": false,
+      "description": "Wiki synthesis — compile learnings into thematic articles (weekly)"
+    }
+  ],
+  "runs": [
+    {
+      "id": "7380a17e",
+      "agent": "stopa-watch",
+      "timestamp": "2026-04-08T20:33:53.658406+00:00",
+      "session_id": "sesn_011CZrwcLHcVQ2AsfjtQ8t1W",
+      "parsed": false,
+      "cost": 0.0,
+      "stats": {},
+      "applied": [
+        "Saved raw output (no STOPA_RESULT)"
+      ]
+    },
+    {
+      "id": "f37274b7",
+      "agent": "stopa-watch",
+      "timestamp": "2026-04-08T20:37:01.860181+00:00",
+      "session_id": "sesn_011CZrwfCMD3NhDe15hM5e1M",
+      "parsed": true,
+      "cost": 0.0,
+      "stats": {
+        "searches": 3,
+        "fetches": 2,
+        "action": 3,
+        "watch": 3,
+        "info": 2
+      },
+      "applied": [
+        "APPEND: memory/news.md"
+      ]
+    }
+  ]
+}

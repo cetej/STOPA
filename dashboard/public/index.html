@@ -156,7 +156,9 @@ body{font-family:var(--mono);background:var(--bg);color:var(--text);font-size:12
   <div class="sidebar">
     <div class="sidebar-header">Projects</div>
     <div id="sidebar-list"></div>
-    <div class="sidebar-header" style="margin-top:auto;border-top:1px solid var(--border)">Global</div>
+    <div class="sidebar-header" style="border-top:1px solid var(--border)">Cloud Agents</div>
+    <div id="agents-list"></div>
+    <div class="sidebar-header" style="border-top:1px solid var(--border)">Global</div>
     <div class="sidebar-item" id="nav-global">
       <span class="si-dot" style="background:var(--accent)"></span>
       <span class="si-name">All Projects</span>
@@ -173,7 +175,9 @@ body{font-family:var(--mono);background:var(--bg);color:var(--text);font-size:12
 <script>
 // ─── State ───────────────────────────────────────────────────────────
 let projects = [];
+let cloudAgents = [];
 let selectedId = null;
+let selectedAgent = null;
 let activeTab = 'activity';
 let projectActivityCache = {};
 let globalActivityCache = null;
@@ -183,7 +187,7 @@ const PROJECT_COLORS = {
   'monitor':'#38bdf8','ngrobot':'#c8b88a','adobe':'#a855f7',
   'grafik':'#22c55e','kartograf':'#eab308',
   'polybot':'#ef4444','ftip':'#ec4899','orakulum':'#14b8a6',
-  'zachvev':'#f97316','rozhovor':'#6366f1','dane':'#84cc16','biolib':'#06b6d4'
+  'zachvev':'#f97316','rozhovor':'#6366f1','dane':'#84cc16','biolib':'#06b6d4','petra':'#f472b6'
 };
 
 // ─── Utils ───────────────────────────────────────────────────────────
@@ -282,8 +286,10 @@ async function fetchWiki(id) {
 // ─── Top Stats ───────────────────────────────────────────────────────
 function renderTopStats() {
   const running = projects.filter(p => p.running).length;
+  const agentCount = cloudAgents.filter(a => a.enabled).length;
   document.getElementById('top-stats').innerHTML = `
     <div class="stat"><span class="dot ${running > 0 ? 'on' : 'off'}"></span><span class="v">${running}</span>/${projects.length} running</div>
+    ${agentCount > 0 ? `<div class="stat"><span class="dot on" style="background:var(--accent2)"></span><span class="v">${agentCount}</span> agents</div>` : ''}
   `;
 }
 
@@ -659,10 +665,131 @@ async function showGlobal() {
   });
 }
 
+// ─── Cloud Agents ───────────────────────────────────────────────────
+
+async function fetchAgents() {
+  try {
+    const res = await fetch('/api/agents');
+    if (!res.ok) { cloudAgents = []; renderAgentsSidebar(); return; }
+    cloudAgents = await res.json();
+    renderAgentsSidebar();
+    renderTopStats();
+  } catch { cloudAgents = []; renderAgentsSidebar(); }
+}
+
+function renderAgentsSidebar() {
+  const list = document.getElementById('agents-list');
+  if (!cloudAgents.length) {
+    list.innerHTML = '<div style="padding:6px 14px;font-size:10px;color:var(--dim)">Service offline</div>';
+    return;
+  }
+  list.innerHTML = cloudAgents.map(a => {
+    const isRunning = a.last_run && (Date.now() - new Date(a.last_run?.timestamp).getTime() < 300000);
+    const dotColor = !a.enabled ? 'var(--dim)' : isRunning ? 'var(--accent2)' : 'var(--positive)';
+    const schedule = a.schedule || 'manual';
+    return `
+    <div class="sidebar-item ${selectedAgent === a.name ? 'active' : ''}" data-agent="${a.name}">
+      <span class="si-dot" style="background:${dotColor}"></span>
+      <span class="si-name">${a.name}</span>
+      <span class="si-port">${schedule === 'manual' ? 'manual' : 'cron'}</span>
+    </div>`;
+  }).join('');
+  list.querySelectorAll('.sidebar-item').forEach(el => {
+    el.addEventListener('click', () => selectAgent(el.dataset.agent));
+  });
+}
+
+function selectAgent(name) {
+  selectedId = null;
+  selectedAgent = name;
+  renderSidebar();
+  renderAgentsSidebar();
+  document.getElementById('nav-global').classList.remove('active');
+  renderAgentDetail(name);
+}
+
+async function renderAgentDetail(name) {
+  const content = document.getElementById('content');
+  const a = cloudAgents.find(x => x.name === name);
+  if (!a) { content.innerHTML = '<div class="empty">Agent not found</div>'; return; }
+
+  // Fetch runs
+  let runs = [];
+  try {
+    const res = await fetch(`/api/agents/${name}/runs`);
+    if (res.ok) runs = await res.json();
+  } catch {}
+
+  const lastRun = a.last_run;
+  const lastTime = lastRun?.timestamp ? new Date(lastRun.timestamp).toLocaleString('cs-CZ') : 'never';
+  const schedule = a.schedule || 'On-demand';
+
+  content.innerHTML = `
+    <div class="proj-header">
+      <div class="proj-title">
+        ${escHtml(a.name)}
+        <span class="status-badge ${a.enabled ? 'on' : 'off'}">${a.enabled ? 'enabled' : 'disabled'}</span>
+      </div>
+      <div class="proj-desc">${escHtml(a.description || '')}</div>
+      <div class="proj-tags">
+        <span class="proj-tag tech">${escHtml(a.model || 'sonnet')}</span>
+        <span class="proj-tag port">${escHtml(schedule)}</span>
+      </div>
+      <div class="proj-actions">
+        <button class="btn" onclick="runAgent('${name}')">Run Now</button>
+        <button class="btn" onclick="toggleAgent('${name}')">${a.enabled ? 'Disable' : 'Enable'}</button>
+      </div>
+    </div>
+
+    <div style="margin-bottom:12px">
+      <span class="stat">Last run: <span class="v">${lastTime}</span></span>
+      ${lastRun?.cost ? `<span class="stat" style="margin-left:12px">Cost: <span class="v">$${lastRun.cost.toFixed(4)}</span></span>` : ''}
+    </div>
+
+    <div class="section-title">Run History</div>
+    <div class="log-box" style="max-height:400px">
+      ${runs.length ? runs.reverse().map(r => {
+        const t = r.timestamp ? new Date(r.timestamp).toLocaleString('cs-CZ') : '?';
+        const status = r.parsed ? '<span style="color:var(--positive)">OK</span>' : '<span style="color:var(--danger)">FAIL</span>';
+        const cost = r.cost ? `$${r.cost.toFixed(4)}` : '-';
+        const applied = (r.applied || []).join(', ') || '-';
+        return `<div class="log-line"><span class="log-ts">${t}</span> ${status} <span style="color:var(--dim)">${cost}</span> <span style="color:var(--dim);font-size:10px">${escHtml(applied)}</span></div>`;
+      }).join('') : '<div class="empty">No runs yet</div>'}
+    </div>
+  `;
+}
+
+async function runAgent(name) {
+  toast(`Starting ${name}...`);
+  try {
+    const res = await fetch(`/api/agents/${name}/run`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: '{}' });
+    const data = await res.json();
+    if (data.error) {
+      toast(data.error, 'error');
+    } else {
+      toast(`${name} completed — $${(data.cost||0).toFixed(4)}`, 'success');
+      await fetchAgents();
+      if (selectedAgent === name) renderAgentDetail(name);
+    }
+  } catch (e) { toast(e.message, 'error'); }
+}
+
+async function toggleAgent(name) {
+  try {
+    const res = await fetch(`/api/agents/${name}/toggle`, { method: 'POST' });
+    const data = await res.json();
+    toast(`${name} ${data.enabled ? 'enabled' : 'disabled'}`, 'success');
+    await fetchAgents();
+    if (selectedAgent === name) renderAgentDetail(name);
+  } catch (e) { toast(e.message, 'error'); }
+}
+
 // ─── Init ────────────────────────────────────────────────────────────
 document.getElementById('nav-global').addEventListener('click', showGlobal);
 fetchProjects();
+fetchAgents();
 setInterval(fetchProjects, 5000);
+setInterval(fetchAgents, 15000);
 </script>
 </body>
 </html>

@@ -161,3 +161,22 @@ Older: see `news-archive.md`
 **Údržba:** news.md 139 řádků (PŘES LIMIT 120) → archivovat. decisions.md OK (27). budget.md OK (36).
 
 **Doporučení:** 1) Archivovat news.md, 2) Implementovat #73 Meta-Harness, 3) Otestovat agent-browser (#70).
+
+## Last Scan: 2026-04-08 (quick) | Next: ~2026-04-09
+
+### Action Items
+
+| # | Item | Urgency | Next Step |
+|---|------|---------|----------|
+| 75 | Haiku 3 retirement April 19 | 🔴 KRITICKÉ (11 dní) | Migrovat na Haiku 4.5 před 19.4. |
+| 76 | CLAUDE.md HTML comments skryty | 🔴 HIGH | Auditovat CLAUDE.md + rules/*.md, přesunout instrukce z HTML komentářů |
+| 77 | TaskCreated hook — nový event | 🟡 MEDIUM | Evaluovat přidání do STOPA hook systému |
+| 78 | PermissionDenied hook + retry | 🟡 WATCH | Zvážit pro permission hook v3.0 recovery flow |
+| 79 | 1M context beta retirement April 30 | 🟡 WATCH | Ověřit model usage, migrovat pokud potřeba |
+| 80 | --bare flag pro headless -p | 🟢 INFO | Evaluovat pro STOPA headless subagenty |
+| 81 | MCP 500K result size | 🟢 INFO | Dostupné pro STOPA MCP servery s velkými výstupy |
+| 82 | SessionStart hook deferred 500ms | 🟢 INFO | Záměrné zpoždění — není bug |
+
+### Scan History
+
+### 2026-04-08 — quick (scheduled) | Searches: 3 | Fetches: 2 | Items: 3 action, 3 watch, 2 info — Haiku 3 deadline April 19, CLAUDE.md HTML comments skryty, TaskCreated hook, PermissionDenied hook+retry, 1M context retirement April 30, --bare flag

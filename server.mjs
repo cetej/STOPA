@@ -117,6 +117,14 @@ const PROJECTS = [
       { cmd: 'python scraper.py', desc: 'Scrape BioLib species data' },
       { cmd: 'ngm-term lookup "Cervus elaphus"', desc: 'Term lookup (via ngm-terminology)' },
     ]},
+  { id: 'petra', name: 'PETRA', path: `${ROOT}/PETRA`, port: 8506,
+    cmd: 'python', args: ['app.py'], tech: 'Flask', stack: ['Python', 'Flask', 'openpyxl', 'Excel VBA'],
+    desc: 'Lead time splitter — supplier delivery data processing (AEV, BTL, EATON, SAFIRAL, TYCO)',
+    commands: [
+      { cmd: 'python app.py', desc: 'Start web UI on :8506' },
+      { cmd: 'python split_leadtime.py <input.xlsx>', desc: 'CLI split by supplier' },
+      { cmd: 'python create_macro_workbook.py', desc: 'Create VBA macro workbook' },
+    ]},
 ];
 
 // ─── Process Tracking ────────────────────────────────────────────────
@@ -351,6 +359,30 @@ app.get('/api/projects/:id/wiki', (req, res) => {
   }
   res.json({ content: null, source: null });
 });
+
+// ─── Cloud Agents Proxy (:9100) ──────────────────────────────────────
+
+const AGENTS_API = 'http://127.0.0.1:9100';
+
+async function agentProxy(path, req, res) {
+  try {
+    const url = `${AGENTS_API}${path}`;
+    const opts = { method: req.method, headers: { 'Content-Type': 'application/json' } };
+    if (req.method === 'POST') opts.body = JSON.stringify(req.body);
+    const resp = await fetch(url, opts);
+    const data = await resp.json();
+    res.status(resp.status).json(data);
+  } catch {
+    res.status(503).json({ error: 'Agent service not running' });
+  }
+}
+
+app.get('/api/agents', (req, res) => agentProxy('/api/agents', req, res));
+app.get('/api/agents/:name', (req, res) => agentProxy(`/api/agents/${req.params.name}`, req, res));
+app.post('/api/agents/:name/run', (req, res) => agentProxy(`/api/agents/${req.params.name}/run`, req, res));
+app.get('/api/agents/:name/runs', (req, res) => agentProxy(`/api/agents/${req.params.name}/runs`, req, res));
+app.post('/api/agents/:name/toggle', (req, res) => agentProxy(`/api/agents/${req.params.name}/toggle`, req, res));
+app.get('/api/costs', (req, res) => agentProxy('/api/costs', req, res));
 
 // ─── Start ───────────────────────────────────────────────────────────
 app.listen(PORT, '127.0.0.1', () => {
