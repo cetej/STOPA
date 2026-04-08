@@ -93,6 +93,9 @@ jaccard_dist(A, B) = 1 - |A ∩ B| / |A ∪ B|
 
 No embedding model needed — pure set operations on changed function names.
 
+**Script**: `python scripts/performance-novelty-selector.py <trace_buffer.jsonl> --top 2 --json`
+Returns ranked branches with score, pass_rate, novelty, outcome_summary, dominant_strategy.
+
 ## Budget
 
 | Branches | Rounds per branch | Tournament rounds | Total Executor calls | vs Single-branch |
@@ -121,5 +124,5 @@ Budget = `N × rounds_per_branch + tournament_overhead`. Keep under 2× single-b
 
 - Patch synthesis: Haiku agent merges non-conflicting patches from top-2 branches
 - Per-branch Curriculum: each branch has its own adversarial agent
-- True Performance-Novelty with embedding distance (`scripts/performance-novelty-selector.py`)
+- Embedding-based novelty (replace Jaccard with cosine distance on patch embeddings)
 - Cross-target group evolution: evolve 2-3 related skills simultaneously
