@@ -6,10 +6,10 @@ component: orchestration
 tags: [inference-time, sampling, model-selection, autoloop, autoresearch, diversity]
 summary: "For iterative exploration tasks (autoloop, autoresearch), high-temperature sampling > RL-tuned models. RL post-training causes diversity collapse — repeated runs produce near-identical outputs. Base/lightly-tuned models with sampling preserve the exploration space."
 source: external_research
-uses: 0
+uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.7
+confidence: 0.75
 verify_check: "manual"
 related: []
 ---

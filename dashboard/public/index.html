@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/x-icon" href="/stopa.ico">
 <title>STOPA — Command Center</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -43,6 +45,7 @@ body{font-family:var(--mono);background:var(--bg);color:var(--text);font-size:12
 .sidebar-item:hover{background:rgba(255,255,255,0.02)}
 .sidebar-item.active{border-left-color:var(--accent);background:rgba(200,184,138,0.06)}
 .sidebar-item .si-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.sidebar-item .si-icon{width:20px;height:20px;border-radius:4px;flex-shrink:0;image-rendering:pixelated}
 .sidebar-item .si-name{font-family:var(--sans);font-size:11px;font-weight:500;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sidebar-item .si-port{font-size:9px;color:var(--dim)}
 .sidebar-item.running .si-dot{background:var(--positive)}
@@ -59,6 +62,7 @@ body{font-family:var(--mono);background:var(--bg);color:var(--text);font-size:12
 /* PROJECT HEADER */
 .proj-header{margin-bottom:20px}
 .proj-title{font-family:var(--sans);font-size:22px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px}
+.proj-title .proj-icon{width:36px;height:36px;border-radius:6px}
 .proj-title .status-badge{font-size:9px;padding:2px 8px;border:1px solid var(--border);text-transform:uppercase;letter-spacing:0.04em}
 .proj-title .status-badge.on{color:var(--positive);border-color:var(--positive)}
 .proj-title .status-badge.off{color:var(--dim)}
@@ -291,7 +295,7 @@ function renderSidebar() {
     return `
     <div class="sidebar-item ${p.running ? 'running' : 'stopped'} ${selectedId === p.id ? 'active' : ''}"
          data-pid="${p.id}">
-      <span class="si-dot"></span>
+      <img class="si-icon" src="/icons/${p.id}.png" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display=''"><span class="si-dot" style="display:none"></span>
       <span class="si-name">${p.name}</span>
       <span class="si-port">${portLabel}</span>
     </div>
@@ -321,6 +325,7 @@ function renderProject(id) {
   content.innerHTML = `
     <div class="proj-header">
       <div class="proj-title">
+        <img class="proj-icon" src="/icons/${p.id}.png" alt="">
         ${p.name}
         <span class="status-badge ${statusCls}">${statusText}</span>
       </div>

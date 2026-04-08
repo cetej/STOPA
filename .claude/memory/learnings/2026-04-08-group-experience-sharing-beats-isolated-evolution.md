@@ -6,10 +6,10 @@ component: orchestration
 tags: [multi-agent, self-improvement, evolution, experience-sharing, farm-tier]
 summary: "Sdílení evolučních trajektorií (patches, logs, failures) mezi agenty zdvojuje diversity toolsetů a zkracuje bug-repair z 5 na 1.4 iterací. Izolovaná evoluce ztrácí beneficiální objevy při prořezávání větví."
 source: external_research
-uses: 1
+uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.80
+confidence: 0.85
 failure_class: coordination
 verify_check: "manual"
 ---

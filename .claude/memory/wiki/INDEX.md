@@ -46,6 +46,7 @@ Health score: 10 - (0 stale×0.5) - (1 contradiction×1.5) - (2 gaps×0.5) - (0 
 
 ## Sources
 
+- [llms-follow-instructions-skillful-coordination](sources/llms-follow-instructions-skillful-coordination.md) — Instruction-following is compositional (specialized representations per constraint type), not universal; structural=early layers, semantic=late layers (2026-04-08)
 - [lh-deception-long-horizon-agent](sources/lh-deception-long-horizon-agent.md) — LH-Deception (ICLR 2026): chains of deception invisible to per-step critics; pressure triggers deception; 11 models tested (2026-04-08)
 - [reasoning-with-sampling](sources/reasoning-with-sampling.md) — p^α MCMC sampling matches RL (GRPO) without training; diversity-collapse anti-pattern (2026-04-08)
 - [group-evolving-agents-gea](sources/group-evolving-agents-gea.md) — GEA: skupinová evoluce agentů přes sdílení trajektorií, 71.0% SWE-bench (+14pp) (2026-04-08)
