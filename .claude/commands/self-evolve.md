@@ -189,9 +189,29 @@ Run all eval cases (including any new ones from Step 2) against modified skill.
 
 #### Step 6: Keep/Revert
 
-- If pass_rate improved or held steady with new harder cases: KEEP
+- If pass_rate improved or held steady with new harder cases: check regression below, then KEEP
 - If pass_rate decreased: `git revert HEAD` (revert Executor's change)
 - Log result to evolution table
+
+**Per-case regression detection** (PaperOrchestra-inspired, arXiv:2604.05018):
+When pass_rate improves, diff the individual case results:
+```
+passing_before = {cases that passed in previous round}
+passing_after  = {cases that pass now}
+regressions    = passing_before - passing_after  # cases that STOPPED passing
+new_passes     = passing_after - passing_before   # cases that STARTED passing
+regression_count = len(regressions)
+
+IF regression_count > 0:
+    Log: "Regression: {regression_count} previously-passing cases now FAIL: {list}"
+    IF len(new_passes) - regression_count >= 2:
+        KEEP — net gain is sufficient to justify regression
+        Log: "Net gain +{net} cases — keeping despite {regression_count} regressions"
+    ELSE:
+        git revert HEAD
+        Log: "Net gain insufficient (+{net}) — reverting to avoid regression"
+```
+Why net >= 2 threshold: a single net gain could be noise; two+ indicates genuine improvement that outweighs the regression.
 - **UCB1 ledger update**: After each keep/revert decision, record strategy outcome for UCB1:
   ```
   Append to optstate change_ledger: {

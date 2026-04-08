@@ -327,6 +327,23 @@ Guard is pass/fail only (exit code 0 = pass). If guard fails:
 
 Do not modify guard or test files — changes to the measurement baseline invalidate all previous iterations and make before/after comparison meaningless. Always adapt the implementation instead.
 
+#### Per-Axis Monotonicity Guard (opt-in, PaperOrchestra-inspired)
+
+When `guard_axes: true` in arguments AND critic is used as guard (file mode), enforce per-dimension monotonicity:
+
+```
+IF guard_axes AND critic_scores_available:
+    FOR each dimension in critic rubric (Correctness, Completeness, Quality, Safety, Coverage):
+        IF score_new[dim] < score_prev[dim] - 0.5:
+            AXIS_REGRESSION = true
+            Log: "Axis regression: {dim} dropped {score_prev[dim]} → {score_new[dim]}"
+    IF AXIS_REGRESSION:
+        STATUS = "discard (axis regression)"
+        # Even if overall metric improved — one dimension degraded significantly
+```
+
+Why 0.5 threshold: critic scores are 1-5, so 0.5 = 10% of scale. Smaller drops are noise; larger drops indicate a real trade-off that shouldn't be silently accepted. (arXiv:2604.05018 — PaperOrchestra Content Refinement agent accepts revisions only when no sub-axis regresses.)
+
 ### Step 6: Decide
 
 ```
@@ -338,6 +355,11 @@ ELIF metric improved AND guard failed:
     # Rework (max 2 attempts) — see Step 5
     IF rework succeeded: STATUS = "keep (reworked)"
     ELSE: STATUS = "discard" — revert
+
+ELIF metric improved AND guard_axes detected axis regression:
+    STATUS = "discard (axis regression)"
+    git revert HEAD --no-edit
+    Log: "Overall metric improved but per-axis monotonicity violated"
 
 ELIF metric same or worse:
     STATUS = "discard"
@@ -361,7 +383,7 @@ iteration	commit	metric	delta	guard	status	description
 7	-	0.0	0.0	-	crash	add integration tests (DB failed)
 ```
 
-Valid statuses: `baseline`, `keep`, `keep (reworked)`, `discard`, `crash`, `no-op`, `hook-blocked`
+Valid statuses: `baseline`, `keep`, `keep (reworked)`, `discard`, `discard (axis regression)`, `crash`, `no-op`, `hook-blocked`
 
 **Run Diary**: Update the current iteration entry:
 ```

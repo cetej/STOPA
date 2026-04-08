@@ -368,8 +368,8 @@ type: <feature|bugfix|refactor|research|maintenance>
 status: in_progress
 branch: <git branch>
 subtasks:
-  - {id: "st-1", description: "<subtask>", criterion: "<pass/fail>", done_when: "<machine-verifiable completion condition>", context_scope: ["<file1>", "<file2>"], depends_on: [], wave: 1, method: "Agent:general", status: "pending", artifacts: []}
-  - {id: "st-2", description: "<subtask>", criterion: "<pass/fail>", done_when: "<machine-verifiable completion condition>", context_scope: ["<file3>"], depends_on: ["st-1"], wave: 2, method: "Skill:/review", status: "pending", artifacts: []}
+  - {id: "st-1", description: "<subtask>", criterion: "<pass/fail>", done_when: "<machine-verifiable completion condition>", context_scope: ["<file1>", "<file2>"], grounding_refs: [], depends_on: [], wave: 1, method: "Agent:general", status: "pending", artifacts: []}
+  - {id: "st-2", description: "<subtask>", criterion: "<pass/fail>", done_when: "<machine-verifiable completion condition>", context_scope: ["<file3>"], grounding_refs: ["learnings/2026-04-05-auth-pattern.md"], depends_on: ["st-1"], wave: 2, method: "Skill:/review", status: "pending", artifacts: []}
 ---
 
 ## Active Task
@@ -380,10 +380,10 @@ subtasks:
 
 ### Subtasks
 
-| # | Subtask | Criterion | Done-When | Scope | Depends on | Wave | Method | Status |
-|---|---------|-----------|-----------|-------|-----------|------|--------|--------|
-| 1 | ... | <verifiable pass/fail> | <machine-check> | file1, file2 | — | 1 | Agent:general | pending |
-| 2 | ... | <verifiable pass/fail> | <machine-check> | file3 | 1 | 2 | Skill:/review | pending |
+| # | Subtask | Criterion | Done-When | Scope | Grounding | Depends on | Wave | Method | Status |
+|---|---------|-----------|-----------|-------|-----------|-----------|------|--------|--------|
+| 1 | ... | <verifiable pass/fail> | <machine-check> | file1, file2 | — | — | 1 | Agent:general | pending |
+| 2 | ... | <verifiable pass/fail> | <machine-check> | file3 | auth-pattern.md | 1 | 2 | Skill:/review | pending |
 
 ### Dependency Graph
 
@@ -507,10 +507,11 @@ Core principles:
 - **Hierarchical context injection**: Orchestrator loads shared memory ONCE (Phase 0). Pass relevant context directly in agent prompts — agents do NOT re-read memory files.
 - **Operator-Scoped Context (Feature Selector φ)**: Each agent receives ONLY the context relevant to its subtask — not the full scout report or entire task description. Build the agent prompt from:
   1. **Subtask description + criterion + done-when** (from state.md)
-  2. **Scoped files** (from `context_scope` field) — Read these files and include content directly
-  3. **Upstream artifacts** (from completed dependencies) — only outputs the agent needs
-  4. **Relevant learnings** (grep-matched, not all) — max 2-3 most relevant
-  5. **NOT included**: other subtasks, full scout report, budget details, unrelated decisions
+  2. **Grounding refs** (from `grounding_refs` field) — mandatory context the agent MUST read before starting work. Include as "Required Reading" section at the top of the agent prompt. These are learnings, key-facts, decisions, or reference docs that provide essential domain knowledge for the subtask. Unlike `context_scope` (files to edit), grounding refs are files to understand. The orchestrator populates these during Phase 3 decomposition based on scout findings and grep-matched learnings. (PaperOrchestra pattern, arXiv:2604.05018 — mandatory citation hints in outline → +3-5× grounding coverage by downstream agents.)
+  3. **Scoped files** (from `context_scope` field) — Read these files and include content directly
+  4. **Upstream artifacts** (from completed dependencies) — only outputs the agent needs
+  5. **Relevant learnings** (grep-matched, not all) — max 2-3 most relevant (skip if already in grounding_refs)
+  6. **NOT included**: other subtasks, full scout report, budget details, unrelated decisions
   Why: NSM Feature Selector φ (arXiv:2602.19260) — operator-scoped input eliminates irrelevant context noise. The paper showed 95% vs 34% success partly because each operator saw only task-relevant objects in relative coordinates. Same principle: each agent sees only task-relevant files and context, reducing hallucination and improving focus.
 - **File Access Manifest**: Every agent gets WRITE/READ/FORBIDDEN file lists to prevent conflicts.
 - **Pre-launch disjointness check**: Before parallel spawn, verify WRITE file lists don't overlap.
@@ -883,6 +884,7 @@ Before making orchestration decisions, check yourself against these traps:
 | "Pre-existing bug, ignore it" | Logging matters for future sessions | Log to deferred list |
 | "One more retry should fix it" | After 2 failures, pattern is architectural | Trigger 3-fix escalation |
 | "Subtasks are independent, max parallelism" | Shared files cause conflicts | Check file overlap before parallel launch |
+| "I'll skip grounding_refs — context_scope covers it" | context_scope = files to edit; grounding_refs = files to understand. Without grounding, agent hallucinates domain assumptions | Always include grounding_refs in agent prompt as Required Reading section |
 
 ## Red Flags
 
