@@ -2,12 +2,16 @@
 
 Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
-## Last Scan: 2026-04-07 (full) | Next: ~2026-04-14
+## Last Scan: 2026-04-08 (quick) | Next: ~2026-04-14
+
+**Scan log**: `2026-04-08` — quick scan | Searches: 3 | Fetches: 2 | Items: 2 action, 1 watch, 0 info
 
 ## Action Items
 
 | # | Item | Urgency | Next Step |
 |---|------|---------|-----------|
+| 81 | **CC v2.1.91 MCP 500K tool result limit** — `_meta["anthropic/maxResultSizeChars"]` umožňuje až 500 000 znaků v MCP tool result. Stará hranice blokovala velké soubory/logy. | MED | Ověřit STOPA MCP tools (filesystem, github) — mohou číst větší výstupy; zvážit použití v `/ingest` pro velké soubory |
+| 82 | **CC v2.1.89 PreToolUse "defer" decision** — hooks mohou nyní POZASTAVIT headless session a počkat na externí signál (`defer`). Třetí možnost vedle allow/deny. Klíčové pro CI/CD approval gates a multi-agent koordinaci. | MED | Zkoumat přidání defer logiky do STOPA permission hooků pro destruktivní operace (queue clear, force push) |
 | 77 | **Model Capabilities API** — `GET /v1/models` vrací `max_input_tokens`, `max_tokens`, `capabilities` objekt. Strojové zjišťování možností modelu. | MED | STOPA orchestrate pre-flight: ověřit model capabilities dynamicky místo hardcoded tier tabulky |
 | 78 | **AGENTS.md efficiency study** (arXiv:2601.20404, JAWs Apr 2026) — 28.64% runtime ↓, 16.58% token ↓ s repo-level instrukcemi. Empirická validace STOPA CLAUDE.md přístupu. | MED | Zapsat learning (best_practice/high); přidat do onboarding checklistu pro target projekty |
 | 74 | **Claude Sonnet 5** (`claude-sonnet-5-20260401`) — postupný rollout | MED | GA od 1.4., ale ještě ne na všech účtech. Až bude dostupný: přepnout v STOPA model tiers (standard + deep). 92.4% SWE-bench, 2M context, $3/$15/M. |
@@ -43,6 +47,7 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 ### Models & Releases
 | Item | Detail | Trigger |
 |------|--------|---------|
+| 83. CC v2.1.89 Named subagents via @mention | Subagenti jsou nyní adresovatelní @mention syntaxí. Potenciálně zjednodušuje STOPA multi-agent koordinaci. | Prozkoumat při příštím orchestrate refactoru |
 | 75. Gemini CLI (Google) | Apache 2.0, ReAct loop, MCP support, 1M context. Direct competitor to Claude Code. FastMCP integration v dubnu 2026. [github](https://github.com/google-gemini/gemini-cli) | Sledovat adopci; patterns pro STOPA |
 | 76. Google Colab MCP Server | Open-source MCP server pro Colab runtimes s GPU přístupem z libovolného AI agenta. [blog](https://developers.googleblog.com/announcing-the-colab-mcp-server-connect-any-ai-agent-to-google-colab/) | Kandidát pro POLYBOT/test1 inference |
 | 40. Mythos/Capybara | **Training dokončen, piloting s early customers** (2026-04-03). "Nejschopnější model ever." Step change coding+reasoning. | GA datum → přeplánovat STOPA model tiers |

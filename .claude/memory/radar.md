@@ -4,7 +4,7 @@ Tracked findings from `/radar` scans and manual evaluations.
 Archived: `radar-archive.md` (when >400 lines)
 
 ## Stats
-Last scan: 2026-04-07 (scheduled #8) | Total: 38 tools | 🔴 4 | 🟡 32 | 🟢 2
+Last scan: 2026-04-08 (scheduled #9) | Total: 40 tools | 🔴 5 | 🟡 33 | 🟢 2
 
 ## Active Research (🔴)
 | Tool | Category | Score | Source | Captured | Status | Project fit |
@@ -13,6 +13,7 @@ Last scan: 2026-04-07 (scheduled #8) | Total: 38 tools | 🔴 4 | 🟡 32 | 🟢
 | [Claw Code](https://github.com/instructkr/claw-code) | Agent harness / open-source CC clone | 9/10 | scan/PR | 2026-04-04 | **EVALUATE** | STOPA — open inspectable agent harness (Python+Rust), study for architecture patterns |
 | [mcp-scan](https://github.com/invariantlabs-ai/mcp-scan) | MCP security scanner | 8/10 | scan | 2026-04-05 | **EVALUATE** | STOPA — scan all MCP servers before adding; rug pull + tool poisoning attack vector |
 | [TradingAgents](https://github.com/TauricResearch/TradingAgents) | Financial multi-agent framework | 8/10 | scan | 2026-04-06 | **EVALUATE** | POLYBOT + ORAKULUM — multi-agent LLM trading (Analyst/Trader/Risk roles, LangGraph, Apache-2.0, 47k★) |
+| [GitHub Copilot SDK](https://github.com/github/copilot-sdk) | Agent SDK / programmatic Copilot | 8/10 | scan | 2026-04-08 | **EVALUATE** | STOPA — embedded Copilot agent runtime v aplikacích. BYOK (Anthropic/OpenAI/Foundry), Node/Python/Go/.NET/Java, streaming, blob attachments, OpenTelemetry. Public preview od 2026-04-02. Alternativa/komplement k CC SDK pro multi-provider orchestraci. |
 
 ## Watch List (🟡)
 | Tool | Category | Score | Source | Captured | Notes |
@@ -51,6 +52,7 @@ Last scan: 2026-04-07 (scheduled #8) | Total: 38 tools | 🔴 4 | 🟡 32 | 🟢
 | [Baton](https://getbaton.dev/) | Multi-agent desktop orchestrator | 7/10 | scan | 2026-04-07 | Desktopová GUI aplikace pro paralelní AI agenty v izolovaných git worktrees. Unified dashboard, Monaco diff viewer s rollbackem, built-in MCP server (agent-spawns-agent pattern), podpora Claude Code+Codex CLI+Gemini CLI+OpenCode. Closed-source, free (max 4 workspaces) / $49 unlimited. Windows Beta (x64+ARM64). Gate 2 partial: closed-source limituje přímou integraci. Referenční design pro STOPA farm tier + agent-spawns-agent přes MCP. |
 | [Codex SDK](https://github.com/openai/codex) | OpenAI coding agent SDK | 6/10 | scan | 2026-04-07 | `@openai/codex-sdk` (v0.118.0, MIT, npm). TypeScript wrapper over Codex CLI communication via JSONL stdio. Thread-based sessions (`run()`/`runStreamed()`/`resumeThread()`), OS-level sandboxing (macOS Seatbelt/cloud). MCP podpora. STOPA je Claude-centric — přímé nasazení nevýhodné (méně hook points, sandboxing nefunguje nativně na Windows). Cenné jako referenční srovnání architektury (AGENTS.md ≈ CLAUDE.md pattern confirmed). |
 | [PrismML Bonsai 8B](https://prismml.com/) | Edge LLM inference / 1-bit | 5/10 | scan | 2026-04-07 | Caltech lab, 1-bitový LLM 8B: 1.15 GB footprint, 8× rychlejší inference, 14× méně paměti vs full-precision. Benchmarks: konkurenceschopné s Qwen3 8B. Stealth fáze — žádný veřejný GitHub ani PyPI. API/SDK neznámé. Potenciálně zajímavé pro POLYBOT/ORAKULUM edge inference. Revisit Q3 2026 po veřejném releasu. |
+| [AgentMon](https://codenotary.com/agentmon) | AI agent monitoring / observability | 6/10 | scan | 2026-04-08 | Codenotary, launched 2026-03-31. Real-time telemetry: agent behavior, resource, inter-agent komunikace, token consumption, file access, secrets handling, anomaly detection vs behavioral baselines. Enterprise/commercial. Žádný open-source SDK. Awareness pro STOPA observability patterns — alternativně: OpenTelemetry DIY stack. |
 | [Claudoscope](https://github.com/cordwainersmith/Claudoscope) | Claude Code session analytics | 5/10 | scan | 2026-04-07 | macOS menu bar app (MIT, v0.5.0, Homebrew). Čte JSONL session soubory CC z `~/.claude/projects/`, real-time dashboard: token usage, cost estimation (Anthropic+Vertex), session history, 19 lint pravidel pro settings.json health. Secret scanning v session history. **macOS 14+ / Apple Silicon only — Gate 2 fail pro Windows STOPA.** Inspirace pro `/budget` skill rozšíření a config health checker. |
 
 ## Archive (🟢 — last 30, older → radar-archive.md)
@@ -63,6 +65,12 @@ Last scan: 2026-04-07 (scheduled #8) | Total: 38 tools | 🔴 4 | 🟡 32 | 🟢
 - Fork karpathy/llm-wiki. 6 chybějících vrstev: memory lifecycle, knowledge graph, hybrid search, automation, quality controls, multi-agent. Core teze: bottleneck = bookkeeping. Memory pipeline: Working→Episodic→Semantic→Procedural. Hybrid search: BM25+vector+graph→RRF fusion. Gap analýza vs STOPA: knowledge graph (biggest gap, typed entities > flat MD) + shared/private memory scoping pro paralelní agenty. Žádný veřejný GitHub repo. Artifact: claude.ai/public/artifacts/bd55c656-de32-414e-ba8f-81454c66bd62
 
 ## Scan Log
+### 2026-04-08 — scheduled scan #9 | Searches: 14 | Fetches: 2 | Found: 2 new
+- [GitHub Copilot SDK](https://github.com/github/copilot-sdk) — 8/10 🔴 — Public preview 2026-04-02. Embedded Copilot agent runtime, BYOK Anthropic/OpenAI/Foundry, multi-lang SDK (Node/Python/Go/.NET/Java), OpenTelemetry, streaming. STOPA fit: programmatic multi-provider orchestration. Telegram notified.
+- [AgentMon](https://codenotary.com/agentmon) — 6/10 🟡 — Codenotary, 2026-03-31. Enterprise real-time AI agent monitoring (behavior, cost, secrets, anomalies). Commercial, žádný OSS SDK. Awareness pro observability patterns.
+- Skipped (already tracked): Goose, LiteRT-LM, karpathy/autoresearch, VoltAgent, Claudoscope, Google ADK TS, Mastra, openai-agents-js
+- Skipped (not actionable tools): Gemma 4 (model), OpenAI Responses API skills (API update, tracked in /watch), Karpathy autoresearch MLX port (derivative)
+
 ### 2026-04-07 — scheduled scan #8 | Searches: 10 | Fetches: 4 | Found: 4 new
 - [Baton](https://getbaton.dev/) — 7/10 🟡 — Desktop GUI pro paralelní AI coding agenty v izolovaných git worktrees. Unified dashboard, Monaco diff viewer, built-in MCP server (agent-spawns-agent). Podpora CC+Codex+Gemini CLI. Closed-source, Windows Beta, free(4)/paid(unlimited). Reference design pro STOPA farm tier.
 - [Codex SDK](https://github.com/openai/codex) — 6/10 🟡 — `@openai/codex-sdk` v0.118.0 (MIT, npm). TypeScript CLI wrapper pro OpenAI coding agent. JSONL stdio, thread sessions, MCP. Awareness: AGENTS.md≈CLAUDE.md konvence potvrzena. Přímé nasazení nevýhodné (méně hooks, Windows sandbox problém), ale referenční srovnání.

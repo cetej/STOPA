@@ -3,29 +3,29 @@
 **Saved**: 2026-04-08 (auto-saved (session end))
 **Task**: none
 **Branch**: main
-**Last commit**: `2f720da` feat: Performance-Novelty selector script (Wave 3 — GEA integrace kompletní)
+**Last commit**: `ccdde8d` evolve #4: fix empty model_gate + schedule weekly-evolve task
 
 ---
 
 ## Session Activity
 
-Session: 152 file edits, 6 agent spawns, 0 skill calls. Skills: fetch, ingest, watch
-Duration: ~16047 min
+Session: 179 file edits, 9 agent spawns, 0 skill calls. Skills: compile, evolve, fetch, ingest, watch
+Duration: ~16397 min
 
 ## Files Touched
 
 | File | Operations | Date |
 |------|-----------|------|
-| SKILL.md | 29 edits | 2026-04-08 |
-| INDEX.md | 11 edits | 2026-04-08 |
+| SKILL.md | 33 edits | 2026-04-08 |
+| INDEX.md | 12 edits | 2026-04-08 |
 | skill-design.md | 6 edits | 2026-04-08 |
-| orchestration-multi-agent.md | 5 edits | 2026-04-08 |
+| orchestration-multi-agent.md | 6 edits | 2026-04-08 |
 | memory-architecture.md | 5 edits | 2026-04-08 |
 | skill-evaluation.md | 4 edits | 2026-04-08 |
+| group-evolution.md | 4 edits | 2026-04-08 |
+| radar.md | 3 edits | 2026-04-08 |
 | orchestration-resilience.md | 3 edits | 2026-04-08 |
 | orchestration-infrastructure.md | 3 edits | 2026-04-08 |
-| hook-infrastructure.md | 3 edits | 2026-04-08 |
-| group-evolution.md | 3 edits | 2026-04-08 |
 
 ## Key Results
 
@@ -41,12 +41,12 @@ _No commits this session_
 
 ## Learnings Captured
 
-learnings_this_session: 8
+learnings_this_session: 10
   - 2026-04-08-agent-deception-pressure-trigger
   - 2026-04-08-descriptive-over-narrative-generative
   - 2026-04-08-group-experience-sharing-beats-isolated-evolution
+  - 2026-04-08-heartbeat-mid-run-steering
   - 2026-04-08-inference-time-sampling-beats-rl-for-diversity
-  - 2026-04-08-llm-native-validation-hardstop
 
 ## Workflow Decisions
 
@@ -63,7 +63,7 @@ _No pending subtasks detected in state.md_
 
 > **Task**: none
 >
-> **Context**: Last commit `2f720da` (feat: Performance-Novelty selector script (Wave 3 — GEA integrace kompletní)). Branch: main.
-> Session had 152 edits, 6 agents, 0 skill calls, 0 errors.
+> **Context**: Last commit `ccdde8d` (evolve #4: fix empty model_gate + schedule weekly-evolve task). Branch: main.
+> Session had 179 edits, 9 agents, 0 skill calls, 0 errors.
 
 

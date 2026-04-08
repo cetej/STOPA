@@ -224,6 +224,11 @@ For each iteration (1 to budget):
 ### Step 1: Review (git + traces as memory)
 
 **Heartbeat stagnation check** (CORAL-inspired, before reading git log):
+
+> **Hook-backed**: `stagnation-detector.py` PostToolUse hook monitors `autoloop-results.tsv` automatically
+> and injects `[stagnation-steering:yellow/red]` messages. The check below is defense-in-depth —
+> if you see a `[stagnation-steering]` message, follow it immediately.
+
 ```
 IF iteration > 4 AND consecutive_reverts >= 2:
   Read last 4 entries from autoloop-results.tsv

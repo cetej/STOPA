@@ -11,6 +11,12 @@
         "hooks": [
           {
             "type": "command",
+            "command": "bash .claude/hooks/ensure-shared-dir.sh",
+            "timeout": 3,
+            "statusMessage": "Ensuring shared directories..."
+          },
+          {
+            "type": "command",
             "command": "bash .claude/hooks/checkpoint-check.sh",
             "timeout": 5,
             "statusMessage": "Checking checkpoint..."
@@ -173,6 +179,12 @@
           {
             "type": "command",
             "command": "python .claude/hooks/panic-detector.py",
+            "timeout": 3,
+            "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "python .claude/hooks/stagnation-detector.py",
             "timeout": 3,
             "statusMessage": ""
           },

@@ -1,7 +1,7 @@
 {
   "generated": "2026-04-08",
-  "total_blocks": 78,
-  "active_blocks": 75,
+  "total_blocks": 84,
+  "active_blocks": 81,
   "blocks": {
     "2026-04-08-descriptive-over-narrative-generative.md": {
       "id": "2026-04-08-descriptive-over-narrative-generative.md",
@@ -102,11 +102,11 @@
         "self-evolve"
       ],
       "summary": "Skill description metadata alone is insufficient for agent self-discovery from large repositories. Two bottlenecks: (1) agents voluntarily load only 49% of relevant skills, (2) general-purpose skills can't be adapted without task context. Query-specific refinement (task-aware) recovers performance; offline refinement doesn't.",
-      "uses": 0,
+      "uses": 2,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 421,
+      "token_estimate": 418,
       "retrieval_score": 2.951,
       "active": true
     },
@@ -498,6 +498,147 @@
       "retrieval_score": 2.368,
       "active": true
     },
+    "2026-04-08-agent-deception-pressure-trigger.md": {
+      "id": "2026-04-08-agent-deception-pressure-trigger.md",
+      "component": "orchestration",
+      "date": "2026-04-08",
+      "type": "best_practice",
+      "severity": "medium",
+      "tags": [
+        "multi-agent",
+        "security",
+        "trust",
+        "deception",
+        "pressure",
+        "model-selection"
+      ],
+      "summary": "Agent deception increases under event pressure (failures, high stakes) and varies by model — in STOPA, increase critic skepticism when a sub-agent hits repeated failures.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [
+        "2026-04-08-long-horizon-deception-eval.md"
+      ],
+      "token_estimate": 418,
+      "retrieval_score": 2.0,
+      "active": true
+    },
+    "2026-04-08-group-experience-sharing-beats-isolated-evolution.md": {
+      "id": "2026-04-08-group-experience-sharing-beats-isolated-evolution.md",
+      "component": "orchestration",
+      "date": "2026-04-08",
+      "type": "best_practice",
+      "severity": "high",
+      "tags": [
+        "multi-agent",
+        "self-improvement",
+        "evolution",
+        "experience-sharing",
+        "farm-tier"
+      ],
+      "summary": "Sdílení evolučních trajektorií (patches, logs, failures) mezi agenty zdvojuje diversity toolsetů a zkracuje bug-repair z 5 na 1.4 iterací. Izolovaná evoluce ztrácí beneficiální objevy při prořezávání větví.",
+      "uses": 1,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 368,
+      "retrieval_score": 3.0,
+      "active": true
+    },
+    "2026-04-08-heartbeat-mid-run-steering.md": {
+      "id": "2026-04-08-heartbeat-mid-run-steering.md",
+      "component": "orchestration",
+      "date": "2026-04-08",
+      "type": "architecture",
+      "severity": "medium",
+      "tags": [
+        "multi-agent",
+        "monitoring",
+        "reflection",
+        "farm-tier",
+        "self-evolve"
+      ],
+      "summary": "Heartbeat-triggered intervention: orchestrátor posílá prompt-injections do běžících agentů (reflection, skill consolidation, direction change) bez jejich restartu — non-destructive mid-run steering. Odlišné od kritika: critic hodnotí output, heartbeat mění direction.",
+      "uses": 3,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [
+        "2026-04-08-shared-public-state-agent-coordination.md"
+      ],
+      "token_estimate": 471,
+      "retrieval_score": 2.0,
+      "active": true
+    },
+    "2026-04-08-inference-time-sampling-beats-rl-for-diversity.md": {
+      "id": "2026-04-08-inference-time-sampling-beats-rl-for-diversity.md",
+      "component": "orchestration",
+      "date": "2026-04-08",
+      "type": "best_practice",
+      "severity": "medium",
+      "tags": [
+        "inference-time",
+        "sampling",
+        "model-selection",
+        "autoloop",
+        "autoresearch",
+        "diversity"
+      ],
+      "summary": "For iterative exploration tasks (autoloop, autoresearch), high-temperature sampling > RL-tuned models. RL post-training causes diversity collapse — repeated runs produce near-identical outputs. Base/lightly-tuned models with sampling preserve the exploration space.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 363,
+      "retrieval_score": 2.0,
+      "active": true
+    },
+    "2026-04-08-long-horizon-deception-eval.md": {
+      "id": "2026-04-08-long-horizon-deception-eval.md",
+      "component": "orchestration",
+      "date": "2026-04-08",
+      "type": "best_practice",
+      "severity": "high",
+      "tags": [
+        "multi-agent",
+        "evaluation",
+        "security",
+        "trust",
+        "deception",
+        "critic"
+      ],
+      "summary": "Per-step critic agents miss chains of deception — trajectory-level auditing is required to detect deceptive performer patterns in multi-agent orchestration.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 428,
+      "retrieval_score": 3.0,
+      "active": true
+    },
+    "2026-04-08-shared-public-state-agent-coordination.md": {
+      "id": "2026-04-08-shared-public-state-agent-coordination.md",
+      "component": "orchestration",
+      "date": "2026-04-08",
+      "type": "architecture",
+      "severity": "medium",
+      "tags": [
+        "multi-agent",
+        "state-sharing",
+        "farm-tier",
+        "coordination",
+        "isolation"
+      ],
+      "summary": "CORAL pattern: agents share knowledge via symlinked `.coral/public/` dir instead of message passing — zero sync overhead, każdy agent v vlastním git worktree branchi. Knowledge reuse je primární driver multi-agent gainů, ne parallelismus samotný.",
+      "uses": 3,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [
+        "2026-03-29-claudini-autoresearch-loop.md"
+      ],
+      "token_estimate": 442,
+      "retrieval_score": 2.0,
+      "active": true
+    },
     "2026-04-07-agents-md-efficiency-validated.md": {
       "id": "2026-04-07-agents-md-efficiency-validated.md",
       "component": "orchestration",
@@ -795,7 +936,7 @@
         "overfitting"
       ],
       "summary": "AutoAgent's anti-overfitting guard: ask 'if this exact eval case disappeared, would this change still be worthwhile?' before accepting improvements. Prevents metric gaming.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
@@ -1784,6 +1925,7 @@
     "autoloop": [
       "2026-04-03-autoagent-overfitting-guard.md",
       "2026-03-25-batch-edit-pattern.md",
+      "2026-04-08-inference-time-sampling-beats-rl-for-diversity.md",
       "2026-04-03-autoagent-parallel-candidates.md",
       "karpathy-loop-autoloop.md"
     ],
@@ -1793,6 +1935,7 @@
     "autoresearch": [
       "2026-04-03-autoagent-overfitting-guard.md",
       "2026-03-29-claudini-autoresearch-loop.md",
+      "2026-04-08-inference-time-sampling-beats-rl-for-diversity.md",
       "2026-04-03-autoagent-parallel-candidates.md"
     ],
     "batch-edit": [
@@ -1902,6 +2045,9 @@
     "contrastive-learning": [
       "2026-03-29-memcollab-agent-agnostic-memory.md"
     ],
+    "coordination": [
+      "2026-04-08-shared-public-state-agent-coordination.md"
+    ],
     "cost-optimization": [
       "2026-04-02-distributed-systems-amdahl-gate.md",
       "2026-04-03-smart-tool-overuse.md",
@@ -1912,6 +2058,7 @@
     ],
     "critic": [
       "2026-04-08-llm-native-validation-hardstop.md",
+      "2026-04-08-long-horizon-deception-eval.md",
       "2026-03-30-society-of-thought-orchestration.md",
       "2026-03-25-decomposed-evaluation.md"
     ],
@@ -1933,6 +2080,10 @@
     ],
     "debugging": [
       "2026-04-07-hook-testing-patterns.md"
+    ],
+    "deception": [
+      "2026-04-08-long-horizon-deception-eval.md",
+      "2026-04-08-agent-deception-pressure-trigger.md"
     ],
     "dedup": [
       "2026-03-30-write-time-gating-salience.md"
@@ -1969,7 +2120,8 @@
       "2026-03-27-skills-must-live-in-stopa.md"
     ],
     "diversity": [
-      "2026-03-30-society-of-thought-orchestration.md"
+      "2026-03-30-society-of-thought-orchestration.md",
+      "2026-04-08-inference-time-sampling-beats-rl-for-diversity.md"
     ],
     "documentation": [
       "2026-04-07-agents-md-efficiency-validated.md"
@@ -2009,20 +2161,32 @@
       "2026-04-05-regression-gate-pattern.md"
     ],
     "evaluation": [
+      "2026-04-08-long-horizon-deception-eval.md",
       "2026-04-07-skill-retrieval-bottleneck.md",
       "2026-04-04-toolgenesis-cascade-evaluation.md",
       "2026-04-03-anthropic-skill-creator-patterns.md",
       "2026-04-03-description-optimizer-plan.md",
       "2026-03-25-decomposed-evaluation.md"
     ],
+    "evolution": [
+      "2026-04-08-group-experience-sharing-beats-isolated-evolution.md"
+    ],
     "evolve": [
       "2026-04-07-kaizen-loop-weekly-improvement.md"
+    ],
+    "experience-sharing": [
+      "2026-04-08-group-experience-sharing-beats-isolated-evolution.md"
     ],
     "failure-modes": [
       "2026-04-07-hook-failure-modes.md"
     ],
     "fal-ai": [
       "environment-falai.md"
+    ],
+    "farm-tier": [
+      "2026-04-08-group-experience-sharing-beats-isolated-evolution.md",
+      "2026-04-08-heartbeat-mid-run-steering.md",
+      "2026-04-08-shared-public-state-agent-coordination.md"
     ],
     "fix-issue": [
       "2026-03-24-fix-issue-solo-workflow.md"
@@ -2072,8 +2236,14 @@
     "improvement-loop": [
       "2026-04-07-kaizen-loop-weekly-improvement.md"
     ],
+    "inference-time": [
+      "2026-04-08-inference-time-sampling-beats-rl-for-diversity.md"
+    ],
     "infrastructure": [
       "2026-03-26-channels-24x7-architecture.md"
+    ],
+    "isolation": [
+      "2026-04-08-shared-public-state-agent-coordination.md"
     ],
     "iterative": [
       "2026-03-29-slopcodebench-iterative-degradation.md"
@@ -2150,16 +2320,28 @@
     "model-capability": [
       "2026-03-26-harness-simplification.md"
     ],
+    "model-selection": [
+      "2026-04-08-agent-deception-pressure-trigger.md",
+      "2026-04-08-inference-time-sampling-beats-rl-for-diversity.md"
+    ],
     "model-training": [
       "2026-04-06-osft-self-sharpening.md"
+    ],
+    "monitoring": [
+      "2026-04-08-heartbeat-mid-run-steering.md"
     ],
     "morning-brief": [
       "2026-04-07-operational-rhythm-silence-discipline.md"
     ],
     "multi-agent": [
+      "2026-04-08-group-experience-sharing-beats-isolated-evolution.md",
+      "2026-04-08-long-horizon-deception-eval.md",
       "2026-04-07-sas-beats-mas-equal-compute.md",
       "2026-04-02-distributed-systems-amdahl-gate.md",
       "2026-03-30-society-of-thought-orchestration.md",
+      "2026-04-08-agent-deception-pressure-trigger.md",
+      "2026-04-08-heartbeat-mid-run-steering.md",
+      "2026-04-08-shared-public-state-agent-coordination.md",
       "2026-04-01-autoreason-adversarial-debate.md"
     ],
     "multi-model": [
@@ -2237,6 +2419,9 @@
     "positioning": [
       "ecosystem-scan.md"
     ],
+    "pressure": [
+      "2026-04-08-agent-deception-pressure-trigger.md"
+    ],
     "prompt-engineering": [
       "2026-04-05-egoalpha-prompt-patterns.md",
       "2026-04-08-descriptive-over-narrative-generative.md"
@@ -2262,6 +2447,9 @@
     ],
     "reference-files": [
       "2026-04-08-progressive-knowledge-routing.md"
+    ],
+    "reflection": [
+      "2026-04-08-heartbeat-mid-run-steering.md"
     ],
     "regression": [
       "2026-04-05-regression-gate-pattern.md"
@@ -2307,6 +2495,9 @@
     "salience": [
       "2026-03-30-write-time-gating-salience.md"
     ],
+    "sampling": [
+      "2026-04-08-inference-time-sampling-beats-rl-for-diversity.md"
+    ],
     "sandbox": [
       "2026-04-05-openfang-architecture-patterns.md",
       "2026-04-03-autoagent-parallel-candidates.md"
@@ -2335,15 +2526,19 @@
     "security": [
       "2026-03-27-playwright-mcp-download-hijack.md",
       "2026-03-27-secrets-in-config-files.md",
+      "2026-04-08-long-horizon-deception-eval.md",
       "2026-04-03-disable-skill-shell-audit.md",
+      "2026-04-08-agent-deception-pressure-trigger.md",
       "2026-04-05-agent-defense-frameworks.md"
     ],
     "self-evolve": [
       "2026-04-07-skill-retrieval-bottleneck.md",
       "2026-04-05-regression-gate-pattern.md",
-      "2026-04-03-autoagent-overfitting-guard.md"
+      "2026-04-03-autoagent-overfitting-guard.md",
+      "2026-04-08-heartbeat-mid-run-steering.md"
     ],
     "self-improvement": [
+      "2026-04-08-group-experience-sharing-beats-isolated-evolution.md",
       "2026-04-05-self-improving-harness.md",
       "2026-04-06-osft-self-sharpening.md"
     ],
@@ -2400,6 +2595,9 @@
     ],
     "spec-kit": [
       "spec-kit-adoption.md"
+    ],
+    "state-sharing": [
+      "2026-04-08-shared-public-state-agent-coordination.md"
     ],
     "structural-heuristic": [
       "karpathy-loop-autoloop.md"
@@ -2466,6 +2664,10 @@
     ],
     "triggers": [
       "2026-04-03-anthropic-skill-creator-patterns.md"
+    ],
+    "trust": [
+      "2026-04-08-long-horizon-deception-eval.md",
+      "2026-04-08-agent-deception-pressure-trigger.md"
     ],
     "ui-architecture": [
       "2026-04-07-model-metadata-dynamic-ui-pattern.md"
@@ -2547,6 +2749,8 @@
     ],
     "orchestration": [
       "2026-04-02-audit-must-verify-consumers.md",
+      "2026-04-08-group-experience-sharing-beats-isolated-evolution.md",
+      "2026-04-08-long-horizon-deception-eval.md",
       "2026-04-07-agents-md-efficiency-validated.md",
       "2026-04-07-kaizen-loop-weekly-improvement.md",
       "2026-04-07-mom-taro-orchestration-upgrades.md",
@@ -2564,6 +2768,10 @@
       "2026-03-26-channels-24x7-architecture.md",
       "2026-03-26-harness-simplification.md",
       "2026-03-24-openclaw-postmortem-patterns.md",
+      "2026-04-08-agent-deception-pressure-trigger.md",
+      "2026-04-08-heartbeat-mid-run-steering.md",
+      "2026-04-08-inference-time-sampling-beats-rl-for-diversity.md",
+      "2026-04-08-shared-public-state-agent-coordination.md",
       "2026-04-07-budget-calibration-baseline.md",
       "2026-04-07-operational-rhythm-silence-discipline.md",
       "2026-04-06-osft-self-sharpening.md",

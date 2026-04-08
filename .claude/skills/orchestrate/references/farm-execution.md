@@ -64,17 +64,20 @@ Report: files fixed, violations resolved, any that couldn't be fixed (with reaso
 
 ### Shared Discovery (CORAL-inspired, optional for multi-sweep)
 
-Farm workers MAY append discovered patterns to a shared file:
-- `.claude/memory/intermediate/farm-shared-notes.md` — append-only
+Farm workers MAY append discovered patterns to the shared notes file:
+- `.claude/memory/intermediate/shared/notes.md` — append-only (created by `ensure-shared-dir.sh` hook)
 
 Format per worker:
 ```
-## Worker {N} — {timestamp}
+## farm-worker-{N} — {timestamp}
 - **Pattern**: <discovered pattern or edge case>
 - **File**: <which file revealed this>
+- **Fix**: <what worked, reusable for similar cases>
 ```
 
-Post-sweep 1: orchestrátor reads `farm-shared-notes.md` and injects relevant patterns into sweep 2 agent prompts. This is opt-in — single-sweep operations skip (overhead > benefit).
+Post-sweep 1: orchestrátor reads `shared/notes.md` and injects relevant patterns into sweep 2 agent prompts. This is opt-in — single-sweep operations skip (overhead > benefit).
+
+Stagnation detection: `stagnation-detector.py` hook monitors TSV results and injects `[stagnation-steering]` messages when iteration plateaus — farm workers benefit from this automatically if they write to `*-results.tsv`.
 
 ## Step 4: Collect & verify
 
