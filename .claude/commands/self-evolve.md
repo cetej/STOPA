@@ -211,6 +211,30 @@ Per `meta-mode.md`: analyze strategy effectiveness, convergence rate, revert rat
 Propose ONE parameter change or ONE new custom strategy. Log to `meta-log.tsv`.
 Apply in sandbox, evaluate next round, keep or revert.
 
+#### Step 7b: Heartbeat Reflection Check (every 2 rounds, nezávisle na meta-mode)
+
+CORAL-inspired mid-run steering — catches unproductive exploration BEFORE circuit breaker fires.
+
+```
+IF last 2 rounds were both "discard" OR "crash":
+  1. PAUSE — do NOT iterate further automatically
+  2. Read last 4-6 entries from change_ledger (optstate)
+  3. Generate reflexion note (1-3 sentences):
+     - What did I try? Why did it fail? What should I try differently?
+  4. Write reflexion to run diary under `**Heartbeat Reflection**:`
+  5. Switch strategy for NEXT round: pick least-used strategy from UCB1
+
+IF pass_rate stagnates (delta < 0.5% across last 4 rounds):
+  1. Inject "skill consolidation" prompt:
+     - Extract what worked (kept rounds) into 3-5 bullet points
+     - Write to shared trace buffer (readable by other group-evolution branches)
+  2. Reset exploration: set exploration_weight to 2.0 for next 2 rounds
+
+ELSE: continue normally — zero overhead when triggers don't fire
+```
+
+**Difference from Step 7**: Meta-mode tunes parameters (learning rate, strategy weights). Heartbeat changes *direction* — forces strategy switch or consolidation when iteration loop stagnates. Both can fire independently.
+
 #### Step 8: Circuit Breaker Check
 
 - 3 consecutive reverts: **STOP** — "Executor unable to improve, report to user" (tunable via meta-mode: 2-5)

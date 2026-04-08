@@ -223,6 +223,19 @@ For each iteration (1 to budget):
 
 ### Step 1: Review (git + traces as memory)
 
+**Heartbeat stagnation check** (CORAL-inspired, before reading git log):
+```
+IF iteration > 4 AND consecutive_reverts >= 2:
+  Read last 4 entries from autoloop-results.tsv
+  IF all 4 statuses are "discard" or "crash":
+    → Radical exploration mode: skip priorities 1-4, jump to priority 5 (simplify) or 6 (radical experiment)
+    → Log in run diary: "Heartbeat: forcing radical shift after 4 consecutive failures"
+  ELIF 3 of 4 are "discard":
+    → Force strategy change: if last attempts were "exploit", switch to "explore" (or vice versa)
+    → Log: "Heartbeat: strategy pivot after 3/4 discards"
+```
+Zero overhead when triggers don't fire — check is O(1) read from TSV tail.
+
 **MUST complete ALL steps** — git history and traces are the primary learning mechanisms:
 
 1. Read current state of in-scope files

@@ -76,6 +76,21 @@ Each branch appends after every keep/revert:
 Branches read the full trace buffer at start of each round. This is the GEA
 "group experience sharing" mechanism — each branch sees what others tried.
 
+### Shared Public Dir (CORAL-inspired)
+
+Kromě trace bufferu (structured JSON log), group branches sdílejí unstructured knowledge:
+- `.claude/memory/intermediate/gea-<target>/public/` — shared artifacts:
+  - `notes-branch-{N}.md` — per-branch reflexion notes (heartbeat Step 7b outputs)
+  - `skills-found.md` — append-only list of discovered reusable patterns
+  - `blacklist.md` — strategies/changes that consistently fail across branches
+
+**Rules:**
+- Každý branch APPENDS do public/ (nikdy overwrite jiného branche)
+- Orchestrátor čte public/ na začátku každého tournament roundu
+- Na tournament roundu: orchestrátor mergne skills-found + blacklist do sdíleného kontextu pro další roundy
+- Zero sync: všechny branches čtou/píšou přímo do stejného adresáře (hlavní worktree)
+- Trace buffer = co se stalo (JSON log). Public dir = co jsme se naučili (knowledge base).
+
 ## Branch Selection (Performance-Novelty, v1: Jaccard proxy)
 
 For tournament rounds, rank branches using:

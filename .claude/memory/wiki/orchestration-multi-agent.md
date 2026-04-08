@@ -1,7 +1,7 @@
 ---
 generated: 2026-04-04
 cluster: orchestration-multi-agent
-sources: 13
+sources: 14
 last_updated: 2026-04-08
 ---
 
@@ -81,3 +81,5 @@ Iterative agent work suffers from structural erosion: SlopCodeBench shows AI age
 | [2026-04-07-mom-taro-orchestration-upgrades](../learnings/2026-04-07-mom-taro-orchestration-upgrades.md) | 2026-04-07 | high | Scout gate, role-specific critic, adaptive routing |
 | [2026-04-07-agents-md-efficiency-validated](../learnings/2026-04-07-agents-md-efficiency-validated.md) | 2026-04-07 | high | AGENTS.md reduces runtime 28.64%, output tokens 16.58% |
 | [2026-03-29-slopcodebench-iterative-degradation](../learnings/2026-03-29-slopcodebench-iterative-degradation.md) | 2026-03-29 | high | 2.2x redundancy, iterative degradation |
+| [2026-04-08-shared-public-state-agent-coordination](../learnings/2026-04-08-shared-public-state-agent-coordination.md) | 2026-04-08 | medium | Shared dir > checkpoint handoff for parallel agents |
+| [2026-04-08-heartbeat-mid-run-steering](../learnings/2026-04-08-heartbeat-mid-run-steering.md) | 2026-04-08 | medium | Heartbeat mid-run steering distinct from post-step critic |

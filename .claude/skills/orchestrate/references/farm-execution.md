@@ -62,6 +62,20 @@ After all fixes, run: {verification command scoped to your files}
 Report: files fixed, violations resolved, any that couldn't be fixed (with reason)
 ```
 
+### Shared Discovery (CORAL-inspired, optional for multi-sweep)
+
+Farm workers MAY append discovered patterns to a shared file:
+- `.claude/memory/intermediate/farm-shared-notes.md` — append-only
+
+Format per worker:
+```
+## Worker {N} — {timestamp}
+- **Pattern**: <discovered pattern or edge case>
+- **File**: <which file revealed this>
+```
+
+Post-sweep 1: orchestrátor reads `farm-shared-notes.md` and injects relevant patterns into sweep 2 agent prompts. This is opt-in — single-sweep operations skip (overhead > benefit).
+
 ## Step 4: Collect & verify
 
 1. After all agents complete, run the full verification command again

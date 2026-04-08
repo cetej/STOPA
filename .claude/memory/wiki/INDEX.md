@@ -53,6 +53,7 @@ Health score: 10 - (0 stale×0.5) - (1 contradiction×1.5) - (2 gaps×0.5) - (0 
 - [simplestream-streaming-video-baseline](sources/simplestream-streaming-video-baseline.md) — Recency vs history tradeoff (2026-04-08)
 - [rlp-reinforcement-pretraining](sources/rlp-reinforcement-pretraining.md) — RL during pretraining, front-load quality (2026-04-08)
 - [flow-map-language-models](sources/flow-map-language-models.md) — Continuous flow over one-hot embeddings (2026-04-08)
+- [coral-autonomous-multi-agent-evolution](sources/coral-autonomous-multi-agent-evolution.md) — CORAL: git worktree per agent + shared public state + heartbeat steering; 3-10× improvement rate (2026-04-08)
 
 ## By Component
 
