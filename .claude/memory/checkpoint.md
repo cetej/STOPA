@@ -3,21 +3,21 @@
 **Saved**: 2026-04-08 (auto-saved (session end))
 **Task**: none
 **Branch**: main
-**Last commit**: `e2ccace` feat: skill discovery vylepšení z arXiv:2604.04323 — discovery-keywords, --adapt, selection audit
+**Last commit**: `2f720da` feat: Performance-Novelty selector script (Wave 3 — GEA integrace kompletní)
 
 ---
 
 ## Session Activity
 
-Session: 118 file edits, 3 agent spawns, 0 skill calls. Skills: fetch, ingest, watch
-Duration: ~15986 min
+Session: 152 file edits, 6 agent spawns, 0 skill calls. Skills: fetch, ingest, watch
+Duration: ~16047 min
 
 ## Files Touched
 
 | File | Operations | Date |
 |------|-----------|------|
-| SKILL.md | 21 edits | 2026-04-08 |
-| INDEX.md | 8 edits | 2026-04-08 |
+| SKILL.md | 29 edits | 2026-04-08 |
+| INDEX.md | 11 edits | 2026-04-08 |
 | skill-design.md | 6 edits | 2026-04-08 |
 | orchestration-multi-agent.md | 5 edits | 2026-04-08 |
 | memory-architecture.md | 5 edits | 2026-04-08 |
@@ -25,7 +25,7 @@ Duration: ~15986 min
 | orchestration-resilience.md | 3 edits | 2026-04-08 |
 | orchestration-infrastructure.md | 3 edits | 2026-04-08 |
 | hook-infrastructure.md | 3 edits | 2026-04-08 |
-| general-security-environment.md | 3 edits | 2026-04-08 |
+| group-evolution.md | 3 edits | 2026-04-08 |
 
 ## Key Results
 
@@ -41,11 +41,12 @@ _No commits this session_
 
 ## Learnings Captured
 
-learnings_this_session: 4
+learnings_this_session: 8
+  - 2026-04-08-agent-deception-pressure-trigger
   - 2026-04-08-descriptive-over-narrative-generative
+  - 2026-04-08-group-experience-sharing-beats-isolated-evolution
+  - 2026-04-08-inference-time-sampling-beats-rl-for-diversity
   - 2026-04-08-llm-native-validation-hardstop
-  - 2026-04-08-progressive-knowledge-routing
-  - 2026-04-08-recency-beats-complex-memory
 
 ## Workflow Decisions
 
@@ -62,7 +63,7 @@ _No pending subtasks detected in state.md_
 
 > **Task**: none
 >
-> **Context**: Last commit `e2ccace` (feat: skill discovery vylepšení z arXiv:2604.04323 — discovery-keywords, --adapt, selection audit). Branch: main.
-> Session had 118 edits, 3 agents, 0 skill calls, 0 errors.
+> **Context**: Last commit `2f720da` (feat: Performance-Novelty selector script (Wave 3 — GEA integrace kompletní)). Branch: main.
+> Session had 152 edits, 6 agents, 0 skill calls, 0 errors.
 
 

@@ -356,6 +356,26 @@ Synthesize the full evidence chain: milestones → verification results → revi
 3. Flag high-risk dependents: files in auth/, payment/, api/ paths get automatic `high` severity
 4. Include as "Impact Radius" in report
 
+**Pressure-Aware Skepticism Modifier** (ref: LH-Deception, arXiv:2510.03999):
+
+Before scoring, check if the agent is under pressure. Elevated pressure raises the evidence bar for PASS — deception increases under task failure pressure (ICLR 2026 finding: model-dependent, pressure-triggered).
+
+**Pressure signals (check in order, stop at first match):**
+
+| Signal | How to check | Penalty |
+|--------|-------------|---------|
+| Panic detector RED | Grep `panic-episodes.jsonl` for red in last 20 events | Safety weight +0.2 |
+| Agent 2+ FAILs this session | Count FAIL verdicts in `budget.md` for this agent | PASS threshold 3.5 → 4.0 |
+| Critic re-review (2+ rounds) | `critic_counter >= 2` from orchestrator context | Borderline PASS → WARN |
+| Vagueness drift | Agent output uses hedging: "might work", "looks mostly correct", "should be fine" | Flag in report + Safety +0.1 |
+
+**Application:**
+- `pressure_penalty = count(active_signals) × 0.1` (max 0.5)
+- `adjusted_score = weighted_avg - pressure_penalty`
+- If adjusted drops below PASS threshold → auto-downgrade PASS → WARN
+- Document in Verdict Rationale: `"[PRESSURE] Modifier applied: -X.X for [signals]"`
+- Pressure modifier does NOT affect FAIL verdicts (already conservative)
+
 **Adaptive Weight Selection** (ref: Anthropic harness design grading criteria):
 
 Select the weight profile matching the task type AND agent role. The principle: **upweight areas where Claude typically underperforms**, downweight areas where it's naturally strong.
