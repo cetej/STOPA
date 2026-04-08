@@ -1,7 +1,7 @@
 ---
 generated: 2026-04-04
 cluster: orchestration-multi-agent
-sources: 19
+sources: 17
 last_updated: 2026-04-08
 ---
 
@@ -54,6 +54,20 @@ Neuro-symbolic patterns from PDDL research show explicit operator interfaces —
 - Prescribe roles on exploratory tasks — self-org discovers what hierarchical misses (ref: 2026-04-06-self-organizing-agents-ab-test.md)
 - Launch agent chain without verifying output contracts match downstream input contracts (ref: 2026-04-07-nsm-neuro-symbolic-orchestration.md)
 - Use RL-tuned specialized models for diversity-requiring tasks — prefer base model + temperature (ref: 2026-04-08-inference-time-sampling-beats-rl-for-diversity.md)
+
+## STOPA as Program.md
+
+Karpathy's "program.md" framing (ref: sources/karpathy-nopriors-autoagent-loopy-era.md) — a research organization described entirely as markdown files (roles, workflows, policies) — maps directly to STOPA. The SKILL.md files, hooks.json, CLAUDE.md rules, and memory architecture together form the "program.md" for this orchestration system. Different configurations of these files produce different research velocities and quality outcomes.
+
+This enables meta-optimization: running auto-research on STOPA itself (via `/self-evolve --mode system`) to find better orchestration configurations. The contest idea — same hardware, different program.mds, leaderboard of improvement rate — is the direction for system-level self-evolution.
+
+Key implications:
+- **Skills = roles**: each SKILL.md defines a specialized agent role within the org
+- **Rules = policies**: `.claude/rules/*.md` files encode org-wide constraints
+- **Memory = institutional knowledge**: learnings, wiki, decisions form the org's accumulated expertise
+- **Evolve = meta-optimization**: `/evolve` and `/self-evolve` run optimization over the org configuration itself
+
+See also: [program-md-research-org](entities/program-md-research-org.md) entity page.
 
 ## Open Questions
 

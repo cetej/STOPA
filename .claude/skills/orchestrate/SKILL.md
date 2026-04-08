@@ -7,6 +7,12 @@ context-required:
   - "task description — what to accomplish and why"
   - "success criteria — what 'done' looks like (prevents open-ended delivery)"
   - "constraints — what must NOT change (modules, APIs, interfaces)"
+curriculum-hints:
+  - "Classify task complexity and select budget tier BEFORE scouting"
+  - "Run scout to map affected files and dependencies"
+  - "Decompose into subtasks with explicit input/output contracts"
+  - "Execute agents in parallel where dependencies allow"
+  - "Run critic on results, then verify end-to-end"
 tags: [orchestration, planning]
 phase: plan
 user-invocable: true

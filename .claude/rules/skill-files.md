@@ -28,6 +28,10 @@ globs: "**/skills/*/SKILL.md"
   - Max 10 keywords per skill (force prioritization)
   - Keywords should be lowercase, no duplicates with words already in `description:`
   - Include both English and Czech variants where applicable
+- `curriculum-hints`: optional array of ordered progression hints for complex skills. Describes the ideal execution sequence the agent should follow — a scripted curriculum. Max 5 hints per skill. Each hint is an imperative sentence. Used by orchestrator to verify agent follows the intended progression. Inspired by Karpathy's microGPT concept: "I could have a skill with hints — first start with this, then that." (ref: sources/karpathy-nopriors-autoagent-loopy-era.md)
+  - Example: `curriculum-hints: ["Read existing tests and understand current behavior", "Classify the change type (refactor vs feature vs bugfix)", "Implement the minimal change", "Run tests and verify", "Update docs if API changed"]`
+  - Only add to skills where execution order matters and misordering causes failures
+  - Hints are guidance, not rigid steps — agent may skip irrelevant hints based on context
 - `tags`: array of cross-cutting capability tags for discovery (viz taxonomie níže)
 - `phase`: lifecycle phase — one of `define` | `plan` | `build` | `verify` | `review` | `ship` | `meta`
   - `define` — routing, klasifikace, porozumění požadavkům (triage, brainstorm, council)

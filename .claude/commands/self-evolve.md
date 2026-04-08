@@ -1,7 +1,7 @@
 ---
 name: self-evolve
 description: "Use when iteratively improving a skill through adversarial co-evolution with auto-generated eval cases. Trigger on 'self-evolve', 'evolve skill', 'improve skill with evals'. Do NOT use for learning audits (/evolve) or file optimization (/autoloop)."
-argument-hint: <target-skill> [budget:N] [bootstrap:true|false] [meta:true|false] [group:N]
+argument-hint: <target-skill> [budget:N] [bootstrap:true|false] [meta:true|false] [group:N] [mode:skill|system]
 discovery-keywords: [improve skill, evolve skill, skill quality, adversarial eval, co-evolution, benchmark skill]
 tags: [orchestration, testing, code-quality]
 phase: review
@@ -57,12 +57,15 @@ Parse `$ARGUMENTS`:
 - **budget**: max co-evolution rounds (default: 6, max: 12)
 - **bootstrap**: if `true` and no eval cases exist, generate initial cases via `/autoharness` (default: false)
 - **meta**: if `true`, enable metacognitive self-modification mode (default: false). See `meta-mode.md`.
+- **mode**: `skill` (default) or `system`. When `system`: target is the STOPA orchestration system itself (`.claude/rules/*.md` + skill routing descriptions). See System Mode section below.
 
 Validation:
 - Verify `.claude/skills/<target>/SKILL.md` exists
 - Parse budget as integer, clamp to [1, 12]
 - Parse bootstrap as boolean
 - Parse meta as boolean
+- Parse mode as string (default: `skill`). Valid values: `skill`, `system`.
+  - If `mode: system`: `target-skill` is ignored. Target is STOPA itself. Bootstrap generates system-level eval cases.
 - **group**: number of parallel evolution branches (default: 1 = standard single-branch). Clamp to [1, 3].
   - If group > 1: read `references/group-evolution.md` for parallel branch protocol (GEA-inspired)
   - Group mode uses git worktrees for isolation, shared eval cases, tournament selection every 2 rounds
@@ -467,3 +470,66 @@ Pass threshold: all criteria checked
 - **Executor gaming**: Skill becomes over-fitted to specific eval case wording. Critic gate catches this.
 - **Complexity creep**: Each round adds lines — skill becomes unmaintainable. 500-line cap enforces discipline.
 - **Premature convergence**: 100% pass_rate on easy cases does not equal good skill. Curriculum must generate genuinely harder cases, not variations.
+
+## System Mode (`mode: system`)
+
+Meta-optimization of STOPA itself — treating the orchestration system as a "program.md" (ref: Karpathy, No Priors 2026-03-20). Instead of evolving a single skill, evolves the system configuration: rules, skill routing, and behavioral patterns.
+
+**Concept**: Different program.mds (STOPA configurations) produce different research velocities. System mode runs auto-research on STOPA's own configuration to find better orchestration patterns.
+
+### System Mode Phase 0: Setup (replaces standard Phase 0)
+
+1. **Target files** (the "program.md"):
+   - `.claude/rules/*.md` — behavioral rules and invariants
+   - `.claude/skills/*/SKILL.md` — skill `description:` fields (routing triggers)
+   - `.claude/rules/skill-tiers.md` — tier assignments
+   - `CLAUDE.md` — project-level orchestration config
+2. **Eval cases**: `.claude/evals/system/`
+   - If no cases exist AND bootstrap=true: generate 5 representative task descriptions covering:
+     - Simple single-file edit (should NOT trigger orchestrate)
+     - Multi-file refactor (should trigger orchestrate)
+     - Research question (should route to deepresearch, not scout)
+     - Ambiguous task (triage should classify correctly)
+     - Edge case with mismatched keywords
+   - Each case: `input.md` (task description), `expected.md` (correct routing + tier), `eval.md` (grading: correct skill selected? correct tier? correct model?)
+3. **Baseline eval**: Run all system eval cases, measure:
+   - Routing accuracy: % of tasks routed to correct skill
+   - Tier accuracy: % of tasks assigned correct budget tier
+   - Token cost estimate: sum of estimated tokens across all task routings
+4. **Load system optstate**: `.claude/memory/optstate/system-evolve.json`
+
+### System Mode Curriculum Strategies
+
+- **Routing confusion**: task descriptions that expose ambiguity between similar skills (e.g., scout vs deepresearch, critic vs peer-review)
+- **Tier miscalibration**: tasks where budget tier assignment is wrong (too heavy or too light)
+- **Description drift**: skill descriptions that have grown stale or misleading
+- **Rule conflict**: rules in different `.claude/rules/*.md` files that contradict each other
+
+### System Mode Executor
+
+Instead of editing a single SKILL.md, the Executor can:
+- Adjust skill `description:` fields to improve routing accuracy
+- Modify rule priorities or wording in `.claude/rules/*.md`
+- Update tier assignments in `skill-tiers.md`
+- Add `discovery-keywords:` to improve fuzzy matching
+
+**Constraints**:
+- NEVER modify skill workflow body (only description/frontmatter)
+- NEVER delete rules — only clarify or reprioritize
+- NEVER change more than 2 files per round
+- All changes must be sync'd (commands/ ↔ skills/ invariant)
+
+### System Mode Metrics
+
+| Metric | Baseline | Target |
+|--------|----------|--------|
+| Routing accuracy | measured at Phase 0 | +5% or 95%+ |
+| Tier accuracy | measured at Phase 0 | +5% or 90%+ |
+| Token cost estimate | measured at Phase 0 | -10% or stable |
+
+### System Mode Circuit Breakers
+
+Standard circuit breakers apply, plus:
+- System routing accuracy drops below baseline: STOP + revert all changes
+- More than 3 rule files modified in a single run: STOP
+- Any core-invariant rule modified: STOP + user approval required
