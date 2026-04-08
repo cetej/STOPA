@@ -84,6 +84,13 @@ Agent(subagent_type: "general-purpose", prompt: "
   - Primary: <subtask goal>
   - Process: <overall task goal — why this matters>
 
+  ## Live Alert Protocol (deep tier only — REMOVE this section for light/standard/farm)
+  If you discover something that affects OTHER agents' work (breaking API change, shared
+  dependency problem, security issue), IMMEDIATELY:
+  1. Append to .claude/memory/intermediate/shared/alerts.jsonl
+  2. SendMessage to lead with type + summary + files_affected
+  Do NOT wait until done — early alert prevents duplicate/wasted work by other agents.
+
   IMPORTANT: All project context you need is provided above. Do NOT read .claude/memory/ files
   — the orchestrator has already loaded and filtered the relevant information for you.
 
@@ -178,6 +185,38 @@ Before launching 2+ agents in the same wave, verify their WRITE file lists don't
    - The agent that runs second gets the first agent's output as READ context
 
 This check is mandatory for standard/deep tiers. Farm tier already has zero-conflict guarantee via file partitioning.
+
+## Live Findings Broadcast (deep tier, GEA-inspired)
+
+During deep tier execution, agents may discover cross-cutting findings (breaking API changes,
+shared dependency issues, security concerns) that affect other running agents. Instead of waiting
+for wave completion, agents broadcast these immediately.
+
+**Mechanism:**
+1. Agent writes alert to `intermediate/shared/alerts.jsonl` (append):
+   ```json
+   {"ts": "<ISO>", "agent": "<subtask-id>", "type": "breaking_change|dependency|security|scope_change", "summary": "<1-sentence>", "files_affected": ["<paths>"]}
+   ```
+2. Agent sends `SendMessage(to: "<team-lead-name>", summary: "Alert: <type>", message: "<1-sentence summary + files>")` to orchestrator lead
+
+**Orchestrator response to alert:**
+- `breaking_change` or `security`: evaluate whether running agents need to stop. If their WRITE files overlap with `files_affected` → send interrupt message. Otherwise → inject alert as READ context for next wave.
+- `dependency` or `scope_change`: log to scratchpad, inject as context into next wave agents. No interrupt.
+
+**Agent prompt addition** (deep tier only — add after `## Your Process Frame` section):
+```
+## Live Alert Protocol (deep tier)
+If you discover something that affects OTHER agents' work (breaking API change, shared
+dependency problem, security issue), IMMEDIATELY:
+1. Append to .claude/memory/intermediate/shared/alerts.jsonl
+2. SendMessage to lead with summary
+Do NOT wait until you're done — early alert prevents duplicate/wasted work.
+```
+
+**When NOT to use:**
+- Farm tier: mechanical fixes, no cross-file discoveries
+- Light/standard tier: single-wave or simple coordination — alerts add overhead without benefit
+- Agent already in final status reporting (use `concerns` field in Status block instead)
 
 ## Wave-based execution
 

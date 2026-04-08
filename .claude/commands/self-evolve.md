@@ -78,8 +78,13 @@ Validation:
    - If exists: load params as defaults. Print: `♻ Loaded evolved parameters from previous run (v{version}).`
    - If not: use hardcoded defaults (strategy weights all 0.25, critic_frequency=2, etc.)
    - Initialize meta sandbox and meta-log.tsv per `meta-mode.md`
-4. Create evolution branch: `git checkout -b self-evolve/<target>`
-5. Run baseline eval: execute all cases, record pass_rate
+4. **Load optstate** (UCB1 strategy data):
+   - Read `.claude/memory/optstate/self-evolve.json` (if exists)
+   - Check `strategies_that_work` and `recurring_failure_patterns` for this target
+   - If previous runs hit same circuit breaker: warn user and suggest different approach
+   - If optstate doesn't exist: skill proceeds normally with equal-weight defaults
+5. Create evolution branch: `git checkout -b self-evolve/<target>`
+6. Run baseline eval: execute all cases, record pass_rate
 5a. **Trace initialization:** Create `.traces/self-evolve-<target>-<timestamp>/` with `diffs/` subdir. Write `trace-active.json` marker: `{"skill":"self-evolve","run_id":"self-evolve-<target>-<timestamp>","target":"<target>","trace_dir":".traces/...","started":"<ISO>","current_iteration":0}`. Purge traces >7 days: `find .traces/ -maxdepth 1 -mtime +7 -exec rm -rf {} + 2>/dev/null || true`
 6. Initialize evolution log:
 
@@ -114,12 +119,17 @@ Two modes based on current state:
 **If pass_rate = 100% (all passing):**
 - **Read executor failure traces** (if `.traces/self-evolve-<target>-*/` exists): `grep "iteration" .traces/self-evolve-<target>-*/tools.jsonl | grep -v "exit.*0"` to find what inputs caused the Executor to struggle. Use these failure patterns to generate MORE targeted adversarial cases — not generic edge cases.
 - Curriculum agent generates 1-2 NEW harder cases
-- Strategy selection: weighted random from available strategies (default equal weights, tunable via meta-mode):
-  - **Edge case**: unusual input that tests boundary conditions
-  - **Adversarial**: input designed to exploit known weaknesses or ambiguities in the skill
-  - **Scale**: larger/more complex input than existing cases
-  - **Composition**: combine patterns from multiple existing cases
-  - *(+ custom strategies if meta-mode has added them)*
+- Strategy selection via **UCB1 selector** (GEA-inspired, arXiv:2602.04837):
+  - Run: `python scripts/ucb1-selector.py .claude/memory/optstate/self-evolve.json --top 1 --json`
+  - If optstate doesn't exist or insufficient data: fall back to equal-weight random
+  - UCB1 balances exploitation (strategies that worked before) with exploration (untried strategies)
+  - Available strategies:
+  - **Edge case** (UCB1 category: `explore_new`): unusual input that tests boundary conditions
+  - **Adversarial** (UCB1 category: `fix_crashes`): input designed to exploit known weaknesses or ambiguities in the skill
+  - **Scale** (UCB1 category: `exploit_success`): larger/more complex input than existing cases
+  - **Composition** (UCB1 category: `combine`): combine patterns from multiple existing cases
+  - *(+ custom strategies if meta-mode has added them — map to nearest UCB1 category)*
+  - **Strategy-to-UCB1 mapping**: Edge→explore_new, Adversarial→fix_crashes, Scale→exploit_success, Composition→combine. Meta-mode can override via `strategy_ucb1_map` in evolved params.
 - Write new cases to `.claude/evals/<target>/case-{NNN}/`
 - Each case needs: `input.md` (scenario), `expected.md` (expected behavior), `eval.md` (grading criteria)
 - Output: "Curriculum: ESCALATE mode — added case-{ID} ({strategy})"
@@ -171,6 +181,18 @@ Run all eval cases (including any new ones from Step 2) against modified skill.
 - If pass_rate improved or held steady with new harder cases: KEEP
 - If pass_rate decreased: `git revert HEAD` (revert Executor's change)
 - Log result to evolution table
+- **UCB1 ledger update**: After each keep/revert decision, record strategy outcome for UCB1:
+  ```
+  Append to optstate change_ledger: {
+    "round": N,
+    "target": "<target>",
+    "strategy": "<strategy used this round — edge/adversarial/scale/composition>",
+    "mutations": ["<1-sentence description of what Executor changed>"],
+    "outcome": "success" (kept + pass_rate up) | "partial" (kept + same) | "failure" (reverted),
+    "pass_rate_delta": <float>
+  }
+  ```
+  This feeds UCB1 on next run — strategies that consistently produce kept changes get higher scores.
 
 #### Step 7: Meta-Mode Check (only if `meta:true`, every 3 rounds)
 
@@ -288,12 +310,33 @@ exit_reason: <convergence|budget|circuit-breaker>
 
 ### Optimization State Update
 
-Read `.claude/memory/optstate/self-evolve.json` at Phase 0 (Setup, after step 3). Use it to:
-- Know what strategies worked on this target before
+Read `.claude/memory/optstate/self-evolve.json` at Phase 0 (Setup, step 4). Use it to:
+- Know what strategies worked on this target before (UCB1 scores inform Curriculum strategy selection)
 - Avoid repeating failed approaches
 - Check if previous runs hit same circuit breaker
 
-After Phase 3, update optstate (same format as autoloop — change_ledger max 20, strategies, velocity).
+After Phase 3, update optstate:
+```json
+{
+  "last_updated": "YYYY-MM-DD",
+  "total_runs": N,
+  "health": "improving|stable|degrading",
+  "change_ledger": [/* max 20 FIFO — accumulated from Step 6 UCB1 ledger updates this run */],
+  "strategies_that_work": ["edge case on boundary validation", "composition for multi-step flows"],
+  "strategies_that_fail": ["scale on simple skills — adds noise"],
+  "recurring_failure_patterns": ["critic rejects curriculum cases >50% of rounds"],
+  "optimization_velocity": {"stage": "early|middle|plateau", "trend": "up|flat|down"},
+  "per_target": {
+    "<target>": {
+      "last_pass_rate": 0.85,
+      "best_pass_rate": 0.92,
+      "runs": 3,
+      "dominant_strategy": "adversarial"
+    }
+  }
+}
+```
+UCB1 selector reads `change_ledger` on next run → strategies that consistently produced kept changes get higher exploration/exploitation scores.
 
 ### Replay Buffer from Outcomes (RCL failure replay)
 

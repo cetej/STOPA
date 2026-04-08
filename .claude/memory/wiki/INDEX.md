@@ -46,6 +46,7 @@ Health score: 10 - (0 stale×0.5) - (1 contradiction×1.5) - (2 gaps×0.5) - (0 
 
 ## Sources
 
+- [group-evolving-agents-gea](sources/group-evolving-agents-gea.md) — GEA: skupinová evoluce agentů přes sdílení trajektorií, 71.0% SWE-bench (+14pp) (2026-04-08)
 - [seedance-shot-design-skill-patterns](sources/seedance-shot-design-skill-patterns.md) — 4 transferable skill design patterns (2026-04-08)
 - [simplestream-streaming-video-baseline](sources/simplestream-streaming-video-baseline.md) — Recency vs history tradeoff (2026-04-08)
 - [rlp-reinforcement-pretraining](sources/rlp-reinforcement-pretraining.md) — RL during pretraining, front-load quality (2026-04-08)
