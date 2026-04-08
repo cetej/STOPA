@@ -6,12 +6,11 @@ component: skill
 tags: [skill, retrieval, evaluation, self-evolve]
 summary: "Skill description metadata alone is insufficient for agent self-discovery from large repositories. Two bottlenecks: (1) agents voluntarily load only 49% of relevant skills, (2) general-purpose skills can't be adapted without task context. Query-specific refinement (task-aware) recovers performance; offline refinement doesn't."
 source: external_research
-uses: 0
+uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.6
+confidence: 0.65
 verify_check: manual
-model_gate: ""
 task_context: {task_class: research, complexity: low, tier: light}
 ---
 

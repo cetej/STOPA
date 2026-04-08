@@ -76,3 +76,24 @@ Focused audit triggered by overlap detection between two skill-component learnin
 - Old #9 (Sonnet 4.6): → new #8
 - Old #10 (Anti-Hallucination): → new #9
 - critical-patterns now at 9/10 capacity (1 free slot)
+
+---
+
+## Evolution Run — 2026-04-08 (#4)
+
+### Signals
+- 12 corrections (0 new since evolve #3)
+- 2 violations (0 new since 2026-03-29)
+- 81 learnings scanned, 0 graduation-ready (system 16 days old, uses still low)
+- 2 model_gate learnings: sonnet-4.6 (correct), skill-retrieval-bottleneck (empty string — fixed)
+- 0 panic episodes, 0 critic-accuracy entries, 0 skill-usage data, 0 discovered-patterns
+- Wiki built 2026-04-08, 2 new learnings since (LH-Deception)
+- Sessions: all healthy (0 corrections, 0 frustrations)
+
+### Proposals
+- 3 proposed, 3 approved, 0 rejected
+
+### Applied
+- FIX_DATA: Removed empty `model_gate: ""` from skill-retrieval-bottleneck.md
+- RECOMMEND: /compile (2 new LH-Deception learnings since last build)
+- AUTOMATE: Created scheduled task `weekly-evolve` (Monday 9:23, auto-run /evolve)
