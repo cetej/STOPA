@@ -2,7 +2,7 @@
 name: compile
 description: "Use when synthesizing learnings into thematic wiki articles for better retrieval and onboarding. Trigger on 'compile', 'build wiki', 'synthesize memory', 'knowledge base'. Do NOT use for recording individual learnings (/scribe), pruning rules (/evolve), or file optimization (/autoloop)."
 user-invocable: true
-allowed-tools: Read, Write, Glob, Grep, Bash
+allowed-tools: Read, Write, Glob, Grep, Bash, Agent
 tags: [memory, documentation, meta, synthesis]
 phase: meta
 ---
@@ -392,9 +392,57 @@ NEWS→LEARNING BRIDGE: N unmatched action items found
 
 **Rules:**
 - Read-only on news.md — never modify it
-- Only propose, never auto-create learnings (that's /scribe's job)
 - Max 5 proposals per compile run (focus on highest-impact)
 - Skip WATCH and INFO items — only ACTION items matter
+
+---
+
+## Phase 7.76: Auto-Execute Follow-ups
+
+Compile MUST execute actionable follow-ups, not list them. The user has explicitly requested autonomous execution.
+
+### Step 7.76.1: Auto-create learnings from NEWS→LEARNING proposals
+
+For each unmatched NEWS→LEARNING proposal from Phase 7.7:
+
+1. **Spawn /scribe sub-agent** (Haiku model) for each proposal:
+
+```
+Agent(model: haiku, prompt: "
+  You are /scribe. Create a learning file in .claude/memory/learnings/ for this knowledge:
+
+  Topic: {proposal topic}
+  Source: {news entry or compile detection}
+  Type: best_practice | anti_pattern | workflow (choose appropriate)
+  Severity: medium (default for auto-generated)
+  Component: {infer from topic}
+
+  Follow standard YAML frontmatter format. Include source: external_research.
+  Write the file directly — do not ask for confirmation.
+")
+```
+
+2. **Parallel execution**: spawn all scribe agents in parallel (independent tasks)
+3. **Report**: `AUTO-CREATED: N learnings from NEWS→LEARNING bridge`
+
+### Step 7.76.2: Auto-resolve knowledge gaps (scribe-able only)
+
+For each knowledge gap from Phase 3.2:
+- If the gap is about a **missing learning** (not an implementation task): spawn /scribe to create a placeholder learning with `severity: low` and `confidence: 0.5`
+- If the gap is about a **missing feature or implementation**: skip — report as info-only in Phase 8
+- Max 3 auto-created gap learnings per compile run
+
+### Step 7.76.3: Auto-trigger /evolve for contradictions
+
+If contradictions > 0 AND resolution is "unclear":
+- Do NOT auto-run /evolve (too heavy, changes rules)
+- Instead, append contradiction details to `.claude/memory/improvement-queue.md` for next /evolve run
+- Report: `QUEUED: N contradictions for next /evolve`
+
+### What is NOT auto-executed (info-only in report):
+- Implementation tasks (new features, code changes)
+- /evolve full runs (destructive, changes rules)
+- Cross-project sync recommendations
 
 ---
 
@@ -479,18 +527,23 @@ COMPILE COMPLETE
   Mode: full | incremental
   Learnings processed: N (M new since last compile)
   Articles generated: N (K updated, J unchanged)
-  Contradictions: N (M resolved in-article, K need /evolve)
-  Knowledge gaps: N
-  Cross-project patterns: N reinforcing, M contradicting (if --full)
+  Contradictions: N (M resolved in-article, K queued for /evolve)
+  Knowledge gaps: N (M auto-filled, K implementation-only)
+
+  Auto-executed:
+  - Created N learnings from NEWS→LEARNING bridge
+  - Created M placeholder learnings for knowledge gaps
+  - Queued K contradictions to improvement-queue.md
 
   Wiki location: .claude/memory/wiki/
   Entry point: .claude/memory/wiki/INDEX.md
 
-  Recommended follow-ups:
-  - [if contradictions] Run /evolve to resolve contradicting learnings
-  - [if gaps] Run /scribe to create learnings for identified gaps
-  - [if stale learnings] Run /evolve for pruning audit
+  [Info-only — requires human decision:]
+  - [if implementation gaps] Gap: <description> — needs code change in <skill/file>
+  - [if cross-project sync needed] Sync: <pattern> diverges from <project>
 ```
+
+**CRITICAL**: The "Recommended follow-ups" section is ELIMINATED. Compile either executes follow-ups automatically (Phase 7.76) or reports them as info-only context. Never generate action lists for the user to manually trigger.
 
 ---
 
