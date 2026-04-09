@@ -9,7 +9,7 @@ source: external_research
 uses: 6
 harmful_uses: 0
 successful_uses: 1
-confidence: 0.90
+confidence: 1.0
 verify_check: "Glob('.claude/memory/intermediate/shared/notes.md') → 1+ matches"
 related: [2026-03-29-claudini-autoresearch-loop.md]
 failure_class: ""

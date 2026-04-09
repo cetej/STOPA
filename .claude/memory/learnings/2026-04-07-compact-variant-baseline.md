@@ -9,7 +9,7 @@ source: auto_pattern
 uses: 1
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.95
+confidence: 1.0
 supersedes: 2026-04-04-gap-compact-variant-measurement.md
 verify_check: "Glob('.claude/skills/*/SKILL.compact.md') → 1+ matches"
 ---

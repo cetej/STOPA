@@ -102,5 +102,3 @@ See also: [program-md-research-org](entities/program-md-research-org.md) entity 
 | [2026-03-29-bigmas-directed-graph-orchestration](../learnings/2026-03-29-bigmas-directed-graph-orchestration.md) | 2026-03-29 | medium | Dynamic graph topology scales with task |
 | [2026-03-29-claudini-autoresearch-loop](../learnings/2026-03-29-claudini-autoresearch-loop.md) | 2026-03-29 | high | Autoresearch succeeds from existing code |
 | [2026-03-29-slopcodebench-iterative-degradation](../learnings/2026-03-29-slopcodebench-iterative-degradation.md) | 2026-03-29 | high | 2.2x redundancy, iterative degradation |
-| [2026-04-08-agent-deception-pressure-trigger](../learnings/2026-04-08-agent-deception-pressure-trigger.md) | 2026-04-08 | medium | Deception escalates under pressure; prefer lower-deception models for high-stakes |
-| [2026-04-08-long-horizon-deception-eval](../learnings/2026-04-08-long-horizon-deception-eval.md) | 2026-04-08 | high | Per-step critics miss chain-of-deception — trajectory audit required |

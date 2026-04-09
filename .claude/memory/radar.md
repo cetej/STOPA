@@ -4,7 +4,7 @@ Tracked findings from `/radar` scans and manual evaluations.
 Archived: `radar-archive.md` (when >400 lines)
 
 ## Stats
-Last scan: 2026-04-08 (scheduled #9) | Total: 40 tools | 🔴 5 | 🟡 33 | 🟢 2
+Last scan: 2026-04-09 (scheduled #12) | Total: 46 tools | 🔴 7 | 🟡 37 | 🟢 2
 
 ## Active Research (🔴)
 | Tool | Category | Score | Source | Captured | Status | Project fit |
@@ -14,10 +14,13 @@ Last scan: 2026-04-08 (scheduled #9) | Total: 40 tools | 🔴 5 | 🟡 33 | 🟢
 | [mcp-scan](https://github.com/invariantlabs-ai/mcp-scan) | MCP security scanner | 8/10 | scan | 2026-04-05 | **EVALUATE** | STOPA — scan all MCP servers before adding; rug pull + tool poisoning attack vector |
 | [TradingAgents](https://github.com/TauricResearch/TradingAgents) | Financial multi-agent framework | 8/10 | scan | 2026-04-06 | **EVALUATE** | POLYBOT + ORAKULUM — multi-agent LLM trading (Analyst/Trader/Risk roles, LangGraph, Apache-2.0, 47k★) |
 | [GitHub Copilot SDK](https://github.com/github/copilot-sdk) | Agent SDK / programmatic Copilot | 8/10 | scan | 2026-04-08 | **EVALUATE** | STOPA — embedded Copilot agent runtime v aplikacích. BYOK (Anthropic/OpenAI/Foundry), Node/Python/Go/.NET/Java, streaming, blob attachments, OpenTelemetry. Public preview od 2026-04-02. Alternativa/komplement k CC SDK pro multi-provider orchestraci. |
+| [pytest-aitest](https://github.com/sbroenne/pytest-aitest) | Testing / skill quality | 8/10 | scan | 2026-04-08 | **EVALUATE** | STOPA — TDD pro skill descriptions + agent tool interfaces s reálnými LLMs. Pydantic AI multi-provider (vč. Anthropic), semantic assertions, multi-dim scoring, cost estimation. Přesný fit pro testování kvality SKILL.md souborů. Microsoft dev. `pip install pytest-aitest`. Telegram notified. |
+| [claude-code-video-toolkit](https://github.com/digitalsamba/claude-code-video-toolkit) | Video production / Claude Code skills | 8/10 | manual | 2026-04-09 | **EVALUATE** | NG-ROBOT ng-video — Claude Code native video pipeline: Remotion + ElevenLabs + LTX-2 + ACEStep + MoviePy + 17 Python CLI tools. Přímý vzor pro rozšíření ng-video o AI klipy, TTS upgrade a scénář pipeline. MIT, Node.js 18+ + Python 3.9+. |
 
 ## Watch List (🟡)
 | Tool | Category | Score | Source | Captured | Notes |
 |------|----------|-------|--------|----------|-------|
+| [Cursor 3.0](https://cursor.com/changelog/3-0) | Agent-first IDE / CC competitor | 6/10 | scan | 2026-04-09 | Agents Window: parallel agents across local/worktrees/cloud/SSH. `/best-of-n` runs task across multiple models in isolated worktrees, compares results. `Await` tool for background process mgmt. Direct CC competitor — study `/best-of-n` + worktree patterns for STOPA farm tier. Production release 2026-04-02. |
 | [LLM Wiki v2](https://claude.ai/public/artifacts/bd55c656-de32-414e-ba8f-81454c66bd62) | Memory architecture framework | 7/10 | manual | 2026-04-07 | Fork karpathy/llm-wiki. 6 vrstev: lifecycle, knowledge graph, hybrid search, automation, quality, multi-agent. Biggest gap vs STOPA: knowledge graph + shared/private agent memory scoping. |
 | [NSM "The Price Is Not Right"](https://arxiv.org/abs/2602.19260) | Research / orchestration architecture | 8/10 | manual/user | 2026-04-07 | Duggan et al. ICRA 2026: neuro-symbolic (PDDL+diffusion) 95% vs VLA 34%. **APPLIED** — 5 patterns integrated into orchestrate + skill-files.md + discover: operator-scoped context, input/output contracts, done-when criteria, mid-execution replanning, primitive extraction. Key: 50 primitive demos > 300 full-task demos. Learning: `2026-04-07-nsm-neuro-symbolic-orchestration.md` |
 | [Infinity-Chat / Artificial Hivemind](https://arxiv.org/abs/2510.22954) | Research / diversity | 7/10 | manual/user | 2026-04-06 | Stanford: 70+ modelů konverguje na stejné odpovědi (intra-model repetition + inter-model homogenity). 26K open-ended queries. Implikace pro STOPA: generativní skills (nano, klip, prompt-evolve) musí mít explicitní divergence constraint. Řešení: few-shot s divergentními příklady, "avoid common X" instrukce, evoluční tlak na diverzitu. Paper 10/2025 ale stále relevantní. |
@@ -53,6 +56,9 @@ Last scan: 2026-04-08 (scheduled #9) | Total: 40 tools | 🔴 5 | 🟡 33 | 🟢
 | [Codex SDK](https://github.com/openai/codex) | OpenAI coding agent SDK | 6/10 | scan | 2026-04-07 | `@openai/codex-sdk` (v0.118.0, MIT, npm). TypeScript wrapper over Codex CLI communication via JSONL stdio. Thread-based sessions (`run()`/`runStreamed()`/`resumeThread()`), OS-level sandboxing (macOS Seatbelt/cloud). MCP podpora. STOPA je Claude-centric — přímé nasazení nevýhodné (méně hook points, sandboxing nefunguje nativně na Windows). Cenné jako referenční srovnání architektury (AGENTS.md ≈ CLAUDE.md pattern confirmed). |
 | [PrismML Bonsai 8B](https://prismml.com/) | Edge LLM inference / 1-bit | 5/10 | scan | 2026-04-07 | Caltech lab, 1-bitový LLM 8B: 1.15 GB footprint, 8× rychlejší inference, 14× méně paměti vs full-precision. Benchmarks: konkurenceschopné s Qwen3 8B. Stealth fáze — žádný veřejný GitHub ani PyPI. API/SDK neznámé. Potenciálně zajímavé pro POLYBOT/ORAKULUM edge inference. Revisit Q3 2026 po veřejném releasu. |
 | [AgentMon](https://codenotary.com/agentmon) | AI agent monitoring / observability | 6/10 | scan | 2026-04-08 | Codenotary, launched 2026-03-31. Real-time telemetry: agent behavior, resource, inter-agent komunikace, token consumption, file access, secrets handling, anomaly detection vs behavioral baselines. Enterprise/commercial. Žádný open-source SDK. Awareness pro STOPA observability patterns — alternativně: OpenTelemetry DIY stack. |
+| [ToolGuard](https://pypi.org/project/py-toolguard/) | Testing / agent tool stress testing | 7/10 | scan | 2026-04-08 | HN ~April 2026 (Harshit). Deterministický stress-test pro agent tools BEZ LLM: nulls, bad schemas, huge payloads. Čte type hints → generuje Pydantic schema. `pip install py-toolguard`. Fit pro /harness + /autoharness. Early-stage, indie dev. |
+| [Picasso CLI](https://github.com/michaeldmueller/picasso) | Image generation / multi-provider CLI | 5/10 | scan | 2026-04-09 | HN Show HN ~2026-03. Jednotný CLI pro AI image gen přes OpenAI, Gemini a FLUX (Black Forest Labs). Eliminuje juggling různých SDKs a parametrů. Open-source GitHub. STOPA fit: komplementární k /nano+/klip (fal.ai-specific), ale multi-provider přístup zajímavý pokud FAL_KEY nedostupný. Indie dev, neznámé hvězdy. |
+| [Lightpanda](https://github.com/lightpanda-io/browser) | Headless browser / scraping | 5/10 | manual | 2026-04-08 | Zig-based headless browser, NOT Chromium fork. CDP server → Playwright/Puppeteer drop-in (1 line change). Full JS (V8), AJAX/XHR/Fetch, cookies, proxy, robots.txt. Beta, stovky Web APIs chybí. Windows: WSL2 only. 11.8k★. Potenciál pro MONITOR scraping až dospěje. Revisit po stabilním releasu. |
 | [Claudoscope](https://github.com/cordwainersmith/Claudoscope) | Claude Code session analytics | 5/10 | scan | 2026-04-07 | macOS menu bar app (MIT, v0.5.0, Homebrew). Čte JSONL session soubory CC z `~/.claude/projects/`, real-time dashboard: token usage, cost estimation (Anthropic+Vertex), session history, 19 lint pravidel pro settings.json health. Secret scanning v session history. **macOS 14+ / Apple Silicon only — Gate 2 fail pro Windows STOPA.** Inspirace pro `/budget` skill rozšíření a config health checker. |
 
 ## Archive (🟢 — last 30, older → radar-archive.md)
@@ -65,6 +71,28 @@ Last scan: 2026-04-08 (scheduled #9) | Total: 40 tools | 🔴 5 | 🟡 33 | 🟢
 - Fork karpathy/llm-wiki. 6 chybějících vrstev: memory lifecycle, knowledge graph, hybrid search, automation, quality controls, multi-agent. Core teze: bottleneck = bookkeeping. Memory pipeline: Working→Episodic→Semantic→Procedural. Hybrid search: BM25+vector+graph→RRF fusion. Gap analýza vs STOPA: knowledge graph (biggest gap, typed entities > flat MD) + shared/private memory scoping pro paralelní agenty. Žádný veřejný GitHub repo. Artifact: claude.ai/public/artifacts/bd55c656-de32-414e-ba8f-81454c66bd62
 
 ## Scan Log
+### 2026-04-08 — manual | Lightpanda — 5/10 🟡
+- Headless browser postavený v Zig (ne Chromium fork). CDP na port 9222 → drop-in pro Playwright/Puppeteer. V8 engine, AJAX/XHR, cookies, proxy. Beta, stovky Web APIs chybí, Windows pouze WSL2. Benchmarks: 11× rychlejší než Chrome, 9× méně RAM (AWS EC2 m5.large, 100 págů). 11.8k★. Potenciál pro MONITOR scraping agenty až dospěje.
+
+### 2026-04-09 — scheduled scan #12 | Searches: 3 | Fetches: 2 | Found: 1 new
+- [Cursor 3.0](https://cursor.com/changelog/3-0) — 6/10 🟡 — Agent-first IDE rebuild (April 2, 2026). Parallel agents across local/worktrees/cloud/SSH. `/best-of-n` command runs task across multiple models in isolated worktrees and compares results — novel pattern for STOPA farm tier. `Await` tool for async background processes. CC direct competitor; architecture worth studying.
+- Skipped (already tracked): Lucidworks MCP (enterprise B2B), ToolGuard, AgentBouncr
+- Skipped (too early/low quality): Eyeball (dvelton/eyeball, 2 HN points, early-stage anti-hallucination via screenshots — 3/10)
+- No score >= 8 → no Telegram notification
+
+### 2026-04-09 — scheduled scan #11 | Searches: 3 | Fetches: 2 | Found: 1 new
+- [Picasso CLI](https://github.com/michaeldmueller/picasso) — 5/10 🟡 — Multi-provider AI image CLI (OpenAI/Gemini/FLUX). Unified interface, indie dev, HN Show HN. Komplementární k /nano, ne replacement.
+- Skipped (enterprise commercial): Lucidworks MCP (4/10 — closed source, B2B enterprise, žádná OSS SDK, $150K/integration savings = enterprise pitch)
+- Skipped (not actionable): Microsoft Agent Framework 1.0.0 (established, tracked), Revise AI doc editor (Gate 1 fail — dokument editor, ne dev tool), AgentBouncr (already noted below threshold)
+- No score >= 8 → no Telegram notification
+
+### 2026-04-08 — scheduled scan #10 | Searches: 3 | Fetches: 3 | Found: 2 new
+- [pytest-aitest](https://github.com/sbroenne/pytest-aitest) — 8/10 🔴 — TDD pro skill descriptions + agent tool interfaces s reálnými LLMs. Pydantic AI multi-provider (Anthropic, OpenAI, Gemini...), semantic assertions, multi-dim scoring, cost estimation. `pip install pytest-aitest`. Microsoft dev (sbroenne). Přímý fit pro testování kvality STOPA SKILL.md souborů. Telegram notified.
+- [ToolGuard](https://pypi.org/project/py-toolguard/) — 7/10 🟡 — Deterministický stress-test agent tools BEZ LLM (nulls, bad schemas, payloads). Pydantic schema z type hints. `pip install py-toolguard`. Fit pro /harness.
+- Skipped (already tracked): AgentMon, Microsoft agent-framework, GitHub Copilot SDK
+- Skipped (not tools): MCP 2026 roadmap (ecosystem news →/watch), NVIDIA open models (models), DigitalOcean/Plano acquisition (infra news)
+- Skipped (below threshold): AgentBouncr (5/10 — runtime governance, early-stage, STOPA already has circuit breakers)
+
 ### 2026-04-08 — scheduled scan #9 | Searches: 14 | Fetches: 2 | Found: 2 new
 - [GitHub Copilot SDK](https://github.com/github/copilot-sdk) — 8/10 🔴 — Public preview 2026-04-02. Embedded Copilot agent runtime, BYOK Anthropic/OpenAI/Foundry, multi-lang SDK (Node/Python/Go/.NET/Java), OpenTelemetry, streaming. STOPA fit: programmatic multi-provider orchestration. Telegram notified.
 - [AgentMon](https://codenotary.com/agentmon) — 6/10 🟡 — Codenotary, 2026-03-31. Enterprise real-time AI agent monitoring (behavior, cost, secrets, anomalies). Commercial, žádný OSS SDK. Awareness pro observability patterns.

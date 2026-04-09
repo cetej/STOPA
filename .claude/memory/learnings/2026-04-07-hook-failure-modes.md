@@ -9,7 +9,7 @@ source: auto_pattern
 uses: 1
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.85
+confidence: 0.9
 verify_check: "Grep('timeout', path='.claude/settings.json') → 1+ matches"
 ---
 

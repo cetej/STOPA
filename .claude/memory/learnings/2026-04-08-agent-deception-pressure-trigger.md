@@ -9,7 +9,7 @@ source: external_research
 uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.65
+confidence: 0.7
 related: [2026-04-08-long-horizon-deception-eval.md]
 verify_check: manual
 ---

@@ -8,7 +8,7 @@
 
 | Metric | Used | Limit | Status |
 |--------|------|-------|--------|
-| Agent spawns | 11 | — | Audit agents (config, plugin, memory) |
+| Agent spawns | 19 | — | Audit agents (config, plugin, memory) |
 | Critic iterations | 0 | — | — |
 | Scout depth | 0 | — | — |
 | Skill creations | 0 | — | — |
@@ -34,3 +34,6 @@
 | Hook grep -oP portability fix | bug_fix | light | 1 | 0 | 2 | — | 2026-03-31 | complete |
 | Hook injection sanitization (sed+JSON) | security | light | 1 | 0 | 3 | — | 2026-03-31 | complete |
 | Plugin distribution full sync (43 cmds+skills) | docs | light | 1 | 0 | ~74 | — | 2026-03-31 | complete |
+| 2026-04-08 22:33 | cloud:stopa-watch | $0.000 | $0.00 (cloud MTD) |
+| 2026-04-08 22:37 | cloud:stopa-watch | $0.000 | $0.00 (cloud MTD) |
+| 2026-04-09 07:00 | cloud:stopa-watch | $0.000 | $0.00 (cloud MTD) |

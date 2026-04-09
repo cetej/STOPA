@@ -3,7 +3,7 @@ name: Test-Time Learning
 type: concept
 first_seen: 2026-04-08
 last_updated: 2026-04-08
-sources: [memory-intelligence-agent-mia]
+sources: [memory-intelligence-agent-mia, in-place-ttt-mlp-fast-weights]
 tags: [agent-learning, inference, memory, continuous-learning, rl-training]
 ---
 
@@ -22,6 +22,10 @@ tags: [agent-learning, inference, memory, continuous-learning, rl-training]
 
 Test-time learning is the theoretical basis for STOPA skills like /self-evolve and /autoloop — agents that improve within a session based on execution feedback. MIA demonstrates this can work at inference time for parametric memory, not just prompt-level iteration.
 
+- In-Place TTT (arXiv:2604.06169): weight-level TTT via MLP fast weights — +4.4 accuracy at 64k tokens on Qwen3-4B, RULER-16k 6.58 → 19.99; no new layers needed, drop-in compatible (ref: sources/in-place-ttt-mlp-fast-weights.md)
+- Weight-level TTT differs from prompt-level TTL: updates actual model parameters chunk-by-chunk during inference, not just context/memory state (ref: sources/in-place-ttt-mlp-fast-weights.md)
+
 ## Mentioned In
 
 - [Memory Intelligence Agent (MIA)](../sources/memory-intelligence-agent-mia.md)
+- [In-Place TTT: LLM Weight Adaptation at Inference](../sources/in-place-ttt-mlp-fast-weights.md)

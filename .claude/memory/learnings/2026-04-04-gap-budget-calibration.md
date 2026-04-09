@@ -6,9 +6,9 @@ component: orchestration
 tags: [budget, calibration, cost-tracking, gap]
 summary: "GAP: No data on budget tracking accuracy — estimated costs vs actual API costs are never compared. Budget tier assignments may be systematically over- or under-estimating."
 source: auto_pattern
-uses: 0
+uses: 1
 harmful_uses: 0
-confidence: 0.5
+confidence: 0.6
 verify_check: manual
 successful_uses: 0
 ---

@@ -40,7 +40,14 @@ Tran & Kiela (arXiv:2604.02460, 2026-04) testovali SAS vs MAS na multi-hop reaso
 - Fault isolation (agent selhání neprotéká do celého systému)
 - Kontextový šum/korupce je těžký (α ≥ 0.7) — reálně: poškozené soubory, extrémně dlouhé noisy kontexty
 
+## Gemini API artefakt (2026-04-08 update)
+
+Gemini 2.5 API: request 10 000 thinking tokenů → API reportuje pouze **1 687** spotřebovaných; viditelný thought text ≈ 251 slov (~359 tokenů). **Inflační faktor ~4.7×**. MAS generuje více visible thought bloků (N agentů = N bloků) → vypadá jako víc reasoning, ale je to jen víc tokenů textu, ne efektivnějšího uvažování.
+
+Praktická implikace: při porovnávání MAS vs SAS na Gemini modelech ověř, zda benchmark měřil *requested* nebo *actual* thinking tokeny.
+
 ## Prevence špatné aplikace
 
 - NEZAKLÁDEJ MAS na tvrzení, že "více hlav = lepší reasoning" — to platí jen pro nekontrolované compute
 - Při hodnocení výkonu orchestration: měř thinking tokeny celého tieru, ne jen jednoho agenta
+- Na Gemini: neporovnávej "requested budget" napříč SAS/MAS — měř actual reported tokens

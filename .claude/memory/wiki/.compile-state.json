@@ -1,10 +1,10 @@
 {
-  "last_compile": "2026-04-08T09:00:00Z",
+  "last_compile": "2026-04-08T12:00:00Z",
   "compile_mode": "incremental",
-  "total_learnings": 67,
+  "total_learnings": 73,
   "total_articles": 9,
   "contradictions": 1,
-  "gaps": 2,
+  "gaps": 3,
   "superseded": [
     "2026-04-04-gap-budget-calibration.md",
     "2026-04-04-gap-compact-variant-measurement.md",
@@ -13,6 +13,10 @@
   "articles": {
     "orchestration-multi-agent.md": {
       "source_learnings": [
+        "2026-04-08-shared-public-state-agent-coordination.md",
+        "2026-04-08-heartbeat-mid-run-steering.md",
+        "2026-04-08-group-experience-sharing-beats-isolated-evolution.md",
+        "2026-04-08-inference-time-sampling-beats-rl-for-diversity.md",
         "2026-04-07-nsm-neuro-symbolic-orchestration.md",
         "2026-04-07-sas-beats-mas-equal-compute.md",
         "2026-04-07-mom-taro-orchestration-upgrades.md",
@@ -100,6 +104,8 @@
     },
     "general-security-environment.md": {
       "source_learnings": [
+        "2026-04-08-agent-deception-pressure-trigger.md",
+        "2026-04-08-long-horizon-deception-eval.md",
         "2026-04-07-model-metadata-dynamic-ui-pattern.md",
         "2026-04-07-multi-reward-normalization-collapse.md",
         "2026-04-05-agent-defense-frameworks.md",
@@ -128,6 +134,12 @@
     }
   },
   "learnings_compiled": [
+    "2026-04-08-agent-deception-pressure-trigger.md",
+    "2026-04-08-long-horizon-deception-eval.md",
+    "2026-04-08-group-experience-sharing-beats-isolated-evolution.md",
+    "2026-04-08-heartbeat-mid-run-steering.md",
+    "2026-04-08-shared-public-state-agent-coordination.md",
+    "2026-04-08-inference-time-sampling-beats-rl-for-diversity.md",
     "2026-04-08-progressive-knowledge-routing.md",
     "2026-04-08-llm-native-validation-hardstop.md",
     "2026-04-08-descriptive-over-narrative-generative.md",

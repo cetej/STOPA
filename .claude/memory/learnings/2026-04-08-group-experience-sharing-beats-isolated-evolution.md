@@ -9,7 +9,7 @@ source: external_research
 uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.85
+confidence: 0.95
 failure_class: coordination
 verify_check: "manual"
 ---

@@ -15,6 +15,10 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 | 77 | **Model Capabilities API** — `GET /v1/models` vrací `max_input_tokens`, `max_tokens`, `capabilities` objekt. Strojové zjišťování možností modelu. | MED | STOPA orchestrate pre-flight: ověřit model capabilities dynamicky místo hardcoded tier tabulky |
 | 78 | **AGENTS.md efficiency study** (arXiv:2601.20404, JAWs Apr 2026) — 28.64% runtime ↓, 16.58% token ↓ s repo-level instrukcemi. Empirická validace STOPA CLAUDE.md přístupu. | MED | Zapsat learning (best_practice/high); přidat do onboarding checklistu pro target projekty |
 | 74 | **Claude Sonnet 5** (`claude-sonnet-5-20260401`) — postupný rollout | MED | GA od 1.4., ale ještě ne na všech účtech. Až bude dostupný: přepnout v STOPA model tiers (standard + deep). 92.4% SWE-bench, 2M context, $3/$15/M. |
+| 83 | **CC v2.1.94 default effort=high** — API-key, Bedrock, Vertex, Team, Enterprise. Potenciálně dražší agentic běhy. | MED | STOPA orchestrate aligned (effort:high). Sledovat náklady v /budget. |
+| 84 | **Claude Managed Agents (Public Beta)** — managed agent harness, SSE, sandbox. Header `managed-agents-2026-04-01`. | MED | Evaluovat jako alternativu k STOPA orchestration. Potenciálně zjednodušuje deployment. |
+| 85 | **`thinking: {type: enabled}` deprecated** — migrovat na `{type: adaptive}` + effort. | MED | STOPA clean. Ověřit target projekty (NG-ROBOT, ADOBE). |
+| 86 | **`ant` CLI** — nový Anthropic CLI, YAML API resources. | LOW | Sledovat až GA. |
 | 65 | CC v2.1.92 — `forceRemoteSettingsRefresh` policy | LOW | Fail-closed při nenačtení remote managed settings. Sledovat při distribuci do target projektů. |
 | 42 | CC Voice Mode (`/voice`) — Czech included | MED | Otestovat až se rolling out dostane k účtu; 20 jazyků vč. češtiny |
 | 44 | CC HTTP hooks (POST JSON → URL) | PARKED | Adopt při remote agents; pro teď nepotřebujeme |
@@ -162,14 +166,18 @@ Older: see `news-archive.md`
 
 **Doporučení:** 1) Archivovat news.md, 2) Implementovat #73 Meta-Harness, 3) Otestovat agent-browser (#70).
 
-## Last Scan: 2026-04-08 (quick) | Next: ~2026-04-09
+## Last Scan: 2026-04-09 (scheduled morning-watch) | Next: ~2026-04-14
 
 ### Action Items
 
 | # | Item | Urgency | Next Step |
 |---|------|---------|----------|
-| 75 | Haiku 3 retirement April 19 | 🔴 KRITICKÉ (11 dní) | Migrovat na Haiku 4.5 před 19.4. |
-| 76 | CLAUDE.md HTML comments skryty | 🔴 HIGH | Auditovat CLAUDE.md + rules/*.md, přesunout instrukce z HTML komentářů |
+| 75 | Haiku 3 retirement April 19 | ~~DONE~~ | Ověřeno: NG-ROBOT i ADOBE na haiku-4-5, STOPA bez aktivního kódu |
+| 83 | CC v2.1.94 default effort=high | 🟡 MEDIUM | Agentic běhy dražší. STOPA orchestrate už má effort:high — aligned. Sledovat náklady. |
+| 84 | Claude Managed Agents (Public Beta) | 🟡 WATCH | Beta header `managed-agents-2026-04-01`. Managed harness s sandboxingem. Potenciální alternativa k části STOPA orchestration. |
+| 85 | `thinking: {type: enabled}` deprecated | 🟡 MEDIUM | Migrovat na `thinking: {type: adaptive}` + effort. STOPA clean — žádný skill/hook to nepoužívá. Target projekty ověřit. |
+| 86 | `ant` CLI (Anthropic) | 🟢 INFO | Nový Anthropic CLI, YAML-based API resources. Sledovat až bude GA. |
+| 76 | CLAUDE.md HTML comments skryty | 🟡 HIGH | Auditovat CLAUDE.md + rules/*.md, přesunout instrukce z HTML komentářů |
 | 77 | TaskCreated hook — nový event | 🟡 MEDIUM | Evaluovat přidání do STOPA hook systému |
 | 78 | PermissionDenied hook + retry | 🟡 WATCH | Zvážit pro permission hook v3.0 recovery flow |
 | 79 | 1M context beta retirement April 30 | 🟡 WATCH | Ověřit model usage, migrovat pokud potřeba |
@@ -177,6 +185,12 @@ Older: see `news-archive.md`
 | 81 | MCP 500K result size | 🟢 INFO | Dostupné pro STOPA MCP servery s velkými výstupy |
 | 82 | SessionStart hook deferred 500ms | 🟢 INFO | Záměrné zpoždění — není bug |
 
+| 87 | Compaction API beta (Opus 4.6) | 🟡 MEDIUM | Server-side context summarization pro infinite conversations. Potenciální alternativa k /compact skill. Evaluovat integraci. |
+| 88 | Claude Mythos Preview (Project Glasswing) | 🟡 WATCH | Preview s 11 partnery, cybersecurity focus. Confirmed live — sledovat GA datum a pricing. |
+| 89 | Data residency controls (inference_geo) | 🟢 INFO | US-only inference za 1.1× cenu pro modely po 2026-02-01. Enterprise feature. |
+
 ### Scan History
 
+### 2026-04-09 — scheduled morning-watch | Searches: 2 | Items: 2 watch, 1 info — Compaction API beta, Mythos Preview live (Project Glasswing), data residency controls
+### 2026-04-08 — quick+update | Searches: 3+3 | Fetches: 2+1 | Items: 4 action, 3 watch — Managed Agents beta, effort=high default, thinking deprecation, ant CLI, Haiku 3 verified safe
 ### 2026-04-08 — quick (scheduled) | Searches: 3 | Fetches: 2 | Items: 3 action, 3 watch, 2 info — Haiku 3 deadline April 19, CLAUDE.md HTML comments skryty, TaskCreated hook, PermissionDenied hook+retry, 1M context retirement April 30, --bare flag

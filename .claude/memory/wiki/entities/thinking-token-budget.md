@@ -2,7 +2,7 @@
 name: Thinking Token Budget
 type: concept
 first_seen: 2026-04-07
-last_updated: 2026-04-07
+last_updated: 2026-04-08
 sources: [single-agent-vs-multi-agent-thinking-budget]
 tags: [orchestration, evaluation, compute-budget]
 ---
@@ -18,6 +18,8 @@ tags: [orchestration, evaluation, compute-budget]
 - Testovaný rozsah: 100–10 000 thinking tokenů; plateau nastává kolem 1 000–2 000 tokenů
 - Implementační úskalí: Gemini 2.5 API-based token accounting je nespolehlivé — je potřeba proxy měření
 - Tran & Kiela (arXiv:2604.02460): SAS pod rovným budgetem konzistentně dosahuje SAS ≥ MAS (ref: sources/single-agent-vs-multi-agent-thinking-budget.md)
+- Konkrétní čísla při 1 000 tokenech: SAS=0.418, sequential=0.379, subtask-parallel=0.369, parallel-roles=0.381, debate=0.388, ensemble=0.333 — žádná MAS architektura nepřekonala SAS
+- Gemini 2.5 API artefakt: request 10 000 thinking tokenů → API reportuje 1 687 použitých; viditelný text ≈251 slov (~359 tokenů) → **4.7× inflační faktor** — MAS generuje víc visible thought bloků, čímž *vypadá* jako že reasoning více
 
 ## Relevance to STOPA
 

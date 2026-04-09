@@ -9,7 +9,7 @@ source: external_research
 uses: 6
 harmful_uses: 0
 successful_uses: 1
-confidence: 0.90
+confidence: 1.0
 verify_check: "Grep('stagnation-detector', path='.claude/settings.json') → 1+ matches"
 related: [2026-04-08-shared-public-state-agent-coordination.md]
 task_context: {task_class: research, complexity: medium, tier: standard}

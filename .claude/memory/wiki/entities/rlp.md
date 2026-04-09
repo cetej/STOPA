@@ -3,7 +3,7 @@ name: RLP
 type: concept
 first_seen: 2026-04-08
 last_updated: 2026-04-08
-sources: [rlp-reinforcement-pretraining]
+sources: [rlp-reinforcement-pretraining, thinking-midtraining-meta-ai]
 tags: [rl, pretraining, reasoning, reward-design, training-methodology]
 ---
 
@@ -26,3 +26,4 @@ RLP validates the "front-load quality" principle: embedding capability earlier i
 ## Mentioned In
 
 - [RLP — Reinforcement as a Pretraining Objective](../sources/rlp-reinforcement-pretraining.md)
+- [Thinking Mid-training — Meta AI](../sources/thinking-midtraining-meta-ai.md)
