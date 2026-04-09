@@ -18,8 +18,10 @@ Why this design?
 
 import json
 import os
+import subprocess
 import sys
 from dataclasses import dataclass, field
+from pathlib import Path
 
 import requests
 
@@ -40,19 +42,26 @@ class LLMClient:
     Works with:
     - Ollama: LLM_BASE_URL=http://localhost:11434/v1
     - OpenAI: LLM_BASE_URL=https://api.openai.com/v1 LLM_API_KEY=sk-...
-    - vLLM:   LLM_BASE_URL=http://localhost:8000/v1
+    - vLLM:   LLM_BASE_URL=http://localhost:8000/v1 (auto-started via vllm-manager)
     - Any OpenAI-compatible endpoint
+
+    Auto-start: If auto_start=True and health check fails, attempts to start
+    vLLM server via scripts/vllm-manager.py before raising ConnectionError.
     """
+
+    VLLM_MANAGER = Path(__file__).resolve().parents[3] / "scripts" / "vllm-manager.py"
 
     def __init__(
         self,
         base_url: str | None = None,
         api_key: str | None = None,
         model: str | None = None,
+        auto_start: bool = False,
     ):
         self.base_url = (base_url or os.getenv("LLM_BASE_URL", "http://localhost:11434/v1")).rstrip("/")
         self.api_key = api_key or os.getenv("LLM_API_KEY", "ollama")
         self.model = model or os.getenv("LLM_MODEL", "llama3.2:3b")
+        self.auto_start = auto_start
 
     def generate(
         self,
@@ -109,12 +118,39 @@ class LLMClient:
                 usage=data.get("usage", {}),
             )
         except requests.exceptions.ConnectionError:
+            if self.auto_start and self._ensure_server():
+                return self.generate(prompt, system, temperature, max_tokens, stop)
             raise ConnectionError(
                 f"Cannot connect to LLM at {self.base_url}. "
                 f"Start Ollama with: ollama run {self.model}"
             )
         except requests.exceptions.HTTPError as e:
             raise RuntimeError(f"LLM API error: {e.response.status_code} — {e.response.text[:200]}")
+
+    def health(self) -> bool:
+        """Check if the backend server is responding."""
+        try:
+            resp = requests.get(f"{self.base_url}/models", timeout=5)
+            return resp.status_code == 200
+        except Exception:
+            return False
+
+    def _ensure_server(self) -> bool:
+        """Attempt to auto-start vLLM via vllm-manager.py. Returns True if server is now healthy."""
+        if not self.VLLM_MANAGER.exists():
+            return False
+        try:
+            result = subprocess.run(
+                [sys.executable, str(self.VLLM_MANAGER), "start", "--model", self.model],
+                capture_output=True, text=True, encoding="utf-8", errors="replace",
+                timeout=180,
+            )
+            if result.returncode == 0:
+                self.auto_start = False  # prevent infinite recursion
+                return True
+        except Exception:
+            pass
+        return False
 
 
 class MockLLMClient:

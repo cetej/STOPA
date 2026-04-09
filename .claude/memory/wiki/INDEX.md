@@ -61,6 +61,7 @@ Health score: 10 - (0 stale×0.5) - (1 contradiction×1.5) - (3 gaps×0.5) - (0 
 - [scalerl-scaling-rl-compute-llms](sources/scalerl-scaling-rl-compute-llms.md) — ScaleRL (Meta, 400K GPU-hrs): sigmoidal compute-performance curves; early performance unreliable; most choices shift efficiency not ceiling; A=0.61 vs GRPO 0.52 (2026-04-08)
 - [rethinking-thinking-tokens-pdr](sources/rethinking-thinking-tokens-pdr.md) — PDR: iterative refinement over bounded drafts beats long CoT; +11%/+9% AIME 2024/2025; parallelism controls quality, not context size (2026-04-08)
 - [acemoglu-ai-aggregation-knowledge](sources/acemoglu-ai-aggregation-knowledge.md) — Acemoglu (MIT): global aggregator necessarily worsens ≥1 dimension; local > global; feedback loop amplifies bias; implemented skill_scope + circular detection (2026-04-09)
+- [triattention-kv-compression](sources/triattention-kv-compression.md) — TriAttention (MIT/NVIDIA): pre-RoPE Q/K Concentration enables 10.7× KV cache reduction + 2.5× throughput for long-reasoning on consumer GPUs (2026-04-09)
 
 ## By Component
 

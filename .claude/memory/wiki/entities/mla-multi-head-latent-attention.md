@@ -3,7 +3,7 @@ name: MLA (Multi-Head Latent Attention)
 type: concept
 first_seen: 2026-04-07
 last_updated: 2026-04-07
-sources: [attention-research]
+sources: [attention-research, triattention-kv-compression]
 tags: [attention, llm-architecture, deepseek, kv-cache]
 ---
 
@@ -26,3 +26,4 @@ Key architecture for understanding DeepSeek model family capabilities. Relevant 
 ## Mentioned In
 
 - [Attention Mechanism Innovations](../sources/attention-research.md)
+- [TriAttention: Efficient Long Reasoning with Trigonometric KV Compression](../sources/triattention-kv-compression.md) — complementary KV compression; TriAttention uses trigonometric scoring vs MLA's low-rank factorization

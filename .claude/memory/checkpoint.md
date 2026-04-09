@@ -1,31 +1,31 @@
 # Session Checkpoint
 
-**Saved**: 2026-04-08 (auto-saved (session end))
+**Saved**: 2026-04-09 (IN PROGRESS — 0/3 subtasks done)
 **Task**: none
 **Branch**: main
-**Last commit**: `e83e7eb` feat: PaperOrchestra patterns — grounding_refs, guard_axes, regression detection
+**Last commit**: `3e4cb05` feat: anti-bias defenses for learning pipeline (Acemoglu arXiv:2604.04906)
 
 ---
 
 ## Session Activity
 
-Session: 115 file edits, 11 agent spawns, 0 skill calls. Skills: compile, evolve, fetch, ingest
-Duration: ~16467 min
+Session: 78 file edits, 18 agent spawns, 0 skill calls. Skills: checkpoint, fetch, ingest, orchestrate, radar
+Duration: ~18006 min
 
 ## Files Touched
 
 | File | Operations | Date |
 |------|-----------|------|
-| SKILL.md | 18 edits | 2026-04-08 |
-| skill-design.md | 6 edits | 2026-04-08 |
-| memory-architecture.md | 5 edits | 2026-04-08 |
-| index.html | 5 edits | 2026-04-08 |
-| INDEX.md | 5 edits | 2026-04-08 |
-| skill-evaluation.md | 4 edits | 2026-04-08 |
-| group-evolution.md | 4 edits | 2026-04-08 |
-| radar.md | 3 edits | 2026-04-08 |
-| hook-infrastructure.md | 3 edits | 2026-04-08 |
-| general-security-environment.md | 3 edits | 2026-04-08 |
+| app.py | 11 edits | 2026-04-09 |
+| learning-admission.py | 7 edits | 2026-04-09 |
+| state.md | 5 edits | 2026-04-09 |
+| radar.md | 4 edits | 2026-04-09 |
+| news.md | 3 edits | 2026-04-09 |
+| llm_client.py | 3 edits | 2026-04-09 |
+| MEMORY.md | 3 edits | 2026-04-09 |
+| triattention.md | 2 edits | 2026-04-09 |
+| transcribe.py | 2 edits | 2026-04-09 |
+| scenario_generator.py | 2 edits | 2026-04-09 |
 
 ## Key Results
 
@@ -41,12 +41,9 @@ _No commits this session_
 
 ## Learnings Captured
 
-learnings_this_session: 12
-  - 2026-04-08-agent-deception-pressure-trigger
-  - 2026-04-08-descriptive-over-narrative-generative
-  - 2026-04-08-group-experience-sharing-beats-isolated-evolution
-  - 2026-04-08-heartbeat-mid-run-steering
-  - 2026-04-08-inference-time-sampling-beats-rl-for-diversity
+learnings_this_session: 2
+  - 2026-04-09-local-aggregator-beats-global
+  - 2026-04-09-triattention-pre-rope-kv-compression
 
 ## Workflow Decisions
 
@@ -55,7 +52,10 @@ _(Full trail: .claude/memory/decisions.md)_
 
 ## What Remains
 
-_No pending subtasks detected in state.md_
+Pending subtasks:
+  - ElevenLabs integration in render.py
+  - Voice selection in schema + generator
+  - E2E test with ElevenLabs
 
 ---
 
@@ -63,7 +63,7 @@ _No pending subtasks detected in state.md_
 
 > **Task**: none
 >
-> **Context**: Last commit `e83e7eb` (feat: PaperOrchestra patterns — grounding_refs, guard_axes, regression detection). Branch: main.
-> Session had 115 edits, 11 agents, 0 skill calls, 0 errors.
-
+> **Context**: Last commit `3e4cb05` (feat: anti-bias defenses for learning pipeline (Acemoglu arXiv:2604.04906)). Branch: main.
+> Session had 78 edits, 18 agents, 0 skill calls, 0 errors.
+> **Remaining**: 3 subtasks pending — check state.md for details.
 

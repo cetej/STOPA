@@ -19,6 +19,21 @@ Updated when infrastructure changes. Checked before guessing configs or suggesti
 |-----|----------|----------------|----------|
 | Model Capabilities | `GET /v1/models/{model_id}` | `max_input_tokens`, `max_tokens`, `capabilities` object | Dynamic model verification in orchestrate pre-flight (instead of hardcoded tier tables) |
 
+## Local Inference
+
+| Backend | Model | Config | Use Case |
+|---------|-------|--------|----------|
+| Ollama | llama3.2:3b | `LLM_BASE_URL=http://localhost:11434/v1` | RAG/ReAct experiments (default) |
+| vLLM + TriAttention | Qwen3-8B | `LLM_BASE_URL=http://localhost:8000/v1` | Long-reasoning 30K+ tokens (10.7× KV compression) |
+| vLLM + TriAttention | DeepSeek-R1-Distill-7B | same | Deep reasoning with DeepSeek architecture |
+
+Managed by `scripts/vllm-manager.py` (auto-calibrate, health checks, PID tracking):
+- Start: `python scripts/vllm-manager.py start [--model qwen|deepseek]`
+- Status: `python scripts/vllm-manager.py status` (JSON)
+- Stop: `python scripts/vllm-manager.py stop`
+- Test: `python scripts/triattention-test.py [--long]`
+- Auto-start: `LLMClient(auto_start=True)` spustí server automaticky při ConnectionError
+
 ## Services & Endpoints
 
 | Service | Environment | URL / Port | Notes |
