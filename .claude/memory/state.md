@@ -1,17 +1,17 @@
 ---
-task_id: ng-video-studio-phase2
-goal: "ElevenLabs TTS integration: replace Edge TTS in studio/render.py with ElevenLabs for better voice quality, voice cloning, multi-language support"
+task_id: ng-video-studio-phase3
+goal: "FLUX image generation via FAL.ai: generate_images_fal() for scenes with visual_prompt"
 type: feature
 status: completed
 branch: main
-phase: 2-of-5
-prev_task: ng-video-studio-phase1 (COMPLETED commit 229f22f)
-next_task: ng-video-studio-phase3 (planned: FLUX.2 image generation for visual_prompt)
-completed_commit: 63178d7
+phase: 3-of-5
+prev_task: ng-video-studio-phase2 (COMPLETED commit 63178d7)
+next_task: ng-video-studio-phase4 (planned: LTX-2 video clip generation)
+completed_commit: 385cb0b
 subtasks:
-  - {id: "st-2-1", description: "Integrate ElevenLabs API: update studio/render.py generate_tts() to use ElevenLabs client instead of edge_tts", criterion: "python -c 'from studio.render import generate_tts' passes AND render.py with ELEVENLABS_API_KEY env var works", done_when: "grep -q 'elevenlabs' studio/render.py AND python studio/render.py --dry-run test_scenario.json shows ElevenLabs TTS source", context_scope: ["ng-video/studio/render.py"], grounding_refs: [], depends_on: [], wave: 1, method: "Agent:general-purpose:sonnet", status: "completed", artifacts: ["commit 63178d7"]}
-  - {id: "st-2-2", description: "Voice selection: expose voice_id in VoiceoverConfig (schema.py), default to 'Emma' (English) or 'Elena' (Czech)", criterion: "schema.py VoiceoverConfig has voice_id field AND scenario_generator.py respects it", done_when: "grep -q 'voice_id:' ng-video/studio/schema.py AND python -m studio.scenario_generator -a processed/2026-02-09... produces scenario with voice_id", context_scope: ["ng-video/studio/schema.py", "ng-video/studio/scenario_generator.py"], grounding_refs: [], depends_on: [], wave: 1, method: "direct", status: "completed", artifacts: ["commit 63178d7"]}
-  - {id: "st-2-3", description: "Test with real article: E2E pipeline with ElevenLabs, dry-run render, verify audio quality via ffprobe", criterion: "Generated MP3s are valid AND durations match scenario timings ±0.5s", done_when: "python studio/render.py --from-article processed/2026-02-09... --dry-run succeeds AND ffprobe shows valid MP3 with correct duration", context_scope: ["ng-video/studio/"], grounding_refs: [], depends_on: ["st-2-1", "st-2-2"], wave: 2, method: "direct", status: "completed", artifacts: ["commit 63178d7"]}
+  - {id: "st-3-1", description: "Populate visual_prompt in scenario_generator.py for intro/segment scenes", status: "completed", artifacts: ["commit 385cb0b"]}
+  - {id: "st-3-2", description: "generate_images_fal() in render.py: FAL.ai FLUX image generation with fallback", status: "completed", artifacts: ["commit 385cb0b"]}
+  - {id: "st-3-3", description: "Pipeline integration: --skip-images/--regenerate-images flags, image gen before TTS", status: "completed", artifacts: ["commit 385cb0b"]}
 ---
 
 # Shared Memory — Task State
