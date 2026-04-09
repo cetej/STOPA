@@ -1,17 +1,17 @@
 ---
-task_id: ng-video-studio-phase3
-goal: "FLUX image generation via FAL.ai: generate_images_fal() for scenes with visual_prompt"
+task_id: ng-video-studio-all-phases
+goal: "ng-video Studio — full media generation pipeline (TTS + images + video clips + music)"
 type: feature
 status: completed
 branch: main
-phase: 3-of-5
-prev_task: ng-video-studio-phase2 (COMPLETED commit 63178d7)
-next_task: ng-video-studio-phase4 (planned: LTX-2 video clip generation)
-completed_commit: 385cb0b
-subtasks:
-  - {id: "st-3-1", description: "Populate visual_prompt in scenario_generator.py for intro/segment scenes", status: "completed", artifacts: ["commit 385cb0b"]}
-  - {id: "st-3-2", description: "generate_images_fal() in render.py: FAL.ai FLUX image generation with fallback", status: "completed", artifacts: ["commit 385cb0b"]}
-  - {id: "st-3-3", description: "Pipeline integration: --skip-images/--regenerate-images flags, image gen before TTS", status: "completed", artifacts: ["commit 385cb0b"]}
+phase: 5-of-5
+commits:
+  phase1: 229f22f (scenario pipeline)
+  phase2: 63178d7 (ElevenLabs TTS)
+  phase3: 385cb0b (FLUX image generation)
+  phase4: 2aef71a (Kling 3.0 video clips)
+  phase5: f2e28aa (ACEStep background music)
+subtasks: []
 ---
 
 # Shared Memory — Task State
