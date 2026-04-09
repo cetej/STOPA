@@ -54,6 +54,13 @@ Health score: 10 - (0 stale×0.5) - (1 contradiction×1.5) - (3 gaps×0.5) - (0 
 - [flow-map-language-models](sources/flow-map-language-models.md) — Continuous flow over one-hot embeddings (2026-04-08)
 - [coral-autonomous-multi-agent-evolution](sources/coral-autonomous-multi-agent-evolution.md) — CORAL: git worktree per agent + shared public state + heartbeat steering; 3-10× improvement rate (2026-04-08)
 - [memory-intelligence-agent-mia](sources/memory-intelligence-agent-mia.md) — MIA: living memory (evolving + compressed trajectories) +31% avg/11 benchmarks; 7B beats 32B by 18%; bidirectional parametric↔non-parametric conversion (2026-04-08)
+- [paperorchestra-multi-agent-paper-writing](sources/paperorchestra-multi-agent-paper-writing.md) — PaperOrchestra: multi-agent manuscript generation, 50-68% literature review win rate; PaperWritingBench reverse-engineering methodology for eval benchmarks (2026-04-08)
+- [thinking-midtraining-meta-ai](sources/thinking-midtraining-meta-ai.md) — Meta thinking mid-training: 9× gains solo, 3.2× vs direct RL post-training; front-load reasoning via interleaved thoughts + DrGRPO (2026-04-08)
+- [in-place-ttt-mlp-fast-weights](sources/in-place-ttt-mlp-fast-weights.md) — In-Place TTT: weight-level adaptation at inference via MLP fast weights; RULER-16k 6.58→19.99, +4.4 accuracy at 64k; drop-in compatible (2026-04-08)
+- [rlsd-self-distilled-rlvr](sources/rlsd-self-distilled-rlvr.md) — RLSD: decouple direction (env reward) from magnitude (teacher); +2.32% over GRPO, 2× convergence, leakage-free; impossibility trilemma for distribution-matching (2026-04-08)
+- [scalerl-scaling-rl-compute-llms](sources/scalerl-scaling-rl-compute-llms.md) — ScaleRL (Meta, 400K GPU-hrs): sigmoidal compute-performance curves; early performance unreliable; most choices shift efficiency not ceiling; A=0.61 vs GRPO 0.52 (2026-04-08)
+- [rethinking-thinking-tokens-pdr](sources/rethinking-thinking-tokens-pdr.md) — PDR: iterative refinement over bounded drafts beats long CoT; +11%/+9% AIME 2024/2025; parallelism controls quality, not context size (2026-04-08)
+- [acemoglu-ai-aggregation-knowledge](sources/acemoglu-ai-aggregation-knowledge.md) — Acemoglu (MIT): global aggregator necessarily worsens ≥1 dimension; local > global; feedback loop amplifies bias; implemented skill_scope + circular detection (2026-04-09)
 
 ## By Component
 

@@ -327,6 +327,105 @@ def check_instruction_in_learning(content: str) -> list[str]:
     return warnings
 
 
+CRITICAL_PATTERNS_PATH = LEARNINGS_DIR / "critical-patterns.md"
+
+# Circular validation: what fraction of a pattern's TITLE keywords
+# must appear in the learning text to flag it.
+# Title keywords are the rule's essence — if a learning mentions most of them,
+# it's likely confirming the same behavioral rule the system already enforces.
+CIRCULAR_TITLE_MATCH_THRESHOLD = 0.6
+
+
+def parse_critical_patterns() -> list[dict]:
+    """Parse critical-patterns.md into list of {title, keywords, component_hints}.
+
+    Each ## heading is one pattern. We extract significant words from the body
+    as keywords for overlap comparison.
+    """
+    if not CRITICAL_PATTERNS_PATH.exists():
+        return []
+    try:
+        content = CRITICAL_PATTERNS_PATH.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return []
+
+    patterns = []
+    current: dict | None = None
+
+    for line in content.split("\n"):
+        if line.startswith("## ") and not line.startswith("## ---"):
+            if current and current.get("body"):
+                current["keywords"] = extract_keywords(current["body"])
+                patterns.append(current)
+            title = line[3:].strip()
+            current = {"title": title, "body": "", "keywords": set()}
+        elif current is not None:
+            current["body"] += " " + line
+
+    # Don't forget the last pattern
+    if current and current.get("body"):
+        current["keywords"] = extract_keywords(current["body"])
+        patterns.append(current)
+
+    return patterns
+
+
+def check_circular_validation(
+    meta: dict, summary: str, content: str
+) -> list[str]:
+    """Detect if a new learning merely confirms an existing critical pattern.
+
+    Acemoglu et al. (arXiv:2604.04906): endogenous feedback loops amplify bias
+    when an aggregator trains on beliefs shaped by its own prior output.
+    In STOPA: critical-patterns guide agent behavior → agent generates learnings
+    → learnings confirm the pattern → /evolve strengthens the pattern. Circular.
+
+    Detection: if >60% of new learning's significant keywords overlap with
+    an existing critical pattern on the same component, flag it.
+    Duplicate detection catches identical content; this catches *confirmatory* content
+    that uses different words to validate the same behavioral rule.
+
+    Returns list of warning strings.
+    """
+    warnings = []
+    new_component = meta.get("component", "")
+    new_tags = parse_tags(meta)
+
+    # Combine summary + body keywords for richer comparison
+    body = content.split("---", 2)[-1] if content.startswith("---") else content
+    new_keywords = extract_keywords(summary) | extract_keywords(body)
+
+    if len(new_keywords) < 3:
+        return warnings  # Too few keywords to judge
+
+    patterns = parse_critical_patterns()
+
+    for pattern in patterns:
+        # Use TITLE keywords as the pattern's essence — short, specific, high signal.
+        # A learning that mentions most of a pattern's title words is likely
+        # confirming the same behavioral rule.
+        title_kw = extract_keywords(pattern["title"])
+        if len(title_kw) < 2:
+            continue
+
+        matched = title_kw & new_keywords
+        ratio = len(matched) / len(title_kw)
+
+        if ratio >= CIRCULAR_TITLE_MATCH_THRESHOLD and len(matched) >= 2:
+            warnings.append(
+                f"[circular-risk] Learning matches {len(matched)}/{len(title_kw)} "
+                f"title keywords of critical pattern '{pattern['title']}' "
+                f"({', '.join(sorted(matched))}). "
+                f"This may be circular validation — the agent behavior that "
+                f"produced this learning was likely guided by the same pattern. "
+                f"Consider: does this add INDEPENDENT evidence, "
+                f"or just confirm behavior the system already enforces?"
+            )
+            break  # One flag is enough
+
+    return warnings
+
+
 def load_existing_learnings() -> list[dict]:
     """Load YAML frontmatter from all existing learning files."""
     if not LEARNINGS_DIR.exists():
@@ -409,16 +508,20 @@ def main():
     for warning in contradictions:
         messages.append(f"[contradiction-check] {warning}")
 
-    # 3. Origin detection + confidence cap (Phase 2 — AI Agent Traps defense)
+    # 3. Circular validation detection (Acemoglu arXiv:2604.04906)
+    circular_warnings = check_circular_validation(meta, summary, content)
+    messages.extend(circular_warnings)
+
+    # 4. Origin detection + confidence cap (Phase 2 — AI Agent Traps defense)
     is_web, web_reasons = detect_web_origin(content, meta)
     cap_warnings = check_confidence_cap(meta, is_web, web_reasons)
     messages.extend(cap_warnings)
 
-    # 4. Memory poisoning check (instruction patterns in learning body)
+    # 5. Memory poisoning check (instruction patterns in learning body)
     poison_warnings = check_instruction_in_learning(content)
     messages.extend(poison_warnings)
 
-    # 5. Missing verify_check warning
+    # 6. Missing verify_check warning
     if not meta.get("verify_check"):
         messages.append(
             "[admission-gate] No verify_check field — "

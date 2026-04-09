@@ -74,8 +74,23 @@ Scan all files in `.claude/memory/learnings/` and evaluate each learning's confi
 2. Apply decay: if `uses: 0` AND `date:` is 60+ days old → subtract 0.1 per 30 days of inactivity (min 0.1)
 3. Apply boost: add `uses × 0.05` (cap at 1.0), subtract `harmful_uses × 0.15`
 
+**Inverse frequency graduation** (Acemoglu arXiv:2604.04906 — Proposition 2, majority-weighting bias):
+Count learnings per `component:` field to estimate skill frequency. Apply frequency-adjusted threshold:
+```
+component_count = count of learnings files with matching component: value
+frequency_factor = min(1.0, log(1 + component_count) / log(11))
+adjusted_uses_threshold = max(3, round(10 * (1 - 0.5 * frequency_factor)))
+```
+Example: `component: orchestration` with 30 learnings → threshold stays `uses >= 7`.
+`component: pipeline` with 2 learnings → threshold drops to `uses >= 3`.
+This ensures rare-skill insights can graduate despite lower absolute usage counts.
+
 **Graduation candidates** (`uses >= 10` AND effective confidence >= 0.8 AND `harmful_uses < 2`):
-→ Propose PROMOTE to `critical-patterns.md` or GRADUATE to `rules/`
+→ **Graduation routing** (Acemoglu arXiv:2604.04906 — local aggregators > global):
+  - Learning HAS `skill_scope:` with 1-2 skills → PROMOTE to `.claude/skills/<name>/learned-rules.md` (skill-local)
+  - Learning HAS `skill_scope:` with 3+ skills → treat as cross-cutting → PROMOTE to `critical-patterns.md` (global)
+  - Learning WITHOUT `skill_scope:` → PROMOTE to `critical-patterns.md` or GRADUATE to `rules/` (global, as before)
+  - **Circular validation flag**: if `learning-admission.py` flagged `[circular-risk]`, deprioritize for graduation — circular confirmations don't add independent evidence
 
 **Pruning candidates** (effective confidence < 0.3):
 → Propose PRUNE — learning has decayed below usefulness threshold
