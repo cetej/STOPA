@@ -46,6 +46,11 @@ globs: "**/skills/*/SKILL.md"
   - Orchestrátor by měl ověřit dostupnost PŘED spuštěním skillu
   - Vynechej pokud skill nemá žádné externí závislosti
 - `supported-os`: array of supported platforms (`windows`, `linux`, `macos`). Vynechej pokud skill funguje všude (default = all)
+- `max-depth`: optional integer (default: 1). Maximum recursion depth for this skill. RLM production (arXiv:2512.24601) uses depth=1.
+  - 1 = orchestrator spawns workers, workers do NOT spawn sub-orchestrators (default)
+  - 2 = workers may spawn one level of sub-workers (only deepresearch, build-project)
+  - Skills spawning Agent() must respect max-depth — decrement by 1 for each level
+  - Enforced by core-invariant #8 and orchestrate Phase 4 depth check
 - `effort`: `low` | `high` | `auto`. When `auto`: orchestrator uses progressive skill withdrawal (SKILL0-inspired Dynamic Curriculum). First invocation in session loads full `SKILL.md`, subsequent invocations load `SKILL.compact.md` if it exists. This reduces token overhead by ~80% on repeat invocations within a session.
 - `input-contract`: optional string describing what the skill REQUIRES as input. Format: `"<source> → <artifact type> → <validation>"`. Example: `"orchestrator → task description + file list → non-empty"`, `"scout → codebase map → files exist"`. Used by orchestrator for **static plan chain validation** — verify output(A) satisfies input(B) BEFORE launching agents. Skills without this field: orchestrator assumes skill handles its own input validation (backward compatible). Inspired by PDDL preconditions (Duggan et al., arXiv:2602.19260 — neuro-symbolic planning outperforms end-to-end by 3× when operator interfaces are explicit).
 - `output-contract`: optional string describing what the skill produces and in what format (MetaGPT SOP pattern, arXiv:2308.00352). Used by orchestrator to validate handoff between skills and verify downstream readiness. Format: `"<artifact type> → <format> → <location>"`. Example: `"scout report → markdown table → stdout"`, `"research brief → markdown → outputs/<slug>-research.md"`. Skills without this field: orchestrator infers output from workflow description (backward compatible).

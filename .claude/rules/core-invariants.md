@@ -44,3 +44,9 @@ Klasifikuj chybu PŘED započítáním pokusu:
 **Reflexion nota (arXiv:2303.11366 — 91% vs 80% HumanEval):** Po každém FAILu generuj explicitní verbální notu: "Co příště udělám jinak a proč." Tato nota se uloží do kontextu dalšího pokusu — ne pouze error log, ale konkrétní plán změny přístupu. Reflexion ukazuje, že právě tato nota (ne pouhý záznam chyby) zodpovídá za zlepšení výkonu.
 
 Po 3 neúspěšných logických pokusech: STOP, zdokumentuj a eskaluj. Opakování není řešení.
+
+## 8. Recursion depth defaults to 1, max 2
+Default `max-depth` pro skills je 1 (orchestrátor → worker, worker neorchestuje).
+Depth=2 povoleno jen pro skills s explicitním `max-depth: 2` ve frontmatter (deepresearch, build-project).
+Důvod: RLM production (arXiv:2512.24601) používá depth=1. Depth>1 je experimentální a nestabilní.
+Worker agent při depth=1 pracuje přímo (Read/Edit/Bash) — NESMÍ spouštět sub-orchestrátora.

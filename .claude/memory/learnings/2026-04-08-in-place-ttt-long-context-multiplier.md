@@ -6,10 +6,10 @@ component: orchestration
 tags: [model-selection, long-context, inference, test-time-training, iterative-skills]
 summary: "In-Place TTT gives 3-12× improvement on long-context benchmarks (RULER-16k: 6.58→19.99) by updating MLP weights chunk-by-chunk during inference. When selecting models for STOPA deep-tier iterative tasks with >64k context, TTT-capable models dominate."
 source: external_research
-uses: 0
+uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.6
+confidence: 0.65
 verify_check: "manual"
 ---
 

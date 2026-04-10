@@ -1,31 +1,31 @@
 # Session Checkpoint
 
-**Saved**: 2026-04-09 (IN PROGRESS — 0/3 subtasks done)
+**Saved**: 2026-04-10 (IN PROGRESS — 0/3 subtasks done)
 **Task**: none
 **Branch**: main
-**Last commit**: `5ccfb95` feat: ng-video Studio all 5 phases complete
+**Last commit**: `472fafd` chore: sync memory — learnings, wiki, raw captures, session data
 
 ---
 
 ## Session Activity
 
-Session: 113 file edits, 19 agent spawns, 0 skill calls. Skills: checkpoint, fetch, ingest, orchestrate, radar
-Duration: ~18041 min
+Session: 85 file edits, 14 agent spawns, 0 skill calls. Skills: deepresearch, fetch
+Duration: ~19566 min
 
 ## Files Touched
 
 | File | Operations | Date |
 |------|-----------|------|
-| app.py | 17 edits | 2026-04-09 |
-| render.py | 13 edits | 2026-04-09 |
-| state.md | 10 edits | 2026-04-09 |
-| learning-admission.py | 7 edits | 2026-04-09 |
-| scenario_generator.py | 4 edits | 2026-04-09 |
-| radar.md | 4 edits | 2026-04-09 |
-| news.md | 3 edits | 2026-04-09 |
-| llm_client.py | 3 edits | 2026-04-09 |
-| launch.json | 3 edits | 2026-04-09 |
-| NGVideoStudio.tsx | 3 edits | 2026-04-09 |
+| render.py | 11 edits | 2026-04-10 |
+| app.py | 11 edits | 2026-04-10 |
+| transcribe.py | 8 edits | 2026-04-10 |
+| streamed-rolling-pascal.md | 5 edits | 2026-04-10 |
+| process.py | 5 edits | 2026-04-10 |
+| state.md | 4 edits | 2026-04-10 |
+| splitter.py | 3 edits | 2026-04-10 |
+| launch.json | 3 edits | 2026-04-10 |
+| NGVideoStudio.tsx | 3 edits | 2026-04-10 |
+| scenario_generator.py | 2 edits | 2026-04-10 |
 
 ## Key Results
 
@@ -41,9 +41,8 @@ _No commits this session_
 
 ## Learnings Captured
 
-learnings_this_session: 2
-  - 2026-04-09-local-aggregator-beats-global
-  - 2026-04-09-triattention-pre-rope-kv-compression
+learnings_this_session: 1
+  - 2026-04-10-rlm-architectural-principles
 
 ## Workflow Decisions
 
@@ -63,7 +62,7 @@ Pending subtasks:
 
 > **Task**: none
 >
-> **Context**: Last commit `5ccfb95` (feat: ng-video Studio all 5 phases complete). Branch: main.
-> Session had 113 edits, 19 agents, 0 skill calls, 0 errors.
+> **Context**: Last commit `472fafd` (chore: sync memory — learnings, wiki, raw captures, session data). Branch: main.
+> Session had 85 edits, 14 agents, 0 skill calls, 0 errors.
 > **Remaining**: 3 subtasks pending — check state.md for details.
 

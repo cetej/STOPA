@@ -6,10 +6,10 @@ component: orchestration
 tags: [adaptive-routing, role-specific-critic, upstream-first, weak-to-strong, parallel-rollouts]
 summary: "Implemented 4 MoM/TARo-inspired upgrades: scout quality gate (upstream-first), role-specific critic weights, per-subtask adaptive model routing, haiku-first difficulty estimation."
 source: external_research
-uses: 0
+uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.7
+confidence: 0.75
 verify_check: "Grep('Scout Quality Gate', path='.claude/commands/orchestrate.md') → 1+ matches"
 related: [2026-04-06-self-organizing-agents-ab-test.md]
 ---

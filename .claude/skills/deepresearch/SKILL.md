@@ -18,6 +18,7 @@ phase: meta
 user-invocable: true
 allowed-tools: Read, Write, Glob, Grep, Bash, Agent, WebSearch, WebFetch
 model: sonnet
+max-depth: 2
 effort: high
 maxTurns: 25
 handoffs:

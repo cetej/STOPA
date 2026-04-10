@@ -83,8 +83,14 @@ Before anything else:
 2. If a previous task is still active and over budget → alert the user before starting new work
 3. Read `.claude/memory/news.md` — if last scan is older than 7 days, suggest running `/watch` before starting work
 
+### Improvement queue check:
+4. Read `.claude/memory/improvement-queue.md` (if it exists)
+5. If pending improvements exist relevant to the current task → mention briefly: "FYI: improvement-queue has <N> pending RLM items relevant to this area."
+   - Do NOT block on this — it's informational, not a gate
+   - Only mention items whose Skills column overlaps with current task scope
+
 ### Checkpoint check:
-4. Read `.claude/memory/checkpoint.md` (if it exists)
+6. Read `.claude/memory/checkpoint.md` (if it exists)
 5. If a checkpoint exists with content:
    - Show the user: "Found checkpoint from **<date>**: *<task summary>* (<progress>)"
    - Ask: "Resume this task, or start fresh?"
@@ -279,16 +285,19 @@ Before launching scout agents, check `.claude/memory/intermediate/scout-*.json` 
 Scale exploration to the assigned tier:
 
 ### Light tier:
-- Use Glob/Grep directly — NO agent spawns for scouting
-- Quick check of 1-3 files max
+- Use `/scout --metadata` for structured metadata (RLM PEEK principle)
+- Supplement with direct Glob/Grep for 1-3 files if metadata insufficient
+- NO agent spawns for scouting
 
 ### Standard tier:
-- Use `/scout` skill for structured exploration
+- Use `/scout --metadata` first for planning — saves ~2-3K tokens vs full report
+- If metadata reveals `complexity_estimate: high` or `risk_signals` → upgrade to full `/scout`
 - For complex changes: use `/scout --assumptions` to surface implementation assumptions
 - Or a single `Agent(subagent_type: "general-purpose")` if cross-module
 
 ### Deep tier:
-- Use `Agent(subagent_type: "general-purpose")` for thorough mapping
+- Use full `/scout` (not `--metadata`) — deep tier needs complete picture
+- If budget allows, add `/scout --assumptions` for risk surfacing
 - May spawn parallel agents for independent modules
 - **If 3+ independent subtasks**: Consider Agent Teams (see Phase 4)
 
@@ -563,6 +572,41 @@ IF estimated_cost > remaining_budget:
 
 Log budget gate result to budget.md: `"Budget gate: {PASS|WARNING|STOP} — est ${est} / rem ${rem}"`
 
+### Budget Allocation per Agent (RLM-inspired, arXiv:2512.24601)
+
+RLM propagates `remaining_budget` to every sub-call with `BudgetExceededError`. STOPA adapts this as soft-cap with graceful degradation:
+
+**Allocation algorithm:**
+```
+total_remaining = budget.remaining (from budget.md)
+reserve = total_remaining × 0.20       # 20% reserve pool for reallocation
+allocatable = total_remaining - reserve
+# Complexity weight: subtasks with more context_scope files get proportionally more
+complexity[i] = len(context_scope[i]) + (2 if security/auth/payment in scope else 0)
+weighted_budget[i] = allocatable × (complexity[i] / sum(all complexities))
+min_viable = $0.03                      # below this: merge subtasks, don't launch
+```
+
+**Rules:**
+- If `weighted_budget[i] < min_viable`: merge subtask with closest neighbor, log merge reason
+- Reserve pool (20%): orchestrator reallocates from reserve to agent that reports INCOMPLETE
+- Max 1 reallocation per agent (prevents reserve drain)
+
+**Agent prompt BUDGET section** (include in every agent prompt, after subtask description):
+```
+BUDGET: ~$X.XX allocated for this subtask (~Y tool calls estimated).
+- Work within this budget. If running low, complete what you have and report partial results.
+- Mark incomplete work as "INCOMPLETE: <what remains>" — never silently skip.
+- This is a soft limit — finishing a critical step is more important than exact budget.
+```
+
+**Safeguards:**
+- **Soft cap, not hard kill**: Agent gets budget warning, not termination. Finishes current step.
+- **Reserve pool**: 20% held back for reallocation to agents that need more.
+- **Minimum viable ($0.03)**: Agent below this threshold doesn't launch — merge subtasks instead.
+- **Graceful degradation**: INCOMPLETE status + explicit list of remaining work, never silent failure.
+- **Budget tracking**: Log per-agent allocation + actual spend in budget.md Event Log.
+
 ### Agent Execution
 
 For detailed agent spawn templates, file access manifests, diversity framing, output validation, wave checkpoints, sidecar queue drain, panic-aware recovery, wave re-open protocol, and wave context handoff:
@@ -577,7 +621,8 @@ Core principles:
   3. **Scoped files** (from `context_scope` field) — Read these files and include content directly
   4. **Upstream artifacts** (from completed dependencies) — only outputs the agent needs
   5. **Relevant learnings** (grep-matched, not all) — max 2-3 most relevant (skip if already in grounding_refs)
-  6. **NOT included**: other subtasks, full scout report, budget details, unrelated decisions
+  6. **Budget allocation** (from Budget Allocation section above) — remaining budget for this subtask as BUDGET section
+  7. **NOT included**: other subtasks, full scout report, unrelated decisions
   Why: NSM Feature Selector φ (arXiv:2602.19260) — operator-scoped input eliminates irrelevant context noise. The paper showed 95% vs 34% success partly because each operator saw only task-relevant objects in relative coordinates. Same principle: each agent sees only task-relevant files and context, reducing hallucination and improving focus.
 - **File Access Manifest**: Every agent gets WRITE/READ/FORBIDDEN file lists to prevent conflicts.
 - **Pre-launch disjointness check**: Before parallel spawn, verify WRITE file lists don't overlap.
@@ -930,7 +975,7 @@ These CANNOT be overridden without user approval:
 1. **Agent loop**: Same agent 3+ times for same subtask → STOP
 2. **Critic loop**: FAIL 2x on same target → STOP
 3. **Budget exceeded**: Any counter hits limit → STOP
-4. **Nesting depth**: > 2 levels → STOP
+4. **Nesting depth**: exceeds skill's `max-depth` (default 1, max 2) → STOP. Before spawning: check current depth, if >= max-depth agent works directly (Read/Edit/Bash), no further delegation. Log: `"Depth check: {current}/{max} — {PASS|BLOCKED}"`
 5. **Memory bloat**: File > 500 lines → maintenance first
 6. **Analysis paralysis**: 5+ consecutive read-only ops → must write or report blocked
 7. **No-progress loop**: 3 waves without file changes → STOP

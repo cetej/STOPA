@@ -42,6 +42,7 @@ Parse `$ARGUMENTS` to determine:
 - **Depth**: Quick scan or thorough deep-dive?
 - **Scope**: Specific files, module, or entire codebase?
 - **Flag `--assumptions`**: If present, add Assumptions Analysis to the output (Step 5 below). Use this before planning a complex change to surface what you'd assume about the implementation and let the user correct you before you start.
+- **Flag `--metadata`**: If present, return ONLY structured metadata summary (no file contents, no full analysis). Used by `/orchestrate` for lightweight planning. See Step 0.3 below.
 
 ## Cost Awareness
 
@@ -97,6 +98,44 @@ Updated: <ISO 8601>
 ```
 
 Staleness check: `git log --oneline --since="<map timestamp>" | head -1` — if any output, map is stale.
+
+### Step 0.3: Metadata-Only Mode (RLM-inspired, arXiv:2512.24601)
+
+If `--metadata` flag is present, return ONLY a structured metadata summary. This is metadata-FIRST, not metadata-ONLY: the orchestrator plans from metadata, but worker agents always read full files.
+
+**Process:**
+1. Run Glob for relevant file patterns (same as Step 1 surface scan)
+2. Count files, detect languages, check for test directories
+3. Run quick Grep for risk signals (auth, payment, secrets, circular imports)
+4. Return structured output — NO file content reading
+
+**Output format:**
+```yaml
+## Scout Metadata
+files_total: <N>
+files_relevant: <N matching task scope>
+languages: [python, typescript, ...]
+test_coverage: none | partial | full    # based on test dir/file existence
+dependencies_external: [lib1, lib2]     # from package.json/requirements.txt headers
+complexity_estimate: low | medium | high  # low=<5 files, medium=5-15, high=15+
+risk_signals:                            # from Grep patterns
+  - "no tests for <module>"
+  - "circular import detected in <file>"
+  - "auth/payment code in scope"
+  - "file >500 lines: <path>"
+key_files:                               # top 5 by relevance, paths + role only
+  - path: <file path>
+    role: "<purpose>, <N> lines, last changed <date>"
+```
+
+**Safeguards:**
+- `risk_signals` captures "small but critical" files that metadata alone might miss
+- If `complexity_estimate` is `high`: orchestrator should consider full scout for deep tier
+- Worker agents receiving subtasks can report `NEED_MORE_CONTEXT` with specific file paths → orchestrator runs targeted full scout for that module only
+
+**Cost:** ~500-800 tokens output (vs 3-5K for standard scout). No agent spawns. Max 5-8 Glob/Grep calls.
+
+After metadata output, STOP — do not proceed to Step 1.
 
 ### Step 0.5: Self-Knowledge Boundary Check (SKR, arXiv:2310.05002)
 

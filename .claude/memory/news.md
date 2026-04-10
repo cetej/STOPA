@@ -185,12 +185,16 @@ Older: see `news-archive.md`
 | 81 | MCP 500K result size | 🟢 INFO | Dostupné pro STOPA MCP servery s velkými výstupy |
 | 82 | SessionStart hook deferred 500ms | 🟢 INFO | Záměrné zpoždění — není bug |
 
+| 90 | **Sonnet 3.7 + Haiku 3.5 retired** — requesty vrací chyby. Upgrade na Sonnet 4.6 resp. Haiku 4.5. | 🔴 HIGH | Zkontrolovat target projekty (NG-ROBOT, ADOBE, test1) zda nepoužívají claude-sonnet-3-7 nebo claude-haiku-3-5 |
+| 91 | **Messages API na Amazon Bedrock (research preview)** — stejný request shape jako první-party API, AWS-managed infrastruktura, nulový operator access, us-east-1. | 🟢 INFO | Sledovat pro enterprise deployment scénáře |
+| 92 | **CC Focus view (Ctrl+O)** — nový UI mód: prompt + jednořádkový tool summary s edit diffstats + finální odpověď. NO_FLICKER mode. | 🟢 INFO | Otestovat při práci s velkými diff outputy |
 | 87 | Compaction API beta (Opus 4.6) | 🟡 MEDIUM | Server-side context summarization pro infinite conversations. Potenciální alternativa k /compact skill. Evaluovat integraci. |
 | 88 | Claude Mythos Preview (Project Glasswing) | 🟡 WATCH | Preview s 11 partnery, cybersecurity focus. Confirmed live — sledovat GA datum a pricing. |
 | 89 | Data residency controls (inference_geo) | 🟢 INFO | US-only inference za 1.1× cenu pro modely po 2026-02-01. Enterprise feature. |
 
 ### Scan History
 
+### 2026-04-10 — scheduled morning-watch | Searches: 2 | Items: 1 action, 2 watch — Sonnet 3.7+Haiku 3.5 retired (errors), Bedrock Messages API preview, CC Focus view
 ### 2026-04-09 — scheduled morning-watch | Searches: 2 | Items: 2 watch, 1 info — Compaction API beta, Mythos Preview live (Project Glasswing), data residency controls
 ### 2026-04-08 — quick+update | Searches: 3+3 | Fetches: 2+1 | Items: 4 action, 3 watch — Managed Agents beta, effort=high default, thinking deprecation, ant CLI, Haiku 3 verified safe
 ### 2026-04-08 — quick (scheduled) | Searches: 3 | Fetches: 2 | Items: 3 action, 3 watch, 2 info — Haiku 3 deadline April 19, CLAUDE.md HTML comments skryty, TaskCreated hook, PermissionDenied hook+retry, 1M context retirement April 30, --bare flag

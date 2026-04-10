@@ -6,11 +6,11 @@ component: orchestration
 tags: [orchestration-graph, shared-workspace, dynamic-structure, global-workspace-theory]
 summary: "Dynamic agent graph orchestration: GraphDesigner analyzes task → generates task-specific directed graph (3-node for simple, 9-node for complex). Agents coordinate via centralized shared workspace. Graph complexity scales with task demands."
 source: external_research
-uses: 1
+uses: 2
 harmful_uses: 0
 related: []
 verify_check: "manual"
-confidence: 0.85
+confidence: 0.95
 successful_uses: 0
 ---
 

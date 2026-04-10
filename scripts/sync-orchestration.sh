@@ -181,6 +181,36 @@ for TARGET_REPO in "${TARGETS[@]}"; do
         for mem_file in "${SYNC_MEMORY_FILES[@]}"; do
             sync_file "$SOURCE_DIR/memory/$mem_file" "$TARGET_CLAUDE/memory/$mem_file" "$mem_file" || ((changed++))
         done
+
+        # --- Learnings (individual YAML files) ---
+        # Only sync general learnings (no skill_scope or skill_scope covers 3+ skills)
+        # Project-specific learnings stay in STOPA
+        if [ -d "$SOURCE_DIR/memory/learnings" ]; then
+            [ "$JSON_OUTPUT" = false ] && echo "" && echo "--- Learnings ---"
+            mkdir -p "$TARGET_CLAUDE/memory/learnings"
+
+            for learning_file in "$SOURCE_DIR/memory/learnings"/*.md; do
+                [ -f "$learning_file" ] || continue
+                filename="$(basename "$learning_file")"
+
+                # Skip project-specific learnings (those with narrow skill_scope)
+                # Sync only: no skill_scope (global) OR skill_scope with 3+ entries (cross-cutting)
+                if grep -q "^skill_scope:" "$learning_file" 2>/dev/null; then
+                    # Count skills in scope — skip if 1-2 (too specific)
+                    scope_count=$(grep "^skill_scope:" "$learning_file" | grep -o "," | wc -l)
+                    scope_count=$((scope_count + 1))
+                    if [ "$scope_count" -lt 3 ]; then
+                        [ "$JSON_OUTPUT" = false ] && echo "  [-] learnings/$filename (skill-specific, skipped)"
+                        continue
+                    fi
+                fi
+
+                sync_file "$learning_file" "$TARGET_CLAUDE/memory/learnings/$filename" "learnings/$filename" || ((changed++))
+            done
+
+            # Also sync critical-patterns.md (always-read, max 10 entries)
+            sync_file "$SOURCE_DIR/memory/critical-patterns.md" "$TARGET_CLAUDE/memory/critical-patterns.md" "critical-patterns.md" || ((changed++))
+        fi
     fi
 
     # --- Hooks ---
