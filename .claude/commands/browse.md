@@ -1,14 +1,16 @@
 ---
 name: browse
-description: Use when browsing web pages for data extraction, form filling, testing, or monitoring. Trigger on 'browse', 'open page', 'extract from site'. Do NOT use for web search or static fetch.
+description: Use when browsing web pages for data extraction, form filling, UI testing, or page monitoring. Trigger on 'browse', 'open page', 'extract from site', 'fill form', 'web scraping'. Do NOT use for web search (use brave-search) or static content fetch (use /fetch).
 user-invocable: true
 argument-hint: "[extract|fill|test|monitor] <url> [what to do]"
 tags: [web, osint]
 phase: build
+permission-tier: full-access
 requires: [agent-browser]
 model: sonnet
 maxTurns: 25
 effort: medium
+discovery-keywords: [web scraping, browser automation, form fill, extract data, website, scrape, page content, URL, navigate, selenium, playwright, devtools, cdp, screenshot]
 allowed-tools:
   - Read
   - Write
@@ -120,6 +122,20 @@ agent-browser not installed?         → Claude in Chrome
 
 Do NOT mix backends in one session.
 
+### Error Handling & Retry Logic
+
+**Classify the error before retrying:**
+
+| Error type | Symptom | Action |
+|---|---|---|
+| **Daemon not running** | `Connection refused` on `agent-browser` itself (tool fails to start) | STOP — agent-browser daemon is not running. Do NOT retry. Tell user to start the daemon or fall back to Claude in Chrome. |
+| **URL unreachable** | `agent-browser open` succeeds but page fails to load (timeout, DNS, 4xx/5xx) | Retry up to 3 times with `agent-browser wait --load networkidle`. After 3 failures, report the URL error. |
+| **CAPTCHA / bot block** | Page loads but shows CAPTCHA or access denied | STOP — do not loop. Tell user the site blocks automation. |
+| **Navigation timeout** | `agent-browser wait` times out | Retry once with longer wait, then report. |
+
+Max 3 retries applies to **URL/navigation errors**, not to daemon failures.
+Daemon failures → immediate fallback or STOP.
+
 ## Mode: extract
 
 1. `agent-browser open <url>`
@@ -217,6 +233,33 @@ Always end with a structured summary. Include:
 - What was done
 - Key findings or proof (screenshot path)
 
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "I'll just use Claude in Chrome since it's simpler" | agent-browser is cheaper and faster; Chrome MCP is only for interactive/visual tasks | Check if agent-browser is installed first; use `--auto-connect` if Chrome session exists |
+| "I'll skip the 3-retry limit since one more try might work" | Runaway retries burn budget and mask real errors; 3 is the hard cap | After 3 failures, report the error with full context and stop |
+| "The form only asks for basic info so I'll fill the password too" | Passwords are explicitly forbidden — 'basic info' exception never covers auth credentials | Skip the field, screenshot what was filled, tell user to fill it manually |
+| "I'll skip `agent-browser close` since it'll clean up eventually" | Daemon holds open Chrome processes; unclosed sessions leak resources | Always call `agent-browser close` at the end of every session |
+| "Screenshot is proof enough, I don't need to check console errors" | Visual proof misses silent JS failures, broken network requests | In test mode: always run `agent-browser console` + check network in addition to screenshot |
+
+## Red Flags
+
+STOP and re-evaluate if any of these occur:
+- Switching backends mid-session (mixing agent-browser and Claude in Chrome calls)
+- Submitting a form without explicit user confirmation
+- Filling a field labeled `password`, `secret`, `token`, `card`, `ssn`, `cvv`, or similar
+- Calling `agent-browser open` more than 3 times on the same URL without success
+- Navigating to a URL the user didn't provide or clearly imply
+
+## Verification Checklist
+
+- [ ] Backend decision matches the Backend Decision Rule (agent-browser first, Chrome MCP only as fallback)
+- [ ] Sensitive fields (password, credit card, SSN, API key) were NOT filled
+- [ ] Form submit / destructive action was confirmed with user before executing
+- [ ] `agent-browser close` called at session end
+- [ ] Output includes: URL visited, backend used, key findings or screenshot path
+
 ## Rules
 
 1. **Privacy first** — never extract or fill sensitive financial/identity data
@@ -225,5 +268,5 @@ Always end with a structured summary. Include:
 4. **Clean up** — `agent-browser close` when done (releases daemon resources)
 5. **No memory writes** — output is ephemeral, goes to stdout only
 6. **Respect robots** — if a site blocks automation or shows CAPTCHA, stop and tell the user
-7. **Cost aware** — don't loop on failed navigation; 3 retries max then report failure
+7. **Cost aware** — 3 retries max on failed navigation then report failure; distinguish daemon errors (agent-browser not running) from URL errors (target site unreachable)
 8. **Prefer snapshot over screenshot** — text tree is cheaper than image parsing
