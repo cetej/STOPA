@@ -70,6 +70,19 @@ Mutation strategies rotate per variant:
 - "uses different artistic vocabulary and composition terms"
 - "combines the best elements from: {high_scoring_templates}"
 
+### Low-Rank Mutation Principle (EGGROLL-inspired)
+
+Instead of mutating the entire prompt (full-rank perturbation), each variant perturbs along ONE axis only (rank-1 perturbation). The final update is the weighted sum across the population — recovering full-rank expressivity.
+
+| Variant | Perturbation axis | What changes | What stays fixed |
+|---------|------------------|--------------|------------------|
+| 2 (Expansion) | Detail specificity | Technical/visual terms | Structure, length, tone |
+| 3 (Compression) | Length | Word count | Vocabulary, intent |
+| 4 (Style shift) | Vocabulary | Artistic terms | Structure, length, specificity |
+| 5 (Cross-pollination) | Structure | Composition pattern | Length, tone |
+
+Why: EGGROLL proves that even rank-1 perturbations converge to the true ES gradient as dimension grows (Theorem 3). Translated to prompts: small, targeted mutations from many variants > large rewrites from few variants. The overall update is rank min(N×r, d) — not restricted to be low-rank.
+
 ## Phase 3: Generation & Evaluation
 
 For each variant of each entry:
@@ -114,15 +127,32 @@ TTS generation is cheap — generate short test clip:
 3. Score naturalness (requires manual eval or user rating)
 4. For automated runs: skip voice, flag for manual review
 
-## Phase 4: Selection (Pareto-Optimal)
+## Phase 4: Selection (EGGROLL Population Scoring + Pareto)
 
-1. Rank all variants by eval score
-2. Apply Pareto selection: a variant is dominated if another variant has BOTH higher score AND shorter prompt length
-3. Select the Pareto-optimal variant (highest score among non-dominated)
-4. If Pareto-optimal variant score > baseline score: ADOPT
-5. If Pareto-optimal variant score <= baseline score: KEEP baseline, increment version anyway with note "no improvement found"
+### Step 1: Population-Normalized Scoring (EGGROLL GRPO-style)
 
-**Guard: no regression allowed.** A new template is adopted ONLY if it scores strictly higher than baseline.
+Raw eval scores are noisy across categories. Normalize each variant's score relative to the population:
+
+```
+For each entry with variants {v_1, ..., v_N} and raw scores {s_1, ..., s_N}:
+  μ = mean(s_1, ..., s_N)
+  σ_global = std(s_1, ..., s_N)   # global variance across ALL variants of this entry
+  z_i = (s_i - μ) / max(σ_global, 0.01)   # z-score, floor σ to avoid division by zero
+```
+
+Why: EGGROLL (arXiv, Oxford/MILA 2026) shows that normalizing fitness scores by global population variance produces a more stable selection signal than raw scores — especially when eval rubrics differ across categories. This is the same scoring function used in GRPO for LLM reasoning.
+
+**Population advantage signal**: When all variants score within ±0.05 of each other (σ < 0.05), the entry may be near a local optimum. Flag for cross-pollination in the next run.
+
+### Step 2: Pareto Selection
+
+1. Rank all variants by **z-score** (not raw score)
+2. Apply Pareto selection: a variant is dominated if another variant has BOTH higher z-score AND shorter prompt length
+3. Select the Pareto-optimal variant (highest z-score among non-dominated)
+4. If Pareto-optimal variant **raw score** > baseline raw score: ADOPT
+5. If Pareto-optimal variant raw score <= baseline: KEEP baseline, increment version anyway with note "no improvement found"
+
+**Guard: no regression allowed.** A new template is adopted ONLY if its raw score is strictly higher than baseline. Z-scores are for ranking within the population, not for absolute thresholds.
 
 ## Phase 5: Persistence
 

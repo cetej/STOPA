@@ -103,6 +103,24 @@ Validation:
 
 Repeat for `budget` rounds (default 6):
 
+#### Adaptive Mutation Strength σ (EGGROLL three-regime principle)
+
+EGGROLL (Oxford/MILA 2026) proves ES operates in three regimes based on perturbation scale σ:
+- **Linearization** (σ too small): converges but explores nothing new
+- **Critical** (σ just right): optimal signal-to-noise ratio
+- **Divergence** (σ too large): updates diverge, wasted compute
+
+Map to self-evolve mutation scope:
+
+| Round state | σ regime | Executor instruction modifier |
+|-------------|----------|-------------------------------|
+| pass_rate < 50% | **Small σ** — linearization | "Fix the single most obvious failure. Change at most 3 lines." |
+| pass_rate 50-90% | **Medium σ** — critical | "Make one targeted structural change. Up to 10 lines." (default) |
+| pass_rate 100%, escalating | **Large σ** — exploration | "Consider a structural refactor of one section. Up to 20 lines." |
+| 2+ consecutive reverts | **Reduce σ** | "Previous changes were too aggressive. Make a smaller, more focused edit." |
+
+The σ modifier is injected into the Executor sub-agent system prompt (Step 3) to control edit granularity. This prevents the common failure mode where Executor makes huge rewrites on early rounds (divergence) or tiny tweaks when exploration is needed (linearization).
+
 #### Step 1: Grade
 
 Run all eval cases against current skill version.

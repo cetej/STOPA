@@ -32,6 +32,31 @@ Karpathy autoresearch pattern for Claude Code: constrain scope → define metric
 | **File mode** | Target is a file path | Built-in structural scorer (SKILL.md) or LLM-as-judge |
 | **Metric mode** | `verify:<command>` provided | External command output (test coverage, benchmark, bundle size...) |
 
+## Population Mode (EGGROLL-inspired, opt-in)
+
+When `population:N` is set (N=2-4), each iteration generates N candidate mutations instead of one. Each candidate is a rank-1 perturbation (one focused change along one axis). The best candidate is selected via population-normalized scoring, and only the winner is committed.
+
+```
+For iteration i with population:3:
+  1. Read current state (Step 1: Review) — shared across all candidates
+  2. Generate 3 candidate edits sequentially — each targets ONE axis:
+     - Candidate A: structural change (reorder, change flow, add/remove sections)
+     - Candidate B: content change (improve specific text, logic, or values)
+     - Candidate C: simplification (remove redundancy, condense, delete dead code)
+  3. For each candidate: apply edit → run verify → record metric → revert edit
+  4. Compute z-scores: z_i = (metric_i - μ) / max(σ, 0.01)
+  5. Re-apply and commit ONLY the highest z-score candidate (if it beats baseline)
+  6. Log all candidates in TSV: append `pop_rank` column (1=winner, 2-N=discarded)
+```
+
+**Why this works** (EGGROLL Theorem 3, Oxford/MILA 2026): rank-1 perturbations (= one-axis edits) are sufficient because the accumulated update across iterations sums selected rank-1 updates — recovering full-rank expressivity. Small, targeted edits from a population > large rewrites from a single attempt.
+
+**Constraints:**
+- Population mode uses N× the verify calls per iteration — budget = `iterations × population`
+- Each candidate is generated and verified sequentially (no Agent tool needed)
+- NOT compatible with `mode:tree` (tree already branches)
+- Default population:1 (standard single-candidate mode) — opt-in via `population:N` argument
+
 ## 8 Critical Rules (from Karpathy's autoresearch)
 
 | # | Rule |
