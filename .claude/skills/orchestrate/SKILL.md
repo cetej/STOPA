@@ -382,6 +382,12 @@ Based on scout results:
 1. **Decompose** the task into subtasks
 2. **Identify dependencies** between subtasks (what blocks what)
 3. **Classify each subtask**: known pattern → skill; new repeatable → create skill; one-off complex → Agent; one-off simple → direct
+3a. **Atomic skill routing** (arXiv:2604.05013 — bugfix tasks benefit from decomposition into atomic skills):
+   - If type=`bugfix` AND no existing test covers the bug → insert `/reproduce` subtask BEFORE the fix subtask (Wave N, fix in Wave N+1)
+   - If type=`bugfix` AND fix subtask uses `/fix-issue` → `/reproduce` output (failing test path) feeds as input to fix-issue
+   - If type=`refactor` OR scope touches untested modules → insert `/generate-tests` subtask BEFORE refactor (safety net)
+   - If post-implementation coverage is low → insert `/generate-tests` subtask AFTER fix/feature subtasks
+   - Atomic skills are composable: `/reproduce` → `/fix-issue` → `/generate-tests` → `/critic` is the full bugfix pipeline
 3b. **Assign delegation style per subtask** based on `task_style` from Phase 1:
    - `exploratory` task → subtasks default to self-org template (mission-only prompt)
    - `structured` task → subtasks default to prescribed template (full Process Frame)

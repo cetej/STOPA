@@ -2,10 +2,17 @@
 name: orchestrate
 description: Use when a task is clearly specified and requires multiple steps or touches 3+ files. Trigger on 'plan this', 'break this down', 'orchestrate'. Do NOT use for vague ideas without clear spec (/brainstorm) or single-file edits.
 argument-hint: [task description]
+discovery-keywords: [multi-step, decompose, parallel agents, complex task, plan execution, coordinate, rozděl úkol, wave, delegate]
 context-required:
   - "task description — what to accomplish and why"
   - "success criteria — what 'done' looks like (prevents open-ended delivery)"
   - "constraints — what must NOT change (modules, APIs, interfaces)"
+curriculum-hints:
+  - "Classify task complexity and select budget tier BEFORE scouting"
+  - "Run scout to map affected files and dependencies"
+  - "Decompose into subtasks with explicit input/output contracts"
+  - "Execute agents in parallel where dependencies allow"
+  - "Run critic on results, then verify end-to-end"
 tags: [orchestration, planning]
 phase: plan
 user-invocable: true
@@ -76,8 +83,14 @@ Before anything else:
 2. If a previous task is still active and over budget → alert the user before starting new work
 3. Read `.claude/memory/news.md` — if last scan is older than 7 days, suggest running `/watch` before starting work
 
+### Improvement queue check:
+4. Read `.claude/memory/improvement-queue.md` (if it exists)
+5. If pending improvements exist relevant to the current task → mention briefly: "FYI: improvement-queue has <N> pending RLM items relevant to this area."
+   - Do NOT block on this — it's informational, not a gate
+   - Only mention items whose Skills column overlaps with current task scope
+
 ### Checkpoint check:
-4. Read `.claude/memory/checkpoint.md` (if it exists)
+6. Read `.claude/memory/checkpoint.md` (if it exists)
 5. If a checkpoint exists with content:
    - Show the user: "Found checkpoint from **<date>**: *<task summary>* (<progress>)"
    - Ask: "Resume this task, or start fresh?"
@@ -154,6 +167,24 @@ Before tier selection, classify the task's **delegation style** — this determi
 
 Log: `"Task style: {style} (signals: {keywords_matched})"`
 
+### Verifiability Assessment (Karpathy gate)
+
+Before decomposition, classify task verifiability — determines which skills are eligible downstream:
+
+| Level | Criteria | Eligible skills | Example |
+|-------|----------|----------------|---------|
+| **METRIC** | Objective, machine-checkable metric (tests, benchmarks, scores, pass/fail) | autoloop, autoresearch, self-evolve, harness | "Optimize critic pass rate", "Reduce latency by 30%" |
+| **HEURISTIC** | Subjective quality criteria (code review, UX, text quality) | autoreason, critic, peer-review | "Improve this prompt", "Review code quality" |
+| **UNVERIFIABLE** | No clear done-when (exploration, open research, creative) | scout, deepresearch, brainstorm + milestone checkpoints | "Investigate memory options", "Explore new tools" |
+
+**Rules:**
+- Log assessment to state.md: `"Verifiability: {level} (metric: {description if METRIC})"`
+- If task routes to auto-* skill but classified UNVERIFIABLE → **WARNING**: "Task has no verifiable metric — auto-* skills will likely waste tokens. Consider milestone-based approach instead."
+- METRIC tasks get priority for autonomous loops (fewer human checkpoints needed)
+- UNVERIFIABLE tasks should have explicit exit criteria defined upfront to prevent unbounded exploration
+
+**Why:** Karpathy (2026-03): "Auto-research is extremely well suited to anything that has objective metrics that are easy to evaluate. If you can't evaluate it, you can't auto-research it."
+
 ### Assign Complexity Tier
 
 **First, check learned heuristics:** Read `${CLAUDE_SKILL_DIR}/tier-heuristics.md` for patterns extracted from past task traces. If the current task matches a heuristic, use its recommended tier.
@@ -163,6 +194,12 @@ Log: `"Task style: {style} (signals: {keywords_matched})"`
 2. **Task keyword signals**: fix/typo/rename → light; refactor/implement → standard; redesign/architecture → deep; bulk/lint/20+ → farm
 3. **File count estimate**: Glob affected paths. 1 file → light, 2-5 → standard, 6+ → deep, 20+ mechanical → farm
 4. **Uncertainty factor**: Vague scope → start one tier higher (never above deep)
+5. **L_task score (for ambiguous cases)**: When steps 1-4 give conflicting signals or scope is unclear, assess three dimensions:
+   - **C_exec** — compute per trial (none/light/heavy)
+   - **S_space** — search space breadth (narrow/moderate/broad/unknown)
+   - **D_feedback** — feedback signal quality (strong/weak/manual)
+   Run: `python ${CLAUDE_SKILL_DIR}/scripts/tier-detector.py --ltask --c-exec <level> --s-space <level> --d-feedback <level>`
+   Take max of keyword, file, and L_task tier. Ref: ASI-Evolve (arXiv:2603.29640).
 
 For tier details (agent limits, critic limits, models): `Read ${CLAUDE_SKILL_DIR}/references/tier-definitions.yaml`
 
@@ -203,6 +240,8 @@ Log: "Amdahl gate: p={p:.1f} ({I}/{T} independent). Tier: {original} -> {capped}
 **Trigger:** tier == `deep` OR `$ARGUMENTS` contains `--gate`. Skip for light/standard unless `--gate`.
 
 Display advisory, then continue (don't wait):
+- **Design gate**: Are architectural decisions resolved? AI agents excel at implementation but defer design decisions when refactoring is cheap — this leads to incoherent codebases (ref: Willison 2026-04-05). If task requires architecture choices (new module boundaries, API shape, data model), these MUST be decided by the user or orchestrator BEFORE agents start. Agents receive a spec, not an open question.
+  → My read: [design resolved / needs user input — NOT optional]
 - **Product gate**: What does success look like? Simpler solution for 80% of the goal?
   → My read: [1-sentence assessment — NOT optional]
 - **Engineering gate**: Where could this fail? Side-effects on existing code?
@@ -246,16 +285,19 @@ Before launching scout agents, check `.claude/memory/intermediate/scout-*.json` 
 Scale exploration to the assigned tier:
 
 ### Light tier:
-- Use Glob/Grep directly — NO agent spawns for scouting
-- Quick check of 1-3 files max
+- Use `/scout --metadata` for structured metadata (RLM PEEK principle)
+- Supplement with direct Glob/Grep for 1-3 files if metadata insufficient
+- NO agent spawns for scouting
 
 ### Standard tier:
-- Use `/scout` skill for structured exploration
+- Use `/scout --metadata` first for planning — saves ~2-3K tokens vs full report
+- If metadata reveals `complexity_estimate: high` or `risk_signals` → upgrade to full `/scout`
 - For complex changes: use `/scout --assumptions` to surface implementation assumptions
 - Or a single `Agent(subagent_type: "general-purpose")` if cross-module
 
 ### Deep tier:
-- Use `Agent(subagent_type: "general-purpose")` for thorough mapping
+- Use full `/scout` (not `--metadata`) — deep tier needs complete picture
+- If budget allows, add `/scout --assumptions` for risk surfacing
 - May spawn parallel agents for independent modules
 - **If 3+ independent subtasks**: Consider Agent Teams (see Phase 4)
 
@@ -313,6 +355,26 @@ Reuse Episodic Recall matches from Phase 1. DONE decisions overlapping the curre
 
 `Read ${CLAUDE_SKILL_DIR}/references/n-plan-selection.md`
 
+### Batch Detection (Steinberg macro-action pattern)
+
+Before decomposing, check if the task is actually N independent tasks bundled together:
+
+**Batch signals:**
+- User listed 2+ tasks with "and" / "," / numbered list
+- Tasks target different files/directories with no shared state
+- No data dependency between tasks (output of A is not input of B)
+
+**If batch detected:**
+1. Skip full decomposition — each task IS a subtask already
+2. Skip inter-task dependency analysis (they're independent by definition)
+3. Each agent gets its own mini-scout (Haiku, 2 turns max) instead of shared scout
+4. All agents spawn in Wave 1 (full parallelization)
+5. Log: `"Batch mode: {N} independent tasks detected, skipping decomposition"`
+
+**Savings:** ~3-5K tokens per skipped decomposition step + faster execution via full parallelization.
+
+**Why:** Peter Steinberg pattern (Karpathy, 2026-03): 10 repos tiled on monitor, each agent ~20 min. "Macro actions over your repository" — don't micro-decompose what's already decomposed.
+
 ### Decomposition
 
 Based on scout results:
@@ -320,6 +382,12 @@ Based on scout results:
 1. **Decompose** the task into subtasks
 2. **Identify dependencies** between subtasks (what blocks what)
 3. **Classify each subtask**: known pattern → skill; new repeatable → create skill; one-off complex → Agent; one-off simple → direct
+3a. **Atomic skill routing** (arXiv:2604.05013 — bugfix tasks benefit from decomposition into atomic skills):
+   - If type=`bugfix` AND no existing test covers the bug → insert `/reproduce` subtask BEFORE the fix subtask (Wave N, fix in Wave N+1)
+   - If type=`bugfix` AND fix subtask uses `/fix-issue` → `/reproduce` output (failing test path) feeds as input to fix-issue
+   - If type=`refactor` OR scope touches untested modules → insert `/generate-tests` subtask BEFORE refactor (safety net)
+   - If post-implementation coverage is low → insert `/generate-tests` subtask AFTER fix/feature subtasks
+   - Atomic skills are composable: `/reproduce` → `/fix-issue` → `/generate-tests` → `/critic` is the full bugfix pipeline
 3b. **Assign delegation style per subtask** based on `task_style` from Phase 1:
    - `exploratory` task → subtasks default to self-org template (mission-only prompt)
    - `structured` task → subtasks default to prescribed template (full Process Frame)
@@ -359,8 +427,8 @@ type: <feature|bugfix|refactor|research|maintenance>
 status: in_progress
 branch: <git branch>
 subtasks:
-  - {id: "st-1", description: "<subtask>", criterion: "<pass/fail>", done_when: "<machine-verifiable completion condition>", context_scope: ["<file1>", "<file2>"], depends_on: [], wave: 1, method: "Agent:general", status: "pending", artifacts: []}
-  - {id: "st-2", description: "<subtask>", criterion: "<pass/fail>", done_when: "<machine-verifiable completion condition>", context_scope: ["<file3>"], depends_on: ["st-1"], wave: 2, method: "Skill:/review", status: "pending", artifacts: []}
+  - {id: "st-1", description: "<subtask>", criterion: "<pass/fail>", done_when: "<machine-verifiable completion condition>", context_scope: ["<file1>", "<file2>"], grounding_refs: [], depends_on: [], wave: 1, method: "Agent:general", status: "pending", artifacts: []}
+  - {id: "st-2", description: "<subtask>", criterion: "<pass/fail>", done_when: "<machine-verifiable completion condition>", context_scope: ["<file3>"], grounding_refs: ["learnings/2026-04-05-auth-pattern.md"], depends_on: ["st-1"], wave: 2, method: "Skill:/review", status: "pending", artifacts: []}
 ---
 
 ## Active Task
@@ -371,10 +439,10 @@ subtasks:
 
 ### Subtasks
 
-| # | Subtask | Criterion | Done-When | Scope | Depends on | Wave | Method | Status |
-|---|---------|-----------|-----------|-------|-----------|------|--------|--------|
-| 1 | ... | <verifiable pass/fail> | <machine-check> | file1, file2 | — | 1 | Agent:general | pending |
-| 2 | ... | <verifiable pass/fail> | <machine-check> | file3 | 1 | 2 | Skill:/review | pending |
+| # | Subtask | Criterion | Done-When | Scope | Grounding | Depends on | Wave | Method | Status |
+|---|---------|-----------|-----------|-------|-----------|-----------|------|--------|--------|
+| 1 | ... | <verifiable pass/fail> | <machine-check> | file1, file2 | — | — | 1 | Agent:general | pending |
+| 2 | ... | <verifiable pass/fail> | <machine-check> | file3 | auth-pattern.md | 1 | 2 | Skill:/review | pending |
 
 ### Dependency Graph
 
@@ -442,7 +510,108 @@ After decomposition, validate planned agent count has positive ROI.
 
 `Read ${CLAUDE_SKILL_DIR}/references/cost-gate.md`
 
+## Phase 3.7: Skill Adaptation (--adapt or auto)
+
+**Ref:** arXiv:2604.04323 — query-specific refinement acts as a "multiplier on existing skill quality" (57.7% → 65.5%).
+
+When the orchestrator dispatches a subtask to a Skill (not a raw Agent), assess skill-task fit and generate an **adaptation prefix** if needed.
+
+### When to adapt
+
+| Condition | Action |
+|-----------|--------|
+| Subtask criterion is domain-specific AND skill is general-purpose | Generate adapt prefix |
+| `--adapt` flag passed by user | Always generate adapt prefix for every skill subtask |
+| Skill has `effort: high` AND subtask has `context_scope` with 3+ files | Generate adapt prefix |
+| Subtask is simple mechanical edit (lint, rename) | Skip adaptation |
+
+### How to adapt (Haiku, max 30s)
+
+1. Read the skill's `SKILL.md` description + first 20 lines of process section
+2. Compare against the subtask's `description`, `criterion`, and `context_scope`
+3. Generate a **task-adapted context prefix** (3-5 lines) that narrows the skill's focus:
+   - What aspects of the domain to prioritize
+   - What aspects to skip (irrelevant for this task)
+   - Any task-specific terminology or patterns from scout results
+
+**Example:**
+```
+Subtask: "Refactor auth middleware to use JWT instead of sessions"
+Skill: /critic
+
+Adapt prefix:
+  Focus: auth middleware patterns, JWT validation, session migration completeness.
+  Skip: UI concerns, unrelated API endpoints, formatting.
+  Domain terms: Bearer token, refresh token rotation, middleware ordering in Express.
+```
+
+4. Prepend the adapt prefix to the skill invocation prompt (before $ARGUMENTS)
+5. The prefix is **ephemeral** — session-only, not saved to skill file
+
+### Coverage threshold
+
+If scout confidence on the subtask domain is low (fragmented knowledge, no matching learnings, unfamiliar tech stack), skip adaptation — it would amplify noise, not signal. This maps to the paper's coverage threshold (≥3.83 = adapt helps, ≤3.49 = doesn't).
+
+**Heuristic:** If grep for subtask keywords in `learnings/` returns 0 matches AND scout found <2 relevant files → skip adapt for this subtask.
+
 ## Phase 4: Execute
+
+### Budget Soft Gate (Karpathy throughput awareness)
+
+Before spawning agents, estimate execution cost and compare to remaining budget:
+
+```
+planned_agents = count of subtasks that need agent spawn
+avg_cost_per_agent = {light: 0.02, standard: 0.05, deep: 0.10, farm: 0.03}[tier]
+estimated_cost = planned_agents × avg_cost_per_agent
+remaining_budget = read from budget.md
+
+IF estimated_cost > remaining_budget × 0.8:
+  WARNING to user: "Estimated cost ($X.XX for N agents) exceeds 80% of remaining budget ($Y.YY)."
+  Suggest: "Downgrade to {lower_tier}? Or reduce to {N-2} agents by merging subtasks {A+B}?"
+  Wait for user response before proceeding.
+
+IF estimated_cost > remaining_budget:
+  HARD STOP: "Budget insufficient for planned execution. Remaining: $Y.YY, needed: $X.XX."
+  Options: reduce tier, reduce agent count, or increase budget.
+```
+
+Log budget gate result to budget.md: `"Budget gate: {PASS|WARNING|STOP} — est ${est} / rem ${rem}"`
+
+### Budget Allocation per Agent (RLM-inspired, arXiv:2512.24601)
+
+RLM propagates `remaining_budget` to every sub-call with `BudgetExceededError`. STOPA adapts this as soft-cap with graceful degradation:
+
+**Allocation algorithm:**
+```
+total_remaining = budget.remaining (from budget.md)
+reserve = total_remaining × 0.20       # 20% reserve pool for reallocation
+allocatable = total_remaining - reserve
+# Complexity weight: subtasks with more context_scope files get proportionally more
+complexity[i] = len(context_scope[i]) + (2 if security/auth/payment in scope else 0)
+weighted_budget[i] = allocatable × (complexity[i] / sum(all complexities))
+min_viable = $0.03                      # below this: merge subtasks, don't launch
+```
+
+**Rules:**
+- If `weighted_budget[i] < min_viable`: merge subtask with closest neighbor, log merge reason
+- Reserve pool (20%): orchestrator reallocates from reserve to agent that reports INCOMPLETE
+- Max 1 reallocation per agent (prevents reserve drain)
+
+**Agent prompt BUDGET section** (include in every agent prompt, after subtask description):
+```
+BUDGET: ~$X.XX allocated for this subtask (~Y tool calls estimated).
+- Work within this budget. If running low, complete what you have and report partial results.
+- Mark incomplete work as "INCOMPLETE: <what remains>" — never silently skip.
+- This is a soft limit — finishing a critical step is more important than exact budget.
+```
+
+**Safeguards:**
+- **Soft cap, not hard kill**: Agent gets budget warning, not termination. Finishes current step.
+- **Reserve pool**: 20% held back for reallocation to agents that need more.
+- **Minimum viable ($0.03)**: Agent below this threshold doesn't launch — merge subtasks instead.
+- **Graceful degradation**: INCOMPLETE status + explicit list of remaining work, never silent failure.
+- **Budget tracking**: Log per-agent allocation + actual spend in budget.md Event Log.
 
 ### Agent Execution
 
@@ -454,10 +623,12 @@ Core principles:
 - **Hierarchical context injection**: Orchestrator loads shared memory ONCE (Phase 0). Pass relevant context directly in agent prompts — agents do NOT re-read memory files.
 - **Operator-Scoped Context (Feature Selector φ)**: Each agent receives ONLY the context relevant to its subtask — not the full scout report or entire task description. Build the agent prompt from:
   1. **Subtask description + criterion + done-when** (from state.md)
-  2. **Scoped files** (from `context_scope` field) — Read these files and include content directly
-  3. **Upstream artifacts** (from completed dependencies) — only outputs the agent needs
-  4. **Relevant learnings** (grep-matched, not all) — max 2-3 most relevant
-  5. **NOT included**: other subtasks, full scout report, budget details, unrelated decisions
+  2. **Grounding refs** (from `grounding_refs` field) — mandatory context the agent MUST read before starting work. Include as "Required Reading" section at the top of the agent prompt. These are learnings, key-facts, decisions, or reference docs that provide essential domain knowledge for the subtask. Unlike `context_scope` (files to edit), grounding refs are files to understand. The orchestrator populates these during Phase 3 decomposition based on scout findings and grep-matched learnings. (PaperOrchestra pattern, arXiv:2604.05018 — mandatory citation hints in outline → +3-5× grounding coverage by downstream agents.)
+  3. **Scoped files** (from `context_scope` field) — Read these files and include content directly
+  4. **Upstream artifacts** (from completed dependencies) — only outputs the agent needs
+  5. **Relevant learnings** (grep-matched, not all) — max 2-3 most relevant (skip if already in grounding_refs)
+  6. **Budget allocation** (from Budget Allocation section above) — remaining budget for this subtask as BUDGET section
+  7. **NOT included**: other subtasks, full scout report, unrelated decisions
   Why: NSM Feature Selector φ (arXiv:2602.19260) — operator-scoped input eliminates irrelevant context noise. The paper showed 95% vs 34% success partly because each operator saw only task-relevant objects in relative coordinates. Same principle: each agent sees only task-relevant files and context, reducing hallucination and improving focus.
 - **File Access Manifest**: Every agent gets WRITE/READ/FORBIDDEN file lists to prevent conflicts.
 - **Pre-launch disjointness check**: Before parallel spawn, verify WRITE file lists don't overlap.
@@ -810,7 +981,7 @@ These CANNOT be overridden without user approval:
 1. **Agent loop**: Same agent 3+ times for same subtask → STOP
 2. **Critic loop**: FAIL 2x on same target → STOP
 3. **Budget exceeded**: Any counter hits limit → STOP
-4. **Nesting depth**: > 2 levels → STOP
+4. **Nesting depth**: exceeds skill's `max-depth` (default 1, max 2) → STOP. Before spawning: check current depth, if >= max-depth agent works directly (Read/Edit/Bash), no further delegation. Log: `"Depth check: {current}/{max} — {PASS|BLOCKED}"`
 5. **Memory bloat**: File > 500 lines → maintenance first
 6. **Analysis paralysis**: 5+ consecutive read-only ops → must write or report blocked
 7. **No-progress loop**: 3 waves without file changes → STOP
@@ -830,6 +1001,7 @@ Before making orchestration decisions, check yourself against these traps:
 | "Pre-existing bug, ignore it" | Logging matters for future sessions | Log to deferred list |
 | "One more retry should fix it" | After 2 failures, pattern is architectural | Trigger 3-fix escalation |
 | "Subtasks are independent, max parallelism" | Shared files cause conflicts | Check file overlap before parallel launch |
+| "I'll skip grounding_refs — context_scope covers it" | context_scope = files to edit; grounding_refs = files to understand. Without grounding, agent hallucinates domain assumptions | Always include grounding_refs in agent prompt as Required Reading section |
 
 ## Red Flags
 

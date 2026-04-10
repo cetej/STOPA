@@ -57,9 +57,11 @@ Generative/creative tools and meta-skills:
 - `/self-evolve` — adversarial co-evolution loop for skill improvement (Agent0-inspired)
 
 ## Tier 4 — Methodology (suggest when development discipline matters)
-Engineering methodology skills inspired by superpowers patterns:
+Engineering methodology and atomic skills (arXiv:2604.05013):
 - `/tdd` — RED-GREEN-REFACTOR enforcer for test-driven development
 - `/systematic-debugging` — 4-phase root cause methodology (no guessing)
+- `/reproduce` — standalone bug reproduction (failing test/script, then stop)
+- `/generate-tests` — pure test generation for existing code (no implementation)
 
 ## Lifecycle Phase Mapping (alternative to tier browsing)
 
@@ -70,7 +72,7 @@ Skills mapped to SDLC phases. Use `phase:` in frontmatter for each skill.
 | `define` | Routing, klasifikace, porozumění | profile, triage, brainstorm, council |
 | `plan` | Dekompozice, explorace, architektura | orchestrate, scout, scenario, prp, project-init, build-project |
 | `build` | Implementace, generace, exekuce | tdd, fix-issue, autofix, autoloop, autoresearch, nano, klip, browse, fetch |
-| `verify` | Testování, důkaz, validace | verify, critic, harness, eval, security-review, dependency-audit, autoharness |
+| `verify` | Testování, důkaz, validace | verify, critic, harness, eval, security-review, dependency-audit, autoharness, reproduce, generate-tests |
 | `review` | Retrospektivní kvalita, peer audit | peer-review, pr-review, autoreason, self-evolve, sweep |
 | `ship` | Deployment, handoff, cleanup | checkpoint, handoff, compact |
 | `meta` | Introspekce, evoluce, budget | status, budget, scribe, evolve, compile, ingest, discover, learn-from-failure, skill-generator, radar, watch, liveprompt, xsearch, deepresearch, seo-audit, youtube-transcript, incident-runbook, systematic-debugging, project-sweep |
@@ -89,8 +91,8 @@ Every skill has `tags:` in frontmatter. Use tags to find skills by capability in
 |------|---------------|-------------|
 | Code quality | `code-quality`, `review` | critic, verify, tdd, self-evolve, autoreason, sweep |
 | Research | `research`, `osint` | deepresearch, scout, liveprompt, watch, radar |
-| Testing | `testing` | verify, harness, eval, tdd, scenario |
-| Debugging | `debugging` | systematic-debugging, incident-runbook, learn-from-failure |
+| Testing | `testing` | verify, harness, eval, tdd, scenario, generate-tests, reproduce |
+| Debugging | `debugging` | systematic-debugging, incident-runbook, learn-from-failure, reproduce |
 | Session mgmt | `session`, `memory` | checkpoint, handoff, compact, scribe, ingest |
 | DevOps/PRs | `devops` | fix-issue, autofix, pr-review, harness |
 | Planning | `planning` | orchestrate, brainstorm, scenario, build-project |
