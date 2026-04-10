@@ -122,6 +122,20 @@ agent-browser not installed?         → Claude in Chrome
 
 Do NOT mix backends in one session.
 
+### Error Handling & Retry Logic
+
+**Classify the error before retrying:**
+
+| Error type | Symptom | Action |
+|---|---|---|
+| **Daemon not running** | `Connection refused` on `agent-browser` itself (tool fails to start) | STOP — agent-browser daemon is not running. Do NOT retry. Tell user to start the daemon or fall back to Claude in Chrome. |
+| **URL unreachable** | `agent-browser open` succeeds but page fails to load (timeout, DNS, 4xx/5xx) | Retry up to 3 times with `agent-browser wait --load networkidle`. After 3 failures, report the URL error. |
+| **CAPTCHA / bot block** | Page loads but shows CAPTCHA or access denied | STOP — do not loop. Tell user the site blocks automation. |
+| **Navigation timeout** | `agent-browser wait` times out | Retry once with longer wait, then report. |
+
+Max 3 retries applies to **URL/navigation errors**, not to daemon failures.
+Daemon failures → immediate fallback or STOP.
+
 ## Mode: extract
 
 1. `agent-browser open <url>`
