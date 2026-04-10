@@ -1,10 +1,40 @@
 {
-  "last_updated": "2026-04-08",
-  "total_runs": 0,
-  "health": "cold_start",
-  "change_ledger": [],
-  "strategies_that_work": [],
+  "last_updated": "2026-04-10",
+  "total_runs": 1,
+  "health": "improving",
+  "change_ledger": [
+    {
+      "round": 1,
+      "target": "browse",
+      "strategy": "edge case",
+      "mutations": ["Added Anti-Rationalization Defense, Red Flags, Verification Checklist, permission-tier, discovery-keywords"],
+      "outcome": "success",
+      "pass_rate_delta": 0.25
+    },
+    {
+      "round": 2,
+      "target": "browse",
+      "strategy": "adversarial",
+      "mutations": ["Added error classification table: daemon-down vs URL error handling"],
+      "outcome": "success",
+      "pass_rate_delta": 0.25
+    }
+  ],
+  "strategies_that_work": [
+    "structural completeness audit (required sections) — covers multiple criteria in one edit",
+    "error classification tables — concrete decision rules beat vague retry guidance"
+  ],
   "strategies_that_fail": [],
-  "recurring_failure_patterns": [],
-  "optimization_velocity": {"stage": "exploration", "trend": "neutral"}
+  "recurring_failure_patterns": [
+    "Skills missing Anti-Rationalization Defense, Red Flags, Verification Checklist (structural)"
+  ],
+  "optimization_velocity": {"stage": "early", "trend": "up"},
+  "per_target": {
+    "browse": {
+      "last_pass_rate": 1.0,
+      "best_pass_rate": 1.0,
+      "runs": 1,
+      "dominant_strategy": "structural completeness"
+    }
+  }
 }
