@@ -230,6 +230,18 @@
             "command": "python .claude/hooks/acceptance-gate.py",
             "timeout": 3,
             "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "python .claude/hooks/invariant-checker.py",
+            "timeout": 3,
+            "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "python .claude/hooks/self-report-logger.py",
+            "timeout": 2,
+            "statusMessage": ""
           }
         ]
       },

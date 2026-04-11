@@ -115,14 +115,71 @@ def save_state(state: dict[str, Any]) -> None:
     atomic_write(STATE_PATH, json.dumps(state, indent=2))
 
 
+def read_recent_violations(since_seconds: int = 300) -> dict[str, Any]:
+    """Read violations.jsonl and summarize recent entries for self_report field.
+
+    Returns a dict with invariant violations and self-disclosures
+    from the last `since_seconds` seconds.
+
+    Inspired by arXiv:2602.22303: combining self-incrimination with
+    external monitoring reduces undetected attacks to 5.1%.
+    """
+    violations_path = Path('.claude/memory/intermediate/violations.jsonl')
+    result: dict[str, Any] = {
+        'invariant_violations': [],
+        'self_disclosures': [],
+        'agent_acknowledged': False,
+    }
+
+    if not violations_path.exists():
+        return result
+
+    try:
+        cutoff = datetime.now(timezone.utc).timestamp() - since_seconds
+        with open(violations_path, 'r', encoding='utf-8', errors='replace') as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    entry = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+
+                # Parse timestamp
+                ts_str = entry.get('timestamp', '')
+                try:
+                    ts = datetime.fromisoformat(ts_str).timestamp()
+                except (ValueError, TypeError):
+                    continue
+
+                if ts < cutoff:
+                    continue
+
+                if entry.get('type') == 'invariant_violation':
+                    result['invariant_violations'].append(
+                        f"{entry.get('invariant', '?')}_{entry.get('severity', 'INFO')}"
+                    )
+                elif entry.get('type') == 'self_reported':
+                    result['self_disclosures'].append(entry.get('category', 'unknown'))
+                    result['agent_acknowledged'] = True
+    except OSError:
+        pass
+
+    return result
+
+
 def log_episode(score: int, level: str, signals: list[str], summary: str) -> None:
-    """Append episode to JSONL log."""
+    """Append episode to JSONL log with self-incrimination data."""
+    self_report = read_recent_violations(since_seconds=300)
+
     entry = {
         'ts': datetime.now(timezone.utc).isoformat(),
         'score': score,
         'level': level,
         'trigger_signals': signals,
         'window_summary': summary,
+        'self_report': self_report,
     }
     EPISODES_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(EPISODES_PATH, 'a', encoding='utf-8') as f:
