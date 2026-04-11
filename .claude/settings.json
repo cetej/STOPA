@@ -80,6 +80,12 @@
             "command": "python .claude/hooks/build-permission-registry.py",
             "timeout": 5,
             "statusMessage": "Building permission registry..."
+          },
+          {
+            "type": "command",
+            "command": "python .claude/hooks/pulse-generator.py",
+            "timeout": 8,
+            "statusMessage": "Generating system pulse..."
           }
         ]
       }
@@ -271,6 +277,12 @@
             "command": "python .claude/hooks/impact-tracker.py",
             "timeout": 3,
             "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "python .claude/hooks/outcome-writer.py",
+            "timeout": 5,
+            "statusMessage": ""
           }
         ]
       },
@@ -369,6 +381,13 @@
             "command": "python .claude/hooks/failure-recorder.py",
             "timeout": 5,
             "statusMessage": "Checking for failure recording..."
+          },
+          {
+            "type": "command",
+            "if": "Write(**/outcomes/**)|Write(**/learnings/**)|Write(**/failures/**)|Edit(**/outcomes/**)|Edit(**/learnings/**)|Edit(**/failures/**)",
+            "command": "python .claude/hooks/trigger-engine.py",
+            "timeout": 5,
+            "statusMessage": "Evaluating trigger rules..."
           }
         ]
       }

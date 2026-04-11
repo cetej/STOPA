@@ -1,0 +1,91 @@
+# Trigger Intelligence — Event-Condition-Action Rules
+# Loaded by trigger-engine.py (PostToolUse hook)
+# Actions start as 'notify' — promote to 'inject_skill' after validation.
+
+rules:
+  - id: failure-pattern-detected
+    description: "2+ failures se stejným failure_class + failure_agent za 7 dní"
+    event: write
+    matcher: "outcomes/|failures/"
+    condition:
+      type: failure_pattern
+      window_days: 7
+      threshold: 2
+      group_by: [failure_class, failure_agent]
+    action:
+      type: notify
+      message: "Trigger: opakující se selhání ({failure_class}/{failure_agent}) — zvažte /learn-from-failure"
+    cooldown_minutes: 720  # 12h
+    enabled: true
+
+  - id: success-rate-drop
+    description: "7d success rate < 60%"
+    event: write
+    matcher: "outcomes/"
+    condition:
+      type: success_rate
+      window_days: 7
+      threshold_below: 0.6
+      min_runs: 5
+    action:
+      type: notify
+      message: "Trigger: success rate za 7 dní spadla pod 60% ({rate}%) — zvažte analýzu"
+    cooldown_minutes: 1440  # 24h
+    enabled: true
+
+  - id: stale-world-model
+    description: "outcomes-summary.json starší 3 dní"
+    event: write
+    matcher: "outcomes/|learnings/"
+    condition:
+      type: file_age
+      file: ".claude/memory/outcomes-summary.json"
+      max_age_days: 3
+    action:
+      type: notify
+      message: "Trigger: outcomes-summary.json je starší než 3 dny — world model je stale"
+    cooldown_minutes: 1440  # 24h
+    enabled: true
+
+  - id: graduation-ready
+    description: "Learning s uses>=10 AND confidence>=0.8"
+    event: write
+    matcher: "learnings/"
+    condition:
+      type: graduation_check
+      min_uses: 10
+      min_confidence: 0.8
+      max_harmful: 2
+    action:
+      type: notify
+      message: "Trigger: learning '{filename}' je připraven na graduation — zvažte /evolve"
+    cooldown_minutes: 4320  # 72h
+    enabled: true
+
+  - id: compound-success
+    description: "5+ consecutive successes"
+    event: write
+    matcher: "outcomes/"
+    condition:
+      type: streak
+      outcome: success
+      threshold: 5
+    action:
+      type: notify
+      message: "Trigger: 5+ po sobě jdoucích úspěchů — zvažte /scribe success-pattern"
+    cooldown_minutes: 4320  # 72h
+    enabled: true
+
+  - id: capability-gap-repeated
+    description: "3x stejný triage no-match"
+    event: write
+    matcher: "learnings/|outcomes/"
+    condition:
+      type: gap_count
+      source_file: ".claude/memory/capability-gaps.md"
+      same_pattern_threshold: 3
+    action:
+      type: notify
+      message: "Trigger: capability gap '{pattern}' se opakuje 3x — zvažte /skill-generator"
+    cooldown_minutes: 10080  # 7 dní
+    enabled: true
