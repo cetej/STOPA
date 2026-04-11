@@ -32,6 +32,7 @@ Read these files (silently, don't show contents to user):
 - `.claude/memory/performance/*.json` — Glob for files, read last 3 by filename sort (newest first)
 - `.claude/memory/session-stats.json` — context window budget (written by hook if configured)
 - `.claude/memory/outcomes-summary.json` — outcome signal aggregator (Phase 1 Intelligence Architecture)
+- `.claude/memory/capability-gaps.md` — capability gap registry (Phase 5 Intelligence Architecture)
 
 If any file is missing, report that field as "n/a".
 
@@ -121,6 +122,7 @@ wiki_health:    <score>/10 — <N articles, M learnings> — <"ok" | "stale (N d
 outcomes:       <total_runs> runs | <success_rate>% success | streak: <failure_streak> fails — or "no data"
 signal_7d:      <success>✓ <partial>~ <failure>✗ (last 7 days) — or "no recent signals"
 triggers:       <N fires 7d> | <M rules enabled> | last: <date> | pending: <conditions close to threshold> — or "no triggers configured"
+gaps:           <N open> | top: <most frequent gap> — or "0 open"
 
 --- cross-project pulse ---
 pulse:          <overall health> | <N> active projects | <coverage>% signal coverage — or "n/a"

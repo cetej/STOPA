@@ -151,6 +151,16 @@ Format your response exactly as:
 
 If everything routes to one destination, omit the other section.
 
+### No-match signal
+
+If NO skill in the catalog matches the user's request (not even partially), append at the end of output:
+
+```
+[TRIAGE_NO_MATCH: "<brief query summary>"]
+```
+
+This tag is captured by the trigger engine for capability gap tracking. Do NOT add this tag if any skill is even partially relevant — only for genuine gaps where the system has no applicable skill.
+
 ## Anti-Rationalization Defense
 
 | Rationalization | Why Wrong | Do Instead |

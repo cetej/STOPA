@@ -444,7 +444,7 @@ def main():
     if tool_name not in ("Write", "Edit", "mcp__filesystem__write_file", "mcp__filesystem__edit_file"):
         return
 
-    if "outcomes/" not in tool_input and "learnings/" not in tool_input and "failures/" not in tool_input:
+    if not any(p in tool_input for p in ("outcomes/", "learnings/", "failures/", "capability-gaps")):
         return
 
     # Prevent recursive triggering

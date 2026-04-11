@@ -79,7 +79,7 @@ rules:
   - id: capability-gap-repeated
     description: "3x stejný triage no-match"
     event: write
-    matcher: "learnings/|outcomes/"
+    matcher: "capability-gaps"
     condition:
       type: gap_count
       source_file: ".claude/memory/capability-gaps.md"

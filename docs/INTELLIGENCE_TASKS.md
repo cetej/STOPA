@@ -1,8 +1,8 @@
 # Intelligence Architecture — Zadání pro sessions
 
 **Plán:** `docs/INTELLIGENCE_ARCHITECTURE.md`
-**Hotové:** Fáze 1 (Signal Foundation), Fáze 2 (Trigger Intelligence), Fáze 3 (World Model)
-**Zbývá:** 3 sessions → 3 fáze
+**Hotové:** Fáze 1 (Signal Foundation), Fáze 2 (Trigger Intelligence), Fáze 3 (World Model), Fáze 4a (Ambient Advisor), Fáze 5 (Capability Gap Detection)
+**Zbývá:** 1 session → Session D (Proactive Composition) — potřebuje ≥1 týden advisor dat
 
 ---
 

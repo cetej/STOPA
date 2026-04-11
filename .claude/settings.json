@@ -199,6 +199,12 @@
             "command": "python .claude/hooks/instruction-detector.py",
             "timeout": 3,
             "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "python .claude/hooks/advisor.py",
+            "timeout": 3,
+            "statusMessage": ""
           }
         ]
       },
