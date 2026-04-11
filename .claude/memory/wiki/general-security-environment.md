@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: general-security-environment
-sources: 8
-last_updated: 2026-04-08
+sources: 11
+last_updated: 2026-04-11
 ---
 
 # Security, Environment & Ecosystem
@@ -47,6 +47,8 @@ Defense framework evaluation (2026-04-05) produced clear verdicts: LlamaFirewall
 
 ## Ecosystem Patterns
 
+STOPA's positioning in the Claude Code ecosystem: unique combination of skill system + shared memory + orchestration. Top competitors (Claude Code Flow 23k, Claude Task Master 26k, superpowers 107k) focus on task scheduling + parallelism; STOPA focuses on goal-backward reasoning + verification gates. Re-scan quarterly (ref: 2026-03-23-ecosystem-scan.md). Fal.ai Windows specifics: use `python` (C:\Python313), `fal_client.subscribe()` for images, `submit()` + `iter_events()` for video, download immediately (URLs expire ~1h), FAL_KEY in `~/.claude/settings.json` env section (ref: 2026-03-23-environment-falai.md). Jevons paradox applied to AI coding: cheaper code generation unlocks latent demand for software that wasn't viable before — more ambitious projects → more orchestration needed, not less engineering (ref: 2026-04-08-jevons-paradox-ai-coding.md).
+
 Model metadata as single source of truth for dynamic UI: one JSON file defines inputs, limits, and control types for 200+ models; UI generates automatically. This eliminates O(N) components per model → O(1) generic form. Applicable to GRAFIK layers/effects and any multi-model tool (ref: 2026-04-07-model-metadata-dynamic-ui-pattern.md).
 
 When optimizing against multiple reward metrics simultaneously, normalize each metric independently before aggregating. Direct sum-then-normalize collapses distinct metric combinations to identical advantage values, destroying signal resolution. GDPO (arXiv:2601.05242) fixes this with decoupled normalization + conditional gating for priority ordering (ref: 2026-04-07-multi-reward-normalization-collapse.md).
@@ -74,3 +76,6 @@ When optimizing against multiple reward metrics simultaneously, normalize each m
 | [2026-04-07-multi-reward-normalization-collapse](../learnings/2026-04-07-multi-reward-normalization-collapse.md) | 2026-04-07 | medium | Decouple multi-reward normalization to prevent signal collapse |
 | [2026-03-27-playwright-mcp-download-hijack](../learnings/2026-03-27-playwright-mcp-download-hijack.md) | 2026-03-27 | critical | Playwright MCP hijacks Chrome downloads |
 | [2026-03-27-secrets-in-config-files](../learnings/2026-03-27-secrets-in-config-files.md) | 2026-03-27 | critical | Never put secrets in JSON configs |
+| [2026-03-23-ecosystem-scan](../learnings/2026-03-23-ecosystem-scan.md) | 2026-03-23 | low | STOPA positioning: unique goal-backward + verification vs scheduling competitors |
+| [2026-03-23-environment-falai](../learnings/2026-03-23-environment-falai.md) | 2026-03-23 | medium | fal.ai Windows: python not python3, async patterns, URL expiry |
+| [2026-04-08-jevons-paradox-ai-coding](../learnings/2026-04-08-jevons-paradox-ai-coding.md) | 2026-04-08 | medium | AI coding unlocks latent demand — more projects, more orchestration |

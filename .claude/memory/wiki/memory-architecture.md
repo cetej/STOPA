@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: memory-architecture
-sources: 8
-last_updated: 2026-04-08
+sources: 12
+last_updated: 2026-04-11
 ---
 
 # Memory Architecture
@@ -21,6 +21,8 @@ Cross-project memory transfer is now designed as a two-tier system: shared knowl
 
 A counterintuitive finding from streaming video benchmarks: simple sliding-window recency (last N items) matches or beats complex memory accumulation in time-sensitive tasks. More history can actually hurt real-time perception even when it helps recall. This suggests STOPA should bias toward recency for context loading, using full history only when explicitly needed for longitudinal analysis (ref: 2026-04-08-recency-beats-complex-memory.md).
 
+Checkpoint versioning is a foundational anti-pattern prevention: never overwrite checkpoints without archiving. Version frequently (especially before scope changes), include task list + technical findings + resume prompt, and archive rather than delete (ref: 2026-03-24-checkpoint-versioning.md). Living memory (MIA arXiv:2604.04503) beats static RAG by +31% avg across 11 benchmarks — a 7B model with living memory outperforms a 32B without it by 18%. The mechanism is bidirectional conversion between parametric and non-parametric memory plus test-time learning. This empirically validates STOPA's write-time gating approach (ref: 2026-04-08-living-memory-over-static-retrieval.md). The parametric ↔ non-parametric bridge maps to STOPA as: CLAUDE.md/behavioral-genome.md (parametric) ↔ learnings/*.md/critical-patterns.md (non-parametric). The gap is a reverse demote mechanism — stale rules in critical-patterns.md should move back to non-parametric for re-evaluation (ref: 2026-04-08-parametric-nonparametric-memory-bridge.md). Acemoglu Theorem 3 formalizes why local aggregators beat global: a global aggregator necessarily degrades ≥1 knowledge dimension. STOPA's implementation uses `skill_scope:` field for local graduation to `skills/<name>/learned-rules.md` and circular validation detection in learning-admission.py (ref: 2026-04-09-local-aggregator-beats-global.md).
+
 AutoDream (/dream) coexists with STOPA's structured memory: dream acts as janitor (cleanup, consolidation), while /scribe acts as architect (structured writes with YAML frontmatter). The key boundary is protecting YAML frontmatter from dream's modifications (ref: 2026-03-26-autodream-coexistence.md).
 
 ## Key Rules
@@ -32,6 +34,10 @@ AutoDream (/dream) coexists with STOPA's structured memory: dream acts as janito
 5. **Dream = janitor, Scribe = architect**: protect YAML frontmatter (ref: 2026-03-26-autodream-coexistence.md)
 6. **Cross-project: sync universal, keep local local**: critical-patterns + wiki sync; learnings stay per-project (ref: 2026-04-07-cross-project-memory-design.md)
 7. **Recency bias for context loading**: sliding-window recency ≥ complex accumulation in time-sensitive tasks (ref: 2026-04-08-recency-beats-complex-memory.md)
+8. **Checkpoint versioning: archive, never overwrite**: version before scope changes, include resume prompt (ref: 2026-03-24-checkpoint-versioning.md)
+9. **Living memory beats static RAG**: compressed trajectory storage + evolution hooks > append-only history (ref: 2026-04-08-living-memory-over-static-retrieval.md)
+10. **Add reverse demote mechanism**: stale critical-patterns.md rules should return to non-parametric for re-evaluation (ref: 2026-04-08-parametric-nonparametric-memory-bridge.md)
+11. **Local graduation over global**: skill_scope field routes learnings to local learned-rules.md (ref: 2026-04-09-local-aggregator-beats-global.md)
 
 ## Patterns
 
@@ -65,4 +71,7 @@ AutoDream (/dream) coexists with STOPA's structured memory: dream acts as janito
 | [2026-03-30-calm-semantic-bandwidth](../learnings/2026-03-30-calm-semantic-bandwidth.md) | 2026-03-30 | medium | Semantic bandwidth limits for memory retrieval |
 | [2026-03-29-memcollab-agent-agnostic-memory](../learnings/2026-03-29-memcollab-agent-agnostic-memory.md) | 2026-03-29 | high | Agent-agnostic memory via contrastive distillation |
 | [2026-03-26-autodream-coexistence](../learnings/2026-03-26-autodream-coexistence.md) | 2026-03-26 | high | Dream=janitor, Scribe=architect coexistence |
-| [2026-03-30-calm-semantic-bandwidth](../learnings/2026-03-30-calm-semantic-bandwidth.md) | 2026-03-30 | medium | Semantic bandwidth limits for memory retrieval |
+| [2026-03-24-checkpoint-versioning](../learnings/2026-03-24-checkpoint-versioning.md) | 2026-03-24 | high | Never overwrite checkpoints; archive with task list + resume prompt |
+| [2026-04-08-living-memory-over-static-retrieval](../learnings/2026-04-08-living-memory-over-static-retrieval.md) | 2026-04-08 | high | Living memory +31% over RAG; validates write-time gating |
+| [2026-04-08-parametric-nonparametric-memory-bridge](../learnings/2026-04-08-parametric-nonparametric-memory-bridge.md) | 2026-04-08 | high | Bidirectional parametric↔non-parametric conversion; needs reverse demote |
+| [2026-04-09-local-aggregator-beats-global](../learnings/2026-04-09-local-aggregator-beats-global.md) | 2026-04-09 | high | Acemoglu Theorem 3: local aggregators preserve knowledge better than global |

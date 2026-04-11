@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: skill-design
-sources: 13
-last_updated: 2026-04-08
+sources: 17
+last_updated: 2026-04-11
 ---
 
 # Skill Design & Architecture
@@ -21,6 +21,8 @@ An important operational boundary: deepresearch researcher sub-agents must be ca
 
 Compact variant measurement confirmed 87-94% word reduction across 6 skills — the original ~80% claim was conservative (ref: 2026-04-07-compact-variant-baseline.md). Skill autodiscovery has a retrieval bottleneck: agents voluntarily load only 49% of relevant skills from metadata alone (arXiv:2604.04323). Query-specific refinement and supplementary `discovery-keywords` recover performance; offline refinement doesn't help (ref: 2026-04-07-skill-retrieval-bottleneck.md).
 
+The empirical validation that descriptions must be trigger-only was first established from superpowers v5 analysis: skill description summaries cause Claude to shortcut instead of reading the full body — confirmed by testing (ref: 2026-03-23-superpowers-adoption.md). A paradigm shift in skill design: SKILL.md files are educational artifacts for agents, not documentation for humans (Karpathy, No Priors 2026). Adding curriculum progression hints to complex skills improves execution quality because the agent learns what to do rather than being told how to behave (ref: 2026-04-08-education-teaches-agents-not-humans.md). When designing skill prompts combining multiple constraint types, separate structural constraints (format, length) from semantic constraints (content, tone) into domain-specific blocks — instruction-following uses task-specific representations, not a universal mechanism (ref: 2026-04-08-instruction-following-compositional-not-universal.md). The Karpathy optimization loop (edit → measure → score → iterate) uses structural heuristics for fast iteration (grep-based, zero LLM cost) + single LLM-as-judge at the end — avoids self-reinforcing bias and cost explosion from LLM evaluation every iteration (ref: karpathy-loop-autoloop.md).
+
 Skills with reference files should use 3-layer knowledge routing: always-on baseline (quality floor), semantic-inference auto-load (from natural language signals), and explicit-override (user-named). The bias should favor loading — cost of extra tokens is lower than cost of low-quality output from missing context (ref: 2026-04-08-progressive-knowledge-routing.md). For output validation, structured numbered rules with explicit error/warning tiers executed by the LLM itself with a hard-stop before delivery outperform advisory self-checks. Python scripts should be decoupled to CI/CD only (ref: 2026-04-08-llm-native-validation-hardstop.md).
 
 ## Key Rules
@@ -36,6 +38,10 @@ Skills with reference files should use 3-layer knowledge routing: always-on base
 9. **discovery-keywords for autodiscovery**: 49% voluntary load rate without them (ref: 2026-04-07-skill-retrieval-bottleneck.md)
 10. **3-layer knowledge routing**: always-on baseline + semantic-inference + explicit-override (ref: 2026-04-08-progressive-knowledge-routing.md)
 11. **LLM-native validation with hard-stop**: numbered rules + error/warning tiers before output delivery (ref: 2026-04-08-llm-native-validation-hardstop.md)
+12. **description = trigger only (empirically confirmed)**: workflow summaries cause shortcutting — tested in superpowers (ref: 2026-03-23-superpowers-adoption.md)
+13. **SKILL.md = agent curriculum, not human docs**: agent learns from body, not description (ref: 2026-04-08-education-teaches-agents-not-humans.md)
+14. **Separate constraint types**: format/length blocks separate from content/tone — mixed prompts degrade adherence (ref: 2026-04-08-instruction-following-compositional-not-universal.md)
+15. **Hybrid scoring loop**: structural heuristic fast loop + single LLM judge at end (ref: karpathy-loop-autoloop.md)
 
 ## Patterns
 
@@ -78,3 +84,7 @@ Skills with reference files should use 3-layer knowledge routing: always-on base
 | [2026-04-07-skill-retrieval-bottleneck](../learnings/2026-04-07-skill-retrieval-bottleneck.md) | 2026-04-07 | high | 49% voluntary skill loading; discovery-keywords fix |
 | [2026-04-07-compact-variant-baseline](../learnings/2026-04-07-compact-variant-baseline.md) | 2026-04-07 | medium | 87-94% word reduction measured |
 | [2026-03-25-skill-description-triggers](../learnings/2026-03-25-skill-description-triggers.md) | 2026-03-25 | high | Description must contain all trigger words |
+| [2026-03-23-superpowers-adoption](../learnings/2026-03-23-superpowers-adoption.md) | 2026-03-23 | high | superpowers v5: description summaries confirmed to cause shortcutting |
+| [2026-04-08-education-teaches-agents-not-humans](../learnings/2026-04-08-education-teaches-agents-not-humans.md) | 2026-04-08 | medium | SKILL.md = agent curriculum artifact, not human documentation |
+| [2026-04-08-instruction-following-compositional-not-universal](../learnings/2026-04-08-instruction-following-compositional-not-universal.md) | 2026-04-08 | medium | Separate structural vs semantic constraints in skill prompts |
+| [karpathy-loop-autoloop](../learnings/karpathy-loop-autoloop.md) | 2026-03-23 | medium | Structural heuristic fast loop + LLM judge at end avoids bias |

@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: skill-evaluation
-sources: 9
-last_updated: 2026-04-08
+sources: 12
+last_updated: 2026-04-11
 ---
 
 # Skill Evaluation & Optimization
@@ -16,6 +16,8 @@ Evaluation of skill outputs has converged on decomposed scoring: breaking review
 Tool-Genesis cascade evaluation (arXiv:2603.05578) revealed that minor L1 errors amplify through L2→L3→L4 into catastrophic downstream failures (Qwen3-8B: L1 68.6% → L4 1.2%). More critically, schema compliance decouples from downstream utility: Claude-Haiku-3.5 achieved Schema-F1 0.964 but SR only 0.472. The fix: always test format-compliant outputs against downstream data, never declare done from schema match alone. Iterative repair with execution feedback gives 2-5x SR improvement over one-shot (ref: 2026-04-04-toolgenesis-cascade-evaluation.md).
 
 EgoAlpha prompt pattern analysis mapped 38 research techniques to STOPA: Zero-shot CoT reasoning primer in critic/debugging ("Let me trace through this step by step"), Reflexion verbal notes in 3-fix escalation (explicit "what to do differently next time" after each FAIL), SPP model gating in council (high-stakes decisions require sonnet advisors, not haiku), and ICL order sensitivity (strongest examples at END for recency effect). STOPA implements 25/38 analyzed techniques, several before formal publication (ref: 2026-04-05-egoalpha-prompt-patterns.md).
+
+RLSD (arXiv:2604.03128) proves that decoupling update direction (what to change) from magnitude (how much) gives 2× convergence by avoiding information leakage. Applied to /autoloop and /self-evolve: critic provides direction (PASS/FAIL), diff analysis provides per-change magnitude — effectively per-line credit assignment instead of whole-file pass/fail (ref: 2026-04-08-direction-magnitude-decoupling-optimization.md). ScaleRL (400K GPU-hours) establishes that early iteration performance is an unreliable predictor: each approach has a different asymptote A, and early winners may lose at scale. Give each approach minimum 5 iterations before comparing; fit sigmoidal curve to predict ceiling — if A < target, switch approach rather than burning more compute (ref: 2026-04-08-early-iteration-performance-unreliable.md). PaperOrchestra shows that eval benchmarks built by reverse-engineering expected outputs from real completed artifacts (not synthetic generation) encode tacit quality standards better — take 10-20 high-quality prior outputs, infer input + expected output structure, use as canonical test cases (ref: 2026-04-08-reverse-engineered-benchmark-from-artifacts.md).
 
 For generative media prompts (image/video), only describe observable outputs — what the renderer can see — never internal states like emotions or intentions. "Tears streaming down her cheeks" instead of "she feels sad." Rhythm words outperform technical parameters because models parse semantics, not numbers (ref: 2026-04-08-descriptive-over-narrative-generative.md).
 
@@ -31,6 +33,9 @@ For iterative skill improvement, the AutoReason adversarial debate pattern uses 
 6. **SPP model gating**: council uses sonnet+ advisors; cognitive synergy requires GPT-4/Opus tier (ref: 2026-04-05-egoalpha-prompt-patterns.md)
 7. **Cold-start isolation for debate**: adversarial agents must not see each other's prior output (ref: 2026-04-01-autoreason-adversarial-debate.md)
 8. **Descriptive over narrative in generative prompts**: observable outputs only, no internal states (ref: 2026-04-08-descriptive-over-narrative-generative.md)
+9. **Decouple direction from magnitude**: critic=direction, diff analysis=magnitude — per-line credit assignment (ref: 2026-04-08-direction-magnitude-decoupling-optimization.md)
+10. **Give each approach 5+ iterations**: early performance unreliable; fit sigmoid to predict ceiling (ref: 2026-04-08-early-iteration-performance-unreliable.md)
+11. **Reverse-engineer benchmarks from real artifacts**: 10-20 high-quality outputs → canonical test cases (ref: 2026-04-08-reverse-engineered-benchmark-from-artifacts.md)
 
 ## Patterns
 
@@ -69,3 +74,6 @@ For iterative skill improvement, the AutoReason adversarial debate pattern uses 
 | [2026-03-23-youtube-transcript-yt-dlp](../learnings/2026-03-23-youtube-transcript-yt-dlp.md) | 2026-03-23 | high | MCP broken, use yt-dlp CLI |
 | [2026-04-08-descriptive-over-narrative-generative](../learnings/2026-04-08-descriptive-over-narrative-generative.md) | 2026-04-08 | medium | Observable descriptions only for generative prompts |
 | [2026-04-03-anthropic-skill-creator-patterns](../learnings/2026-04-03-anthropic-skill-creator-patterns.md) | 2026-04-03 | high | Anthropic skill-creator validation of STOPA patterns |
+| [2026-04-08-direction-magnitude-decoupling-optimization](../learnings/2026-04-08-direction-magnitude-decoupling-optimization.md) | 2026-04-08 | medium | RLSD: decouple direction/magnitude for 2× convergence; per-line credit |
+| [2026-04-08-early-iteration-performance-unreliable](../learnings/2026-04-08-early-iteration-performance-unreliable.md) | 2026-04-08 | high | ScaleRL: early results unreliable; each approach has unique asymptote |
+| [2026-04-08-reverse-engineered-benchmark-from-artifacts](../learnings/2026-04-08-reverse-engineered-benchmark-from-artifacts.md) | 2026-04-08 | medium | Build benchmarks from real artifacts, not synthetic generation |

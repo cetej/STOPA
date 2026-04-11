@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: orchestration-resilience
-sources: 8
-last_updated: 2026-04-08
+sources: 11
+last_updated: 2026-04-11
 ---
 
 # Orchestration Resilience & Verification
@@ -19,7 +19,9 @@ The regression gate pattern (NeoSigma auto-harness) extends verification forward
 
 The self-improving harness closes feedback loops with 6 upgrades: auto-scribe writes learnings automatically from session traces, trace-bridge unifies trace formats, graduation-check auto-detects promotable learnings, impact-tracker measures learning effectiveness via critic scores, strategy persistence enables warm-start across sessions, and auto-handoff chains enforce skill transitions on PIVOT/PLATEAU signals (ref: 2026-04-05-self-improving-harness.md).
 
-The broader insight is that code generation is no longer the bottleneck — verification and testing are. Proportional effort should be allocated to proving correctness (ref: 2026-04-03-testing-bottleneck.md). The SMART gate ("Is this answerable from loaded context?") eliminates ~20% of unnecessary tool calls (ref: 2026-04-03-smart-tool-overuse.md). Modern Claude models handle multi-step reasoning natively, so harness scaffolding should be simplified — but determinism must be preserved for critical paths (ref: 2026-03-26-harness-simplification.md).
+The broader insight is that code generation is no longer the bottleneck — verification and testing are. Proportional effort should be allocated to proving correctness (ref: 2026-04-03-testing-bottleneck.md). GSD wave execution patterns provide structured coordination for multi-agent task execution: topological sort → wave number → parallel execution, with deviation rules (sub-agents fix inline max 3 attempts, STOP on architectural change), analysis-paralysis guard (5+ read-only ops without Write/Edit = stuck), and goal-backward verification L1→L4 (ref: 2026-03-23-gsd-patterns.md).
+
+LLM judges (including GPT-5) prioritize structural formatting over factual correctness (r=0.65 overall on PaperOrchestra). The `/eval` and `/critic` skills must combine LLM structural scoring with grep/search verification for factual claims — never rely on LLM scoring alone for concrete assertions (ref: 2026-04-08-llm-judge-factuality-weak.md). The **Verification Shift** meta-pattern unifies this: use LLM for structure, tools for facts, cascade-order checking (verify L1 before L3), and regression gates — a four-layer protocol for every /critic and /verify run (ref: 2026-04-11-verification-shift-meta-pattern.md). The SMART gate ("Is this answerable from loaded context?") eliminates ~20% of unnecessary tool calls (ref: 2026-04-03-smart-tool-overuse.md). Modern Claude models handle multi-step reasoning natively, so harness scaffolding should be simplified — but determinism must be preserved for critical paths (ref: 2026-03-26-harness-simplification.md).
 
 ## Key Rules
 
@@ -30,6 +32,9 @@ The broader insight is that code generation is no longer the bottleneck — veri
 5. **Verification > generation**: allocate proportional effort to proving correctness (ref: 2026-04-03-testing-bottleneck.md)
 6. **SMART gate before tool calls**: check if answer is in loaded context first (ref: 2026-04-03-smart-tool-overuse.md)
 7. **Simplify scaffolding, keep determinism**: trust model capability but verify critical paths (ref: 2026-03-26-harness-simplification.md)
+8. **Wave execution for multi-agent tasks**: topological sort subtasks into waves, prefer vertical slices over horizontal layers (ref: 2026-03-23-gsd-patterns.md)
+9. **LLM judge + tools for verification**: LLM scores structure; grep/search verifies facts (ref: 2026-04-08-llm-judge-factuality-weak.md)
+10. **Four-layer verification protocol**: L1 syntax → L2 semantic+cross-check → L3 downstream → L4 regression (ref: 2026-04-11-verification-shift-meta-pattern.md)
 
 ## Patterns
 
@@ -66,3 +71,6 @@ The broader insight is that code generation is no longer the bottleneck — veri
 | [2026-04-02-audit-must-verify-consumers](../learnings/2026-04-02-audit-must-verify-consumers.md) | 2026-04-02 | critical | Must verify ALL consumers on interface changes |
 | [2026-04-01-gsd2-error-classification](../learnings/2026-04-01-gsd2-error-classification.md) | 2026-04-01 | high | Error classification before fix counting |
 | [2026-03-26-harness-simplification](../learnings/2026-03-26-harness-simplification.md) | 2026-03-26 | high | Simplify scaffolding, trust model capability |
+| [2026-03-23-gsd-patterns](../learnings/2026-03-23-gsd-patterns.md) | 2026-03-23 | medium | Wave execution, deviation rules, goal-backward L1-L4 verification |
+| [2026-04-08-llm-judge-factuality-weak](../learnings/2026-04-08-llm-judge-factuality-weak.md) | 2026-04-08 | high | LLM judges score structure, not facts — combine with grep/search |
+| [2026-04-11-verification-shift-meta-pattern](../learnings/2026-04-11-verification-shift-meta-pattern.md) | 2026-04-11 | high | Verification Shift: 4-layer protocol (syntax/semantic/downstream/regression) |

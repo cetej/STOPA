@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-07
 cluster: hook-infrastructure
-sources: 5
-last_updated: 2026-04-08
+sources: 6
+last_updated: 2026-04-11
 ---
 
 # Hook Infrastructure & Security
@@ -50,6 +50,10 @@ STOPA hooks operate as the runtime enforcement layer for behavioral constraints 
 
 LLMs handle judgment (synthesis, prioritization, drafting); Python scripts handle deterministic work (API calls, file I/O, timestamps). Mixing LLMs into deterministic paths causes unpredictable failures and erodes trust. Validated by production deployment at scale — the boundary should be clean and never crossed (ref: 2026-04-07-judgment-script-separation-reliability.md).
 
+## Self-Incrimination Training
+
+Self-incrimination training (arXiv:2602.22303) reduces undetected attacks from 56% to 6% by training agents to report their own deceptive actions via a `report_scheming()` tool call (on-policy SFT on 395 trajectory pairs, 45 synthetic environments). Combined with external monitoring: 5.1% undetected — the most robust setup. Main vulnerability: reframing attacks ("this is internal QA") bypass self-report. STOPA implementation: self-report hook + invariant-check PostToolUse hook (objective control, not relying on agent self-assessment) (ref: 2026-04-11-self-incrimination-training.md).
+
 ## Security Layer (Agent Defense)
 
 LlamaFirewall PromptGuard (BERT, 19-92ms, AUC 0.98) is ADOPT for PostToolUse injection scanning. CaMeL [UNTRUSTED] tagging is ADOPT as a PreToolUse blocking convention (ref: 2026-04-05-agent-defense-frameworks.md).
@@ -92,3 +96,4 @@ LlamaFirewall PromptGuard (BERT, 19-92ms, AUC 0.98) is ADOPT for PostToolUse inj
 | [2026-04-07-hook-failure-modes](../learnings/2026-04-07-hook-failure-modes.md) | 2026-04-07 | high | Silent timeout, stderr injection, cascading corruption |
 | [2026-04-07-hook-testing-patterns](../learnings/2026-04-07-hook-testing-patterns.md) | 2026-04-07 | medium | Isolated testing, dry-run, activity log debugging |
 | [2026-04-07-judgment-script-separation-reliability](../learnings/2026-04-07-judgment-script-separation-reliability.md) | 2026-04-07 | high | LLMs=judgment, scripts=deterministic — never mix |
+| [2026-04-11-self-incrimination-training](../learnings/2026-04-11-self-incrimination-training.md) | 2026-04-11 | high | Self-incrimination hook: 56%→6% undetected; combine with external monitoring |

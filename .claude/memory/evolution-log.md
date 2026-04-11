@@ -4,6 +4,36 @@ Record of /evolve audit proposals and outcomes.
 
 ---
 
+## Evolution Run — 2026-04-11 (#6, post-dreams)
+
+### Signals
+- 12 corrections (0 new since evolve #5)
+- 2 violations (0 new)
+- ~97 learnings scanned (+2 meta-patterns created by this run)
+- /dreams ran first: 8 cross-links, 1 backward update, 3 emerging patterns
+- 1 model_gate learning (sonnet-4.6, correctly scoped)
+- Wiki 3 days stale (2026-04-08), ~22 new learnings since build
+- Sessions: 100/100 healthy (0 corrections, 0 frustrations)
+
+### Proposals
+- 5 proposed, 5 approved, 0 rejected
+
+### Applied
+- CREATE: `2026-04-11-iteration-paradox-meta-pattern.md` — consolidates 5 learnings about iteration strategy into coherent protocol (skill_scope: autoloop, autoresearch, self-evolve)
+- CREATE: `2026-04-11-verification-shift-meta-pattern.md` — consolidates 4 learnings about verification being the new bottleneck (skill_scope: critic, verify, harness, eval)
+- UPDATE: Renamed 7 legacy learning files with date prefix (git mv, 2026-03-23/24)
+- UPDATE: Fixed `related:` pointers in 2 files referencing renamed legacy files
+- DEFER: heartbeat/BIGMAS graduation — still at 0% utility ratio (per evolve #5 decision)
+- RECOMMEND: Run /compile (wiki 3 days stale, ~22 new learnings since 2026-04-08)
+
+### Rejected
+- (none)
+
+### Notes
+- Hook corruption incident: PostToolUse hooks ran from wrong cwd after `cd` in Bash, zeroed 2 files. Restored from git. Root cause: hooks use relative paths, `cd` changes cwd for the shell session.
+
+---
+
 ## Evolution Run — 2026-04-11 (#5)
 
 ### Signals

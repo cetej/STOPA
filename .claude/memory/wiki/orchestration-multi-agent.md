@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: orchestration-multi-agent
-sources: 17
-last_updated: 2026-04-08
+sources: 23
+last_updated: 2026-04-11
 ---
 
 # Multi-Agent Orchestration
@@ -23,6 +23,12 @@ GEA (arXiv:2602.04837) extends this with **group experience sharing**: agents sh
 
 For iterative skills generating multiple candidate solutions, **sampling diversity beats RL fine-tuning**: high-temperature sampling from base models nearly matches GRPO RL on MATH500 (74.8% vs 78.5%) and exceeds it on HumanEval (57.3% vs 53.7%) — without training. RL post-training causes diversity collapse (Pass@k narrows to high-reward region). Budget note: diverse sampling costs ~9x tokens vs greedy — factor into tier selection (ref: 2026-04-08-inference-time-sampling-beats-rl-for-diversity.md).
 
+The **human bottleneck** in iterative optimization is eliminated when verification is cheap: define objective + metric + boundaries, let agents iterate autonomously overnight. Auto-research found untuned hyperparameters that 20 years of manual tuning missed (ref: 2026-04-08-auto-research-removes-human-bottleneck.md). Sequential Refinement (PDR, arXiv:2510.01123) validates bounded refinement loops over single long-context passes: +11% AIME 2024, +9% AIME 2025. Use generate-diverse-candidates → distill → refine over single exploration in autoloop/autoresearch (ref: 2026-04-08-iterative-refinement-beats-long-cot.md).
+
+Front-loading reasoning structure at mid-training yields 9× gains vs adding it at call-time (Meta RAM blog). **curriculum-hints** in SKILL.md is the closest STOPA analog — reasoning structure present before the task, not appended after failure (ref: 2026-04-08-reasoning-midtraining-beats-posttraining.md). EGGROLL (Oxford/MILA) formalizes three evolution principles: rank-1 perturbation suffices when population is adequate, population z-score normalization stabilizes selection, and three sigma regimes (linearize/critical/diverge) govern mutation optimality (ref: 2026-04-10-eggroll-evolutionary-optimization.md).
+
+RLM architectural validation (arXiv:2512.24601) confirmed three STOPA patterns: budget propagation to sub-agents (soft-cap + 20% reserve), metadata-first scout (file count/risk signals without reading files), and recursion depth guard at max-depth 1 (ref: 2026-04-10-rlm-architectural-principles.md). The **Iteration Paradox** meta-pattern consolidates contradictory advice: iterate with bounded context, maintain diversity, don't trust early winners, estimate asymptote ceiling after 5+ iterations, apply regression gate, and manage sigma (mutation strength) with small edits early and larger exploration late (ref: 2026-04-11-iteration-paradox-meta-pattern.md).
+
 Neuro-symbolic patterns from PDDL research show explicit operator interfaces — `input-contract`, `preconditions`, `effects` — enable plan chain validation before agent execution, eliminating downstream failures from incompatible handoffs (ref: 2026-04-07-nsm-neuro-symbolic-orchestration.md). Empirical validation confirmed repo-level instruction files reduce agent runtime by 28.64% and output tokens by 16.58% (ref: 2026-04-07-agents-md-efficiency-validated.md).
 
 ## Key Rules
@@ -38,6 +44,10 @@ Neuro-symbolic patterns from PDDL research show explicit operator interfaces —
 9. **Group experience sharing for farm tier**: agents must read ALL group member traces, not just own history (ref: 2026-04-08-group-experience-sharing-beats-isolated-evolution.md)
 10. **High-temperature sampling for exploration**: RL-tuned models collapse diversity — use base model + high temp for autoloop/autoresearch candidate generation (ref: 2026-04-08-inference-time-sampling-beats-rl-for-diversity.md)
 11. **Anti-overfitting guard**: ask "would this change be worthwhile without this eval case?" (ref: 2026-04-03-autoagent-overfitting-guard.md)
+12. **Autoresearch requires objective metric**: confirm cheap verify exists before launching — else use /orchestrate (ref: 2026-04-08-auto-research-removes-human-bottleneck.md)
+13. **Bounded refinement over long-context**: iterative loop with N bounded passes > single long-context generation (ref: 2026-04-08-iterative-refinement-beats-long-cot.md)
+14. **Don't trust first 2-3 iterations**: approach winning early may lose at scale — give each 5+ iterations before judging, estimate sigmoid ceiling (ref: 2026-04-11-iteration-paradox-meta-pattern.md)
+15. **Budget propagation to sub-agents**: soft-cap with 20% reserve, min viable $0.03 (ref: 2026-04-10-rlm-architectural-principles.md)
 
 ## Patterns
 
@@ -102,3 +112,9 @@ See also: [program-md-research-org](entities/program-md-research-org.md) entity 
 | [2026-03-29-bigmas-directed-graph-orchestration](../learnings/2026-03-29-bigmas-directed-graph-orchestration.md) | 2026-03-29 | medium | Dynamic graph topology scales with task |
 | [2026-03-29-claudini-autoresearch-loop](../learnings/2026-03-29-claudini-autoresearch-loop.md) | 2026-03-29 | high | Autoresearch succeeds from existing code |
 | [2026-03-29-slopcodebench-iterative-degradation](../learnings/2026-03-29-slopcodebench-iterative-degradation.md) | 2026-03-29 | high | 2.2x redundancy, iterative degradation |
+| [2026-04-08-auto-research-removes-human-bottleneck](../learnings/2026-04-08-auto-research-removes-human-bottleneck.md) | 2026-04-08 | high | Human is always bottleneck — remove self when verify is cheap |
+| [2026-04-08-iterative-refinement-beats-long-cot](../learnings/2026-04-08-iterative-refinement-beats-long-cot.md) | 2026-04-08 | high | PDR: bounded refinement loops beat single long-context pass (+11% AIME) |
+| [2026-04-08-reasoning-midtraining-beats-posttraining](../learnings/2026-04-08-reasoning-midtraining-beats-posttraining.md) | 2026-04-08 | high | Front-loading reasoning structure yields 9× gains; validates curriculum-hints |
+| [2026-04-10-eggroll-evolutionary-optimization](../learnings/2026-04-10-eggroll-evolutionary-optimization.md) | 2026-04-10 | high | EGGROLL: rank-1 perturbation, population z-score scoring, sigma regimes |
+| [2026-04-10-rlm-architectural-principles](../learnings/2026-04-10-rlm-architectural-principles.md) | 2026-04-10 | high | RLM validates: budget propagation, metadata-first scout, depth guard |
+| [2026-04-11-iteration-paradox-meta-pattern](../learnings/2026-04-11-iteration-paradox-meta-pattern.md) | 2026-04-11 | high | Iteration Paradox: bounded context + diversity + ceiling estimation protocol |
