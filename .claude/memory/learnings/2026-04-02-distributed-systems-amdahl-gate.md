@@ -6,8 +6,8 @@ component: orchestration
 tags: [orchestration, multi-agent, distributed-systems, cost-optimization]
 summary: "arXiv:2603.12229 proves centralized > decentralized for LLM teams (1.36× vs 0.88× speedup). Serial tasks (p<0.4) cost 5.83× tokens for 1.13× speedup. Added Amdahl parallelizability gate and ROI cost gate to orchestrate skill."
 source: external_research
-confidence: 0.8
-uses: 0
+confidence: 0.85
+uses: 1
 harmful_uses: 0
 verify_check: "Grep('Parallelizability Gate', path='.claude/commands/orchestrate.md') → 1+ matches"
 successful_uses: 0

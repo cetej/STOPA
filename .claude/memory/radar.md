@@ -4,7 +4,7 @@ Tracked findings from `/radar` scans and manual evaluations.
 Archived: `radar-archive.md` (when >400 lines)
 
 ## Stats
-Last scan: 2026-04-10 (scheduled #14) | Total: 49 tools | 🔴 7 | 🟡 40 | 🟢 2
+Last scan: 2026-04-11 (scheduled #15) | Total: 51 tools | 🔴 8 | 🟡 41 | 🟢 2
 
 ## Active Research (🔴)
 | Tool | Category | Score | Source | Captured | Status | Project fit |
@@ -16,6 +16,7 @@ Last scan: 2026-04-10 (scheduled #14) | Total: 49 tools | 🔴 7 | 🟡 40 | �
 | [GitHub Copilot SDK](https://github.com/github/copilot-sdk) | Agent SDK / programmatic Copilot | 8/10 | scan | 2026-04-08 | **EVALUATE** | STOPA — embedded Copilot agent runtime v aplikacích. BYOK (Anthropic/OpenAI/Foundry), Node/Python/Go/.NET/Java, streaming, blob attachments, OpenTelemetry. Public preview od 2026-04-02. Alternativa/komplement k CC SDK pro multi-provider orchestraci. |
 | [pytest-aitest](https://github.com/sbroenne/pytest-aitest) | Testing / skill quality | 8/10 | scan | 2026-04-08 | **EVALUATE** | STOPA — TDD pro skill descriptions + agent tool interfaces s reálnými LLMs. Pydantic AI multi-provider (vč. Anthropic), semantic assertions, multi-dim scoring, cost estimation. Přesný fit pro testování kvality SKILL.md souborů. Microsoft dev. `pip install pytest-aitest`. Telegram notified. |
 | [claude-code-video-toolkit](https://github.com/digitalsamba/claude-code-video-toolkit) | Video production / Claude Code skills | 8/10 | manual | 2026-04-09 | **EVALUATE** | NG-ROBOT ng-video — Claude Code native video pipeline: Remotion + ElevenLabs + LTX-2 + ACEStep + MoviePy + 17 Python CLI tools. Přímý vzor pro rozšíření ng-video o AI klipy, TTS upgrade a scénář pipeline. MIT, Node.js 18+ + Python 3.9+. |
+| [agents-observe](https://github.com/simple10/agents-observe) | Claude Code agent observability / dashboard | 8/10 | scan | 2026-04-11 | **EVALUATE** | STOPA farm tier + orchestrate — real-time dashboard pro CC agent teams: sub-agent tree, parent-child vztahy, WebSocket streaming, SQLite, React UI. Hook-based (background fire-and-forget = 3-5ms latency vs 50-60ms blocking). Docker kontejner. 76 HN upvotes. Unique: žádný jiný CC-specifický multi-agent dashboard v radar. Telegram notified. |
 
 ## Watch List (🟡)
 | Tool | Category | Score | Source | Captured | Notes |
@@ -63,6 +64,7 @@ Last scan: 2026-04-10 (scheduled #14) | Total: 49 tools | 🔴 7 | 🟡 40 | �
 | [Claudoscope](https://github.com/cordwainersmith/Claudoscope) | Claude Code session analytics | 5/10 | scan | 2026-04-07 | macOS menu bar app (MIT, v0.5.0, Homebrew). Čte JSONL session soubory CC z `~/.claude/projects/`, real-time dashboard: token usage, cost estimation (Anthropic+Vertex), session history, 19 lint pravidel pro settings.json health. Secret scanning v session history. **macOS 14+ / Apple Silicon only — Gate 2 fail pro Windows STOPA.** Inspirace pro `/budget` skill rozšíření a config health checker. |
 | [Pluck](https://news.ycombinator.com/item?id=47638147) | UI capture / AI coding workflow | 5/10 | scan/HN | 2026-04-10 | Chrome extension: klikni na UI komponent na webu → strukturovaný prompt pro AI coding tools (Claude, Cursor, Bolt, v0). Stack: Plasmo+Next.js+Hono+tRPC+Postgres. Freemium ($10/mo unlimited). Žádný veřejný OSS GitHub. Marginální STOPA fit — UI capture workflow, potenciálně pro GRAFIK nebo frontend projekty. Indie dev. |
 | [Primer](https://github.com/armgabrielyan/primer) | AI agent dev / milestone-based | 5/10 | scan/HN | 2026-04-10 | Milestone-based AI agent software development: každý milestone = 1 verifikovatelná capability change. Dual mode: learner + builder. Emphasis na ověřitelný postup, ne spec-first. Early-stage indie dev (armgabrielyan), stars neznámé. STOPA fit: tangenciální — verifikační přístup zajímavý jako vzor pro /orchestrate step design. |
+| [Wombat](https://github.com/usewombat/gateway) | MCP permissions / Unix-style rwxd | 5/10 | scan/HN | 2026-04-11 | Unix-style rwxd permissions pro MCP tool calls — proxy mezi Claude Code a MCP servery. Context-aware: push_files allowed na feature branch, denied na main. Deterministic rule-based (no ML), audit trail, npm: `npx @usewombat/gateway`. 2 HN upvotes (indie dev, early). STOPA fit: podobné jako tool-gate.py constrained-tools, ale na MCP proxy vrstvě. Zajímavý vzor pro branch-aware permissions. |
 
 ## Archive (🟢 — last 30, older → radar-archive.md)
 | Tool | Score | Captured | Why low |
@@ -76,6 +78,14 @@ Last scan: 2026-04-10 (scheduled #14) | Total: 49 tools | 🔴 7 | 🟡 40 | �
 ## Scan Log
 ### 2026-04-08 — manual | Lightpanda — 5/10 🟡
 - Headless browser postavený v Zig (ne Chromium fork). CDP na port 9222 → drop-in pro Playwright/Puppeteer. V8 engine, AJAX/XHR, cookies, proxy. Beta, stovky Web APIs chybí, Windows pouze WSL2. Benchmarks: 11× rychlejší než Chrome, 9× méně RAM (AWS EC2 m5.large, 100 págů). 11.8k★. Potenciál pro MONITOR scraping agenty až dospěje.
+
+### 2026-04-11 — scheduled scan #15 | Searches: 5 | Fetches: 4 | Found: 2 new
+- [agents-observe](https://github.com/simple10/agents-observe) — 8/10 🔴 — Real-time dashboard pro Claude Code agent teams. Sub-agent tree tracking, WebSocket, SQLite, React, Docker. Hook background (fire-and-forget) tip z kódu: latency 3-5ms vs 50-60ms blocking. 76 HN upvotes. STOPA fit: přímý — orchestrate + farm tier observability. Telegram notified.
+- [Wombat](https://github.com/usewombat/gateway) — 5/10 🟡 — Unix-style rwxd permissions jako MCP proxy. Context-aware branch policies. Indie dev, 2 HN upvotes. STOPA fit: komplementární k tool-gate.py, ne replacement.
+- Skipped (already tracked): Microsoft Agent Framework 1.0, AMD PACE, Gemma 4 (model), C3 Code (enterprise), Lucidworks MCP
+- Skipped (ecosystem news → /watch): Claude Managed Agents GA (April 9, already in news.md as beta)
+- Skipped (low quality): Eyeball (already noted 3/10), OpenAI Agents SDK (Python, not CC-specific)
+- Score >= 8 → Telegram notified (agents-observe)
 
 ### 2026-04-10 — scheduled scan #14 | Searches: 3 | Fetches: 2 | Found: 2 new
 - [Pluck](https://news.ycombinator.com/item?id=47638147) — 5/10 🟡 — Chrome extension pro UI capture → AI coding prompt. Plasmo+Next.js+tRPC+Postgres, freemium, bez OSS. STOPA fit marginální, potenciál pro GRAFIK/frontend projekty.

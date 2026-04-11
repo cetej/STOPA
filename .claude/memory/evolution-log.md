@@ -4,6 +4,32 @@ Record of /evolve audit proposals and outcomes.
 
 ---
 
+## Evolution Run — 2026-04-11 (#5)
+
+### Signals
+- 12 corrections (0 new since evolve #4)
+- 2 violations (0 new since 2026-03-29)
+- 109 learnings scanned, 2 borderline graduation candidates (deferred — low utility ratio)
+- 2 model_gate learnings: sonnet-4.6 (kept), triattention null (fixed)
+- 0 panic episodes, 0 critic-accuracy entries, 0 skill-usage data
+- Wiki 3 days stale, 28 new learnings since last build
+- Sessions: all healthy (0 corrections, 0 frustrations across 20 recent sessions)
+
+### Proposals
+- 5 proposed, 5 approved, 0 rejected
+
+### Applied
+- FIX_DATA: Removed `model_gate: null` from triattention-pre-rope-kv-compression.md
+- DEFER: Graduation of heartbeat + shared-public-state (uses:7 but utility 14% — wait for >30%)
+- UPDATE_VERIFY: Analysis-Paralysis Guard (#6) verify changed to `manual`
+- UPDATE_CONFIRMED: All 9 critical-patterns last_confirmed → 2026-04-11
+- RECOMMEND: Run /compile (wiki 3 days stale, 28 new learnings since 2026-04-08 build)
+
+### Rejected
+- (none)
+
+---
+
 ## Evolution Run — 2026-04-01
 
 First /evolve run (100 sessions accumulated).

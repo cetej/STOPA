@@ -8,7 +8,7 @@ summary: "AutoAgent's anti-overfitting guard: ask 'if this exact eval case disap
 source: external_research
 uses: 1
 harmful_uses: 0
-confidence: 0.85
+confidence: 0.9
 verify_check: "Grep('exact eval case disappeared', path='.claude/skills/autoloop/SKILL.md') → 1+ matches"
 related: []
 successful_uses: 0
