@@ -168,3 +168,11 @@ When launching Wave N+1 agents, inject context efficiently using the scratchpad:
 3. **Selective full-load**: If a Wave N+1 agent's task explicitly depends on a specific Wave N result (e.g., "use the API schema from subtask-2"), load ONLY that specific JSON file's `details` field and inject it. Never load all previous wave details into one agent.
 
 4. **Scratchpad size check**: If scratchpad exceeds 30 entries, spawn a Haiku agent to condense older entries into a "Waves 1-N summary" paragraph before injecting into new agents.
+
+5. **Content filtering for handoff** (Latent Briefing protocol, ref: 2026-04-11):
+   When injecting scratchpad or prior wave outputs into Wave N+1 agents:
+   - **Include**: WHAT was done, WHAT was the result, `suggestions_for_next_wave`
+   - **Strip**: agent reasoning trails, exploration steps, debugging logs
+   - **Strip**: orchestrator planning rationale (already captured in task decomposition)
+   - The scratchpad table already provides summaries — expand to full agent outputs ONLY for subtasks with explicit `depends_on` relationship to the current wave's work.
+   - Rationale: speculative reasoning from prior waves dilutes worker attention and degrades accuracy (measured: +3pp on hard tasks when filtered).

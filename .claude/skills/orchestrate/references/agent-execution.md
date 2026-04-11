@@ -39,6 +39,42 @@ Rules:
 - Agents may write to `shared/` ONLY when explicitly granted `SHARED_WRITE` (findings that affect other agents)
 - Self-organizing agents (exploratory) get READ on the full `{task-id}/` directory (they discover relevant files)
 
+## Context Assembly Protocol (Latent Briefing, ref: 2026-04-11)
+
+Before building the `Context:` section for any agent, categorize available information into 4 categories. Speculative orchestrator reasoning (dead-end hypotheses, exploration trails, rejected alternatives) degrades worker accuracy — aggressive filtering on hard tasks improves accuracy by +3pp while saving 49-65% tokens (Latent Briefing: KV Cache Compaction for Multi-Agent Systems).
+
+### Category 1: FACTS (always include)
+- Scout findings: file locations, dependency map, API signatures
+- Prior wave RESULTS: concrete outputs (code changes, test results, metrics)
+- Learnings: block-scored selection (from context-bootstrap.md)
+- Key conventions: from CLAUDE.md, grounding_refs
+
+### Category 2: TASK (always include)
+- Subtask description, criterion, done_when
+- Scoped files (context_scope contents)
+- Upstream dependencies' concrete outputs
+
+### Category 3: REASONING (include selectively — omit for light/farm)
+- 1-2 sentences of high-level rationale: WHY this decomposition, WHY this approach
+- STRIP: exploration trail, hypothesis testing, rejected alternatives, dead ends, planning deliberation
+- Rule: if you can't say it in 2 sentences, it's exploration, not rationale
+
+### Category 4: FAILURES (only when directly relevant to THIS subtask)
+- WHAT failed and WHY (1 sentence each) — to prevent worker from repeating
+- STRIP: full failure trajectory, debugging steps, intermediate states
+- Include only if the failure is on the same file/module as the current subtask
+
+### Tier-Based Context Strategy
+
+| Tier | Include | Strip | Learnings Budget |
+|------|---------|-------|-----------------|
+| light | Facts + Task | Everything else | ~1,000 tokens (top-2 blocks) |
+| standard | Facts + Task + key Rationale | Exploration, failures (unless relevant) | ~2,000 tokens (top-5) |
+| deep | All 4 categories, light filtering | Only raw exploration trails | ~4,000 tokens (top-8 + hybrid) |
+| farm | Pattern + file list only | All reasoning, all failures | ~500 tokens (top-1 if relevant) |
+
+**Anti-pattern**: Dumping the orchestrator's full planning trace into agent context. Workers need clean signal — not the orchestrator's cognitive trail. More context ≠ better context.
+
 ## Agent Prompt Template
 
 **Hierarchical context injection**: The orchestrator loads shared memory ONCE (Phase 0). When spawning agents, pass the relevant context directly in the prompt — do NOT instruct agents to re-read memory files. This saves 60-80% of token usage on memory loading across agents.
@@ -59,7 +95,14 @@ Agent(subagent_type: "general-purpose", prompt: "
   - Wave: <current wave> of <total waves>
   - Remaining budget: <from budget.md — agents/critics left>
 
-  Context: <what the agent needs to know — include relevant learnings, decisions, conventions>
+  ## Context (assembled per Context Assembly Protocol above)
+  ### Facts
+  <scout findings, prior wave results, key conventions — concrete verified information only>
+  ### Rationale (omit for light/farm tier)
+  <1-2 sentences: WHY this approach was chosen — not HOW the orchestrator explored options>
+  ### Avoid (only if directly relevant to THIS subtask)
+  <WHAT failed previously and WHY — 1 sentence each, to prevent repetition>
+
   Task: <specific deliverable>
   Output: <what to return>
 
@@ -124,8 +167,11 @@ Agent(subagent_type: "general-purpose", prompt: "
   ## Quality Goal
   <what a good result looks like — not HOW to get there>
 
-  ## Context
-  <relevant learnings, decisions, conventions — same as structured template>
+  ## Context (assembled per Context Assembly Protocol — Facts section only for light/farm)
+  ### Facts
+  <scout findings, prior results, conventions — concrete verified information>
+  ### Rationale (omit for light/farm tier)
+  <1-2 sentences WHY — not the orchestrator's exploration trail>
 
   ## Scope
   - Files/directories in scope: <list>

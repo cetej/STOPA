@@ -49,9 +49,16 @@ If `hybrid-retrieve.py` is unavailable (script missing), fall back to existing s
 
 ## Step 3 — Apply token budget
 
-Context budget for learnings: **~2 000 tokens** (standard tier), **~4 000 tokens** (deep tier).
+Context budget for learnings varies by tier (Latent Briefing: lighter tiers need less context, heavier tiers need broader coverage):
 
-Sort filtered blocks by `context_score` descending. Greedily add blocks until `sum(token_estimate)` would exceed budget. Stop there — **do NOT read lower-scoring blocks**.
+| Tier | Budget | Selection Strategy |
+|------|--------|-------------------|
+| light | ~1,000 tokens | Top-2 blocks, no hybrid expansion |
+| standard | ~2,000 tokens | Top-5, synonym fallback |
+| deep | ~4,000 tokens | Top-8, hybrid + graph walk |
+| farm | ~500 tokens | Top-1 if directly relevant, else skip entirely |
+
+Sort filtered blocks by `context_score` descending. Greedily add blocks until `sum(token_estimate)` would exceed the tier budget. Stop there — **do NOT read lower-scoring blocks**.
 
 This is the paged allocation: only top-N blocks get fetched, the rest stay on disk.
 

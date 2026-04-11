@@ -64,6 +64,8 @@ Neuro-symbolic patterns from PDDL research show explicit operator interfaces —
 - Prescribe roles on exploratory tasks — self-org discovers what hierarchical misses (ref: 2026-04-06-self-organizing-agents-ab-test.md)
 - Launch agent chain without verifying output contracts match downstream input contracts (ref: 2026-04-07-nsm-neuro-symbolic-orchestration.md)
 - Use RL-tuned specialized models for diversity-requiring tasks — prefer base model + temperature (ref: 2026-04-08-inference-time-sampling-beats-rl-for-diversity.md)
+- Pass raw orchestrator trajectory to workers — speculative reasoning is noise that degrades worker accuracy; send task-relevant facts only (ref: 2026-04-11-speculative-reasoning-degrades-workers.md)
+- Use same context strategy for all tiers — deep needs broad coverage, light/farm need maximal compression (ref: 2026-04-11-compression-regime-maps-to-tiers.md)
 
 ## STOPA as Program.md
 

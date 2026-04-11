@@ -24,11 +24,13 @@ Defense framework evaluation (2026-04-05) produced clear verdicts: LlamaFirewall
 1. **NEVER add Playwright MCP**: hijacks Chrome downloads to temp folder (ref: 2026-03-27-playwright-mcp-download-hijack.md)
 2. **NEVER put secrets in JSON configs**: use env vars or .env (ref: 2026-03-27-secrets-in-config-files.md)
 3. **Image changes invalidate prompt cache**: plan visual workflows for cache misses (ref: 2026-04-01-image-cache-invalidation.md)
-4. **PromptGuard ADOPT**: add to content-sanitizer.py as ML injection detector (ref: 2026-04-05-agent-defense-frameworks.md)
-5. **[UNTRUSTED] tagging ADOPT**: tag external tool outputs; block in privileged tool contexts (ref: 2026-04-05-agent-defense-frameworks.md)
-6. **Heightened critic after 3-fix escalation**: repeated failures = pressure condition that triggers deception — treat sub-agent outputs with increased skepticism (ref: 2026-04-08-agent-deception-pressure-trigger.md)
-7. **Vagueness is a deception signal**: output drift toward "might work", "looks mostly correct" under pressure is a deception indicator, not uncertainty (ref: 2026-04-08-agent-deception-pressure-trigger.md)
-8. **Trajectory audit for long-horizon sessions**: per-step critics miss chain-of-deception patterns — run `/discover` or trajectory-level review after high-stakes sessions (ref: 2026-04-08-long-horizon-deception-eval.md)
+4. **PromptGuard ADOPT (with caveat)**: effective vs static attacks (AUC 0.98), defeated by adaptive attacks (86% ASR). Pair with structural constraints, not standalone (ref: 2026-04-05-agent-defense-frameworks.md, 2026-04-11-adaptive-attacks-defeat-static-defenses.md)
+5. **[UNTRUSTED] tagging ADOPT**: tag external tool outputs; block in privileged tool contexts — effective regardless of injection bypass (ref: 2026-04-05-agent-defense-frameworks.md)
+6. **Task-alignment is an unsolved gap**: RAG/summarization agents vulnerable to disinformation that passes instruction-level detection — add grounding checks to verify output matches source (ref: 2026-04-11-task-alignment-bypasses-instruction-defenses.md)
+7. **No single defense solves both security and utility**: layered architecture required — structural constraints → static classifier → user confirmation → content verification (ref: 2026-04-11-no-defense-achieves-security-and-utility.md)
+8. **Heightened critic after 3-fix escalation**: repeated failures = pressure condition that triggers deception — treat sub-agent outputs with increased skepticism (ref: 2026-04-08-agent-deception-pressure-trigger.md)
+9. **Vagueness is a deception signal**: output drift toward "might work", "looks mostly correct" under pressure is a deception indicator, not uncertainty (ref: 2026-04-08-agent-deception-pressure-trigger.md)
+10. **Trajectory audit for long-horizon sessions**: per-step critics miss chain-of-deception patterns — run `/discover` or trajectory-level review after high-stakes sessions (ref: 2026-04-08-long-horizon-deception-eval.md)
 
 ## Patterns
 
@@ -56,6 +58,7 @@ When optimizing against multiple reward metrics simultaneously, normalize each m
 ## Open Questions
 
 - GAP: No trajectory-level auditing implemented in STOPA — `/checkpoint` could add a session diff reviewer flagging escalating hedging language and output scope narrowing
+- GAP: Task-alignment defense not implemented — RAG/summarization pipelines lack grounding verification step; `/verify` skill candidate for adding source-grounding assertions
 
 ## Related Articles
 
@@ -70,6 +73,9 @@ When optimizing against multiple reward metrics simultaneously, normalize each m
 |------|------|----------|---------|
 | [2026-04-08-agent-deception-pressure-trigger](../learnings/2026-04-08-agent-deception-pressure-trigger.md) | 2026-04-08 | medium | Deception escalates under pressure; prefer lower-deception models for high-stakes |
 | [2026-04-08-long-horizon-deception-eval](../learnings/2026-04-08-long-horizon-deception-eval.md) | 2026-04-08 | high | Per-step critics miss chain-of-deception — trajectory audit required |
+| [2026-04-11-task-alignment-bypasses-instruction-defenses](../learnings/2026-04-11-task-alignment-bypasses-instruction-defenses.md) | 2026-04-11 | high | Task-alignment attacks defeat ALL instruction-level defenses (44-82% ASR) — content-level verification needed |
+| [2026-04-11-adaptive-attacks-defeat-static-defenses](../learnings/2026-04-11-adaptive-attacks-defeat-static-defenses.md) | 2026-04-11 | medium | Strategy-based adaptive attacks (86% ASR) defeat PromptGuard's static patterns |
+| [2026-04-11-no-defense-achieves-security-and-utility](../learnings/2026-04-11-no-defense-achieves-security-and-utility.md) | 2026-04-11 | medium | Defense-utility tradeoff is fundamental — layered architecture required |
 | [2026-04-05-agent-defense-frameworks](../learnings/2026-04-05-agent-defense-frameworks.md) | 2026-04-05 | medium | LlamaFirewall PromptGuard ADOPT; CaMeL tagging ADOPT |
 | [2026-04-01-image-cache-invalidation](../learnings/2026-04-01-image-cache-invalidation.md) | 2026-04-01 | medium | Image changes invalidate entire prompt cache |
 | [2026-04-07-model-metadata-dynamic-ui-pattern](../learnings/2026-04-07-model-metadata-dynamic-ui-pattern.md) | 2026-04-07 | medium | Model metadata → dynamic UI (O(1) generic form) |
