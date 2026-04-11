@@ -417,6 +417,18 @@ Based on scout results:
    - Good: `["src/auth.py", "src/middleware.py", "tests/test_auth.py"]`
    - Bad: `["src/"]` (too broad — agent wastes context on irrelevant files)
 
+**Phase 3.3: Topology Selection** (deep tier only — skip for light/standard/farm):
+
+Read `${CLAUDE_SKILL_DIR}/references/graph-topology.md` for full details. Summary:
+
+1. **Classify graph shape** from dependency structure: flat parallel | pipeline | DAG with merge | pipeline + feedback | conservative pipeline
+2. **Infer agent roles** — descriptive labels (e.g., "auth-implementer"), check for duplicates
+3. **Generate workspace contracts** — define `reads_from` and `writes_to` per subtask (ref: `${CLAUDE_SKILL_DIR}/references/workspace-schema.md`)
+4. **Calculate routing estimate** — `waves × avg_subtasks × (1 + dependency_density)` as difficulty proxy
+5. **Log topology** to state.md YAML: `topology: {graph_shape, routing_estimate, roles, dependency_density}`
+
+This step produces the `reads_from`/`writes_to` fields and `topology` block for state.md. It does NOT spawn agents — inline orchestrator computation only.
+
 Write the plan to `.claude/memory/state.md`. Include **both** YAML frontmatter (machine-readable) and markdown body (human-readable):
 
 ```markdown
@@ -915,7 +927,7 @@ Summary of Phase 6 actions:
 3. **State update**: Mark task complete in state.md.
 4. **Failure analysis** (HERA-inspired): If any failures occurred during this orchestration:
    a. Update `agent-accountability.md` — increment counters per agent per failure_class
-   b. Record topology snapshot to `topology-evolution.md` (agents, node efficiency, retries, critic loops, result)
+   b. Record topology snapshot to `topology-evolution.md` (agents, node efficiency, retries, critic loops, result, routing_estimate, routing_actual, graph_shape)
    c. Mark resolved failures in `failures/` directory
    d. If 2+ unresolved failures with same pattern → suggest `/learn-from-failure` to user
 5. **Learnings capture**: Record via `/scribe learning` — patterns, anti-patterns, skill gaps, tier accuracy. Include `failure_class`, `failure_agent`, `task_context` fields for failure-sourced learnings. Include `successful_uses` tracking.

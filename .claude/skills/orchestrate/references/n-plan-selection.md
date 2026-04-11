@@ -51,6 +51,7 @@ Agent(model: "sonnet", prompt: "
   | Reversibility (easy to undo if wrong) | | | |
   | Alignment with existing patterns | | | |
   | Risk of cascading failures | | | |
+  | Topology fitness (simpler graph = higher, ref: graph-topology.md) | | | |
   | **Total** | | | |
 
   IMPORTANT: Do NOT just pick the simplest. Pick the one with the best

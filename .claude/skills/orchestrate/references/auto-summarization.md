@@ -51,6 +51,10 @@ Create the scratchpad with header if it doesn't exist:
 ## Key Decisions
 | Decision | Rationale | Wave |
 |---------|----------|------|
+
+## Routing Log (BIGMAS-inspired, deep tier only)
+| Wave | Decision | Reason | Agents So Far | Budget Remaining |
+|------|----------|--------|--------------|-----------------|
 ```
 
 **Populating the new sections** (after each wave):

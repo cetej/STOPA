@@ -4,13 +4,13 @@ type: architecture
 severity: medium
 component: orchestration
 tags: [orchestration-graph, shared-workspace, dynamic-structure, global-workspace-theory]
-summary: "Dynamic agent graph orchestration: GraphDesigner analyzes task → generates task-specific directed graph (3-node for simple, 9-node for complex). Agents coordinate via centralized shared workspace. Graph complexity scales with task demands."
+summary: "BIGMAS dynamic graph orchestration — PARTIALLY IMPLEMENTED (2026-04-11): Phase 3.3 Topology Selection (deep tier), 4-zone workspace schema, full-state routing at wave boundaries, routing count tracking. Gains: +14-36pp on reasoning benchmarks, orthogonal to model-level improvements."
 source: external_research
-uses: 2
+uses: 7
 harmful_uses: 0
-related: []
-verify_check: "manual"
-confidence: 0.95
+related: [2026-04-07-sas-beats-mas-equal-compute.md, 2026-04-07-mom-taro-orchestration-upgrades.md]
+verify_check: "Grep('Phase 3.3', path='.claude/skills/orchestrate/SKILL.md') → 1+ matches"
+confidence: 1.00
 successful_uses: 0
 ---
 
@@ -66,8 +66,20 @@ BIGMAS offers **dynamic/adaptive approach**:
 - Workspace contract must be explicit (document what each agent writes/reads)
 - Cyclic graphs need exit condition (depth limit or convergence check)
 
+## Implementation Status (2026-04-11)
+
+| Component | Status | Location |
+|-----------|--------|----------|
+| Workspace Schema (4-zone) | IMPLEMENTED | `references/workspace-schema.md` |
+| Phase 3.3 Topology Selection | IMPLEMENTED (deep tier) | SKILL.md + `references/graph-topology.md` |
+| Full-State Routing | IMPLEMENTED (deep tier) | `references/wave-recovery.md` |
+| Routing Count Tracking | IMPLEMENTED | Phase 6 → topology-evolution.md |
+| N-Plan topology fitness | IMPLEMENTED | `references/n-plan-selection.md` |
+| Cyclic graphs | SKIPPED | Wave re-open protocol suffices for CC agent model |
+| Separate GraphDesigner agent | SKIPPED | Inline computation in Phase 3 is cheaper |
+
 ## Kdy aplikovat
-- Multi-step complex tasks (>10 files, >3 modules)
-- When task scope is uncertain (scout can determine graph complexity)
-- When different agents need parallel work (worker×2 in DAG)
-- NOT for quick one-off edits (overhead not justified)
+- Deep tier tasks — Phase 3.3 topology selection activates automatically
+- Standard tier — workspace schema used, topology selection skipped
+- Light/farm tier — all BIGMAS additions skipped (overhead > benefit)
+- Routing count > 2x estimate → COMPLEXITY_ESCALATE signal

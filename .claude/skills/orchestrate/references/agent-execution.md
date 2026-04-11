@@ -1,5 +1,7 @@
 # Agent Execution — Phase 4 Details
 
+**Workspace reference:** Read `${CLAUDE_SKILL_DIR}/references/workspace-schema.md` for the 4-zone workspace model (B_ctx, B_work, B_sys, B_ans) and per-subtask workspace contracts (`reads_from`/`writes_to`).
+
 ## Pre-Spawn: Task Directory Setup (LLM Wiki v2 — Gap 3: shared/private scoping)
 
 Before spawning the first agent wave, create the task directory for memory isolation:

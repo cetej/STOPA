@@ -101,6 +101,55 @@ If a Wave N+1 agent reports `BLOCKED` or `DONE_WITH_CONCERNS` where the root cau
 
 This prevents silent failures from propagating forward through waves. Without it, 46.5% of recovery attempts happen too late (final phase) when the cost of backtracking is highest.
 
+## Full-State Routing Decision (BIGMAS-inspired, arXiv:2603.15371, deep tier only)
+
+At each wave boundary, after inter-wave completeness check passes and before launching the next wave, perform a full-state routing decision. This replaces the simple "launch next wave" logic for deep tier.
+
+**Skip for light/standard/farm** — the overhead is not worth it for simpler tasks.
+
+### Step 1: Read full workspace state (4 zones)
+
+| Zone | What to read | Cost |
+|------|-------------|------|
+| B_ctx | Skip — unchanged since Phase 0 | 0 tokens |
+| B_work | `scratchpad.md` summary rows for all completed subtasks | ~100-300 tokens |
+| B_sys | `state.md` YAML frontmatter (subtask statuses, artifacts, topology) | ~200-500 tokens |
+| B_ans | Completion contract assertions — can any be evaluated already? | ~100-200 tokens |
+
+### Step 2: Routing decision matrix
+
+| Workspace State | Action | Details |
+|----------------|--------|---------|
+| Completed subtasks already satisfy the goal (CC assertions 1-3 pass) | **EARLY_TERMINATE** | Skip remaining waves → proceed directly to Phase 5. Conservative: only when ALL machine-checkable CC assertions already pass. |
+| Plan is wrong (new dependency discovered, approach invalidated) | **REPLAN** | Re-enter Phase 3.3 with updated state. Max 1 replan per task (same as mid-execution replanning limit). |
+| Budget >= 70% AND remaining subtasks are low-value (not on critical path) | **PRUNE** | Drop lowest-priority remaining subtasks. Inform user what was dropped and why. |
+| `routing_decisions` count > 2× `routing_estimate` from Phase 3.3 topology | **COMPLEXITY_ESCALATE** | Task is harder than predicted. Upgrade tier if possible. If already deep → warn user about cost. |
+| None of the above | **CONTINUE** | Launch next wave normally. |
+
+### Step 3: Track routing count
+
+After each routing decision:
+1. Increment `routing_decisions` counter (starts at 0, increments per wave boundary)
+2. Append to Routing Log in scratchpad (see auto-summarization.md)
+3. At task close (Phase 6): log `{routing_estimate, routing_actual}` to `topology-evolution.md`
+
+### Early Termination Details
+
+EARLY_TERMINATE is the highest-value routing action — it saves entire waves of agent spawns when the task is already solved.
+
+**Trigger conditions** (ALL must be true):
+- At least one wave has completed successfully
+- Completion contract has machine-checkable assertions (not all HEURISTIC)
+- Running those assertions NOW returns PASS for all METRIC assertions
+- No BLOCKED subtasks in remaining waves that indicate unsolved dependencies
+
+**What happens:**
+1. Log: `"EARLY_TERMINATE: CC assertions pass after Wave {N}, skipping Waves {N+1..M}"`
+2. Mark remaining subtasks as `skipped:early_terminate` in state.md
+3. Proceed to Phase 5 (integration & verify) — critic still runs as normal
+
+**Anti-pattern:** Do NOT early-terminate based on "it looks done" — only machine-checkable contract assertions count.
+
 ## Wave Context Handoff via Scratchpad
 
 When launching Wave N+1 agents, inject context efficiently using the scratchpad:
