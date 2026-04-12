@@ -649,6 +649,7 @@ Core principles:
   Why: NSM Feature Selector φ (arXiv:2602.19260) — operator-scoped input eliminates irrelevant context noise. The paper showed 95% vs 34% success partly because each operator saw only task-relevant objects in relative coordinates. Same principle: each agent sees only task-relevant files and context, reducing hallucination and improving focus.
 - **File Access Manifest**: Every agent gets WRITE/READ/FORBIDDEN file lists to prevent conflicts.
 - **Pre-launch disjointness check**: `python scripts/deterministic-gates.py file-disjoint '[["file1.py"],["file2.py","file1.py"]]'` — returns `{disjoint: bool, collisions: [...]}`. If not disjoint, move conflicting subtasks to separate waves.
+- **Workspace contract validation** (deep tier, when `reads_from`/`writes_to` defined): Before each wave launch, run `python -c "from workspace_validator import validate_at_launch, validate_wave_completion; ..."` (module at `.claude/hooks/workspace_validator.py`). Checks: (1) all `reads_from` refs are resolvable, (2) same-wave `writes_to` don't overlap. If validation fails → do not launch, log issue to scratchpad. Between waves: run `validate_wave_completion()` to verify writes exist and next wave reads are ready.
 - **Wave-based execution**: Execute wave by wave. Max 3 parallel agents per wave.
 - **Agent Status Codes**: DONE | DONE_WITH_CONCERNS | NEEDS_CONTEXT | BLOCKED
 - **Template selection by task_style**: Use self-organizing template for `exploratory` subtasks, prescribed template for `structured` subtasks. See `agent-execution.md` for both templates. Log which template was used per agent.
@@ -853,6 +854,14 @@ For each subtask marked "done":
 Skip for light and farm tiers. Independent audit preventing premature session closure.
 
 `Read ${CLAUDE_SKILL_DIR}/references/completion-contract.md`
+
+### Workspace Completion Validation (deep tier, when `reads_from`/`writes_to` defined)
+
+Before critic pass, run `validate_completion()` from `.claude/hooks/workspace_validator.py`:
+- Checks all `writes_to` files were actually created (no orphan declarations)
+- Cross-checks with `git diff --name-only HEAD` for undeclared file changes
+- If CC assertions reference files, verifies those files exist
+- On failure → log issues, fix before proceeding to critic
 
 ### Late-Phase Recovery Check
 
