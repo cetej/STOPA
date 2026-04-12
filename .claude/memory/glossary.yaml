@@ -1,0 +1,57 @@
+# STOPA Glossary — Canonical Term Definitions
+# Terms that have caused semantic confusion across skills.
+# Referenced by stopa-audit.py (category 8: terminology consistency).
+# Format: term → canonical definition + aliases that are OK + aliases that are WRONG.
+
+terms:
+  tier:
+    canonical: "Orchestration complexity level determining agent count, model, and critic passes"
+    definition_source: ".claude/skills/orchestrate/references/tier-definitions.yaml"
+    values: [light, standard, deep, farm]
+    scope: "orchestrate, budget, scout, sweep, scribe — any skill referencing agent/model allocation"
+    wrong_uses:
+      - context: "autoreason"
+        found_as: "Budget tiers: light/standard/deep"
+        correct_term: "intensity"
+        reason: "Refers to debate rounds and judge count, not agent allocation"
+      - context: "autoresearch"
+        found_as: "Budget Tiers: quick/standard/deep/industrial"
+        correct_term: "scope"
+        reason: "Refers to experiment count, not agent allocation"
+
+  skill_tier:
+    canonical: "Skill priority level for suggestion frequency (Tier 1-4)"
+    definition_source: ".claude/rules/skill-tiers.md"
+    values: ["1 (Core)", "2 (Extended)", "3 (Advanced)", "4 (Methodology)"]
+    scope: "skill-tiers.md, triage, profile"
+    note: "Unrelated to orchestration tier — numbered (1-4) vs named (light/standard/deep/farm)"
+
+  intensity:
+    canonical: "Autoreason debate depth: rounds × judges"
+    values: [light, standard, deep]
+    scope: "autoreason only"
+    maps_to:
+      light: "1 round, 3 judges (~7 calls)"
+      standard: "3 rounds, 3 judges (~19 calls)"
+      deep: "5 rounds, 5 judges (~31 calls)"
+
+  scope:
+    canonical: "Autoresearch experiment breadth"
+    values: [quick, standard, deep, industrial]
+    scope: "autoresearch only"
+    maps_to:
+      quick: "3-5 experiments"
+      standard: "8-12 experiments"
+      deep: "15-20 experiments"
+      industrial: "50-100+ experiments"
+
+  circuit_breaker:
+    canonical: "Hard stop condition preventing infinite loops or budget waste"
+    scope: "All skills with iterative loops"
+    note: "Not related to electrical circuits or interpretability circuits"
+
+  phase:
+    canonical: "SDLC lifecycle phase of a skill (define/plan/build/verify/review/ship/meta)"
+    definition_source: ".claude/rules/skill-files.md"
+    values: [define, plan, build, verify, review, ship, meta]
+    scope: "Skill frontmatter"

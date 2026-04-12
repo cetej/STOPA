@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-STOPA Harness Audit — Deterministic health scoring across 7 categories.
+STOPA Harness Audit — Deterministic health scoring across 8 categories.
 
 Inspired by ECC's harness-audit.js: each category scores 0-10,
 overall = weighted average. Output: JSON + markdown report.
@@ -13,6 +13,7 @@ Categories:
   5. Budget Accuracy    — ledger present, counters, history rows
   6. Checkpoint Recency — how fresh is checkpoint.md?
   7. Rules Coverage     — core invariants present, verify_check coverage
+  8. Terminology        — cross-skill term consistency per glossary.yaml
 
 Usage:
   python scripts/stopa-audit.py                  # full report to stdout
@@ -437,6 +438,75 @@ def audit_rules() -> dict[str, Any]:
     return {"score": max(0, score), "findings": findings}
 
 
+# ─── Category 8: Terminology Consistency ────────────────────────────────
+
+GLOSSARY_PATH = MEMORY_DIR / "glossary.yaml"
+
+
+def audit_terminology() -> dict[str, Any]:
+    findings: list[str] = []
+    score = 10
+
+    if not GLOSSARY_PATH.exists():
+        return {"score": 5, "findings": ["glossary.yaml missing — no terminology baseline"]}
+
+    try:
+        # Parse YAML manually (no pyyaml dependency)
+        text = GLOSSARY_PATH.read_text(encoding="utf-8", errors="replace")
+    except Exception as e:
+        return {"score": 5, "findings": [f"glossary.yaml read error: {e}"]}
+
+    # Extract wrong_uses from glossary — these are known term collisions
+    # Look for patterns: context: "<skill>", found_as: "<text>", correct_term: "<term>"
+    wrong_uses = re.findall(
+        r'context:\s*"?(\w+)"?\s*\n\s*found_as:\s*"(.+?)"\s*\n\s*correct_term:\s*"(\w+)"',
+        text,
+    )
+
+    if not wrong_uses:
+        findings.append("No wrong_uses defined in glossary — nothing to check")
+        return {"score": 8, "findings": findings}
+
+    # Check each known wrong usage still exists in skill files
+    violations = 0
+    fixed = 0
+    for skill_name, wrong_text, correct_term in wrong_uses:
+        skill_path = SKILLS_DIR / skill_name / "SKILL.md"
+        if not skill_path.exists():
+            continue
+
+        skill_text = skill_path.read_text(encoding="utf-8", errors="replace")
+        if wrong_text in skill_text:
+            findings.append(f"{skill_name}: still uses '{wrong_text}' — should be '{correct_term}'")
+            violations += 1
+        else:
+            fixed += 1
+
+    # Also scan all skills for bare "Budget Tiers" or "Budget tiers" headings
+    # that aren't in orchestrate (where it's canonical)
+    for skill_dir in SKILLS_DIR.iterdir():
+        if not skill_dir.is_dir() or skill_dir.name == "orchestrate":
+            continue
+        skill_path = skill_dir / "SKILL.md"
+        if not skill_path.exists():
+            continue
+        skill_text = skill_path.read_text(encoding="utf-8", errors="replace")
+        # Check for "Budget Tier" headings without disambiguation
+        if re.search(r"^##?\s+Budget\s+Tiers?\s*$", skill_text, re.MULTILINE | re.IGNORECASE):
+            findings.append(f"{skill_dir.name}: has 'Budget Tier(s)' heading — disambiguate from orchestration tier")
+            violations += 1
+
+    if violations > 0:
+        score -= min(5, violations * 2)
+
+    if fixed > 0:
+        findings.append(f"{fixed} previously known term collisions have been fixed")
+
+    findings.append(f"Glossary terms checked: {len(wrong_uses)}, violations: {violations}, fixed: {fixed}")
+
+    return {"score": max(0, score), "findings": findings}
+
+
 # ─── Main ───────────────────────────────────────────────────────────────
 
 CATEGORIES = {
@@ -447,6 +517,7 @@ CATEGORIES = {
     "budget_accuracy": {"fn": audit_budget, "weight": 0.5, "label": "Budget Accuracy"},
     "checkpoint_recency": {"fn": audit_checkpoint, "weight": 1.0, "label": "Checkpoint Recency"},
     "rules_coverage": {"fn": audit_rules, "weight": 1.5, "label": "Rules Coverage"},
+    "terminology": {"fn": audit_terminology, "weight": 1.0, "label": "Terminology"},
 }
 
 

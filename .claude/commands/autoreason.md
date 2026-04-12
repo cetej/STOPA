@@ -426,7 +426,7 @@ If target was a file: ask user "Replace original file with improved version?"
 | + Setup (rubric) | Sonnet | 1 | **1** |
 | **Grand total** | | | **~19 calls** |
 
-Budget tiers:
+Intensity levels (NOT orchestration tiers — these control debate rounds, not agent allocation):
 - **light**: 1 round, 3 judges (~7 calls) — quick polish
 - **standard**: 3 rounds, 3 judges (~19 calls) — default, good for most texts
 - **deep**: 5 rounds, 5 judges (~31 calls) — important documents, research artifacts

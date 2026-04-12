@@ -501,16 +501,16 @@ After loop ends, write synthesis report. Read `${CLAUDE_SKILL_DIR}/references/sy
 6. Write outcome record (see Outcome Record section below)
 7. Update optimization state (see Optimization State section below)
 
-## Budget Tiers
+## Scope Levels (NOT orchestration tiers — these control experiment count, not agent allocation)
 
-| Tier | Experiments | Literature | When |
-|------|-----------|-----------|------|
+| Scope | Experiments | Literature | When |
+|-------|-----------|-----------|------|
 | **quick** | 3-5 | skip | Few known approaches to compare |
 | **standard** | 8-12 | 2-3 searches | Open question, moderate search space |
 | **deep** | 15-20 | full scout + mid-loop rescue | Complex problem, large search space |
 | **industrial** | 50-100+ | minimal (known approaches) | Shopify-style bulk optimization; eval is fast (<1s), target is a single file, approach space is large |
 
-Default to **standard**. Infer from budget argument if provided.
+Default to **standard**. Infer from scope argument if provided.
 
 ## Failure Taxonomy
 
