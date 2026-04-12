@@ -3,6 +3,7 @@
 
 Runs Grep/Glob/exists checks to enforce that codebase follows stated patterns.
 - Reads learnings/*.md (YAML verify_check: field)
+- Scans skills/*/SKILL.md for stale file references (paths that no longer exist)
 - Reads critical-patterns.md (inline "verify: ..." annotations)
 - Outputs violations to context + appends to violations.jsonl
 - Silently passes if all checks green
@@ -237,7 +238,75 @@ def main():
             except Exception:
                 pass
 
-    # 2. Check critical-patterns.md inline verify: annotations
+    # 2. Scan skill bodies for stale file references
+    skills_dir = Path(".claude/skills")
+    # Files that skills CREATE at runtime — not expected to exist beforehand
+    RUNTIME_CREATED = {
+        "implementation-plan.md", "scratchpad.md", "codebase-map.md",
+        "env-snapshot.md", "session-stats.json", "trigger-log.jsonl",
+        "skill-usage.jsonl", "skill-versions.md", "critic-accuracy.jsonl",
+        "discovered-patterns.md", "panic-episodes.jsonl",
+        "system-evolve.json", "LEARNINGS.md", ".compile",
+    }
+    # Directories that skills create on first run
+    RUNTIME_CREATED_DIRS = {"briefings"}
+    # Path fragments that are templates/examples, not actual file references
+    TEMPLATE_FRAGMENTS = {"YYYY-MM-DD", "example", "<", ">", "{", "}", "*", "http", "e.g"}
+    if skills_dir.exists():
+        ref_patterns = [
+            re.compile(r'\$\{CLAUDE_SKILL_DIR\}/(\S+?)(?=[`"\s\)\]]|$)'),
+            re.compile(r'Read\s+[`"]?(\.\S+?\.\w+)'),
+            re.compile(r'`(\.claude/\S+?\.\w+)`'),
+        ]
+        seen_refs: set[str] = set()  # dedup
+        for skill_dir in sorted(skills_dir.iterdir()):
+            if not skill_dir.is_dir():
+                continue
+            skill_file = skill_dir / "SKILL.md"
+            if not skill_file.exists():
+                continue
+            try:
+                skill_text = skill_file.read_text(encoding="utf-8", errors="replace")
+            except Exception:
+                continue
+
+            for pat in ref_patterns:
+                for m in pat.finditer(skill_text):
+                    ref_path_str = m.group(1)
+                    if "${CLAUDE_SKILL_DIR}" in m.group(0):
+                        resolved = skill_dir / ref_path_str
+                    else:
+                        resolved = Path(ref_path_str)
+
+                    # Skip templates, URLs, variables
+                    if any(frag in ref_path_str for frag in TEMPLATE_FRAGMENTS):
+                        continue
+                    if ref_path_str.startswith("//"):
+                        continue
+                    # Skip runtime-created files (skills create these on first run)
+                    if Path(ref_path_str).name in RUNTIME_CREATED:
+                        continue
+                    # Skip files inside runtime-created directories
+                    if any(part in RUNTIME_CREATED_DIRS for part in Path(ref_path_str).parts):
+                        continue
+                    # Dedup per skill
+                    dedup_key = f"{skill_dir.name}:{ref_path_str}"
+                    if dedup_key in seen_refs:
+                        continue
+                    seen_refs.add(dedup_key)
+
+                    if not resolved.exists():
+                        checked += 1
+                        failed += 1
+                        violations.append({
+                            "timestamp": ts,
+                            "source": f"skills/{skill_dir.name}/SKILL.md",
+                            "label": f"stale reference: {ref_path_str}",
+                            "check": f"FileExists({resolved})",
+                            "result": f"file not found",
+                        })
+
+    # 3. Check critical-patterns.md inline verify: annotations
     if CRITICAL_PATTERNS.exists():
         try:
             content = CRITICAL_PATTERNS.read_text(encoding="utf-8", errors="replace")
@@ -256,7 +325,7 @@ def main():
         except Exception:
             pass
 
-    # 3. Log violations
+    # 4. Log violations
     if violations:
         VIOLATIONS_LOG.parent.mkdir(parents=True, exist_ok=True)
         with VIOLATIONS_LOG.open("a", encoding="utf-8") as f:
@@ -271,7 +340,7 @@ def main():
         except Exception:
             pass
 
-    # 4. Output to Claude context
+    # 5. Output to Claude context
     if violations:
         print(f"\n=== RULE VIOLATIONS ({failed}/{checked} checks failed) ===")
         for v in violations:
@@ -282,7 +351,7 @@ def main():
     elif checked > 0:
         print(f"[verify-sweep] {checked} rule checks passed ✓")
 
-    # 4b. Model gate warnings (informational, not violations)
+    # 5b. Model gate warnings (informational, not violations)
     if model_gate_warnings:
         print(f"\n[model-gate] {len(model_gate_warnings)} learning(s) may be stale for current model:")
         for w in model_gate_warnings:

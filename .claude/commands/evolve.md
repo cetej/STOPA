@@ -328,6 +328,28 @@ Include demotion proposals in Step 7 alongside promotion proposals.
 
 ---
 
+## Step 5c: Cross-Rules Consistency Scan (Semantic Hygiene)
+
+Detect contradictions across `rules/*.md` files using verb extraction (same approach as learning-admission.py).
+
+1. Read all files in `.claude/rules/`:
+   - `core-invariants.md`, `behavioral-genome.md`, `skill-files.md`, `memory-files.md`, `calm-steering.md`, `skill-tiers.md`, `python-files.md`
+2. For each file, extract obligation/negation pairs:
+   - Obligations: "always X", "must X", "používej X", "vždy X"
+   - Negations: "never X", "NEVER X", "don't X", "nepoužívej X", "NIKDY X"
+3. Cross-compare between files: if file A obligates verb V and file B negates same verb V → flag as CONTRADICTION
+4. Also check against `glossary.yaml` — any rule file using a term differently from glossary definition → flag as TERMINOLOGY_DRIFT
+5. Report:
+```
+RULES CONSISTENCY:
+  ✓ No contradictions found across 7 rule files
+  ⚠ CONTRADICTION: core-invariants.md "never X" vs behavioral-genome.md "always X"
+  ⚠ TERMINOLOGY_DRIFT: skill-tiers.md uses "tier" ambiguously (see glossary.yaml)
+```
+6. Include contradictions in Step 7 proposals as `RESOLVE: rules contradiction in X vs Y`
+
+---
+
 ## Step 6: Check Evolution Log
 
 Read `.claude/memory/evolution-log.md` (or decisions.md if no evolution-log).
