@@ -50,6 +50,44 @@ Determine what the user wants:
 | "Like X but with Y changes" | Start from reference DESIGN.md, modify as specified |
 | No input (new project) | Ask about mood, industry, audience → generate from scratch |
 
+### Phase 1.5: Design Database Lookup
+
+Before generating tokens from scratch, check the design database in `references/design-data/`:
+
+1. **Match product type** — Grep `colors.csv` for the closest product type (e.g., "SaaS", "E-commerce", "Healthcare"):
+   ```
+   Grep("product type keywords", path="references/design-data/colors.csv")
+   ```
+   If match found: use the full shadcn-compatible color token set (Primary, Secondary, Accent, Background, Foreground, Card, Muted, Border, Destructive, Ring) as starting point.
+
+2. **Match typography** — Grep `typography.csv` for mood/style keywords:
+   ```
+   Grep("mood keywords", path="references/design-data/typography.csv")
+   ```
+   If match found: use the font pairing with its ready CSS `@import` and Tailwind config.
+
+3. **Check industry reasoning** — Grep `ui-reasoning.csv` for the product category:
+   ```
+   Grep("product category", path="references/design-data/ui-reasoning.csv")
+   ```
+   Contains: recommended pattern, style priority, anti-patterns per industry. Use anti-patterns to avoid common mistakes.
+
+4. **Landing page pattern** — If building a landing page, grep `landing.csv`:
+   ```
+   Grep("pattern keywords", path="references/design-data/landing.csv")
+   ```
+   Contains: section order, CTA placement, color strategy, conversion optimization per pattern type.
+
+5. **UX guidelines** — Grep `ux-guidelines.csv` for relevant categories (touch, animation, accessibility, forms):
+   ```
+   Grep("category", path="references/design-data/ux-guidelines.csv")
+   ```
+   Contains: do/don't with actual code examples (Tailwind classes, CSS properties).
+
+**Important:** Database values are a starting point — always customize for the specific project. Override with values extracted from reference sites (Phase 2) or user preferences.
+
+**Database source:** Cherry-picked from nextlevelbuilder/ui-ux-pro-max-skill (MIT). 161 product types, 57 font pairings, 99 UX guidelines, 34 landing patterns.
+
 ### Phase 2: Token Extraction
 
 For each source, extract these design tokens:
@@ -96,6 +134,13 @@ High-quality examples are in the STOPA repo:
 - `references/design-md/linear-DESIGN.md` — Developer tool: dark theme mastery, motion-ready
 - `references/design-md/supabase-DESIGN.md` — Developer platform: green brand, open-source feel
 - `references/design-md/TEMPLATE.md` — Empty template with section structure and comments
+
+Design database (grep on demand, NOT loaded into context):
+- `references/design-data/colors.csv` — 161 product-type palettes, shadcn token format, WCAG-annotated
+- `references/design-data/typography.csv` — 57 font pairings with CSS imports + Tailwind configs
+- `references/design-data/ui-reasoning.csv` — 161 industry rules + anti-patterns + decision rules
+- `references/design-data/landing.csv` — 34 landing page patterns with section order + CTA strategy
+- `references/design-data/ux-guidelines.csv` — 99 UX guidelines with code examples (do/don't)
 
 Read 1-2 references BEFORE generating to calibrate quality level. The output must match their depth and specificity.
 
