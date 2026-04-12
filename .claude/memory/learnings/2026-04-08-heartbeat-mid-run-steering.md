@@ -8,6 +8,7 @@ summary: "Heartbeat-triggered intervention: orchestrátor posílá prompt-inject
 source: external_research
 uses: 8
 harmful_uses: 0
+confidence: 0.75
 successful_uses: 1
 confidence: 1.00
 verify_check: "Grep('stagnation-detector', path='.claude/settings.json') → 1+ matches"

@@ -4,7 +4,7 @@ Tracked findings from `/radar` scans and manual evaluations.
 Archived: `radar-archive.md` (when >400 lines)
 
 ## Stats
-Last scan: 2026-04-11 (scheduled #15) | Total: 51 tools | 🔴 8 | 🟡 41 | 🟢 2
+Last scan: 2026-04-12 (scheduled #16) | Total: 53 tools | 🔴 9 | 🟡 42 | 🟢 2
 
 ## Active Research (🔴)
 | Tool | Category | Score | Source | Captured | Status | Project fit |
@@ -17,6 +17,7 @@ Last scan: 2026-04-11 (scheduled #15) | Total: 51 tools | 🔴 8 | 🟡 41 | �
 | [pytest-aitest](https://github.com/sbroenne/pytest-aitest) | Testing / skill quality | 8/10 | scan | 2026-04-08 | **EVALUATE** | STOPA — TDD pro skill descriptions + agent tool interfaces s reálnými LLMs. Pydantic AI multi-provider (vč. Anthropic), semantic assertions, multi-dim scoring, cost estimation. Přesný fit pro testování kvality SKILL.md souborů. Microsoft dev. `pip install pytest-aitest`. Telegram notified. |
 | [claude-code-video-toolkit](https://github.com/digitalsamba/claude-code-video-toolkit) | Video production / Claude Code skills | 8/10 | manual | 2026-04-09 | **EVALUATE** | NG-ROBOT ng-video — Claude Code native video pipeline: Remotion + ElevenLabs + LTX-2 + ACEStep + MoviePy + 17 Python CLI tools. Přímý vzor pro rozšíření ng-video o AI klipy, TTS upgrade a scénář pipeline. MIT, Node.js 18+ + Python 3.9+. |
 | [agents-observe](https://github.com/simple10/agents-observe) | Claude Code agent observability / dashboard | 8/10 | scan | 2026-04-11 | **EVALUATE** | STOPA farm tier + orchestrate — real-time dashboard pro CC agent teams: sub-agent tree, parent-child vztahy, WebSocket streaming, SQLite, React UI. Hook-based (background fire-and-forget = 3-5ms latency vs 50-60ms blocking). Docker kontejner. 76 HN upvotes. Unique: žádný jiný CC-specifický multi-agent dashboard v radar. Telegram notified. |
+| [qsag-core](https://github.com/Neoxyber/qsag-core) | AI agent security toolkit / OWASP Agentic Top 10 | 8/10 | scan | 2026-04-12 | **EVALUATE** | STOPA security — MCP tool poisoning (26 patterns), prompt injection (28+ patterns), ghost agent detection, memory poisoning, exfiltration. OWASP Agentic Top 10 2026 (ASI01/03/05/06/07). Python 3.9+, MIT, `pip install qsag-core`. Complements mcp-scan (broader coverage: prompt injection + ghost agents + memory poisoning, not just docstring poisoning). Directly addresses PIArena 86% ASR threat in STOPA. Telegram notified. |
 
 ## Watch List (🟡)
 | Tool | Category | Score | Source | Captured | Notes |
@@ -65,6 +66,7 @@ Last scan: 2026-04-11 (scheduled #15) | Total: 51 tools | 🔴 8 | 🟡 41 | �
 | [Pluck](https://news.ycombinator.com/item?id=47638147) | UI capture / AI coding workflow | 5/10 | scan/HN | 2026-04-10 | Chrome extension: klikni na UI komponent na webu → strukturovaný prompt pro AI coding tools (Claude, Cursor, Bolt, v0). Stack: Plasmo+Next.js+Hono+tRPC+Postgres. Freemium ($10/mo unlimited). Žádný veřejný OSS GitHub. Marginální STOPA fit — UI capture workflow, potenciálně pro GRAFIK nebo frontend projekty. Indie dev. |
 | [Primer](https://github.com/armgabrielyan/primer) | AI agent dev / milestone-based | 5/10 | scan/HN | 2026-04-10 | Milestone-based AI agent software development: každý milestone = 1 verifikovatelná capability change. Dual mode: learner + builder. Emphasis na ověřitelný postup, ne spec-first. Early-stage indie dev (armgabrielyan), stars neznámé. STOPA fit: tangenciální — verifikační přístup zajímavý jako vzor pro /orchestrate step design. |
 | [Wombat](https://github.com/usewombat/gateway) | MCP permissions / Unix-style rwxd | 5/10 | scan/HN | 2026-04-11 | Unix-style rwxd permissions pro MCP tool calls — proxy mezi Claude Code a MCP servery. Context-aware: push_files allowed na feature branch, denied na main. Deterministic rule-based (no ML), audit trail, npm: `npx @usewombat/gateway`. 2 HN upvotes (indie dev, early). STOPA fit: podobné jako tool-gate.py constrained-tools, ale na MCP proxy vrstvě. Zajímavý vzor pro branch-aware permissions. |
+| [SkillKit](https://github.com/rfxlamia/skillkit) | Skill creation/validation toolkit / Claude Code | 6/10 | scan | 2026-04-12 | Open toolkit pro tvorbu a validaci skills pro CC, Copilot, OpenCode, Codex. 14 Python scripts: init, validation, token estimation, security scanning, quality scoring (target 9.0+/10). v3.0.0, 93 stars, Apache 2.0, `npx @rfxlamia/skillkit`. Dual-mode creation (fast 12 kroků / comprehensive 15 kroků). STOPA fit: reference pro /skill-generator vylepšení — quality scoring + token estimation + security scan jsou relevantní pro SKILL.md kvalitu. |
 
 ## Archive (🟢 — last 30, older → radar-archive.md)
 | Tool | Score | Captured | Why low |
@@ -78,6 +80,14 @@ Last scan: 2026-04-11 (scheduled #15) | Total: 51 tools | 🔴 8 | 🟡 41 | �
 ## Scan Log
 ### 2026-04-08 — manual | Lightpanda — 5/10 🟡
 - Headless browser postavený v Zig (ne Chromium fork). CDP na port 9222 → drop-in pro Playwright/Puppeteer. V8 engine, AJAX/XHR, cookies, proxy. Beta, stovky Web APIs chybí, Windows pouze WSL2. Benchmarks: 11× rychlejší než Chrome, 9× méně RAM (AWS EC2 m5.large, 100 págů). 11.8k★. Potenciál pro MONITOR scraping agenty až dospěje.
+
+### 2026-04-12 — scheduled scan #16 | Searches: 7 | Fetches: 5 | Found: 2 new
+- [qsag-core](https://github.com/Neoxyber/qsag-core) — 8/10 🔴 — OWASP Agentic Top 10 2026 security toolkit. MCP poisoning (26 patterns), prompt injection (28+), ghost agents, memory poisoning, exfiltration. Python 3.9+, MIT. Complements mcp-scan s širším pokrytím. Telegram notified.
+- [SkillKit](https://github.com/rfxlamia/skillkit) — 6/10 🟡 — Skill creation/validation toolkit pro CC/Copilot/Codex. Quality scoring, token estimation, security scan. v3.0.0, 93 stars, `npx @rfxlamia/skillkit`. Reference pro /skill-generator.
+- Skipped (already tracked): Eyeball (3/10), Microsoft Agent Framework 1.0 (5/10), agents-observe (8/10), Wombat (5/10), Gemma 4 (model), Lucidworks MCP (enterprise)
+- Skipped (ecosystem news → /watch): CC v2.1.101 (`/team-onboarding`, inline shell disabled for skills/commands, OS CA cert trust), MCP v2.1 Server Cards
+- Skipped (low quality/fit): claudemarketplaces.com (directory site), EvoAgentX (generic multi-agent, no CC fit), NVIDIA Vera Rubin (H2 2026 hardware)
+- Score >= 8 → Telegram notified (qsag-core)
 
 ### 2026-04-11 — scheduled scan #15 | Searches: 5 | Fetches: 4 | Found: 2 new
 - [agents-observe](https://github.com/simple10/agents-observe) — 8/10 🔴 — Real-time dashboard pro Claude Code agent teams. Sub-agent tree tracking, WebSocket, SQLite, React, Docker. Hook background (fire-and-forget) tip z kódu: latency 3-5ms vs 50-60ms blocking. 76 HN upvotes. STOPA fit: přímý — orchestrate + farm tier observability. Telegram notified.

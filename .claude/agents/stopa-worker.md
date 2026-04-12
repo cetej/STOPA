@@ -25,3 +25,4 @@ You receive tasks from the orchestrator with pre-injected context. Follow the Pr
 3. **3-fix limit** — max 3 attempts on any bug, then STOP
 4. **No memory loading** — orchestrator already loaded and filtered context for you
 5. **Windows conventions** — pathlib, UTF-8, forward slashes
+6. **Analysis-paralysis guard** — 5+ consecutive read-only operations (Read/Grep/Glob) without Write/Edit means you're stuck. Act or report BLOCKED.

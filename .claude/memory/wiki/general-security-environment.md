@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: general-security-environment
-sources: 11
-last_updated: 2026-04-11
+sources: 13
+last_updated: 2026-04-12
 ---
 
 # Security, Environment & Ecosystem
@@ -51,6 +51,8 @@ Defense framework evaluation (2026-04-05) produced clear verdicts: LlamaFirewall
 
 STOPA's positioning in the Claude Code ecosystem: unique combination of skill system + shared memory + orchestration. Top competitors (Claude Code Flow 23k, Claude Task Master 26k, superpowers 107k) focus on task scheduling + parallelism; STOPA focuses on goal-backward reasoning + verification gates. Re-scan quarterly (ref: 2026-03-23-ecosystem-scan.md). Fal.ai Windows specifics: use `python` (C:\Python313), `fal_client.subscribe()` for images, `submit()` + `iter_events()` for video, download immediately (URLs expire ~1h), FAL_KEY in `~/.claude/settings.json` env section (ref: 2026-03-23-environment-falai.md). Jevons paradox applied to AI coding: cheaper code generation unlocks latent demand for software that wasn't viable before — more ambitious projects → more orchestration needed, not less engineering (ref: 2026-04-08-jevons-paradox-ai-coding.md).
 
+CALM (arXiv:2510.27688) compresses K tokens into 1 continuous vector with K=4 as sweet spot (44% fewer FLOPs, >99.9% reconstruction accuracy). Transferable principles: batch K-segment compression in pipelines, likelihood-free evaluation, 4:1 memory compression ratio (ref: 2026-04-11-calm-continuous-autoregressive.md). IHA (arXiv:2602.21371) enables cross-head attention communication via pseudo-heads — P² patterns per head instead of 1. Multi-key retrieval +112% at 16k context, GSM8K +5.8%, compatible with FlashAttention. Watch item for long-context and multi-hop reasoning improvements (ref: 2026-04-11-iha-interleaved-head-attention.md).
+
 Model metadata as single source of truth for dynamic UI: one JSON file defines inputs, limits, and control types for 200+ models; UI generates automatically. This eliminates O(N) components per model → O(1) generic form. Applicable to GRAFIK layers/effects and any multi-model tool (ref: 2026-04-07-model-metadata-dynamic-ui-pattern.md).
 
 When optimizing against multiple reward metrics simultaneously, normalize each metric independently before aggregating. Direct sum-then-normalize collapses distinct metric combinations to identical advantage values, destroying signal resolution. GDPO (arXiv:2601.05242) fixes this with decoupled normalization + conditional gating for priority ordering (ref: 2026-04-07-multi-reward-normalization-collapse.md).
@@ -85,3 +87,5 @@ When optimizing against multiple reward metrics simultaneously, normalize each m
 | [2026-03-23-ecosystem-scan](../learnings/2026-03-23-ecosystem-scan.md) | 2026-03-23 | low | STOPA positioning: unique goal-backward + verification vs scheduling competitors |
 | [2026-03-23-environment-falai](../learnings/2026-03-23-environment-falai.md) | 2026-03-23 | medium | fal.ai Windows: python not python3, async patterns, URL expiry |
 | [2026-04-08-jevons-paradox-ai-coding](../learnings/2026-04-08-jevons-paradox-ai-coding.md) | 2026-04-08 | medium | AI coding unlocks latent demand — more projects, more orchestration |
+| [2026-04-11-calm-continuous-autoregressive](../learnings/2026-04-11-calm-continuous-autoregressive.md) | 2026-04-11 | medium | CALM: K=4 token compression, 44% FLOPs savings, >99.9% accuracy |
+| [2026-04-11-iha-interleaved-head-attention](../learnings/2026-04-11-iha-interleaved-head-attention.md) | 2026-04-11 | medium | IHA: cross-head pseudo-attention, +112% multi-key retrieval @16k |

@@ -6,10 +6,10 @@ component: skill
 tags: [verification, testing, evaluation, critic, meta-pattern]
 summary: "Verification Shift: generování kódu není bottleneck — verifikace ano. LLM judges slabé na faktičnost, cascade failures zesilují, schema compliance != utility. Kombinuj: LLM scoring + grep/search verifikaci + cascade-order checking + regression gates."
 source: auto_pattern
-uses: 0
+uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.8
+confidence: 0.9
 skill_scope: [critic, verify, harness, eval]
 related: [2026-04-03-testing-bottleneck.md, 2026-04-08-llm-judge-factuality-weak.md, 2026-04-04-toolgenesis-cascade-evaluation.md, 2026-04-05-regression-gate-pattern.md]
 verify_check: "manual"

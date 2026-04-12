@@ -6,10 +6,10 @@ component: skill
 tags: [optimization, self-evolution, credit-assignment, autoloop, self-evolve]
 summary: "RLSD paper proves decoupling update direction (what to change) from magnitude (how much) avoids information leakage and gives 2× convergence. Apply to STOPA iterative skills: critic gives direction (pass/fail), diff analysis gives per-change magnitude."
 source: external_research
-uses: 0
+uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.6
+confidence: 0.7
 verify_check: "manual"
 ---
 

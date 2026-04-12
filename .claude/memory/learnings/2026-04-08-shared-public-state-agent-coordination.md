@@ -8,6 +8,7 @@ summary: "CORAL pattern: agents share knowledge via symlinked `.coral/public/` d
 source: external_research
 uses: 9
 harmful_uses: 0
+confidence: 0.75
 successful_uses: 1
 confidence: 1.00
 verify_check: "Glob('.claude/memory/intermediate/shared/notes.md') → 1+ matches"

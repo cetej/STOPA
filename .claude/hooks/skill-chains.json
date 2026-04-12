@@ -115,6 +115,18 @@
       "next": "/scribe learning",
       "condition": "auto",
       "description": "After peer review completes, record review findings as learnings"
+    },
+    {
+      "trigger": { "skill": "learn-from-failure", "status_pattern": "DONE|done|complete|pattern identified" },
+      "next": "/compile --incremental",
+      "condition": "auto",
+      "description": "After failure analysis, compile findings into wiki"
+    },
+    {
+      "trigger": { "skill": "ingest", "status_pattern": "DONE|done|complete|ingested|extracted" },
+      "next": "/compile --incremental",
+      "condition": "auto",
+      "description": "After ingesting a source, compile extracted knowledge into wiki"
     }
   ]
 }

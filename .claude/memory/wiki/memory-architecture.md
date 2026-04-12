@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: memory-architecture
-sources: 12
-last_updated: 2026-04-11
+sources: 13
+last_updated: 2026-04-12
 ---
 
 # Memory Architecture
@@ -22,6 +22,8 @@ Cross-project memory transfer is now designed as a two-tier system: shared knowl
 A counterintuitive finding from streaming video benchmarks: simple sliding-window recency (last N items) matches or beats complex memory accumulation in time-sensitive tasks. More history can actually hurt real-time perception even when it helps recall. This suggests STOPA should bias toward recency for context loading, using full history only when explicitly needed for longitudinal analysis (ref: 2026-04-08-recency-beats-complex-memory.md).
 
 Checkpoint versioning is a foundational anti-pattern prevention: never overwrite checkpoints without archiving. Version frequently (especially before scope changes), include task list + technical findings + resume prompt, and archive rather than delete (ref: 2026-03-24-checkpoint-versioning.md). Living memory (MIA arXiv:2604.04503) beats static RAG by +31% avg across 11 benchmarks — a 7B model with living memory outperforms a 32B without it by 18%. The mechanism is bidirectional conversion between parametric and non-parametric memory plus test-time learning. This empirically validates STOPA's write-time gating approach (ref: 2026-04-08-living-memory-over-static-retrieval.md). The parametric ↔ non-parametric bridge maps to STOPA as: CLAUDE.md/behavioral-genome.md (parametric) ↔ learnings/*.md/critical-patterns.md (non-parametric). The gap is a reverse demote mechanism — stale rules in critical-patterns.md should move back to non-parametric for re-evaluation (ref: 2026-04-08-parametric-nonparametric-memory-bridge.md). Acemoglu Theorem 3 formalizes why local aggregators beat global: a global aggregator necessarily degrades ≥1 knowledge dimension. STOPA's implementation uses `skill_scope:` field for local graduation to `skills/<name>/learned-rules.md` and circular validation detection in learning-admission.py (ref: 2026-04-09-local-aggregator-beats-global.md).
+
+Harrison Chase (LangChain) frames memory as harness, not plugin: a closed harness means lost memory. STOPA is 80% open (git-backed files, markdown format), but three risk points remain: server-side compaction (invisible to git), auto-memory stored outside git tracking, and SKILL.md format lock-in. Six mitigations proposed: git-track auto-memory, export hooks for compaction events, format-neutral learning schema, memory portability tests, multi-harness sync protocol, and sovereignty audit in /evolve (ref: 2026-04-11-memory-sovereignty-open-harness.md).
 
 AutoDream (/dream) coexists with STOPA's structured memory: dream acts as janitor (cleanup, consolidation), while /scribe acts as architect (structured writes with YAML frontmatter). The key boundary is protecting YAML frontmatter from dream's modifications (ref: 2026-03-26-autodream-coexistence.md).
 
@@ -53,6 +55,7 @@ AutoDream (/dream) coexists with STOPA's structured memory: dream acts as janito
 
 ## Open Questions
 
+- GAP: Memory sovereignty mitigations (3 risk points identified, not yet implemented) (ref: 2026-04-11-memory-sovereignty-open-harness.md)
 - ~~GAP: Cross-project memory transfer~~ — RESOLVED: two-tier design (universal sync + local learnings) (ref: 2026-04-07-cross-project-memory-design.md)
 
 ## Related Articles
@@ -75,3 +78,4 @@ AutoDream (/dream) coexists with STOPA's structured memory: dream acts as janito
 | [2026-04-08-living-memory-over-static-retrieval](../learnings/2026-04-08-living-memory-over-static-retrieval.md) | 2026-04-08 | high | Living memory +31% over RAG; validates write-time gating |
 | [2026-04-08-parametric-nonparametric-memory-bridge](../learnings/2026-04-08-parametric-nonparametric-memory-bridge.md) | 2026-04-08 | high | Bidirectional parametric↔non-parametric conversion; needs reverse demote |
 | [2026-04-09-local-aggregator-beats-global](../learnings/2026-04-09-local-aggregator-beats-global.md) | 2026-04-09 | high | Acemoglu Theorem 3: local aggregators preserve knowledge better than global |
+| [2026-04-11-memory-sovereignty-open-harness](../learnings/2026-04-11-memory-sovereignty-open-harness.md) | 2026-04-11 | high | Memory=harness, not plugin; 3 risk points, 6 mitigations |

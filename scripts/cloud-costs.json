@@ -1,0 +1,21 @@
+{
+  "daily": {
+    "2026-04-08": {
+      "stopa-watch": 0.0
+    },
+    "2026-04-09": {
+      "stopa-watch": 0.0
+    }
+  },
+  "monthly": {
+    "2026-04": {
+      "total": 0.0,
+      "by_agent": {
+        "stopa-watch": 0.0
+      }
+    }
+  },
+  "all_time": {
+    "total": 0.0
+  }
+}

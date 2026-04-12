@@ -6,10 +6,10 @@ component: skill
 tags: [skill-design, prompting, orchestration, instruction-following]
 summary: "Instruction-following uses task-specific representations, not a universal mechanism. Mixing constraint types (format + content + semantic) in one prompt is less effective than separate specialized prompts per constraint domain."
 source: external_research
-uses: 0
+uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.6
+confidence: 0.7
 verify_check: manual
 related: []
 ---

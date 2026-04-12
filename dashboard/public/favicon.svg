@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="45%" r="50%">
+      <stop offset="0%" stop-color="#1a1f2a"/>
+      <stop offset="100%" stop-color="#08090d"/>
+    </radialGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="256" height="256" rx="48" fill="url(#glow)"/>
+  <!-- Footprint (stopa) — stylized paw/foot -->
+  <!-- Main pad -->
+  <ellipse cx="128" cy="158" rx="38" ry="44" fill="#c8b88a" opacity="0.92"/>
+  <!-- Toe pads -->
+  <ellipse cx="88" cy="98" rx="16" ry="20" fill="#c8b88a" opacity="0.85" transform="rotate(-12 88 98)"/>
+  <ellipse cx="128" cy="82" rx="15" ry="19" fill="#c8b88a" opacity="0.88"/>
+  <ellipse cx="168" cy="98" rx="16" ry="20" fill="#c8b88a" opacity="0.85" transform="rotate(12 168 98)"/>
+  <!-- Subtle inner shadow on main pad -->
+  <ellipse cx="128" cy="162" rx="26" ry="30" fill="#08090d" opacity="0.12"/>
+  <!-- Tiny highlight -->
+  <ellipse cx="120" cy="145" rx="10" ry="6" fill="#fff" opacity="0.08" transform="rotate(-15 120 145)"/>
+</svg>

@@ -6,10 +6,10 @@ component: memory
 tags: [memory, retrieval, agent-memory, living-memory, static-rag, evolution]
 summary: "Living memory (evolving + compressed trajectories) beats static RAG by +31% avg across 11 benchmarks. Traditional long-context accumulation can underperform even no-memory baselines — more stored context ≠ better performance."
 source: external_research
-uses: 0
+uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.7
+confidence: 0.8
 related: [2026-03-30-write-time-gating-salience.md, 2026-04-08-recency-beats-complex-memory.md]
 verify_check: "manual"
 ---

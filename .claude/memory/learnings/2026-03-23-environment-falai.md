@@ -4,8 +4,10 @@ type: best_practice
 severity: medium
 component: general
 tags: [fal-ai, python, windows, environment]
+uses: 1
 summary: "fal.ai on Windows: use fal-client not fal, handle async properly, set FAL_KEY env var, retry on timeouts."
 source: auto_pattern
+confidence: 0.75
 ---
 
 ## Problém

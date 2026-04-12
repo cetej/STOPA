@@ -8,7 +8,7 @@ summary: "Při rovném thinking token budgetu single-agent systémy dosahují st
 source: external_research
 uses: 2
 harmful_uses: 0
-confidence: 0.95
+confidence: 1.0
 successful_uses: 0
 failure_class: assumption
 verify_check: "manual"

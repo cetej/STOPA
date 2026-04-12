@@ -6,10 +6,10 @@ component: orchestration
 tags: [orchestration, budget, scout, recursion, long-context, RLM]
 summary: "RLM (arXiv:2512.24601) validuje STOPA RLM principy a přidává 3 implementované vzory: budget propagation do sub-agentů (soft-cap + 20% reserve), metadata-first scout (--metadata flag), recursion depth guard (max-depth frontmatter, default 1). Klíčový závěr: STOPA neadoptuje REPL — Agent tool je ekvivalent. Depth=1 stačí i v produkčním RLM."
 source: external_research
-uses: 1
+uses: 3
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.85
+confidence: 1.0
 verify_check: "Grep('Budget Allocation per Agent', path='.claude/skills/orchestrate/SKILL.md') → 1+ matches"
 skill_scope: [orchestrate, scout, deepresearch]
 ---

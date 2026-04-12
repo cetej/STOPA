@@ -4,9 +4,11 @@ type: best_practice
 severity: high
 component: pipeline
 tags: [harness, deterministic, python, validation]
+uses: 1
 summary: "Deterministic harnesses (Python scripts) for processes needing >90% reliability. Skills are best-effort, harnesses are guaranteed."
 source: auto_pattern
 related: [2026-03-26-harness-simplification.md]
+confidence: 0.75
 ---
 
 ## Problém

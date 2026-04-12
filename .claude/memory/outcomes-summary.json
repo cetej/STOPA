@@ -1,0 +1,15 @@
+{
+  "last_updated": "2026-04-11T00:00:00Z",
+  "total_runs": 1,
+  "success_rate": 1.0,
+  "by_skill": {
+    "self-evolve": {"runs": 1, "success": 1, "partial": 0, "failure": 0}
+  },
+  "by_outcome": {"success": 1, "partial": 0, "failure": 0, "unknown": 0},
+  "by_exit_reason": {"convergence": 1},
+  "recent_runs": [
+    {"date": "2026-04-10", "skill": "self-evolve", "outcome": "success", "exit_reason": "convergence"}
+  ],
+  "last_7_days": {"success": 1, "partial": 0, "failure": 0, "total": 1},
+  "failure_streak": 0
+}

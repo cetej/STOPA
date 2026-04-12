@@ -8,7 +8,7 @@ summary: "GAP: No measurement data on SKILL.compact.md effectiveness — claimed
 source: auto_pattern
 uses: 1
 harmful_uses: 0
-confidence: 0.7
+confidence: 0.75
 verify_check: manual
 successful_uses: 0
 ---

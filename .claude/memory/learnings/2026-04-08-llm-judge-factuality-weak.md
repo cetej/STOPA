@@ -6,8 +6,8 @@ component: orchestration
 tags: [eval, critic, judge, factuality, scoring]
 summary: "LLM judges (GPT-5, Claude) prioritize structural formatting over factual correctness (r=0.65 overall, weak on lit review factuality). Eval and critic should combine LLM scoring with grep/search verification for factual claims."
 source: external_research
-confidence: 0.7
-uses: 0
+confidence: 0.8
+uses: 1
 successful_uses: 0
 harmful_uses: 0
 verify_check: "manual"

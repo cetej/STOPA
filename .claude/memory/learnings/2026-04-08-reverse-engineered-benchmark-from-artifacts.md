@@ -6,10 +6,10 @@ component: skill
 tags: [evaluation, benchmark, harness, eval, deepresearch, compile]
 summary: "Build eval benchmarks by reverse-engineering expected outputs from real completed artifacts, not synthetic generation. PaperWritingBench: 200 top-tier papers → inferred raw materials + quality criteria. Applicable to STOPA /eval and /harness test case construction."
 source: external_research
-uses: 0
+uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.6
+confidence: 0.7
 verify_check: "manual"
 ---
 

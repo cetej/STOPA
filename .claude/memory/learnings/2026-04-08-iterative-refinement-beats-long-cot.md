@@ -6,10 +6,10 @@ component: orchestration
 tags: [reasoning, inference, iteration, compute-efficiency, orchestration]
 summary: "Sequential Refinement (iterative bounded drafts) beats long chain-of-thought at matched compute. For iterative tasks, use bounded refinement loops rather than single long-context generation."
 source: external_research
-uses: 0
+uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.8
+confidence: 0.9
 verify_check: "manual"
 ---
 

@@ -1,10 +1,10 @@
 {
-  "last_compile": "2026-04-11T12:00:00Z",
-  "compile_mode": "incremental",
-  "total_learnings": 102,
+  "last_compile": "2026-04-12T10:43:38Z",
+  "compile_mode": "full",
+  "total_learnings": 110,
   "total_articles": 9,
   "contradictions": 1,
-  "gaps": 2,
+  "gaps": 3,
   "superseded": [
     "2026-04-04-gap-budget-calibration.md",
     "2026-04-04-gap-compact-variant-measurement.md",
@@ -121,9 +121,10 @@
         "checkpoint-versioning.md",
         "2026-04-08-living-memory-over-static-retrieval.md",
         "2026-04-08-parametric-nonparametric-memory-bridge.md",
-        "2026-04-09-local-aggregator-beats-global.md"
+        "2026-04-09-local-aggregator-beats-global.md",
+        "2026-04-11-memory-sovereignty-open-harness.md"
       ],
-      "generated": "2026-04-11"
+      "generated": "2026-04-12"
     },
     "general-security-environment.md": {
       "source_learnings": [
@@ -137,9 +138,11 @@
         "2026-03-27-secrets-in-config-files.md",
         "ecosystem-scan.md",
         "environment-falai.md",
-        "2026-04-08-jevons-paradox-ai-coding.md"
+        "2026-04-08-jevons-paradox-ai-coding.md",
+        "2026-04-11-calm-continuous-autoregressive.md",
+        "2026-04-11-iha-interleaved-head-attention.md"
       ],
-      "generated": "2026-04-11"
+      "generated": "2026-04-12"
     },
     "hook-infrastructure.md": {
       "source_learnings": [
@@ -261,9 +264,17 @@
     "2026-04-09-triattention-pre-rope-kv-compression.md",
     "2026-04-10-eggroll-evolutionary-optimization.md",
     "2026-04-10-rlm-architectural-principles.md",
+    "2026-04-11-adaptive-attacks-defeat-static-defenses.md",
+    "2026-04-11-calm-continuous-autoregressive.md",
+    "2026-04-11-compression-regime-maps-to-tiers.md",
+    "2026-04-11-iha-interleaved-head-attention.md",
     "2026-04-11-iteration-paradox-meta-pattern.md",
+    "2026-04-11-memory-sovereignty-open-harness.md",
+    "2026-04-11-no-defense-achieves-security-and-utility.md",
     "2026-04-11-self-incrimination-training.md",
-    "2026-04-11-verification-shift-meta-pattern.md",
-    "karpathy-loop-autoloop.md"
+    "2026-04-11-speculative-reasoning-degrades-workers.md",
+    "2026-04-11-task-alignment-bypasses-instruction-defenses.md",
+    "2026-04-11-task-guided-context-beats-raw-sharing.md",
+    "2026-04-11-verification-shift-meta-pattern.md"
   ]
 }

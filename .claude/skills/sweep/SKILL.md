@@ -183,6 +183,25 @@ After applying fixes:
 |---|-----------|-------|---------------------------|
 ```
 
+### Step 7: Memory Sovereignty Mirror
+
+After entropy cleanup, ensure all auto-memory is backed up to git:
+
+```bash
+python scripts/mirror-automemory.py --apply --all
+```
+
+This mirrors `~/.claude/projects/*/memory/` → `.claude/memory/auto-mirror/` (git-tracked).
+Only runs if mirror script exists. Reports new/updated/unchanged counts.
+
+If any files were mirrored, include in sweep report under "Memory Mirror" section.
+
+Optionally run sovereignty audit for visibility:
+
+```bash
+python scripts/sovereignty-audit.py
+```
+
 ## Auto-Invocation
 
 This skill can be auto-invoked by `/orchestrate` at the end of deep/standard tier sessions.

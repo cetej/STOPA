@@ -4,6 +4,37 @@ Record of /evolve audit proposals and outcomes.
 
 ---
 
+## Evolution Run — 2026-04-12 (#7)
+
+### Signals
+- 12 corrections (0 new since evolve #6)
+- 2 violations (0 new since 2026-03-29)
+- 113 learnings scanned, 0 graduation-ready (closest: shared-public-state 9 uses, heartbeat 8 uses)
+- 0 model_gate learnings with mismatch
+- Wiki still not built (INDEX.md missing)
+- Sessions: 100/100 healthy (0 corrections, 0 frustrations in last 20)
+
+### Proposals
+- 6 proposed, 6 approved, 0 rejected
+
+### Applied
+- CREATE: evolution-log.md entry (this)
+- UPDATE: stopa-worker.md — added analysis-paralysis guard (rule #6, fixes violations.jsonl verify)
+- UPDATE: shared-public-state-agent-coordination.md — confidence: 0.75 (9 uses, near graduation)
+- UPDATE: heartbeat-mid-run-steering.md — confidence: 0.75 (8 uses, near graduation)
+- RECOMMEND: Run /compile --full (wiki not built, 113 learnings available)
+- KEEP: 7 index-*.md files — legacy but still useful as browsable summaries
+
+### Rejected
+- (none)
+
+### Notes
+- System very healthy — 7th evolve run with 0 new corrections since March
+- Graduation threshold not yet reached by any learning (closest: 9/10 uses)
+- Previous DEFER decision on heartbeat/shared-public-state utility ratio still applies (evolve #5/#6)
+
+---
+
 ## Evolution Run — 2026-04-11 (#6, post-dreams)
 
 ### Signals

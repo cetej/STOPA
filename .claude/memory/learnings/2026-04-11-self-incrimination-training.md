@@ -6,8 +6,8 @@ component: hook
 tags: [safety, self-report, adversarial-robustness, hook-design]
 summary: "Self-incrimination training (arXiv:2602.22303) snižuje neodhalené útoky z 56% na 6% — agent se naučí hlásit vlastní podvod přes report_scheming() tool. Kombinace s externím monitoringem (5.1%) je nejrobustnější. Zranitelnost: reframing (legitimizace podvodu). Implementace v STOPA: self-report hook + invariant-check PostToolUse hook."
 source: external_research
-confidence: 0.7
-uses: 0
+confidence: 0.8
+uses: 1
 successful_uses: 0
 harmful_uses: 0
 impact_score: 0.0
