@@ -280,6 +280,8 @@ ELSE: continue normally — zero overhead when triggers don't fire
 
 **Difference from Step 7**: Meta-mode tunes parameters (learning rate, strategy weights). Heartbeat changes *direction* — forces strategy switch or consolidation when iteration loop stagnates. Both can fire independently.
 
+**Advisor consultation (at heartbeat):** When the heartbeat fires (every 5 rounds), also invoke the advisor checkpoint protocol from `${CLAUDE_SKILL_DIR}/../orchestrate/references/advisor-checkpoint.md`. Spawn an Opus sub-agent with current pass_rate trajectory, kept/discarded rounds, and eval case distribution. Advisor suggests strategic direction for next rounds. Skip if budget ≤ 3 or already used 3+ consultations.
+
 #### Step 8: Circuit Breaker Check
 
 - 3 consecutive reverts: **STOP** — "Executor unable to improve, report to user" (tunable via meta-mode: 2-5)

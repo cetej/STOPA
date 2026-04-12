@@ -409,11 +409,13 @@ Baseline: 0.72 → Best: 0.85 (+0.13)  [hypothesis: semantic-chunking]
 Keeps: 3 | Discards: 2 | Crashes: 1
 ```
 
-### Step 10: Batch ASSESS — Strategic Decision Point
+### Step 10: Batch ASSESS — Strategic Decision Point (with Advisor)
 
 **Trigger:** After each batch completes (every `ceil(budget/3)` iterations), pause and assess.
 
-Review the experiment log holistically:
+**Advisor consultation:** Before self-assessing, invoke the advisor checkpoint protocol from `${CLAUDE_SKILL_DIR}/../orchestrate/references/advisor-checkpoint.md`. Spawn an Opus sub-agent with current trajectory data. Advisor's DIRECTION and AVOID feed into the decision matrix below. Skip if budget ≤ 3 or already used 3+ consultations.
+
+Review the experiment log holistically (incorporate advisor input if available):
 
 ```
 === BATCH ASSESS (after iteration <N>/<budget>) ===

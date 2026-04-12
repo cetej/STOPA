@@ -6,6 +6,7 @@ context:
   - meta-mode.md
   - trace-review.md
 argument-hint: <target file/scope> [goal] [verify:<command>] [guard:<command>] [cost_metric:<command>] [budget:N] [mode:linear|tree] [meta:true] [escalate:true]
+discovery-keywords: [optimize iteratively, improve metric, karpathy loop, target score, auto-improve, iterate until]
 context-required:
   - "target file or scope — one file to optimize (single-file mutation rule)"
   - "optimization goal — what to improve and in which direction"
@@ -30,6 +31,31 @@ Karpathy autoresearch pattern for Claude Code: constrain scope → define metric
 |------|---------|---------------|
 | **File mode** | Target is a file path | Built-in structural scorer (SKILL.md) or LLM-as-judge |
 | **Metric mode** | `verify:<command>` provided | External command output (test coverage, benchmark, bundle size...) |
+
+## Population Mode (EGGROLL-inspired, opt-in)
+
+When `population:N` is set (N=2-4), each iteration generates N candidate mutations instead of one. Each candidate is a rank-1 perturbation (one focused change along one axis). The best candidate is selected via population-normalized scoring, and only the winner is committed.
+
+```
+For iteration i with population:3:
+  1. Read current state (Step 1: Review) — shared across all candidates
+  2. Generate 3 candidate edits sequentially — each targets ONE axis:
+     - Candidate A: structural change (reorder, change flow, add/remove sections)
+     - Candidate B: content change (improve specific text, logic, or values)
+     - Candidate C: simplification (remove redundancy, condense, delete dead code)
+  3. For each candidate: apply edit → run verify → record metric → revert edit
+  4. Compute z-scores: z_i = (metric_i - μ) / max(σ, 0.01)
+  5. Re-apply and commit ONLY the highest z-score candidate (if it beats baseline)
+  6. Log all candidates in TSV: append `pop_rank` column (1=winner, 2-N=discarded)
+```
+
+**Why this works** (EGGROLL Theorem 3, Oxford/MILA 2026): rank-1 perturbations (= one-axis edits) are sufficient because the accumulated update across iterations sums selected rank-1 updates — recovering full-rank expressivity. Small, targeted edits from a population > large rewrites from a single attempt.
+
+**Constraints:**
+- Population mode uses N× the verify calls per iteration — budget = `iterations × population`
+- Each candidate is generated and verified sequentially (no Agent tool needed)
+- NOT compatible with `mode:tree` (tree already branches)
+- Default population:1 (standard single-candidate mode) — opt-in via `population:N` argument
 
 ## 8 Critical Rules (from Karpathy's autoresearch)
 
@@ -91,6 +117,15 @@ Read `.claude/memory/optstate/autoloop.json` if it exists. Extract:
 - `change_ledger` → last 5 entries for "what was tried before"
 
 If file doesn't exist: proceed normally (no prior state).
+
+**UCB1 Strategy Recommendation (when optstate has 3+ ledger entries):**
+
+Run `python scripts/ucb1-selector.py` to get data-driven strategy priority for this session.
+Output overrides the default priority order in Phase 1 Step 1 (Review). If the script is
+unavailable or optstate is empty, fall back to the default priority list.
+
+UCB1 balances exploit (high avg_reward strategies) with explore (under-tried strategies).
+Exploration constant c=1.41 (sqrt(2)) per Auer et al. 2002. Ref: ASI-Evolve (arXiv:2603.29640).
 
 ### Precondition checks
 
@@ -213,6 +248,24 @@ For each iteration (1 to budget):
 
 ### Step 1: Review (git + traces as memory)
 
+**Heartbeat stagnation check** (CORAL-inspired, before reading git log):
+
+> **Hook-backed**: `stagnation-detector.py` PostToolUse hook monitors `autoloop-results.tsv` automatically
+> and injects `[stagnation-steering:yellow/red]` messages. The check below is defense-in-depth —
+> if you see a `[stagnation-steering]` message, follow it immediately.
+
+```
+IF iteration > 4 AND consecutive_reverts >= 2:
+  Read last 4 entries from autoloop-results.tsv
+  IF all 4 statuses are "discard" or "crash":
+    → Radical exploration mode: skip priorities 1-4, jump to priority 5 (simplify) or 6 (radical experiment)
+    → Log in run diary: "Heartbeat: forcing radical shift after 4 consecutive failures"
+  ELIF 3 of 4 are "discard":
+    → Force strategy change: if last attempts were "exploit", switch to "explore" (or vice versa)
+    → Log: "Heartbeat: strategy pivot after 3/4 discards"
+```
+Zero overhead when triggers don't fire — check is O(1) read from TSV tail.
+
 **MUST complete ALL steps** — git history and traces are the primary learning mechanisms:
 
 1. Read current state of in-scope files
@@ -299,6 +352,23 @@ Guard is pass/fail only (exit code 0 = pass). If guard fails:
 
 Do not modify guard or test files — changes to the measurement baseline invalidate all previous iterations and make before/after comparison meaningless. Always adapt the implementation instead.
 
+#### Per-Axis Monotonicity Guard (opt-in, PaperOrchestra-inspired)
+
+When `guard_axes: true` in arguments AND critic is used as guard (file mode), enforce per-dimension monotonicity:
+
+```
+IF guard_axes AND critic_scores_available:
+    FOR each dimension in critic rubric (Correctness, Completeness, Quality, Safety, Coverage):
+        IF score_new[dim] < score_prev[dim] - 0.5:
+            AXIS_REGRESSION = true
+            Log: "Axis regression: {dim} dropped {score_prev[dim]} → {score_new[dim]}"
+    IF AXIS_REGRESSION:
+        STATUS = "discard (axis regression)"
+        # Even if overall metric improved — one dimension degraded significantly
+```
+
+Why 0.5 threshold: critic scores are 1-5, so 0.5 = 10% of scale. Smaller drops are noise; larger drops indicate a real trade-off that shouldn't be silently accepted. (arXiv:2604.05018 — PaperOrchestra Content Refinement agent accepts revisions only when no sub-axis regresses.)
+
 ### Step 6: Decide
 
 ```
@@ -310,6 +380,11 @@ ELIF metric improved AND guard failed:
     # Rework (max 2 attempts) — see Step 5
     IF rework succeeded: STATUS = "keep (reworked)"
     ELSE: STATUS = "discard" — revert
+
+ELIF metric improved AND guard_axes detected axis regression:
+    STATUS = "discard (axis regression)"
+    git revert HEAD --no-edit
+    Log: "Overall metric improved but per-axis monotonicity violated"
 
 ELIF metric same or worse:
     STATUS = "discard"
@@ -333,7 +408,7 @@ iteration	commit	metric	delta	guard	status	description
 7	-	0.0	0.0	-	crash	add integration tests (DB failed)
 ```
 
-Valid statuses: `baseline`, `keep`, `keep (reworked)`, `discard`, `crash`, `no-op`, `hook-blocked`
+Valid statuses: `baseline`, `keep`, `keep (reworked)`, `discard`, `discard (axis regression)`, `crash`, `no-op`, `hook-blocked`
 
 **Run Diary**: Update the current iteration entry:
 ```
@@ -389,6 +464,14 @@ Every 5 iterations, print progress summary:
 Baseline: 85.2 → Current: 92.1 (+6.9)
 Keeps: 8 | Discards: 5 | Crashes: 2
 ```
+
+### Advisor Checkpoint (at progress summary)
+
+At the progress summary point (every 5 iterations), invoke the advisor checkpoint protocol from `${CLAUDE_SKILL_DIR}/../orchestrate/references/advisor-checkpoint.md`.
+
+Spawn an Opus sub-agent with current trajectory data (baseline, best, keeps/discards, last 3 iteration summaries from TSV). Advisor returns strategic direction in ≤500 tokens. Incorporate DIRECTION into next hypothesis generation, add AVOID items to strategies-that-fail.
+
+**Skip conditions:** budget ≤ 3, trend is "strong improving", or already used 3+ advisor consultations this run.
 
 ## Crash Recovery Protocol
 

@@ -465,6 +465,14 @@ Baseline: 85.2 → Current: 92.1 (+6.9)
 Keeps: 8 | Discards: 5 | Crashes: 2
 ```
 
+### Advisor Checkpoint (at progress summary)
+
+At the progress summary point (every 5 iterations), invoke the advisor checkpoint protocol from `${CLAUDE_SKILL_DIR}/../orchestrate/references/advisor-checkpoint.md`.
+
+Spawn an Opus sub-agent with current trajectory data (baseline, best, keeps/discards, last 3 iteration summaries from TSV). Advisor returns strategic direction in ≤500 tokens. Incorporate DIRECTION into next hypothesis generation, add AVOID items to strategies-that-fail.
+
+**Skip conditions:** budget ≤ 3, trend is "strong improving", or already used 3+ advisor consultations this run.
+
 ## Crash Recovery Protocol
 
 | Failure | Response | Count as iteration? |
