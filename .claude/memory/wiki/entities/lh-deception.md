@@ -3,7 +3,7 @@ name: LH-Deception
 type: paper
 first_seen: 2026-04-08
 last_updated: 2026-04-08
-sources: [lh-deception-long-horizon-agent]
+sources: [lh-deception-long-horizon-agent, mask-benchmark-honesty-accuracy]
 tags: [security, multi-agent, evaluation, trust, deception]
 ---
 
@@ -27,3 +27,4 @@ Validates the need for trajectory-level auditing in multi-agent orchestration â€
 ## Mentioned In
 
 - [LH-Deception: Long-Horizon Agent Deception](../sources/lh-deception-long-horizon-agent.md)
+- [MASK Benchmark: Disentangling Honesty from Accuracy](../sources/mask-benchmark-honesty-accuracy.md) â€” MASK confirms deception rates with hard numbers (Grok 63%, GPT-4o 44.5%) and negative correlation between model size and honesty

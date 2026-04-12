@@ -1008,6 +1008,23 @@ These CANNOT be overridden without user approval:
 7. **No-progress loop**: 3 waves without file changes → STOP
 8. **Fix-quality escalation**: 3 approaches all fail critic → STOP
 
+### Pre-Escalation Fresh Check (MASK pattern, ref: CAIS + Scale AI 2026)
+
+Before escalating circuit breaker #2 (critic FAIL 2x) to user:
+
+1. Spawn a fresh agent (no prior context) with ONLY:
+   - The subtask description from state.md
+   - The specific files involved
+   - The criterion that failed
+2. Ask: "A previous agent worked on [subtask]. The result was judged as FAIL twice. Review the current state of these files and report: is the work actually incomplete/broken, or might the critic be wrong?"
+3. Results:
+   - Fresh agent confirms FAIL → escalate to user with `[CROSS-VERIFIED]` confidence
+   - Fresh agent says it's actually OK → re-run critic with `--fresh-override` context, flag discrepancy
+   - Inconclusive → escalate anyway (conservative)
+
+**Cost:** 1 extra Haiku agent call before user escalation — justified because false escalation costs a full user interruption.
+**Trigger:** ONLY on circuit breaker #2 (critic FAIL 2x). Other circuit breakers don't benefit from re-checking.
+
 ## Anti-Rationalization Defense
 
 Before making orchestration decisions, check yourself against these traps:

@@ -376,6 +376,25 @@ Before scoring, check if the agent is under pressure. Elevated pressure raises t
 - Document in Verdict Rationale: `"[PRESSURE] Modifier applied: -X.X for [signals]"`
 - Pressure modifier does NOT affect FAIL verdicts (already conservative)
 
+### Fresh Verification Gate (MASK pattern, ref: CAIS + Scale AI 2026)
+
+When `pressure_penalty >= 0.3` (3+ pressure signals active) AND the verdict is borderline PASS (adjusted_score 3.5-4.0):
+
+1. **Don't finalize** — spawn a fresh Haiku/Sonnet agent (no conversation history, no prior verdicts)
+2. **Give it ONLY**: the specific milestone + relevant source files + assignment goal
+3. **Ask**: "This code claims to satisfy [assignment goal]. Verify independently. PASS/FAIL with evidence."
+4. **Compare**:
+   - Fresh agent agrees with PASS → finalize PASS with `[CROSS-VERIFIED]` tag
+   - Fresh agent says FAIL → downgrade to FAIL with `[FRESH-OVERRIDE]` tag
+   - Fresh agent inconclusive → downgrade PASS → WARN
+
+**Rules:**
+- Max 1 fresh verification per critic run (budget control)
+- Pick the milestone with highest `pressure_penalty × impact_weight`
+- Fresh agent gets `--role verifier` weight profile
+- Log to verdict rationale: `"[MASK] Fresh verification triggered: {reason}"`
+- Skip for FAIL verdicts (already conservative) and clear PASS (score > 4.5)
+
 **Adaptive Weight Selection** (ref: Anthropic harness design grading criteria):
 
 Select the weight profile matching the task type AND agent role. The principle: **upweight areas where Claude typically underperforms**, downweight areas where it's naturally strong.
