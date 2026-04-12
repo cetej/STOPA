@@ -232,6 +232,10 @@ IF regression_count > 0:
         git revert HEAD
         Log: "Net gain insufficient (+{net}) — reverting to avoid regression"
 ```
+
+Run: `python scripts/loop-state.py regression '{"dim1": score1}' '{"dim1": prev1}' --threshold 0.5`
+Returns JSON with `{has_regression, regressions, improvements}`. Use this instead of manual set arithmetic.
+
 Why net >= 2 threshold: a single net gain could be noise; two+ indicates genuine improvement that outweighs the regression.
 - **UCB1 ledger update**: After each keep/revert decision, record strategy outcome for UCB1:
   ```
@@ -268,6 +272,9 @@ IF last 2 rounds were both "discard" OR "crash":
      - What did I try? Why did it fail? What should I try differently?
   4. Write reflexion to run diary under `**Heartbeat Reflection**:`
   5. Switch strategy for NEXT round: pick least-used strategy from UCB1
+
+Run: `python scripts/loop-state.py stagnation <evolution-log.tsv> --window 2`
+Returns JSON with `{stagnant, consecutive_discards, steering}`. Use this instead of manually inspecting the last 2 rounds.
 
 IF pass_rate stagnates (delta < 0.5% across last 4 rounds):
   1. Inject "skill consolidation" prompt:
@@ -324,6 +331,10 @@ Write `self-evolve-<target>.md` to project root:
 ```
 
 Record performance to `.claude/memory/intermediate/self-evolve-<target>.json`:
+
+Run: `python scripts/loop-state.py perf-record <evolution-log.tsv> --skill self-evolve --slug <target> --write`
+Generates and writes performance JSON from the evolution log.
+
 ```json
 {
   "target": "<target>",
@@ -398,6 +409,10 @@ Read `.claude/memory/optstate/self-evolve.json` at Phase 0 (Setup, step 4). Use 
 - Check if previous runs hit same circuit breaker
 
 After Phase 3, update optstate:
+
+Run: `python scripts/loop-state.py optstate-update .claude/memory/optstate/self-evolve.json '<json_entry>'`
+Updates optimizer state with FIFO ledger (max 20 entries).
+
 ```json
 {
   "last_updated": "YYYY-MM-DD",
@@ -483,6 +498,9 @@ Pass threshold: all criteria checked
 | Skill >500 lines | STOP + warn about complexity |
 | Budget exhausted | Normal exit with report |
 | Critic FAIL 2x on same issue | STOP + escalate to user |
+
+Run: `python scripts/loop-state.py circuit-breaker --consecutive-reverts N --eval-cases N --skill-lines N --iteration N --max-iterations 20`
+Returns JSON with `{stop, triggers}`. Use this instead of manual threshold checks.
 
 ## Anti-Patterns
 

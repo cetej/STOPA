@@ -189,17 +189,20 @@ Before decomposition, classify task verifiability — determines which skills ar
 
 **First, check learned heuristics:** Read `${CLAUDE_SKILL_DIR}/tier-heuristics.md` for patterns extracted from past task traces. If the current task matches a heuristic, use its recommended tier.
 
-**If no heuristic matches, auto-detect tier** using these signals (check in order):
-1. **Budget constraint**: If remaining budget is tight (prior task used 80%+), cap at standard tier max
-2. **Task keyword signals**: fix/typo/rename → light; refactor/implement → standard; redesign/architecture → deep; bulk/lint/20+ → farm
-3. **File count estimate**: Glob affected paths. 1 file → light, 2-5 → standard, 6+ → deep, 20+ mechanical → farm
-4. **Uncertainty factor**: Vague scope → start one tier higher (never above deep)
-5. **L_task score (for ambiguous cases)**: When steps 1-4 give conflicting signals or scope is unclear, assess three dimensions:
-   - **C_exec** — compute per trial (none/light/heavy)
-   - **S_space** — search space breadth (narrow/moderate/broad/unknown)
-   - **D_feedback** — feedback signal quality (strong/weak/manual)
+**If no heuristic matches, auto-detect tier** via deterministic script:
+
+```bash
+python scripts/deterministic-gates.py tier-select \
+  --keywords <task_keywords> \
+  --file-count <N> \
+  [--mechanical] [--uncertain] [--budget-used-pct <PCT>]
+```
+
+Returns JSON: `{tier, signals, agent_limit, avg_cost}`. The script applies the full signal stack (budget constraint, keyword mapping, file count thresholds, uncertainty bump) deterministically.
+
+For ambiguous cases where signals conflict, additionally run L_task assessment:
    Run: `python ${CLAUDE_SKILL_DIR}/scripts/tier-detector.py --ltask --c-exec <level> --s-space <level> --d-feedback <level>`
-   Take max of keyword, file, and L_task tier. Ref: ASI-Evolve (arXiv:2603.29640).
+   Take max of script tier and L_task tier. Ref: ASI-Evolve (arXiv:2603.29640).
 
 For tier details (agent limits, critic limits, models): `Read ${CLAUDE_SKILL_DIR}/references/tier-definitions.yaml`
 
@@ -213,27 +216,19 @@ Write the tier to `.claude/memory/budget.md` and set the counters.
 
 ### Parallelizability Gate (Amdahl Check)
 
-After decomposing subtasks mentally (before formal Phase 3), estimate the parallelizable fraction `p`:
+After decomposing subtasks mentally (before formal Phase 3), run the Amdahl gate:
 
+```bash
+python scripts/deterministic-gates.py amdahl-gate \
+  --total-subtasks <T> --independent-subtasks <I> --current-tier <tier>
 ```
-Quick estimate:
-  T = estimated total subtasks
-  I = subtasks with NO dependency on other subtasks (potential Wave 1)
-  p = I / T
 
-Tier cap (overrides keyword/file-count heuristics):
-  p < 0.4  → cap at light (1 agent max) — multi-agent is wasteful here
-  0.4 <= p < 0.7 → cap at standard (3 agents max)
-  p >= 0.7  → no cap, use normal tier selection
-
-Log: "Amdahl gate: p={p:.1f} ({I}/{T} independent). Tier: {original} -> {capped}."
-```
+Returns JSON: `{p, cap_tier, final_tier, capped, max_agents, log}`. The script computes `p = I/T`, applies tier caps (`p<0.4 → light`, `0.4-0.7 → standard`), and respects farm exemption.
 
 **Rules:**
 - This is a **cap**, not a floor — if keyword signals say light and p=0.9, stay at light
-- If the cap downgrades the tier, tell the user why
+- If the cap downgrades the tier (`capped: true`), tell the user why
 - Re-evaluate after Phase 2 scout if subtask structure changes significantly
-- Farm tier is exempt (mechanical tasks have p~1.0 by definition)
 
 ### Phase 1b: Decision Gates
 
@@ -278,7 +273,13 @@ Before planning, check if similar tasks were solved before:
 
 ### Precomputed Results Check
 
-Before launching scout agents, check `.claude/memory/intermediate/scout-*.json` and `research-*.json`. If `savedAt` < 2h old and no newer git commits → reuse cached `summary`, skip that agent spawn. Log reuse in budget.md.
+Before launching scout agents, check cache freshness:
+
+```bash
+python scripts/deterministic-gates.py cache-stale --max-age 2
+```
+
+Returns JSON: `{caches, all_stale, reusable}`. If `reusable` is non-empty, skip agent spawn for those and use cached `summary`. Log reuse in budget.md.
 
 **Hypothesis-first exploration:** Before each Read/Grep, state your hypothesis in one sentence: "I expect X because Y." This prevents pattern-matching-driven tool calls and increases retrieval precision. (Ref: FActScore arXiv:2305.14251 — explicit hypothesis reduces false-positive retrieval ~20%.)
 
@@ -518,9 +519,16 @@ After decomposition, validate the plan is executable by checking operator contra
 
 ### Cost Gate (Pre-Execution ROI Check)
 
-After decomposition, validate planned agent count has positive ROI.
+After decomposition, run deterministic cost gate:
 
-`Read ${CLAUDE_SKILL_DIR}/references/cost-gate.md`
+```bash
+python scripts/deterministic-gates.py cost-gate \
+  --planned-agents <N> --tier <TIER> [--remaining <BUDGET>]
+```
+
+Returns JSON: `{gate, estimated_cost, remaining, utilization_pct, single_higher_tier_option, downgrade_suggestion}`. If `gate: "STOP"` or `"WARNING"`, present `downgrade_suggestion` to user.
+
+For full ROI analysis details: `Read ${CLAUDE_SKILL_DIR}/references/cost-gate.md`
 
 ## Phase 3.7: Skill Adaptation (--adapt or auto)
 
@@ -570,25 +578,21 @@ If scout confidence on the subtask domain is low (fragmented knowledge, no match
 
 ### Budget Soft Gate (Karpathy throughput awareness)
 
-Before spawning agents, estimate execution cost and compare to remaining budget:
+Before spawning agents, run the deterministic budget gate:
 
-```
-planned_agents = count of subtasks that need agent spawn
-avg_cost_per_agent = {light: 0.02, standard: 0.05, deep: 0.10, farm: 0.03}[tier]
-estimated_cost = planned_agents × avg_cost_per_agent
-remaining_budget = read from budget.md
-
-IF estimated_cost > remaining_budget × 0.8:
-  WARNING to user: "Estimated cost ($X.XX for N agents) exceeds 80% of remaining budget ($Y.YY)."
-  Suggest: "Downgrade to {lower_tier}? Or reduce to {N-2} agents by merging subtasks {A+B}?"
-  Wait for user response before proceeding.
-
-IF estimated_cost > remaining_budget:
-  HARD STOP: "Budget insufficient for planned execution. Remaining: $Y.YY, needed: $X.XX."
-  Options: reduce tier, reduce agent count, or increase budget.
+```bash
+python scripts/deterministic-gates.py budget-check \
+  --remaining <BUDGET> --planned-agents <N> --tier <TIER> \
+  --scope-sizes <files_per_subtask...> [--has-security]
 ```
 
-Log budget gate result to budget.md: `"Budget gate: {PASS|WARNING|STOP} — est ${est} / rem ${rem}"`
+Returns JSON: `{gate, remaining_budget, estimated_cost, reserve, allocatable, per_agent_allocation, merge_candidates}`.
+
+- If `gate: "WARNING"` → show user: "Estimated cost ($X.XX) exceeds 80% of remaining budget ($Y.YY)." Wait for response.
+- If `gate: "STOP"` → HARD STOP. Options: reduce tier, reduce agent count, or increase budget.
+- If `merge_candidates` is non-empty → those subtasks are below `$0.03 min_viable`, merge with neighbors.
+
+Log budget gate result to budget.md: `"Budget gate: {gate} — est ${estimated_cost} / rem ${remaining_budget}"`
 
 ### Budget Allocation per Agent (RLM-inspired, arXiv:2512.24601)
 
@@ -644,7 +648,7 @@ Core principles:
   7. **NOT included**: other subtasks, full scout report, unrelated decisions
   Why: NSM Feature Selector φ (arXiv:2602.19260) — operator-scoped input eliminates irrelevant context noise. The paper showed 95% vs 34% success partly because each operator saw only task-relevant objects in relative coordinates. Same principle: each agent sees only task-relevant files and context, reducing hallucination and improving focus.
 - **File Access Manifest**: Every agent gets WRITE/READ/FORBIDDEN file lists to prevent conflicts.
-- **Pre-launch disjointness check**: Before parallel spawn, verify WRITE file lists don't overlap.
+- **Pre-launch disjointness check**: `python scripts/deterministic-gates.py file-disjoint '[["file1.py"],["file2.py","file1.py"]]'` — returns `{disjoint: bool, collisions: [...]}`. If not disjoint, move conflicting subtasks to separate waves.
 - **Wave-based execution**: Execute wave by wave. Max 3 parallel agents per wave.
 - **Agent Status Codes**: DONE | DONE_WITH_CONCERNS | NEEDS_CONTEXT | BLOCKED
 - **Template selection by task_style**: Use self-organizing template for `exploratory` subtasks, prescribed template for `structured` subtasks. See `agent-execution.md` for both templates. Log which template was used per agent.
@@ -910,9 +914,13 @@ When a subtask FAILS (critic FAIL or agent error):
    <what to do differently next time>
    ```
 
-4. **Check for patterns** — `Grep failure_class: <class> .claude/memory/failures/` + `Grep failure_agent: <agent>`:
-   - If 2+ matches with same failure_class + failure_agent → flag for `/learn-from-failure`
-   - If 3+ matches → circuit breaker: STOP, escalate to user
+4. **Check for patterns** — run deterministic failure analysis:
+   ```bash
+   python scripts/deterministic-gates.py failure-pattern
+   ```
+   Returns JSON: `{patterns: [{failure_class, failure_agent, count, trigger, circuit_breaker}]}`.
+   - If any pattern has `trigger: "learn-from-failure"` (count >= 2) → run `/learn-from-failure`
+   - If any pattern has `circuit_breaker: true` (count >= 3) → STOP, escalate to user
 
 5. **After resolution** — update failure record: `resolved: true`, add `resolution_learning:` pointing to the learning file
 

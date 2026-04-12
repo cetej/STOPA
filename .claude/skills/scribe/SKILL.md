@@ -107,6 +107,8 @@ reliability:
 - SALIENCE 0.2–0.4 → **WRITE as `severity: low`** (auto-expire candidate at 60 days)
 - SALIENCE < 0.2 → **DO NOT WRITE** — log to activity-log.md: `[GATED] <summary> (salience=X.XX)`
 
+Run: `python scripts/scribe-maintenance.py salience-gate --source <source_type> [--novelty 0.8] [--has-verify-check]` Returns JSON with `{salience, decision: WRITE|SKIP}`.
+
 Example: user correction (1.0) × novel (1.0) × manual rule (0.5) = 0.50 → WRITE.
 Example: agent-generated (0.4) × near-duplicate (0.1) × unverifiable (0.3) = 0.012 → GATE (don't write).
 
@@ -233,16 +235,23 @@ Triggered automatically when any memory file exceeds 500 lines (circuit breaker 
 1. **Read all memory files** — decisions.md, `learnings/critical-patterns.md`, budget.md, state.md
 2. **Count entries** — decisions (### headers), learnings (files in `learnings/`), budget rows
 3. **Deduplicate learnings (text-based)** — grep for duplicate `tags:` across `learnings/` files. Merge overlapping entries (same component + similar tags). Keep the more specific version.
+Run: `python scripts/scribe-maintenance.py dedup-check --threshold 0.6` Returns JSON with `{duplicates_found, duplicates: [{file_a, file_b, similarity}]}`.
 3b. **Semantic dedup (DeerFlow-inspired)** — Collect all `summary:` fields from `learnings/` YAML frontmatter. Group by `component:`. Within each component group, compare summaries pairwise: if two summaries describe the same insight (same root cause, same fix), merge them — keep the entry with higher severity, delete the other. **When merging, sum `uses` and `harmful_uses` counters from both entries** (ACE-inspired additive counter merge). Report: "N semantic duplicates found, M merged."
 3c. **Supersedes chain validation** — scan all `learnings/` files for `supersedes:` field. For each: verify the referenced file exists. If not (deleted or renamed), remove the `supersedes:` line. Report: "N supersedes links, M broken (cleaned)."
+Run: `python scripts/scribe-maintenance.py supersedes-check` Returns JSON with `{supersedes_broken, related_broken}`.
 3d. **Contradiction scan** — for each component group, compare all active (non-superseded) learnings' summaries pairwise. Flag pairs where summaries recommend opposing actions. Report: "N potential contradictions found" with file pairs listed.
 4. **Staleness check** — list all files in `learnings/`. Any file with `date:` older than 90 days: verify it's still accurate. If outdated, update or delete. Report: "N learnings checked, M stale, K updated/removed."
+Run: `python scripts/scribe-maintenance.py staleness --days 90` Returns JSON with `{stale_count, stale: [{file, age_days}]}`.
 4b. **Counter health check (ACE-inspired)** — scan `learnings/` files for `uses:` and `harmful_uses:` fields. Flag as "problematic" any entry where `harmful_uses >= uses` and `harmful_uses > 0`. Flag as "high-performing" any entry where `uses > 5` and `harmful_uses < 2`. Report: "N entries with counters, M high-performing, K problematic." Suggest removal of problematic entries to user.
+Run: `python scripts/scribe-maintenance.py counter-health` Returns JSON with `{problematic, high_performing, graduation_candidates}`.
+4c. **Confidence decay check** — scan `learnings/` for entries with `uses == 0` older than 60 days. These lose 0.1 confidence per 30 days of inactivity (min 0.1). Learnings with `uses > 0` are immune to decay. Report: "N entries decayed."
+Run: `python scripts/scribe-maintenance.py confidence-decay` Returns JSON with `{decayed_count, decayed: [{file, original_confidence, effective_confidence}]}`.
 5. **Decision index maintenance** — decisions.md is now an index pointing to `docs/decisions/` ADR files. No archiving needed (each ADR is a separate file).
 5. **Prune state history** — keep last 5 completed tasks in state.md Task History. Delete older entries (they're derivable from git).
 6. **Consolidate patterns** — group related learnings under shared headers (e.g., "Cost Management" for budget-related patterns)
 7. **Archive budget history** — if budget.md History table has >10 rows, move oldest to `budget-archive.md`. Keep newest 10.
 8. **Archive performance records** — if `.claude/memory/performance/` has more than 30 JSON files, move the oldest to `performance/archive/`. Keep newest 30.
+Run: `python scripts/scribe-maintenance.py archive-rotate` Returns JSON with `{needs_rotation, checks: [{file, type, count, threshold, action}]}`.
 9. **Rebuild L2 component indexes** — run `python scripts/build-component-indexes.py` to regenerate `learnings/index-*.md` files from current YAML frontmatter. These are auto-generated and safe to overwrite.
 9. **Report** — output what was archived/merged/pruned with counts
 

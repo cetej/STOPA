@@ -220,6 +220,9 @@ fi
 ```
 
 **Pareto update logic** (run after every "keep" iteration):
+
+**Deterministic alternative:** `Run: python scripts/loop-state.py pareto-update <pareto_path> --metric X --cost Y --iteration N` Returns JSON with `{added, frontier_size}`.
+
 ```python
 import json
 pareto = json.loads(open('.traces/<run_id>/pareto.json').read())
@@ -253,6 +256,8 @@ For each iteration (1 to budget):
 > **Hook-backed**: `stagnation-detector.py` PostToolUse hook monitors `autoloop-results.tsv` automatically
 > and injects `[stagnation-steering:yellow/red]` messages. The check below is defense-in-depth —
 > if you see a `[stagnation-steering]` message, follow it immediately.
+
+**Deterministic alternative:** `Run: python scripts/loop-state.py stagnation <tsv_path>` Returns JSON with `{stagnant, consecutive_discards, exploration_weight, steering}`.
 
 ```
 IF iteration > 4 AND consecutive_reverts >= 2:
@@ -401,6 +406,9 @@ If metric unchanged but code is simpler → keep.
 ### Step 7: Log to TSV
 
 Append to `autoloop-results.tsv`:
+
+**Deterministic alternative:** `Run: python scripts/loop-state.py tsv-append <tsv_path> --iteration N --metric X.X --status keep|discard|crash --description "..."` Returns JSON with delta computation.
+
 ```
 iteration	commit	metric	delta	guard	status	description
 5	c3d4e5f	88.3	+1.2	pass	keep	add error handling tests
@@ -432,6 +440,8 @@ AUTOLOOP_STATUS:
 Exit when ANY:
 - **Adaptive plateau** (Hyperagents-inspired): instead of hard stop, ramp exploration first:
 
+  **Deterministic alternative:** `Run: python scripts/loop-state.py exploration-weight <tsv_path>` Returns JSON with `{consecutive_discards, exploration_weight, exit_signal}`.
+
   | consecutive_discards | exploration_weight | Strategy shift |
   |---------------------|-------------------|----------------|
   | 3 | 1.4 | Prioritize radical experiments over incremental |
@@ -453,6 +463,8 @@ Exit when ANY:
 Read `${CLAUDE_SKILL_DIR}/references/escalation-phase.md` for full escalation protocol (trigger, method per mode, logging).
 
 Valid TSV statuses (updated): `baseline`, `keep`, `keep (reworked)`, `discard`, `crash`, `no-op`, `hook-blocked`, `divergence`, `escalation`
+
+**Deterministic alternative:** `Run: python scripts/loop-state.py circuit-breaker --consecutive-reverts N --eval-cases N --skill-lines N --iteration N --max-iterations N` Returns JSON with `{stop, triggers}`.
 
 - **Max score**: metric can't improve further
 - **Budget**: iteration count hit limit
@@ -546,6 +558,8 @@ Non-dominated solutions only. Use `/eval --experiments pareto <run_id>` to query
 
 ### Performance Record
 
+**Deterministic alternative:** `Run: python scripts/loop-state.py perf-record <tsv_path> --skill autoloop --slug <slug> --write` Generates and writes performance JSON.
+
 Write a JSON file to `.claude/memory/performance/autoloop-<slug>-<timestamp>.json`:
 ```json
 {
@@ -612,6 +626,8 @@ exit_reason: <budget|plateau|max_score|crash_loop>
 ### Optimization State Update
 
 Read `.claude/memory/optstate/autoloop.json` at Phase 0 (Setup). After Phase 3 report, update it:
+
+**Deterministic alternative:** `Run: python scripts/loop-state.py optstate-update <optstate_path> '<json_entry>'` Updates optimizer state with FIFO ledger.
 
 ```json
 {
