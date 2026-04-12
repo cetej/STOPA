@@ -50,3 +50,4 @@ challenge: model != "sonnet-4.6" (demote when Sonnet 5 replaces 4.6 in productio
 NIKDY nepiš "testy prošly", "hotovo" nebo "funguje správně" bez tool outputu, který to potvrzuje. False completion claims jsou #1 příčina zbytečných follow-up sessions. Každý PASS verdict vyžaduje citaci tool outputu jako důkaz — code reading impression nestačí. CC interní data: 29% false-claims rate u novějších modelů. Pravidlo platí v /critic Phase 2, v každém summary dokončené práce, a při reportování výsledků uživateli.
 verify: manual
 last_confirmed: 2026-04-11
+- **"CORAL pattern: agents share knowledge via symlinked `.coral/public/` dir instead of message passing** (promoted from `2026-04-08-shared-public-state-agent-coordination.md`, uses=10, conf=1.0)

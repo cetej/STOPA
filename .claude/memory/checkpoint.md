@@ -3,29 +3,29 @@
 **Saved**: 2026-04-12 (IN PROGRESS — 0/6 subtasks done)
 **Task**: none
 **Branch**: main
-**Last commit**: `7efbe4a` feat: Latent Briefing context protocol + PIArena security ingest
+**Last commit**: `ead7123` feat: /evolve #7 + /compile full — wiki aktualizace, learning confidence
 
 ---
 
 ## Session Activity
 
-Session: 116 file edits, 5 agent spawns, 0 skill calls. Skills: dreams, ingest
-Duration: ~21778 min
+Session: 142 file edits, 10 agent spawns, 0 skill calls. Skills: dreams, ingest
+Duration: ~21818 min
 
 ## Files Touched
 
 | File | Operations | Date |
 |------|-----------|------|
 | phases.py | 10 edits | 2026-04-12 |
+| INDEX.md | 8 edits | 2026-04-12 |
 | writeback.py | 7 edits | 2026-04-12 |
 | transcribe.py | 7 edits | 2026-04-12 |
-| INDEX.md | 7 edits | 2026-04-12 |
+| hybrid-retrieve.py | 6 edits | 2026-04-12 |
 | general-security-environment.md | 6 edits | 2026-04-12 |
 | pipeline.py | 5 edits | 2026-04-12 |
 | corrections.py | 5 edits | 2026-04-12 |
+| MEMORY.md | 5 edits | 2026-04-12 |
 | memory-architecture.md | 4 edits | 2026-04-12 |
-| speaker_analyst.py | 3 edits | 2026-04-12 |
-| radar.md | 3 edits | 2026-04-12 |
 
 ## Key Results
 
@@ -41,8 +41,10 @@ _No commits this session_
 
 ## Learnings Captured
 
-learnings_this_session: 0
-_No new learnings files created_
+learnings_this_session: 3
+  - 2026-04-12-ib-optimality-predicts-benchmarks
+  - 2026-04-12-pretraining-vs-posttraining-dissociation
+  - 2026-04-12-small-model-compression-threshold
 
 ## Workflow Decisions
 
@@ -64,7 +66,7 @@ Pending subtasks:
 
 > **Task**: none
 >
-> **Context**: Last commit `7efbe4a` (feat: Latent Briefing context protocol + PIArena security ingest). Branch: main.
-> Session had 116 edits, 5 agents, 0 skill calls, 0 errors.
+> **Context**: Last commit `ead7123` (feat: /evolve #7 + /compile full — wiki aktualizace, learning confidence). Branch: main.
+> Session had 142 edits, 10 agents, 0 skill calls, 0 errors.
 > **Remaining**: 6 subtasks pending — check state.md for details.
 

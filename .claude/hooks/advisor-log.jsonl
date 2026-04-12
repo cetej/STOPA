@@ -29,3 +29,5 @@
 {"ts": "2026-04-11T19:49:50.863507+00:00", "pattern": "repeated_grep", "suggestion": "Advisor: 5+ manuálních grep/read operací bez aktivního skillu — zvažte /scout pro systematický průzkum", "session": "unknown"}
 {"ts": "2026-04-11T21:08:51.846479+00:00", "pattern": "repeated_grep", "suggestion": "Advisor: 5+ manuálních grep/read operací bez aktivního skillu — zvažte /scout pro systematický průzkum", "session": "unknown"}
 {"ts": "2026-04-11T21:16:59.298944+00:00", "pattern": "repeated_grep", "suggestion": "Advisor: 5+ manuálních grep/read operací bez aktivního skillu — zvažte /scout pro systematický průzkum", "session": "unknown"}
+{"ts": "2026-04-12T09:14:54.237632+00:00", "pattern": "no_outcomes", "suggestion": "Advisor: 3+ skills použito bez záznamů výsledků — zvažte zápis outcomes pro tracking", "session": "unknown"}
+{"ts": "2026-04-12T09:21:30.614724+00:00", "pattern": "no_outcomes", "suggestion": "Advisor: 3+ skills použito bez záznamů výsledků — zvažte zápis outcomes pro tracking", "session": "unknown"}

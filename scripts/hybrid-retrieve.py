@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 """hybrid-retrieve.py — Unified hybrid search with Reciprocal Rank Fusion.
 
-Combines three retrieval signals:
+Combines up to four retrieval signals:
   1. Grep-first (keyword match via learnings YAML frontmatter)
   2. BM25 (memory-search.py full-text scoring)
   3. Graph walk (concept-graph.json 1-hop neighbor expansion)
+  4. MemPalace semantic search (ChromaDB embeddings fallback)
+
+Signal 4 triggers only when local signals return <2 results AND tier >= standard.
+MemPalace results are injected as virtual learnings with source tag "mempalace".
 
 RRF formula: score = Σ 1 / (k + rank_i),  k=60
 
@@ -38,6 +42,9 @@ SKIP_FILES = frozenset({
 })
 
 
+PALACE_DIR = Path.home() / ".mempalace" / "palace"
+
+
 @dataclass
 class RankedFile:
     """A learning file with scores from each signal."""
@@ -45,8 +52,10 @@ class RankedFile:
     grep_rank: int | None = None
     bm25_rank: int | None = None
     graph_rank: int | None = None
+    mempalace_rank: int | None = None
     rrf_score: float = 0.0
     sources: list[str] = field(default_factory=list)
+    mempalace_content: str | None = None  # verbatim snippet from MemPalace
 
 
 # ── Signal 1: Grep-first (keyword match in YAML frontmatter) ────────────
@@ -125,6 +134,67 @@ def graph_search(seed_files: list[str], max_results: int = 10) -> list[str]:
         return []
 
 
+# ── Signal 4: MemPalace semantic search (fallback) ────────────────────
+
+def mempalace_search(query: str, max_results: int = 5) -> list[tuple[str, str]]:
+    """Search MemPalace for semantically similar content.
+
+    Returns list of (virtual_filename, content_snippet) tuples.
+    Virtual filenames use 'mp:' prefix to distinguish from local learnings.
+    """
+    if not PALACE_DIR.exists():
+        return []
+
+    try:
+        from mempalace.palace import get_collection
+
+        collection = get_collection(str(PALACE_DIR))
+        if collection.count() == 0:
+            return []
+
+        # Detect project wing from cwd
+        wing = Path.cwd().name.lower()
+
+        # Query with wing filter first, fallback to unfiltered
+        where_filter = {"wing": wing}
+        try:
+            results = collection.query(
+                query_texts=[query],
+                n_results=min(max_results, collection.count()),
+                where=where_filter,
+            )
+        except Exception:
+            # Wing filter failed (no matches for wing) — try without filter
+            results = collection.query(
+                query_texts=[query],
+                n_results=min(max_results, collection.count()),
+            )
+
+        if not results or not results.get("documents") or not results["documents"][0]:
+            return []
+
+        output = []
+        docs = results["documents"][0]
+        ids = results["ids"][0] if results.get("ids") else [f"mp-{i}" for i in range(len(docs))]
+        distances = results["distances"][0] if results.get("distances") else [0.5] * len(docs)
+
+        for doc_id, doc, dist in zip(ids, docs, distances):
+            # Skip low-similarity results (distance > 1.2 = very dissimilar)
+            if dist > 1.2:
+                continue
+            # Truncate content to ~500 chars for context efficiency
+            snippet = doc[:500] + "..." if len(doc) > 500 else doc
+            virtual_name = f"mp:{doc_id}"
+            output.append((virtual_name, snippet))
+
+        return output
+    except ImportError:
+        return []
+    except Exception as e:
+        print(f"[WARN] MemPalace signal unavailable: {e}", file=sys.stderr)
+        return []
+
+
 # ── Supersedes filtering ────────────────────────────────────────────────
 
 def load_superseded_set() -> set[str]:
@@ -158,8 +228,9 @@ def fuse_rrf(
     graph_results: list[str],
     superseded: set[str],
     top_n: int = 8,
+    mempalace_results: list[tuple[str, str]] | None = None,
 ) -> list[RankedFile]:
-    """Reciprocal Rank Fusion across three signal lists."""
+    """Reciprocal Rank Fusion across up to four signal lists."""
     files: dict[str, RankedFile] = {}
 
     def ensure(name: str) -> RankedFile:
@@ -189,6 +260,14 @@ def fuse_rrf(
         rf.graph_rank = rank
         rf.sources.append("graph")
 
+    # Signal 4: MemPalace (virtual entries, not subject to supersedes)
+    if mempalace_results:
+        for rank, (vname, snippet) in enumerate(mempalace_results, 1):
+            rf = ensure(vname)
+            rf.mempalace_rank = rank
+            rf.mempalace_content = snippet
+            rf.sources.append("mempalace")
+
     # Compute RRF score
     for rf in files.values():
         score = 0.0
@@ -198,6 +277,8 @@ def fuse_rrf(
             score += 1.0 / (RRF_K + rf.bm25_rank)
         if rf.graph_rank is not None:
             score += 1.0 / (RRF_K + rf.graph_rank)
+        if rf.mempalace_rank is not None:
+            score += 1.0 / (RRF_K + rf.mempalace_rank)
         rf.rrf_score = score
 
     ranked = sorted(files.values(), key=lambda x: -x.rrf_score)
@@ -243,14 +324,32 @@ def hybrid_search(
     if debug:
         print(f"[GRAPH] {len(graph_results)} results: {graph_results[:5]}")
 
+    # Signal 4: MemPalace semantic fallback
+    # Triggers when local signals are sparse (<2 unique results) AND tier >= standard
+    local_unique = len(set(grep_results + bm25_results + graph_results))
+    mp_results: list[tuple[str, str]] | None = None
+
+    if local_unique < 2 and task_tier in ("standard", "deep", "farm"):
+        mp_results = mempalace_search(query)
+        if debug:
+            print(f"[MEMPALACE] {len(mp_results)} results (fallback triggered, local={local_unique})")
+    elif task_tier == "deep":
+        # Deep tier always queries MemPalace for maximum recall
+        mp_results = mempalace_search(query)
+        if debug:
+            print(f"[MEMPALACE] {len(mp_results)} results (deep tier, always-on)")
+    elif debug:
+        print(f"[MEMPALACE] skipped (local={local_unique}, tier={task_tier})")
+
     # Fuse with RRF
     superseded = load_superseded_set()
-    fused = fuse_rrf(grep_results, bm25_results, graph_results, superseded, top_n)
+    fused = fuse_rrf(grep_results, bm25_results, graph_results, superseded, top_n, mp_results)
 
     if debug:
         print(f"[RRF] {len(fused)} fused results:")
         for rf in fused:
-            print(f"  {rf.rrf_score:.5f} [{'+'.join(rf.sources)}] {rf.filename}")
+            extra = f" [{rf.mempalace_content[:60]}...]" if rf.mempalace_content else ""
+            print(f"  {rf.rrf_score:.5f} [{'+'.join(rf.sources)}] {rf.filename}{extra}")
 
     return fused
 
@@ -279,17 +378,20 @@ def main():
     )
 
     if args.json:
-        data = [
-            {
+        data = []
+        for rf in results:
+            entry = {
                 "filename": rf.filename,
                 "rrf_score": round(rf.rrf_score, 6),
                 "sources": rf.sources,
                 "grep_rank": rf.grep_rank,
                 "bm25_rank": rf.bm25_rank,
                 "graph_rank": rf.graph_rank,
+                "mempalace_rank": rf.mempalace_rank,
             }
-            for rf in results
-        ]
+            if rf.mempalace_content:
+                entry["mempalace_snippet"] = rf.mempalace_content[:300]
+            data.append(entry)
         print(json.dumps(data, ensure_ascii=False, indent=2))
     else:
         if not results:

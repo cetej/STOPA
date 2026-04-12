@@ -465,6 +465,12 @@
           },
           {
             "type": "command",
+            "command": "python .claude/hooks/mempalace-archive.py",
+            "timeout": 10,
+            "statusMessage": "Archiving session to MemPalace..."
+          },
+          {
+            "type": "command",
             "command": "bash .claude/hooks/raw-capture.sh",
             "timeout": 5,
             "statusMessage": "Capturing raw session data..."
@@ -480,6 +486,12 @@
             "command": "python .claude/hooks/hebbian-consolidate.py",
             "timeout": 10,
             "statusMessage": "Hebbian consolidation..."
+          },
+          {
+            "type": "command",
+            "command": "python scripts/kg-sync.py",
+            "timeout": 15,
+            "statusMessage": "Syncing knowledge graphs..."
           },
           {
             "type": "command",

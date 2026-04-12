@@ -8,7 +8,7 @@
 
 | Metric | Used | Limit | Status |
 |--------|------|-------|--------|
-| Agent spawns | 5 | — | Audit agents (config, plugin, memory) |
+| Agent spawns | 10 | — | Audit agents (config, plugin, memory) |
 | Critic iterations | 0 | — | — |
 | Scout depth | 0 | — | — |
 | Skill creations | 0 | — | — |
