@@ -1,0 +1,407 @@
+{
+  "generated": "2026-04-12T13:16:25.879368",
+  "config": {
+    "days_back": 14,
+    "min_sessions": 1
+  },
+  "total_sessions_analyzed": 1,
+  "skills_with_evidence": 11,
+  "skill_groups": {
+    "checkpoint": {
+      "session_count": 1,
+      "total_calls_across_sessions": 3847,
+      "avg_error_rate": 0.0,
+      "sessions": [
+        {
+          "session_id": "2026-04-07-2148",
+          "total_calls": 3847,
+          "error_rate": 0.0,
+          "tool_sequence": [
+            "Skill",
+            "WebFetch",
+            "Skill",
+            "WebFetch×2",
+            "Write",
+            "Edit",
+            "EnterPlanMode",
+            "Bash×5",
+            "Agent×2",
+            "Bash×9",
+            "Agent",
+            "Write",
+            "ExitPlanMode",
+            "Edit×2",
+            "Write",
+            "Edit×5",
+            "Bash×11",
+            "Edit",
+            "Bash×4",
+            "Skill"
+          ],
+          "errors": []
+        }
+      ],
+      "aggregated_errors": []
+    },
+    "compile": {
+      "session_count": 1,
+      "total_calls_across_sessions": 3847,
+      "avg_error_rate": 0.0,
+      "sessions": [
+        {
+          "session_id": "2026-04-07-2148",
+          "total_calls": 3847,
+          "error_rate": 0.0,
+          "tool_sequence": [
+            "Skill",
+            "WebFetch",
+            "Skill",
+            "WebFetch×2",
+            "Write",
+            "Edit",
+            "EnterPlanMode",
+            "Bash×5",
+            "Agent×2",
+            "Bash×9",
+            "Agent",
+            "Write",
+            "ExitPlanMode",
+            "Edit×2",
+            "Write",
+            "Edit×5",
+            "Bash×11",
+            "Edit",
+            "Bash×4",
+            "Skill"
+          ],
+          "errors": []
+        }
+      ],
+      "aggregated_errors": []
+    },
+    "deepresearch": {
+      "session_count": 1,
+      "total_calls_across_sessions": 3847,
+      "avg_error_rate": 0.0,
+      "sessions": [
+        {
+          "session_id": "2026-04-07-2148",
+          "total_calls": 3847,
+          "error_rate": 0.0,
+          "tool_sequence": [
+            "Skill",
+            "WebFetch",
+            "Skill",
+            "WebFetch×2",
+            "Write",
+            "Edit",
+            "EnterPlanMode",
+            "Bash×5",
+            "Agent×2",
+            "Bash×9",
+            "Agent",
+            "Write",
+            "ExitPlanMode",
+            "Edit×2",
+            "Write",
+            "Edit×5",
+            "Bash×11",
+            "Edit",
+            "Bash×4",
+            "Skill"
+          ],
+          "errors": []
+        }
+      ],
+      "aggregated_errors": []
+    },
+    "dreams": {
+      "session_count": 1,
+      "total_calls_across_sessions": 3847,
+      "avg_error_rate": 0.0,
+      "sessions": [
+        {
+          "session_id": "2026-04-07-2148",
+          "total_calls": 3847,
+          "error_rate": 0.0,
+          "tool_sequence": [
+            "Skill",
+            "WebFetch",
+            "Skill",
+            "WebFetch×2",
+            "Write",
+            "Edit",
+            "EnterPlanMode",
+            "Bash×5",
+            "Agent×2",
+            "Bash×9",
+            "Agent",
+            "Write",
+            "ExitPlanMode",
+            "Edit×2",
+            "Write",
+            "Edit×5",
+            "Bash×11",
+            "Edit",
+            "Bash×4",
+            "Skill"
+          ],
+          "errors": []
+        }
+      ],
+      "aggregated_errors": []
+    },
+    "evolve": {
+      "session_count": 1,
+      "total_calls_across_sessions": 3847,
+      "avg_error_rate": 0.0,
+      "sessions": [
+        {
+          "session_id": "2026-04-07-2148",
+          "total_calls": 3847,
+          "error_rate": 0.0,
+          "tool_sequence": [
+            "Skill",
+            "WebFetch",
+            "Skill",
+            "WebFetch×2",
+            "Write",
+            "Edit",
+            "EnterPlanMode",
+            "Bash×5",
+            "Agent×2",
+            "Bash×9",
+            "Agent",
+            "Write",
+            "ExitPlanMode",
+            "Edit×2",
+            "Write",
+            "Edit×5",
+            "Bash×11",
+            "Edit",
+            "Bash×4",
+            "Skill"
+          ],
+          "errors": []
+        }
+      ],
+      "aggregated_errors": []
+    },
+    "fetch": {
+      "session_count": 1,
+      "total_calls_across_sessions": 3847,
+      "avg_error_rate": 0.0,
+      "sessions": [
+        {
+          "session_id": "2026-04-07-2148",
+          "total_calls": 3847,
+          "error_rate": 0.0,
+          "tool_sequence": [
+            "Skill",
+            "WebFetch",
+            "Skill",
+            "WebFetch×2",
+            "Write",
+            "Edit",
+            "EnterPlanMode",
+            "Bash×5",
+            "Agent×2",
+            "Bash×9",
+            "Agent",
+            "Write",
+            "ExitPlanMode",
+            "Edit×2",
+            "Write",
+            "Edit×5",
+            "Bash×11",
+            "Edit",
+            "Bash×4",
+            "Skill"
+          ],
+          "errors": []
+        }
+      ],
+      "aggregated_errors": []
+    },
+    "ingest": {
+      "session_count": 1,
+      "total_calls_across_sessions": 3847,
+      "avg_error_rate": 0.0,
+      "sessions": [
+        {
+          "session_id": "2026-04-07-2148",
+          "total_calls": 3847,
+          "error_rate": 0.0,
+          "tool_sequence": [
+            "Skill",
+            "WebFetch",
+            "Skill",
+            "WebFetch×2",
+            "Write",
+            "Edit",
+            "EnterPlanMode",
+            "Bash×5",
+            "Agent×2",
+            "Bash×9",
+            "Agent",
+            "Write",
+            "ExitPlanMode",
+            "Edit×2",
+            "Write",
+            "Edit×5",
+            "Bash×11",
+            "Edit",
+            "Bash×4",
+            "Skill"
+          ],
+          "errors": []
+        }
+      ],
+      "aggregated_errors": []
+    },
+    "orchestrate": {
+      "session_count": 1,
+      "total_calls_across_sessions": 3847,
+      "avg_error_rate": 0.0,
+      "sessions": [
+        {
+          "session_id": "2026-04-07-2148",
+          "total_calls": 3847,
+          "error_rate": 0.0,
+          "tool_sequence": [
+            "Skill",
+            "WebFetch",
+            "Skill",
+            "WebFetch×2",
+            "Write",
+            "Edit",
+            "EnterPlanMode",
+            "Bash×5",
+            "Agent×2",
+            "Bash×9",
+            "Agent",
+            "Write",
+            "ExitPlanMode",
+            "Edit×2",
+            "Write",
+            "Edit×5",
+            "Bash×11",
+            "Edit",
+            "Bash×4",
+            "Skill"
+          ],
+          "errors": []
+        }
+      ],
+      "aggregated_errors": []
+    },
+    "radar": {
+      "session_count": 1,
+      "total_calls_across_sessions": 3847,
+      "avg_error_rate": 0.0,
+      "sessions": [
+        {
+          "session_id": "2026-04-07-2148",
+          "total_calls": 3847,
+          "error_rate": 0.0,
+          "tool_sequence": [
+            "Skill",
+            "WebFetch",
+            "Skill",
+            "WebFetch×2",
+            "Write",
+            "Edit",
+            "EnterPlanMode",
+            "Bash×5",
+            "Agent×2",
+            "Bash×9",
+            "Agent",
+            "Write",
+            "ExitPlanMode",
+            "Edit×2",
+            "Write",
+            "Edit×5",
+            "Bash×11",
+            "Edit",
+            "Bash×4",
+            "Skill"
+          ],
+          "errors": []
+        }
+      ],
+      "aggregated_errors": []
+    },
+    "self-evolve": {
+      "session_count": 1,
+      "total_calls_across_sessions": 3847,
+      "avg_error_rate": 0.0,
+      "sessions": [
+        {
+          "session_id": "2026-04-07-2148",
+          "total_calls": 3847,
+          "error_rate": 0.0,
+          "tool_sequence": [
+            "Skill",
+            "WebFetch",
+            "Skill",
+            "WebFetch×2",
+            "Write",
+            "Edit",
+            "EnterPlanMode",
+            "Bash×5",
+            "Agent×2",
+            "Bash×9",
+            "Agent",
+            "Write",
+            "ExitPlanMode",
+            "Edit×2",
+            "Write",
+            "Edit×5",
+            "Bash×11",
+            "Edit",
+            "Bash×4",
+            "Skill"
+          ],
+          "errors": []
+        }
+      ],
+      "aggregated_errors": []
+    },
+    "watch": {
+      "session_count": 1,
+      "total_calls_across_sessions": 3847,
+      "avg_error_rate": 0.0,
+      "sessions": [
+        {
+          "session_id": "2026-04-07-2148",
+          "total_calls": 3847,
+          "error_rate": 0.0,
+          "tool_sequence": [
+            "Skill",
+            "WebFetch",
+            "Skill",
+            "WebFetch×2",
+            "Write",
+            "Edit",
+            "EnterPlanMode",
+            "Bash×5",
+            "Agent×2",
+            "Bash×9",
+            "Agent",
+            "Write",
+            "ExitPlanMode",
+            "Edit×2",
+            "Write",
+            "Edit×5",
+            "Bash×11",
+            "Edit",
+            "Bash×4",
+            "Skill"
+          ],
+          "errors": []
+        }
+      ],
+      "aggregated_errors": []
+    }
+  }
+}

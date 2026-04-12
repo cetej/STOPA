@@ -16,6 +16,38 @@ Read accumulated signals → propose concrete changes → wait for approval → 
 
 <!-- CACHE_BOUNDARY -->
 
+## Candidates Mode (--candidates)
+
+When invoked with `--candidates` flag or args containing "candidates":
+
+**Skip the entire normal flow (Steps 1-8). Instead:**
+
+1. Read all `.json` files in `.claude/memory/candidates/`
+2. If no candidates found: report "No pending candidates. Run the auto-evolve pipeline first: `python scripts/summarize-sessions.py && python scripts/evolve-skills.py`" and STOP.
+3. For each candidate file, extract and display:
+   - **Skill name** + **action** (improve_skill / optimize_description / create_skill)
+   - **Confidence** score
+   - **Rationale** from LLM
+   - **Edit summary**: preserved sections, changed sections, notes
+   - **Evidence**: session count, avg error rate
+   - **Content patch**: the proposed changes (sections to add/modify)
+4. Read the current SKILL.md for comparison — show what the skill has now vs what's proposed
+5. Present as numbered list, user decides per candidate: **Accept / Skip / Edit**
+6. On **Accept**:
+   - Read full current SKILL.md
+   - Apply content_patch sections into the skill body (merge, don't replace)
+   - If action is `optimize_description`: update only the `description:` field in frontmatter
+   - Write updated SKILL.md (and sync commands/ copy via existing skill-sync hook)
+   - Append version entry to `.claude/memory/skill-versions.md`:
+     `| DATE | skill-name | action | "edit_summary notes" | session-count sessions |`
+   - Move candidate file to `.claude/memory/candidates/applied/`
+7. On **Skip**: move candidate to `.claude/memory/candidates/skipped/`
+8. Report summary: N accepted, M skipped
+
+**Pipeline context:** These candidates come from `scripts/evolve-skills.py` which runs daily as a scheduled task. The evolver reads session traces (`.traces/sessions/*.jsonl`), groups by skill reference, and calls Claude to propose targeted edits. SkillClaw-inspired (arXiv:2604.08377).
+
+---
+
 ## Step 1: Load All Signals
 
 Read these files silently:

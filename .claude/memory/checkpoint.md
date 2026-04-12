@@ -3,14 +3,14 @@
 **Saved**: 2026-04-12 (IN PROGRESS — 0/6 subtasks done)
 **Task**: none
 **Branch**: main
-**Last commit**: `ab9e137` feat: advisor checkpoint pattern pro iterativni skills
+**Last commit**: `4402dba` feat: ingest Claude+Obsidian LLM Wiki tutorial + Obsidian integration plan
 
 ---
 
 ## Session Activity
 
-Session: 173 file edits, 19 agent spawns, 0 skill calls. Skills: deepresearch, dreams, ingest
-Duration: ~21931 min
+Session: 178 file edits, 19 agent spawns, 0 skill calls. Skills: deepresearch, dreams, ingest
+Duration: ~21934 min
 
 ## Files Touched
 
@@ -20,9 +20,9 @@ Duration: ~21931 min
 | INDEX.md | 9 edits | 2026-04-12 |
 | writeback.py | 7 edits | 2026-04-12 |
 | transcribe.py | 7 edits | 2026-04-12 |
+| MEMORY.md | 7 edits | 2026-04-12 |
 | hybrid-retrieve.py | 6 edits | 2026-04-12 |
 | general-security-environment.md | 6 edits | 2026-04-12 |
-| MEMORY.md | 6 edits | 2026-04-12 |
 | pipeline.py | 5 edits | 2026-04-12 |
 | corrections.py | 5 edits | 2026-04-12 |
 | news.md | 4 edits | 2026-04-12 |
@@ -41,7 +41,7 @@ _No commits this session_
 
 ## Learnings Captured
 
-learnings_this_session: 7
+learnings_this_session: 8
   - 2026-04-12-advisor-tool-public-beta
   - 2026-04-12-ib-optimality-predicts-benchmarks
   - 2026-04-12-model-router-hook
@@ -68,7 +68,7 @@ Pending subtasks:
 
 > **Task**: none
 >
-> **Context**: Last commit `ab9e137` (feat: advisor checkpoint pattern pro iterativni skills). Branch: main.
-> Session had 173 edits, 19 agents, 0 skill calls, 0 errors.
+> **Context**: Last commit `4402dba` (feat: ingest Claude+Obsidian LLM Wiki tutorial + Obsidian integration plan). Branch: main.
+> Session had 178 edits, 19 agents, 0 skill calls, 0 errors.
 > **Remaining**: 6 subtasks pending — check state.md for details.
 
