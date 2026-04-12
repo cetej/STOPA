@@ -67,6 +67,7 @@ Health score: 10 - (0 stale×0.5) - (1 contradiction×1.5) - (3 gaps×0.5) - (47
 - [acemoglu-ai-aggregation-knowledge](sources/acemoglu-ai-aggregation-knowledge.md) — Acemoglu (MIT): global aggregator necessarily worsens ≥1 dimension; local > global; feedback loop amplifies bias; implemented skill_scope + circular detection (2026-04-09)
 - [triattention-kv-compression](sources/triattention-kv-compression.md) — TriAttention (MIT/NVIDIA): pre-RoPE Q/K Concentration enables 10.7× KV cache reduction + 2.5× throughput for long-reasoning on consumer GPUs (2026-04-09)
 - [learning-is-forgetting-llm-lossy-compression](sources/learning-is-forgetting-llm-lossy-compression.md) — Conklin et al. (ICLR 2026): LLM training = lossy compression via Information Bottleneck; optimality I(Y;Z)/I(X;Z) predicts benchmarks (r=0.52); preference info predicts alignment (r=0.76); small models fail to compress (2026-04-12)
+- [claude-obsidian-llm-wiki-tutorial](sources/claude-obsidian-llm-wiki-tutorial.md) — Praktický návod na Karpathy LLM Wiki pattern: CC+Obsidian, queries-back-to-wiki, morning briefing cron, qmd search, lint operace (2026-04-12)
 
 ## By Component
 

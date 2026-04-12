@@ -3,21 +3,21 @@
 **Saved**: 2026-04-12 (IN PROGRESS — 0/6 subtasks done)
 **Task**: none
 **Branch**: main
-**Last commit**: `241f368` feat: MemPalace integrace — 3 vrstvy (archive, semantic fallback, KG sync)
+**Last commit**: `ab9e137` feat: advisor checkpoint pattern pro iterativni skills
 
 ---
 
 ## Session Activity
 
-Session: 155 file edits, 15 agent spawns, 0 skill calls. Skills: dreams, ingest
-Duration: ~21885 min
+Session: 173 file edits, 19 agent spawns, 0 skill calls. Skills: deepresearch, dreams, ingest
+Duration: ~21931 min
 
 ## Files Touched
 
 | File | Operations | Date |
 |------|-----------|------|
 | phases.py | 10 edits | 2026-04-12 |
-| INDEX.md | 8 edits | 2026-04-12 |
+| INDEX.md | 9 edits | 2026-04-12 |
 | writeback.py | 7 edits | 2026-04-12 |
 | transcribe.py | 7 edits | 2026-04-12 |
 | hybrid-retrieve.py | 6 edits | 2026-04-12 |
@@ -41,11 +41,12 @@ _No commits this session_
 
 ## Learnings Captured
 
-learnings_this_session: 4
+learnings_this_session: 7
   - 2026-04-12-advisor-tool-public-beta
   - 2026-04-12-ib-optimality-predicts-benchmarks
+  - 2026-04-12-model-router-hook
+  - 2026-04-12-morning-briefing-cron-pattern
   - 2026-04-12-pretraining-vs-posttraining-dissociation
-  - 2026-04-12-small-model-compression-threshold
 
 ## Workflow Decisions
 
@@ -67,7 +68,7 @@ Pending subtasks:
 
 > **Task**: none
 >
-> **Context**: Last commit `241f368` (feat: MemPalace integrace — 3 vrstvy (archive, semantic fallback, KG sync)). Branch: main.
-> Session had 155 edits, 15 agents, 0 skill calls, 0 errors.
+> **Context**: Last commit `ab9e137` (feat: advisor checkpoint pattern pro iterativni skills). Branch: main.
+> Session had 173 edits, 19 agents, 0 skill calls, 0 errors.
 > **Remaining**: 6 subtasks pending — check state.md for details.
 
