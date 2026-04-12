@@ -2,9 +2,9 @@
 
 Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
-## Last Scan: 2026-04-08 (quick) | Next: ~2026-04-14
+## Last Scan: 2026-04-12 (full) | Next: ~2026-04-19
 
-**Scan log**: `2026-04-08` — quick scan | Searches: 3 | Fetches: 2 | Items: 2 action, 1 watch, 0 info
+**Scan log**: `2026-04-12` — full scan | Searches: 12 | Fetches: 3 | Items: 3 action, 3 watch, 4 info
 
 ## Action Items
 
@@ -19,6 +19,9 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 | 84 | **Claude Managed Agents (Public Beta)** — managed agent harness, SSE, sandbox. Header `managed-agents-2026-04-01`. | MED | Evaluovat jako alternativu k STOPA orchestration. Potenciálně zjednodušuje deployment. |
 | 85 | **`thinking: {type: enabled}` deprecated** — migrovat na `{type: adaptive}` + effort. | MED | STOPA clean. Ověřit target projekty (NG-ROBOT, ADOBE). |
 | 86 | **`ant` CLI** — nový Anthropic CLI, YAML API resources. | LOW | Sledovat až GA. |
+| 93 | **Advisor Tool public beta** (April 9, `advisor-tool-2026-03-01` header) — párování executor modelu + advisor modelu pro agentic workloady. "Long-horizon tasks get close to advisor-solo quality at executor-model token rates." Přesně to, co reference_advisor_strategy.md popisuje jako nativní API pattern. | HIGH | Evaluovat integaci do STOPA orchestrate tier: light/standard executor (Haiku/Sonnet) + Opus jako advisor. Může nahradit ruční orchestration overhead. |
+| 94 | **CC v2.1.101 security fix** (April 10) — Bash tool permission bypass: backslash-escaped flags mohly obejít bezpečnostní kontroly. PID namespace sandboxing na Linuxu. | HIGH | Ověřit STOPA hooks: používají Bash příkazy s backslash-escaped flagi? Zejm. panic-detector.py, verify-sweep.py. |
+| 95 | **CC v2.1.98 Monitor tool** (April 9) — streamování eventů z background scriptů v reálném čase. `CLAUDE_CODE_PERFORCE_MODE` pro read-only file handling. | MED | Evaluovat pro STOPA background agent monitoring — sledovat výstupy scheduled tasks bez pollování. |
 | 65 | CC v2.1.92 — `forceRemoteSettingsRefresh` policy | LOW | Fail-closed při nenačtení remote managed settings. Sledovat při distribuci do target projektů. |
 | 42 | CC Voice Mode (`/voice`) — Czech included | MED | Otestovat až se rolling out dostane k účtu; 20 jazyků vč. češtiny |
 | 44 | CC HTTP hooks (POST JSON → URL) | PARKED | Adopt při remote agents; pro teď nepotřebujeme |
@@ -76,6 +79,8 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
 ### Agent/Tool Research
 | Item | Detail |
+| 96. Hermes Agent v0.8.0 (NousResearch) | 40K+ GitHub stars. "Agent that grows with you" — persistent memory, auto-generated skills, learns projects. Cross-platform (Telegram, Discord, Slack, WhatsApp, Signal, Email). 5 backends. v0.8.0 Apr 8: background task auto-notifications, live model switching, MCP OAuth 2.1. [github](https://github.com/nousresearch/hermes-agent) — Inspirace pro STOPA persistent skill learning + cross-platform reach |
+| 97. Memory Intelligence Agent (arXiv:2604.04503) | Comprehensive memory framework pro agenty — Apr 2026. Cache layers (immediate reasoning) + memory layers (retrieval + persistence). Framing blízký STOPA MemPalace. Bez kódu. Sledovat. |
 | 79. Context Engineering (Goodside) | "Context engineering = co model čte, prompt engineering = co user píše." Terminologická divergence. Relevantní pro skill design filozofii. [interconnects.ai](https://www.interconnects.ai/p/riley-goodside-on-science-of-prompting) |
 | 80. AI defers architecture decisions (Willison) | "AI udělalo refactoring levným → design se odkládal → zmatený kód → rewrite." Design musí přijít od člověka PŘED agentem. [simonwillison.net](https://simonwillison.net/2026/Apr/5/building-with-ai/) |
 |------|--------|
@@ -194,6 +199,7 @@ Older: see `news-archive.md`
 
 ### Scan History
 
+### 2026-04-12 — full scan | Searches: 12 | Fetches: 3 | Items: 3 action, 3 watch, 4 info — Advisor Tool public beta, CC v2.1.101 security fixes + Monitor tool, Hermes Agent v0.8.0, Memory Intelligence Agent paper, Qwen3.6-Plus, BEHELM benchmark
 ### 2026-04-10 — scheduled morning-watch | Searches: 2 | Items: 1 action, 2 watch — Sonnet 3.7+Haiku 3.5 retired (errors), Bedrock Messages API preview, CC Focus view
 ### 2026-04-09 — scheduled morning-watch | Searches: 2 | Items: 2 watch, 1 info — Compaction API beta, Mythos Preview live (Project Glasswing), data residency controls
 ### 2026-04-08 — quick+update | Searches: 3+3 | Fetches: 2+1 | Items: 4 action, 3 watch — Managed Agents beta, effort=high default, thinking deprecation, ant CLI, Haiku 3 verified safe

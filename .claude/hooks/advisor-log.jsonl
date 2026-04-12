@@ -31,3 +31,9 @@
 {"ts": "2026-04-11T21:16:59.298944+00:00", "pattern": "repeated_grep", "suggestion": "Advisor: 5+ manuálních grep/read operací bez aktivního skillu — zvažte /scout pro systematický průzkum", "session": "unknown"}
 {"ts": "2026-04-12T09:14:54.237632+00:00", "pattern": "no_outcomes", "suggestion": "Advisor: 3+ skills použito bez záznamů výsledků — zvažte zápis outcomes pro tracking", "session": "unknown"}
 {"ts": "2026-04-12T09:21:30.614724+00:00", "pattern": "no_outcomes", "suggestion": "Advisor: 3+ skills použito bez záznamů výsledků — zvažte zápis outcomes pro tracking", "session": "unknown"}
+{"ts": "2026-04-12T09:26:41.738517+00:00", "pattern": "no_outcomes", "suggestion": "Advisor: 3+ skills použito bez záznamů výsledků — zvažte zápis outcomes pro tracking", "session": "unknown"}
+{"ts": "2026-04-12T09:36:01.299120+00:00", "pattern": "no_outcomes", "suggestion": "Advisor: 3+ skills použito bez záznamů výsledků — zvažte zápis outcomes pro tracking", "session": "unknown"}
+{"ts": "2026-04-12T09:59:15.974573+00:00", "pattern": "no_outcomes", "suggestion": "Advisor: 3+ skills použito bez záznamů výsledků — zvažte zápis outcomes pro tracking", "session": "unknown"}
+{"ts": "2026-04-12T10:05:46.422007+00:00", "pattern": "no_outcomes", "suggestion": "Advisor: 3+ skills použito bez záznamů výsledků — zvažte zápis outcomes pro tracking", "session": "unknown"}
+{"ts": "2026-04-12T10:29:02.829133+00:00", "pattern": "no_outcomes", "suggestion": "Advisor: 3+ skills použito bez záznamů výsledků — zvažte zápis outcomes pro tracking", "session": "unknown"}
+{"ts": "2026-04-12T10:35:55.947870+00:00", "pattern": "no_outcomes", "suggestion": "Advisor: 3+ skills použito bez záznamů výsledků — zvažte zápis outcomes pro tracking", "session": "unknown"}

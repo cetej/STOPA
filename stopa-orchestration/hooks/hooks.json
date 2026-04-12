@@ -36,9 +36,31 @@
             "statusMessage": ""
           }
         ]
+      },
+      {
+        "matcher": "Agent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python hooks/model-router.py",
+            "timeout": 3,
+            "statusMessage": ""
+          }
+        ]
       }
     ],
     "PostToolUse": [
+      {
+        "matcher": "Agent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python hooks/model-perf-tracker.py",
+            "timeout": 5,
+            "statusMessage": ""
+          }
+        ]
+      },
       {
         "matcher": "",
         "hooks": [

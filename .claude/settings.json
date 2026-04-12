@@ -126,6 +126,17 @@
         ]
       },
       {
+        "matcher": "Agent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python .claude/hooks/model-router.py",
+            "timeout": 3,
+            "statusMessage": ""
+          }
+        ]
+      },
+      {
         "matcher": "",
         "hooks": [
           {
@@ -138,6 +149,17 @@
       }
     ],
     "PostToolUse": [
+      {
+        "matcher": "Agent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python .claude/hooks/model-perf-tracker.py",
+            "timeout": 5,
+            "statusMessage": ""
+          }
+        ]
+      },
       {
         "matcher": "WebFetch|WebSearch|mcp__brave-search__brave_web_search|mcp__brave-search__brave_local_search|mcp__Claude_in_Chrome__get_page_text|mcp__Claude_in_Chrome__read_page",
         "hooks": [
