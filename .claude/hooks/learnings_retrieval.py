@@ -12,7 +12,7 @@ Usage (CLI):
 import os
 import re
 import sys
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -96,9 +96,18 @@ def grep_learnings(keywords: list[str]) -> list[Path]:
         if f.name in ("critical-patterns.md", "index-general.md"):
             continue
         try:
-            content = f.read_text(encoding="utf-8", errors="replace").lower()
+            content = f.read_text(encoding="utf-8", errors="replace")
         except OSError:
             continue
+        # Skip expired learnings
+        m = re.search(r"^valid_until:\s*[\"']?(\d{4}-\d{2}-\d{2})[\"']?", content, re.MULTILINE)
+        if m:
+            try:
+                if date.fromisoformat(m.group(1)) < date.today():
+                    continue
+            except (ValueError, TypeError):
+                pass
+        content = content.lower()
         for kw in keywords:
             if kw.lower() in content:
                 matched.add(f)
@@ -127,7 +136,12 @@ def score_learning(meta: dict) -> float:
         days_since = 90  # default for unparseable dates
 
     recency = 1 / (1 + days_since / 60)
-    return severity * source * confidence * impact_boost * recency
+
+    # Maturity boost
+    maturity = meta.get("maturity", "").strip().strip('"').strip("'").lower()
+    maturity_boost = {"core": 1.3, "validated": 1.1}.get(maturity, 1.0)
+
+    return severity * source * confidence * impact_boost * recency * maturity_boost
 
 
 def screening_score_learnings(

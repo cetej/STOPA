@@ -1,19 +1,22 @@
 #!/usr/bin/env python3
-"""Write-time admission control for learnings — soft gate + contradiction check + origin tagging.
+"""Write-time admission control for learnings — configurable gate + contradiction check + origin tagging.
 
 PostToolUse hook: triggers on Write operations to .claude/memory/learnings/.
 Inspired by A-MAC (arXiv:2603.04549) — preventing bad memories from entering
 is more effective than retroactive correction.
+
+Gate mode (env var STOPA_ADMISSION_GATE):
+  - soft (default): warnings only, never blocks writes
+  - hard: blocks on hard contradiction, near-duplicate (novelty<0.2), or memory poisoning
 
 Phase 2 defense (AI Agent Traps, DeepMind 2026-04-01):
   - Detects web-originated learnings via URL presence and source field
   - Caps confidence for web/agent-originated content at 0.6
   - Warns on trust escalation (web content with user_correction source)
   - Checks for instruction-like content in learning body (memory poisoning defense)
-
-Outputs warnings to stdout (soft gate — does NOT block writes).
 """
 import json
+import os
 import re
 import sys
 from pathlib import Path
@@ -22,6 +25,9 @@ sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
 LEARNINGS_DIR = Path(".claude/memory/learnings")
+
+# Gate mode: soft (warn) or hard (block on critical violations)
+GATE_MODE = os.environ.get("STOPA_ADMISSION_GATE", "soft")
 
 # Max confidence for web-originated or agent-generated learnings
 # DeepMind AI Agent Traps: 0.1% data contamination achieves 80%+ memory poisoning
@@ -528,10 +534,37 @@ def main():
             "rules without checks are wishes, rules with checks are guardrails."
         )
 
-    # Output warnings (soft gate — informational only)
+    # Output warnings
     if messages:
         for msg in messages:
             print(msg)
+
+    # Hard gate mode: block on critical violations (A-MAC inspired, 31% latency reduction)
+    if GATE_MODE == "hard" and messages:
+        hard_contradictions = [
+            m for m in messages if "[contradiction-check] [hard]" in m
+        ]
+        if hard_contradictions:
+            print(
+                "[ADMISSION HARD GATE] Blocked: hard contradiction detected. "
+                "Set STOPA_ADMISSION_GATE=soft to override."
+            )
+            sys.exit(1)
+
+        if salience < 0.2:
+            print(
+                "[ADMISSION HARD GATE] Blocked: near-duplicate learning "
+                f"(salience={salience:.2f}). "
+                "Set STOPA_ADMISSION_GATE=soft to override."
+            )
+            sys.exit(1)
+
+        if poison_warnings:
+            print(
+                "[ADMISSION HARD GATE] Blocked: memory poisoning pattern detected. "
+                "Set STOPA_ADMISSION_GATE=soft to override."
+            )
+            sys.exit(1)
 
 
 if __name__ == "__main__":

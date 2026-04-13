@@ -23,6 +23,7 @@ import re
 import sys
 import time
 from dataclasses import dataclass, field
+from datetime import date
 from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -60,6 +61,26 @@ class RankedFile:
 
 # ── Signal 1: Grep-first (keyword match in YAML frontmatter) ────────────
 
+def _is_expired(head: str) -> bool:
+    """Return True if YAML frontmatter contains valid_until before today."""
+    m = re.search(r"^valid_until:\s*[\"']?(\d{4}-\d{2}-\d{2})[\"']?", head, re.MULTILINE)
+    if not m:
+        return False
+    try:
+        return date.fromisoformat(m.group(1)) < date.today()
+    except (ValueError, TypeError):
+        return False
+
+
+def _maturity_boost(head: str) -> float:
+    """Return maturity boost multiplier from YAML frontmatter."""
+    m = re.search(r"^maturity:\s*[\"']?(\w+)[\"']?", head, re.MULTILINE)
+    if not m:
+        return 1.0
+    maturity = m.group(1).lower()
+    return {"core": 1.3, "validated": 1.1}.get(maturity, 1.0)
+
+
 def grep_search(query: str, max_results: int = 15) -> list[str]:
     """Fast keyword scan across learning filenames, tags, component, summary."""
     if not LEARNINGS_DIR.exists():
@@ -75,11 +96,14 @@ def grep_search(query: str, max_results: int = 15) -> list[str]:
         if fp.name in SKIP_FILES or fp.name.startswith("index-"):
             continue
         try:
-            head = fp.read_text(encoding="utf-8", errors="replace")[:1500].lower()
+            head = fp.read_text(encoding="utf-8", errors="replace")[:1500]
         except OSError:
             continue
 
-        hits = sum(1 for t in terms if t in head)
+        if _is_expired(head):
+            continue
+
+        hits = sum(1 for t in terms if t in head.lower())
         if hits > 0:
             scored[fp.name] = hits
 
@@ -268,7 +292,7 @@ def fuse_rrf(
             rf.mempalace_content = snippet
             rf.sources.append("mempalace")
 
-    # Compute RRF score
+    # Compute RRF score with maturity boost
     for rf in files.values():
         score = 0.0
         if rf.grep_rank is not None:
@@ -279,6 +303,16 @@ def fuse_rrf(
             score += 1.0 / (RRF_K + rf.graph_rank)
         if rf.mempalace_rank is not None:
             score += 1.0 / (RRF_K + rf.mempalace_rank)
+
+        # Apply maturity boost (local files only — virtual mp: entries skip)
+        if not rf.filename.startswith("mp:"):
+            fp = LEARNINGS_DIR / rf.filename
+            try:
+                head = fp.read_text(encoding="utf-8", errors="replace")[:800]
+                score *= _maturity_boost(head)
+            except OSError:
+                pass
+
         rf.rrf_score = score
 
     ranked = sorted(files.values(), key=lambda x: -x.rrf_score)
@@ -292,11 +326,13 @@ def hybrid_search(
     task_tier: str = "standard",
     top_n: int = 8,
     debug: bool = False,
+    mode: str = "standard",
 ) -> list[RankedFile]:
     """Run hybrid retrieval with tiered triggering.
 
     light tier + grep >= 3 hits → grep only (fast path)
     standard/deep → full hybrid (grep + BM25 + graph → RRF)
+    mode='aggregate' → return ALL matching results (ignores top_n)
     """
     # Signal 1: grep (always runs)
     grep_results = grep_search(query)
@@ -307,9 +343,10 @@ def hybrid_search(
     # Fast path: light tier with enough grep hits
     if task_tier == "light" and len(grep_results) >= 3:
         superseded = load_superseded_set()
+        limit = len(grep_results) if mode == "aggregate" else top_n
         return [
             RankedFile(filename=f, grep_rank=i + 1, rrf_score=1.0 / (RRF_K + i + 1), sources=["grep"])
-            for i, f in enumerate(grep_results[:top_n])
+            for i, f in enumerate(grep_results[:limit])
             if f not in superseded
         ]
 
@@ -343,7 +380,8 @@ def hybrid_search(
 
     # Fuse with RRF
     superseded = load_superseded_set()
-    fused = fuse_rrf(grep_results, bm25_results, graph_results, superseded, top_n, mp_results)
+    effective_top_n = 9999 if mode == "aggregate" else top_n
+    fused = fuse_rrf(grep_results, bm25_results, graph_results, superseded, effective_top_n, mp_results)
 
     if debug:
         print(f"[RRF] {len(fused)} fused results:")
@@ -367,6 +405,8 @@ def main():
                         help="Task tier (affects triggering)")
     parser.add_argument("--json", action="store_true", help="Output as JSON")
     parser.add_argument("--debug", action="store_true", help="Show per-signal details")
+    parser.add_argument("--mode", default="standard", choices=["standard", "aggregate"],
+                        help="standard: apply --top limit; aggregate: return all matches")
 
     args = parser.parse_args()
 
@@ -375,6 +415,7 @@ def main():
         task_tier=args.task_tier,
         top_n=args.top,
         debug=args.debug,
+        mode=args.mode,
     )
 
     if args.json:

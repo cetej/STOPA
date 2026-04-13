@@ -16,38 +16,6 @@ Read accumulated signals → propose concrete changes → wait for approval → 
 
 <!-- CACHE_BOUNDARY -->
 
-## Candidates Mode (--candidates)
-
-When invoked with `--candidates` flag or args containing "candidates":
-
-**Skip the entire normal flow (Steps 1-8). Instead:**
-
-1. Read all `.json` files in `.claude/memory/candidates/`
-2. If no candidates found: report "No pending candidates. Run the auto-evolve pipeline first: `python scripts/summarize-sessions.py && python scripts/evolve-skills.py`" and STOP.
-3. For each candidate file, extract and display:
-   - **Skill name** + **action** (improve_skill / optimize_description / create_skill)
-   - **Confidence** score
-   - **Rationale** from LLM
-   - **Edit summary**: preserved sections, changed sections, notes
-   - **Evidence**: session count, avg error rate
-   - **Content patch**: the proposed changes (sections to add/modify)
-4. Read the current SKILL.md for comparison — show what the skill has now vs what's proposed
-5. Present as numbered list, user decides per candidate: **Accept / Skip / Edit**
-6. On **Accept**:
-   - Read full current SKILL.md
-   - Apply content_patch sections into the skill body (merge, don't replace)
-   - If action is `optimize_description`: update only the `description:` field in frontmatter
-   - Write updated SKILL.md (and sync commands/ copy via existing skill-sync hook)
-   - Append version entry to `.claude/memory/skill-versions.md`:
-     `| DATE | skill-name | action | "edit_summary notes" | session-count sessions |`
-   - Move candidate file to `.claude/memory/candidates/applied/`
-7. On **Skip**: move candidate to `.claude/memory/candidates/skipped/`
-8. Report summary: N accepted, M skipped
-
-**Pipeline context:** These candidates come from `scripts/evolve-skills.py` which runs daily as a scheduled task. The evolver reads session traces (`.traces/sessions/*.jsonl`), groups by skill reference, and calls Claude to propose targeted edits. SkillClaw-inspired (arXiv:2604.08377).
-
----
-
 ## Step 1: Load All Signals
 
 Read these files silently:
@@ -106,23 +74,8 @@ Scan all files in `.claude/memory/learnings/` and evaluate each learning's confi
 2. Apply decay: if `uses: 0` AND `date:` is 60+ days old → subtract 0.1 per 30 days of inactivity (min 0.1)
 3. Apply boost: add `uses × 0.05` (cap at 1.0), subtract `harmful_uses × 0.15`
 
-**Inverse frequency graduation** (Acemoglu arXiv:2604.04906 — Proposition 2, majority-weighting bias):
-Count learnings per `component:` field to estimate skill frequency. Apply frequency-adjusted threshold:
-```
-component_count = count of learnings files with matching component: value
-frequency_factor = min(1.0, log(1 + component_count) / log(11))
-adjusted_uses_threshold = max(3, round(10 * (1 - 0.5 * frequency_factor)))
-```
-Example: `component: orchestration` with 30 learnings → threshold stays `uses >= 7`.
-`component: pipeline` with 2 learnings → threshold drops to `uses >= 3`.
-This ensures rare-skill insights can graduate despite lower absolute usage counts.
-
 **Graduation candidates** (`uses >= 10` AND effective confidence >= 0.8 AND `harmful_uses < 2`):
-→ **Graduation routing** (Acemoglu arXiv:2604.04906 — local aggregators > global):
-  - Learning HAS `skill_scope:` with 1-2 skills → PROMOTE to `.claude/skills/<name>/learned-rules.md` (skill-local)
-  - Learning HAS `skill_scope:` with 3+ skills → treat as cross-cutting → PROMOTE to `critical-patterns.md` (global)
-  - Learning WITHOUT `skill_scope:` → PROMOTE to `critical-patterns.md` or GRADUATE to `rules/` (global, as before)
-  - **Circular validation flag**: if `learning-admission.py` flagged `[circular-risk]`, deprioritize for graduation — circular confirmations don't add independent evidence
+→ Propose PROMOTE to `critical-patterns.md` or GRADUATE to `rules/`
 
 **Pruning candidates** (effective confidence < 0.3):
 → Propose PRUNE — learning has decayed below usefulness threshold
@@ -139,6 +92,39 @@ CONFIDENCE AUDIT: [N learnings scanned]
 ```
 
 Include these proposals in Step 7 alongside correction/violation-based proposals.
+
+---
+
+## Step 3b-ii: Maturity Tier Updates
+
+For each learning in `learnings/`:
+- If `maturity: draft` AND `uses >= 5` AND `harmful_uses == 0` → PROPOSE upgrade to `validated`
+- If `maturity: validated` AND `uses >= 10` AND `confidence >= 0.8` AND `harmful_uses < 2` → PROPOSE upgrade to `core`
+- If `maturity: validated` AND `harmful_uses >= 3` → PROPOSE demotion to `draft` (hysteresis)
+- If `maturity: core` AND `harmful_uses >= 2` → PROPOSE demotion to `validated`
+
+Maturity changes are proposed alongside graduation/pruning candidates in Step 7.
+
+---
+
+## Step 3e: Replay Queue Audit
+
+Read `.claude/memory/replay-queue.md`:
+- Items with status `ready` (2+ matching failures): PROPOSE replay validation
+  - Replay = re-execute similar task with 3 prompt variants (efficiency, thoroughness, risk_sensitivity)
+  - If replay succeeds: upgrade learning to `maturity: validated`, queue status → `resolved`
+  - If replay fails: learning stays `draft`, queue status → `resolved` (non-generalizable)
+- Items with status `pending` older than 14 days: FLAG for review (may never get second failure)
+
+Show:
+```
+REPLAY QUEUE AUDIT: [N total, M ready, K pending-stale]
+  Ready for replay: [learning filenames with failure_class]
+  Stale pending:    [learning filenames older than 14 days]
+  Action: PROPOSE_REPLAY | FLAG_STALE | OK
+```
+
+If file doesn't exist, note it and continue.
 
 ---
 
@@ -181,22 +167,6 @@ PANIC EPISODES: [N total, M red, K yellow]
 If a pattern triggers panic 3+ times → create a learning or runbook entry
 so the model recognizes the situation earlier and switches to /systematic-debugging
 proactively instead of waiting for the panic detector.
-
----
-
-## Step 3e: Wiki Freshness Check
-
-If `.claude/memory/wiki/INDEX.md` exists:
-1. Read wiki INDEX.md header — extract `Last built` date
-2. Compare against newest learning file date (Glob `learnings/2*.md`, sort descending, check first)
-3. If wiki is >7 days stale AND new learnings exist since last compile:
-   - Add to Step 7 proposals: `RECOMMEND: Run /compile (wiki N days stale, M new learnings since last build)`
-4. If wiki INDEX.md shows open contradictions, include note in Step 7
-
-If `.claude/memory/wiki/INDEX.md` does NOT exist:
-- Add to Step 7 proposals: `RECOMMEND: Run /compile --full (wiki not yet built, N learnings available)`
-
-This is **advisory only** — evolve does NOT auto-run compile.
 
 ---
 
@@ -243,28 +213,6 @@ If skill-usage.jsonl doesn't exist or is empty, note "No usage data yet — trac
 
 ---
 
-## Step 4b: Critic Accuracy Audit (NLAH divergence detection)
-
-Check `.claude/memory/critic-accuracy.jsonl` for critic-user alignment:
-
-1. Read last 20 entries from the JSONL file
-2. Calculate alignment rate: `aligned_count / total_count`
-3. If alignment < 80%:
-   - Flag: "Critic diverges from user preferences (alignment: N%)"
-   - Identify which dimensions cause most misalignment (from `dimensions` field)
-   - Propose critic weight adjustment for the problematic task-type
-4. If alignment >= 80%: report "Critic alignment healthy (N%)"
-5. If file doesn't exist or has < 5 entries: skip with "Insufficient data"
-
-Show:
-```
-CRITIC ALIGNMENT: [N]% ([aligned]/[total] verdicts)
-  Most misaligned dimension: [dimension] ([N] overrides)
-  Action: HEALTHY | PROPOSE_WEIGHT_CHANGE | INSUFFICIENT_DATA
-```
-
----
-
 ## Step 5: Audit critical-patterns.md
 
 For each of the 8 patterns:
@@ -279,74 +227,6 @@ PATTERN: [name]
   Has verify: [yes/no]  Violations: [N]  Corrections: [N]
   Action: KEEP | ADD_VERIFY | PRUNE | UPDATE
 ```
-
----
-
-## Step 5b: Rule Demotion Audit (Bidirectional Evolution)
-
-MIA-inspired (arXiv:2604.04503): knowledge must flow BOTH directions — promotion (learning → rule) AND demotion (rule → learning for re-evaluation).
-
-For each entry in `critical-patterns.md`:
-
-1. **Staleness check**: Read `last_confirmed:` field.
-   - Missing → flag as `NEEDS_CONFIRMATION` (add the field with today's date after review)
-   - Present but >90 days old → flag as `STALE` → propose DEMOTE
-   - Present and <90 days → OK
-
-2. **Challenge check**: Read `challenge:` field (if present).
-   - Evaluate the condition (e.g., model version changed, feature removed)
-   - If condition is TRUE → propose DEMOTE with evidence
-   - If condition is FALSE or absent → OK
-
-3. **Verify check**: Run `verify:` assertion.
-   - If verify FAILS → propose DEMOTE (rule no longer reflects reality)
-   - If verify PASSES → update `last_confirmed:` to today
-
-**DEMOTE action**: Move the entry from `critical-patterns.md` back to `learnings/` as a file with:
-- `confidence: 0.5` (uncertain — needs revalidation)
-- `source: auto_pattern` (was auto-demoted)
-- Add `demoted_from: critical-patterns` in frontmatter
-- Add `demotion_reason:` explaining why
-
-For `behavioral-genome.md` rules with `<!-- valid: ... | trigger: ... -->` markers:
-
-1. Parse `valid:` date — if >180 days old → flag as `GENOME_STALE`
-2. Parse `trigger:` condition — if evaluable and TRUE → flag as `GENOME_CHALLENGE`
-3. Flagged genome rules → propose UPDATE or DEMOTE to learning
-
-Show:
-```
-DEMOTION AUDIT: [N entries checked]
-  Confirmed (fresh): [list]
-  Stale (>90 days):  [list with last_confirmed date]
-  Challenged:        [list with triggered condition]
-  Verify failed:     [list with assertion]
-  Action: DEMOTE [entry] | UPDATE_CONFIRMED [entry] | NEEDS_CONFIRMATION [entry]
-```
-
-Include demotion proposals in Step 7 alongside promotion proposals.
-
----
-
-## Step 5c: Cross-Rules Consistency Scan (Semantic Hygiene)
-
-Detect contradictions across `rules/*.md` files using verb extraction (same approach as learning-admission.py).
-
-1. Read all files in `.claude/rules/`:
-   - `core-invariants.md`, `behavioral-genome.md`, `skill-files.md`, `memory-files.md`, `calm-steering.md`, `skill-tiers.md`, `python-files.md`
-2. For each file, extract obligation/negation pairs:
-   - Obligations: "always X", "must X", "používej X", "vždy X"
-   - Negations: "never X", "NEVER X", "don't X", "nepoužívej X", "NIKDY X"
-3. Cross-compare between files: if file A obligates verb V and file B negates same verb V → flag as CONTRADICTION
-4. Also check against `glossary.yaml` — any rule file using a term differently from glossary definition → flag as TERMINOLOGY_DRIFT
-5. Report:
-```
-RULES CONSISTENCY:
-  ✓ No contradictions found across 7 rule files
-  ⚠ CONTRADICTION: core-invariants.md "never X" vs behavioral-genome.md "always X"
-  ⚠ TERMINOLOGY_DRIFT: skill-tiers.md uses "tier" ambiguously (see glossary.yaml)
-```
-6. Include contradictions in Step 7 proposals as `RESOLVE: rules contradiction in X vs Y`
 
 ---
 
@@ -372,63 +252,11 @@ PROPOSE: [action type]
 Action types:
 - **PROMOTE**: Add correction pattern to critical-patterns.md (with verify: check)
 - **GRADUATE**: Move from critical-patterns.md to core-invariants.md (persists through compaction)
-- **DEMOTE**: Move rule from critical-patterns.md or behavioral-genome.md back to learnings/ (stale, challenged, or verify failed — confidence reset to 0.5)
 - **ADD_VERIFY**: Add verify: annotation to existing pattern that lacks one
 - **PRUNE**: Remove pattern that's now redundant or internalized
 - **UPDATE**: Modify existing rule based on new evidence
 - **CREATE**: New learning file for observed but uncaptured pattern
 - **ESCALATE_TO_HOOK**: Pattern violated so often it needs a hook, not just a rule
-
----
-
-## Step 7b: Artifact Synthesis (Semantic Observability)
-
-Convert discovered patterns and graduated learnings into **executable artifacts** — not just rules.
-
-Reference: Tang "Towards Semantic Observability" (2026) — human signal → durable, scalable artifacts.
-
-### Input sources
-
-1. **Discovered patterns** from `.claude/memory/discovered-patterns.md` (written by `/discover`)
-   - Patterns with `verdict: reinforce` or `verdict: suppress`
-2. **Graduated learnings** from Step 3b (confidence >= 0.8, uses >= 10)
-3. **High-impact learnings** (impact_score >= 0.7, uses >= 5)
-
-If none of these sources have data, skip this step and note "No artifact candidates yet — run /discover first."
-
-### Artifact type classification
-
-For each candidate, classify into an artifact type and propose generation:
-
-| Signal | Artifact Type | Target | Generation |
-|--------|--------------|--------|------------|
-| Suppressible pattern (desperation loop) | **Warning pattern** | `panic-detector.py` config | Add regex/sequence pattern to hook's detection rules |
-| Suppressible pattern (blind editing) | **Circuit breaker** | `critical-patterns.md` | New entry with verify: annotation |
-| Reinforceable pattern (informed editing) | **Routing hint** | `/triage` decision logic | Note preferred approach for similar tasks |
-| Reinforceable pattern (effective delegation) | **Skill hint** | `best_practice` learning | Write learning with high initial confidence (0.85) |
-| Recurring failure (same test, same fix) | **Eval case** | `.claude/evals/` | Generate YAML eval case from the pattern |
-| Graduated learning (proven rule) | **Rule** | `rules/` or `critical-patterns.md` | Move from learnings to permanent rule |
-| High-impact learning (used 5+, impact 0.7+) | **Quality gate** | `.claude/memory/quality-gates.md` | Auto-milestone for /critic |
-
-### Proposal format
-
-For each artifact, add to Step 7 proposals:
-
-```
-PROPOSE: SYNTHESIZE_ARTIFACT
-  Source: [discovered pattern / learning filename]
-  Artifact type: [warning_pattern | circuit_breaker | routing_hint | skill_hint | eval_case | rule | quality_gate]
-  Target file: [exact path where artifact will be written]
-  Content: [exact text/config to add]
-  Evidence: [frequency, sessions, impact_score, human verdict]
-```
-
-### Constraints
-- Max 5 artifact proposals per /evolve run (prevent flooding)
-- Eval cases go to `.claude/evals/discovered/` subdirectory
-- Warning patterns must include the tool sequence signature (for panic-detector matching)
-- All artifacts require user approval in Step 8 (same as other proposals)
-- Track generated artifacts in `evolution-log.md` under `### Artifacts Generated` section
 
 ---
 

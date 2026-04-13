@@ -189,20 +189,17 @@ Before decomposition, classify task verifiability — determines which skills ar
 
 **First, check learned heuristics:** Read `${CLAUDE_SKILL_DIR}/tier-heuristics.md` for patterns extracted from past task traces. If the current task matches a heuristic, use its recommended tier.
 
-**If no heuristic matches, auto-detect tier** via deterministic script:
-
-```bash
-python scripts/deterministic-gates.py tier-select \
-  --keywords <task_keywords> \
-  --file-count <N> \
-  [--mechanical] [--uncertain] [--budget-used-pct <PCT>]
-```
-
-Returns JSON: `{tier, signals, agent_limit, avg_cost}`. The script applies the full signal stack (budget constraint, keyword mapping, file count thresholds, uncertainty bump) deterministically.
-
-For ambiguous cases where signals conflict, additionally run L_task assessment:
+**If no heuristic matches, auto-detect tier** using these signals (check in order):
+1. **Budget constraint**: If remaining budget is tight (prior task used 80%+), cap at standard tier max
+2. **Task keyword signals**: fix/typo/rename → light; refactor/implement → standard; redesign/architecture → deep; bulk/lint/20+ → farm
+3. **File count estimate**: Glob affected paths. 1 file → light, 2-5 → standard, 6+ → deep, 20+ mechanical → farm
+4. **Uncertainty factor**: Vague scope → start one tier higher (never above deep)
+5. **L_task score (for ambiguous cases)**: When steps 1-4 give conflicting signals or scope is unclear, assess three dimensions:
+   - **C_exec** — compute per trial (none/light/heavy)
+   - **S_space** — search space breadth (narrow/moderate/broad/unknown)
+   - **D_feedback** — feedback signal quality (strong/weak/manual)
    Run: `python ${CLAUDE_SKILL_DIR}/scripts/tier-detector.py --ltask --c-exec <level> --s-space <level> --d-feedback <level>`
-   Take max of script tier and L_task tier. Ref: ASI-Evolve (arXiv:2603.29640).
+   Take max of keyword, file, and L_task tier. Ref: ASI-Evolve (arXiv:2603.29640).
 
 For tier details (agent limits, critic limits, models): `Read ${CLAUDE_SKILL_DIR}/references/tier-definitions.yaml`
 
@@ -216,19 +213,27 @@ Write the tier to `.claude/memory/budget.md` and set the counters.
 
 ### Parallelizability Gate (Amdahl Check)
 
-After decomposing subtasks mentally (before formal Phase 3), run the Amdahl gate:
+After decomposing subtasks mentally (before formal Phase 3), estimate the parallelizable fraction `p`:
 
-```bash
-python scripts/deterministic-gates.py amdahl-gate \
-  --total-subtasks <T> --independent-subtasks <I> --current-tier <tier>
 ```
+Quick estimate:
+  T = estimated total subtasks
+  I = subtasks with NO dependency on other subtasks (potential Wave 1)
+  p = I / T
 
-Returns JSON: `{p, cap_tier, final_tier, capped, max_agents, log}`. The script computes `p = I/T`, applies tier caps (`p<0.4 → light`, `0.4-0.7 → standard`), and respects farm exemption.
+Tier cap (overrides keyword/file-count heuristics):
+  p < 0.4  → cap at light (1 agent max) — multi-agent is wasteful here
+  0.4 <= p < 0.7 → cap at standard (3 agents max)
+  p >= 0.7  → no cap, use normal tier selection
+
+Log: "Amdahl gate: p={p:.1f} ({I}/{T} independent). Tier: {original} -> {capped}."
+```
 
 **Rules:**
 - This is a **cap**, not a floor — if keyword signals say light and p=0.9, stay at light
-- If the cap downgrades the tier (`capped: true`), tell the user why
+- If the cap downgrades the tier, tell the user why
 - Re-evaluate after Phase 2 scout if subtask structure changes significantly
+- Farm tier is exempt (mechanical tasks have p~1.0 by definition)
 
 ### Phase 1b: Decision Gates
 
@@ -273,13 +278,7 @@ Before planning, check if similar tasks were solved before:
 
 ### Precomputed Results Check
 
-Before launching scout agents, check cache freshness:
-
-```bash
-python scripts/deterministic-gates.py cache-stale --max-age 2
-```
-
-Returns JSON: `{caches, all_stale, reusable}`. If `reusable` is non-empty, skip agent spawn for those and use cached `summary`. Log reuse in budget.md.
+Before launching scout agents, check `.claude/memory/intermediate/scout-*.json` and `research-*.json`. If `savedAt` < 2h old and no newer git commits → reuse cached `summary`, skip that agent spawn. Log reuse in budget.md.
 
 **Hypothesis-first exploration:** Before each Read/Grep, state your hypothesis in one sentence: "I expect X because Y." This prevents pattern-matching-driven tool calls and increases retrieval precision. (Ref: FActScore arXiv:2305.14251 — explicit hypothesis reduces false-positive retrieval ~20%.)
 
@@ -418,18 +417,6 @@ Based on scout results:
    - Good: `["src/auth.py", "src/middleware.py", "tests/test_auth.py"]`
    - Bad: `["src/"]` (too broad — agent wastes context on irrelevant files)
 
-**Phase 3.3: Topology Selection** (deep tier only — skip for light/standard/farm):
-
-Read `${CLAUDE_SKILL_DIR}/references/graph-topology.md` for full details. Summary:
-
-1. **Classify graph shape** from dependency structure: flat parallel | pipeline | DAG with merge | pipeline + feedback | conservative pipeline
-2. **Infer agent roles** — descriptive labels (e.g., "auth-implementer"), check for duplicates
-3. **Generate workspace contracts** — define `reads_from` and `writes_to` per subtask (ref: `${CLAUDE_SKILL_DIR}/references/workspace-schema.md`)
-4. **Calculate routing estimate** — `waves × avg_subtasks × (1 + dependency_density)` as difficulty proxy
-5. **Log topology** to state.md YAML: `topology: {graph_shape, routing_estimate, roles, dependency_density}`
-
-This step produces the `reads_from`/`writes_to` fields and `topology` block for state.md. It does NOT spawn agents — inline orchestrator computation only.
-
 Write the plan to `.claude/memory/state.md`. Include **both** YAML frontmatter (machine-readable) and markdown body (human-readable):
 
 ```markdown
@@ -519,16 +506,9 @@ After decomposition, validate the plan is executable by checking operator contra
 
 ### Cost Gate (Pre-Execution ROI Check)
 
-After decomposition, run deterministic cost gate:
+After decomposition, validate planned agent count has positive ROI.
 
-```bash
-python scripts/deterministic-gates.py cost-gate \
-  --planned-agents <N> --tier <TIER> [--remaining <BUDGET>]
-```
-
-Returns JSON: `{gate, estimated_cost, remaining, utilization_pct, single_higher_tier_option, downgrade_suggestion}`. If `gate: "STOP"` or `"WARNING"`, present `downgrade_suggestion` to user.
-
-For full ROI analysis details: `Read ${CLAUDE_SKILL_DIR}/references/cost-gate.md`
+`Read ${CLAUDE_SKILL_DIR}/references/cost-gate.md`
 
 ## Phase 3.7: Skill Adaptation (--adapt or auto)
 
@@ -578,21 +558,25 @@ If scout confidence on the subtask domain is low (fragmented knowledge, no match
 
 ### Budget Soft Gate (Karpathy throughput awareness)
 
-Before spawning agents, run the deterministic budget gate:
+Before spawning agents, estimate execution cost and compare to remaining budget:
 
-```bash
-python scripts/deterministic-gates.py budget-check \
-  --remaining <BUDGET> --planned-agents <N> --tier <TIER> \
-  --scope-sizes <files_per_subtask...> [--has-security]
+```
+planned_agents = count of subtasks that need agent spawn
+avg_cost_per_agent = {light: 0.02, standard: 0.05, deep: 0.10, farm: 0.03}[tier]
+estimated_cost = planned_agents × avg_cost_per_agent
+remaining_budget = read from budget.md
+
+IF estimated_cost > remaining_budget × 0.8:
+  WARNING to user: "Estimated cost ($X.XX for N agents) exceeds 80% of remaining budget ($Y.YY)."
+  Suggest: "Downgrade to {lower_tier}? Or reduce to {N-2} agents by merging subtasks {A+B}?"
+  Wait for user response before proceeding.
+
+IF estimated_cost > remaining_budget:
+  HARD STOP: "Budget insufficient for planned execution. Remaining: $Y.YY, needed: $X.XX."
+  Options: reduce tier, reduce agent count, or increase budget.
 ```
 
-Returns JSON: `{gate, remaining_budget, estimated_cost, reserve, allocatable, per_agent_allocation, merge_candidates}`.
-
-- If `gate: "WARNING"` → show user: "Estimated cost ($X.XX) exceeds 80% of remaining budget ($Y.YY)." Wait for response.
-- If `gate: "STOP"` → HARD STOP. Options: reduce tier, reduce agent count, or increase budget.
-- If `merge_candidates` is non-empty → those subtasks are below `$0.03 min_viable`, merge with neighbors.
-
-Log budget gate result to budget.md: `"Budget gate: {gate} — est ${estimated_cost} / rem ${remaining_budget}"`
+Log budget gate result to budget.md: `"Budget gate: {PASS|WARNING|STOP} — est ${est} / rem ${rem}"`
 
 ### Budget Allocation per Agent (RLM-inspired, arXiv:2512.24601)
 
@@ -637,7 +621,6 @@ For detailed agent spawn templates, file access manifests, diversity framing, ou
 
 Core principles:
 - **Hierarchical context injection**: Orchestrator loads shared memory ONCE (Phase 0). Pass relevant context directly in agent prompts — agents do NOT re-read memory files.
-- **Context Assembly (Latent Briefing protocol)**: Before building each agent prompt, categorize context into Facts/Task/Reasoning/Failures per the Context Assembly Protocol in `references/agent-execution.md`. Strip orchestrator exploration trails — speculative reasoning degrades worker accuracy (+3pp when filtered). Context volume by tier: light/farm = minimal, standard = moderate, deep = broad coverage.
 - **Operator-Scoped Context (Feature Selector φ)**: Each agent receives ONLY the context relevant to its subtask — not the full scout report or entire task description. Build the agent prompt from:
   1. **Subtask description + criterion + done-when** (from state.md)
   2. **Grounding refs** (from `grounding_refs` field) — mandatory context the agent MUST read before starting work. Include as "Required Reading" section at the top of the agent prompt. These are learnings, key-facts, decisions, or reference docs that provide essential domain knowledge for the subtask. Unlike `context_scope` (files to edit), grounding refs are files to understand. The orchestrator populates these during Phase 3 decomposition based on scout findings and grep-matched learnings. (PaperOrchestra pattern, arXiv:2604.05018 — mandatory citation hints in outline → +3-5× grounding coverage by downstream agents.)
@@ -648,11 +631,21 @@ Core principles:
   7. **NOT included**: other subtasks, full scout report, unrelated decisions
   Why: NSM Feature Selector φ (arXiv:2602.19260) — operator-scoped input eliminates irrelevant context noise. The paper showed 95% vs 34% success partly because each operator saw only task-relevant objects in relative coordinates. Same principle: each agent sees only task-relevant files and context, reducing hallucination and improving focus.
 - **File Access Manifest**: Every agent gets WRITE/READ/FORBIDDEN file lists to prevent conflicts.
-- **Pre-launch disjointness check**: `python scripts/deterministic-gates.py file-disjoint '[["file1.py"],["file2.py","file1.py"]]'` — returns `{disjoint: bool, collisions: [...]}`. If not disjoint, move conflicting subtasks to separate waves.
-- **Workspace contract validation** (deep tier, when `reads_from`/`writes_to` defined): Before each wave launch, run `python -c "from workspace_validator import validate_at_launch, validate_wave_completion; ..."` (module at `.claude/hooks/workspace_validator.py`). Checks: (1) all `reads_from` refs are resolvable, (2) same-wave `writes_to` don't overlap. If validation fails → do not launch, log issue to scratchpad. Between waves: run `validate_wave_completion()` to verify writes exist and next wave reads are ready.
+- **Pre-launch disjointness check**: Before parallel spawn, verify WRITE file lists don't overlap.
 - **Wave-based execution**: Execute wave by wave. Max 3 parallel agents per wave.
 - **Agent Status Codes**: DONE | DONE_WITH_CONCERNS | NEEDS_CONTEXT | BLOCKED
 - **Template selection by task_style**: Use self-organizing template for `exploratory` subtasks, prescribed template for `structured` subtasks. See `agent-execution.md` for both templates. Log which template was used per agent.
+
+#### Task-Guided Worker Context Filtering (Latent Briefing)
+
+Before spawning each worker agent, filter context to minimize noise (ref: Latent Briefing — 49-65% token savings, +3pp accuracy):
+
+1. **Grep state.md** for subtask keywords — pass only matched sections, not full state
+2. **Strip dead-end hypotheses** — remove exploration branches and failed approaches from worker context
+3. **Adapt detail level** to subtask complexity:
+   - Simple subtask (single file, <30 LOC) → minimal context (subtask description + file path + 1-2 relevant learnings)
+   - Complex subtask (multi-file, cross-cutting) → wider context (upstream artifacts + related decisions + scout findings)
+4. **Never pass raw orchestrator trajectory** to workers — speculative reasoning is noise that degrades accuracy
 
 ### Per-Subtask Adaptive Model Routing (TARo-inspired, arXiv:2603.18411)
 
@@ -804,9 +797,8 @@ Farm tier uses mechanical partitioning instead of semantic decomposition.
 ### Inter-wave Completeness Check (VMAO pattern)
 Before launching the next wave, verify completeness of the current wave:
 1. **Artifact presence:** For each completed subtask, check that `subtasks[].artifacts` array is non-empty. Missing artifacts = subtask not truly done.
-2. **Criterion coverage:** Each subtask's acceptance criterion must have a PASS/FAIL/ODORLESS verdict recorded. No verdict = not verified.
+2. **Criterion coverage:** Each subtask's acceptance criterion must have a PASS/FAIL verdict recorded. No verdict = not verified.
 3. **Downstream readiness:** For each subtask in the next wave, confirm its `depends_on` subtasks all have artifacts available.
-4. **Depth gate** (deep tier + research outputs only): If critic returns ODORLESS verdict → output is correct but lacks insight. Deep tier: escalate to user ("Output formálně správný ale postrádá depth. Přepracovat s focus na WHY?"). Standard: advisory. Light: skip. Use `--depth` flag on critic for deep/research tasks.
 If any check fails → do NOT launch next wave. Fix the gap first (re-run subtask or mark as blocked).
 (Ref: VMAO arXiv:2603.11445 — inter-phase completeness verifier raised quality 3.1→4.2 on 5-point scale.)
 4. **Mid-Execution Replanning** (standard/deep tier only, arXiv:2602.19260):
@@ -855,14 +847,6 @@ For each subtask marked "done":
 Skip for light and farm tiers. Independent audit preventing premature session closure.
 
 `Read ${CLAUDE_SKILL_DIR}/references/completion-contract.md`
-
-### Workspace Completion Validation (deep tier, when `reads_from`/`writes_to` defined)
-
-Before critic pass, run `validate_completion()` from `.claude/hooks/workspace_validator.py`:
-- Checks all `writes_to` files were actually created (no orphan declarations)
-- Cross-checks with `git diff --name-only HEAD` for undeclared file changes
-- If CC assertions reference files, verifies those files exist
-- On failure → log issues, fix before proceeding to critic
 
 ### Late-Phase Recovery Check
 
@@ -924,13 +908,9 @@ When a subtask FAILS (critic FAIL or agent error):
    <what to do differently next time>
    ```
 
-4. **Check for patterns** — run deterministic failure analysis:
-   ```bash
-   python scripts/deterministic-gates.py failure-pattern
-   ```
-   Returns JSON: `{patterns: [{failure_class, failure_agent, count, trigger, circuit_breaker}]}`.
-   - If any pattern has `trigger: "learn-from-failure"` (count >= 2) → run `/learn-from-failure`
-   - If any pattern has `circuit_breaker: true` (count >= 3) → STOP, escalate to user
+4. **Check for patterns** — `Grep failure_class: <class> .claude/memory/failures/` + `Grep failure_agent: <agent>`:
+   - If 2+ matches with same failure_class + failure_agent → flag for `/learn-from-failure`
+   - If 3+ matches → circuit breaker: STOP, escalate to user
 
 5. **After resolution** — update failure record: `resolved: true`, add `resolution_learning:` pointing to the learning file
 
@@ -946,7 +926,7 @@ Summary of Phase 6 actions:
 3. **State update**: Mark task complete in state.md.
 4. **Failure analysis** (HERA-inspired): If any failures occurred during this orchestration:
    a. Update `agent-accountability.md` — increment counters per agent per failure_class
-   b. Record topology snapshot to `topology-evolution.md` (agents, node efficiency, retries, critic loops, result, routing_estimate, routing_actual, graph_shape)
+   b. Record topology snapshot to `topology-evolution.md` (agents, node efficiency, retries, critic loops, result)
    c. Mark resolved failures in `failures/` directory
    d. If 2+ unresolved failures with same pattern → suggest `/learn-from-failure` to user
 5. **Learnings capture**: Record via `/scribe learning` — patterns, anti-patterns, skill gaps, tier accuracy. Include `failure_class`, `failure_agent`, `task_context` fields for failure-sourced learnings. Include `successful_uses` tracking.
@@ -1017,23 +997,6 @@ These CANNOT be overridden without user approval:
 6. **Analysis paralysis**: 5+ consecutive read-only ops → must write or report blocked
 7. **No-progress loop**: 3 waves without file changes → STOP
 8. **Fix-quality escalation**: 3 approaches all fail critic → STOP
-
-### Pre-Escalation Fresh Check (MASK pattern, ref: CAIS + Scale AI 2026)
-
-Before escalating circuit breaker #2 (critic FAIL 2x) to user:
-
-1. Spawn a fresh agent (no prior context) with ONLY:
-   - The subtask description from state.md
-   - The specific files involved
-   - The criterion that failed
-2. Ask: "A previous agent worked on [subtask]. The result was judged as FAIL twice. Review the current state of these files and report: is the work actually incomplete/broken, or might the critic be wrong?"
-3. Results:
-   - Fresh agent confirms FAIL → escalate to user with `[CROSS-VERIFIED]` confidence
-   - Fresh agent says it's actually OK → re-run critic with `--fresh-override` context, flag discrepancy
-   - Inconclusive → escalate anyway (conservative)
-
-**Cost:** 1 extra Haiku agent call before user escalation — justified because false escalation costs a full user interruption.
-**Trigger:** ONLY on circuit breaker #2 (critic FAIL 2x). Other circuit breakers don't benefit from re-checking.
 
 ## Anti-Rationalization Defense
 

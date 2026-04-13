@@ -636,6 +636,17 @@ Core principles:
 - **Agent Status Codes**: DONE | DONE_WITH_CONCERNS | NEEDS_CONTEXT | BLOCKED
 - **Template selection by task_style**: Use self-organizing template for `exploratory` subtasks, prescribed template for `structured` subtasks. See `agent-execution.md` for both templates. Log which template was used per agent.
 
+#### Task-Guided Worker Context Filtering (Latent Briefing)
+
+Before spawning each worker agent, filter context to minimize noise (ref: Latent Briefing — 49-65% token savings, +3pp accuracy):
+
+1. **Grep state.md** for subtask keywords — pass only matched sections, not full state
+2. **Strip dead-end hypotheses** — remove exploration branches and failed approaches from worker context
+3. **Adapt detail level** to subtask complexity:
+   - Simple subtask (single file, <30 LOC) → minimal context (subtask description + file path + 1-2 relevant learnings)
+   - Complex subtask (multi-file, cross-cutting) → wider context (upstream artifacts + related decisions + scout findings)
+4. **Never pass raw orchestrator trajectory** to workers — speculative reasoning is noise that degrades accuracy
+
 ### Per-Subtask Adaptive Model Routing (TARo-inspired, arXiv:2603.18411)
 
 Instead of assigning one model to all agents in a tier, select model per subtask based on complexity signals. TARo shows adaptive per-step routing beats fixed allocation by +8.4% while cutting cost 40-60%.

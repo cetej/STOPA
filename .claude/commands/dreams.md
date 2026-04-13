@@ -85,6 +85,20 @@ Look for recurring patterns across learnings and outcomes:
 - Same component failing repeatedly → systemic issue
 - Techniques that work across different contexts → candidate for generalization
 
+**Maturity-Aware Generalization:**
+- When a pattern appears 3+ times across sessions (different dates in learnings): recommend `maturity: validated` upgrade
+- Cross-session patterns carry stronger signal than single-session observations
+- Check: grep same `failure_class` or `component` across learnings → count unique dates
+
+#### Phase 2e: Replay Queue Check
+
+Read `.claude/memory/replay-queue.md`:
+- Items with status `pending` older than 14 days without matching second failure → flag in dream log as "stale draft — consider manual review or archival"
+- Items with status `ready` → note in dream log: "N items ready for replay validation — trigger /evolve or /learn-from-failure"
+- Update Smart Skip: if replay queue has `ready` items → do NOT skip dream cycle (consolidation needed)
+
+If file doesn't exist, skip this step silently.
+
 #### 2d: Concept Graph Update
 
 If new connections were found in 2a-2c:

@@ -19,6 +19,7 @@ import os
 import re
 import sys
 from dataclasses import dataclass, field
+from datetime import date
 from pathlib import Path
 from typing import Optional
 
@@ -171,6 +172,15 @@ def load_learnings(supersedes_map: dict[str, str]) -> list[Document]:
         meta, body = parse_yaml_frontmatter(text)
         if not body.strip():
             continue
+
+        # Skip expired learnings
+        valid_until = meta.get("valid_until", "")
+        if valid_until:
+            try:
+                if date.fromisoformat(str(valid_until)) < date.today():
+                    continue
+            except (ValueError, TypeError):
+                pass
 
         # Track supersedes relationships
         sup = meta.get("supersedes", "")
@@ -325,6 +335,9 @@ def bm25_score_doc(query_terms: list[str], doc: Document,
     return score, matched
 
 
+MATURITY_BOOSTS = {"core": 1.3, "validated": 1.1}
+
+
 def metadata_score(doc: Document) -> float:
     """Compute metadata-based score multiplier (existing STOPA formula)."""
     if doc.source_type != "learning":
@@ -340,7 +353,6 @@ def metadata_score(doc: Document) -> float:
     days_old = 0
     if doc.date:
         try:
-            from datetime import date
             d = date.fromisoformat(doc.date)
             days_old = (date.today() - d).days
         except (ValueError, TypeError):
@@ -348,7 +360,17 @@ def metadata_score(doc: Document) -> float:
 
     time_factor = 1.0 / (1.0 + days_old / 60.0)
 
-    return severity_w * source_w * confidence * impact_boost * time_factor
+    # Maturity boost (read directly from file to avoid adding field to Document)
+    maturity_boost = 1.0
+    try:
+        head = doc.path.read_text(encoding="utf-8", errors="replace")[:800]
+        m = re.search(r"^maturity:\s*[\"']?(\w+)[\"']?", head, re.MULTILINE)
+        if m:
+            maturity_boost = MATURITY_BOOSTS.get(m.group(1).lower(), 1.0)
+    except OSError:
+        pass
+
+    return severity_w * source_w * confidence * impact_boost * time_factor * maturity_boost
 
 
 # ── Query expansion ────────────────────────────────────────────────────────

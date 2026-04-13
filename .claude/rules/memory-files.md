@@ -49,7 +49,7 @@ globs: ".claude/memory/**"
 ## Learnings (per-file YAML format)
 
 - Uloženy v `.claude/memory/learnings/` jako jednotlivé soubory
-- Každý soubor má YAML frontmatter: date, type, severity, component, tags, summary, source, uses, harmful_uses, successful_uses, confidence
+- Každý soubor má YAML frontmatter: date, type, severity, component, tags, summary, source, uses, harmful_uses, successful_uses, confidence, maturity, valid_until
 - `summary:` = 1-2 věty popisující co se stalo a co dělat (generuje /scribe automaticky)
 - `source:` = odkud learning pochází — ovlivňuje write-time gating i retrieval scoring. Hodnoty: `user_correction` (1.5×), `critic_finding` (1.2×), `auto_pattern` (1.0×, default), `agent_generated` (0.8×), `external_research` (0.9×). Soubory bez `source:` se chovají jako `auto_pattern`.
 - `uses:` = kolikrát byl learning retrieven a aplikován (počáteční hodnota 0, inkrementuje se při použití)
@@ -66,19 +66,31 @@ globs: ".claude/memory/**"
   - Impact se měří na on-policy výsledcích (aktuální úkol), ne historicky
   - Learnings s `impact_score >= 0.7` a `uses >= 5` = **high-impact** — prioritizovány při retrieval
   - Learnings s `impact_score < 0.2` a `uses >= 8` = **low-impact** — kandidáti na pruning i při vysokém uses
-- **Graduation trigger**: (`uses >= 10` AND `confidence >= 0.8` AND `harmful_uses < 2`) OR (`impact_score >= 0.7` AND `uses >= 5` AND `harmful_uses < 1`) → `/evolve` navrhne promoci. **Graduation routing** (Acemoglu Theorem 3 — lokální > globální): learnings s `skill_scope:` → graduate do `.claude/skills/<name>/learned-rules.md` (skill-lokální pravidla). Learnings BEZ `skill_scope:` → graduate do `critical-patterns.md` (globální). Cross-cutting learnings (platné pro 3+ skills): zůstávají globální i s `skill_scope:` pokud scope obsahuje ≥3 skills. Learning s `confidence < 0.3` OR (`impact_score < 0.2` AND `uses >= 8`) → kandidát na pruning při maintenance.
-- Learnings bez counterů nebo confidence (starší záznamy) zůstávají validní — nová pole jsou volitelné, default confidence = 0.7
-- Learnings bez `supersedes:`/`related:` polí jsou plně zpětně kompatibilní
+- **Graduation trigger**: (`maturity == core` OR (`uses >= 10` AND `confidence >= 0.8` AND `harmful_uses < 2`)) OR (`impact_score >= 0.7` AND `uses >= 5` AND `harmful_uses < 1`) → `/evolve` navrhne promoci. Maturity tier `core` je prerequisite — learnings s `maturity: draft` se negraduují i když splňují counter thresholds (musí projít validated → core flow). **Graduation routing** (Acemoglu Theorem 3 — lokální > globální): learnings s `skill_scope:` → graduate do `.claude/skills/<name>/learned-rules.md` (skill-lokální pravidla). Learnings BEZ `skill_scope:` → graduate do `critical-patterns.md` (globální). Cross-cutting learnings (platné pro 3+ skills): zůstávají globální i s `skill_scope:` pokud scope obsahuje ≥3 skills. Learning s `confidence < 0.3` OR (`impact_score < 0.2` AND `uses >= 8`) → kandidát na pruning při maintenance.
+- `maturity:` = volitelné pole — lifecycle stav learningu. Hodnoty: `draft` (nově zapsaný, nevalidovaný) | `validated` (opakovaně úspěšně aplikovaný) | `core` (kandidát na graduation). Default = `draft`. Přechody:
+  - `draft → validated`: `uses >= 5 AND harmful_uses == 0` (learning prokázal užitečnost)
+  - `validated → core`: `uses >= 10 AND confidence >= 0.8 AND harmful_uses < 2` (splňuje graduation trigger)
+  - `validated → draft` (demotion): `harmful_uses >= 3` (hysteresis — vyžaduje víc evidence pro demotion než pro promotion)
+  - `core → validated`: `harmful_uses >= 2` (core pattern se ukázal jako problematický)
+  - Retrieval boost: `core` = 1.3×, `validated` = 1.1×, `draft` = 1.0× (draft nemá penalty, jen nemá boost)
+  - `/evolve` automaticky aktualizuje maturity based na countery. `/scribe` zapisuje nové learnings jako `draft`.
+  - Failure-sourced learnings (type=bug_fix z failure) se zapisují jako `maturity: draft` a přidávají do `memory/replay-queue.md` pro validační replay (HERA-inspired, arXiv:2604.00901).
+  - Backward compatible — learnings bez pole se chovají jako `draft`.
+  - Ref: ByteRover maturity tiers (arXiv:2604.01599) — -29.4pp ablation on tiered retrieval.
+- `valid_until:` = volitelné pole — ISO date (YYYY-MM-DD), po kterém je learning považován za expired. Learnings s `valid_until < today` se přeskakují při retrieval (ve všech retrieval cestách: grep, BM25, hybrid). Zůstávají na disku pro audit trail. Automaticky nastaveno: při zápisu `supersedes: old-file.md` se na old learning nastaví `valid_until: <today>`. Manuálně nastavitelné pro time-limited workaroundy. Backward compatible — learnings bez pole = neomezená platnost (nikdy neexpirují).
+  - Ref: Zep bi-temporal model (arXiv:2501.13956) — confidence decay ≠ factual invalidation. Explicit invalidity > probabilistic decay.
+- Learnings bez counterů nebo confidence (starší záznamy) zůstávají validní — nová pole jsou volitelné, default confidence = 0.7, default maturity = draft
+- Learnings bez `supersedes:`/`related:`/`maturity:`/`valid_until:` polí jsou plně zpětně kompatibilní
 - `model_gate:` = volitelné pole — model version, pro kterou learning platí (např. `"sonnet-4.6"`, `"opus-4"`). Learnings s tímto polem jsou auto-flagovány `/evolve` a `verify-sweep.py` když aktuální model neodpovídá gate. Model-specifické workaroundy MUSÍ mít toto pole. Obecné architektonické learnings ho NESMÍ mít. Inspirováno CC `@[MODEL_LAUNCH]` tagging konvencí.
 - `verify_check:` = volitelné pole — machine-checkable grep/glob assertion. Format: `"Grep('pattern', path='path') → N+ matches"` nebo `"Glob('pattern') → 1+ matches"` nebo `"manual"` pro behaviorální pravidla. Soubory s `verify_check:` jsou auditovány při SessionStart hookem `verify-sweep.py`. Každý learning by měl mít verify_check — rules without checks are wishes, rules with checks are guardrails.
 - `skill_scope:` = volitelné pole — array skill jmen, pro která learning platí (e.g., `[orchestrate, critic]`). Learnings BEZ `skill_scope:` jsou globální — kandidáti na graduation do `critical-patterns.md`. Learnings S `skill_scope:` graduují do `.claude/skills/<name>/learned-rules.md` (lokální pravidla). Lokální graduation je preferována pro skill-specifické poznatky (Acemoglu arXiv:2604.04906 Theorem 3: globální agregátor nutně zhorší ≥1 dimenzi). Cross-cutting poznatky (platné napříč skills) zůstávají bez scope. Backward compatible — starší learnings bez pole se chovají jako globální.
-- **Write-time admission control**: Hook `learning-admission.py` provádí soft gate při zápisu nového learningu: salience scoring (source_reputation × novelty) + contradiction detection + circular validation detection (arXiv:2604.04906) proti existujícím learnings a critical-patterns. Inspirováno A-MAC (arXiv:2603.04549). Hook neblokuje zápis — vypisuje varování. Ref: UMG/FMP research (2026-04-05).
+- **Write-time admission control**: Hook `learning-admission.py` provádí gate při zápisu nového learningu: salience scoring (source_reputation × novelty) + contradiction detection + circular validation detection (arXiv:2604.04906) proti existujícím learnings a critical-patterns. Inspirováno A-MAC (arXiv:2603.04549). Mode: `STOPA_ADMISSION_GATE=soft` (default, warning only) | `hard` (blocks write on contradiction OR novelty < 0.2, exit code 1). Ref: A-MAC 31% latency reduction from cleaner memory store.
 - `critical-patterns.md` = always-read (max 10 entries, top patterns)
 - Retrieval: grep-first přes component/tags, pak čti jen matched soubory. **Supersedes-aware**: pokud learning A má `supersedes: B`, přeskoč B. **Related expansion**: pokud match má `related: [X, Y]`, čti i X a Y (1-hop, max 3 extra per learning)
 - **Synonym fallback** (ref: arXiv:2603.19138 — P4 knowledge-guided retrieval misses semantically similar patterns under different keywords): If initial grep returns 0 matches, generate 2-3 synonyms/related terms from the task context and retry. Example: "validation" miss → retry with "sanitization", "input checking". Max 2 retry rounds. This prevents early pruning of relevant learnings due to keyword mismatch.
 - **Hybrid retrieval with RRF** (ref: LLM Wiki v2 — Gap 2): When initial grep returns <3 matches OR task tier is `deep`, run full hybrid: `python scripts/hybrid-retrieve.py "<query>" --task-tier <tier> --top 8 --json`. Combines grep + BM25 (`memory-search.py`) + graph walk (`concept-graph.json` 1-hop) via Reciprocal Rank Fusion (k=60). Falls back gracefully if `concept-graph.json` missing or >7 days old. Trigger: grep 0 → synonym fallback first, then hybrid; grep 1-2 → hybrid; tier=deep → always.
 - **Graph walk** (ref: LLM Wiki v2 — Gap 1): Expands matched learnings via 1-hop neighbors in `concept-graph.json`. Implemented in `hybrid-retrieve.py` via `graph_walk_from_files()` from `associative_engine.py`. Separate from 2-hop spreading activation (`associative-recall.py`, UserPromptSubmit ambient recall).
-- **Time-weighted relevance**: When multiple learnings match, prefer recent ones with trusted sources and high impact. Score: `severity_weight × source_weight × confidence × impact_boost × (1 / (1 + days_since_date / 60))`. Weights — severity: critical=4, high=3, medium=2, low=1. Source: user_correction=1.5, critic_finding=1.2, auto_pattern=1.0 (default), external_research=0.9, agent_generated=0.8. Impact boost: `1.0 + impact_score` (default impact_score=0.0 → boost=1.0, max impact=1.0 → boost=2.0). Confidence default=0.7 if field missing. Example: a high-impact learning (impact=0.8, boost=1.8) with medium severity gets 2×1.0×0.7×1.8=2.52, beating a zero-impact critical learning at 4×1.0×0.7×1.0=2.8 only when also fresh and from trusted source.
+- **Time-weighted relevance**: When multiple learnings match, prefer recent ones with trusted sources and high impact. Score: `severity_weight × source_weight × confidence × impact_boost × maturity_boost × (1 / (1 + days_since_date / 60))`. Maturity boost: core=1.3, validated=1.1, draft=1.0 (default). Weights — severity: critical=4, high=3, medium=2, low=1. Source: user_correction=1.5, critic_finding=1.2, auto_pattern=1.0 (default), external_research=0.9, agent_generated=0.8. Impact boost: `1.0 + impact_score` (default impact_score=0.0 → boost=1.0, max impact=1.0 → boost=2.0). Confidence default=0.7 if field missing. Example: a high-impact learning (impact=0.8, boost=1.8) with medium severity gets 2×1.0×0.7×1.8=2.52, beating a zero-impact critical learning at 4×1.0×0.7×1.0=2.8 only when also fresh and from trusted source.
 - Filename konvence: `<date>-<short-description>.md`
 - Staleness: záznamy starší 90 dní ověřit při maintenance
 - Type hodnoty: bug_fix | architecture | anti_pattern | best_practice | workflow
@@ -95,7 +107,8 @@ RCL-inspired outcome storage (arXiv:2604.03189). Captures both success and failu
 - Stored in `.claude/memory/outcomes/` as individual files
 - Filename: `<date>-<skill>-<outcome>-<short>.md` (e.g., `2026-04-07-autoloop-success-critic-optimization.md`)
 - Max 100 files — archive oldest to `outcomes/archive/` on overflow
-- YAML frontmatter: `skill`, `run_id`, `date`, `task`, `outcome` (success|partial|failure), `score_start`, `score_end`, `iterations`, `kept`, `discarded`, `exit_reason`
+- YAML frontmatter: `skill`, `run_id`, `date`, `task`, `outcome` (success|partial|failure), `score_start`, `score_end`, `iterations`, `kept`, `discarded`, `exit_reason`, `baseline_run`
+- `baseline_run:` = volitelné pole — filename předchozího outcome se stejným `skill` + podobným `task` pro contrastive credit assignment (RCL dual-trace, arXiv:2604.03189). Při zápisu outcome hledej nejnovější run se stejným skill. Reflector (`/evolve`) čte oba runs pro attribution — contrastive pár (success + failure na stejný task type) je atomická jednotka credit assignment.
 - Body sections: `## Trajectory Summary` (max 15 key iterations), `## Learnings Applied` (file + credit + evidence), `## What Worked`, `## What Failed`
 - **Learnings Applied format**: `- file: <filename.md> | credit: helpful|harmful|neutral | evidence: <1-sentence>`
 - Hook `outcome-credit.py` auto-updates learning counters on write
@@ -161,3 +174,20 @@ Příště přečíst existující testy PŘED editací — testy by odhalily se
 - Orchestrator konzultuje failures PŘED agent assignmentem: `grep -r "failure_class: logic" failures/ | grep "failure_agent: agent-worker"` → zjistí opakující se vzory
 - Po 2+ failures se stejným failure_class + failure_agent: trigger `/learn-from-failure` pro systematickou analýzu
 - Cross-reference s agent-accountability.md pro per-agent failure rates
+
+## Replay Queue (HERA-inspired replay validation)
+
+Failure-sourced learnings zapsané jako `maturity: draft` se přidávají do replay queue pro validační replay. Ref: HERA (arXiv:2604.00901) — +38.69% SOTA s replay-validated generalization.
+
+- Uloženo v `.claude/memory/replay-queue.md` jako markdown tabulka
+- Max 20 entries — při překročení archivuj nejstarší (resolved) do `replay-queue-archive.md`
+- Format: `| learning file | failure_class | date added | replay status | replay count |`
+- Replay status: `pending` (čeká na 2+ matching failures) | `ready` (2+ failures, připraven na replay) | `replayed` (replay proběhl) | `resolved` (learning validován/upgraded)
+- Lifecycle:
+  1. `/scribe` zapíše failure learning jako `draft` → přidá do replay queue jako `pending`
+  2. Při dalším failure se stejnou `failure_class` → status se změní na `ready`
+  3. `/evolve` nebo `/learn-from-failure` provede HERA-style replay (3 varianty: efficiency, thoroughness, risk)
+  4. Úspěšný replay → learning upgradován na `maturity: validated`, queue status = `resolved`
+  5. Neúspěšný replay → learning zůstává `draft`, queue status = `resolved` (learning je non-generalizable)
+- `/dreams` kontroluje replay queue: items starší 14 dní bez replay → flag pro attention
+- `/evolve` Step 3e: Replay Queue audit — check pending/ready items, navrhni replay

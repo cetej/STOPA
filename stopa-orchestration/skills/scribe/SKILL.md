@@ -155,6 +155,16 @@ How to prevent this in the future.
 - Copy `failure_class`, `failure_agent`, and `task_context` from the failure record
 - Set `source: critic_finding` (if from critic FAIL) or `auto_pattern` (if from pattern detection)
 - These fields enable HERA-style experience retrieval: `grep -r "failure_class: logic" learnings/` finds all learnings from logic failures
+- Write failure-sourced learnings (type=bug_fix or type=anti_pattern from failures) with `maturity: draft` by default
+- After writing, also append entry to `.claude/memory/replay-queue.md` (see Replay Queue section below)
+
+### Replay Queue
+
+When writing a failure-sourced learning (type=bug_fix or type=anti_pattern from a failure):
+1. Write the learning as `maturity: draft`
+2. Append entry to `.claude/memory/replay-queue.md`:
+   `| <filename> | <failure_class> | <today> | pending | 0 |`
+3. Check if 2+ entries with same `failure_class` exist in queue → change their status to `ready`
 
 **Counter semantics (ACE-inspired):**
 - `uses` — incremented when this learning is retrieved and applied in a session
@@ -172,6 +182,8 @@ How to prevent this in the future.
 - `learnings_activated` → increment `uses` counter on each listed learning file
 
 **Retrieval**: Other skills find learnings via `grep -r "component: <X>" learnings/` or `grep -r "tags:.*<keyword>" learnings/`, then read matched files. **Supersedes-aware**: after collecting matches, check each for `supersedes:` — if file B is superseded by file A (which is also in the match set or exists), skip B. **Related expansion**: if a matched learning has `related: [X, Y]`, also read X and Y (1-hop, max 3 extras per learning). Only `critical-patterns.md` is always-read.
+
+**Supersedes expiry marking**: When writing a new learning with `supersedes: old-file.md`, also Edit the old learning file to add `valid_until: <YYYY-MM-DD>` (today's date) to its YAML frontmatter. This marks the old learning as expired for retrieval without deleting it.
 
 ### State Update (state.md)
 

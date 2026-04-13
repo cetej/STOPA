@@ -95,6 +95,39 @@ Include these proposals in Step 7 alongside correction/violation-based proposals
 
 ---
 
+## Step 3b-ii: Maturity Tier Updates
+
+For each learning in `learnings/`:
+- If `maturity: draft` AND `uses >= 5` AND `harmful_uses == 0` → PROPOSE upgrade to `validated`
+- If `maturity: validated` AND `uses >= 10` AND `confidence >= 0.8` AND `harmful_uses < 2` → PROPOSE upgrade to `core`
+- If `maturity: validated` AND `harmful_uses >= 3` → PROPOSE demotion to `draft` (hysteresis)
+- If `maturity: core` AND `harmful_uses >= 2` → PROPOSE demotion to `validated`
+
+Maturity changes are proposed alongside graduation/pruning candidates in Step 7.
+
+---
+
+## Step 3e: Replay Queue Audit
+
+Read `.claude/memory/replay-queue.md`:
+- Items with status `ready` (2+ matching failures): PROPOSE replay validation
+  - Replay = re-execute similar task with 3 prompt variants (efficiency, thoroughness, risk_sensitivity)
+  - If replay succeeds: upgrade learning to `maturity: validated`, queue status → `resolved`
+  - If replay fails: learning stays `draft`, queue status → `resolved` (non-generalizable)
+- Items with status `pending` older than 14 days: FLAG for review (may never get second failure)
+
+Show:
+```
+REPLAY QUEUE AUDIT: [N total, M ready, K pending-stale]
+  Ready for replay: [learning filenames with failure_class]
+  Stale pending:    [learning filenames older than 14 days]
+  Action: PROPOSE_REPLAY | FLAG_STALE | OK
+```
+
+If file doesn't exist, note it and continue.
+
+---
+
 ## Step 3c: Model Gate Audit
 
 Inspired by CC `@[MODEL_LAUNCH]` tagging — flag model-specific learnings that may be stale.
