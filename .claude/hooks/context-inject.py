@@ -189,56 +189,172 @@ def log_retrieval(query: str, results: list[dict], git_ctx: dict):
         pass
 
 
+def get_session_narrative() -> str:
+    """Build a human-readable narrative of what happened in the last session.
+
+    Reads checkpoint.md for: task, files touched, commits, errors, learnings.
+    This is the CONVERSATIONAL context that learnings retrieval can't provide.
+    """
+    if not CHECKPOINT.exists():
+        return ""
+    try:
+        text = CHECKPOINT.read_text(encoding="utf-8", errors="replace")[:3000]
+    except OSError:
+        return ""
+
+    parts = []
+
+    # Task
+    m = re.search(r"\*\*Task\*\*:\s*(.+)", text)
+    task = m.group(1).strip() if m else "none"
+
+    # Last commit
+    m = re.search(r"\*\*Last commit\*\*:\s*`?([^`\n]+)`?", text)
+    commit = m.group(1).strip() if m else ""
+
+    # Branch
+    m = re.search(r"\*\*Branch\*\*:\s*(.+)", text)
+    branch = m.group(1).strip() if m else ""
+
+    # Session activity summary
+    m = re.search(r"Session:\s*(.+?)(?:\n|$)", text)
+    activity = m.group(1).strip() if m else ""
+
+    # Files touched (top 5 from table)
+    files = []
+    for fm in re.finditer(r"\|\s*(\S+\.(?:py|md|sh|json|ts|js|yaml))\s*\|", text):
+        f = fm.group(1)
+        if f not in files and f != "File":
+            files.append(f)
+            if len(files) >= 5:
+                break
+
+    # Errors & corrections
+    corrections = []
+    for cm in re.finditer(r"\[correction\]\s*(.+)", text):
+        corrections.append(cm.group(1).strip()[:80])
+    frustrations = []
+    for fm_match in re.finditer(r"\[frustration\]\s*(.+)", text):
+        frustrations.append(fm_match.group(1).strip()[:80])
+
+    # Learnings
+    learnings = []
+    for lm in re.finditer(r"- (2026-\S+)", text):
+        learnings.append(lm.group(1))
+
+    # Build narrative
+    if task != "none":
+        parts.append(f"Minulá session: task \"{task}\"")
+    elif commit:
+        parts.append(f"Minulá session: poslední commit {commit}")
+
+    if activity:
+        parts.append(f"Aktivita: {activity}")
+    if files:
+        parts.append(f"Hlavní soubory: {', '.join(files)}")
+    if corrections:
+        parts.append(f"Korekce od uživatele: {'; '.join(corrections[:3])}")
+    if frustrations:
+        parts.append(f"Frustrace: {'; '.join(frustrations[:2])}")
+    if learnings:
+        parts.append(f"Nové learnings: {len(learnings)}")
+
+    return "\n".join(parts)
+
+
+def get_state_files_summary() -> str:
+    """Get short summary of files from state.md (what was being worked on)."""
+    if not STATE.exists():
+        return ""
+    try:
+        text = STATE.read_text(encoding="utf-8", errors="replace")[:1500]
+    except OSError:
+        return ""
+
+    files = []
+    for m in re.finditer(r"\|\s*(\S+)\s*\|\s*(\d+)\s*\|", text):
+        fname = m.group(1)
+        edits = m.group(2)
+        if fname and fname != "File" and fname != "---":
+            files.append(f"{fname} ({edits}x)")
+    return ", ".join(files[:5])
+
+
 def main():
     git_ctx = get_git_context()
     checkpoint_task = get_checkpoint_task()
     state_task = get_state_task()
+
+    # === Part 1: Session narrative (what happened last time) ===
+    narrative = get_session_narrative()
+    state_summary = get_state_files_summary()
+
+    # === Part 2: Relevant learnings (hybrid retrieval) ===
     query = build_query(git_ctx, checkpoint_task, state_task)
+    results = []
+    if query:
+        results = run_hybrid_retrieve(query)
+        log_retrieval(query, results, git_ctx)
 
-    if not query:
-        # No context signals — skip injection
+    # === Build output ===
+    has_narrative = bool(narrative.strip())
+    has_results = len(results) > 0
+
+    if not has_narrative and not has_results:
         sys.exit(0)
 
-    results = run_hybrid_retrieve(query)
-
-    # Log metrics regardless of results
-    log_retrieval(query, results, git_ctx)
-
-    if not results:
-        sys.exit(0)
-
-    # Build context output
     output_parts = []
     total_chars = 0
 
-    output_parts.append("=== CONTEXT RECALL ===")
-    output_parts.append(f"Query: {query[:100]}")
-    output_parts.append(f"Matched: {len(results)} learnings via hybrid retrieval\n")
+    # Narrative section — ALWAYS first, this is what the user cares about
+    if has_narrative:
+        output_parts.append("=== SESSION CONTINUITY ===")
+        output_parts.append(narrative)
+        if state_summary:
+            output_parts.append(f"State.md soubory: {state_summary}")
+        output_parts.append("")
+        total_chars += sum(len(p) for p in output_parts)
 
-    for r in results:
-        filename = r["filename"]
-        score = r.get("rrf_score", 0)
-        sources = "+".join(r.get("sources", []))
+    # Learnings section — supplementary context
+    if has_results:
+        output_parts.append(f"=== RELEVANT LEARNINGS ({len(results)} matched) ===")
+        for r in results:
+            filename = r["filename"]
+            sources = "+".join(r.get("sources", []))
 
-        # For MemPalace results, use snippet
-        if filename.startswith("mp:") and r.get("mempalace_snippet"):
-            content = r["mempalace_snippet"]
-        else:
-            content = read_learning_content(filename, max_chars=500)
+            if filename.startswith("mp:") and r.get("mempalace_snippet"):
+                content = r["mempalace_snippet"]
+            else:
+                content = read_learning_content(filename, max_chars=400)
 
-        if not content:
-            continue
+            if not content:
+                continue
 
-        entry = f"**{filename}** ({sources}, score={score:.4f}):\n{content}\n"
+            # Use just summary line, not full content — save tokens
+            first_line = content.split("\n")[0].strip()
+            entry = f"- [{sources}] {filename}: {first_line}"
 
-        if total_chars + len(entry) > MAX_CHARS:
-            break
-        output_parts.append(entry)
-        total_chars += len(entry)
+            if total_chars + len(entry) > MAX_CHARS:
+                break
+            output_parts.append(entry)
+            total_chars += len(entry)
 
-    if len(output_parts) > 3:  # header + at least one entry
-        print("\n".join(output_parts))
+    # === Explicit instruction for Claude ===
+    output_parts.append("")
+    output_parts.append("=== INSTRUCTION ===")
+    if has_narrative:
+        output_parts.append(
+            "Na začátku session STRUČNĚ (2-3 věty) shrň uživateli co se dělo "
+            "v minulé session a zeptej se jestli chce pokračovat nebo dělat něco jiného. "
+            "Neříkej 'checkpoint říká' — prostě shrň kontext jako bys na to pamatoval."
+        )
+    else:
+        output_parts.append(
+            "Relevantní learnings byly načteny do kontextu. "
+            "Použij je při práci, ale nemusíš je uživateli aktivně sdělovat."
+        )
 
+    print("\n".join(output_parts))
     sys.exit(0)
 
 
