@@ -127,6 +127,20 @@ unavailable or optstate is empty, fall back to the default priority list.
 UCB1 balances exploit (high avg_reward strategies) with explore (under-tried strategies).
 Exploration constant c=1.41 (sqrt(2)) per Auer et al. 2002. Ref: ASI-Evolve (arXiv:2603.29640).
 
+### Outcomes Replay (Experience Replay, arXiv:2604.08706)
+
+Glob `.claude/memory/outcomes/autoloop-*.md`, sort by date desc, read last 5.
+For each outcome file, extract:
+- `## What Worked` → **positive-bias context** (read fully, use as preferred starting strategies)
+- `## What Failed` → **anticuriculum** (read as "what to avoid", not as positive signal)
+- `## Trajectory Summary` → skim for iteration count and convergence pattern
+
+**Positive-bias rule:** When forming the initial approach in Phase 1, strategies from "What Worked" across recent outcomes take priority over optstate `strategies_that_work` (which is an aggregate). Concrete trajectory > statistical summary.
+
+If no outcome files exist: proceed normally (first run on this skill — no replay possible).
+
+Why: "Generate-then-discard" (ignoring prior trajectories) wastes 40% of compute. Moderate staleness from prior runs is stabilizing, not harmful. Ref: arXiv:2604.08706 Theorem 4.5.
+
 ### Precondition checks
 
 ```bash

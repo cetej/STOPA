@@ -6,10 +6,10 @@ component: memory
 tags: [context, recency, sliding-window, memory-design, retrieval]
 summary: "Simple sliding-window recency (last N items) matches/beats complex memory accumulation in time-sensitive tasks. More history can hurt real-time perception even when it helps recall."
 source: external_research
-uses: 0
+uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.6
+confidence: 0.65
 verify_check: "manual"
 ---
 

@@ -141,6 +141,20 @@ At the END of every autoresearch run (Phase 3), update the strategy state file:
 
 This enables the Gentilcore "trace learning" pattern: the harness improves across sessions.
 
+### Outcomes Replay (Experience Replay, arXiv:2604.08706)
+
+Glob `.claude/memory/outcomes/autoresearch-*.md`, sort by date desc, read last 5.
+For each outcome file, extract:
+- `## What Worked` → **positive-bias context** (use as preferred initial hypotheses)
+- `## What Failed` → **anticuriculum** (approaches to deprioritize, not repeat)
+- `## Trajectory Summary` → skim for iteration count and convergence pattern
+
+**Positive-bias rule:** Concrete strategies from "What Worked" in outcomes take priority over statistical `strategy_weights` from the strategy state file. Prior trajectory > aggregate momentum.
+
+If no outcome files exist: proceed normally (rely on strategy_file warm-start only).
+
+Why: "Generate-then-discard" (ignoring prior trajectories) wastes 40% compute. Ref: arXiv:2604.08706 Theorem 4.5.
+
 <!-- CACHE_BOUNDARY -->
 
 ## Phase 0: Research Setup

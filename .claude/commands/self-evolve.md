@@ -90,6 +90,13 @@ Validation:
    - Check `strategies_that_work` and `recurring_failure_patterns` for this target
    - If previous runs hit same circuit breaker: warn user and suggest different approach
    - If optstate doesn't exist: skill proceeds normally with equal-weight defaults
+4b. **Outcomes Replay** (Experience Replay, arXiv:2604.08706):
+   - Glob `.claude/memory/outcomes/self-evolve-*.md`, sort by date desc, read last 5
+   - Extract `## What Worked` → **positive-bias context** (prefer these mutation strategies)
+   - Extract `## What Failed` → **anticuriculum** (deprioritize these approaches)
+   - Concrete trajectory > optstate aggregate. If outcome says "structural completeness audit as first round" worked, start there.
+   - If no outcome files exist: proceed normally (first run — no replay possible)
+   - Why: "Generate-then-discard" wastes 40% compute. Ref: arXiv:2604.08706 Theorem 4.5.
 5. Create evolution branch: `git checkout -b self-evolve/<target>`
 6. Run baseline eval: execute all cases, record pass_rate
 5a. **Trace initialization:** Create `.traces/self-evolve-<target>-<timestamp>/` with `diffs/` subdir. Write `trace-active.json` marker: `{"skill":"self-evolve","run_id":"self-evolve-<target>-<timestamp>","target":"<target>","trace_dir":".traces/...","started":"<ISO>","current_iteration":0}`. Purge traces >7 days: `find .traces/ -maxdepth 1 -mtime +7 -exec rm -rf {} + 2>/dev/null || true`

@@ -6,8 +6,8 @@ component: memory
 tags: [retrieval, search, ranking, bm25, learnings]
 summary: "BM25-inspired memory-search.py replaces raw grep for learnings retrieval. IDF + term saturation + length normalization + metadata weights. 72 docs corpus, zero dependencies, synonym expansion. Ranked results vs unordered grep matches."
 source: auto_pattern
-confidence: 0.8
-uses: 0
+confidence: 0.85
+uses: 1
 harmful_uses: 0
 impact_score: 0.0
 verify_check: "Glob('scripts/memory-search.py') → 1+ matches"

@@ -6,10 +6,10 @@ component: orchestration
 tags: [multi-agent, context-sharing, token-efficiency, kv-cache, orchestration]
 summary: "Latent Briefing: task-guided KV cache compaction pro cross-agent memory dosahuje 49-65% token savings + 3pp accuracy gain. Princip platí i na API úrovni: orchestrátor by měl posílat workerům task-relevantní kontext, ne celou trajektorii. Speculative reasoning je šum pro workery."
 source: external_research
-uses: 0
+uses: 1
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.75
+confidence: 0.80
 verify_check: "manual"
 related: [2026-04-10-rlm-architectural-principles.md, 2026-04-09-triattention-pre-rope-kv-compression.md]
 skill_scope: [orchestrate]
