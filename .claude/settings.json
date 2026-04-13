@@ -41,6 +41,12 @@
           },
           {
             "type": "command",
+            "command": "python .claude/hooks/context-inject.py",
+            "timeout": 12,
+            "statusMessage": "Retrieving relevant context..."
+          },
+          {
+            "type": "command",
             "command": "python .claude/hooks/verify-sweep.py",
             "timeout": 10,
             "statusMessage": "Verifying rules..."
@@ -261,6 +267,12 @@
         "hooks": [
           {
             "type": "command",
+            "command": "python .claude/hooks/state-tracker.py",
+            "timeout": 2,
+            "statusMessage": ""
+          },
+          {
+            "type": "command",
             "command": "python .claude/hooks/acceptance-gate.py",
             "timeout": 3,
             "statusMessage": ""
@@ -478,6 +490,12 @@
             "command": "python .claude/hooks/trace-bridge.py",
             "timeout": 5,
             "statusMessage": "Bridging optimization traces..."
+          },
+          {
+            "type": "command",
+            "command": "python .claude/hooks/checkpoint-enrich.py",
+            "timeout": 5,
+            "statusMessage": "Enriching checkpoint resume prompt..."
           },
           {
             "type": "command",

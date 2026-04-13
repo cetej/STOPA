@@ -3,29 +3,29 @@
 **Saved**: 2026-04-13 (auto-saved (session end))
 **Task**: none
 **Branch**: main
-**Last commit**: `e8bc750` feat: 2BRAIN system + radar dots.mocr + memory maintenance
+**Last commit**: `b688b42` feat: /promote skill + AI persuasion knowledge cluster (arXiv:2604.04263)
 
 ---
 
 ## Session Activity
 
-Session: 130 file edits, 35 agent spawns, 0 skill calls. Skills: deepresearch, evolve, self-evolve
-Duration: ~23518 min
+Session: 164 file edits, 35 agent spawns, 0 skill calls. Skills: deepresearch, evolve, ingest, promote, radar, schedule
+Duration: ~23724 min
 
 ## Files Touched
 
 | File | Operations | Date |
 |------|-----------|------|
-| __init__.py | 7 edits | 2026-04-13 |
-| index.md | 6 edits | 2026-04-13 |
-| term_verifier.py | 5 edits | 2026-04-13 |
+| SKILL.md | 25 edits | 2026-04-13 |
+| memory-files.md | 7 edits | 2026-04-13 |
+| hybrid-retrieve.py | 7 edits | 2026-04-13 |
+| server.js | 5 edits | 2026-04-13 |
 | browse.md | 5 edits | 2026-04-13 |
+| settings.json | 4 edits | 2026-04-13 |
 | checkpoint.md | 4 edits | 2026-04-13 |
-| MEMORY.md | 4 edits | 2026-04-13 |
-| news.md | 3 edits | 2026-04-13 |
-| log.md | 3 edits | 2026-04-13 |
-| knowledge-graph.json | 3 edits | 2026-04-13 |
-| SKILL.md | 3 edits | 2026-04-13 |
+| INDEX.md | 4 edits | 2026-04-13 |
+| 06_SYSTEMOVE_INSTRUKCE.md | 4 edits | 2026-04-13 |
+| memory-search.py | 3 edits | 2026-04-13 |
 
 ## Key Results
 
@@ -41,8 +41,12 @@ _No commits this session_
 
 ## Learnings Captured
 
-learnings_this_session: 0
-_No new learnings files created_
+learnings_this_session: 9
+  - 2026-04-13-ai-persuasion-creates-genuine-preferences
+  - 2026-04-13-ai-persuasion-disclosure-insufficient
+  - 2026-04-13-breadth-depth-axis-tier-selection
+  - 2026-04-13-disparagement-stronger-than-promotion
+  - 2026-04-13-do-nothing-first-class-option
 
 ## Workflow Decisions
 
@@ -59,7 +63,7 @@ _No pending subtasks detected in state.md_
 
 > **Task**: none
 >
-> **Context**: Last commit `e8bc750` (feat: 2BRAIN system + radar dots.mocr + memory maintenance). Branch: main.
-> Session had 130 edits, 35 agents, 0 skill calls, 0 errors.
+> **Context**: Last commit `b688b42` (feat: /promote skill + AI persuasion knowledge cluster (arXiv:2604.04263)). Branch: main.
+> Session had 164 edits, 35 agents, 0 skill calls, 0 errors.
 
 
