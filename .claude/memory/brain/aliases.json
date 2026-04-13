@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "updated": "2026-04-13",
+  "description": "Synonym management for retrieval query expansion",
+  "aliases": {
+    "second-brain": ["druhý mozek", "2brain", "personal knowledge", "pkm", "knowledge management"],
+    "context-engineering": ["context window management", "prompt engineering 2.0", "context filling"],
+    "compiler-analogy": ["compilation metaphor", "knowledge compilation", "raw to wiki"],
+    "zettelkasten": ["slip box", "lístkový systém", "atomic notes"],
+    "basb-code": ["building a second brain", "BASB", "CODE framework", "capture organize distill express"],
+    "deep-work": ["flow state", "focus", "hluboká práce", "no-interrupt time"],
+    "autonomy": ["autonomie", "self-direction", "nezávislost"]
+  }
+}

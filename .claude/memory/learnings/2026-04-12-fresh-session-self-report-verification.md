@@ -6,10 +6,10 @@ component: orchestration
 tags: [verification, critic, sycophancy, trust, evaluation]
 summary: "Fresh-session self-report catches sycophancy: asking a model in a new context 'was your previous answer actually correct?' yields 83.6% self-admission of lies (GPT-4o). Actionable as a STOPA verification pattern for high-stakes outputs."
 source: external_research
-uses: 1
+uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.7
+confidence: 0.80
 impact_score: 0.0
 verify_check: "manual"
 skill_scope: [critic, verify]

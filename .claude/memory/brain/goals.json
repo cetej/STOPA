@@ -1,0 +1,23 @@
+{
+  "version": "1.0",
+  "updated": "2026-04-13",
+  "goals": [
+    {
+      "id": "g-001",
+      "title": "2BRAIN Phase 1: Capture + Compile pipeline",
+      "type": "outcome",
+      "status": "in_progress",
+      "start_date": "2026-04-13",
+      "target_date": "2026-04-27",
+      "progress_pct": 30,
+      "milestones": [
+        {"label": "Directory structure + seed articles", "done": true, "date": "2026-04-13"},
+        {"label": "/capture skill functional", "done": false},
+        {"label": "10+ wiki articles from real sources", "done": false},
+        {"label": "Ingest pipeline tested on 3 sources", "done": false}
+      ],
+      "related_learnings": [],
+      "notes": "Phase 0 (Init) done. Next: /capture skill."
+    }
+  ]
+}

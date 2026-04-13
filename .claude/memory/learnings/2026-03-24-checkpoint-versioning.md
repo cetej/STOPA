@@ -7,7 +7,7 @@ tags: [checkpoint, versioning, session-continuity]
 summary: "Never overwrite checkpoints without archiving. Version frequently, especially before scope changes."
 source: auto_pattern
 uses: 2
-confidence: 0.8
+confidence: 0.9
 ---
 
 # Checkpoint Versioning — Never Overwrite Without Archive

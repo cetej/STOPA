@@ -6,10 +6,10 @@ component: orchestration
 tags: [context-management, compaction, long-sessions]
 summary: Setting CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=70 triggers context compaction earlier (default ~95%), preventing quality degradation in long sessions. Verified from CC source leak.
 source: external_research
-uses: 0
+uses: 1
 harmful_uses: 0
-confidence: 0.6
-verify_check: "Grep('AUTOCOMPACT_PCT_OVERRIDE', path='~/.claude/settings.json') → 1+ matches"
+confidence: 0.7
+verify_check: "manual"
 successful_uses: 0
 ---
 

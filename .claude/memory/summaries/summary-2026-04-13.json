@@ -1,0 +1,10 @@
+{
+  "generated": "2026-04-13T04:21:12.785084",
+  "config": {
+    "days_back": 7,
+    "min_sessions": 2
+  },
+  "total_sessions_analyzed": 1,
+  "skills_with_evidence": 0,
+  "skill_groups": {}
+}

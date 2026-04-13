@@ -6,10 +6,10 @@ component: orchestration
 tags: [autoloop, autoresearch, self-evolve, iteration, optimization, meta-pattern]
 summary: "Iteration Paradox: iteruj s bounded refinement, ale nevěř prvním výsledkům. Udržuj diverzitu (high-temp sampling), dej každému přístupu 5+ iterací, odhadni strop (sigmoidal fit), používej regression gate. RL post-training ničí diverzitu potřebnou pro exploraci."
 source: auto_pattern
-uses: 1
+uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.9
+confidence: 1.00
 skill_scope: [autoloop, autoresearch, self-evolve]
 related: [2026-04-08-iterative-refinement-beats-long-cot.md, 2026-04-08-early-iteration-performance-unreliable.md, 2026-04-08-inference-time-sampling-beats-rl-for-diversity.md, 2026-04-10-eggroll-evolutionary-optimization.md, 2026-04-03-autoagent-overfitting-guard.md]
 verify_check: "manual"

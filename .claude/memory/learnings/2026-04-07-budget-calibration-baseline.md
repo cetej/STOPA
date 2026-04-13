@@ -9,7 +9,7 @@ source: auto_pattern
 uses: 1
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.9
+confidence: 0.95
 supersedes: 2026-04-04-gap-budget-calibration.md
 verify_check: "Grep('Measurement Protocol', path='.claude/memory/learnings/2026-04-07-budget-calibration-baseline.md') → 1+ matches"
 ---

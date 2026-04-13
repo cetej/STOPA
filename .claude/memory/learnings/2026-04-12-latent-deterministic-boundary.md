@@ -6,10 +6,10 @@ component: skill
 tags: [skill-design, architecture, agent-design, deterministic, latent-space]
 summary: "Every step in an agent skill is either latent (model judgment: synthesis, interpretation, quality) or deterministic (code: queries, arithmetic, file ops). Confusing them is the most common design mistake. Skills should alternate: Latent → Deterministic → Latent → Deterministic → Latent."
 source: external_research
-uses: 0
+uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.7
+confidence: 0.85
 impact_score: 0.0
 verify_check: "manual"
 ---

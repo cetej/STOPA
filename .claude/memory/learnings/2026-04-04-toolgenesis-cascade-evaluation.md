@@ -6,9 +6,9 @@ component: skill
 tags: [verification, evaluation, cascade, schema-utility]
 summary: "Tool-Genesis (arXiv:2603.05578) prokázal cascade failure — drobné L1 chyby zesilují do katastrofických L4 selhání. Schema compliance ≠ downstream utility (Schema-F1 0.964, SR 0.472). Iterativní oprava s execution feedback dává 2-5× lepší výsledky než one-shot. Aplikováno do /critic (cascade-aware verification), /verify a /harness (anti-schema-trap), /skill-generator (repair loop), CLAUDE.md (model selection)."
 source: external_research
-uses: 0
+uses: 1
 harmful_uses: 0
-confidence: 0.8
+confidence: 0.85
 impact_score: 0.0
 verify_check: "Grep('Schema-Utility Decoupling', path='.claude/skills/') → 3+ matches"
 related: [2026-03-26-harness-simplification.md]

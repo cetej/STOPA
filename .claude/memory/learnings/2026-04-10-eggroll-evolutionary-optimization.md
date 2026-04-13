@@ -6,10 +6,10 @@ component: orchestration
 tags: [evolution, optimization, population, scoring, mutation]
 summary: "EGGROLL (Oxford/MILA 2026) dokazuje 3 principy pro evoluci skills: (1) rank-1 perturbace staci pokud je populace dostatecna, (2) populacni z-score normalizace stabilizuje selekci, (3) tri rezimy sigma (linearizace/kriticka/divergence) urcuji optimalnost mutaci."
 source: external_research
-uses: 1
+uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.8
+confidence: 0.90
 skill_scope: [prompt-evolve, self-evolve, autoloop]
 verify_check: "Grep('EGGROLL', path='.claude/skills/prompt-evolve/SKILL.md') → 1+ matches"
 ---

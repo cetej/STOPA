@@ -6,10 +6,10 @@ component: hook
 tags: [security, prompt-injection, defense-gap, rag, verification]
 summary: "Task-alignment attacks (injection semantically matches target task) defeat ALL instruction-level defenses (44-82% ASR across 9 methods). Content-level verification (grounding checks, fact-verification) is the only viable mitigation — not yet implemented anywhere."
 source: external_research
-uses: 0
+uses: 1
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.75
+confidence: 0.80
 failure_class: integration
 verify_check: "manual"
 ---

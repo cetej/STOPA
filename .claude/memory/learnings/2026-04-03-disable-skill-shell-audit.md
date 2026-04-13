@@ -6,9 +6,9 @@ component: skill
 tags: [shell, security, cc-settings, disableSkillShellExecution]
 summary: "CC v2.1.91 přidalo disableSkillShellExecution. Audit: 25/48 (52%) STOPA skills má inline shell. Zapnutí by rozbilo polovinu systému. NEPOVOLOVAT bez migrace skills na pure-tool approach."
 source: auto_pattern
-uses: 0
+uses: 1
 harmful_uses: 0
-confidence: 0.8
+confidence: 0.85
 verify_check: "Grep('```bash', path='.claude/skills/') → 20+ matches"
 successful_uses: 0
 ---

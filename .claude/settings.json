@@ -596,6 +596,12 @@
             "command": "python .claude/hooks/associative-recall.py",
             "timeout": 3,
             "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "python .claude/hooks/brain-telegram-capture.py",
+            "timeout": 2,
+            "statusMessage": ""
           }
         ]
       }

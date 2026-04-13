@@ -1,0 +1,207 @@
+{
+  "version": "1.2",
+  "updated": "2026-04-13",
+  "description": "2BRAIN knowledge graph — entity-centric storage with typed edges",
+  "node_types": ["person", "concept", "project", "value", "reasoning", "experience", "goal"],
+  "edge_types": ["created", "inspired", "contradicts", "enables", "blocks", "applied-in", "drives", "taught-me", "practiced-in", "related-to", "part-of", "complementary"],
+  "nodes": {
+    "karpathy": {
+      "type": "person",
+      "label": "Andrej Karpathy",
+      "tags": ["ai", "mentor-figure"],
+      "wiki": "people/karpathy.md",
+      "added": "2026-04-13"
+    },
+    "tiago-forte": {
+      "type": "person",
+      "label": "Tiago Forte",
+      "tags": ["pkm", "methodology", "productivity"],
+      "wiki": "people/tiago-forte.md",
+      "added": "2026-04-13"
+    },
+    "context-engineering": {
+      "type": "concept",
+      "label": "Context Engineering",
+      "tags": ["ai", "architecture", "retrieval"],
+      "wiki": "concepts/context-engineering.md",
+      "added": "2026-04-13"
+    },
+    "second-brain": {
+      "type": "concept",
+      "label": "Second Brain",
+      "tags": ["pkm", "architecture"],
+      "wiki": "concepts/second-brain.md",
+      "added": "2026-04-13"
+    },
+    "compiler-analogy": {
+      "type": "reasoning",
+      "label": "Compiler Analogy",
+      "tags": ["mental-model", "architecture"],
+      "wiki": "reasoning/compiler-analogy.md",
+      "added": "2026-04-13"
+    },
+    "llm-wiki": {
+      "type": "concept",
+      "label": "LLM Wiki Pattern",
+      "tags": ["ai", "pkm", "architecture"],
+      "wiki": "concepts/llm-wiki.md",
+      "added": "2026-04-13"
+    },
+    "stopa": {
+      "type": "project",
+      "label": "STOPA Orchestration System",
+      "tags": ["orchestration", "skills", "memory"],
+      "wiki": null,
+      "added": "2026-04-13"
+    },
+    "autonomy": {
+      "type": "value",
+      "label": "Autonomie",
+      "tags": ["core-value"],
+      "wiki": null,
+      "added": "2026-04-13"
+    },
+    "depth": {
+      "type": "value",
+      "label": "Hloubka",
+      "tags": ["core-value"],
+      "wiki": null,
+      "added": "2026-04-13"
+    },
+    "compound-effect": {
+      "type": "value",
+      "label": "Compound efekt",
+      "tags": ["core-value"],
+      "wiki": null,
+      "added": "2026-04-13"
+    },
+    "basb-code": {
+      "type": "concept",
+      "label": "BASB CODE Framework",
+      "tags": ["pkm", "methodology"],
+      "wiki": "concepts/basb-code.md",
+      "added": "2026-04-13"
+    },
+    "zettelkasten": {
+      "type": "concept",
+      "label": "Zettelkasten",
+      "tags": ["pkm", "methodology", "knowledge-graph"],
+      "wiki": "concepts/zettelkasten.md",
+      "added": "2026-04-13"
+    },
+    "ecphory-rag": {
+      "type": "concept",
+      "label": "EcphoryRAG",
+      "tags": ["ai", "retrieval", "academic"],
+      "wiki": "concepts/ecphory-rag.md",
+      "added": "2026-04-13"
+    },
+    "active-metacognitive-curation": {
+      "type": "concept",
+      "label": "Active Metacognitive Curation",
+      "tags": ["ai", "memory", "cognitive-science"],
+      "wiki": "concepts/active-metacognitive-curation.md",
+      "added": "2026-04-13"
+    },
+    "para-method": {
+      "type": "reasoning",
+      "label": "PARA Method",
+      "tags": ["pkm", "organization", "mental-model"],
+      "wiki": "reasoning/para-method.md",
+      "added": "2026-04-13"
+    },
+    "progressive-summarization": {
+      "type": "reasoning",
+      "label": "Progressive Summarization",
+      "tags": ["pkm", "distillation", "mental-model"],
+      "wiki": "reasoning/progressive-summarization.md",
+      "added": "2026-04-13"
+    },
+    "two-generators": {
+      "type": "reasoning",
+      "label": "Two Generators Pattern",
+      "tags": ["architecture", "retrieval", "mental-model"],
+      "wiki": "reasoning/two-generators.md",
+      "added": "2026-04-13"
+    },
+    "cognitive-workspace": {
+      "type": "concept",
+      "label": "Cognitive Workspace",
+      "tags": ["ai", "memory", "academic"],
+      "wiki": null,
+      "added": "2026-04-13"
+    },
+    "personal-ai": {
+      "type": "concept",
+      "label": "PersonalAI (KG Storage)",
+      "tags": ["ai", "knowledge-graph", "academic"],
+      "wiki": null,
+      "added": "2026-04-13"
+    },
+    "rlvr": {
+      "type": "concept",
+      "label": "RLVR — Reinforcement Learning from Verifiable Rewards",
+      "tags": ["ai", "training", "reasoning", "rl"],
+      "wiki": "concepts/rlvr.md",
+      "added": "2026-04-13"
+    },
+    "vibe-coding": {
+      "type": "concept",
+      "label": "Vibe Coding",
+      "tags": ["ai", "programming", "democratization"],
+      "wiki": "concepts/vibe-coding.md",
+      "added": "2026-04-13"
+    },
+    "jagged-intelligence": {
+      "type": "concept",
+      "label": "Jagged Intelligence (Ghosts vs Animals)",
+      "tags": ["ai", "mental-model", "llm-behavior"],
+      "wiki": "concepts/jagged-intelligence.md",
+      "added": "2026-04-13"
+    },
+    "verifiability-sw2": {
+      "type": "concept",
+      "label": "Verifiability — SW 2.0 Key Predictor",
+      "tags": ["ai", "mental-model", "software-development"],
+      "wiki": "concepts/verifiability-sw2.md",
+      "added": "2026-04-13"
+    }
+  },
+  "edges": [
+    {"from": "karpathy", "to": "llm-wiki", "rel": "created", "date": "2026-03"},
+    {"from": "karpathy", "to": "context-engineering", "rel": "created", "date": "2026"},
+    {"from": "karpathy", "to": "vibe-coding", "rel": "created", "date": "2025", "evidence": "coined the term in a tweet"},
+    {"from": "karpathy", "to": "rlvr", "rel": "related-to", "date": "2025", "evidence": "described as paradigm 1 in 2025 review"},
+    {"from": "karpathy", "to": "jagged-intelligence", "rel": "created", "date": "2025", "evidence": "Ghosts vs Animals + Space of Minds posts"},
+    {"from": "karpathy", "to": "verifiability-sw2", "rel": "created", "date": "2025", "evidence": "Verifiability post Nov 2025"},
+    {"from": "tiago-forte", "to": "basb-code", "rel": "created"},
+    {"from": "tiago-forte", "to": "para-method", "rel": "created"},
+    {"from": "tiago-forte", "to": "progressive-summarization", "rel": "created"},
+    {"from": "llm-wiki", "to": "second-brain", "rel": "part-of"},
+    {"from": "llm-wiki", "to": "compiler-analogy", "rel": "applied-in"},
+    {"from": "llm-wiki", "to": "stopa", "rel": "inspired", "evidence": "brain/ structure mirrors raw/wiki/schema"},
+    {"from": "autonomy", "to": "stopa", "rel": "drives", "evidence": "no step-by-step approval, autonomous agents"},
+    {"from": "compound-effect", "to": "second-brain", "rel": "drives", "evidence": "knowledge accumulates across sessions"},
+    {"from": "basb-code", "to": "second-brain", "rel": "part-of", "evidence": "Capture->Organize->Distill->Express"},
+    {"from": "zettelkasten", "to": "second-brain", "rel": "part-of", "evidence": "atomicity + connectivity"},
+    {"from": "ecphory-rag", "to": "second-brain", "rel": "enables", "evidence": "entity-centric storage, 94% token reduction"},
+    {"from": "context-engineering", "to": "second-brain", "rel": "enables"},
+    {"from": "depth", "to": "compiler-analogy", "rel": "applied-in", "evidence": "compile deeply, not shallowly"},
+    {"from": "para-method", "to": "basb-code", "rel": "part-of", "evidence": "PARA = Organize step of CODE"},
+    {"from": "progressive-summarization", "to": "basb-code", "rel": "part-of", "evidence": "ProgSum = Distill step of CODE"},
+    {"from": "progressive-summarization", "to": "compiler-analogy", "rel": "related-to", "evidence": "layers of distillation = compilation passes"},
+    {"from": "zettelkasten", "to": "basb-code", "rel": "complementary", "evidence": "Zettelkasten = knowledge emergence, BASB = project completion"},
+    {"from": "active-metacognitive-curation", "to": "second-brain", "rel": "enables", "evidence": "58.6% reuse vs 0% passive RAG"},
+    {"from": "cognitive-workspace", "to": "active-metacognitive-curation", "rel": "created"},
+    {"from": "two-generators", "to": "second-brain", "rel": "enables", "evidence": "one pipeline, two consumers"},
+    {"from": "ecphory-rag", "to": "active-metacognitive-curation", "rel": "related-to"},
+    {"from": "personal-ai", "to": "ecphory-rag", "rel": "related-to", "evidence": "both KG-based, PersonalAI adds temporal hyper-edges"},
+    {"from": "two-generators", "to": "stopa", "rel": "applied-in", "evidence": "grep-first for agents + hybrid RRF for deep queries"},
+    {"from": "rlvr", "to": "jagged-intelligence", "rel": "drives", "evidence": "RLVR training causes jagged spikes in verifiable domains"},
+    {"from": "verifiability-sw2", "to": "rlvr", "rel": "enables", "evidence": "RLVR works only on verifiable tasks"},
+    {"from": "verifiability-sw2", "to": "jagged-intelligence", "rel": "drives", "evidence": "non-verifiable tasks lag → jagged frontier"},
+    {"from": "vibe-coding", "to": "context-engineering", "rel": "related-to", "evidence": "both shift focus from writing code to managing intent"},
+    {"from": "jagged-intelligence", "to": "stopa", "rel": "applied-in", "evidence": "STOPA verifiable subtask design, /verify and /harness skills"},
+    {"from": "verifiability-sw2", "to": "stopa", "rel": "applied-in", "evidence": "STOPA /verify, /tdd, /harness skills embody verifiability principle"}
+  ]
+}

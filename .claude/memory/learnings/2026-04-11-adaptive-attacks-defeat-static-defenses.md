@@ -6,10 +6,10 @@ component: hook
 tags: [security, prompt-injection, adaptive, static-defense, llamafirewall]
 summary: "Strategy-based adaptive attacks (10 strategies + feedback refinement) achieve 86% ASR vs best static defense (PISanitizer), 2-8× higher than static attacks. PromptGuard ADOPT recommendation remains valid for static injection but needs adaptive complement."
 source: external_research
-uses: 0
+uses: 1
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.7
+confidence: 0.75
 verify_check: "manual"
 related: [2026-04-05-agent-defense-frameworks.md]
 ---

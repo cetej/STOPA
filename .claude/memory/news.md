@@ -2,8 +2,9 @@
 
 Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
-## Last Scan: 2026-04-12 (full) | Next: ~2026-04-19
+## Last Scan: 2026-04-13 (scheduled morning-watch) | Next: ~2026-04-20
 
+**Scan log**: `2026-04-13` — scheduled morning-watch | Searches: 2 | Items: 1 watch, 2 info — /team-onboarding command, Vertex AI setup wizard, effort param GA
 **Scan log**: `2026-04-12` — full scan | Searches: 12 | Fetches: 3 | Items: 3 action, 3 watch, 4 info
 
 ## Action Items
@@ -159,6 +160,18 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
 Older: see `news-archive.md`
 
+## Weekly Digest 2026-04-13
+
+**Aktivita projektů:** STOPA 10 commitů (deterministic gates 65 kroků, workspace contract validator, semantic hygiene, design DB). NG-ROBOT 10 commitů (pipeline truncation fix, SEO cleanup, Python-first term verifier). ADOBE-AUTOMAT 10 commitů (IDML Track Changes, DOCX/MD export, AI korektury fixes). ZACHVEV/POLYBOT/MONITOR/GRAFIK idle.
+
+**Novinky:** 17+ ACTION items otevřeno (2 HIGH: CC v2.1.101 security fix, Advisor Tool beta). 15+ WATCH položek. Trend: CC v2.1.94→v2.1.101 za týden, Advisor Tool public beta (executor+advisor model pair), Mythos/Capybara piloting u zákazníků.
+
+**Poučení:** 34 nových learnings (Apr 5–8) — deception pod tlakem, auto-research bez human bottleneck, iterative refinement > long CoT, living memory > static retrieval.
+
+**Údržba:** ⚠️ news.md přes limit → archivovat. decisions.md (27) a budget.md (39) OK.
+
+**Doporučení:** 1) CC v2.1.101 security fix — zkontrolovat hooks na backslash-escaped bash, 2) Evaluovat Advisor Tool beta pro STOPA orchestrate tier, 3) Archivovat news.md.
+
 ## Weekly Digest 2026-04-06
 
 **Aktivita projektů:** STOPA 50 commitů (prompt-evolve GEPA, HERA failure-learning fáze 1-5, PromptGuard+CodeShield, BM25 memory search, permission hook v3.0, Command Center+/design, deepresearch fix, /clean-writing). NG-ROBOT aktivní (SEO phase 7b, Preview Hub). Ostatní projekty bez commitů.
@@ -196,6 +209,9 @@ Older: see `news-archive.md`
 | 87 | Compaction API beta (Opus 4.6) | 🟡 MEDIUM | Server-side context summarization pro infinite conversations. Potenciální alternativa k /compact skill. Evaluovat integraci. |
 | 88 | Claude Mythos Preview (Project Glasswing) | 🟡 WATCH | Preview s 11 partnery, cybersecurity focus. Confirmed live — sledovat GA datum a pricing. |
 | 89 | Data residency controls (inference_geo) | 🟢 INFO | US-only inference za 1.1× cenu pro modely po 2026-02-01. Enterprise feature. |
+| 93 | **CC `/team-onboarding` command** — generuje ramp-up guide pro nové členy týmu z lokálního CC usage. Auto-detekuje stack, konvence, časté příkazy. | 🟢 INFO | Otestovat při onboardingu nových spolupracovníků |
+| 94 | **CC Vertex AI interactive setup wizard** — interaktivní průvodce nastavením Google Vertex AI přístupný z login screen. Alternativa k manuální .env konfiguraci. | 🟢 INFO | Sledovat pokud STOPA bude potřebovat Vertex AI backend |
+| 95 | **`effort` parameter GA** — bez beta headeru, nativně podporuje Opus 4.6. Nahrazuje `budget_tokens` na nových modelech. | 🟡 MEDIUM | STOPA orchestrate tier selection — ověřit, zda skills posílají `effort` bez beta headeru |
 
 ### Scan History
 
@@ -203,4 +219,5 @@ Older: see `news-archive.md`
 ### 2026-04-10 — scheduled morning-watch | Searches: 2 | Items: 1 action, 2 watch — Sonnet 3.7+Haiku 3.5 retired (errors), Bedrock Messages API preview, CC Focus view
 ### 2026-04-09 — scheduled morning-watch | Searches: 2 | Items: 2 watch, 1 info — Compaction API beta, Mythos Preview live (Project Glasswing), data residency controls
 ### 2026-04-08 — quick+update | Searches: 3+3 | Fetches: 2+1 | Items: 4 action, 3 watch — Managed Agents beta, effort=high default, thinking deprecation, ant CLI, Haiku 3 verified safe
+### 2026-04-13 — scheduled morning-watch | Searches: 2 | Items: 1 watch, 2 info — /team-onboarding command (#93), Vertex AI wizard (#94), effort param GA (#95)
 ### 2026-04-08 — quick (scheduled) | Searches: 3 | Fetches: 2 | Items: 3 action, 3 watch, 2 info — Haiku 3 deadline April 19, CLAUDE.md HTML comments skryty, TaskCreated hook, PermissionDenied hook+retry, 1M context retirement April 30, --bare flag

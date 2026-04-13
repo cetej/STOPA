@@ -6,10 +6,10 @@ component: orchestration
 tags: [test-time-learning, inference, agent-learning, self-evolve, continuous-learning]
 summary: "Test-time learning (TTL) enables agent components to update strategies during inference without interrupting reasoning. Complements offline RL: TTL handles distribution shift; RL provides baseline competence."
 source: external_research
-uses: 1
+uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.7
+confidence: 0.80
 related: [2026-04-08-living-memory-over-static-retrieval.md]
 verify_check: "manual"
 ---

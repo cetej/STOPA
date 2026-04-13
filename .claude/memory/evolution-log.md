@@ -4,6 +4,35 @@ Record of /evolve audit proposals and outcomes.
 
 ---
 
+## Evolution Run — 2026-04-12 (#8)
+
+### Signals
+- 12 corrections (0 new since evolve #7)
+- 60 violations (3 recurring + ~20 stale file refs in skills)
+- 138 learnings scanned, 1 graduation ready (shared-public-state: uses=10, conf=1.0)
+- 1 model_gate learning (sonnet-4.6, correctly scoped)
+- Wiki EXISTS (INDEX.md + 100+ files) — previous evolve runs incorrectly reported missing (stale read bug)
+- Sessions: 100% healthy (0 corrections, 0 frustrations)
+
+### Proposals
+- 5 proposed, 4 approved, 1 dropped (compile recommendation — wiki already existed)
+
+### Applied
+- PROMOTE: shared-public-state → critical-patterns #10 (proper entry, removed malformed bullet from #9)
+- FIX_DATA: shared-public-state learning — removed duplicate confidence field, added graduated_to
+- FIX_VERIFY: autocompact-threshold — verify_check changed to manual (was grepping wrong path)
+- CREATE: `2026-04-12-evolve-must-verify-current-state.md` — evolve MUST Glob/Read before RECOMMEND
+- CREATE: critical-patterns #10 — "Verify Current State, Don't Trust Own Log"
+- UPDATE_CONFIRMED: All critical-patterns last_confirmed → 2026-04-12
+
+### Dropped
+- RECOMMEND /compile — wiki already exists (100+ files). This was the 7th false recommendation caused by stale read bug.
+
+### Key Finding
+User identified systemic issue: parallel sessions (manual + scheduled) modify state independently, causing stale reads. Evolve was reading its own log instead of checking filesystem state. Fixed by adding critical-pattern #10 + learning.
+
+---
+
 ## Evolution Run — 2026-04-12 (#7)
 
 ### Signals
