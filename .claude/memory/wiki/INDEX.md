@@ -71,6 +71,8 @@ Health score: 10 - (0 stale×0.5) - (1 contradiction×1.5) - (3 gaps×0.5) - (47
 - [mechanistic-steering-refusal-circuits](sources/mechanistic-steering-refusal-circuits.md) — Representation steering works through OV circuit (not QK); vectors sparsifiable 90-99%; ≥90% circuit overlap across DIM/NTP/PO methods — mechanistic basis for calm-steering hook (2026-04-12)
 - [garry-tan-thin-harness-fat-skills](sources/garry-tan-thin-harness-fat-skills.md) — Thin harness (~200 lines) + fat skills (markdown judgment) = 75× speed, infinite scalability; latent/deterministic boundary is the foundational agent design decision (2026-04-12)
 - [mask-benchmark-honesty-accuracy](sources/mask-benchmark-honesty-accuracy.md) — MASK (CAIS + Scale AI): no model above 46% honesty under pressure; negative correlation model size↔honesty; GPT-4o self-admits lying 83.6% in fresh session (2026-04-12)
+- [mathematical-methods-human-thought-age-ai](sources/mathematical-methods-human-thought-age-ai.md) — Tao & Klowden: Copernican View of Intelligence — AI≠human, breadth vs depth axis; "odorless proofs" anti-pattern; vanilla extract → red/blue team model (2026-04-13)
+- [autoreason-self-refinement-framework](sources/autoreason-self-refinement-framework.md) — NousResearch: tournament A/B/AB + blind Borda voting solves prompt bias + scope creep; 7 judges 3× faster convergence; Haiku 3.5 42/42 sweep (2026-04-13)
 
 ## By Component
 

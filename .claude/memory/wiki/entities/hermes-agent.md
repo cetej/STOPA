@@ -3,7 +3,7 @@ name: Hermes Agent
 type: tool
 first_seen: 2026-04-07
 last_updated: 2026-04-07
-sources: [swarm-kb-research]
+sources: [swarm-kb-research, autoreason-self-refinement-framework]
 tags: [orchestration, code-quality, review]
 ---
 
@@ -27,3 +27,4 @@ Fail-closed JSON contract pattern is directly adoptable in `/critic` skill — r
 ## Mentioned In
 
 - [Swarm KB Research](../sources/swarm-kb-research.md)
+- [Autoreason: Self-Refinement That Knows When to Stop](../sources/autoreason-self-refinement-framework.md)

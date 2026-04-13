@@ -3,7 +3,7 @@ name: Human-AI Centauri
 type: concept
 first_seen: 2026-04-07
 last_updated: 2026-04-07
-sources: [agentic-ai-intelligence-explosion]
+sources: [agentic-ai-intelligence-explosion, mathematical-methods-human-thought-age-ai]
 tags: [orchestration, planning]
 ---
 # Human-AI Centauri

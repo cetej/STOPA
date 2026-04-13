@@ -804,8 +804,9 @@ Farm tier uses mechanical partitioning instead of semantic decomposition.
 ### Inter-wave Completeness Check (VMAO pattern)
 Before launching the next wave, verify completeness of the current wave:
 1. **Artifact presence:** For each completed subtask, check that `subtasks[].artifacts` array is non-empty. Missing artifacts = subtask not truly done.
-2. **Criterion coverage:** Each subtask's acceptance criterion must have a PASS/FAIL verdict recorded. No verdict = not verified.
+2. **Criterion coverage:** Each subtask's acceptance criterion must have a PASS/FAIL/ODORLESS verdict recorded. No verdict = not verified.
 3. **Downstream readiness:** For each subtask in the next wave, confirm its `depends_on` subtasks all have artifacts available.
+4. **Depth gate** (deep tier + research outputs only): If critic returns ODORLESS verdict → output is correct but lacks insight. Deep tier: escalate to user ("Output formálně správný ale postrádá depth. Přepracovat s focus na WHY?"). Standard: advisory. Light: skip. Use `--depth` flag on critic for deep/research tasks.
 If any check fails → do NOT launch next wave. Fix the gap first (re-run subtask or mark as blocked).
 (Ref: VMAO arXiv:2603.11445 — inter-phase completeness verifier raised quality 3.1→4.2 on 5-point scale.)
 4. **Mid-Execution Replanning** (standard/deep tier only, arXiv:2602.19260):

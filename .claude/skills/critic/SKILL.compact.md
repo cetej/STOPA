@@ -35,8 +35,11 @@ JUDGE     → weighted scoring → PASS (≥3.5) / WARN (3.0-3.4) / FAIL (<3.0)
 | Code Quality | 0.20 |
 | Safety | 0.15 |
 | Test Coverage | 0.10 |
+| Depth / Insight *(Research/Deep only)* | 0.30 (rebalances others) |
 
 Default score: 2. Require evidence to go higher. Borderline = FAIL.
+
+**ODORLESS verdict**: weighted avg ≥ 3.5 BUT depth ≤ 2.0 → correct but insight-free. Deep tier: blocking (escalate). Standard: advisory.
 
 ## Anti-Hallucination (mandatory)
 

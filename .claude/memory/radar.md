@@ -4,7 +4,7 @@ Tracked findings from `/radar` scans and manual evaluations.
 Archived: `radar-archive.md` (when >400 lines)
 
 ## Stats
-Last scan: 2026-04-13 (scheduled #18) | Total: 59 tools | 🔴 9 | 🟡 47 | 🟢 3
+Last scan: 2026-04-13 (scheduled #18) | Total: 60 tools | 🔴 10 | 🟡 47 | 🟢 3
 
 ## Active Research (🔴)
 | Tool | Category | Score | Source | Captured | Status | Project fit |
@@ -17,6 +17,7 @@ Last scan: 2026-04-13 (scheduled #18) | Total: 59 tools | 🔴 9 | 🟡 47 | �
 | [pytest-aitest](https://github.com/sbroenne/pytest-aitest) | Testing / skill quality | 8/10 | scan | 2026-04-08 | **EVALUATE** | STOPA — TDD pro skill descriptions + agent tool interfaces s reálnými LLMs. Pydantic AI multi-provider (vč. Anthropic), semantic assertions, multi-dim scoring, cost estimation. Přesný fit pro testování kvality SKILL.md souborů. Microsoft dev. `pip install pytest-aitest`. Telegram notified. |
 | [claude-code-video-toolkit](https://github.com/digitalsamba/claude-code-video-toolkit) | Video production / Claude Code skills | 8/10 | manual | 2026-04-09 | **EVALUATE** | NG-ROBOT ng-video — Claude Code native video pipeline: Remotion + ElevenLabs + LTX-2 + ACEStep + MoviePy + 17 Python CLI tools. Přímý vzor pro rozšíření ng-video o AI klipy, TTS upgrade a scénář pipeline. MIT, Node.js 18+ + Python 3.9+. |
 | [agents-observe](https://github.com/simple10/agents-observe) | Claude Code agent observability / dashboard | 8/10 | scan | 2026-04-11 | **EVALUATE** | STOPA farm tier + orchestrate — real-time dashboard pro CC agent teams: sub-agent tree, parent-child vztahy, WebSocket streaming, SQLite, React UI. Hook-based (background fire-and-forget = 3-5ms latency vs 50-60ms blocking). Docker kontejner. 76 HN upvotes. Unique: žádný jiný CC-specifický multi-agent dashboard v radar. Telegram notified. |
+| [autoreason](https://github.com/NousResearch/autoreason) | Self-refinement / orchestration | 8/10 | manual | 2026-04-13 | **IN PROGRESS** — přímý upgrade /autoreason skill (A/B/AB + Borda + convergence). Haiku 3.5 42/42, Sonnet 4.6 +4pp CodeContests. Stack fit: STOPA /autoreason skill. Deepresearch přeskočen — rovnou skill upgrade. |
 | [qsag-core](https://github.com/Neoxyber/qsag-core) | AI agent security toolkit / OWASP Agentic Top 10 | 8/10 | scan | 2026-04-12 | **EVALUATE** | STOPA security — MCP tool poisoning (26 patterns), prompt injection (28+ patterns), ghost agent detection, memory poisoning, exfiltration. OWASP Agentic Top 10 2026 (ASI01/03/05/06/07). Python 3.9+, MIT, `pip install qsag-core`. Complements mcp-scan (broader coverage: prompt injection + ghost agents + memory poisoning, not just docstring poisoning). Directly addresses PIArena 86% ASR threat in STOPA. Telegram notified. |
 
 ## Watch List (🟡)

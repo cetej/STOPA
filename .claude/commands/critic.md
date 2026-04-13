@@ -401,13 +401,38 @@ Select the weight profile matching the task type AND agent role. The principle: 
 
 #### Weight Profiles by Task Type
 
-| Criteria | Default | Security/Auth | Refactor | New Feature | Skill/Config |
-|----------|---------|---------------|----------|-------------|--------------|
-| Correctness (logic, edge cases) | 0.30 | 0.35 | 0.25 | 0.25 | 0.20 |
-| Completeness (all requirements) | 0.25 | 0.20 | 0.15 | 0.30 | 0.30 |
-| Code Quality (readability) | 0.20 | 0.10 | 0.35 | 0.15 | 0.15 |
-| Safety (regressions, security) | 0.15 | 0.30 | 0.15 | 0.15 | 0.10 |
-| Test Coverage | 0.10 | 0.05 | 0.10 | 0.15 | 0.25 |
+| Criteria | Default | Security/Auth | Refactor | New Feature | Skill/Config | Research/Deep |
+|----------|---------|---------------|----------|-------------|--------------|---------------|
+| Correctness (logic, edge cases) | 0.30 | 0.35 | 0.25 | 0.25 | 0.20 | 0.20 |
+| Completeness (all requirements) | 0.25 | 0.20 | 0.15 | 0.30 | 0.30 | 0.20 |
+| Code Quality (readability) | 0.20 | 0.10 | 0.35 | 0.15 | 0.15 | 0.15 |
+| Safety (regressions, security) | 0.15 | 0.30 | 0.15 | 0.15 | 0.10 | 0.10 |
+| Test Coverage | 0.10 | 0.05 | 0.10 | 0.15 | 0.25 | 0.05 |
+| **Depth / Insight** | — | — | — | — | — | **0.30** |
+
+**Depth / Insight dimension** (conditional — active for Research/Deep profile, `--depth` flag, or deep tier):
+
+Evaluates whether output provides genuine understanding, not just technical correctness. Inspired by Tao & Klowden's "Copernican View of Intelligence" (arXiv:2603.26524): AI excels at breadth (coverage, generation), humans at depth (causality, insight). Without a depth gate, pipelines produce "odorless outputs" — technically correct but insight-free.
+
+| Score | Meaning |
+|-------|---------|
+| 5 | Explains WHY, not just WHAT; insight generalizable to future situations |
+| 4 | Causal narrative present, some generalizability |
+| 3 | Correct + complete, but explanation surface-level |
+| 2 | Technically correct but no insight — "odorless" (Tao's term) |
+| 1 | Mechanical output without context, copy-paste level |
+
+**3 Depth Questions** (apply after L4 cascade, before scoring):
+1. Does the output explain **WHY**, not just **WHAT**? (causal narrative test)
+2. Can you generalize from this output to the next situation? (smell test)
+3. Did the output add new understanding, or just fulfill the assignment? (insight test)
+
+**Activation rules:**
+- `--depth` flag → always active
+- Research/Deep weight profile → always active
+- Deep tier task (from orchestrator context) → always active
+- Reviewing `outputs/*-research.md` → always active
+- Otherwise → depth weight = 0, no impact on scoring
 
 #### Role-Specific Weight Modifiers (MoM-inspired, arXiv:2510.20176)
 
@@ -482,6 +507,7 @@ When comparing PRM scores across roles (e.g., in Best-of-N with heterogeneous te
 | Code Quality (readability, patterns) | ? | ? | <from quality dimensions check> |
 | Safety (no regressions, no security holes) | ? | ? | <from Impact Radius + security milestones> |
 | Test Coverage (adequate tests exist) | ? | ? | <from test file check> |
+| Depth / Insight *(if active)* | ? | ? | <from 3 Depth Questions> |
 | **Weighted Average** | | **?.?** | |
 
 **Scoring rules:** 1=broken, 2=functional but concerns, 3=solid, 4=good with minor nits, 5=exemplary.
@@ -489,8 +515,21 @@ When comparing PRM scores across roles (e.g., in Best-of-N with heterogeneous te
 
 **Verdict thresholds:**
 - **PASS**: weighted avg >= 3.5 AND no criterion below 2
+- **ODORLESS**: weighted avg >= 3.5 (would be PASS) BUT Depth/Insight score ≤ 2.0 (only when depth dimension is active)
 - **WARN**: weighted avg 3.0-3.4 OR exactly one criterion at 2
 - **FAIL**: weighted avg < 3.0 OR any criterion at 1
+
+**ODORLESS verdict** (ref: Tao & Klowden arXiv:2603.26524 — "odorless proofs"):
+Output is technically correct and complete, but lacks genuine insight or understanding. Like AlphaProof's IMO solutions — formally verifiable but "numerous redundant or inexplicable steps."
+
+| Tier | ODORLESS behavior |
+|------|-------------------|
+| Light | N/A — depth dimension inactive |
+| Standard | Advisory flag in report, continue (WARN-level note) |
+| Deep | **Blocking** — escalate to user: "Output formálně správný ale postrádá depth. Přepracovat s focus na WHY?" |
+| Research outputs | **Blocking** — always escalate |
+
+Include in Reflector Summary: `- Depth assessment: [insight-rich | adequate | odorless | N/A]`
 
 ## Review Dimensions
 
@@ -550,6 +589,7 @@ Before reviewing, check `.claude/memory/budget.md`:
 3. If new anti-patterns → note for `.claude/memory/learnings/<date>-<desc>.md` with YAML frontmatter
 4. If FAIL → orchestrator must re-plan/re-execute
 5. If 2nd FAIL on same target → escalate to user, do NOT loop
+6. If ODORLESS → deep tier: escalate to user ("Output formálně správný ale postrádá insight. Přepracovat s focus na WHY?"); standard tier: log advisory, continue
 6. If SAME issue persists across 3+ reviews → flag as **architectural concern**
 7. **Learning feedback loop (Hebbian):** If a FAIL was caused by following a learning from `learnings/`:
    - Grep the learning file, increment `harmful_uses:` counter by 1

@@ -284,20 +284,22 @@ Save synthesis to `outputs/autoreason-<slug>/round-{N}-synthesis.md`
 
 ### Step 4: Blind Judge Panel (Haiku sub-agents, parallel, cold-start)
 
-Spawn `judges` (default 3) **independent Haiku** sub-agents in parallel.
-Each judge sees the SAME two candidates but with **randomized labels** (X/Y instead of A/B, randomized order per judge).
+Spawn `judges` (default 3, recommended 5-7) **independent Haiku** sub-agents in parallel.
+Each judge evaluates **all THREE candidates**: A (incumbent), B (rewrite), AB (synthesis) — with randomized labels.
+
+**Why 3 candidates (autoreason, NousResearch 2026):** Ablation shows removing either B or AB alone collapses performance. All three roles are necessary. Including B prevents prompt bias — "do nothing" (A) always competes as a legitimate option.
 
 Critical anti-bias measures:
-- Labels are random letters (X, Y — not sequential A, B)
-- Order is randomized per judge (judge 1 sees X=current, Y=synthesis; judge 2 sees X=synthesis, Y=current)
+- Labels are 3 random letters (e.g., P/Q/R — not sequential X/Y/Z)
+- Order is randomized per judge (different permutation of candidates per judge)
 - Judges do NOT see critique, rewrite, or debate history
-- Judges do NOT know which version is the "current best"
+- Judges do NOT know which version is "current best"
+- Judges RANK all 3 (first/second/third), not just pick a winner
 
 ```
-System: You are a blind text evaluator. You will see two versions of a text
-labeled with random letters. Score each version against the rubric dimensions.
-Pick the better version. You must NOT try to figure out which is the "original"
-or "improved" version — evaluate purely on quality.
+System: You are a blind text evaluator. You will see three versions of a text
+labeled with random letters. Rank them from best to worst against the rubric.
+Do NOT try to figure out which is "original" vs "improved" — evaluate purely on quality.
 ```
 
 Each judge receives:
@@ -318,42 +320,58 @@ Each judge receives:
 
 {candidate_2 — order randomized}
 
-For each rubric dimension:
-1. Score Version {LABEL_1}: 1-5
-2. Score Version {LABEL_2}: 1-5
-3. Brief justification (1 sentence)
+## Version {LABEL_3}
 
-Then: WINNER: {LABEL_1 or LABEL_2}
-Reason: <1 sentence why>
+{candidate_3 — order randomized}
+
+For each rubric dimension, briefly note which version is strongest.
+Then provide your ranking:
+RANK 1 (best): {label}
+RANK 2: {label}
+RANK 3 (worst): {label}
+Reason: <1-2 sentences summarizing why the top-ranked version wins>
 ```
 
-### Step 5: Tally and Decide
+### Step 5: Tally and Decide (Borda Count)
 
-De-randomize labels → map back to current_best vs synthesis.
+De-randomize labels → map ranks back to A (incumbent), B (rewrite), AB (synthesis).
 
-Count votes:
-- If synthesis wins majority: `current_best = synthesis` (new champion)
-- If current_best wins majority: current_best holds (debate didn't improve it this round)
-- If tie (only possible with even judges — shouldn't happen with odd panel): current_best holds (conservative)
+**Borda scoring** (3 candidates): RANK 1 = 2pts, RANK 2 = 1pt, RANK 3 = 0pts.
+Sum across all judges. Candidate with highest total wins.
+
+Example (3 judges):
+```
+Judge 1: AB(2) > A(1) > B(0)
+Judge 2: B(2)  > AB(1) > A(0)
+Judge 3: AB(2) > B(1)  > A(0)
+Totals:  A=1,  B=3,  AB=5  →  AB wins
+```
+
+Decision:
+- **AB wins**: `current_best = synthesis`, k_consecutive = 0 (improvement)
+- **B wins**: `current_best = rewrite`, k_consecutive = 0 (improvement, adversarial was better)
+- **A wins**: `current_best` unchanged, k_consecutive += 1 (no improvement — incumbent held)
 
 Log to debate-log:
 ```
-| Round | Winner | Judge Votes | Delta Summary |
-| {N} | synthesis / current_best | 2-1 / 3-0 | Fixed hook weakness, tightened CTA |
+| Round | Winner | Borda Scores | Delta Summary |
+| {N} | AB / B / A | A=1 B=3 AB=5 | Fixed hook weakness, tightened CTA |
 ```
 
-Save judge scores to `outputs/autoreason-<slug>/round-{N}-judges.md`
+Save judge scores and Borda totals to `outputs/autoreason-<slug>/round-{N}-judges.md`
 
 ### Step 6: Convergence Check
 
+Track `k_consecutive` = number of consecutive rounds where **A (incumbent) won Borda vote**.
+
 **Exit early if ANY:**
-- Current_best won judge vote (no improvement this round) for **2 consecutive rounds**
+- k_consecutive ≥ 2 (incumbent held for 2 consecutive rounds — text has converged)
 - Critic found 0 critical + ≤1 important problems (Step 1 early exit)
 - Round limit reached
 - All rubric dimensions scored ≥4 by all judges
 
 **Continue if:**
-- Synthesis won and rounds remain
+- B or AB won Borda vote (k_consecutive = 0) and rounds remain
 - Critic still finding critical problems
 
 ### Progress Display (every round)
@@ -419,17 +437,19 @@ If target was a file: ask user "Replace original file with improved version?"
 | Component | Model | Count per Round | Calls (3 rounds) |
 |-----------|-------|----------------|-------------------|
 | Critic | Sonnet | 1 | 3 |
-| Rewriter | Sonnet | 1 | 3 |
-| Synthesizer | Sonnet | 1 | 3 |
-| Judge × 3 | Haiku | 3 | 9 |
-| **Total per round** | | **6** | **18** |
+| Rewriter (B) | Sonnet | 1 | 3 |
+| Synthesizer (AB) | Sonnet | 1 | 3 |
+| Judge × 5 (default) | Haiku | 5 | 15 |
+| **Total per round** | | **8** | **24** |
 | + Setup (rubric) | Sonnet | 1 | **1** |
-| **Grand total** | | | **~19 calls** |
+| **Grand total (standard)** | | | **~25 calls** |
+
+Note: judges now rank 3 candidates (A/B/AB) via Borda count — each judge call is slightly heavier than 2-way comparison. Budget scales with `judges` parameter.
 
 Intensity levels (NOT orchestration tiers — these control debate rounds, not agent allocation):
-- **light**: 1 round, 3 judges (~7 calls) — quick polish
-- **standard**: 3 rounds, 3 judges (~19 calls) — default, good for most texts
-- **deep**: 5 rounds, 5 judges (~31 calls) — important documents, research artifacts
+- **light**: 1 round, 3 judges (~10 calls) — quick polish
+- **standard**: 3 rounds, 5 judges (~25 calls) — default, good for most texts
+- **deep**: 5 rounds, 7 judges (~42 calls) — important documents, research artifacts (7 judges = 3× faster convergence per autoreason ablations)
 
 ## Circuit Breakers
 
@@ -451,12 +471,17 @@ Intensity levels (NOT orchestration tiers — these control debate rounds, not a
 | "I'll run 10 rounds to perfect it" | Diminishing returns after 3-4 rounds; overfitting to rubric | Cap at 5, trust convergence signals |
 | "Let me generate the rubric myself without user input" | Rubric is the fitness function — user must validate it | Always present rubric for approval |
 | "The rewriter should see the synthesis too" | Role contamination — rewriter addresses critique, synthesizer merges | Keep roles strictly separate |
+| "I'll skip B from the judge panel — synthesis already incorporates it" | Ablation (autoreason 2026): removing B alone collapses performance; A/B/AB as a triad is necessary | Always include all 3 candidates in Borda panel |
+| "I'll use 3 judges to save tokens" | 3 judges converge 3× slower than 7; minimum practical is 5 for important texts | Use 5 judges for `standard`, 7 for `deep` |
 
 ## Key Design Principles (from literature)
 
 1. **Cold-start isolation** — each agent gets fresh context, no history bleed (SHL0MS)
 2. **Structured critique > binary preference** — critique text is directional, win/loss is not (Feedback Descent, Stanford)
 3. **Panel > single judge** — 3+ diverse judges reduce bias, cheaper than 1 large judge (PoLL, arXiv:2404.18796)
-4. **Randomized labels** — prevents position bias in pairwise comparison (Chatbot Arena methodology)
+4. **Randomized labels** — prevents position bias in 3-way ranking (Chatbot Arena methodology, extended to 3 candidates)
 5. **Debate only when it helps** — for simple/short texts, single-pass is both cheaper and equally good (Wynn et al. ICML 2025 — naive debate can hurt)
 6. **Degeneration of Thought** — once an LLM is confident, self-reflection fails; external adversarial input breaks through (Liang et al. EMNLP 2024)
+7. **A/B/AB tournament necessity** — all three candidates are structurally necessary; ablation shows removing either B or AB alone collapses performance (autoreason, NousResearch 2026)
+8. **Borda count > majority vote** — rank aggregation across 3 candidates captures preference intensity, not just binary win/loss; prevents split-vote failure modes (Borda 1784, applied to LLM judging by autoreason 2026)
+9. **Incumbent preservation** — A (unchanged) always competing prevents prompt-bias assumption that "improvement is always possible" (autoreason 2026)
