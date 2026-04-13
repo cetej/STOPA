@@ -166,3 +166,8 @@ Pruned to last 100 entries by memory-maintenance.sh.
 - 2026-04-13 14:30 | Write | inbox.md | exit=0
 - 2026-04-13 14:36 | Agent spawn | exit=0
 - 2026-04-13 15:24 | Agent spawn | exit=0
+- 2026-04-13 15:43 | Write | state.md | exit=0
+- 2026-04-13 15:43 | Write | checkpoint.md | exit=0
+- 2026-04-13 15:43 | Write | checkpoint.md | exit=0
+- 2026-04-13 15:43 | Write | checkpoint.md | exit=0
+- 2026-04-13 15:43 | Write | checkpoint.md | exit=0
