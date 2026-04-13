@@ -73,6 +73,11 @@ Health score: 10 - (0 stale×0.5) - (1 contradiction×1.5) - (3 gaps×0.5) - (47
 - [mask-benchmark-honesty-accuracy](sources/mask-benchmark-honesty-accuracy.md) — MASK (CAIS + Scale AI): no model above 46% honesty under pressure; negative correlation model size↔honesty; GPT-4o self-admits lying 83.6% in fresh session (2026-04-12)
 - [mathematical-methods-human-thought-age-ai](sources/mathematical-methods-human-thought-age-ai.md) — Tao & Klowden: Copernican View of Intelligence — AI≠human, breadth vs depth axis; "odorless proofs" anti-pattern; vanilla extract → red/blue team model (2026-04-13)
 - [autoreason-self-refinement-framework](sources/autoreason-self-refinement-framework.md) — NousResearch: tournament A/B/AB + blind Borda voting solves prompt bias + scope creep; 7 judges 3× faster convergence; Haiku 3.5 42/42 sweep (2026-04-13)
+- [commercial-persuasion-ai-mediated-conversations](sources/commercial-persuasion-ai-mediated-conversations.md) — Princeton RCT (N=2,012): AI persuasion triples purchase rates (22.4%→61.2%); transparency labels ineffective (−5.7pp ns); disparagement > promotion; consistent across 5 frontier models (2026-04-13)
+- [bries-compound-ai-persuasion-defense](sources/bries-compound-ai-persuasion-defense.md) — BRIES: 4-agent compound AI for persuasion detection; F1>0.90 on explicit fallacies but F1<0.20 on subtle patterns (exactly Princeton's most effective) (2026-04-13)
+- [persuasion-propagation-llm-agents](sources/persuasion-propagation-llm-agents.md) — Pre-task belief conditioning: −26.9% searches, −16.9% sources, invisible to output auditing; requires execution trace monitoring (2026-04-13)
+- [llmimic-ai-literacy-persuasion-resistance](sources/llmimic-ai-literacy-persuasion-resistance.md) — LLMimic: experiential "role-play as LLM" training; RCT N=274, significantly reduces persuasion (p<.05); only consumer defense with RCT evidence (2026-04-13)
+- [pro-ai-bias-llms](sources/pro-ai-bias-llms.md) — Pro-AI Bias: LLMs systematically favor AI/ML solutions in recommendations; near-deterministic in proprietary models; emergent from training, not injected (2026-04-13)
 
 ## By Component
 
