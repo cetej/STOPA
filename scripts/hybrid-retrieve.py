@@ -19,9 +19,11 @@ Usage:
 """
 import argparse
 import json
+import math
 import re
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
@@ -334,11 +336,20 @@ def hybrid_search(
     standard/deep → full hybrid (grep + BM25 + graph → RRF)
     mode='aggregate' → return ALL matching results (ignores top_n)
     """
-    # Signal 1: grep (always runs)
-    grep_results = grep_search(query)
+    # Signals 1-2 run in parallel (Combee-inspired, arXiv:2604.04247)
+    # Signal 3 (graph) depends on 1+2 seeds, so runs after.
+    t0 = time.monotonic()
+    with ThreadPoolExecutor(max_workers=2, thread_name_prefix="sig") as pool:
+        fut_grep = pool.submit(grep_search, query)
+        fut_bm25 = pool.submit(bm25_search, query)
+        grep_results = fut_grep.result()
+        bm25_results = fut_bm25.result()
 
     if debug:
+        dt = (time.monotonic() - t0) * 1000
         print(f"[GREP] {len(grep_results)} results: {grep_results[:5]}")
+        print(f"[BM25] {len(bm25_results)} results: {bm25_results[:5]}")
+        print(f"[PARALLEL] signals 1+2 in {dt:.0f}ms")
 
     # Fast path: light tier with enough grep hits
     if task_tier == "light" and len(grep_results) >= 3:
@@ -349,11 +360,6 @@ def hybrid_search(
             for i, f in enumerate(grep_results[:limit])
             if f not in superseded
         ]
-
-    # Signal 2: BM25
-    bm25_results = bm25_search(query)
-    if debug:
-        print(f"[BM25] {len(bm25_results)} results: {bm25_results[:5]}")
 
     # Signal 3: Graph walk (seeded from grep + BM25 union)
     seed_files = list(dict.fromkeys(grep_results + bm25_results))  # deduplicated, order preserved

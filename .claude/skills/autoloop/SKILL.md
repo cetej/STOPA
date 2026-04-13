@@ -39,21 +39,24 @@ When `population:N` is set (N=2-4), each iteration generates N candidate mutatio
 ```
 For iteration i with population:3:
   1. Read current state (Step 1: Review) — shared across all candidates
-  2. Generate 3 candidate edits sequentially — each targets ONE axis:
+  2. Generate 3 candidate edits — each targets ONE axis:
      - Candidate A: structural change (reorder, change flow, add/remove sections)
      - Candidate B: content change (improve specific text, logic, or values)
      - Candidate C: simplification (remove redundancy, condense, delete dead code)
-  3. For each candidate: apply edit → run verify → record metric → revert edit
-  4. Compute z-scores: z_i = (metric_i - μ) / max(σ, 0.01)
-  5. Re-apply and commit ONLY the highest z-score candidate (if it beats baseline)
-  6. Log all candidates in TSV: append `pop_rank` column (1=winner, 2-N=discarded)
+  3. PARALLEL VERIFY (Combee-inspired, arXiv:2604.04247):
+     - Spawn N sub-agents (one per candidate) in parallel via Agent tool
+     - Each agent: apply edit → run verify → record metric → revert edit
+     - Aggregate results via z-score normalization: z_i = (metric_i - μ) / max(σ, 0.01)
+     - Use `scripts/combee.py:aggregate_candidate_scores()` for ranking
+  4. Re-apply and commit ONLY the highest z-score candidate (if it beats baseline)
+  5. Log all candidates in TSV: append `pop_rank` column (1=winner, 2-N=discarded)
 ```
 
-**Why this works** (EGGROLL Theorem 3, Oxford/MILA 2026): rank-1 perturbations (= one-axis edits) are sufficient because the accumulated update across iterations sums selected rank-1 updates — recovering full-rank expressivity. Small, targeted edits from a population > large rewrites from a single attempt.
+**Why this works** (EGGROLL Theorem 3 + Combee §3): rank-1 perturbations are sufficient because accumulated updates recover full-rank expressivity. Parallel evaluation (Combee) eliminates the N× serial delay — wall-clock cost drops from O(N×verify) to O(verify) per iteration. Augmented shuffling prevents the aggregator from losing high-value candidates under batch pressure.
 
 **Constraints:**
 - Population mode uses N× the verify calls per iteration — budget = `iterations × population`
-- Each candidate is generated and verified sequentially (no Agent tool needed)
+- Candidates are generated sequentially (they share review context), but VERIFIED in parallel via Agent spawns
 - NOT compatible with `mode:tree` (tree already branches)
 - Default population:1 (standard single-candidate mode) — opt-in via `population:N` argument
 

@@ -128,9 +128,11 @@ Map to self-evolve mutation scope:
 
 The σ modifier is injected into the Executor sub-agent system prompt (Step 3) to control edit granularity. This prevents the common failure mode where Executor makes huge rewrites on early rounds (divergence) or tiny tweaks when exploration is needed (linearization).
 
-#### Step 1: Grade
+#### Step 1: Grade (Parallel Eval — Combee-inspired, arXiv:2604.04247)
 
 Run all eval cases against current skill version.
+- **When 4+ eval cases exist**: spawn parallel Haiku sub-agents (one per case or batched by √n) via Agent tool. Each agent evaluates its assigned case(s) and returns {case_id, passed, score, error}. Aggregate results after all complete.
+- **When <4 cases**: run sequentially (parallelization overhead not worth it).
 - Record: pass_rate, list of failing case IDs
 - If pass_rate = 100% for 2nd consecutive round after curriculum added cases: **CONVERGENCE** — exit loop
 
