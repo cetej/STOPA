@@ -6,7 +6,7 @@ argument-hint: "[extract|fill|test|monitor] <url> [what to do]"
 tags: [web, osint]
 phase: build
 permission-tier: full-access
-requires: [agent-browser]
+requires: [agent-browser, camofox]
 model: sonnet
 maxTurns: 25
 effort: medium
@@ -30,6 +30,14 @@ allowed-tools:
   - mcp__Claude_in_Chrome__javascript_tool
   - mcp__Claude_in_Chrome__read_console_messages
   - mcp__Claude_in_Chrome__read_network_requests
+  - mcp__camofox__camofox_open
+  - mcp__camofox__camofox_snapshot
+  - mcp__camofox__camofox_click
+  - mcp__camofox__camofox_type
+  - mcp__camofox__camofox_navigate
+  - mcp__camofox__camofox_screenshot
+  - mcp__camofox__camofox_close
+  - mcp__camofox__camofox_press
 ---
 
 # Browse — Browser Automation Agent
@@ -54,6 +62,32 @@ $ARGUMENTS format:
 Parse `$ARGUMENTS` and determine the mode. If no mode keyword, infer from context.
 
 ## Backend Selection
+
+### Priority 0: Camofox (anti-detection)
+
+Camofox wraps Camoufox (Firefox fork with C++ fingerprint spoofing). Bypasses Google, Cloudflare,
+and most bot detection. Use when target site is known to block bots or when anti-detection is needed.
+
+**Requires:** camofox-browser server running on localhost:9377 (`npm start` in camofox-browser repo).
+
+**Core workflow — open → snapshot → act → close:**
+```
+camofox_open("https://example.com")           → returns tab_id
+camofox_snapshot(tab_id)                       → accessibility tree with [e1], [e2] refs
+camofox_click(tab_id, "e1")                    → click element by ref
+camofox_type(tab_id, "e3", "search query")     → fill input by ref
+camofox_press(tab_id, "Enter")                 → submit form
+camofox_navigate(tab_id, macro="@google_search", query="weather") → search macros
+camofox_screenshot(tab_id)                     → visual proof
+camofox_close(tab_id)                          → cleanup
+```
+
+**Key behaviors:**
+- Refs ([e1], [e2]...) reset after every navigation — always call `camofox_snapshot` after navigate/click
+- `camofox_type` replaces field content (not append) — use `camofox_press("Enter")` to submit
+- Search macros: `@google_search`, `@youtube_search`, `@amazon_search`, `@reddit_search`, `@wikipedia_search`, `@twitter_search`
+- Paginated snapshots: if response shows `hasMore`, call snapshot again with offset
+- Tab auto-recycles when session limit reached (no manual cleanup needed)
 
 ### Priority 1: agent-browser CLI (default)
 
@@ -113,11 +147,12 @@ Use ONLY when:
 ### Backend Decision Rule
 
 ```
+Site blocks bots / anti-detection?   → camofox (Priority 0)
 Need Electron app control?           → agent-browser --cdp <port>
 Need authenticated session?          → agent-browser --auto-connect OR --cdp 9222
 Need headless extraction/testing?    → agent-browser (default headless)
 Need user to see what's happening?   → Claude in Chrome
-agent-browser not installed?         → Claude in Chrome
+Nothing else available?              → Claude in Chrome
 ```
 
 Do NOT mix backends in one session.
@@ -128,6 +163,7 @@ Do NOT mix backends in one session.
 
 | Error type | Symptom | Action |
 |---|---|---|
+| **Camofox server down** | `Connection refused` on camofox MCP tools | STOP — camofox server not running. Tell user to start it (`npm start` in camofox-browser). Fall back to agent-browser. |
 | **Daemon not running** | `Connection refused` on `agent-browser` itself (tool fails to start) | STOP — agent-browser daemon is not running. Do NOT retry. Tell user to start the daemon or fall back to Claude in Chrome. |
 | **URL unreachable** | `agent-browser open` succeeds but page fails to load (timeout, DNS, 4xx/5xx) | Retry up to 3 times with `agent-browser wait --load networkidle`. After 3 failures, report the URL error. |
 | **CAPTCHA / bot block** | Page loads but shows CAPTCHA or access denied | STOP — do not loop. Tell user the site blocks automation. |
