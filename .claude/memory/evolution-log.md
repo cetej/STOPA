@@ -4,6 +4,37 @@ Record of /evolve audit proposals and outcomes.
 
 ---
 
+## Evolution Run — 2026-04-14 (#9)
+
+### Signals
+- 12 corrections (0 new since #8)
+- 28 violations (deduplicated from 59 — repeated sweep runs on 2026-04-12)
+- 154 learnings scanned, 0 new graduation candidates (2 already graduated in #8)
+- 3 high-use approaching graduation: bigmas (8), triattention (5), rlm-principles (5)
+- 0 prune candidates (no learnings below 0.3 confidence)
+- 1 model_gate (sonnet-4.6) — correctly scoped with challenge condition
+- 0 panic episodes, 0 replay queue items
+- Sessions: 100% healthy (0 corrections, 0 frustrations)
+- Skill usage: no data (skill-usage.jsonl doesn't exist)
+
+### Proposals
+- 5 proposed, 5 approved, 0 rejected
+
+### Applied
+- FIX: critical-patterns.md — removed 2 malformatted bullet items (heartbeat, CORAL) that overflowed from #8. These are already tracked in their graduated learning files.
+- CLEAN: violations.jsonl deduplicated 59 → 28 entries (removed repeated sweep run duplicates)
+- FIX_VERIFY: autoagent-overfitting-guard — verify_check path corrected from SKILL.md to references/
+- DELEGATE: KODER task T-2026-04-14-002 — clean 29 stale file references across 12 skills
+- UPDATE_CONFIRMED: All critical-patterns last_confirmed → 2026-04-14
+
+### Key Findings
+- System is stable — no new correction patterns, no new graduation candidates
+- 154 learnings is still above 70 target but most are low-use external_research (decay will handle)
+- Biggest actionable gap: 29 stale file refs in skills → delegated to KODER
+- Next evolve: check bigmas/triattention/rlm-principles for graduation threshold
+
+---
+
 ## Evolution Run — 2026-04-12 (#8)
 
 ### Signals

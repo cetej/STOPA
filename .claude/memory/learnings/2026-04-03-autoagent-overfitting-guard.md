@@ -9,7 +9,7 @@ source: external_research
 uses: 1
 harmful_uses: 0
 confidence: 1.0
-verify_check: "Grep('exact eval case disappeared', path='.claude/skills/autoloop/SKILL.md') → 1+ matches"
+verify_check: "Grep('exact eval case disappeared', path='.claude/skills/autoloop/references/') → 1+ matches"
 related: []
 successful_uses: 0
 ---
