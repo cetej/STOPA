@@ -22,6 +22,8 @@ Archived decisions: `decisions-archive.md`
 | 0012 | 2026-04-03 | [Associative memory upgrade (Hippocampus)](../../docs/decisions/0012-associative-memory-upgrade.md) | IMPLEMENTING |
 | 0013 | 2026-04-04 | [Wiki synthesis layer](../../docs/decisions/0013-wiki-synthesis-layer.md) | IMPLEMENTING |
 
+| 0014 | 2026-04-13 | [OpenMontage patterns adoption](../../docs/decisions/0014-openmontage-patterns-adoption.md) | IMPLEMENTING |
+
 ## Creating new decisions
 
-Use `/scribe` or create manually in `docs/decisions/` using `_template.md`. Next number: **0014**.
+Use `/scribe` or create manually in `docs/decisions/` using `_template.md`. Next number: **0015**.

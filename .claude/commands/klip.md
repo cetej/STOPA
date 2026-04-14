@@ -91,12 +91,30 @@ Before sending to the API, validate and enhance the prompt. This is a hard gate 
 
 If any ❌ error after enhancement: inform user of the conflict and suggest fix. Do NOT proceed to API.
 
+## Step 2d: Provider Selection (scored)
+
+Before choosing an endpoint, run the media provider selector for an auditable decision:
+
+```bash
+python C:/Users/stock/Documents/000_NGM/STOPA/scripts/media-provider-selector.py -c video -t "USER_TASK_DESCRIPTION" --json
+```
+
+Replace `USER_TASK_DESCRIPTION` with key terms from the user's prompt (e.g., "cinematic nature documentary trailer").
+
+The selector ranks all available video providers across 7 dimensions (task_fit, quality, control, reliability, cost, latency, continuity) and returns the best match with a decision log entry.
+
+**Use the selected provider's endpoint** unless:
+- User explicitly requested a specific tier (`--tier pro/standard`) → override to Kling at that tier
+- Selected provider doesn't support the required mode (e.g., Seedance has no text-to-video)
+
+If the selector is unavailable (script missing), fall back to the hardcoded Kling endpoint below.
+
 ## Step 3: Determine Mode
 
 | `--image` provided? | Mode | Endpoint |
 |---------------------|------|----------|
-| No | Text-to-Video | `fal-ai/kling-video/v3/{tier}/text-to-video` |
-| Yes (URL) | Image-to-Video | `fal-ai/kling-video/v3/{tier}/image-to-video` |
+| No | Text-to-Video | `{selected_endpoint}/text-to-video` (fallback: `fal-ai/kling-video/v3/{tier}/text-to-video`) |
+| Yes (URL) | Image-to-Video | `{selected_endpoint}/image-to-video` (fallback: `fal-ai/kling-video/v3/{tier}/image-to-video`) |
 | Yes (local file) | Image-to-Video | Upload file first, then use URL |
 
 **I2V Golden Rule**: In image-to-video mode, the prompt must describe only **motion and changes** — never re-describe static content already visible in the input image (character appearance, scene layout, composition). Auto-prepend `preserve composition and colors,` to the prompt to lock visual consistency.
@@ -274,6 +292,16 @@ Prefer rhythm words over technical params — `gentle gradual push-in` > `24fps 
 
 Audio adds ~50% to cost. Not enabled by default.
 
+## Step 8: Record Outcome
+
+After generation (success or failure), record the outcome for UCB1 learning:
+
+```bash
+python C:/Users/stock/Documents/000_NGM/STOPA/scripts/media-provider-selector.py --record-outcome --provider "PROVIDER_NAME" --capability video --outcome success --task "TASK_DESCRIPTION"
+```
+
+Use `--outcome success` if video generated and looks correct, `--outcome failure` if generation failed or quality was poor. This feeds the UCB1 bandit that improves future provider selection.
+
 ## Rules
 
 1. **Always check FAL_KEY** before calling API — fail fast with clear instructions
@@ -286,3 +314,5 @@ Audio adds ~50% to cost. Not enabled by default.
 8. **Filename includes tier + duration** — helps user identify outputs
 9. **Never log FAL_KEY** — don't print or include in error messages
 10. **If generation fails**: retry ONCE, then report error — don't loop
+11. **Run provider selector** before choosing endpoint — auditable decision trail
+12. **Record outcome** after generation — enables UCB1 learning across sessions

@@ -72,11 +72,26 @@ If the user's prompt is shorter than 30 characters, consider enhancing it with c
 
 This ensures the generated image works well and benefits from optimized templates maintained via `/prompt-evolve`.
 
+## Step 3d: Provider Selection (scored)
+
+Before choosing an endpoint, run the media provider selector for an auditable decision:
+
+```bash
+python C:/Users/stock/Documents/000_NGM/STOPA/scripts/media-provider-selector.py -c image -t "USER_TASK_DESCRIPTION" --json
+```
+
+Replace `USER_TASK_DESCRIPTION` with key terms from the user's prompt (e.g., "editorial wildlife photography").
+
+The selector ranks all available image providers across 7 dimensions and returns the best match. **Use the selected provider's endpoint** unless user explicitly requested `--model pro` or `--model 2` (override to Nano Banana).
+
+If the selector is unavailable (script missing), fall back to the hardcoded endpoints below.
+
 ## Step 4: Generate Image
 
-Select endpoint based on `--model`:
+Select endpoint based on `--model` flag (or provider selector result):
 - `pro` → `fal-ai/nano-banana-pro`
 - `2` → `fal-ai/nano-banana-2`
+- (from selector) → use the `endpoint` field from JSON result
 
 Run via Python:
 
@@ -176,6 +191,16 @@ Cost estimate: ~$0.30 (2 × $0.15 at 1K) or ~$0.60 (2 × $0.30 at 4K)
 | 2K | ~$0.20/image | ~$0.15/image |
 | 4K | ~$0.30/image | ~$0.20/image |
 
+## Step 7: Record Outcome
+
+After generation (success or failure), record the outcome for UCB1 learning:
+
+```bash
+python C:/Users/stock/Documents/000_NGM/STOPA/scripts/media-provider-selector.py --record-outcome --provider "PROVIDER_NAME" --capability image --outcome success --task "TASK_DESCRIPTION"
+```
+
+Use `--outcome success` if image generated and looks correct, `--outcome failure` if generation failed or quality was poor.
+
 ## Rules
 
 1. **Always check FAL_KEY** before calling API — fail fast with clear instructions
@@ -186,3 +211,5 @@ Cost estimate: ~$0.30 (2 × $0.15 at 1K) or ~$0.60 (2 × $0.30 at 4K)
 6. **Filename includes timestamp** — prevents overwrites on repeated runs
 7. **PNG format by default** — lossless, works best as Kling input
 8. **Never log FAL_KEY** — don't print or include in error messages
+9. **Run provider selector** before choosing endpoint — auditable decision trail
+10. **Record outcome** after generation — enables UCB1 learning across sessions
