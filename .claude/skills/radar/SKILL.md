@@ -62,6 +62,7 @@ Apply the 3-Gate Filter + Numeric Score (see Scoring section below).
 - If 🔴 (score ≥ 8): Launch `/deepresearch` via Agent tool with prompt focused on tool evaluation
 - If 🟡 (score 5-7): Add to Watch List, suggest when to revisit
 - If 🟢 (score < 5): Archive with one-line reason
+- **Cross-project routing**: For 🔴 and 🟡 tools, invoke `/improve` to route finding to matching projects (creates GitHub issues based on project profiles in `~/.claude/memory/projects/*.yaml`)
 
 ### Step 5: Report
 

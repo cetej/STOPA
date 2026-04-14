@@ -243,6 +243,12 @@ To minimize cost, use parallel WebSearch calls:
 3. **If ACTION items found for project dependencies**:
    - Note in `.claude/memory/state.md` as a potential future task
 
+4. **Cross-project improvement routing**:
+   - For each HIGH/MED action item: invoke `/improve` to route finding to matching projects
+   - `/improve` reads project profiles from `~/.claude/memory/projects/*.yaml`, scores relevance, and creates GitHub issues
+   - This ensures findings don't stay STOPA-local but reach the projects where they're actionable
+   - Skip routing for STOPA-internal items (skill improvements, memory system changes)
+
 ## Cost Control
 
 - **Quick mode**: ~5-8k tokens (3 searches, 1-2 fetches)

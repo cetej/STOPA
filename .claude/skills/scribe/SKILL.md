@@ -311,6 +311,13 @@ STOP and re-evaluate if any of these occur:
 - [ ] Learning summary is grep-friendly (specific keywords, not vague descriptions)
 - [ ] Memory file updated (decisions.md index or learnings/ directory)
 
+## Cross-Project Routing
+
+When recording a learning or decision that could benefit OTHER projects:
+- If user says "tohle by se hodilo i do X" or the learning clearly applies beyond STOPA → invoke `/improve` with the finding
+- `/improve` reads project profiles from `~/.claude/memory/projects/*.yaml`, scores relevance, and creates GitHub issues in matching projects
+- This is the manual entry point for cross-project improvements discovered during work
+
 ## Rules
 
 1. **Neutral voice** — record facts, not opinions
@@ -319,3 +326,4 @@ STOP and re-evaluate if any of these occur:
 4. **Timestamp everything** — temporal context matters
 5. **Keep it concise** — one paragraph per entry, not an essay
 6. **Read before writing** — always read the target file first to avoid overwriting
+7. **Cross-project awareness** — if a finding applies beyond the current project, route it via `/improve`
