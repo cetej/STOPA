@@ -1,168 +1,117 @@
 {
-  "last_compile": "2026-04-12T10:43:38Z",
-  "compile_mode": "full",
-  "total_learnings": 110,
-  "total_articles": 9,
+  "last_compile": "2026-04-14T09:47:44Z",
+  "compile_mode": "incremental",
+  "total_learnings": 146,
+  "total_articles": 10,
   "contradictions": 1,
-  "gaps": 3,
-  "superseded": [
-    "2026-04-04-gap-budget-calibration.md",
-    "2026-04-04-gap-compact-variant-measurement.md",
-    "2026-04-04-gap-cross-project-memory.md"
-  ],
+  "gaps": 2,
   "articles": {
-    "orchestration-multi-agent.md": {
-      "source_learnings": [
-        "2026-04-08-shared-public-state-agent-coordination.md",
-        "2026-04-08-heartbeat-mid-run-steering.md",
-        "2026-04-08-group-experience-sharing-beats-isolated-evolution.md",
-        "2026-04-08-inference-time-sampling-beats-rl-for-diversity.md",
-        "2026-04-07-nsm-neuro-symbolic-orchestration.md",
-        "2026-04-07-sas-beats-mas-equal-compute.md",
-        "2026-04-07-mom-taro-orchestration-upgrades.md",
-        "2026-04-07-agents-md-efficiency-validated.md",
-        "2026-04-06-self-organizing-agents-ab-test.md",
-        "2026-04-05-openfang-architecture-patterns.md",
-        "2026-04-03-autoagent-overfitting-guard.md",
-        "2026-04-03-autoagent-parallel-candidates.md",
-        "2026-04-02-distributed-systems-amdahl-gate.md",
-        "2026-03-30-society-of-thought-orchestration.md",
-        "2026-03-29-bigmas-directed-graph-orchestration.md",
-        "2026-03-29-claudini-autoresearch-loop.md",
-        "2026-03-29-slopcodebench-iterative-degradation.md",
-        "2026-04-08-auto-research-removes-human-bottleneck.md",
-        "2026-04-08-iterative-refinement-beats-long-cot.md",
-        "2026-04-08-reasoning-midtraining-beats-posttraining.md",
-        "2026-04-10-eggroll-evolutionary-optimization.md",
-        "2026-04-10-rlm-architectural-principles.md",
-        "2026-04-11-iteration-paradox-meta-pattern.md"
-      ],
-      "generated": "2026-04-11"
-    },
-    "orchestration-resilience.md": {
-      "source_learnings": [
-        "2026-04-07-budget-calibration-baseline.md",
-        "2026-04-05-regression-gate-pattern.md",
-        "2026-04-05-self-improving-harness.md",
-        "2026-04-03-smart-tool-overuse.md",
-        "2026-04-03-testing-bottleneck.md",
-        "2026-04-02-audit-must-verify-consumers.md",
-        "2026-04-01-gsd2-error-classification.md",
-        "2026-03-26-harness-simplification.md",
-        "gsd-patterns.md",
-        "2026-04-08-llm-judge-factuality-weak.md",
-        "2026-04-11-verification-shift-meta-pattern.md"
-      ],
-      "generated": "2026-04-11"
-    },
-    "orchestration-infrastructure.md": {
-      "source_learnings": [
-        "2026-04-07-kaizen-loop-weekly-improvement.md",
-        "2026-04-07-operational-rhythm-silence-discipline.md",
-        "2026-04-06-osft-self-sharpening.md",
-        "2026-04-01-autocompact-threshold.md",
-        "2026-03-29-paged-context-protocol.md",
-        "2026-03-26-channels-24x7-architecture.md",
-        "2026-03-25-batch-edit-pattern.md",
-        "2026-03-24-openclaw-postmortem-patterns.md",
-        "spec-kit-adoption.md",
-        "2026-04-08-in-place-ttt-long-context-multiplier.md",
-        "2026-04-08-test-time-learning-inference-evolution.md"
-      ],
-      "generated": "2026-04-11"
-    },
-    "skill-design.md": {
-      "source_learnings": [
-        "2026-04-08-progressive-knowledge-routing.md",
-        "2026-04-08-llm-native-validation-hardstop.md",
-        "2026-04-07-skill-retrieval-bottleneck.md",
-        "2026-04-07-compact-variant-baseline.md",
-        "2026-04-06-deepresearch-agent-scope.md",
-        "2026-04-04-skill0-dynamic-curriculum.md",
-        "2026-04-03-anthropic-skill-creator-patterns.md",
-        "2026-04-03-description-optimizer-plan.md",
-        "2026-04-03-disable-skill-shell-audit.md",
-        "2026-03-27-commands-vs-skills-structure.md",
-        "2026-03-27-skills-must-live-in-stopa.md",
-        "2026-03-25-skill-description-triggers.md",
-        "superpowers-adoption.md",
-        "2026-04-08-education-teaches-agents-not-humans.md",
-        "2026-04-08-instruction-following-compositional-not-universal.md",
-        "karpathy-loop-autoloop.md"
-      ],
-      "generated": "2026-04-11"
-    },
-    "skill-evaluation.md": {
-      "source_learnings": [
-        "2026-04-08-descriptive-over-narrative-generative.md",
-        "2026-04-05-egoalpha-prompt-patterns.md",
-        "2026-04-04-toolgenesis-cascade-evaluation.md",
-        "2026-04-03-anthropic-skill-creator-patterns.md",
-        "2026-04-01-autoreason-adversarial-debate.md",
-        "2026-03-25-decomposed-evaluation.md",
-        "2026-03-25-reasoning-isolation.md",
-        "2026-03-24-fix-issue-solo-workflow.md",
-        "2026-03-23-youtube-transcript-yt-dlp.md",
-        "2026-04-08-direction-magnitude-decoupling-optimization.md",
-        "2026-04-08-early-iteration-performance-unreliable.md",
-        "2026-04-08-reverse-engineered-benchmark-from-artifacts.md"
-      ],
-      "generated": "2026-04-11"
-    },
-    "memory-architecture.md": {
-      "source_learnings": [
-        "2026-04-08-recency-beats-complex-memory.md",
-        "2026-04-07-cross-project-memory-design.md",
-        "2026-04-05-bm25-memory-search.md",
-        "2026-03-30-write-time-gating-salience.md",
-        "2026-03-30-calm-semantic-bandwidth.md",
-        "2026-03-29-memcollab-agent-agnostic-memory.md",
-        "2026-03-26-autodream-coexistence.md",
-        "checkpoint-versioning.md",
-        "2026-04-08-living-memory-over-static-retrieval.md",
-        "2026-04-08-parametric-nonparametric-memory-bridge.md",
-        "2026-04-09-local-aggregator-beats-global.md",
-        "2026-04-11-memory-sovereignty-open-harness.md"
-      ],
-      "generated": "2026-04-12"
-    },
     "general-security-environment.md": {
       "source_learnings": [
-        "2026-04-08-agent-deception-pressure-trigger.md",
-        "2026-04-08-long-horizon-deception-eval.md",
-        "2026-04-07-model-metadata-dynamic-ui-pattern.md",
-        "2026-04-07-multi-reward-normalization-collapse.md",
-        "2026-04-05-agent-defense-frameworks.md",
-        "2026-04-01-image-cache-invalidation.md",
-        "2026-03-27-playwright-mcp-download-hijack.md",
-        "2026-03-27-secrets-in-config-files.md",
-        "ecosystem-scan.md",
-        "environment-falai.md",
-        "2026-04-08-jevons-paradox-ai-coding.md",
-        "2026-04-11-calm-continuous-autoregressive.md",
-        "2026-04-11-iha-interleaved-head-attention.md"
+        "2026-04-08-agent-deception-pressure-trigger",
+        "2026-04-08-long-horizon-deception-eval",
+        "2026-04-11-task-alignment-bypasses-instruction-defenses",
+        "2026-04-11-adaptive-attacks-defeat-static-defenses",
+        "2026-04-11-no-defense-achieves-security-and-utility"
       ],
-      "generated": "2026-04-12"
+      "sources_count": 16,
+      "generated": "2026-04-14"
     },
     "hook-infrastructure.md": {
       "source_learnings": [
-        "2026-04-07-judgment-script-separation-reliability.md",
-        "2026-04-07-hook-architecture-patterns.md",
-        "2026-04-07-hook-failure-modes.md",
-        "2026-04-07-hook-testing-patterns.md",
-        "2026-04-05-agent-defense-frameworks.md",
-        "2026-04-11-self-incrimination-training.md"
+        "2026-04-05-agent-defense-frameworks",
+        "2026-04-07-hook-architecture-patterns",
+        "2026-04-07-hook-failure-modes",
+        "2026-04-07-hook-testing-patterns",
+        "2026-04-07-judgment-script-separation-reliability"
       ],
-      "generated": "2026-04-11"
+      "sources_count": 8,
+      "generated": "2026-04-14"
+    },
+    "memory-architecture.md": {
+      "source_learnings": [
+        "2026-04-05-bm25-memory-search",
+        "2026-04-07-cross-project-memory-design",
+        "2026-04-08-recency-beats-complex-memory",
+        "2026-03-30-write-time-gating-salience",
+        "2026-03-30-calm-semantic-bandwidth"
+      ],
+      "sources_count": 16,
+      "generated": "2026-04-14"
+    },
+    "orchestration-infrastructure.md": {
+      "source_learnings": [
+        "2026-04-06-osft-self-sharpening",
+        "2026-04-01-autocompact-threshold",
+        "2026-03-29-paged-context-protocol",
+        "2026-03-26-channels-24x7-architecture",
+        "2026-03-24-openclaw-postmortem-patterns"
+      ],
+      "sources_count": 18,
+      "generated": "2026-04-14"
+    },
+    "orchestration-iteration.md": {
+      "source_learnings": [
+        "2026-04-12-fresh-session-self-report-verification",
+        "2026-04-12-sycophancy-not-hallucination"
+      ],
+      "sources_count": 13,
+      "generated": "2026-04-14"
+    },
+    "orchestration-multi-agent.md": {
+      "source_learnings": [
+        "2026-04-08-shared-public-state-agent-coordination",
+        "2026-04-08-heartbeat-mid-run-steering",
+        "2026-04-08-group-experience-sharing-beats-isolated-evolution",
+        "2026-04-08-inference-time-sampling-beats-rl-for-diversity",
+        "2026-04-07-nsm-neuro-symbolic-orchestration"
+      ],
+      "sources_count": 31,
+      "generated": "2026-04-14"
+    },
+    "orchestration-resilience.md": {
+      "source_learnings": [
+        "2026-04-05-regression-gate-pattern",
+        "2026-04-05-self-improving-harness",
+        "2026-04-07-budget-calibration-baseline",
+        "2026-04-03-smart-tool-overuse",
+        "2026-04-03-testing-bottleneck"
+      ],
+      "sources_count": 15,
+      "generated": "2026-04-14"
     },
     "pipeline-engineering.md": {
       "source_learnings": [
-        "2026-04-01-sonnet46-thinking-effort-breaking-change.md",
-        "2026-03-25-batch-edit-pattern.md",
-        "harness-engineering.md",
-        "2026-04-09-triattention-pre-rope-kv-compression.md"
+        "2026-04-01-sonnet46-thinking-effort-breaking-change",
+        "2026-03-25-batch-edit-pattern",
+        "2026-03-23-harness-engineering",
+        "2026-04-09-triattention-pre-rope-kv-compression",
+        "2026-04-14-openmontage-production-governance"
       ],
-      "generated": "2026-04-11"
+      "sources_count": 5,
+      "generated": "2026-04-14"
+    },
+    "skill-design.md": {
+      "source_learnings": [
+        "2026-04-06-deepresearch-agent-scope",
+        "2026-04-04-gap-compact-variant-measurement",
+        "2026-04-04-skill0-dynamic-curriculum",
+        "2026-04-03-anthropic-skill-creator-patterns",
+        "2026-04-03-description-optimizer-plan"
+      ],
+      "sources_count": 21,
+      "generated": "2026-04-14"
+    },
+    "skill-evaluation.md": {
+      "source_learnings": [
+        "2026-04-05-egoalpha-prompt-patterns",
+        "2026-04-04-toolgenesis-cascade-evaluation",
+        "2026-04-01-autoreason-adversarial-debate",
+        "2026-03-25-decomposed-evaluation",
+        "2026-03-25-reasoning-isolation"
+      ],
+      "sources_count": 13,
+      "generated": "2026-04-14"
     }
   },
   "learnings_compiled": [
@@ -209,6 +158,9 @@
     "2026-04-03-disable-skill-shell-audit.md",
     "2026-04-03-smart-tool-overuse.md",
     "2026-04-03-testing-bottleneck.md",
+    "2026-04-04-gap-budget-calibration.md",
+    "2026-04-04-gap-compact-variant-measurement.md",
+    "2026-04-04-gap-cross-project-memory.md",
     "2026-04-04-skill0-dynamic-curriculum.md",
     "2026-04-04-toolgenesis-cascade-evaluation.md",
     "2026-04-05-agent-defense-frameworks.md",
@@ -275,6 +227,39 @@
     "2026-04-11-speculative-reasoning-degrades-workers.md",
     "2026-04-11-task-alignment-bypasses-instruction-defenses.md",
     "2026-04-11-task-guided-context-beats-raw-sharing.md",
-    "2026-04-11-verification-shift-meta-pattern.md"
+    "2026-04-11-verification-shift-meta-pattern.md",
+    "2026-04-12-advisor-tool-public-beta.md",
+    "2026-04-12-diarization-as-knowledge-extraction.md",
+    "2026-04-12-evolve-must-verify-current-state.md",
+    "2026-04-12-fresh-session-self-report-verification.md",
+    "2026-04-12-ib-optimality-predicts-benchmarks.md",
+    "2026-04-12-latent-deterministic-boundary.md",
+    "2026-04-12-latent-deterministic-extraction.md",
+    "2026-04-12-model-router-hook.md",
+    "2026-04-12-model-size-negatively-correlated-honesty.md",
+    "2026-04-12-morning-briefing-cron-pattern.md",
+    "2026-04-12-pretraining-vs-posttraining-dissociation.md",
+    "2026-04-12-purpose-built-tools-75x-faster.md",
+    "2026-04-12-queries-back-to-wiki-compounding.md",
+    "2026-04-12-skillclaw-auto-evolve-pipeline.md",
+    "2026-04-12-small-model-compression-threshold.md",
+    "2026-04-12-steering-ov-circuit-sparsification.md",
+    "2026-04-12-sycophancy-not-hallucination.md",
+    "2026-04-13-ai-persuasion-creates-genuine-preferences.md",
+    "2026-04-13-ai-persuasion-disclosure-insufficient.md",
+    "2026-04-13-breadth-depth-axis-tier-selection.md",
+    "2026-04-13-disparagement-stronger-than-promotion.md",
+    "2026-04-13-do-nothing-first-class-option.md",
+    "2026-04-13-experience-replay-outcomes-reuse.md",
+    "2026-04-13-generate-then-discard-suboptimal.md",
+    "2026-04-13-judge-panel-size-convergence.md",
+    "2026-04-13-pairwise-choice-sufficient-verifiable-signal.md",
+    "2026-04-13-pretraining-loss-insufficient-generalization-proxy.md",
+    "2026-04-13-tournament-self-refinement-abc.md",
+    "2026-04-14-dacs-context-scoping.md",
+    "2026-04-14-openmontage-production-governance.md",
+    "2026-04-14-paseo-orchestration-patterns.md",
+    "2026-04-14-traceguard-5d-critic.md",
+    "karpathy-loop-autoloop.md"
   ]
 }

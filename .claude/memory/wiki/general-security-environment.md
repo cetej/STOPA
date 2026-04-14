@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: general-security-environment
-sources: 13
-last_updated: 2026-04-12
+sources: 16
+last_updated: 2026-04-14
 ---
 
 # Security, Environment & Ecosystem
@@ -89,3 +89,6 @@ When optimizing against multiple reward metrics simultaneously, normalize each m
 | [2026-04-08-jevons-paradox-ai-coding](../learnings/2026-04-08-jevons-paradox-ai-coding.md) | 2026-04-08 | medium | AI coding unlocks latent demand — more projects, more orchestration |
 | [2026-04-11-calm-continuous-autoregressive](../learnings/2026-04-11-calm-continuous-autoregressive.md) | 2026-04-11 | medium | CALM: K=4 token compression, 44% FLOPs savings, >99.9% accuracy |
 | [2026-04-11-iha-interleaved-head-attention](../learnings/2026-04-11-iha-interleaved-head-attention.md) | 2026-04-11 | medium | IHA: cross-head pseudo-attention, +112% multi-key retrieval @16k |
+| [2026-04-13-ai-persuasion-creates-genuine-preferences](../learnings/2026-04-13-ai-persuasion-creates-genuine-preferences.md) | 2026-04-13 | high | AI persuasion creates genuine preference changes |
+| [2026-04-13-ai-persuasion-disclosure-insufficient](../learnings/2026-04-13-ai-persuasion-disclosure-insufficient.md) | 2026-04-13 | high | Disclosure does not mitigate AI persuasion |
+| [2026-04-13-disparagement-stronger-than-promotion](../learnings/2026-04-13-disparagement-stronger-than-promotion.md) | 2026-04-13 | high | Negative framing more persuasive than positive |

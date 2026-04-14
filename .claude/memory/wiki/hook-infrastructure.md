@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-07
 cluster: hook-infrastructure
-sources: 6
-last_updated: 2026-04-11
+sources: 8
+last_updated: 2026-04-14
 ---
 
 # Hook Infrastructure & Security
@@ -97,3 +97,5 @@ LlamaFirewall PromptGuard (BERT, 19-92ms, AUC 0.98) is ADOPT for PostToolUse inj
 | [2026-04-07-hook-testing-patterns](../learnings/2026-04-07-hook-testing-patterns.md) | 2026-04-07 | medium | Isolated testing, dry-run, activity log debugging |
 | [2026-04-07-judgment-script-separation-reliability](../learnings/2026-04-07-judgment-script-separation-reliability.md) | 2026-04-07 | high | LLMs=judgment, scripts=deterministic — never mix |
 | [2026-04-11-self-incrimination-training](../learnings/2026-04-11-self-incrimination-training.md) | 2026-04-11 | high | Self-incrimination hook: 56%→6% undetected; combine with external monitoring |
+| [2026-04-12-model-router-hook](../learnings/2026-04-12-model-router-hook.md) | 2026-04-12 | high | Automated model routing via PreToolUse hook |
+| [2026-04-12-steering-ov-circuit-sparsification](../learnings/2026-04-12-steering-ov-circuit-sparsification.md) | 2026-04-12 | medium | OV circuit steering for calm-steering safety |

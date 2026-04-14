@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: memory-architecture
-sources: 13
-last_updated: 2026-04-12
+sources: 16
+last_updated: 2026-04-14
 ---
 
 # Memory Architecture
@@ -79,3 +79,6 @@ AutoDream (/dream) coexists with STOPA's structured memory: dream acts as janito
 | [2026-04-08-parametric-nonparametric-memory-bridge](../learnings/2026-04-08-parametric-nonparametric-memory-bridge.md) | 2026-04-08 | high | Bidirectional parametric↔non-parametric conversion; needs reverse demote |
 | [2026-04-09-local-aggregator-beats-global](../learnings/2026-04-09-local-aggregator-beats-global.md) | 2026-04-09 | high | Acemoglu Theorem 3: local aggregators preserve knowledge better than global |
 | [2026-04-11-memory-sovereignty-open-harness](../learnings/2026-04-11-memory-sovereignty-open-harness.md) | 2026-04-11 | high | Memory=harness, not plugin; 3 risk points, 6 mitigations |
+| [2026-04-04-gap-cross-project-memory](../learnings/2026-04-04-gap-cross-project-memory.md) | 2026-04-04 | medium | GAP: cross-project memory sharing design |
+| [2026-04-12-evolve-must-verify-current-state](../learnings/2026-04-12-evolve-must-verify-current-state.md) | 2026-04-12 | high | /evolve must verify filesystem before recommending |
+| [2026-04-12-queries-back-to-wiki-compounding](../learnings/2026-04-12-queries-back-to-wiki-compounding.md) | 2026-04-12 | high | Wiki queries compound knowledge over time |

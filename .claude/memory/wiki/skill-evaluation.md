@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: skill-evaluation
-sources: 12
-last_updated: 2026-04-11
+sources: 13
+last_updated: 2026-04-14
 ---
 
 # Skill Evaluation & Optimization
@@ -77,3 +77,4 @@ For iterative skill improvement, the AutoReason adversarial debate pattern uses 
 | [2026-04-08-direction-magnitude-decoupling-optimization](../learnings/2026-04-08-direction-magnitude-decoupling-optimization.md) | 2026-04-08 | medium | RLSD: decouple direction/magnitude for 2× convergence; per-line credit |
 | [2026-04-08-early-iteration-performance-unreliable](../learnings/2026-04-08-early-iteration-performance-unreliable.md) | 2026-04-08 | high | ScaleRL: early results unreliable; each approach has unique asymptote |
 | [2026-04-08-reverse-engineered-benchmark-from-artifacts](../learnings/2026-04-08-reverse-engineered-benchmark-from-artifacts.md) | 2026-04-08 | medium | Build benchmarks from real artifacts, not synthetic generation |
+| [2026-04-13-pairwise-choice-sufficient-verifiable-signal](../learnings/2026-04-13-pairwise-choice-sufficient-verifiable-signal.md) | 2026-04-13 | medium | Pairwise comparison sufficient for RL signal |

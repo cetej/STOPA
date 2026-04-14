@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: pipeline-engineering
-sources: 4
-last_updated: 2026-04-11
+sources: 5
+last_updated: 2026-04-14
 ---
 
 # Pipeline Engineering
@@ -52,3 +52,4 @@ When bulk mechanical changes touch 30+ files, the Read/Edit tool loop creates ap
 | [2026-03-25-batch-edit-pattern](../learnings/2026-03-25-batch-edit-pattern.md) | 2026-03-25 | high | Batch scripts for bulk file edits |
 | [2026-03-23-harness-engineering](../learnings/2026-03-23-harness-engineering.md) | 2026-03-23 | high | Deterministic harnesses: Python phases + validation > skill best-effort |
 | [2026-04-09-triattention-pre-rope-kv-compression](../learnings/2026-04-09-triattention-pre-rope-kv-compression.md) | 2026-04-09 | medium | TriAttention: 10.7× KV cache, 2.5× throughput for long-reasoning |
+| [2026-04-14-openmontage-production-governance](../learnings/2026-04-14-openmontage-production-governance.md) | 2026-04-14 | high | OpenMontage: 7D scoring, delivery promises, slideshow risk |

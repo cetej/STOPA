@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: skill-design
-sources: 17
-last_updated: 2026-04-11
+sources: 21
+last_updated: 2026-04-14
 ---
 
 # Skill Design & Architecture
@@ -88,3 +88,7 @@ Skills with reference files should use 3-layer knowledge routing: always-on base
 | [2026-04-08-education-teaches-agents-not-humans](../learnings/2026-04-08-education-teaches-agents-not-humans.md) | 2026-04-08 | medium | SKILL.md = agent curriculum artifact, not human documentation |
 | [2026-04-08-instruction-following-compositional-not-universal](../learnings/2026-04-08-instruction-following-compositional-not-universal.md) | 2026-04-08 | medium | Separate structural vs semantic constraints in skill prompts |
 | [karpathy-loop-autoloop](../learnings/karpathy-loop-autoloop.md) | 2026-03-23 | medium | Structural heuristic fast loop + LLM judge at end avoids bias |
+| [2026-04-12-latent-deterministic-boundary](../learnings/2026-04-12-latent-deterministic-boundary.md) | 2026-04-12 | high | Boundary between latent/deterministic skill parts |
+| [2026-04-12-latent-deterministic-extraction](../learnings/2026-04-12-latent-deterministic-extraction.md) | 2026-04-12 | high | Extract deterministic gates into Python scripts |
+| [2026-04-12-purpose-built-tools-75x-faster](../learnings/2026-04-12-purpose-built-tools-75x-faster.md) | 2026-04-12 | high | Purpose-built tools 75x faster than general MCP |
+| [2026-04-12-diarization-as-knowledge-extraction](../learnings/2026-04-12-diarization-as-knowledge-extraction.md) | 2026-04-12 | medium | Diarization as knowledge extraction technique |

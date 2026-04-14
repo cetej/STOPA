@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: orchestration-resilience
-sources: 11
-last_updated: 2026-04-11
+sources: 15
+last_updated: 2026-04-14
 ---
 
 # Orchestration Resilience & Verification
@@ -74,3 +74,7 @@ LLM judges (including GPT-5) prioritize structural formatting over factual corre
 | [2026-03-23-gsd-patterns](../learnings/2026-03-23-gsd-patterns.md) | 2026-03-23 | medium | Wave execution, deviation rules, goal-backward L1-L4 verification |
 | [2026-04-08-llm-judge-factuality-weak](../learnings/2026-04-08-llm-judge-factuality-weak.md) | 2026-04-08 | high | LLM judges score structure, not facts — combine with grep/search |
 | [2026-04-11-verification-shift-meta-pattern](../learnings/2026-04-11-verification-shift-meta-pattern.md) | 2026-04-11 | high | Verification Shift: 4-layer protocol (syntax/semantic/downstream/regression) |
+| [2026-04-13-do-nothing-first-class-option](../learnings/2026-04-13-do-nothing-first-class-option.md) | 2026-04-13 | high | Do-nothing as first-class refinement option |
+| [2026-04-13-generate-then-discard-suboptimal](../learnings/2026-04-13-generate-then-discard-suboptimal.md) | 2026-04-13 | high | Generate multiple, discard below threshold |
+| [2026-04-13-tournament-self-refinement-abc](../learnings/2026-04-13-tournament-self-refinement-abc.md) | 2026-04-13 | high | A/B/C tournament bracket for self-refinement |
+| [2026-04-14-traceguard-5d-critic](../learnings/2026-04-14-traceguard-5d-critic.md) | 2026-04-14 | medium | TraceGuard: 5D CoT monitoring dimensions |

@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-12
 cluster: orchestration-iteration
-sources: 11
-last_updated: 2026-04-12
+sources: 13
+last_updated: 2026-04-14
 ---
 
 # Iterative Optimization Patterns
@@ -55,3 +55,5 @@ EGGROLL-style evolutionary optimization (low-rank ES with GRPO scoring) outperfo
 | osft-self-sharpening | 2026-04-06 | medium | 0 | Self-training risks without external data |
 | autoagent-parallel-candidates | 2026-04-03 | medium | 0 | Run multiple candidates per iteration |
 | claudini-autoresearch-loop | 2026-03-29 | high | 0 | Autonomous research pipeline |
+| [2026-04-12-fresh-session-self-report-verification](../learnings/2026-04-12-fresh-session-self-report-verification.md) | 2026-04-12 | medium | Verify agent self-reports from fresh session |
+| [2026-04-12-sycophancy-not-hallucination](../learnings/2026-04-12-sycophancy-not-hallucination.md) | 2026-04-12 | high | Sycophancy distinct from hallucination |

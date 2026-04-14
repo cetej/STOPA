@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: orchestration-multi-agent
-sources: 23
-last_updated: 2026-04-11
+sources: 31
+last_updated: 2026-04-14
 ---
 
 # Multi-Agent Orchestration
@@ -120,3 +120,11 @@ See also: [program-md-research-org](entities/program-md-research-org.md) entity 
 | [2026-04-10-eggroll-evolutionary-optimization](../learnings/2026-04-10-eggroll-evolutionary-optimization.md) | 2026-04-10 | high | EGGROLL: rank-1 perturbation, population z-score scoring, sigma regimes |
 | [2026-04-10-rlm-architectural-principles](../learnings/2026-04-10-rlm-architectural-principles.md) | 2026-04-10 | high | RLM validates: budget propagation, metadata-first scout, depth guard |
 | [2026-04-11-iteration-paradox-meta-pattern](../learnings/2026-04-11-iteration-paradox-meta-pattern.md) | 2026-04-11 | high | Iteration Paradox: bounded context + diversity + ceiling estimation protocol |
+| [2026-04-14-dacs-context-scoping](../learnings/2026-04-14-dacs-context-scoping.md) | 2026-04-14 | high | DACS: Registry/Focus context switching, 3.53x efficiency |
+| [2026-04-14-paseo-orchestration-patterns](../learnings/2026-04-14-paseo-orchestration-patterns.md) | 2026-04-14 | high | Paseo: heartbeat, plan-on-disk, CI loop, cross-provider |
+| [2026-04-13-breadth-depth-axis-tier-selection](../learnings/2026-04-13-breadth-depth-axis-tier-selection.md) | 2026-04-13 | high | Breadth-depth axis for orchestration tier selection |
+| [2026-04-12-advisor-tool-public-beta](../learnings/2026-04-12-advisor-tool-public-beta.md) | 2026-04-12 | high | Advisor Tool: executor+advisor model pairing |
+| [2026-04-13-experience-replay-outcomes-reuse](../learnings/2026-04-13-experience-replay-outcomes-reuse.md) | 2026-04-13 | high | Experience replay: reuse outcomes, 40% compute savings |
+| [2026-04-13-judge-panel-size-convergence](../learnings/2026-04-13-judge-panel-size-convergence.md) | 2026-04-13 | medium | 3-5 judges sufficient for convergence |
+| [2026-04-12-morning-briefing-cron-pattern](../learnings/2026-04-12-morning-briefing-cron-pattern.md) | 2026-04-12 | medium | Scheduled morning briefing cron pattern |
+| [2026-04-12-skillclaw-auto-evolve-pipeline](../learnings/2026-04-12-skillclaw-auto-evolve-pipeline.md) | 2026-04-12 | high | SkillClaw auto-evolve: summarize+evolve daily |

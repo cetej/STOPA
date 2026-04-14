@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: orchestration-infrastructure
-sources: 11
-last_updated: 2026-04-11
+sources: 18
+last_updated: 2026-04-14
 ---
 
 # Orchestration Infrastructure & Sessions
@@ -73,3 +73,10 @@ Operational rhythm transforms an AI tool into a persistent collaborator. A weekl
 | [2026-03-23-spec-kit-adoption](../learnings/2026-03-23-spec-kit-adoption.md) | 2026-03-23 | medium | Spec-kit: constitution check, handoff metadata, requirements checklist |
 | [2026-04-08-in-place-ttt-long-context-multiplier](../learnings/2026-04-08-in-place-ttt-long-context-multiplier.md) | 2026-04-08 | medium | In-Place TTT: 3-12× at >64k context; prefer TTT-capable models for deep tier |
 | [2026-04-08-test-time-learning-inference-evolution](../learnings/2026-04-08-test-time-learning-inference-evolution.md) | 2026-04-08 | medium | TTL: repair loops improve within-session; Executor before Planner |
+| [2026-04-12-model-size-negatively-correlated-honesty](../learnings/2026-04-12-model-size-negatively-correlated-honesty.md) | 2026-04-12 | high | Larger models less honest under pressure |
+| [2026-04-12-pretraining-vs-posttraining-dissociation](../learnings/2026-04-12-pretraining-vs-posttraining-dissociation.md) | 2026-04-12 | medium | Pretraining != posttraining capabilities |
+| [2026-04-12-ib-optimality-predicts-benchmarks](../learnings/2026-04-12-ib-optimality-predicts-benchmarks.md) | 2026-04-12 | high | IB optimality predicts benchmark performance |
+| [2026-04-12-small-model-compression-threshold](../learnings/2026-04-12-small-model-compression-threshold.md) | 2026-04-12 | high | Small models have compression capacity limits |
+| [2026-04-13-pretraining-loss-insufficient-generalization-proxy](../learnings/2026-04-13-pretraining-loss-insufficient-generalization-proxy.md) | 2026-04-13 | high | Pretraining loss insufficient for generalization |
+| [2026-04-04-gap-budget-calibration](../learnings/2026-04-04-gap-budget-calibration.md) | 2026-04-04 | medium | GAP: budget calibration methodology |
+| [2026-04-04-gap-compact-variant-measurement](../learnings/2026-04-04-gap-compact-variant-measurement.md) | 2026-04-04 | medium | GAP: compact variant effectiveness measurement |
