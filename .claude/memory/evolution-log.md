@@ -4,6 +4,39 @@ Record of /evolve audit proposals and outcomes.
 
 ---
 
+## Evolution Run — 2026-04-14 (#10)
+
+### Signals
+- 12 corrections (0 new since #9)
+- 28 violations (unchanged, stale refs delegated to KODER in #9)
+- 149 learnings scanned (+3 new token management learnings from vlog analysis)
+- 2 graduation candidates: shared-public-state (12 uses), heartbeat (11 uses)
+- 5 maturity upgrades pending (draft → validated/core)
+- 0 prune candidates, 0 decay warnings
+- 1 model_gate (sonnet-4.6, correctly scoped)
+- 0 panic episodes, 0 replay queue items
+- Sessions: 100% healthy (0 corrections, 0 frustrations)
+
+### Proposals
+- 6 proposed, 6 approved, 0 rejected
+
+### Applied
+- FIX: critical-patterns.md — removed 2 malformatted bullets (heartbeat, CORAL) that persisted from #9 (parallel session interference)
+- MATURITY: shared-public-state → core (uses=12, conf=1.0)
+- MATURITY: heartbeat → core (uses=11, conf=1.0)
+- MATURITY: bigmas → validated (uses=8, conf=1.0)
+- MATURITY: rlm-principles → validated (uses=5, conf=0.95)
+- MATURITY: triattention → validated (uses=5, conf=0.95)
+
+### Key Findings
+- System stable — no new corrections for 2+ weeks
+- First maturity tier updates applied (5 learnings promoted)
+- critical-patterns at 10/10 capacity, no new promotions needed
+- Token management learnings (compact 60%, cache TTL, MCP audit) compiled into wiki
+- Next: monitor shared-public-state and heartbeat as first `core` maturity learnings
+
+---
+
 ## Evolution Run — 2026-04-14 (#9)
 
 ### Signals

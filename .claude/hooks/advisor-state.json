@@ -1,5 +1,5 @@
 {
-  "call_count": 5469,
+  "call_count": 5564,
   "has_todo": true,
   "edit_file_set": [
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\capability-gaps.md",
@@ -392,10 +392,20 @@
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\outcomes\\2026-04-14-koder-success-verify-failure-recorder.md",
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\scripts\\actionable-rate.py",
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-03-autoagent-overfitting-guard.md",
-    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\tasks\\koder-queue\\T-2026-04-14-002.md"
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\tasks\\koder-queue\\T-2026-04-14-002.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-14-compact-timing-60pct.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-14-prompt-cache-ttl-5min.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-14-mcp-server-token-overhead.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\wiki\\orchestration-infrastructure.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\wiki\\.compile-state.json",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-03-29-bigmas-directed-graph-orchestration.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-10-rlm-architectural-principles.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-09-triattention-pre-rope-kv-compression.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\hooks\\learning-lifecycle.py",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\hooks\\graduation-check.py"
   ],
-  "last_edit_was_py": false,
-  "grep_count": 1781,
+  "last_edit_was_py": true,
+  "grep_count": 1818,
   "last_suggestion_ts": 1776157506.5486603,
-  "skill_count": 32
+  "skill_count": 34
 }

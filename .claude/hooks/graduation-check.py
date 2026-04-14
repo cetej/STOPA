@@ -64,6 +64,11 @@ def check_graduation(fm: dict) -> str | None:
     harmful = fm.get("harmful_uses", 0)
     impact = fm.get("impact_score", 0.0)
 
+    # Skip already graduated (maturity: core) learnings
+    maturity = fm.get("maturity", "draft")
+    if maturity == "core":
+        return None
+
     # Graduation check
     if (uses >= 10 and confidence >= 0.8 and harmful < 2):
         return "graduate"

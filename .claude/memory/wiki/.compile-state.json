@@ -1,7 +1,7 @@
 {
-  "last_compile": "2026-04-14T09:47:44Z",
+  "last_compile": "2026-04-14T22:30:00Z",
   "compile_mode": "incremental",
-  "total_learnings": 146,
+  "total_learnings": 149,
   "total_articles": 10,
   "contradictions": 1,
   "gaps": 2,
@@ -45,9 +45,12 @@
         "2026-04-01-autocompact-threshold",
         "2026-03-29-paged-context-protocol",
         "2026-03-26-channels-24x7-architecture",
-        "2026-03-24-openclaw-postmortem-patterns"
+        "2026-03-24-openclaw-postmortem-patterns",
+        "2026-04-14-compact-timing-60pct",
+        "2026-04-14-prompt-cache-ttl-5min",
+        "2026-04-14-mcp-server-token-overhead"
       ],
-      "sources_count": 18,
+      "sources_count": 21,
       "generated": "2026-04-14"
     },
     "orchestration-iteration.md": {
@@ -260,6 +263,9 @@
     "2026-04-14-openmontage-production-governance.md",
     "2026-04-14-paseo-orchestration-patterns.md",
     "2026-04-14-traceguard-5d-critic.md",
+    "2026-04-14-compact-timing-60pct.md",
+    "2026-04-14-prompt-cache-ttl-5min.md",
+    "2026-04-14-mcp-server-token-overhead.md",
     "karpathy-loop-autoloop.md"
   ]
 }

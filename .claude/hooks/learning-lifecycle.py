@@ -147,15 +147,17 @@ def scan_learnings() -> list[dict]:
             "summary": meta.get("summary", f.stem),
             "tags": meta.get("tags", ""),
             "severity": meta.get("severity", "medium"),
+            "maturity": meta.get("maturity", "draft"),
         })
     return results
 
 
 def find_promotion_candidates(learnings: list[dict]) -> list[dict]:
-    """Learnings eligible for critical-patterns: uses >= 10, confidence >= 0.8, harmful < 2."""
+    """Learnings eligible for critical-patterns: uses >= 10, confidence >= 0.8, harmful < 2, not already core."""
     return [
         l for l in learnings
         if l["uses"] >= 10 and l["confidence"] >= 0.8 and l["harmful_uses"] < 2
+        and l.get("maturity", "draft") != "core"
     ]
 
 
@@ -185,44 +187,21 @@ def find_stale_candidates(learnings: list[dict]) -> list[dict]:
     return stale
 
 
-def promote_to_critical(candidates: list[dict]) -> list[str]:
-    """Add promotion candidates to critical-patterns.md."""
-    if not candidates or not CRITICAL_PATTERNS.exists():
+def flag_promotion_candidates(candidates: list[dict]) -> list[str]:
+    """Flag promotion candidates for /evolve review. Never writes to critical-patterns.md directly.
+
+    Rationale: critical-patterns.md has a strict format (numbered entries, verify: annotations).
+    Direct hook writes produce malformatted bullets that /evolve then has to clean up — a dual-writer
+    anti-pattern that caused repeated re-injection bugs. All promotion goes through /evolve.
+    """
+    if not candidates:
         return []
 
-    try:
-        cp_content = CRITICAL_PATTERNS.read_text(encoding="utf-8", errors="replace")
-    except OSError:
-        return []
-
-    # Count existing entries (lines starting with - or *)
-    existing_entries = [
-        line for line in cp_content.split("\n")
-        if line.strip().startswith(("- ", "* "))
-    ]
-
-    promoted = []
+    flagged = []
     for c in candidates:
-        # Check if already in critical-patterns
-        if c["name"] in cp_content:
-            continue
+        flagged.append(c["name"])
 
-        # If at capacity, skip (don't auto-displace yet — let /evolve handle)
-        if len(existing_entries) + len(promoted) >= MAX_CRITICAL:
-            break
-
-        entry = f"- **{c['summary'][:100]}** (promoted from `{c['name']}`, uses={c['uses']}, conf={c['confidence']})"
-        promoted.append(entry)
-
-    if promoted:
-        # Append to critical-patterns
-        new_content = cp_content.rstrip() + "\n" + "\n".join(promoted) + "\n"
-        try:
-            CRITICAL_PATTERNS.write_text(new_content, encoding="utf-8")
-        except OSError:
-            return []
-
-    return [c["name"] for c in candidates[:len(promoted)]]
+    return flagged
 
 
 def retire_learnings(candidates: list[dict]) -> list[str]:
@@ -287,12 +266,12 @@ def main():
     if merged:
         actions.append(f"Merged {merged} use counters from ledger")
 
-    # 1. Promotions
+    # 1. Flag promotion candidates (actual promotion done by /evolve)
     promo_candidates = find_promotion_candidates(learnings)
     if promo_candidates:
-        promoted = promote_to_critical(promo_candidates)
-        if promoted:
-            actions.append(f"Promoted {len(promoted)} learnings to critical-patterns: {', '.join(promoted)}")
+        flagged = flag_promotion_candidates(promo_candidates)
+        if flagged:
+            actions.append(f"Graduation candidates for /evolve: {', '.join(flagged)}")
 
     # 2. Retirements
     retire_candidates = find_retirement_candidates(learnings)

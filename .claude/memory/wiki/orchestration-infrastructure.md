@@ -1,7 +1,7 @@
 ---
 generated: 2026-04-04
 cluster: orchestration-infrastructure
-sources: 18
+sources: 21
 last_updated: 2026-04-14
 ---
 
@@ -11,7 +11,9 @@ last_updated: 2026-04-14
 
 ## Overview
 
-Long sessions degrade without proactive context management. Setting `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=70` triggers compaction earlier than the default ~95%, preventing quality degradation before it becomes visible (ref: 2026-04-01-autocompact-threshold.md). The paged context protocol complements this: read block-manifest.json (metadata only) first, then fetch only top-scored blocks by budget — preventing irrelevant learnings from consuming precious context tokens (ref: 2026-03-29-paged-context-protocol.md).
+Long sessions degrade without proactive context management. Setting `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=70` triggers compaction earlier than the default ~95%, preventing quality degradation before it becomes visible (ref: 2026-04-01-autocompact-threshold.md). Even better: manually compact at ~60% capacity, since autocompact at 70-95% already shows degradation from "lost in the middle" — models attend to conversation beginning and end, ignoring the middle. After 3-4 manual compacts in a row, quality degrades further; at that point, do `/clear` with a session summary and restart fresh (ref: 2026-04-14-compact-timing-60pct.md). The paged context protocol complements this: read block-manifest.json (metadata only) first, then fetch only top-scored blocks by budget — preventing irrelevant learnings from consuming precious context tokens (ref: 2026-03-29-paged-context-protocol.md).
+
+Prompt caching has a 5-minute TTL — after a 5+ minute pause, the next message reprocesses the entire context at full cost, explaining "random usage spikes" after breaks. Before stepping away, compact or checkpoint+clear; when returning, start fresh with checkpoint resume rather than continuing a stale session (ref: 2026-04-14-prompt-cache-ttl-5min.md). Each connected MCP server loads all its tool definitions (~18K tokens per server per message) as invisible overhead. Audit MCP connections at session start and disconnect servers not needed for the current task. Where CLI equivalents exist (e.g., `gh` for GitHub, `gcal` CLI for Calendar), prefer CLI — outputs go through RTK filtering for 60-90% savings, while MCP tool definitions are uncompressible (ref: 2026-04-14-mcp-server-token-overhead.md).
 
 Session persistence presents different challenges. Claude Channels has no message queue — messages are lost if no session is running. Cross-device sync via SyncThing and persistent session management via LaunchAgent/systemd are needed for 24/7 operation (ref: 2026-03-26-channels-24x7-architecture.md). The OpenClaw $12K burn postmortem identified five agent degradation patterns: identity collapse, memory bloat, budget blindness, browser loops, and session amnesia (ref: 2026-03-24-openclaw-postmortem-patterns.md).
 
@@ -23,7 +25,7 @@ Operational rhythm transforms an AI tool into a persistent collaborator. A weekl
 
 ## Key Rules
 
-1. **Autocompact at 70%**: set CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=70 (ref: 2026-04-01-autocompact-threshold.md)
+1. **Manual compact at 60%, max 3-4 per session**: after 3-4 compacts, /clear + summary + restart (ref: 2026-04-14-compact-timing-60pct.md)
 2. **Manifest-first retrieval**: read metadata, score, then fetch only top blocks (ref: 2026-03-29-paged-context-protocol.md)
 3. **No message queue in Channels**: messages lost without active session (ref: 2026-03-26-channels-24x7-architecture.md)
 4. **Watch for 5 degradation patterns**: identity collapse, memory bloat, budget blindness, browser loops, session amnesia (ref: 2026-03-24-openclaw-postmortem-patterns.md)
@@ -34,6 +36,8 @@ Operational rhythm transforms an AI tool into a persistent collaborator. A weekl
 9. **Constitution check in /orchestrate**: project governance doc as non-negotiable authority before decomposition (ref: 2026-03-23-spec-kit-adoption.md)
 10. **TTT-capable models for deep long-context**: 3-12× improvement at >64k context — watch model release notes for "fast weights" (ref: 2026-04-08-in-place-ttt-long-context-multiplier.md)
 11. **Capability before strategy in multi-agent**: build Executor competence before Planner strategy-building (ref: 2026-04-08-test-time-learning-inference-evolution.md)
+12. **Compact or clear before breaks**: prompt cache TTL is 5 min; >5min pause = full reprocessing at full cost (ref: 2026-04-14-prompt-cache-ttl-5min.md)
+13. **Audit MCP connections per session**: each server = ~18K tokens/message invisible overhead; prefer CLI where equivalent (ref: 2026-04-14-mcp-server-token-overhead.md)
 
 ## Patterns
 
@@ -47,6 +51,8 @@ Operational rhythm transforms an AI tool into a persistent collaborator. A weekl
 - Load all learnings into context when only 3-5 are relevant (ref: 2026-03-29-paged-context-protocol.md)
 - Run unattended agents without budget limits (ref: 2026-03-24-openclaw-postmortem-patterns.md)
 - Use same model tier for one-shot generation and iterative repair — decouple them (ref: 2026-04-06-osft-self-sharpening.md)
+- Leave MCP servers connected "just in case" — each one costs ~18K tokens per message (ref: 2026-04-14-mcp-server-token-overhead.md)
+- Step away for >5min without compacting or clearing — cache miss reprocesses everything (ref: 2026-04-14-prompt-cache-ttl-5min.md)
 
 ## Open Questions
 
@@ -80,3 +86,6 @@ Operational rhythm transforms an AI tool into a persistent collaborator. A weekl
 | [2026-04-13-pretraining-loss-insufficient-generalization-proxy](../learnings/2026-04-13-pretraining-loss-insufficient-generalization-proxy.md) | 2026-04-13 | high | Pretraining loss insufficient for generalization |
 | [2026-04-04-gap-budget-calibration](../learnings/2026-04-04-gap-budget-calibration.md) | 2026-04-04 | medium | GAP: budget calibration methodology |
 | [2026-04-04-gap-compact-variant-measurement](../learnings/2026-04-04-gap-compact-variant-measurement.md) | 2026-04-04 | medium | GAP: compact variant effectiveness measurement |
+| [2026-04-14-compact-timing-60pct](../learnings/2026-04-14-compact-timing-60pct.md) | 2026-04-14 | medium | Compact at 60%, max 3-4 per session, then /clear |
+| [2026-04-14-prompt-cache-ttl-5min](../learnings/2026-04-14-prompt-cache-ttl-5min.md) | 2026-04-14 | medium | Cache TTL 5min; pause = full reprocessing |
+| [2026-04-14-mcp-server-token-overhead](../learnings/2026-04-14-mcp-server-token-overhead.md) | 2026-04-14 | high | MCP servers ~18K tokens/message invisible overhead |

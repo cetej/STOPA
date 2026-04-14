@@ -1,7 +1,7 @@
 {
   "generated": "2026-04-14",
-  "total_blocks": 146,
-  "active_blocks": 143,
+  "total_blocks": 149,
+  "active_blocks": 146,
   "blocks": {
     "2026-04-13-ai-persuasion-creates-genuine-preferences.md": {
       "id": "2026-04-13-ai-persuasion-creates-genuine-preferences.md",
@@ -302,6 +302,26 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 392,
+      "retrieval_score": 3.0,
+      "active": true
+    },
+    "2026-04-14-mcp-server-token-overhead.md": {
+      "id": "2026-04-14-mcp-server-token-overhead.md",
+      "component": "orchestration",
+      "date": "2026-04-14",
+      "type": "best_practice",
+      "severity": "high",
+      "tags": [
+        "tokens",
+        "mcp",
+        "cost-optimization"
+      ],
+      "summary": "Each connected MCP server loads ~18K tokens per message into context. Disconnect unused servers per session. Prefer CLI tools over MCP where equivalent.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 319,
       "retrieval_score": 3.0,
       "active": true
     },
@@ -1457,7 +1477,7 @@
         "overfitting"
       ],
       "summary": "AutoAgent's anti-overfitting guard: ask 'if this exact eval case disappeared, would this change still be worthwhile?' before accepting improvements. Prevents metric gaming.",
-      "uses": 1,
+      "uses": 2,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
@@ -3254,6 +3274,46 @@
       "token_estimate": 758,
       "retrieval_score": 1.739,
       "active": true
+    },
+    "2026-04-14-compact-timing-60pct.md": {
+      "id": "2026-04-14-compact-timing-60pct.md",
+      "component": "session",
+      "date": "2026-04-14",
+      "type": "best_practice",
+      "severity": "medium",
+      "tags": [
+        "tokens",
+        "compact",
+        "context-management"
+      ],
+      "summary": "Compact at 60% context capacity, not at autocompact's 95%. After 3-4 compacts, quality degrades — do /clear + session summary + fresh start instead.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 257,
+      "retrieval_score": 2.0,
+      "active": true
+    },
+    "2026-04-14-prompt-cache-ttl-5min.md": {
+      "id": "2026-04-14-prompt-cache-ttl-5min.md",
+      "component": "session",
+      "date": "2026-04-14",
+      "type": "best_practice",
+      "severity": "medium",
+      "tags": [
+        "tokens",
+        "cache",
+        "cost-optimization"
+      ],
+      "summary": "Prompt cache TTL is 5 minutes. After 5min pause, next message reprocesses entire context at full cost. Compact or clear before stepping away.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 297,
+      "retrieval_score": 2.0,
+      "active": true
     }
   },
   "superseded_ids": [
@@ -3466,6 +3526,9 @@
       "2026-04-13-generate-then-discard-suboptimal.md",
       "2026-04-11-compression-regime-maps-to-tiers.md"
     ],
+    "cache": [
+      "2026-04-14-prompt-cache-ttl-5min.md"
+    ],
     "caching": [
       "2026-04-01-image-cache-invalidation.md"
     ],
@@ -3525,6 +3588,9 @@
     "commands": [
       "2026-03-27-commands-vs-skills-structure.md"
     ],
+    "compact": [
+      "2026-04-14-compact-timing-60pct.md"
+    ],
     "compact-variant": [
       "2026-04-07-compact-variant-baseline.md"
     ],
@@ -3568,6 +3634,7 @@
     "context-management": [
       "2026-04-14-dacs-context-scoping.md",
       "2026-04-07-nsm-neuro-symbolic-orchestration.md",
+      "2026-04-14-compact-timing-60pct.md",
       "2026-04-01-autocompact-threshold.md"
     ],
     "context-sharing": [
@@ -3589,9 +3656,11 @@
       "2026-04-08-shared-public-state-agent-coordination.md"
     ],
     "cost-optimization": [
+      "2026-04-14-mcp-server-token-overhead.md",
       "2026-04-12-advisor-tool-public-beta.md",
       "2026-04-12-model-router-hook.md",
       "2026-04-02-distributed-systems-amdahl-gate.md",
+      "2026-04-14-prompt-cache-ttl-5min.md",
       "2026-04-03-smart-tool-overuse.md",
       "2026-04-01-image-cache-invalidation.md"
     ],
@@ -4001,6 +4070,7 @@
     ],
     "mcp": [
       "2026-03-27-playwright-mcp-download-hijack.md",
+      "2026-04-14-mcp-server-token-overhead.md",
       "2026-04-12-purpose-built-tools-75x-faster.md",
       "2026-03-23-youtube-transcript-yt-dlp.md"
     ],
@@ -4616,6 +4686,9 @@
     ],
     "tokens": [
       "2026-03-27-secrets-in-config-files.md",
+      "2026-04-14-mcp-server-token-overhead.md",
+      "2026-04-14-compact-timing-60pct.md",
+      "2026-04-14-prompt-cache-ttl-5min.md",
       "2026-04-07-compact-variant-baseline.md"
     ],
     "tool-use": [
@@ -4776,6 +4849,7 @@
     "orchestration": [
       "2026-04-02-audit-must-verify-consumers.md",
       "2026-04-14-dacs-context-scoping.md",
+      "2026-04-14-mcp-server-token-overhead.md",
       "2026-04-14-paseo-orchestration-patterns.md",
       "2026-04-13-breadth-depth-axis-tier-selection.md",
       "2026-04-13-do-nothing-first-class-option.md",
@@ -4848,6 +4922,10 @@
       "2026-04-14-openmontage-production-governance.md",
       "2026-03-23-harness-engineering.md",
       "2026-04-09-triattention-pre-rope-kv-compression.md"
+    ],
+    "session": [
+      "2026-04-14-compact-timing-60pct.md",
+      "2026-04-14-prompt-cache-ttl-5min.md"
     ],
     "skill": [
       "2026-03-27-commands-vs-skills-structure.md",

@@ -6,10 +6,11 @@ component: orchestration
 tags: [multi-agent, state-sharing, farm-tier, coordination, isolation]
 summary: "CORAL pattern: agents share knowledge via symlinked `.coral/public/` dir instead of message passing — zero sync overhead, każdy agent v vlastním git worktree branchi. Knowledge reuse je primární driver multi-agent gainů, ne parallelismus samotný."
 source: external_research
-uses: 12
+uses: 13
 harmful_uses: 0
 successful_uses: 1
 confidence: 1.00
+maturity: core
 graduated_to: critical-patterns-10
 verify_check: "Glob('.claude/memory/intermediate/shared/notes.md') → 1+ matches"
 related: [2026-03-29-claudini-autoresearch-loop.md]
