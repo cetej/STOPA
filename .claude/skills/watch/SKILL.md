@@ -226,11 +226,15 @@ To minimize cost, use parallel WebSearch calls:
 ## After Scanning
 
 1. **Update `.claude/memory/news.md`** (with provenance):
-   - Record scan date, mode, and throughput: `**YYYY-MM-DD** — <mode> scan | Searches: N | Fetches: N | Items: N action, N watch, N info`
-   - Append ACTION and WATCH items — each entry MUST include source URL: `N. **Title** (url) — description` (not INFO — too noisy)
-   - If an ACTION item from a previous scan is now resolved, mark it done
-   - **Clean up DONE items**: Remove ~~strikethrough~~ / Status: DONE / SAFE items from Active Items — move them to `news-archive.md` with archival date
-   - **Deduplicate**: If a Watch List item already exists (same topic), update existing entry instead of adding duplicate
+   - Record scan date, mode, and throughput in Scan log
+   - Append ACTION items to the **Action Items table** with this format:
+     `| <next#> | **Title** — short description | HIGH/MED/LOW | no | — | Concrete next step |`
+     The table has columns: `# | Item | Urgency | Acted | Evidence | Next Step`
+   - New items always start with `Acted: no` — tracking happens retroactively
+   - **Retroactive acted update**: Before adding new items, scan existing items and mark `Acted: **yes**` if evidence exists (commit, learning, decision, config change). Add evidence reference.
+   - If an ACTION item from a previous scan is now resolved, move to Resolved section
+   - **Clean up DONE items**: Move resolved items from Active to Resolved with date
+   - **Deduplicate**: If a Watch List item already exists (same topic), update existing entry
 
 2. **If ACTION items found for orchestration system**:
    - Add to `.claude/memory/learnings.md` under appropriate section

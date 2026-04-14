@@ -9,37 +9,47 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 **Scan log**: `2026-04-13` — scheduled morning-watch | Searches: 2 | Items: 1 watch, 2 info — /team-onboarding command, Vertex AI setup wizard, effort param GA
 **Scan log**: `2026-04-12` — full scan | Searches: 12 | Fetches: 3 | Items: 3 action, 3 watch, 4 info
 
+## Actionable Rate
+
+**Baseline (2026-04-14):** 5 acted / 27 active items = **18.5%** | Target: 50% by end of April
+**Resolved items:** 12/12 = 100% (by definition — resolved = acted)
+
+Formula: `actionable_rate = items_with_acted_yes / total_active_items`
+Run `python scripts/actionable-rate.py` for current calculation.
+
 ## Action Items
 
-| # | Item | Urgency | Next Step |
-|---|------|---------|-----------|
-| 99 | **CC Analytics API (GA)** — programmatický přístup k denním metrikám CC (productivity, tool usage, cost). Cursor-based pagination, ~1h delay. [docs](https://platform.claude.com/docs/en/build-with-claude/claude-code-analytics-api) | HIGH | Integrace do `/budget` skill — auto daily cost download |
-| 100 | **Meta Muse Spark** — Meta's first proprietary frontier model. "Contemplating mode" = parallel agents interně. 58% Humanity's Last Exam. 12 enterprise partnerů. [meta](https://ai.meta.com/blog/introducing-muse-spark-msl/) | MED | Přidat do `/eval` tier srovnání; sledovat Contemplating mode implementaci |
-| 101 | **Papers with Code sunset → HF Trending Papers** (huggingface.co/papers/trending) — PwC dead, HF je náhrada | MED | Aktualizovat `/watch` Tier 2b poznámku |
-| 102 | **DACS (arXiv:2604.07911)** — orchestrátor Registry mode (≤200 tokenů/agent summary) ↔ Focus mode (plný kontext). 90–98% steering accuracy vs 21–60% baseline; 3.53× context efficiency. Apr 9. | HIGH | `/ingest` paper; přidat Registry↔Focus přepínání do orchestrate pro >3 paralelní agenty |
-| 103 | **TraceGuard (arXiv:2604.03968)** — 5D CoT monitoring: goal alignment, constraint adherence, reasoning coherence, safety, action-trace. Každá dimenze = oddělený call → odolnost vůči kolusi. Apr 2. | MED | Upgrade `/critic` na 5D dekompozici |
-| 104 | **Claude Agent SDK** — `additionalDirectories` pro multi-dir CLAUDE.md loading; `CLAUDE_CODE_ENABLE_TASKS` env var pro task system opt-in; `settingSources` field. | MED | Evaluovat `additionalDirectories` pro STOPA multi-project; `ENABLE_TASKS` pro TodoWrite upgrade |
-| 81 | **CC v2.1.91 MCP 500K tool result limit** — `_meta["anthropic/maxResultSizeChars"]` umožňuje až 500 000 znaků v MCP tool result. Stará hranice blokovala velké soubory/logy. | MED | Ověřit STOPA MCP tools (filesystem, github) — mohou číst větší výstupy; zvážit použití v `/ingest` pro velké soubory |
-| 82 | **CC v2.1.89 PreToolUse "defer" decision** — hooks mohou nyní POZASTAVIT headless session a počkat na externí signál (`defer`). Třetí možnost vedle allow/deny. Klíčové pro CI/CD approval gates a multi-agent koordinaci. | MED | Zkoumat přidání defer logiky do STOPA permission hooků pro destruktivní operace (queue clear, force push) |
-| 77 | **Model Capabilities API** — `GET /v1/models` vrací `max_input_tokens`, `max_tokens`, `capabilities` objekt. Strojové zjišťování možností modelu. | MED | STOPA orchestrate pre-flight: ověřit model capabilities dynamicky místo hardcoded tier tabulky |
-| 78 | **AGENTS.md efficiency study** (arXiv:2601.20404, JAWs Apr 2026) — 28.64% runtime ↓, 16.58% token ↓ s repo-level instrukcemi. Empirická validace STOPA CLAUDE.md přístupu. | MED | Zapsat learning (best_practice/high); přidat do onboarding checklistu pro target projekty |
-| 74 | **Claude Sonnet 5** (`claude-sonnet-5-20260401`) — postupný rollout | MED | GA od 1.4., ale ještě ne na všech účtech. Až bude dostupný: přepnout v STOPA model tiers (standard + deep). 92.4% SWE-bench, 2M context, $3/$15/M. |
-| 83 | **CC v2.1.94 default effort=high** — API-key, Bedrock, Vertex, Team, Enterprise. Potenciálně dražší agentic běhy. | MED | STOPA orchestrate aligned (effort:high). Sledovat náklady v /budget. |
-| 96 | **Prompt caching auto-placement** (API, Apr 2026) — přidej jeden `cache_control` field do request body, systém automaticky cachuje poslední cacheable blok a pohybuje cache point vpřed jak conversation roste. Žádné ruční breakpointy. | MED | Zjednodušuje prompt caching v NG-ROBOT a STOPA claude-api skill — odstranit ruční breakpoint management. |
-| 97 | **Compaction API (beta)** (Apr 2026) — server-side context summarization pro Opus 4.6, umožňuje efektivně nekonečné konverzace. Komplementární k /compact skill (který je client-side). | MED | Evaluovat jako backend pro /compact skill; zvážit opt-in pro deep tier kde context přetéká. |
-| 98 | **OpenClaw extra cost** (TechCrunch Apr 4) — CC subscribers platí navíc za OpenClaw (Anthropic web UI). Dopad na budget plánování. | LOW | Sledovat pricing; při adopci OpenClaw ověřit vliv na /budget ledger. |
-| 84 | **Claude Managed Agents (Public Beta)** — managed agent harness, SSE, sandbox. Header `managed-agents-2026-04-01`. | MED | Evaluovat jako alternativu k STOPA orchestration. Potenciálně zjednodušuje deployment. |
-| 85 | **`thinking: {type: enabled}` deprecated** — migrovat na `{type: adaptive}` + effort. | MED | STOPA clean. Ověřit target projekty (NG-ROBOT, ADOBE). |
-| 86 | **`ant` CLI** — nový Anthropic CLI, YAML API resources. | LOW | Sledovat až GA. |
-| 93 | **Advisor Tool public beta** (April 9, `advisor-tool-2026-03-01` header) — párování executor modelu + advisor modelu pro agentic workloady. "Long-horizon tasks get close to advisor-solo quality at executor-model token rates." Přesně to, co reference_advisor_strategy.md popisuje jako nativní API pattern. | HIGH | Evaluovat integaci do STOPA orchestrate tier: light/standard executor (Haiku/Sonnet) + Opus jako advisor. Může nahradit ruční orchestration overhead. |
-| 94 | **CC v2.1.101 security fix** (April 10) — Bash tool permission bypass: backslash-escaped flags mohly obejít bezpečnostní kontroly. PID namespace sandboxing na Linuxu. | HIGH | Ověřit STOPA hooks: používají Bash příkazy s backslash-escaped flagi? Zejm. panic-detector.py, verify-sweep.py. |
-| 95 | **CC v2.1.98 Monitor tool** (April 9) — streamování eventů z background scriptů v reálném čase. `CLAUDE_CODE_PERFORCE_MODE` pro read-only file handling. | MED | Evaluovat pro STOPA background agent monitoring — sledovat výstupy scheduled tasks bez pollování. |
-| 65 | CC v2.1.92 — `forceRemoteSettingsRefresh` policy | LOW | Fail-closed při nenačtení remote managed settings. Sledovat při distribuci do target projektů. |
-| 42 | CC Voice Mode (`/voice`) — Czech included | MED | Otestovat až se rolling out dostane k účtu; 20 jazyků vč. češtiny |
-| 44 | CC HTTP hooks (POST JSON → URL) | PARKED | Adopt při remote agents; pro teď nepotřebujeme |
-| 29t | Bootleg SSL (arXiv:2603.15553) | LOW | Sledovat pro ORAKULUM/ZACHVEV pokud Chronos-2 nestačí |
-| 29s | Attention innovations status | INFO | Produkce: MLA, GQA, iRoPE. Sledovat DiffAttn DEX adapter + TransMLA + **Multiscreen** (arXiv:2604.01178) |
-| 29r | `hf papers` CLI (AK) | LOW | Kandidát pro upgrade /watch Tier 2b strategy |
+<!-- Acted: yes = reálná akce (commit, learning, decision, config change). no = dosud ne. -->
+
+| # | Item | Urgency | Acted | Evidence | Next Step |
+|---|------|---------|-------|----------|-----------|
+| 99 | **CC Analytics API (GA)** — programmatický přístup k denním metrikám CC | HIGH | no | — | Integrace do `/budget` — auto daily cost download |
+| 100 | **Meta Muse Spark** — Meta's first proprietary frontier model, "Contemplating mode" | MED | no | — | Přidat do `/eval` tier srovnání |
+| 101 | **PwC sunset → HF Trending Papers** | MED | no | — | Aktualizovat `/watch` Tier 2b |
+| 102 | **DACS (arXiv:2604.07911)** — Registry↔Focus context switching, 3.53× efficiency | HIGH | **yes** | learning `dacs-context-scoping`, commit `ad97748` | Implementovat v orchestrate pro >3 agentů |
+| 103 | **TraceGuard (arXiv:2604.03968)** — 5D CoT monitoring | MED | **yes** | learning `traceguard-5d-critic`, commit `ad97748` | Upgrade `/critic` na 5D dekompozici |
+| 104 | **Claude Agent SDK** — `additionalDirectories`, `ENABLE_TASKS` | MED | no | — | Evaluovat pro STOPA multi-project |
+| 81 | **CC MCP 500K tool result limit** | MED | no | — | Ověřit STOPA MCP tools |
+| 82 | **CC PreToolUse "defer" decision** | MED | no | — | Defer logika pro destruktivní operace |
+| 77 | **Model Capabilities API** — `GET /v1/models` | MED | no | — | Dynamický pre-flight v orchestrate |
+| 78 | **AGENTS.md efficiency study** (arXiv:2601.20404) | MED | **yes** | learning `agents-md-efficiency-validated` | Přidat do onboarding checklistu |
+| 74 | **Claude Sonnet 5** — postupný rollout | MED | no | waiting for account access | Přepnout model tiers až dostupný |
+| 83 | **CC effort=high default** | MED | **yes** | CLAUDE.md note updated | Sledovat náklady |
+| 96 | **Prompt caching auto-placement** | MED | no | — | Zjednodušit NG-ROBOT caching |
+| 97 | **Compaction API (beta)** | MED | no | — | Evaluovat pro /compact backend |
+| 98 | **OpenClaw extra cost** | LOW | no | — | Sledovat pricing |
+| 84 | **Claude Managed Agents (Public Beta)** | MED | no | — | Evaluovat jako alternativu |
+| 85 | **`thinking: {type: enabled}` deprecated** | MED | no | — | Ověřit target projekty |
+| 86 | **`ant` CLI** | LOW | no | — | Sledovat až GA |
+| 93 | **Advisor Tool public beta** | HIGH | **yes** | learning `advisor-tool-public-beta`, commit `2c600e5` | Integrace do orchestrate tiers |
+| 94 | **CC v2.1.101 security fix** — Bash permission bypass | HIGH | no | — | Audit STOPA hooks |
+| 95 | **CC Monitor tool** — realtime background streaming | MED | no | — | Evaluovat pro scheduled task monitoring |
+| 65 | CC `forceRemoteSettingsRefresh` | LOW | no | — | Sledovat při distribuci |
+| 42 | CC Voice Mode — Czech included | MED | no | — | Otestovat až dostupný |
+| 44 | CC HTTP hooks | PARKED | no | — | Adopt při remote agents |
+| 29t | Bootleg SSL (arXiv:2603.15553) | LOW | no | — | Sledovat pro ORAKULUM |
+| 29s | Attention innovations | INFO | no | — | Sledovat DiffAttn, TransMLA, Multiscreen |
+| 29r | `hf papers` CLI | LOW | no | — | Kandidát pro /watch upgrade |
 
 ## Resolved (2026-04-04)
 | # | Item | Resolution |

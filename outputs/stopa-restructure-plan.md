@@ -115,21 +115,27 @@ STOPA vyhodnotí:
 
 ---
 
-## Fáze 3: Jeden měřitelný feedback loop (za 2 týdny)
+## Fáze 3: Jeden měřitelný feedback loop ✅ INFRASTRUCTURE DONE
 
 ### Vybraný workflow: watch → ingest → actionable learnings
 
-**Baseline metrika:** Kolik % z watch findings vede k actionable změně (commit, skill update, decision)
-- Odhad baseline: ~10%
+**Baseline metrika (2026-04-14):** 5/27 active items acted on = **18.5%**
+- Odhad byl ~10%, realita lepší díky DACS, TraceGuard, Advisor, AGENTS.md, effort=high
 - Cíl: 50% do konce dubna
 
-**Jak měřit:**
-1. watch generuje findings do news.md
-2. Tagovat každý finding: actionable=yes/no
-3. Sledovat kolik actionable findings vedlo k reálné akci (commit, learning, decision)
-4. Weekly report: actionable_rate = acted / total_actionable
+**Infrastruktura (done):**
+1. ✅ news.md Action Items tabulka rozšířena o `Acted | Evidence` sloupce
+2. ✅ Retrospektivní audit — 27 items mapped proti commitům a learnings
+3. ✅ `scripts/actionable-rate.py` — summary/detail/json output, urgency breakdown
+4. ✅ watch skill updated — nové findings dostávají acted=no, retroactive update při scanu
 
-**Self-evolve loop:**
+**Jak zvýšit rate z 18.5% na 50%:**
+- Prioritizovat HIGH urgency items (aktuálně 50% acted — 2/4)
+- Při každém `/watch` scanu: retroactive check existujících items
+- Neakumulovat MED/LOW items bez plánu — buď jednat, nebo přesunout do Watch List
+- `python scripts/actionable-rate.py` po každém watch scanu
+
+**Self-evolve loop (Phase 3.5 — budoucí):**
 - self-evolve na watch skill s KPI = actionable_rate
 - self-evolve na ingest skill s KPI = learning_quality (measured by uses/harmful_uses)
 
