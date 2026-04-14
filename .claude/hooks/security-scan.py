@@ -268,6 +268,12 @@ def main():
         sys.exit(0)
 
     file_path = extract_file_path(tool_input)
+
+    # Project boundary guard — skip files outside STOPA
+    from lib.project_guard import is_outside_project
+    if is_outside_project(file_path):
+        sys.exit(0)
+
     content = extract_content(tool_input, tool_name)
 
     if not content:

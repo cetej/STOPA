@@ -192,6 +192,11 @@ def main():
     if not file_path:
         sys.exit(0)
 
+    # Project boundary guard — skip files outside STOPA
+    from lib.project_guard import is_outside_project
+    if is_outside_project(file_path):
+        sys.exit(0)
+
     rel_path = normalize_path(file_path)
 
     # Skip memory files themselves (avoid circular tracking)

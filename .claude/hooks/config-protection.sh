@@ -29,6 +29,9 @@ fi
 # Normalize backslashes to forward slashes
 FILE_PATH=$(echo "$FILE_PATH" | sed 's|\\\\|/|g; s|\\|/|g')
 
+# Project boundary guard — skip for files outside STOPA
+source "$(dirname "$0")/lib/project-guard.sh"
+
 # Extract just the filename for matching
 BASENAME=$(basename "$FILE_PATH")
 

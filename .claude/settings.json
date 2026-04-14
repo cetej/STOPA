@@ -11,67 +11,67 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/ensure-shared-dir.sh",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/ensure-shared-dir.sh",
             "timeout": 3,
             "statusMessage": "Ensuring shared directories..."
           },
           {
             "type": "command",
-            "command": "bash .claude/hooks/checkpoint-check.sh",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/checkpoint-check.sh",
             "timeout": 5,
             "statusMessage": "Checking checkpoint..."
           },
           {
             "type": "command",
-            "command": "bash .claude/hooks/memory-maintenance.sh",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/memory-maintenance.sh",
             "timeout": 5,
             "statusMessage": "Checking memory health..."
           },
           {
             "type": "command",
-            "command": "python .claude/hooks/auto-scribe.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/auto-scribe.py",
             "timeout": 15,
             "statusMessage": "Analyzing previous session..."
           },
           {
             "type": "command",
-            "command": "bash .claude/hooks/memory-brief.sh",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/memory-brief.sh",
             "timeout": 5,
             "statusMessage": "Loading memory brief..."
           },
           {
             "type": "command",
-            "command": "python .claude/hooks/context-inject.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/context-inject.py",
             "timeout": 12,
             "statusMessage": "Retrieving relevant context..."
           },
           {
             "type": "command",
-            "command": "python .claude/hooks/verify-sweep.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/verify-sweep.py",
             "timeout": 10,
             "statusMessage": "Verifying rules..."
           },
           {
             "type": "command",
-            "command": "bash .claude/hooks/improvement-funnel.sh",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/improvement-funnel.sh",
             "timeout": 10,
             "statusMessage": "Building improvement queue..."
           },
           {
             "type": "command",
-            "command": "bash .claude/hooks/evolve-trigger.sh",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/evolve-trigger.sh",
             "timeout": 5,
             "statusMessage": "Checking evolution thresholds..."
           },
           {
             "type": "command",
-            "command": "python .claude/hooks/learning-lifecycle.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/learning-lifecycle.py",
             "timeout": 5,
             "statusMessage": "Learning lifecycle check..."
           },
           {
             "type": "command",
-            "command": "python .claude/hooks/pulse-generator.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/pulse-generator.py",
             "timeout": 8,
             "statusMessage": "Generating system pulse..."
           }
@@ -90,7 +90,7 @@
           },
           {
             "type": "command",
-            "command": "bash .claude/hooks/block-no-verify.sh",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/block-no-verify.sh",
             "timeout": 3,
             "statusMessage": ""
           }
@@ -101,13 +101,13 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/config-protection.sh",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/config-protection.sh",
             "timeout": 3,
             "statusMessage": ""
           },
           {
             "type": "command",
-            "command": "python .claude/hooks/security-scan.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/security-scan.py",
             "timeout": 3,
             "statusMessage": ""
           }
@@ -118,7 +118,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python .claude/hooks/model-router.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/model-router.py",
             "timeout": 3,
             "statusMessage": ""
           }
@@ -129,7 +129,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python .claude/hooks/tool-gate.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/tool-gate.py",
             "timeout": 3,
             "statusMessage": ""
           }
@@ -146,7 +146,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python .claude/hooks/content-sanitizer.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/content-sanitizer.py",
             "timeout": 8,
             "statusMessage": ""
           }
@@ -157,31 +157,31 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/activity-log.sh",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/activity-log.sh",
             "timeout": 3,
             "statusMessage": ""
           },
           {
             "type": "command",
-            "command": "bash .claude/hooks/observe.sh",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/observe.sh",
             "timeout": 3,
             "statusMessage": ""
           },
           {
             "type": "command",
-            "command": "python .claude/hooks/panic-detector.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/panic-detector.py",
             "timeout": 3,
             "statusMessage": ""
           },
           {
             "type": "command",
-            "command": "python .claude/hooks/instruction-detector.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/instruction-detector.py",
             "timeout": 3,
             "statusMessage": ""
           },
           {
             "type": "command",
-            "command": "python .claude/hooks/advisor.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/advisor.py",
             "timeout": 3,
             "statusMessage": ""
           }
@@ -193,7 +193,7 @@
           {
             "type": "command",
             "if": "Bash(git commit*)",
-            "command": "bash .claude/hooks/post-commit-analyzer.sh",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/post-commit-analyzer.sh",
             "timeout": 10,
             "statusMessage": "Analyzing commit..."
           }
@@ -204,25 +204,25 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python .claude/hooks/state-tracker.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/state-tracker.py",
             "timeout": 2,
             "statusMessage": ""
           },
           {
             "type": "command",
-            "command": "python .claude/hooks/acceptance-gate.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/acceptance-gate.py",
             "timeout": 3,
             "statusMessage": ""
           },
           {
             "type": "command",
-            "command": "python .claude/hooks/invariant-checker.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/invariant-checker.py",
             "timeout": 3,
             "statusMessage": ""
           },
           {
             "type": "command",
-            "command": "python .claude/hooks/self-report-logger.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/self-report-logger.py",
             "timeout": 2,
             "statusMessage": ""
           }
@@ -233,13 +233,13 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/skill-usage-tracker.sh",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/skill-usage-tracker.sh",
             "timeout": 3,
             "statusMessage": ""
           },
           {
             "type": "command",
-            "command": "python .claude/hooks/outcome-writer.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/outcome-writer.py",
             "timeout": 5,
             "statusMessage": ""
           }
@@ -250,7 +250,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python .claude/hooks/uses-tracker.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/uses-tracker.py",
             "timeout": 2,
             "statusMessage": ""
           }
@@ -262,48 +262,48 @@
           {
             "type": "command",
             "if": "Edit(*.py)|Write(*.py)",
-            "command": "bash .claude/hooks/ruff-lint.sh",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/ruff-lint.sh",
             "timeout": 10,
             "statusMessage": "Linting Python..."
           },
           {
             "type": "command",
-            "command": "bash .claude/hooks/learnings-sync.sh",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/learnings-sync.sh",
             "timeout": 5,
             "statusMessage": "",
             "if": "Write(**/learnings/**)|Edit(**/learnings/**)"
           },
           {
             "type": "command",
-            "command": "bash .claude/hooks/skill-sync.sh",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/skill-sync.sh",
             "timeout": 5,
             "statusMessage": "Syncing skill copies...",
             "if": "Write(**SKILL.md)|Edit(**SKILL.md)|Write(**/commands/*.md)|Edit(**/commands/*.md)"
           },
           {
             "type": "command",
-            "command": "python .claude/hooks/auto-checkpoint-suggest.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/auto-checkpoint-suggest.py",
             "timeout": 3,
             "statusMessage": ""
           },
           {
             "type": "command",
             "if": "Write(.claude/memory/**)|Edit(.claude/memory/**)",
-            "command": "python .claude/hooks/memory-integrity-check.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/memory-integrity-check.py",
             "timeout": 2,
             "statusMessage": ""
           },
           {
             "type": "command",
             "if": "Write(**/learnings/**)|Edit(**/learnings/**)",
-            "command": "python .claude/hooks/learning-admission.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/learning-admission.py",
             "timeout": 3,
             "statusMessage": ""
           },
           {
             "type": "command",
             "if": "Write(**/outcomes/**)",
-            "command": "python .claude/hooks/outcome-credit.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/outcome-credit.py",
             "timeout": 5,
             "statusMessage": "Updating learning credit counters..."
           }
@@ -316,7 +316,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/permission-auto-approve.sh",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/permission-auto-approve.sh",
             "timeout": 3,
             "statusMessage": ""
           }
@@ -329,7 +329,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/post-compact.sh",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/post-compact.sh",
             "timeout": 3,
             "statusMessage": "Post-compaction checkpoint reminder"
           }
@@ -342,48 +342,48 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/completion-guard.sh",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/completion-guard.sh",
             "timeout": 3,
             "statusMessage": "Checking task completion..."
           },
           {
             "type": "command",
-            "command": "bash .claude/hooks/scribe-reminder.sh",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/scribe-reminder.sh",
             "timeout": 5
           },
           {
             "type": "command",
-            "command": "bash .claude/hooks/cost-tracker.sh",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/cost-tracker.sh",
             "timeout": 5,
             "statusMessage": ""
           },
           {
             "type": "command",
-            "command": "bash .claude/hooks/telegram-notify.sh \"🏁 Session dokončena\"",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/telegram-notify.sh \"🏁 Session dokončena\"",
             "timeout": 5,
             "statusMessage": ""
           },
           {
             "type": "command",
-            "command": "python .claude/hooks/trace-bridge.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/trace-bridge.py",
             "timeout": 5,
             "statusMessage": "Bridging optimization traces..."
           },
           {
             "type": "command",
-            "command": "python .claude/hooks/checkpoint-enrich.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/checkpoint-enrich.py",
             "timeout": 5,
             "statusMessage": "Enriching checkpoint resume prompt..."
           },
           {
             "type": "command",
-            "command": "bash .claude/hooks/session-summary.sh",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/session-summary.sh",
             "timeout": 5,
             "statusMessage": ""
           },
           {
             "type": "command",
-            "command": "bash .claude/hooks/raw-capture.sh",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/raw-capture.sh",
             "timeout": 5,
             "statusMessage": "Capturing raw session data..."
           }
@@ -396,7 +396,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/task-completed.sh",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/task-completed.sh",
             "timeout": 15,
             "statusMessage": "Task completed — auto-compound analyzing..."
           }
@@ -409,7 +409,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/teammate-idle.sh",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/teammate-idle.sh",
             "timeout": 10,
             "statusMessage": "Quality gate — checking teammate output..."
           }
@@ -422,7 +422,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/stop-failure.sh",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/stop-failure.sh",
             "timeout": 3,
             "statusMessage": "API error — checking recovery..."
           }
@@ -435,31 +435,31 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python .claude/hooks/skill-suggest.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/skill-suggest.py",
             "timeout": 3,
             "statusMessage": ""
           },
           {
             "type": "command",
-            "command": "python .claude/hooks/memory-whisper.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/memory-whisper.py",
             "timeout": 3,
             "statusMessage": ""
           },
           {
             "type": "command",
-            "command": "python .claude/hooks/mid-session-capture.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/mid-session-capture.py",
             "timeout": 1,
             "statusMessage": ""
           },
           {
             "type": "command",
-            "command": "python .claude/hooks/correction-tracker.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/correction-tracker.py",
             "timeout": 3,
             "statusMessage": ""
           },
           {
             "type": "command",
-            "command": "python .claude/hooks/associative-recall.py",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/associative-recall.py",
             "timeout": 3,
             "statusMessage": ""
           }
@@ -472,7 +472,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/task-created-gate.sh",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/task-created-gate.sh",
             "timeout": 5,
             "statusMessage": "Checking task budget..."
           }

@@ -93,6 +93,12 @@ def main():
         print(json.dumps({"decision": "approve"}))
         return
 
+    # Project boundary guard — skip files outside STOPA
+    from lib.project_guard import is_outside_project
+    if is_outside_project(filepath):
+        print(json.dumps({"decision": "approve"}))
+        return
+
     p = Path(filepath)
     error = None
 
