@@ -112,6 +112,12 @@ Check for `.harness/traces/<harness-name>.baseline.jsonl`:
   - Delta < -0.1: regression ↓ → WARN
   - Within ±0.1: stable →
 
+**External benchmark reference** (for context, not direct comparison):
+- Claude Opus 4.6: 72.5% SWE-bench, 2M context
+- Claude Sonnet 5: 92.4% SWE-bench, 2M context ($3/$15/M)
+- Meta Muse Spark (Apr 2026): 58% Humanity's Last Exam, "Contemplating mode" (parallel agents). First Meta proprietary frontier model.
+- Use these as directional calibration — harness_health is project-specific and not directly comparable to public benchmarks.
+
 ### Step 5: Report
 
 ```

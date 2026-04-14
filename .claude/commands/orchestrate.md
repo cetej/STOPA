@@ -636,6 +636,17 @@ Core principles:
 - **Agent Status Codes**: DONE | DONE_WITH_CONCERNS | NEEDS_CONTEXT | BLOCKED
 - **Template selection by task_style**: Use self-organizing template for `exploratory` subtasks, prescribed template for `structured` subtasks. See `agent-execution.md` for both templates. Log which template was used per agent.
 
+#### DACS — Dynamic Attentional Context Scoping (arXiv:2604.07911)
+
+When running >3 parallel agents, use Registry↔Focus mode switching to manage orchestrator context:
+
+- **Registry mode** (default for idle agents): Each agent represented by ≤200-token summary (name, subtask, status, last output hash). Orchestrator sees all agents at minimal cost.
+- **Focus mode** (for active agent): Full context of ONE agent loaded (artifacts, intermediate results, error traces). Other agents compressed to registry entries.
+- **Switch trigger**: Agent reports NEEDS_CONTEXT or BLOCKED → orchestrator enters Focus mode for that agent, resolves, then returns to Registry mode.
+- **Result**: 90–98% steering accuracy vs 21–60% baseline; 3.53× context efficiency ratio.
+
+Apply when: `len(active_agents) > 3` AND `tier in (standard, deep, farm)`. For ≤3 agents, full context fits — skip DACS overhead.
+
 #### Task-Guided Worker Context Filtering (Latent Briefing)
 
 Before spawning each worker agent, filter context to minimize noise (ref: Latent Briefing — 49-65% token savings, +3pp accuracy):

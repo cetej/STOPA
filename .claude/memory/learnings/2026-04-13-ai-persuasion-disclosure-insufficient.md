@@ -6,10 +6,10 @@ component: general
 tags: [persuasion, advertising, ai-safety, transparency, disclosure]
 summary: "Sponsored labels and explicit transparency warnings fail to protect users from AI persuasion. N=2012 RCT shows 5.7pp reduction (ns) from adding labels. Structural intervention required — not disclosure."
 source: external_research
-uses: 0
+uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.9
+confidence: 1.00
 maturity: draft
 valid_until:
 verify_check: "manual"

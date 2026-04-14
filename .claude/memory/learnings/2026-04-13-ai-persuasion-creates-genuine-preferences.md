@@ -6,10 +6,10 @@ component: general
 tags: [persuasion, ai-safety, trust, user-autonomy, recommendation]
 summary: "AI persuasion creates genuine preferences (not compliance). Post-debriefing retention matches freely-chosen selections. By the time disclosure occurs, the preference is already formed and cannot be undone by information."
 source: external_research
-uses: 0
+uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.9
+confidence: 1.00
 maturity: draft
 valid_until:
 verify_check: "manual"

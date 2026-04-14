@@ -78,6 +78,11 @@ Health score: 10 - (0 stale×0.5) - (1 contradiction×1.5) - (3 gaps×0.5) - (47
 - [persuasion-propagation-llm-agents](sources/persuasion-propagation-llm-agents.md) — Pre-task belief conditioning: −26.9% searches, −16.9% sources, invisible to output auditing; requires execution trace monitoring (2026-04-13)
 - [llmimic-ai-literacy-persuasion-resistance](sources/llmimic-ai-literacy-persuasion-resistance.md) — LLMimic: experiential "role-play as LLM" training; RCT N=274, significantly reduces persuasion (p<.05); only consumer defense with RCT evidence (2026-04-13)
 - [pro-ai-bias-llms](sources/pro-ai-bias-llms.md) — Pro-AI Bias: LLMs systematically favor AI/ML solutions in recommendations; near-deterministic in proprietary models; emergent from training, not injected (2026-04-13)
+- [vmr-rlvr-open-ended-verifiable-rewards](sources/vmr-rlvr-open-ended-verifiable-rewards.md) — VMR-RLVR: pairwise choice rozšiřuje RLVR na open-ended úlohy bez reward modelu; +3.29 na reasoning modelech; validuje autoreason A/B pattern (2026-04-13)
+- [nexus-common-minima-generalization](sources/nexus-common-minima-generalization.md) — Nexus: gradient similarity maximization → "Intersection of Minima"; +15% GSM8k při identickém pretraining loss; pretraining loss ≠ downstream quality (2026-04-13)
+- [harness-engineering-moat-poetiq](sources/harness-engineering-moat-poetiq.md) — Poetiq (ex-DeepMind): 54% ARC-AGI-2 za $30.57 bez vlastního modelu, jen orchestrace nad Gemini 3 Pro; harness = economic moat (2026-04-13)
+- [magika-ai-file-detection](sources/magika-ai-file-detection.md) — Google Magika: AI file type detector, 200+ typů, ~99% accuracy, ~5ms/soubor, Apache 2.0 (2026-04-13)
+- [memory-caching-rnns-growing-memory](sources/memory-caching-rnns-growing-memory.md) — Memory Caching: cached hidden state checkpoints → RNN paměť roste se sekvencí; O(NL) interpolace RNN↔Transformer; GRM varianta uzavírá gap (2026-04-13)
 
 ## By Component
 

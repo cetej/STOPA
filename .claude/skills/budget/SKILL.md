@@ -31,6 +31,8 @@ npx ccusage@latest monthly --json                  # Monthly aggregates
 
 **Secondary: Budget ledger** (`.claude/memory/budget.md`) — orchestration counters, tier tracking, task history.
 
+**Tertiary: CC Analytics API** (GA, April 2026) — programmatic access to daily aggregated CC metrics (sessions, LOC, tool usage, cost). Useful for org-level cost tracking. Endpoint: `GET /api/organizations/{org_id}/analytics/daily`. Cursor-based pagination, ~1h delay. Use when ccusage is unavailable or for cross-org cost comparison.
+
 <!-- CACHE_BOUNDARY -->
 
 ## Process

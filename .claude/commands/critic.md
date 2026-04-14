@@ -122,6 +122,21 @@ Skip all remaining steps for QUICK path.
 
 ## STANDARD / DEEP Path — 4-Phase Pipeline
 
+### TraceGuard 5D Decomposition (optional, for DEEP complexity only)
+
+For DEEP complexity reviews, consider decomposing the monolithic critic into 5 independent verification dimensions (ref: TraceGuard, arXiv:2604.03968). Each dimension = separate evaluation pass → resistant to single-pass blind spots and model collusion.
+
+| Dimension | What it checks | Maps to STOPA |
+|-----------|---------------|---------------|
+| Goal alignment | Does the change achieve what the subtask asked for? | Milestone M1 |
+| Constraint adherence | Are project rules, types, API contracts preserved? | Quality Gates G1-G5 |
+| Reasoning coherence | Is the implementation logic internally consistent? | Phase 2 L3 check |
+| Safety awareness | Security, error handling, edge cases | Phase 2 L2 check |
+| Action-trace consistency | Do the actual file edits match the stated plan? | Phase 2.5 Hallucination check |
+
+**When to use**: Only for `--deep` flag or auto-detected DEEP complexity (6+ files, security/auth/payment). For STANDARD, the 4-phase pipeline below is sufficient.
+**How**: Run 5 parallel Haiku calls (one per dimension), merge verdicts. If any dimension returns FAIL → overall FAIL.
+
 ### Phase 1: SELECTOR — Extract Critical Milestones
 
 #### Quality Gates (auto-milestones)

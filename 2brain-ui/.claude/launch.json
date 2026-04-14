@@ -1,0 +1,13 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "2brain",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["server.js"],
+      "port": 3333,
+      "autoPort": true,
+      "cwd": "2brain-ui"
+    }
+  ]
+}

@@ -6,10 +6,10 @@ component: orchestration
 tags: [autoloop, autoresearch, self-evolve, outcomes, optstate, replay, compute-efficiency]
 summary: "Skills čtou optstate momentum, ale ne konkrétní outcomes z minulých runů. Phase 0 by mělo glob outcomes/<skill>-* (last 5, desc) a číst Trajectory Summary — stejný mechanismus jako experience replay v RL snižuje 'inference cost' (agent spawns) bez ztráty kvality."
 source: external_research
-uses: 0
+uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.6
+confidence: 0.70
 maturity: draft
 skill_scope: [autoloop, autoresearch, self-evolve]
 verify_check: "Glob('.claude/memory/outcomes/autoloop-*') → 0+ files (can be empty)"

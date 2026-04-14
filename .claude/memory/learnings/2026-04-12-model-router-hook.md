@@ -6,10 +6,10 @@ component: hook
 tags: [model-selection, orchestration, cost-optimization, automation]
 summary: Created model-router.py PreToolUse hook and model-perf-tracker.py PostToolUse hook. Router analyzes Agent prompts for model signals (file count, keywords, failure context) and recommends optimal model via additionalContext. Tracker records per-model success rates and auto-tunes haiku-first threshold.
 source: auto_pattern
-uses: 0
+uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.7
+confidence: 0.75
 skill_scope: [orchestrate]
 verify_check: "Glob('.claude/hooks/model-router.py') → 1+ matches"
 ---

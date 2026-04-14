@@ -624,19 +624,6 @@
         ]
       }
     ],
-    "PermissionDenied": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/permission-denied-logger.sh",
-            "timeout": 3,
-            "statusMessage": ""
-          }
-        ]
-      }
-    ],
     "TaskCreated": [
       {
         "matcher": "",

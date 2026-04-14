@@ -2,8 +2,10 @@
 
 Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
-## Last Scan: 2026-04-13 (scheduled morning-watch) | Next: ~2026-04-20
+## Last Scan: 2026-04-14 (full) | Next: ~2026-04-21
 
+**Scan log**: `2026-04-14` — full scan | Searches: 19 | Items: 6 action, 4 watch, 2 info — CC Analytics API GA, Meta Muse Spark (Contemplating mode), DACS paper (3.53× context efficiency), TraceGuard 5D CoT, PwC→HF Trending, Agent SDK additionalDirectories
+**Scan log**: `2026-04-14` — scheduled morning-watch | Searches: 2 | Items: 3 action — prompt caching auto, compaction API beta, OpenClaw extra cost
 **Scan log**: `2026-04-13` — scheduled morning-watch | Searches: 2 | Items: 1 watch, 2 info — /team-onboarding command, Vertex AI setup wizard, effort param GA
 **Scan log**: `2026-04-12` — full scan | Searches: 12 | Fetches: 3 | Items: 3 action, 3 watch, 4 info
 
@@ -11,12 +13,21 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
 | # | Item | Urgency | Next Step |
 |---|------|---------|-----------|
+| 99 | **CC Analytics API (GA)** — programmatický přístup k denním metrikám CC (productivity, tool usage, cost). Cursor-based pagination, ~1h delay. [docs](https://platform.claude.com/docs/en/build-with-claude/claude-code-analytics-api) | HIGH | Integrace do `/budget` skill — auto daily cost download |
+| 100 | **Meta Muse Spark** — Meta's first proprietary frontier model. "Contemplating mode" = parallel agents interně. 58% Humanity's Last Exam. 12 enterprise partnerů. [meta](https://ai.meta.com/blog/introducing-muse-spark-msl/) | MED | Přidat do `/eval` tier srovnání; sledovat Contemplating mode implementaci |
+| 101 | **Papers with Code sunset → HF Trending Papers** (huggingface.co/papers/trending) — PwC dead, HF je náhrada | MED | Aktualizovat `/watch` Tier 2b poznámku |
+| 102 | **DACS (arXiv:2604.07911)** — orchestrátor Registry mode (≤200 tokenů/agent summary) ↔ Focus mode (plný kontext). 90–98% steering accuracy vs 21–60% baseline; 3.53× context efficiency. Apr 9. | HIGH | `/ingest` paper; přidat Registry↔Focus přepínání do orchestrate pro >3 paralelní agenty |
+| 103 | **TraceGuard (arXiv:2604.03968)** — 5D CoT monitoring: goal alignment, constraint adherence, reasoning coherence, safety, action-trace. Každá dimenze = oddělený call → odolnost vůči kolusi. Apr 2. | MED | Upgrade `/critic` na 5D dekompozici |
+| 104 | **Claude Agent SDK** — `additionalDirectories` pro multi-dir CLAUDE.md loading; `CLAUDE_CODE_ENABLE_TASKS` env var pro task system opt-in; `settingSources` field. | MED | Evaluovat `additionalDirectories` pro STOPA multi-project; `ENABLE_TASKS` pro TodoWrite upgrade |
 | 81 | **CC v2.1.91 MCP 500K tool result limit** — `_meta["anthropic/maxResultSizeChars"]` umožňuje až 500 000 znaků v MCP tool result. Stará hranice blokovala velké soubory/logy. | MED | Ověřit STOPA MCP tools (filesystem, github) — mohou číst větší výstupy; zvážit použití v `/ingest` pro velké soubory |
 | 82 | **CC v2.1.89 PreToolUse "defer" decision** — hooks mohou nyní POZASTAVIT headless session a počkat na externí signál (`defer`). Třetí možnost vedle allow/deny. Klíčové pro CI/CD approval gates a multi-agent koordinaci. | MED | Zkoumat přidání defer logiky do STOPA permission hooků pro destruktivní operace (queue clear, force push) |
 | 77 | **Model Capabilities API** — `GET /v1/models` vrací `max_input_tokens`, `max_tokens`, `capabilities` objekt. Strojové zjišťování možností modelu. | MED | STOPA orchestrate pre-flight: ověřit model capabilities dynamicky místo hardcoded tier tabulky |
 | 78 | **AGENTS.md efficiency study** (arXiv:2601.20404, JAWs Apr 2026) — 28.64% runtime ↓, 16.58% token ↓ s repo-level instrukcemi. Empirická validace STOPA CLAUDE.md přístupu. | MED | Zapsat learning (best_practice/high); přidat do onboarding checklistu pro target projekty |
 | 74 | **Claude Sonnet 5** (`claude-sonnet-5-20260401`) — postupný rollout | MED | GA od 1.4., ale ještě ne na všech účtech. Až bude dostupný: přepnout v STOPA model tiers (standard + deep). 92.4% SWE-bench, 2M context, $3/$15/M. |
 | 83 | **CC v2.1.94 default effort=high** — API-key, Bedrock, Vertex, Team, Enterprise. Potenciálně dražší agentic běhy. | MED | STOPA orchestrate aligned (effort:high). Sledovat náklady v /budget. |
+| 96 | **Prompt caching auto-placement** (API, Apr 2026) — přidej jeden `cache_control` field do request body, systém automaticky cachuje poslední cacheable blok a pohybuje cache point vpřed jak conversation roste. Žádné ruční breakpointy. | MED | Zjednodušuje prompt caching v NG-ROBOT a STOPA claude-api skill — odstranit ruční breakpoint management. |
+| 97 | **Compaction API (beta)** (Apr 2026) — server-side context summarization pro Opus 4.6, umožňuje efektivně nekonečné konverzace. Komplementární k /compact skill (který je client-side). | MED | Evaluovat jako backend pro /compact skill; zvážit opt-in pro deep tier kde context přetéká. |
+| 98 | **OpenClaw extra cost** (TechCrunch Apr 4) — CC subscribers platí navíc za OpenClaw (Anthropic web UI). Dopad na budget plánování. | LOW | Sledovat pricing; při adopci OpenClaw ověřit vliv na /budget ledger. |
 | 84 | **Claude Managed Agents (Public Beta)** — managed agent harness, SSE, sandbox. Header `managed-agents-2026-04-01`. | MED | Evaluovat jako alternativu k STOPA orchestration. Potenciálně zjednodušuje deployment. |
 | 85 | **`thinking: {type: enabled}` deprecated** — migrovat na `{type: adaptive}` + effort. | MED | STOPA clean. Ověřit target projekty (NG-ROBOT, ADOBE). |
 | 86 | **`ant` CLI** — nový Anthropic CLI, YAML API resources. | LOW | Sledovat až GA. |
@@ -80,6 +91,10 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
 ### Agent/Tool Research
 | Item | Detail |
+| 105. Meta Muse Spark "Contemplating mode" | Paralelní interní agenti v Meta's frontier model — architektonický vzor pro STOPA farm tier. [meta.com](https://ai.meta.com/blog/introducing-muse-spark-msl/) Trigger: GA pricing |
+| 106. DACS — Registry↔Focus context switching | arXiv:2604.07911 (Apr 9) — pro orchestrátory s >3 agenty: 200-token summaries pro idle agenty, full context pro aktivního. Bez kódu. Sledovat implementaci. |
+| 107. TraceGuard 5D CoT monitor | arXiv:2604.03968 (Apr 2) — 5 independent critic calls > 1 monolithic. Bez kódu. |
+| 108. LangGraph 1.1.7a1 | Apr 10. Async subagent nodes, content moderation middleware, multi-modal read_file. [github](https://github.com/langchain-ai/deepagents) |
 | 96. Hermes Agent v0.8.0 (NousResearch) | 40K+ GitHub stars. "Agent that grows with you" — persistent memory, auto-generated skills, learns projects. Cross-platform (Telegram, Discord, Slack, WhatsApp, Signal, Email). 5 backends. v0.8.0 Apr 8: background task auto-notifications, live model switching, MCP OAuth 2.1. [github](https://github.com/nousresearch/hermes-agent) — Inspirace pro STOPA persistent skill learning + cross-platform reach |
 | 97. Memory Intelligence Agent (arXiv:2604.04503) | Comprehensive memory framework pro agenty — Apr 2026. Cache layers (immediate reasoning) + memory layers (retrieval + persistence). Framing blízký STOPA MemPalace. Bez kódu. Sledovat. |
 | 79. Context Engineering (Goodside) | "Context engineering = co model čte, prompt engineering = co user píše." Terminologická divergence. Relevantní pro skill design filozofii. [interconnects.ai](https://www.interconnects.ai/p/riley-goodside-on-science-of-prompting) |
@@ -215,6 +230,7 @@ Older: see `news-archive.md`
 
 ### Scan History
 
+### 2026-04-14 — full scan | Searches: 19 | Items: 6 action, 4 watch, 2 info — CC Analytics API GA (#99), Meta Muse Spark (#100), PwC→HF Trending (#101), DACS arXiv:2604.07911 (#102), TraceGuard arXiv:2604.03968 (#103), Agent SDK additionalDirectories (#104)
 ### 2026-04-12 — full scan | Searches: 12 | Fetches: 3 | Items: 3 action, 3 watch, 4 info — Advisor Tool public beta, CC v2.1.101 security fixes + Monitor tool, Hermes Agent v0.8.0, Memory Intelligence Agent paper, Qwen3.6-Plus, BEHELM benchmark
 ### 2026-04-10 — scheduled morning-watch | Searches: 2 | Items: 1 action, 2 watch — Sonnet 3.7+Haiku 3.5 retired (errors), Bedrock Messages API preview, CC Focus view
 ### 2026-04-09 — scheduled morning-watch | Searches: 2 | Items: 2 watch, 1 info — Compaction API beta, Mythos Preview live (Project Glasswing), data residency controls

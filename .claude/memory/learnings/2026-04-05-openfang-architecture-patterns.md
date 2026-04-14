@@ -6,9 +6,9 @@ component: orchestration
 tags: [agent-os, sandbox, audit-trail, scheduling, rust, architecture-reference]
 summary: "OpenFang (Rust Agent OS) nabízí 3 architektonické vzory pro STOPA: sandbox izolaci skills, Merkle audit trail pro OSINT výstupy, a daemon-based scheduling bez session. Žádný není urgentní, ale všechny řeší reálné limity."
 source: external_research
-uses: 0
+uses: 1
 harmful_uses: 0
-confidence: 0.6
+confidence: 0.65
 verify_check: manual
 successful_uses: 0
 ---

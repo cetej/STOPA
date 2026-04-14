@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2BRAIN</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="app">
+    <div class="topbar">
+      <h1>2BRAIN</h1>
+      <nav>
+        <a href="#/" class="active" data-view="wiki">Wiki</a>
+        <a href="#/graph" data-view="graph">Graph</a>
+        <a href="#/timeline" data-view="timeline">Timeline</a>
+        <a href="#/inbox" data-view="inbox">Inbox</a>
+      </nav>
+      <div class="search-box">
+        <input type="text" id="search-input" placeholder="Search wiki...">
+        <div class="search-results" id="search-results"></div>
+      </div>
+      <div class="stats" id="stats"></div>
+    </div>
+
+    <div class="sidebar" id="sidebar"></div>
+
+    <div class="main" id="main">
+      <div class="welcome" id="welcome">
+        <h2>Loading...</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="graph-tooltip" id="graph-tooltip"></div>
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="/app.js"></script>
+  <script src="/graph.js"></script>
+</body>
+</html>

@@ -6,10 +6,10 @@ component: orchestration
 tags: [tier-selection, human-AI, depth, breadth, orchestration]
 summary: "Tao's Copernican View maps directly to STOPA tier selection: AI agents cover breadth (scout, research, parallel generation), human judgment needed for depth (architecture, quality gate, tier escalation). Without human depth gate, pipelines produce 'odorless outputs' — technically correct but without insight."
 source: external_research
-uses: 0
+uses: 3
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.8
+confidence: 0.95
 verify_check: "Grep('ODORLESS', path='.claude/skills/critic/SKILL.md') → 1+ matches"
 ---
 

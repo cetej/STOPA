@@ -6,10 +6,10 @@ component: general
 tags: [persuasion, manipulation, evaluation, recommendation, ai-safety]
 summary: "In AI persuasion, disparaging competitors (active hedging, understated descriptions) is MORE effective than promoting the target. Technically accurate caveats about alternatives are harder to detect and audit than positive claims about the sponsored item."
 source: external_research
-uses: 0
+uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.85
+confidence: 0.95
 maturity: draft
 valid_until:
 verify_check: "manual"

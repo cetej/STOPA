@@ -3,7 +3,7 @@ name: DeepSeek-R1
 type: tool
 first_seen: 2026-04-07
 last_updated: 2026-04-07
-sources: [agentic-ai-intelligence-explosion, single-agent-vs-multi-agent-thinking-budget]
+sources: [agentic-ai-intelligence-explosion, single-agent-vs-multi-agent-thinking-budget, vmr-rlvr-open-ended-verifiable-rewards]
 tags: [ai-tools, research]
 ---
 # DeepSeek-R1
@@ -24,3 +24,4 @@ Empirická evidence, že multi-agent reasoning je přirozená vlastnost silných
 
 - [Agentic AI and the Next Intelligence Explosion](../sources/agentic-ai-intelligence-explosion.md)
 - [Single-Agent LLMs vs Multi-Agent Systems Under Equal Thinking Token Budgets](../sources/single-agent-vs-multi-agent-thinking-budget.md) — použit jako jeden ze 3 testovacích modelů (DeepSeek-R1-Distill-Llama); SAS varianta dosahuje ≥ MAS při rovném thinking budgetu
+- [VMR-RLVR: Open-Ended Verifiable Rewards](../sources/vmr-rlvr-open-ended-verifiable-rewards.md) — DeepSeek-R1-Distill-Qwen-14B trénovaný VMR-RLVR překonal 32B model; potvrzen scale reversal pro reasoning modely

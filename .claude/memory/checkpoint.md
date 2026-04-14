@@ -1,31 +1,31 @@
 # Session Checkpoint
 
-**Saved**: 2026-04-13 (auto-saved (session end))
+**Saved**: 2026-04-14 (auto-saved (session end))
 **Task**: none
 **Branch**: main
-**Last commit**: `b688b42` feat: /promote skill + AI persuasion knowledge cluster (arXiv:2604.04263)
+**Last commit**: `0df8321` feat: OpenMontage patterns adoption — 7D media provider selector, UCB1 outcome tracking (ADR 0014)
 
 ---
 
 ## Session Activity
 
-Session: 164 file edits, 35 agent spawns, 0 skill calls. Skills: deepresearch, evolve, ingest, promote, radar, schedule
-Duration: ~23724 min
+Session: 157 file edits, 26 agent spawns, 0 skill calls. Skills: deepresearch, dreams, ingest, promote, schedule
+Duration: ~24569 min
 
 ## Files Touched
 
 | File | Operations | Date |
 |------|-----------|------|
-| SKILL.md | 25 edits | 2026-04-13 |
-| memory-files.md | 7 edits | 2026-04-13 |
-| hybrid-retrieve.py | 7 edits | 2026-04-13 |
-| server.js | 5 edits | 2026-04-13 |
-| browse.md | 5 edits | 2026-04-13 |
-| settings.json | 4 edits | 2026-04-13 |
-| checkpoint.md | 4 edits | 2026-04-13 |
-| INDEX.md | 4 edits | 2026-04-13 |
-| 06_SYSTEMOVE_INSTRUKCE.md | 4 edits | 2026-04-13 |
-| memory-search.py | 3 edits | 2026-04-13 |
+| SKILL.md | 23 edits | 2026-04-14 |
+| hybrid-retrieve.py | 9 edits | 2026-04-14 |
+| memory-files.md | 7 edits | 2026-04-14 |
+| INDEX.md | 7 edits | 2026-04-14 |
+| news.md | 6 edits | 2026-04-14 |
+| MEMORY.md | 6 edits | 2026-04-14 |
+| watchlist.md | 5 edits | 2026-04-14 |
+| settings.json | 4 edits | 2026-04-14 |
+| render.py | 4 edits | 2026-04-14 |
+| 06_SYSTEMOVE_INSTRUKCE.md | 4 edits | 2026-04-14 |
 
 ## Key Results
 
@@ -41,12 +41,10 @@ _No commits this session_
 
 ## Learnings Captured
 
-learnings_this_session: 9
-  - 2026-04-13-ai-persuasion-creates-genuine-preferences
-  - 2026-04-13-ai-persuasion-disclosure-insufficient
-  - 2026-04-13-breadth-depth-axis-tier-selection
-  - 2026-04-13-disparagement-stronger-than-promotion
-  - 2026-04-13-do-nothing-first-class-option
+learnings_this_session: 3
+  - 2026-04-14-dacs-context-scoping
+  - 2026-04-14-openmontage-production-governance
+  - 2026-04-14-traceguard-5d-critic
 
 ## Workflow Decisions
 
@@ -63,7 +61,7 @@ _No pending subtasks detected in state.md_
 
 > **Task**: none
 >
-> **Context**: Last commit `b688b42` (feat: /promote skill + AI persuasion knowledge cluster (arXiv:2604.04263)). Branch: main.
-> Session had 164 edits, 35 agents, 0 skill calls, 0 errors.
+> **Context**: Last commit `0df8321` (feat: OpenMontage patterns adoption — 7D media provider selector, UCB1 outcome tracking (ADR 0014)). Branch: main.
+> Session had 157 edits, 26 agents, 0 skill calls, 0 errors.
 
 
