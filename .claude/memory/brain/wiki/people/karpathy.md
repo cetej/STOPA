@@ -61,8 +61,13 @@ Karpathyho LLM Wiki je přímá inspirace pro 2BRAIN architekturu. Jeho důraz n
 
 Koncepty jako verifiability, jagged intelligence a vibe coding přimo ovlivňují design STOPA a NG-ROBOT pipeline.
 
+### Operating Knowledge (2026, nový koncept)
+
+Token consumption se přesouvá od "operating code" k **"operating knowledge"** (Karpathy, Apr 2026). LLM apps vrstva: primární hodnota není v generování kódu, ale v organizaci a operování znalostmi. Second brain systems jsou přirozenou odpovědí na tento shift.
+
 ## Zdroje
 
 - https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f (LLM Wiki spec)
 - https://karpathy.bearblog.dev/ (blog — 12 příspěvků od 2024)
 - https://karpathy.ai/
+- https://x.com/ICPandaDAO/status/2040434533619892603 (operating knowledge, Apr 2026)

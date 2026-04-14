@@ -45,9 +45,38 @@ Při ~100 zdrojích / 400K slovech structured markdown index překonává embedd
 Člověk: kuratuje zdroje, řídí analýzu, ptá se, přemýšlí o smyslu.
 LLM: vše ostatní — cross-referencing, consistency maintenance, contradiction flagging.
 
+## Přesnější 3-složková architektura (CoderSera, Apr 2026)
+
+| Složka | Role | Pravidla |
+|--------|------|---------|
+| **raw/** | Append-only zdrojový repozitář | PDF, články, screenshoty → markdown. LLM pouze čte. |
+| **wiki/** | LLM output — strukturované wiki | Interlinked markdown + index.md |
+| **outputs/** | Persistentní výstupy dotazů | Auditovatelné syntetizované reporty |
+
+## Token Economy Shift (Karpathy, Apr 2026)
+
+Token consumption se přesouvá od **"operating code"** k **"operating knowledge"**. LLM apps vrstva migrace: code generation → knowledge management. Hodnota je v akumulované strukturované znalosti, ne v generativním throughput.
+
+**Hippocampus analogie:** LLM jako hippocampus — konsoliduje short-term observations do long-term knowledge structures. Nekopíruje raw zážitky, extrahuje patterns a ukládá je strukturovaně.
+
+## Proč LLM Wiki překonává manuální systémy
+
+Zettelkasten / Obsidian selhávají protože "bookkeeping burden — updating cross-references, tagging, and noting contradictions — grows much faster than the value" (EvoAI Labs, Apr 2026).
+
+LLM Wiki automatizuje tuto vrstvu: AI je "tireless librarian and system maintainer".
+
+## Limity škálování
+
+- ~few hundred articles před context window constraints
+- Token cost roste s scale (každý Lint = celý index)
+- Human oversight nutný pro fact-checking
+- Žádný real-time retrieval pro concurrent multi-user access
+
 ## Implementace v 2BRAIN
 
 2BRAIN přímo implementuje tento vzor:
 - `brain/raw/` = Raw Sources
-- `brain/wiki/` = The Wiki
+- `brain/wiki/` = The Wiki (+ `brain/wiki/outputs/` pro dotazy)
 - `CLAUDE.md` + skill `/capture` = The Schema + operace
+
+**Validace taxonomií:** Write-Manage-Read loop (arXiv:2603.07670) formalizuje 2BRAIN cyklus jako Hierarchical Virtual Context paměťový mechanismus — akademicky nejtěsněji odpovídající architektuře.

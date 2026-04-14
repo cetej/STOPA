@@ -1,5 +1,5 @@
 {
-  "call_count": 4988,
+  "call_count": 5469,
   "has_todo": true,
   "edit_file_set": [
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\capability-gaps.md",
@@ -365,10 +365,37 @@
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\skills\\eval\\SKILL.md",
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-14-dacs-context-scoping.md",
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-14-traceguard-5d-critic.md",
-    "C:\\Users\\stock\\.claude\\projects\\C--Users-stock-Documents-000-NGM-STOPA\\memory\\reference_dacs_context_scoping.md"
+    "C:\\Users\\stock\\.claude\\projects\\C--Users-stock-Documents-000-NGM-STOPA\\memory\\reference_dacs_context_scoping.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\raw\\2026-04-14-memfactory-paper.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\raw\\2026-04-14-agent-memory-survey.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\raw\\2026-04-14-karpathy-llm-kb-codersera.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\raw\\2026-04-14-karpathy-llm-wiki-evoai.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\raw\\2026-04-14-karpathy-operating-knowledge.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\wiki\\concepts\\memfactory.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\wiki\\concepts\\agent-memory-taxonomy.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\outputs\\.research\\paseo-discovery-3.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\outputs\\.research\\paseo-synthesis-draft.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\outputs\\.research\\paseo-reading-2.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\outputs\\.research\\paseo-reading-1.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\outputs\\paseo-stopa-research.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\outputs\\paseo-stopa-research.provenance.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-14-paseo-orchestration-patterns.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\outputs\\stopa-restructure-plan.md",
+    "C:\\Users\\stock\\.claude\\projects\\C--Users-stock-Documents-000-NGM-STOPA\\memory\\project_stopa_restructure.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\hooks\\session-summary.sh",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\hooks\\outcome-writer.py",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\agents\\koder.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\koder\\templates\\task-template.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\skills\\koder\\SKILL.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\docs\\decisions\\0015-koder-execution-agent.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\tasks\\koder-queue\\T-2026-04-14-001.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\outcomes\\2026-04-14-koder-success-verify-failure-recorder.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\scripts\\actionable-rate.py",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-03-autoagent-overfitting-guard.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\tasks\\koder-queue\\T-2026-04-14-002.md"
   ],
   "last_edit_was_py": false,
-  "grep_count": 1629,
-  "last_suggestion_ts": 1776150872.8032856,
-  "skill_count": 26
+  "grep_count": 1781,
+  "last_suggestion_ts": 1776157506.5486603,
+  "skill_count": 32
 }

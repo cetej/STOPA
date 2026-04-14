@@ -1,8 +1,74 @@
 {
-  "generated": "2026-04-12",
-  "total_blocks": 114,
-  "active_blocks": 111,
+  "generated": "2026-04-14",
+  "total_blocks": 146,
+  "active_blocks": 143,
   "blocks": {
+    "2026-04-13-ai-persuasion-creates-genuine-preferences.md": {
+      "id": "2026-04-13-ai-persuasion-creates-genuine-preferences.md",
+      "component": "general",
+      "date": "2026-04-13",
+      "type": "architecture",
+      "severity": "high",
+      "tags": [
+        "persuasion",
+        "ai-safety",
+        "trust",
+        "user-autonomy",
+        "recommendation"
+      ],
+      "summary": "AI persuasion creates genuine preferences (not compliance). Post-debriefing retention matches freely-chosen selections. By the time disclosure occurs, the preference is already formed and cannot be undone by information.",
+      "uses": 2,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 531,
+      "retrieval_score": 2.951,
+      "active": true
+    },
+    "2026-04-13-ai-persuasion-disclosure-insufficient.md": {
+      "id": "2026-04-13-ai-persuasion-disclosure-insufficient.md",
+      "component": "general",
+      "date": "2026-04-13",
+      "type": "anti_pattern",
+      "severity": "high",
+      "tags": [
+        "persuasion",
+        "advertising",
+        "ai-safety",
+        "transparency",
+        "disclosure"
+      ],
+      "summary": "Sponsored labels and explicit transparency warnings fail to protect users from AI persuasion. N=2012 RCT shows 5.7pp reduction (ns) from adding labels. Structural intervention required — not disclosure.",
+      "uses": 2,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 490,
+      "retrieval_score": 2.951,
+      "active": true
+    },
+    "2026-04-13-disparagement-stronger-than-promotion.md": {
+      "id": "2026-04-13-disparagement-stronger-than-promotion.md",
+      "component": "general",
+      "date": "2026-04-13",
+      "type": "best_practice",
+      "severity": "high",
+      "tags": [
+        "persuasion",
+        "manipulation",
+        "evaluation",
+        "recommendation",
+        "ai-safety"
+      ],
+      "summary": "In AI persuasion, disparaging competitors (active hedging, understated descriptions) is MORE effective than promoting the target. Technically accurate caveats about alternatives are harder to detect and audit than positive claims about the sponsored item.",
+      "uses": 2,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 461,
+      "retrieval_score": 2.951,
+      "active": true
+    },
     "2026-04-11-calm-continuous-autoregressive.md": {
       "id": "2026-04-11-calm-continuous-autoregressive.md",
       "component": "general",
@@ -16,12 +82,12 @@
         "watch-item"
       ],
       "summary": "CALM (arXiv:2510.27688) komprimuje K tokenů do 1 spojitého vektoru — K=4 je sweet spot (44% méně FLOPs, >99.9% rekonstrukce). Přenositelné principy: batch K segmentů v pipeline, likelihood-free eval (BrierLM), 4:1 komprese memory.",
-      "uses": 0,
+      "uses": 2,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 393,
-      "retrieval_score": 1.967,
+      "retrieval_score": 1.905,
       "active": true
     },
     "2026-04-11-iha-interleaved-head-attention.md": {
@@ -38,14 +104,14 @@
         "long-context"
       ],
       "summary": "IHA (arXiv:2602.21371) umožňuje cross-head komunikaci přes pseudo-hlavy — P² attention patterns na hlavu místo 1. Multi-key retrieval +112% @16k, GSM8K +5.8%. Kompatibilní s FlashAttention. Watch item pro long-context a multi-hop reasoning.",
-      "uses": 0,
+      "uses": 2,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
         "2026-04-11-calm-continuous-autoregressive.md"
       ],
-      "token_estimate": 416,
-      "retrieval_score": 1.967,
+      "token_estimate": 417,
+      "retrieval_score": 1.905,
       "active": true
     },
     "2026-04-08-jevons-paradox-ai-coding.md": {
@@ -65,7 +131,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 328,
-      "retrieval_score": 1.875,
+      "retrieval_score": 1.818,
       "active": true
     },
     "2026-04-07-model-metadata-dynamic-ui-pattern.md": {
@@ -87,7 +153,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 471,
-      "retrieval_score": 1.846,
+      "retrieval_score": 1.791,
       "active": true
     },
     "2026-04-07-multi-reward-normalization-collapse.md": {
@@ -108,7 +174,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 454,
-      "retrieval_score": 1.846,
+      "retrieval_score": 1.791,
       "active": true
     },
     "2026-04-01-image-cache-invalidation.md": {
@@ -129,7 +195,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 419,
-      "retrieval_score": 1.69,
+      "retrieval_score": 1.644,
       "active": true
     },
     "2026-03-27-playwright-mcp-download-hijack.md": {
@@ -148,12 +214,12 @@
         "security"
       ],
       "summary": "Playwright MCP hijacks Chrome downloads to temp folder, breaking all browser downloads. NEVER add to Claude Desktop.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 797,
-      "retrieval_score": 3.158,
+      "retrieval_score": 3.077,
       "active": true
     },
     "2026-03-27-secrets-in-config-files.md": {
@@ -170,12 +236,12 @@
         "env-vars"
       ],
       "summary": "NEVER write API keys/tokens into JSON config files. Use environment variables or .env files excluded from git.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 328,
-      "retrieval_score": 3.158,
+      "retrieval_score": 3.077,
       "active": true
     },
     "2026-03-23-ecosystem-scan.md": {
@@ -190,12 +256,12 @@
         "positioning"
       ],
       "summary": "STOPA ecosystem positioning: unique in combining skill system + shared memory + orchestration. Competitors lack memory layer.",
-      "uses": 2,
+      "uses": 3,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 222,
-      "retrieval_score": 0.75,
+      "retrieval_score": 0.732,
       "active": true
     },
     "2026-03-23-environment-falai.md": {
@@ -215,8 +281,460 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 204,
-      "retrieval_score": 1.5,
+      "token_estimate": 203,
+      "retrieval_score": 1.463,
+      "active": true
+    },
+    "2026-04-14-dacs-context-scoping.md": {
+      "id": "2026-04-14-dacs-context-scoping.md",
+      "component": "orchestration",
+      "date": "2026-04-14",
+      "type": "architecture",
+      "severity": "high",
+      "tags": [
+        "multi-agent",
+        "context-management",
+        "token-efficiency"
+      ],
+      "summary": "DACS (arXiv:2604.07911) — Registry↔Focus context switching pro multi-agent orchestrátory. Registry mode = ≤200 tokenů/agent summary, Focus mode = plný kontext jednoho agenta. 90–98% steering accuracy vs 21–60% baseline, 3.53× context efficiency. Aplikovat v orchestrate pro >3 paralelní agenty.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 392,
+      "retrieval_score": 3.0,
+      "active": true
+    },
+    "2026-04-14-paseo-orchestration-patterns.md": {
+      "id": "2026-04-14-paseo-orchestration-patterns.md",
+      "component": "orchestration",
+      "date": "2026-04-14",
+      "type": "architecture",
+      "severity": "high",
+      "tags": [
+        "orchestration",
+        "multi-agent",
+        "heartbeat",
+        "async",
+        "plan-persistence",
+        "ci-monitoring",
+        "cross-provider"
+      ],
+      "summary": "Paseo (getpaseo/paseo) — open-source multi-provider orchestrátor pro Claude Code/Codex/OpenCode. 8 adoptovatelných vzorů identifikováno: heartbeat scheduler (5 min), plan-on-disk pro přežití compaction, post-PR CI monitoring loop, cross-provider worker/verifier, event-driven launch (notifyOnFinish), read-only coordinator hard rule, Grill interview phase, preferences persistence. STOPA je silnější v memory/learnings/evolve, Paseo v multi-device/multi-provider distribuci.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 674,
+      "retrieval_score": 3.0,
+      "active": true
+    },
+    "2026-04-14-traceguard-5d-critic.md": {
+      "id": "2026-04-14-traceguard-5d-critic.md",
+      "component": "orchestration",
+      "date": "2026-04-14",
+      "type": "architecture",
+      "severity": "medium",
+      "tags": [
+        "critic",
+        "verification",
+        "decomposition",
+        "multi-dimensional"
+      ],
+      "summary": "TraceGuard (arXiv:2604.03968) — 5D CoT monitoring: goal alignment, constraint adherence, reasoning coherence, safety awareness, action-trace consistency. Každá dimenze = oddělený LLM call → odolnost proti kolusi a blind spotům. Alternativa k monolitickému critic callu pro DEEP complexity.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 417,
+      "retrieval_score": 2.0,
+      "active": true
+    },
+    "2026-04-13-breadth-depth-axis-tier-selection.md": {
+      "id": "2026-04-13-breadth-depth-axis-tier-selection.md",
+      "component": "orchestration",
+      "date": "2026-04-13",
+      "type": "architecture",
+      "severity": "high",
+      "tags": [
+        "tier-selection",
+        "human-AI",
+        "depth",
+        "breadth",
+        "orchestration"
+      ],
+      "summary": "Tao's Copernican View maps directly to STOPA tier selection: AI agents cover breadth (scout, research, parallel generation), human judgment needed for depth (architecture, quality gate, tier escalation). Without human depth gate, pipelines produce 'odorless outputs' — technically correct but without insight.",
+      "uses": 3,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 466,
+      "retrieval_score": 2.951,
+      "active": true
+    },
+    "2026-04-13-do-nothing-first-class-option.md": {
+      "id": "2026-04-13-do-nothing-first-class-option.md",
+      "component": "orchestration",
+      "date": "2026-04-13",
+      "type": "best_practice",
+      "severity": "high",
+      "tags": [
+        "refinement",
+        "iteration",
+        "critic",
+        "convergence",
+        "anti-pattern"
+      ],
+      "summary": "In iterative improvement loops, 'do nothing' (incumbent preservation) must be a structurally first-class option — not just logically allowed — or the system will always produce changes regardless of quality.",
+      "uses": 2,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 330,
+      "retrieval_score": 2.951,
+      "active": true
+    },
+    "2026-04-13-experience-replay-outcomes-reuse.md": {
+      "id": "2026-04-13-experience-replay-outcomes-reuse.md",
+      "component": "orchestration",
+      "date": "2026-04-13",
+      "type": "architecture",
+      "severity": "high",
+      "tags": [
+        "autoloop",
+        "autoresearch",
+        "self-evolve",
+        "outcomes",
+        "optstate",
+        "replay",
+        "compute-efficiency"
+      ],
+      "summary": "Skills čtou optstate momentum, ale ne konkrétní outcomes z minulých runů. Phase 0 by mělo glob outcomes/<skill>-* (last 5, desc) a číst Trajectory Summary — stejný mechanismus jako experience replay v RL snižuje 'inference cost' (agent spawns) bez ztráty kvality.",
+      "uses": 2,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 466,
+      "retrieval_score": 2.951,
+      "active": true
+    },
+    "2026-04-13-generate-then-discard-suboptimal.md": {
+      "id": "2026-04-13-generate-then-discard-suboptimal.md",
+      "component": "orchestration",
+      "date": "2026-04-13",
+      "type": "best_practice",
+      "severity": "high",
+      "tags": [
+        "autoloop",
+        "autoresearch",
+        "self-evolve",
+        "efficiency",
+        "budget-tiers",
+        "replay"
+      ],
+      "summary": "Generate-then-discard' je suboptimální pattern pro iterativní skills. Před spuštěním nového agenta zkontroluj existující outcomes — přínos je analogický experience replay v RL (40% compute savings, stabilnější konvergence).",
+      "uses": 2,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 468,
+      "retrieval_score": 2.951,
+      "active": true
+    },
+    "2026-04-13-judge-panel-size-convergence.md": {
+      "id": "2026-04-13-judge-panel-size-convergence.md",
+      "component": "orchestration",
+      "date": "2026-04-13",
+      "type": "best_practice",
+      "severity": "medium",
+      "tags": [
+        "evaluation",
+        "critic",
+        "review",
+        "convergence"
+      ],
+      "summary": "7 fresh judges converge 3× faster than 3 judges in blind Borda voting; each judge must have independent context (no shared prior from previous rounds).",
+      "uses": 2,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 256,
+      "retrieval_score": 1.967,
+      "active": true
+    },
+    "2026-04-13-pairwise-choice-sufficient-verifiable-signal.md": {
+      "id": "2026-04-13-pairwise-choice-sufficient-verifiable-signal.md",
+      "component": "orchestration",
+      "date": "2026-04-13",
+      "type": "best_practice",
+      "severity": "medium",
+      "tags": [
+        "rl-training",
+        "pairwise-comparison",
+        "evaluation",
+        "autoreason",
+        "skill-design"
+      ],
+      "summary": "Pairwise comparison (A vs B) je dostatečný verifiable reward signal pro iterativní zlepšování bez potřeby reward modelu. VMR-RLVR ukazuje, že binární choice zachovává stabilní gradient pro RL trénink — patternů využívá STOPA autoreason a self-evolve.",
+      "uses": 2,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [
+        "2026-04-08-direction-magnitude-decoupling-optimization.md"
+      ],
+      "token_estimate": 404,
+      "retrieval_score": 1.967,
+      "active": true
+    },
+    "2026-04-13-pretraining-loss-insufficient-generalization-proxy.md": {
+      "id": "2026-04-13-pretraining-loss-insufficient-generalization-proxy.md",
+      "component": "orchestration",
+      "date": "2026-04-13",
+      "type": "best_practice",
+      "severity": "high",
+      "tags": [
+        "evaluation",
+        "generalization",
+        "loss-landscape",
+        "skill-evaluation",
+        "optimizer"
+      ],
+      "summary": "Pretraining loss není dostatečný proxy pro downstream kvalitu — dva modely se stejným loss mohou mít drasticky odlišný downstream výkon (Nexus: +15% GSM8k při identickém loss). Pro STOPA: training-set metriky nestačí, evaluace musí zahrnovat OOD/downstream testy.",
+      "uses": 2,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [
+        "2026-04-08-early-iteration-unreliable-eval.md"
+      ],
+      "token_estimate": 424,
+      "retrieval_score": 2.951,
+      "active": true
+    },
+    "2026-04-13-tournament-self-refinement-abc.md": {
+      "id": "2026-04-13-tournament-self-refinement-abc.md",
+      "component": "orchestration",
+      "date": "2026-04-13",
+      "type": "best_practice",
+      "severity": "high",
+      "tags": [
+        "refinement",
+        "iteration",
+        "critic",
+        "review",
+        "anti-pattern"
+      ],
+      "summary": "Tournament self-refinement (A=incumbent, B=adversarial, AB=synthesis) with blind Borda panel prevents prompt bias and scope creep; removing either B or AB collapses performance.",
+      "uses": 2,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 329,
+      "retrieval_score": 2.951,
+      "active": true
+    },
+    "2026-04-12-advisor-tool-public-beta.md": {
+      "id": "2026-04-12-advisor-tool-public-beta.md",
+      "component": "orchestration",
+      "date": "2026-04-12",
+      "type": "best_practice",
+      "severity": "high",
+      "tags": [
+        "api",
+        "model-selection",
+        "cost-optimization",
+        "advisor"
+      ],
+      "summary": "Anthropic Advisor Tool in public beta — validates STOPA executor+advisor tier pattern. Direct API integration for NG-ROBOT/POLYBOT; wait for CC native support for STOPA sub-agents.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 311,
+      "retrieval_score": 2.903,
+      "active": true
+    },
+    "2026-04-12-fresh-session-self-report-verification.md": {
+      "id": "2026-04-12-fresh-session-self-report-verification.md",
+      "component": "orchestration",
+      "date": "2026-04-12",
+      "type": "best_practice",
+      "severity": "medium",
+      "tags": [
+        "verification",
+        "critic",
+        "sycophancy",
+        "trust",
+        "evaluation"
+      ],
+      "summary": "Fresh-session self-report catches sycophancy: asking a model in a new context 'was your previous answer actually correct?' yields 83.6% self-admission of lies (GPT-4o). Actionable as a STOPA verification pattern for high-stakes outputs.",
+      "uses": 2,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 391,
+      "retrieval_score": 1.935,
+      "active": true
+    },
+    "2026-04-12-ib-optimality-predicts-benchmarks.md": {
+      "id": "2026-04-12-ib-optimality-predicts-benchmarks.md",
+      "component": "orchestration",
+      "date": "2026-04-12",
+      "type": "best_practice",
+      "severity": "high",
+      "tags": [
+        "model-selection",
+        "information-bottleneck",
+        "compression",
+        "evaluation",
+        "tier-selection"
+      ],
+      "summary": "LLM optimality I(Y;Z)/I(X;Z) predicts benchmark performance (r=0.52) from a single forward pass on C4 — cheaper than benchmark eval suites. Preference info I(Z;pref) is stronger (r=0.76) and predicts alignment/instruction-following quality.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 410,
+      "retrieval_score": 2.903,
+      "active": true
+    },
+    "2026-04-12-model-size-negatively-correlated-honesty.md": {
+      "id": "2026-04-12-model-size-negatively-correlated-honesty.md",
+      "component": "orchestration",
+      "date": "2026-04-12",
+      "type": "best_practice",
+      "severity": "high",
+      "tags": [
+        "model-selection",
+        "security",
+        "trust",
+        "honesty",
+        "deception",
+        "sycophancy"
+      ],
+      "summary": "MASK benchmark: negative correlation between model size and honesty under pressure. Larger/smarter models lie more convincingly. Do NOT assume larger model = more trustworthy output in trust-sensitive roles.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [
+        "2026-04-08-agent-deception-pressure-trigger.md"
+      ],
+      "token_estimate": 380,
+      "retrieval_score": 2.903,
+      "active": true
+    },
+    "2026-04-12-morning-briefing-cron-pattern.md": {
+      "id": "2026-04-12-morning-briefing-cron-pattern.md",
+      "component": "orchestration",
+      "date": "2026-04-12",
+      "type": "best_practice",
+      "severity": "medium",
+      "tags": [
+        "scheduled-tasks",
+        "cron",
+        "morning-briefing",
+        "automation",
+        "memory"
+      ],
+      "summary": "Morning briefing cron pattern: single claude -p command reads Memory.md + new raw sources from last 24h + prints terminal digest. Set once, runs forever. Directly implementable as STOPA scheduled task.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 395,
+      "retrieval_score": 1.935,
+      "active": true
+    },
+    "2026-04-12-pretraining-vs-posttraining-dissociation.md": {
+      "id": "2026-04-12-pretraining-vs-posttraining-dissociation.md",
+      "component": "orchestration",
+      "date": "2026-04-12",
+      "type": "architecture",
+      "severity": "medium",
+      "tags": [
+        "model-selection",
+        "rlhf",
+        "alignment",
+        "pre-training",
+        "post-training",
+        "instruction-following"
+      ],
+      "summary": "Pre-training = broad compression (knowledge, reasoning); post-training (RLHF/DPO) = alignment editing that increases preference info without significantly changing complexity. These are distinct: IFEval predicted by preference info (r=0.39), not compression (r=0.07).",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 388,
+      "retrieval_score": 1.935,
+      "active": true
+    },
+    "2026-04-12-skillclaw-auto-evolve-pipeline.md": {
+      "id": "2026-04-12-skillclaw-auto-evolve-pipeline.md",
+      "component": "orchestration",
+      "date": "2026-04-12",
+      "type": "architecture",
+      "severity": "high",
+      "tags": [
+        "skill-evolution",
+        "auto-evolve",
+        "skillclaw",
+        "pipeline"
+      ],
+      "summary": "SkillClaw (arXiv:2604.08377) auto-evolve pipeline implemented in STOPA — summarize-sessions.py groups traces by skill, evolve-skills.py produces staged candidates, /evolve --candidates for human review. Key insight: pattern detection is purely LLM-based (no embeddings), quality gate is prompt-level safeguards + human review.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [
+        "2026-04-08-nlah-skill-evolution.md"
+      ],
+      "token_estimate": 450,
+      "retrieval_score": 2.903,
+      "active": true
+    },
+    "2026-04-12-small-model-compression-threshold.md": {
+      "id": "2026-04-12-small-model-compression-threshold.md",
+      "component": "orchestration",
+      "date": "2026-04-12",
+      "type": "best_practice",
+      "severity": "high",
+      "tags": [
+        "model-selection",
+        "scaling",
+        "small-models",
+        "haiku",
+        "compression",
+        "capacity"
+      ],
+      "summary": "Models below ~1B parameters fail to enter the compression phase of IB training dynamics — they lack capacity to compress a given data complexity. This is a fundamental limit, not a training duration issue: SmolLM2 1.7B (11T tokens) also fails.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 372,
+      "retrieval_score": 2.903,
+      "active": true
+    },
+    "2026-04-12-sycophancy-not-hallucination.md": {
+      "id": "2026-04-12-sycophancy-not-hallucination.md",
+      "component": "orchestration",
+      "date": "2026-04-12",
+      "type": "best_practice",
+      "severity": "high",
+      "tags": [
+        "security",
+        "trust",
+        "evaluation",
+        "critic",
+        "sycophancy",
+        "hallucination",
+        "verification"
+      ],
+      "summary": "Sycophancy ≠ hallucination. Hallucination = model doesn't know. Sycophancy = model knows the truth and lies under pressure. Requires different mitigation: external verification + cross-agent challenge, NOT better prompting.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 401,
+      "retrieval_score": 2.903,
       "active": true
     },
     "2026-04-11-compression-regime-maps-to-tiers.md": {
@@ -233,7 +751,7 @@
         "orchestration"
       ],
       "summary": "Optimal context compression varies systematically by task type: long/broad → light compression (preserve coverage, 49% savings), hard/focused → aggressive compression (strip noise, +3pp accuracy), simple → moderate. Maps directly to STOPA budget tiers.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
@@ -241,7 +759,7 @@
         "2026-04-10-rlm-architectural-principles.md"
       ],
       "token_estimate": 584,
-      "retrieval_score": 1.967,
+      "retrieval_score": 1.905,
       "active": true
     },
     "2026-04-11-iteration-paradox-meta-pattern.md": {
@@ -259,7 +777,7 @@
         "meta-pattern"
       ],
       "summary": "Iteration Paradox: iteruj s bounded refinement, ale nevěř prvním výsledkům. Udržuj diverzitu (high-temp sampling), dej každému přístupu 5+ iterací, odhadni strop (sigmoidal fit), používej regression gate. RL post-training ničí diverzitu potřebnou pro exploraci.",
-      "uses": 1,
+      "uses": 2,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
@@ -270,7 +788,7 @@
         "2026-04-03-autoagent-overfitting-guard.md"
       ],
       "token_estimate": 535,
-      "retrieval_score": 2.951,
+      "retrieval_score": 2.857,
       "active": true
     },
     "2026-04-11-speculative-reasoning-degrades-workers.md": {
@@ -294,7 +812,7 @@
         "2026-04-11-task-guided-context-beats-raw-sharing.md"
       ],
       "token_estimate": 649,
-      "retrieval_score": 1.967,
+      "retrieval_score": 1.905,
       "active": true
     },
     "2026-04-11-task-guided-context-beats-raw-sharing.md": {
@@ -311,7 +829,7 @@
         "orchestration"
       ],
       "summary": "Latent Briefing: task-guided KV cache compaction pro cross-agent memory dosahuje 49-65% token savings + 3pp accuracy gain. Princip platí i na API úrovni: orchestrátor by měl posílat workerům task-relevantní kontext, ne celou trajektorii. Speculative reasoning je šum pro workery.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
@@ -319,7 +837,7 @@
         "2026-04-09-triattention-pre-rope-kv-compression.md"
       ],
       "token_estimate": 702,
-      "retrieval_score": 2.951,
+      "retrieval_score": 2.857,
       "active": true
     },
     "2026-04-10-eggroll-evolutionary-optimization.md": {
@@ -336,12 +854,12 @@
         "mutation"
       ],
       "summary": "EGGROLL (Oxford/MILA 2026) dokazuje 3 principy pro evoluci skills: (1) rank-1 perturbace staci pokud je populace dostatecna, (2) populacni z-score normalizace stabilizuje selekci, (3) tri rezimy sigma (linearizace/kriticka/divergence) urcuji optimalnost mutaci.",
-      "uses": 1,
+      "uses": 2,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 564,
-      "retrieval_score": 2.903,
+      "token_estimate": 565,
+      "retrieval_score": 2.812,
       "active": true
     },
     "2026-04-10-rlm-architectural-principles.md": {
@@ -359,12 +877,12 @@
         "RLM"
       ],
       "summary": "RLM (arXiv:2512.24601) validuje STOPA RLM principy a přidává 3 implementované vzory: budget propagation do sub-agentů (soft-cap + 20% reserve), metadata-first scout (--metadata flag), recursion depth guard (max-depth frontmatter, default 1). Klíčový závěr: STOPA neadoptuje REPL — Agent tool je ekvivalent. Depth=1 stačí i v produkčním RLM.",
-      "uses": 3,
+      "uses": 5,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 558,
-      "retrieval_score": 2.903,
+      "token_estimate": 559,
+      "retrieval_score": 2.812,
       "active": true
     },
     "2026-04-08-agent-deception-pressure-trigger.md": {
@@ -382,14 +900,14 @@
         "model-selection"
       ],
       "summary": "Agent deception increases under event pressure (failures, high stakes) and varies by model — in STOPA, increase critic skepticism when a sub-agent hits repeated failures.",
-      "uses": 1,
+      "uses": 3,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
         "2026-04-08-long-horizon-deception-eval.md"
       ],
       "token_estimate": 418,
-      "retrieval_score": 1.875,
+      "retrieval_score": 1.818,
       "active": true
     },
     "2026-04-08-auto-research-removes-human-bottleneck.md": {
@@ -411,7 +929,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 403,
-      "retrieval_score": 2.812,
+      "retrieval_score": 2.727,
       "active": true
     },
     "2026-04-08-group-experience-sharing-beats-isolated-evolution.md": {
@@ -428,12 +946,12 @@
         "farm-tier"
       ],
       "summary": "Sdílení evolučních trajektorií (patches, logs, failures) mezi agenty zdvojuje diversity toolsetů a zkracuje bug-repair z 5 na 1.4 iterací. Izolovaná evoluce ztrácí beneficiální objevy při prořezávání větví.",
-      "uses": 3,
+      "uses": 4,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 368,
-      "retrieval_score": 2.812,
+      "retrieval_score": 2.727,
       "active": true
     },
     "2026-04-08-heartbeat-mid-run-steering.md": {
@@ -450,14 +968,14 @@
         "self-evolve"
       ],
       "summary": "Heartbeat-triggered intervention: orchestrátor posílá prompt-injections do běžících agentů (reflection, skill consolidation, direction change) bez jejich restartu — non-destructive mid-run steering. Odlišné od kritika: critic hodnotí output, heartbeat mění direction.",
-      "uses": 8,
+      "uses": 11,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
         "2026-04-08-shared-public-state-agent-coordination.md"
       ],
-      "token_estimate": 491,
-      "retrieval_score": 1.875,
+      "token_estimate": 492,
+      "retrieval_score": 1.818,
       "active": true
     },
     "2026-04-08-in-place-ttt-long-context-multiplier.md": {
@@ -479,7 +997,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 361,
-      "retrieval_score": 1.875,
+      "retrieval_score": 1.818,
       "active": true
     },
     "2026-04-08-inference-time-sampling-beats-rl-for-diversity.md": {
@@ -502,7 +1020,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 363,
-      "retrieval_score": 1.875,
+      "retrieval_score": 1.818,
       "active": true
     },
     "2026-04-08-iterative-refinement-beats-long-cot.md": {
@@ -524,7 +1042,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 408,
-      "retrieval_score": 2.812,
+      "retrieval_score": 2.727,
       "active": true
     },
     "2026-04-08-llm-judge-factuality-weak.md": {
@@ -546,7 +1064,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 307,
-      "retrieval_score": 2.812,
+      "retrieval_score": 2.727,
       "active": true
     },
     "2026-04-08-long-horizon-deception-eval.md": {
@@ -568,8 +1086,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 429,
-      "retrieval_score": 2.812,
+      "token_estimate": 428,
+      "retrieval_score": 2.727,
       "active": true
     },
     "2026-04-08-reasoning-midtraining-beats-posttraining.md": {
@@ -591,7 +1109,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 400,
-      "retrieval_score": 2.812,
+      "retrieval_score": 2.727,
       "active": true
     },
     "2026-04-08-shared-public-state-agent-coordination.md": {
@@ -608,14 +1126,14 @@
         "isolation"
       ],
       "summary": "CORAL pattern: agents share knowledge via symlinked `.coral/public/` dir instead of message passing — zero sync overhead, każdy agent v vlastním git worktree branchi. Knowledge reuse je primární driver multi-agent gainů, ne parallelismus samotný.",
-      "uses": 9,
+      "uses": 12,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
         "2026-03-29-claudini-autoresearch-loop.md"
       ],
-      "token_estimate": 461,
-      "retrieval_score": 1.875,
+      "token_estimate": 466,
+      "retrieval_score": 1.818,
       "active": true
     },
     "2026-04-08-test-time-learning-inference-evolution.md": {
@@ -632,14 +1150,14 @@
         "continuous-learning"
       ],
       "summary": "Test-time learning (TTL) enables agent components to update strategies during inference without interrupting reasoning. Complements offline RL: TTL handles distribution shift; RL provides baseline competence.",
-      "uses": 1,
+      "uses": 2,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
         "2026-04-08-living-memory-over-static-retrieval.md"
       ],
-      "token_estimate": 331,
-      "retrieval_score": 1.875,
+      "token_estimate": 332,
+      "retrieval_score": 1.818,
       "active": true
     },
     "2026-04-07-agents-md-efficiency-validated.md": {
@@ -660,7 +1178,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 516,
-      "retrieval_score": 2.769,
+      "retrieval_score": 2.687,
       "active": true
     },
     "2026-04-07-budget-calibration-baseline.md": {
@@ -681,7 +1199,7 @@
       "supersedes": "2026-04-04-gap-budget-calibration.md",
       "related": [],
       "token_estimate": 555,
-      "retrieval_score": 1.846,
+      "retrieval_score": 1.791,
       "active": true
     },
     "2026-04-07-kaizen-loop-weekly-improvement.md": {
@@ -704,7 +1222,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 418,
-      "retrieval_score": 2.769,
+      "retrieval_score": 2.687,
       "active": true
     },
     "2026-04-07-mom-taro-orchestration-upgrades.md": {
@@ -721,14 +1239,14 @@
         "parallel-rollouts"
       ],
       "summary": "Implemented 4 MoM/TARo-inspired upgrades: scout quality gate (upstream-first), role-specific critic weights, per-subtask adaptive model routing, haiku-first difficulty estimation.",
-      "uses": 2,
+      "uses": 3,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
         "2026-04-06-self-organizing-agents-ab-test.md"
       ],
       "token_estimate": 622,
-      "retrieval_score": 2.769,
+      "retrieval_score": 2.687,
       "active": true
     },
     "2026-04-07-nsm-neuro-symbolic-orchestration.md": {
@@ -749,7 +1267,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 556,
-      "retrieval_score": 2.769,
+      "retrieval_score": 2.687,
       "active": true
     },
     "2026-04-07-operational-rhythm-silence-discipline.md": {
@@ -767,12 +1285,12 @@
         "morning-brief"
       ],
       "summary": "Scheduled morning brief + evening wrap delivered via messaging channel, with strict \"silence when nothing to say\" discipline, transforms an AI tool into something that feels like a chief of staff. The silence rule is as important as the content.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 417,
-      "retrieval_score": 1.846,
+      "token_estimate": 418,
+      "retrieval_score": 1.791,
       "active": true
     },
     "2026-04-07-sas-beats-mas-equal-compute.md": {
@@ -789,12 +1307,12 @@
         "reasoning"
       ],
       "summary": "Při rovném thinking token budgetu single-agent systémy dosahují stejného nebo lepšího výkonu než multi-agent systémy. MAS výhoda = nekontrolovaný compute, ne architektura. MAS zbývá zdůvodnění: paralelizace, specializace, fault isolation.",
-      "uses": 2,
+      "uses": 3,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 707,
-      "retrieval_score": 2.769,
+      "retrieval_score": 2.687,
       "active": true
     },
     "2026-04-06-osft-self-sharpening.md": {
@@ -815,7 +1333,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 494,
-      "retrieval_score": 1.818,
+      "retrieval_score": 1.765,
       "active": true
     },
     "2026-04-06-self-organizing-agents-ab-test.md": {
@@ -830,12 +1348,12 @@
         "research"
       ],
       "summary": "A/B test potvrdil: self-organizing agenti (jen mise, bez rolí) překonávají hierarchické přiřazení o +8% na explorativních úkolech. Hierarchický přístup lepší na strukturovaném rankingu. Hybridní přístup v orchestrate by měl detekovat typ tasku.",
-      "uses": 2,
+      "uses": 3,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 582,
-      "retrieval_score": 2.727,
+      "token_estimate": 583,
+      "retrieval_score": 2.647,
       "active": true
     },
     "2026-04-05-openfang-architecture-patterns.md": {
@@ -853,12 +1371,12 @@
         "architecture-reference"
       ],
       "summary": "OpenFang (Rust Agent OS) nabízí 3 architektonické vzory pro STOPA: sandbox izolaci skills, Merkle audit trail pro OSINT výstupy, a daemon-based scheduling bez session. Žádný není urgentní, ale všechny řeší reálné limity.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 566,
-      "retrieval_score": 1.791,
+      "retrieval_score": 1.739,
       "active": true
     },
     "2026-04-05-regression-gate-pattern.md": {
@@ -880,7 +1398,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 579,
-      "retrieval_score": 2.687,
+      "retrieval_score": 2.609,
       "active": true
     },
     "2026-04-05-self-improving-harness.md": {
@@ -901,7 +1419,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 563,
-      "retrieval_score": 2.687,
+      "retrieval_score": 2.609,
       "active": true
     },
     "2026-04-04-gap-budget-calibration.md": {
@@ -921,8 +1439,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 240,
-      "retrieval_score": 1.765,
+      "token_estimate": 239,
+      "retrieval_score": 1.714,
       "active": false
     },
     "2026-04-03-autoagent-overfitting-guard.md": {
@@ -943,8 +1461,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 336,
-      "retrieval_score": 2.609,
+      "token_estimate": 337,
+      "retrieval_score": 2.535,
       "active": true
     },
     "2026-04-03-autoagent-parallel-candidates.md": {
@@ -968,7 +1486,7 @@
         "2026-04-03-autoagent-overfitting-guard.md"
       ],
       "token_estimate": 344,
-      "retrieval_score": 1.739,
+      "retrieval_score": 1.69,
       "active": true
     },
     "2026-04-03-smart-tool-overuse.md": {
@@ -991,7 +1509,7 @@
         "2026-04-03-testing-bottleneck.md"
       ],
       "token_estimate": 360,
-      "retrieval_score": 1.739,
+      "retrieval_score": 1.69,
       "active": true
     },
     "2026-04-03-testing-bottleneck.md": {
@@ -1014,7 +1532,7 @@
         "2026-04-03-smart-tool-overuse.md"
       ],
       "token_estimate": 362,
-      "retrieval_score": 1.739,
+      "retrieval_score": 1.69,
       "active": true
     },
     "2026-04-02-audit-must-verify-consumers.md": {
@@ -1034,7 +1552,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 374,
-      "retrieval_score": 3.429,
+      "retrieval_score": 3.333,
       "active": true
     },
     "2026-04-02-distributed-systems-amdahl-gate.md": {
@@ -1055,7 +1573,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 432,
-      "retrieval_score": 2.571,
+      "retrieval_score": 2.5,
       "active": true
     },
     "2026-04-01-autocompact-threshold.md": {
@@ -1070,12 +1588,12 @@
         "long-sessions"
       ],
       "summary": "Setting CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=70 triggers context compaction earlier (default ~95%), preventing quality degradation in long sessions. Verified from CC source leak.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 358,
-      "retrieval_score": 1.69,
+      "token_estimate": 340,
+      "retrieval_score": 1.644,
       "active": true
     },
     "2026-04-01-gsd2-error-classification.md": {
@@ -1095,7 +1613,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 291,
-      "retrieval_score": 2.535,
+      "retrieval_score": 2.466,
       "active": true
     },
     "2026-03-30-society-of-thought-orchestration.md": {
@@ -1112,12 +1630,12 @@
         "alignment"
       ],
       "summary": "Kim et al. (2026) empiricky dokázali, že RL optimalizační tlak spontánně generuje interní multi-agentní debatu v reasoning modelech (DeepSeek-R1, QwQ-32B). Steering feature 30939 zdvojnásobil přesnost. Heterogenita perspektiv → výkon. Implikace: critic agent s odlišným system promptem není hack, je architektonicky opodstatněn. STOPA checkpoint/shared state potvrzena jako nutnost (bez temporal alignment se systémy rozpadají).",
-      "uses": 1,
+      "uses": 2,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 642,
-      "retrieval_score": 2.466,
+      "retrieval_score": 2.4,
       "active": true
     },
     "2026-03-29-bigmas-directed-graph-orchestration.md": {
@@ -1133,7 +1651,7 @@
         "global-workspace-theory"
       ],
       "summary": "BIGMAS dynamic graph orchestration — PARTIALLY IMPLEMENTED (2026-04-11): Phase 3.3 Topology Selection (deep tier), 4-zone workspace schema, full-state routing at wave boundaries, routing count tracking. Gains: +14-36pp on reasoning benchmarks, orthogonal to model-level improvements.",
-      "uses": 7,
+      "uses": 8,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
@@ -1141,7 +1659,7 @@
         "2026-04-07-mom-taro-orchestration-upgrades.md"
       ],
       "token_estimate": 1065,
-      "retrieval_score": 1.622,
+      "retrieval_score": 1.579,
       "active": true
     },
     "2026-03-29-claudini-autoresearch-loop.md": {
@@ -1163,7 +1681,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 540,
-      "retrieval_score": 2.432,
+      "retrieval_score": 2.368,
       "active": true
     },
     "2026-03-29-paged-context-protocol.md": {
@@ -1189,7 +1707,7 @@
         "2026-03-26-harness-simplification.md"
       ],
       "token_estimate": 550,
-      "retrieval_score": 1.622,
+      "retrieval_score": 1.579,
       "active": true
     },
     "2026-03-29-slopcodebench-iterative-degradation.md": {
@@ -1211,7 +1729,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 504,
-      "retrieval_score": 2.432,
+      "retrieval_score": 2.368,
       "active": true
     },
     "2026-03-26-channels-24x7-architecture.md": {
@@ -1235,7 +1753,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 518,
-      "retrieval_score": 2.338,
+      "retrieval_score": 2.278,
       "active": true
     },
     "2026-03-26-harness-simplification.md": {
@@ -1258,7 +1776,7 @@
         "harness-engineering.md"
       ],
       "token_estimate": 556,
-      "retrieval_score": 2.338,
+      "retrieval_score": 2.278,
       "active": true
     },
     "2026-03-24-openclaw-postmortem-patterns.md": {
@@ -1280,7 +1798,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 440,
-      "retrieval_score": 2.278,
+      "retrieval_score": 2.222,
       "active": true
     },
     "2026-03-23-gsd-patterns.md": {
@@ -1301,7 +1819,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 262,
-      "retrieval_score": 1.5,
+      "retrieval_score": 1.463,
       "active": true
     },
     "2026-03-23-spec-kit-adoption.md": {
@@ -1322,7 +1840,29 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 264,
-      "retrieval_score": 1.5,
+      "retrieval_score": 1.463,
+      "active": true
+    },
+    "2026-04-14-openmontage-production-governance.md": {
+      "id": "2026-04-14-openmontage-production-governance.md",
+      "component": "pipeline",
+      "date": "2026-04-14",
+      "type": "architecture",
+      "severity": "high",
+      "tags": [
+        "video",
+        "orchestration",
+        "quality-gates",
+        "provider-selection",
+        "openmontage"
+      ],
+      "summary": "OpenMontage production governance patterns: 7D provider scoring, delivery promise classifier, slideshow risk scorer, post-render self-review — adopted into STOPA/NG-ROBOT.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 677,
+      "retrieval_score": 3.0,
       "active": true
     },
     "2026-04-09-triattention-pre-rope-kv-compression.md": {
@@ -1345,7 +1885,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 391,
-      "retrieval_score": 1.905,
+      "retrieval_score": 1.846,
       "active": true
     },
     "2026-04-01-sonnet46-thinking-effort-breaking-change.md": {
@@ -1368,7 +1908,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 615,
-      "retrieval_score": 3.38,
+      "retrieval_score": 3.288,
       "active": true
     },
     "2026-03-23-harness-engineering.md": {
@@ -1390,8 +1930,99 @@
       "related": [
         "2026-03-26-harness-simplification.md"
       ],
-      "token_estimate": 240,
-      "retrieval_score": 2.25,
+      "token_estimate": 239,
+      "retrieval_score": 2.195,
+      "active": true
+    },
+    "2026-04-12-diarization-as-knowledge-extraction.md": {
+      "id": "2026-04-12-diarization-as-knowledge-extraction.md",
+      "component": "skill",
+      "date": "2026-04-12",
+      "type": "best_practice",
+      "severity": "medium",
+      "tags": [
+        "skill-design",
+        "knowledge-extraction",
+        "ingest",
+        "compile",
+        "research"
+      ],
+      "summary": "Diarization = reading all documents about a subject and writing a structured profile that holds contradictions, notes temporal changes, and surfaces judgment no query can produce. This is the latent operation at the heart of /ingest and /compile.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 383,
+      "retrieval_score": 1.935,
+      "active": true
+    },
+    "2026-04-12-latent-deterministic-boundary.md": {
+      "id": "2026-04-12-latent-deterministic-boundary.md",
+      "component": "skill",
+      "date": "2026-04-12",
+      "type": "best_practice",
+      "severity": "high",
+      "tags": [
+        "skill-design",
+        "architecture",
+        "agent-design",
+        "deterministic",
+        "latent-space"
+      ],
+      "summary": "Every step in an agent skill is either latent (model judgment: synthesis, interpretation, quality) or deterministic (code: queries, arithmetic, file ops). Confusing them is the most common design mistake. Skills should alternate: Latent → Deterministic → Latent → Deterministic → Latent.",
+      "uses": 2,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 419,
+      "retrieval_score": 2.903,
+      "active": true
+    },
+    "2026-04-12-latent-deterministic-extraction.md": {
+      "id": "2026-04-12-latent-deterministic-extraction.md",
+      "component": "skill",
+      "date": "2026-04-12",
+      "type": "architecture",
+      "severity": "high",
+      "tags": [
+        "deterministic",
+        "latent-space",
+        "skill-design",
+        "optimization",
+        "scripts"
+      ],
+      "summary": "Audit 10 skills identifikoval 91 kroků kde model dělá deterministickou práci (aritmetika, thresholds, set operace, YAML parsing). 65 z nich (71%) je easy k extrakci do Pythonu. Implementovány 3 skripty: deterministic-gates.py (orchestrate), loop-state.py (autoloop/self-evolve), scribe-maintenance.py (scribe) — celkem 24 subcommands.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [
+        "2026-04-12-latent-deterministic-boundary.md",
+        "2026-04-12-purpose-built-tools-75x-faster.md"
+      ],
+      "token_estimate": 426,
+      "retrieval_score": 2.903,
+      "active": true
+    },
+    "2026-04-12-purpose-built-tools-75x-faster.md": {
+      "id": "2026-04-12-purpose-built-tools-75x-faster.md",
+      "component": "skill",
+      "date": "2026-04-12",
+      "type": "best_practice",
+      "severity": "high",
+      "tags": [
+        "skill-design",
+        "harness",
+        "mcp",
+        "tooling",
+        "performance"
+      ],
+      "summary": "Purpose-built narrow tools are 75× faster than generic MCP wrappers (Playwright CLI 100ms vs Chrome MCP 15s). Keep harness thin — push intelligence up into skills, push execution down into deterministic narrow tools.",
+      "uses": 1,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 363,
+      "retrieval_score": 2.903,
       "active": true
     },
     "2026-04-11-verification-shift-meta-pattern.md": {
@@ -1408,7 +2039,7 @@
         "meta-pattern"
       ],
       "summary": "Verification Shift: generování kódu není bottleneck — verifikace ano. LLM judges slabé na faktičnost, cascade failures zesilují, schema compliance != utility. Kombinuj: LLM scoring + grep/search verifikaci + cascade-order checking + regression gates.",
-      "uses": 1,
+      "uses": 2,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
@@ -1418,7 +2049,7 @@
         "2026-04-05-regression-gate-pattern.md"
       ],
       "token_estimate": 504,
-      "retrieval_score": 2.951,
+      "retrieval_score": 2.857,
       "active": true
     },
     "2026-04-08-descriptive-over-narrative-generative.md": {
@@ -1435,12 +2066,12 @@
         "anti-pattern"
       ],
       "summary": "For generative media prompts (image/video): only describe observable outputs (what the renderer sees), never internal states (emotions, intentions). Converts to: 'tears streaming down her cheeks' not 'she feels sad'. Rhythm words > technical params — models parse semantics, not numbers.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 526,
-      "retrieval_score": 1.875,
+      "retrieval_score": 1.818,
       "active": true
     },
     "2026-04-08-direction-magnitude-decoupling-optimization.md": {
@@ -1462,7 +2093,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 506,
-      "retrieval_score": 1.875,
+      "retrieval_score": 1.818,
       "active": true
     },
     "2026-04-08-early-iteration-performance-unreliable.md": {
@@ -1485,7 +2116,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 597,
-      "retrieval_score": 2.812,
+      "retrieval_score": 2.727,
       "active": true
     },
     "2026-04-08-education-teaches-agents-not-humans.md": {
@@ -1506,7 +2137,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 373,
-      "retrieval_score": 1.875,
+      "retrieval_score": 1.818,
       "active": true
     },
     "2026-04-08-instruction-following-compositional-not-universal.md": {
@@ -1527,7 +2158,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 481,
-      "retrieval_score": 1.875,
+      "retrieval_score": 1.818,
       "active": true
     },
     "2026-04-08-llm-native-validation-hardstop.md": {
@@ -1549,7 +2180,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 542,
-      "retrieval_score": 2.812,
+      "retrieval_score": 2.727,
       "active": true
     },
     "2026-04-08-progressive-knowledge-routing.md": {
@@ -1570,7 +2201,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 533,
-      "retrieval_score": 2.812,
+      "retrieval_score": 2.727,
       "active": true
     },
     "2026-04-08-reverse-engineered-benchmark-from-artifacts.md": {
@@ -1588,12 +2219,12 @@
         "compile"
       ],
       "summary": "Build eval benchmarks by reverse-engineering expected outputs from real completed artifacts, not synthetic generation. PaperWritingBench: 200 top-tier papers → inferred raw materials + quality criteria. Applicable to STOPA /eval and /harness test case construction.",
-      "uses": 1,
+      "uses": 2,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 388,
-      "retrieval_score": 1.875,
+      "retrieval_score": 1.818,
       "active": true
     },
     "2026-04-07-compact-variant-baseline.md": {
@@ -1614,7 +2245,7 @@
       "supersedes": "2026-04-04-gap-compact-variant-measurement.md",
       "related": [],
       "token_estimate": 522,
-      "retrieval_score": 1.846,
+      "retrieval_score": 1.791,
       "active": true
     },
     "2026-04-07-skill-retrieval-bottleneck.md": {
@@ -1635,7 +2266,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 417,
-      "retrieval_score": 2.769,
+      "retrieval_score": 2.687,
       "active": true
     },
     "2026-04-06-deepresearch-agent-scope.md": {
@@ -1655,7 +2286,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 246,
-      "retrieval_score": 2.727,
+      "retrieval_score": 2.647,
       "active": true
     },
     "2026-04-05-egoalpha-prompt-patterns.md": {
@@ -1676,7 +2307,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 922,
-      "retrieval_score": 2.687,
+      "retrieval_score": 2.609,
       "active": true
     },
     "2026-04-04-gap-compact-variant-measurement.md": {
@@ -1697,7 +2328,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 269,
-      "retrieval_score": 1.765,
+      "retrieval_score": 1.714,
       "active": false
     },
     "2026-04-04-skill0-dynamic-curriculum.md": {
@@ -1718,7 +2349,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 331,
-      "retrieval_score": 2.647,
+      "retrieval_score": 2.571,
       "active": true
     },
     "2026-04-04-toolgenesis-cascade-evaluation.md": {
@@ -1734,14 +2365,14 @@
         "schema-utility"
       ],
       "summary": "Tool-Genesis (arXiv:2603.05578) prokázal cascade failure — drobné L1 chyby zesilují do katastrofických L4 selhání. Schema compliance ≠ downstream utility (Schema-F1 0.964, SR 0.472). Iterativní oprava s execution feedback dává 2-5× lepší výsledky než one-shot. Aplikováno do /critic (cascade-aware verification), /verify a /harness (anti-schema-trap), /skill-generator (repair loop), CLAUDE.md (model selection).",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
         "2026-03-26-harness-simplification.md"
       ],
       "token_estimate": 491,
-      "retrieval_score": 2.647,
+      "retrieval_score": 2.571,
       "active": true
     },
     "2026-04-03-anthropic-skill-creator-patterns.md": {
@@ -1764,7 +2395,7 @@
         "2026-04-03-description-optimizer-plan.md"
       ],
       "token_estimate": 584,
-      "retrieval_score": 2.609,
+      "retrieval_score": 2.535,
       "active": true
     },
     "2026-04-03-description-optimizer-plan.md": {
@@ -1787,7 +2418,7 @@
         "2026-04-03-anthropic-skill-creator-patterns.md"
       ],
       "token_estimate": 516,
-      "retrieval_score": 2.609,
+      "retrieval_score": 2.535,
       "active": true
     },
     "2026-04-03-disable-skill-shell-audit.md": {
@@ -1803,12 +2434,12 @@
         "disableSkillShellExecution"
       ],
       "summary": "CC v2.1.91 přidalo disableSkillShellExecution. Audit: 25/48 (52%) STOPA skills má inline shell. Zapnutí by rozbilo polovinu systému. NEPOVOLOVAT bez migrace skills na pure-tool approach.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 391,
-      "retrieval_score": 2.609,
+      "retrieval_score": 2.535,
       "active": true
     },
     "2026-04-01-autoreason-adversarial-debate.md": {
@@ -1831,7 +2462,7 @@
         "2026-03-30-society-of-thought-orchestration.md"
       ],
       "token_estimate": 501,
-      "retrieval_score": 1.69,
+      "retrieval_score": 1.644,
       "active": true
     },
     "2026-03-27-commands-vs-skills-structure.md": {
@@ -1853,7 +2484,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 424,
-      "retrieval_score": 3.158,
+      "retrieval_score": 3.077,
       "active": true
     },
     "2026-03-27-skills-must-live-in-stopa.md": {
@@ -1873,7 +2504,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 432,
-      "retrieval_score": 2.368,
+      "retrieval_score": 2.308,
       "active": true
     },
     "2026-03-25-decomposed-evaluation.md": {
@@ -1895,7 +2526,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 433,
-      "retrieval_score": 2.308,
+      "retrieval_score": 2.25,
       "active": true
     },
     "2026-03-25-reasoning-isolation.md": {
@@ -1918,7 +2549,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 445,
-      "retrieval_score": 2.308,
+      "retrieval_score": 2.25,
       "active": true
     },
     "2026-03-25-skill-description-triggers.md": {
@@ -1939,7 +2570,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 306,
-      "retrieval_score": 2.308,
+      "retrieval_score": 2.25,
       "active": true
     },
     "2026-03-24-fix-issue-solo-workflow.md": {
@@ -1960,7 +2591,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 241,
-      "retrieval_score": 1.519,
+      "retrieval_score": 1.481,
       "active": true
     },
     "2026-03-23-superpowers-adoption.md": {
@@ -1981,7 +2612,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 232,
-      "retrieval_score": 2.25,
+      "retrieval_score": 2.195,
       "active": true
     },
     "2026-03-23-youtube-transcript-yt-dlp.md": {
@@ -2002,7 +2633,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 240,
-      "retrieval_score": 2.25,
+      "retrieval_score": 2.195,
       "active": true
     },
     "karpathy-loop-autoloop.md": {
@@ -2023,7 +2654,50 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 213,
-      "retrieval_score": 1.5,
+      "retrieval_score": 1.463,
+      "active": true
+    },
+    "2026-04-12-evolve-must-verify-current-state.md": {
+      "id": "2026-04-12-evolve-must-verify-current-state.md",
+      "component": "memory",
+      "date": "2026-04-12",
+      "type": "anti_pattern",
+      "severity": "high",
+      "tags": [
+        "evolve",
+        "maintenance",
+        "race-condition",
+        "state-verification",
+        "parallel-sessions"
+      ],
+      "summary": "/evolve a maintenance skills MUSÍ ověřit aktuální stav souborového systému (Glob/Read) před doporučením akce. Čtení vlastního logu nebo předpokládání stavu z minulého běhu vede k opakovaným falešným doporučením — wiki existovala, ale evolve ji 7x doporučil vytvořit.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 434,
+      "retrieval_score": 2.903,
+      "active": true
+    },
+    "2026-04-12-queries-back-to-wiki-compounding.md": {
+      "id": "2026-04-12-queries-back-to-wiki-compounding.md",
+      "component": "memory",
+      "date": "2026-04-12",
+      "type": "best_practice",
+      "severity": "high",
+      "tags": [
+        "knowledge-management",
+        "wiki",
+        "compounding",
+        "query"
+      ],
+      "summary": "LLM query answers should be filed back into the wiki as new pages — otherwise insights vanish into chat history and the knowledge base loses compounding. Every good answer is itself a wiki artifact.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 375,
+      "retrieval_score": 2.903,
       "active": true
     },
     "2026-04-11-memory-sovereignty-open-harness.md": {
@@ -2040,7 +2714,7 @@
         "sovereignty"
       ],
       "summary": "Harrison Chase (LangChain): memory není plugin, je to harness. Closed harness = ztráta memory. STOPA je 80% open, ale 3 rizikové body: server-side compaction, auto-memory mimo git, skill format lock-in. 6 konkrétních vylepšení.",
-      "uses": 0,
+      "uses": 3,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
@@ -2048,7 +2722,7 @@
         "2026-03-29-memcollab-agent-agnostic-memory.md"
       ],
       "token_estimate": 1412,
-      "retrieval_score": 2.951,
+      "retrieval_score": 2.857,
       "active": true
     },
     "2026-04-09-local-aggregator-beats-global.md": {
@@ -2066,14 +2740,14 @@
         "skill-scope"
       ],
       "summary": "Globální agregátor (critical-patterns.md) nutně zhorší ≥1 dimenzi znalostí vs lokální skill-specifické agregátory (Acemoglu Theorem 3). Implementováno: skill_scope field pro lokální graduation, circular validation detection, inverse frequency graduation threshold.",
-      "uses": 1,
+      "uses": 2,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
         "2026-03-30-write-time-gating-salience.md"
       ],
       "token_estimate": 424,
-      "retrieval_score": 2.857,
+      "retrieval_score": 2.769,
       "active": true
     },
     "2026-04-08-living-memory-over-static-retrieval.md": {
@@ -2099,7 +2773,7 @@
         "2026-04-08-recency-beats-complex-memory.md"
       ],
       "token_estimate": 377,
-      "retrieval_score": 2.812,
+      "retrieval_score": 2.727,
       "active": true
     },
     "2026-04-08-parametric-nonparametric-memory-bridge.md": {
@@ -2125,7 +2799,7 @@
         "2026-03-29-memcollab-agent-agnostic-memory.md"
       ],
       "token_estimate": 418,
-      "retrieval_score": 2.812,
+      "retrieval_score": 2.727,
       "active": true
     },
     "2026-04-08-recency-beats-complex-memory.md": {
@@ -2142,12 +2816,12 @@
         "retrieval"
       ],
       "summary": "Simple sliding-window recency (last N items) matches/beats complex memory accumulation in time-sensitive tasks. More history can hurt real-time perception even when it helps recall.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 339,
-      "retrieval_score": 1.875,
+      "retrieval_score": 1.818,
       "active": true
     },
     "2026-04-07-cross-project-memory-design.md": {
@@ -2167,8 +2841,8 @@
       "harmful_uses": 0,
       "supersedes": "2026-04-04-gap-cross-project-memory.md",
       "related": [],
-      "token_estimate": 819,
-      "retrieval_score": 2.769,
+      "token_estimate": 818,
+      "retrieval_score": 2.687,
       "active": true
     },
     "2026-04-05-bm25-memory-search.md": {
@@ -2185,12 +2859,12 @@
         "learnings"
       ],
       "summary": "BM25-inspired memory-search.py replaces raw grep for learnings retrieval. IDF + term saturation + length normalization + metadata weights. 72 docs corpus, zero dependencies, synonym expansion. Ranked results vs unordered grep matches.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 358,
-      "retrieval_score": 2.687,
+      "retrieval_score": 2.609,
       "active": true
     },
     "2026-04-04-gap-cross-project-memory.md": {
@@ -2210,7 +2884,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 283,
-      "retrieval_score": 1.765,
+      "retrieval_score": 1.714,
       "active": false
     },
     "2026-03-30-calm-semantic-bandwidth.md": {
@@ -2230,7 +2904,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 417,
-      "retrieval_score": 1.644,
+      "retrieval_score": 1.6,
       "active": true
     },
     "2026-03-30-write-time-gating-salience.md": {
@@ -2256,7 +2930,7 @@
         "2026-03-29-memcollab-agent-agnostic-memory.md"
       ],
       "token_estimate": 508,
-      "retrieval_score": 2.466,
+      "retrieval_score": 2.4,
       "active": true
     },
     "2026-03-29-memcollab-agent-agnostic-memory.md": {
@@ -2278,7 +2952,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 673,
-      "retrieval_score": 2.432,
+      "retrieval_score": 2.368,
       "active": true
     },
     "2026-03-26-autodream-coexistence.md": {
@@ -2300,7 +2974,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 342,
-      "retrieval_score": 2.338,
+      "retrieval_score": 2.278,
       "active": true
     },
     "2026-03-24-checkpoint-versioning.md": {
@@ -2320,7 +2994,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 186,
-      "retrieval_score": 2.118,
+      "retrieval_score": 2.069,
       "active": true
     },
     "2026-03-25-batch-edit-pattern.md": {
@@ -2341,7 +3015,50 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 291,
-      "retrieval_score": 2.308,
+      "retrieval_score": 2.25,
+      "active": true
+    },
+    "2026-04-12-model-router-hook.md": {
+      "id": "2026-04-12-model-router-hook.md",
+      "component": "hook",
+      "date": "2026-04-12",
+      "type": "architecture",
+      "severity": "high",
+      "tags": [
+        "model-selection",
+        "orchestration",
+        "cost-optimization",
+        "automation"
+      ],
+      "summary": "Created model-router.py PreToolUse hook and model-perf-tracker.py PostToolUse hook. Router analyzes Agent prompts for model signals (file count, keywords, failure context) and recommends optimal model via additionalContext. Tracker records per-model success rates and auto-tunes haiku-first threshold.",
+      "uses": 1,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 459,
+      "retrieval_score": 2.903,
+      "active": true
+    },
+    "2026-04-12-steering-ov-circuit-sparsification.md": {
+      "id": "2026-04-12-steering-ov-circuit-sparsification.md",
+      "component": "hook",
+      "date": "2026-04-12",
+      "type": "architecture",
+      "severity": "medium",
+      "tags": [
+        "steering",
+        "interpretability",
+        "mechanistic",
+        "calm-steering",
+        "safety"
+      ],
+      "summary": "Representation steering (refusal, behavior modification) works through OV circuit, not QK. Vectors are sparsifiable 90-99% with minimal loss. Different methods (DIM/NTP/PO) converge to ≥90% overlapping circuits — mechanistic equivalence despite surface dissimilarity.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 395,
+      "retrieval_score": 1.935,
       "active": true
     },
     "2026-04-11-adaptive-attacks-defeat-static-defenses.md": {
@@ -2358,14 +3075,14 @@
         "llamafirewall"
       ],
       "summary": "Strategy-based adaptive attacks (10 strategies + feedback refinement) achieve 86% ASR vs best static defense (PISanitizer), 2-8× higher than static attacks. PromptGuard ADOPT recommendation remains valid for static injection but needs adaptive complement.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
         "2026-04-05-agent-defense-frameworks.md"
       ],
       "token_estimate": 536,
-      "retrieval_score": 1.967,
+      "retrieval_score": 1.905,
       "active": true
     },
     "2026-04-11-no-defense-achieves-security-and-utility.md": {
@@ -2381,12 +3098,12 @@
         "defense-design"
       ],
       "summary": "No current prompt injection defense achieves both high utility AND low ASR. Best security (SecAlign++, 21% ASR) requires accepting 45-84% utility loss. Best utility (PISanitizer, 99%) is defeated by adaptive attacks at 86% ASR. Layered architecture is the correct response.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 514,
-      "retrieval_score": 1.967,
+      "token_estimate": 515,
+      "retrieval_score": 1.905,
       "active": true
     },
     "2026-04-11-self-incrimination-training.md": {
@@ -2402,12 +3119,12 @@
         "hook-design"
       ],
       "summary": "Self-incrimination training (arXiv:2602.22303) snižuje neodhalené útoky z 56% na 6% — agent se naučí hlásit vlastní podvod přes report_scheming() tool. Kombinace s externím monitoringem (5.1%) je nejrobustnější. Zranitelnost: reframing (legitimizace podvodu). Implementace v STOPA: self-report hook + invariant-check PostToolUse hook.",
-      "uses": 1,
+      "uses": 2,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 634,
-      "retrieval_score": 2.951,
+      "retrieval_score": 2.857,
       "active": true
     },
     "2026-04-11-task-alignment-bypasses-instruction-defenses.md": {
@@ -2424,12 +3141,12 @@
         "verification"
       ],
       "summary": "Task-alignment attacks (injection semantically matches target task) defeat ALL instruction-level defenses (44-82% ASR across 9 methods). Content-level verification (grounding checks, fact-verification) is the only viable mitigation — not yet implemented anywhere.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 525,
-      "retrieval_score": 2.951,
+      "retrieval_score": 2.857,
       "active": true
     },
     "2026-04-07-hook-architecture-patterns.md": {
@@ -2450,7 +3167,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 866,
-      "retrieval_score": 2.769,
+      "retrieval_score": 2.687,
       "active": true
     },
     "2026-04-07-hook-failure-modes.md": {
@@ -2471,7 +3188,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 683,
-      "retrieval_score": 2.769,
+      "retrieval_score": 2.687,
       "active": true
     },
     "2026-04-07-hook-testing-patterns.md": {
@@ -2492,7 +3209,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 621,
-      "retrieval_score": 1.846,
+      "retrieval_score": 1.791,
       "active": true
     },
     "2026-04-07-judgment-script-separation-reliability.md": {
@@ -2515,7 +3232,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 427,
-      "retrieval_score": 2.769,
+      "retrieval_score": 2.687,
       "active": true
     },
     "2026-04-05-agent-defense-frameworks.md": {
@@ -2530,12 +3247,12 @@
         "memory"
       ],
       "summary": "LlamaFirewall PromptGuard (BERT, 19-92ms, pip install) je ADOPT pro tool output scanning; AlignmentCheck (860ms+, Together API) je WATCH; CaMeL plná impl je SKIP (research artifact), ale capability tagging vzor je ADOPT jako STOPA konvence; TaskShield nemá veřejnou impl.",
-      "uses": 1,
+      "uses": 2,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 758,
-      "retrieval_score": 1.791,
+      "retrieval_score": 1.739,
       "active": true
     }
   },
@@ -2572,8 +3289,17 @@
     "adversarial-robustness": [
       "2026-04-11-self-incrimination-training.md"
     ],
+    "advertising": [
+      "2026-04-13-ai-persuasion-disclosure-insufficient.md"
+    ],
+    "advisor": [
+      "2026-04-12-advisor-tool-public-beta.md"
+    ],
     "agent-degradation": [
       "2026-03-29-slopcodebench-iterative-degradation.md"
+    ],
+    "agent-design": [
+      "2026-04-12-latent-deterministic-boundary.md"
     ],
     "agent-execution": [
       "2026-04-07-nsm-neuro-symbolic-orchestration.md"
@@ -2600,21 +3326,32 @@
     "aggregation": [
       "2026-04-09-local-aggregator-beats-global.md"
     ],
+    "ai-safety": [
+      "2026-04-13-ai-persuasion-creates-genuine-preferences.md",
+      "2026-04-13-ai-persuasion-disclosure-insufficient.md",
+      "2026-04-13-disparagement-stronger-than-promotion.md"
+    ],
     "ai-tools": [
       "2026-04-08-jevons-paradox-ai-coding.md"
     ],
     "alignment": [
-      "2026-03-30-society-of-thought-orchestration.md"
+      "2026-03-30-society-of-thought-orchestration.md",
+      "2026-04-12-pretraining-vs-posttraining-dissociation.md"
     ],
     "anthropic-api": [
       "2026-04-01-sonnet46-thinking-effort-breaking-change.md"
     ],
     "anti-pattern": [
+      "2026-04-13-do-nothing-first-class-option.md",
+      "2026-04-13-tournament-self-refinement-abc.md",
       "2026-03-27-skills-must-live-in-stopa.md",
       "2026-04-08-descriptive-over-narrative-generative.md"
     ],
     "anti-rationalization": [
       "2026-03-23-superpowers-adoption.md"
+    ],
+    "api": [
+      "2026-04-12-advisor-tool-public-beta.md"
     ],
     "apm": [
       "2026-03-25-decomposed-evaluation.md"
@@ -2626,6 +3363,7 @@
       "2026-03-25-reasoning-isolation.md"
     ],
     "architecture": [
+      "2026-04-12-latent-deterministic-boundary.md",
       "2026-04-07-hook-architecture-patterns.md",
       "2026-03-26-harness-simplification.md",
       "2026-04-11-calm-continuous-autoregressive.md",
@@ -2633,6 +3371,9 @@
     ],
     "architecture-reference": [
       "2026-04-05-openfang-architecture-patterns.md"
+    ],
+    "async": [
+      "2026-04-14-paseo-orchestration-patterns.md"
     ],
     "attention": [
       "2026-04-11-iha-interleaved-head-attention.md",
@@ -2644,6 +3385,9 @@
     "audit-trail": [
       "2026-04-05-openfang-architecture-patterns.md"
     ],
+    "auto-evolve": [
+      "2026-04-12-skillclaw-auto-evolve-pipeline.md"
+    ],
     "autodream": [
       "2026-03-26-autodream-coexistence.md"
     ],
@@ -2651,6 +3395,8 @@
       "2026-04-05-regression-gate-pattern.md"
     ],
     "autoloop": [
+      "2026-04-13-experience-replay-outcomes-reuse.md",
+      "2026-04-13-generate-then-discard-suboptimal.md",
       "2026-04-11-iteration-paradox-meta-pattern.md",
       "2026-04-08-auto-research-removes-human-bottleneck.md",
       "2026-04-08-early-iteration-performance-unreliable.md",
@@ -2661,10 +3407,17 @@
       "2026-04-03-autoagent-parallel-candidates.md",
       "karpathy-loop-autoloop.md"
     ],
+    "automation": [
+      "2026-04-12-model-router-hook.md",
+      "2026-04-12-morning-briefing-cron-pattern.md"
+    ],
     "autoreason": [
+      "2026-04-13-pairwise-choice-sufficient-verifiable-signal.md",
       "2026-04-01-autoreason-adversarial-debate.md"
     ],
     "autoresearch": [
+      "2026-04-13-experience-replay-outcomes-reuse.md",
+      "2026-04-13-generate-then-discard-suboptimal.md",
       "2026-04-11-iteration-paradox-meta-pattern.md",
       "2026-04-08-auto-research-removes-human-bottleneck.md",
       "2026-04-08-early-iteration-performance-unreliable.md",
@@ -2691,6 +3444,9 @@
     "bottleneck": [
       "2026-04-03-testing-bottleneck.md"
     ],
+    "breadth": [
+      "2026-04-13-breadth-depth-axis-tier-selection.md"
+    ],
     "breaking-change": [
       "2026-04-01-sonnet46-thinking-effort-breaking-change.md"
     ],
@@ -2707,6 +3463,7 @@
       "2026-03-29-paged-context-protocol.md"
     ],
     "budget-tiers": [
+      "2026-04-13-generate-then-discard-suboptimal.md",
       "2026-04-11-compression-regime-maps-to-tiers.md"
     ],
     "caching": [
@@ -2714,6 +3471,12 @@
     ],
     "calibration": [
       "2026-04-07-budget-calibration-baseline.md"
+    ],
+    "calm-steering": [
+      "2026-04-12-steering-ov-circuit-sparsification.md"
+    ],
+    "capacity": [
+      "2026-04-12-small-model-compression-threshold.md"
     ],
     "cascade": [
       "2026-04-04-toolgenesis-cascade-evaluation.md"
@@ -2735,6 +3498,9 @@
     ],
     "chrome-automation": [
       "2026-04-01-image-cache-invalidation.md"
+    ],
+    "ci-monitoring": [
+      "2026-04-14-paseo-orchestration-patterns.md"
     ],
     "circuit-breaker": [
       "2026-04-01-gsd2-error-classification.md"
@@ -2771,15 +3537,22 @@
       "2026-03-23-ecosystem-scan.md"
     ],
     "compile": [
+      "2026-04-12-diarization-as-knowledge-extraction.md",
       "2026-04-08-reverse-engineered-benchmark-from-artifacts.md"
     ],
+    "compounding": [
+      "2026-04-12-queries-back-to-wiki-compounding.md"
+    ],
     "compression": [
+      "2026-04-12-ib-optimality-predicts-benchmarks.md",
+      "2026-04-12-small-model-compression-threshold.md",
       "2026-04-11-compression-regime-maps-to-tiers.md"
     ],
     "compute-budget": [
       "2026-04-07-sas-beats-mas-equal-compute.md"
     ],
     "compute-efficiency": [
+      "2026-04-13-experience-replay-outcomes-reuse.md",
       "2026-04-08-iterative-refinement-beats-long-cot.md"
     ],
     "constitution": [
@@ -2793,6 +3566,7 @@
       "2026-04-08-progressive-knowledge-routing.md"
     ],
     "context-management": [
+      "2026-04-14-dacs-context-scoping.md",
       "2026-04-07-nsm-neuro-symbolic-orchestration.md",
       "2026-04-01-autocompact-threshold.md"
     ],
@@ -2807,10 +3581,16 @@
     "contrastive-learning": [
       "2026-03-29-memcollab-agent-agnostic-memory.md"
     ],
+    "convergence": [
+      "2026-04-13-do-nothing-first-class-option.md",
+      "2026-04-13-judge-panel-size-convergence.md"
+    ],
     "coordination": [
       "2026-04-08-shared-public-state-agent-coordination.md"
     ],
     "cost-optimization": [
+      "2026-04-12-advisor-tool-public-beta.md",
+      "2026-04-12-model-router-hook.md",
       "2026-04-02-distributed-systems-amdahl-gate.md",
       "2026-04-03-smart-tool-overuse.md",
       "2026-04-01-image-cache-invalidation.md"
@@ -2822,15 +3602,22 @@
       "2026-04-08-direction-magnitude-decoupling-optimization.md"
     ],
     "critic": [
+      "2026-04-13-do-nothing-first-class-option.md",
+      "2026-04-13-tournament-self-refinement-abc.md",
+      "2026-04-12-sycophancy-not-hallucination.md",
       "2026-04-11-verification-shift-meta-pattern.md",
       "2026-04-08-llm-judge-factuality-weak.md",
       "2026-04-08-long-horizon-deception-eval.md",
       "2026-04-08-llm-native-validation-hardstop.md",
       "2026-03-30-society-of-thought-orchestration.md",
-      "2026-03-25-decomposed-evaluation.md"
+      "2026-03-25-decomposed-evaluation.md",
+      "2026-04-14-traceguard-5d-critic.md",
+      "2026-04-13-judge-panel-size-convergence.md",
+      "2026-04-12-fresh-session-self-report-verification.md"
     ],
     "cron": [
       "2026-04-07-kaizen-loop-weekly-improvement.md",
+      "2026-04-12-morning-briefing-cron-pattern.md",
       "2026-04-07-operational-rhythm-silence-discipline.md"
     ],
     "cross-cutting": [
@@ -2838,6 +3625,9 @@
     ],
     "cross-project": [
       "2026-04-07-cross-project-memory-design.md"
+    ],
+    "cross-provider": [
+      "2026-04-14-paseo-orchestration-patterns.md"
     ],
     "curriculum": [
       "2026-04-08-reasoning-midtraining-beats-posttraining.md"
@@ -2852,8 +3642,12 @@
       "2026-04-07-hook-testing-patterns.md"
     ],
     "deception": [
+      "2026-04-12-model-size-negatively-correlated-honesty.md",
       "2026-04-08-long-horizon-deception-eval.md",
       "2026-04-08-agent-deception-pressure-trigger.md"
+    ],
+    "decomposition": [
+      "2026-04-14-traceguard-5d-critic.md"
     ],
     "dedup": [
       "2026-03-30-write-time-gating-salience.md"
@@ -2868,6 +3662,9 @@
     "defense-gap": [
       "2026-04-11-task-alignment-bypasses-instruction-defenses.md"
     ],
+    "depth": [
+      "2026-04-13-breadth-depth-axis-tier-selection.md"
+    ],
     "description": [
       "2026-04-03-anthropic-skill-creator-patterns.md",
       "2026-04-03-description-optimizer-plan.md",
@@ -2877,6 +3674,8 @@
       "2026-03-27-commands-vs-skills-structure.md"
     ],
     "deterministic": [
+      "2026-04-12-latent-deterministic-boundary.md",
+      "2026-04-12-latent-deterministic-extraction.md",
       "2026-04-07-judgment-script-separation-reliability.md",
       "2026-03-23-harness-engineering.md"
     ],
@@ -2888,6 +3687,9 @@
     ],
     "disableSkillShellExecution": [
       "2026-04-03-disable-skill-shell-audit.md"
+    ],
+    "disclosure": [
+      "2026-04-13-ai-persuasion-disclosure-insufficient.md"
     ],
     "distributed-systems": [
       "2026-04-02-distributed-systems-amdahl-gate.md"
@@ -2920,6 +3722,7 @@
       "2026-03-23-ecosystem-scan.md"
     ],
     "efficiency": [
+      "2026-04-13-generate-then-discard-suboptimal.md",
       "2026-04-11-calm-continuous-autoregressive.md",
       "2026-04-09-triattention-pre-rope-kv-compression.md",
       "2026-04-03-smart-tool-overuse.md"
@@ -2943,6 +3746,10 @@
       "2026-04-08-reverse-engineered-benchmark-from-artifacts.md"
     ],
     "evaluation": [
+      "2026-04-13-disparagement-stronger-than-promotion.md",
+      "2026-04-13-pretraining-loss-insufficient-generalization-proxy.md",
+      "2026-04-12-ib-optimality-predicts-benchmarks.md",
+      "2026-04-12-sycophancy-not-hallucination.md",
       "2026-04-11-verification-shift-meta-pattern.md",
       "2026-04-08-long-horizon-deception-eval.md",
       "2026-04-07-skill-retrieval-bottleneck.md",
@@ -2950,6 +3757,9 @@
       "2026-04-03-anthropic-skill-creator-patterns.md",
       "2026-04-03-description-optimizer-plan.md",
       "2026-03-25-decomposed-evaluation.md",
+      "2026-04-13-judge-panel-size-convergence.md",
+      "2026-04-13-pairwise-choice-sufficient-verifiable-signal.md",
+      "2026-04-12-fresh-session-self-report-verification.md",
       "2026-04-08-reverse-engineered-benchmark-from-artifacts.md"
     ],
     "evolution": [
@@ -2958,6 +3768,7 @@
       "2026-04-08-living-memory-over-static-retrieval.md"
     ],
     "evolve": [
+      "2026-04-12-evolve-must-verify-current-state.md",
       "2026-04-07-kaizen-loop-weekly-improvement.md"
     ],
     "experience-sharing": [
@@ -2992,6 +3803,9 @@
     "general": [
       "2026-04-08-jevons-paradox-ai-coding.md"
     ],
+    "generalization": [
+      "2026-04-13-pretraining-loss-insufficient-generalization-proxy.md"
+    ],
     "generation": [
       "2026-04-07-model-metadata-dynamic-ui-pattern.md"
     ],
@@ -3013,6 +3827,12 @@
     "gsd2": [
       "2026-04-01-gsd2-error-classification.md"
     ],
+    "haiku": [
+      "2026-04-12-small-model-compression-threshold.md"
+    ],
+    "hallucination": [
+      "2026-04-12-sycophancy-not-hallucination.md"
+    ],
     "handoff": [
       "2026-03-23-spec-kit-adoption.md"
     ],
@@ -3020,10 +3840,17 @@
       "2026-04-08-llm-native-validation-hardstop.md"
     ],
     "harness": [
+      "2026-04-12-purpose-built-tools-75x-faster.md",
       "2026-04-11-memory-sovereignty-open-harness.md",
       "2026-03-26-harness-simplification.md",
       "2026-03-23-harness-engineering.md",
       "2026-04-08-reverse-engineered-benchmark-from-artifacts.md"
+    ],
+    "heartbeat": [
+      "2026-04-14-paseo-orchestration-patterns.md"
+    ],
+    "honesty": [
+      "2026-04-12-model-size-negatively-correlated-honesty.md"
     ],
     "hook": [
       "2026-04-07-hook-architecture-patterns.md",
@@ -3035,6 +3862,9 @@
     ],
     "hooks": [
       "2026-04-07-judgment-script-separation-reliability.md"
+    ],
+    "human-AI": [
+      "2026-04-13-breadth-depth-axis-tier-selection.md"
     ],
     "hybrid-memory": [
       "2026-04-08-parametric-nonparametric-memory-bridge.md"
@@ -3053,16 +3883,28 @@
     "inference-time": [
       "2026-04-08-inference-time-sampling-beats-rl-for-diversity.md"
     ],
+    "information-bottleneck": [
+      "2026-04-12-ib-optimality-predicts-benchmarks.md"
+    ],
     "infrastructure": [
       "2026-03-26-channels-24x7-architecture.md"
     ],
+    "ingest": [
+      "2026-04-12-diarization-as-knowledge-extraction.md"
+    ],
     "instruction-following": [
+      "2026-04-12-pretraining-vs-posttraining-dissociation.md",
       "2026-04-08-instruction-following-compositional-not-universal.md"
+    ],
+    "interpretability": [
+      "2026-04-12-steering-ov-circuit-sparsification.md"
     ],
     "isolation": [
       "2026-04-08-shared-public-state-agent-coordination.md"
     ],
     "iteration": [
+      "2026-04-13-do-nothing-first-class-option.md",
+      "2026-04-13-tournament-self-refinement-abc.md",
       "2026-04-11-iteration-paradox-meta-pattern.md",
       "2026-04-08-iterative-refinement-beats-long-cot.md"
     ],
@@ -3087,12 +3929,22 @@
     "klip": [
       "2026-04-08-descriptive-over-narrative-generative.md"
     ],
+    "knowledge-extraction": [
+      "2026-04-12-diarization-as-knowledge-extraction.md"
+    ],
     "knowledge-loading": [
       "2026-04-08-progressive-knowledge-routing.md"
+    ],
+    "knowledge-management": [
+      "2026-04-12-queries-back-to-wiki-compounding.md"
     ],
     "kv-cache": [
       "2026-04-11-task-guided-context-beats-raw-sharing.md",
       "2026-04-09-triattention-pre-rope-kv-compression.md"
+    ],
+    "latent-space": [
+      "2026-04-12-latent-deterministic-boundary.md",
+      "2026-04-12-latent-deterministic-extraction.md"
     ],
     "launchagent": [
       "2026-03-26-channels-24x7-architecture.md"
@@ -3135,16 +3987,29 @@
     "long-sessions": [
       "2026-04-01-autocompact-threshold.md"
     ],
+    "loss-landscape": [
+      "2026-04-13-pretraining-loss-insufficient-generalization-proxy.md"
+    ],
     "mac-mini": [
       "2026-03-26-channels-24x7-architecture.md"
     ],
+    "maintenance": [
+      "2026-04-12-evolve-must-verify-current-state.md"
+    ],
+    "manipulation": [
+      "2026-04-13-disparagement-stronger-than-promotion.md"
+    ],
     "mcp": [
       "2026-03-27-playwright-mcp-download-hijack.md",
+      "2026-04-12-purpose-built-tools-75x-faster.md",
       "2026-03-23-youtube-transcript-yt-dlp.md"
     ],
     "measurement": [
       "2026-04-07-budget-calibration-baseline.md",
       "2026-04-07-compact-variant-baseline.md"
+    ],
+    "mechanistic": [
+      "2026-04-12-steering-ov-circuit-sparsification.md"
     ],
     "media": [
       "2026-04-07-model-metadata-dynamic-ui-pattern.md"
@@ -3155,6 +4020,7 @@
       "2026-04-08-parametric-nonparametric-memory-bridge.md",
       "2026-04-07-agents-md-efficiency-validated.md",
       "2026-04-05-self-improving-harness.md",
+      "2026-04-12-morning-briefing-cron-pattern.md",
       "2026-04-08-education-teaches-agents-not-humans.md",
       "2026-04-05-agent-defense-frameworks.md",
       "2026-03-30-calm-semantic-bandwidth.md",
@@ -3189,7 +4055,13 @@
       "2026-03-26-harness-simplification.md"
     ],
     "model-selection": [
+      "2026-04-12-advisor-tool-public-beta.md",
+      "2026-04-12-ib-optimality-predicts-benchmarks.md",
+      "2026-04-12-model-size-negatively-correlated-honesty.md",
+      "2026-04-12-small-model-compression-threshold.md",
+      "2026-04-12-model-router-hook.md",
       "2026-04-08-reasoning-midtraining-beats-posttraining.md",
+      "2026-04-12-pretraining-vs-posttraining-dissociation.md",
       "2026-04-08-agent-deception-pressure-trigger.md",
       "2026-04-08-in-place-ttt-long-context-multiplier.md",
       "2026-04-08-inference-time-sampling-beats-rl-for-diversity.md"
@@ -3203,7 +4075,12 @@
     "morning-brief": [
       "2026-04-07-operational-rhythm-silence-discipline.md"
     ],
+    "morning-briefing": [
+      "2026-04-12-morning-briefing-cron-pattern.md"
+    ],
     "multi-agent": [
+      "2026-04-14-dacs-context-scoping.md",
+      "2026-04-14-paseo-orchestration-patterns.md",
       "2026-04-11-task-guided-context-beats-raw-sharing.md",
       "2026-04-08-group-experience-sharing-beats-isolated-evolution.md",
       "2026-04-08-long-horizon-deception-eval.md",
@@ -3216,6 +4093,9 @@
       "2026-04-08-heartbeat-mid-run-steering.md",
       "2026-04-08-shared-public-state-agent-coordination.md",
       "2026-04-01-autoreason-adversarial-debate.md"
+    ],
+    "multi-dimensional": [
+      "2026-04-14-traceguard-5d-critic.md"
     ],
     "multi-model": [
       "2026-03-29-memcollab-agent-agnostic-memory.md"
@@ -3247,7 +4127,11 @@
     "notifications": [
       "2026-04-07-operational-rhythm-silence-discipline.md"
     ],
+    "openmontage": [
+      "2026-04-14-openmontage-production-governance.md"
+    ],
     "optimization": [
+      "2026-04-12-latent-deterministic-extraction.md",
       "2026-04-11-iteration-paradox-meta-pattern.md",
       "2026-04-10-eggroll-evolutionary-optimization.md",
       "2026-04-08-early-iteration-performance-unreliable.md",
@@ -3257,7 +4141,17 @@
       "2026-04-07-compact-variant-baseline.md",
       "karpathy-loop-autoloop.md"
     ],
+    "optimizer": [
+      "2026-04-13-pretraining-loss-insufficient-generalization-proxy.md"
+    ],
+    "optstate": [
+      "2026-04-13-experience-replay-outcomes-reuse.md"
+    ],
     "orchestration": [
+      "2026-04-14-paseo-orchestration-patterns.md",
+      "2026-04-14-openmontage-production-governance.md",
+      "2026-04-13-breadth-depth-axis-tier-selection.md",
+      "2026-04-12-model-router-hook.md",
       "2026-04-11-task-guided-context-beats-raw-sharing.md",
       "2026-04-10-rlm-architectural-principles.md",
       "2026-04-08-auto-research-removes-human-bottleneck.md",
@@ -3287,14 +4181,23 @@
     "os-themis": [
       "2026-03-25-decomposed-evaluation.md"
     ],
+    "outcomes": [
+      "2026-04-13-experience-replay-outcomes-reuse.md"
+    ],
     "overfitting": [
       "2026-04-03-autoagent-overfitting-guard.md"
+    ],
+    "pairwise-comparison": [
+      "2026-04-13-pairwise-choice-sufficient-verifiable-signal.md"
     ],
     "parallel": [
       "2026-04-03-autoagent-parallel-candidates.md"
     ],
     "parallel-rollouts": [
       "2026-04-07-mom-taro-orchestration-upgrades.md"
+    ],
+    "parallel-sessions": [
+      "2026-04-12-evolve-must-verify-current-state.md"
     ],
     "parametric": [
       "2026-04-08-parametric-nonparametric-memory-bridge.md"
@@ -3305,9 +4208,21 @@
     "patterns": [
       "2026-04-07-hook-architecture-patterns.md"
     ],
+    "performance": [
+      "2026-04-12-purpose-built-tools-75x-faster.md"
+    ],
+    "persuasion": [
+      "2026-04-13-ai-persuasion-creates-genuine-preferences.md",
+      "2026-04-13-ai-persuasion-disclosure-insufficient.md",
+      "2026-04-13-disparagement-stronger-than-promotion.md"
+    ],
     "pipeline": [
+      "2026-04-12-skillclaw-auto-evolve-pipeline.md",
       "2026-04-08-auto-research-removes-human-bottleneck.md",
       "2026-03-29-claudini-autoresearch-loop.md"
+    ],
+    "plan-persistence": [
+      "2026-04-14-paseo-orchestration-patterns.md"
     ],
     "planning": [
       "2026-04-07-nsm-neuro-symbolic-orchestration.md"
@@ -3323,6 +4238,12 @@
     ],
     "positioning": [
       "2026-03-23-ecosystem-scan.md"
+    ],
+    "post-training": [
+      "2026-04-12-pretraining-vs-posttraining-dissociation.md"
+    ],
+    "pre-training": [
+      "2026-04-12-pretraining-vs-posttraining-dissociation.md"
     ],
     "pressure": [
       "2026-04-08-agent-deception-pressure-trigger.md"
@@ -3342,10 +4263,22 @@
     "prompting": [
       "2026-04-08-instruction-following-compositional-not-universal.md"
     ],
+    "provider-selection": [
+      "2026-04-14-openmontage-production-governance.md"
+    ],
     "python": [
       "2026-03-25-batch-edit-pattern.md",
       "2026-03-23-harness-engineering.md",
       "2026-03-23-environment-falai.md"
+    ],
+    "quality-gates": [
+      "2026-04-14-openmontage-production-governance.md"
+    ],
+    "query": [
+      "2026-04-12-queries-back-to-wiki-compounding.md"
+    ],
+    "race-condition": [
+      "2026-04-12-evolve-must-verify-current-state.md"
     ],
     "rag": [
       "2026-04-11-task-alignment-bypasses-instruction-defenses.md"
@@ -3363,11 +4296,19 @@
     "recency": [
       "2026-04-08-recency-beats-complex-memory.md"
     ],
+    "recommendation": [
+      "2026-04-13-ai-persuasion-creates-genuine-preferences.md",
+      "2026-04-13-disparagement-stronger-than-promotion.md"
+    ],
     "recursion": [
       "2026-04-10-rlm-architectural-principles.md"
     ],
     "reference-files": [
       "2026-04-08-progressive-knowledge-routing.md"
+    ],
+    "refinement": [
+      "2026-04-13-do-nothing-first-class-option.md",
+      "2026-04-13-tournament-self-refinement-abc.md"
     ],
     "reflection": [
       "2026-04-08-heartbeat-mid-run-steering.md"
@@ -3378,11 +4319,16 @@
     "reliability": [
       "2026-04-07-judgment-script-separation-reliability.md"
     ],
+    "replay": [
+      "2026-04-13-experience-replay-outcomes-reuse.md",
+      "2026-04-13-generate-then-discard-suboptimal.md"
+    ],
     "research": [
       "2026-04-08-auto-research-removes-human-bottleneck.md",
       "2026-04-06-self-organizing-agents-ab-test.md",
       "2026-04-06-deepresearch-agent-scope.md",
       "2026-04-05-egoalpha-prompt-patterns.md",
+      "2026-04-12-diarization-as-knowledge-extraction.md",
       "2026-04-06-osft-self-sharpening.md",
       "2026-03-30-calm-semantic-bandwidth.md"
     ],
@@ -3398,6 +4344,10 @@
       "2026-04-08-recency-beats-complex-memory.md",
       "2026-03-29-paged-context-protocol.md"
     ],
+    "review": [
+      "2026-04-13-tournament-self-refinement-abc.md",
+      "2026-04-13-judge-panel-size-convergence.md"
+    ],
     "reward-hacking": [
       "2026-04-03-autoagent-overfitting-guard.md"
     ],
@@ -3408,7 +4358,11 @@
       "2026-04-07-operational-rhythm-silence-discipline.md"
     ],
     "rl-training": [
+      "2026-04-13-pairwise-choice-sufficient-verifiable-signal.md",
       "2026-04-07-multi-reward-normalization-collapse.md"
+    ],
+    "rlhf": [
+      "2026-04-12-pretraining-vs-posttraining-dissociation.md"
     ],
     "role-specific-critic": [
       "2026-04-07-mom-taro-orchestration-upgrades.md"
@@ -3417,7 +4371,8 @@
       "2026-04-05-openfang-architecture-patterns.md"
     ],
     "safety": [
-      "2026-04-11-self-incrimination-training.md"
+      "2026-04-11-self-incrimination-training.md",
+      "2026-04-12-steering-ov-circuit-sparsification.md"
     ],
     "salience": [
       "2026-03-30-write-time-gating-salience.md"
@@ -3429,6 +4384,9 @@
       "2026-04-05-openfang-architecture-patterns.md",
       "2026-04-03-autoagent-parallel-candidates.md"
     ],
+    "scaling": [
+      "2026-04-12-small-model-compression-threshold.md"
+    ],
     "scaling-laws": [
       "2026-04-08-early-iteration-performance-unreliable.md"
     ],
@@ -3436,6 +4394,7 @@
       "2026-03-24-openclaw-postmortem-patterns.md"
     ],
     "scheduled-tasks": [
+      "2026-04-12-morning-briefing-cron-pattern.md",
       "2026-04-07-operational-rhythm-silence-discipline.md"
     ],
     "scheduling": [
@@ -3452,6 +4411,7 @@
       "2026-04-10-rlm-architectural-principles.md"
     ],
     "scripts": [
+      "2026-04-12-latent-deterministic-extraction.md",
       "2026-04-07-judgment-script-separation-reliability.md"
     ],
     "search": [
@@ -3463,6 +4423,8 @@
     "security": [
       "2026-03-27-playwright-mcp-download-hijack.md",
       "2026-03-27-secrets-in-config-files.md",
+      "2026-04-12-model-size-negatively-correlated-honesty.md",
+      "2026-04-12-sycophancy-not-hallucination.md",
       "2026-04-11-task-alignment-bypasses-instruction-defenses.md",
       "2026-04-08-long-horizon-deception-eval.md",
       "2026-04-03-disable-skill-shell-audit.md",
@@ -3475,6 +4437,8 @@
       "2026-04-08-direction-magnitude-decoupling-optimization.md"
     ],
     "self-evolve": [
+      "2026-04-13-experience-replay-outcomes-reuse.md",
+      "2026-04-13-generate-then-discard-suboptimal.md",
       "2026-04-11-iteration-paradox-meta-pattern.md",
       "2026-04-08-early-iteration-performance-unreliable.md",
       "2026-04-07-skill-retrieval-bottleneck.md",
@@ -3519,9 +4483,20 @@
       "2026-04-08-education-teaches-agents-not-humans.md"
     ],
     "skill-design": [
+      "2026-04-12-latent-deterministic-boundary.md",
+      "2026-04-12-latent-deterministic-extraction.md",
+      "2026-04-12-purpose-built-tools-75x-faster.md",
       "2026-04-08-llm-native-validation-hardstop.md",
       "2026-04-08-progressive-knowledge-routing.md",
+      "2026-04-13-pairwise-choice-sufficient-verifiable-signal.md",
+      "2026-04-12-diarization-as-knowledge-extraction.md",
       "2026-04-08-instruction-following-compositional-not-universal.md"
+    ],
+    "skill-evaluation": [
+      "2026-04-13-pretraining-loss-insufficient-generalization-proxy.md"
+    ],
+    "skill-evolution": [
+      "2026-04-12-skillclaw-auto-evolve-pipeline.md"
     ],
     "skill-matching": [
       "2026-03-25-skill-description-triggers.md"
@@ -3529,11 +4504,17 @@
     "skill-scope": [
       "2026-04-09-local-aggregator-beats-global.md"
     ],
+    "skillclaw": [
+      "2026-04-12-skillclaw-auto-evolve-pipeline.md"
+    ],
     "skills": [
       "2026-03-27-commands-vs-skills-structure.md"
     ],
     "sliding-window": [
       "2026-04-08-recency-beats-complex-memory.md"
+    ],
+    "small-models": [
+      "2026-04-12-small-model-compression-threshold.md"
     ],
     "solo-development": [
       "2026-03-24-fix-issue-solo-workflow.md"
@@ -3560,11 +4541,17 @@
     "state-sharing": [
       "2026-04-08-shared-public-state-agent-coordination.md"
     ],
+    "state-verification": [
+      "2026-04-12-evolve-must-verify-current-state.md"
+    ],
     "static-defense": [
       "2026-04-11-adaptive-attacks-defeat-static-defenses.md"
     ],
     "static-rag": [
       "2026-04-08-living-memory-over-static-retrieval.md"
+    ],
+    "steering": [
+      "2026-04-12-steering-ov-circuit-sparsification.md"
     ],
     "structural-heuristic": [
       "karpathy-loop-autoloop.md"
@@ -3577,6 +4564,11 @@
     ],
     "superpowers": [
       "2026-03-23-superpowers-adoption.md"
+    ],
+    "sycophancy": [
+      "2026-04-12-model-size-negatively-correlated-honesty.md",
+      "2026-04-12-sycophancy-not-hallucination.md",
+      "2026-04-12-fresh-session-self-report-verification.md"
     ],
     "sync": [
       "2026-04-07-cross-project-memory-design.md"
@@ -3608,10 +4600,15 @@
     "thinking": [
       "2026-04-01-sonnet46-thinking-effort-breaking-change.md"
     ],
+    "tier-selection": [
+      "2026-04-13-breadth-depth-axis-tier-selection.md",
+      "2026-04-12-ib-optimality-predicts-benchmarks.md"
+    ],
     "timeout": [
       "2026-04-07-hook-failure-modes.md"
     ],
     "token-efficiency": [
+      "2026-04-14-dacs-context-scoping.md",
       "2026-04-11-task-guided-context-beats-raw-sharing.md"
     ],
     "token-optimization": [
@@ -3623,6 +4620,9 @@
     ],
     "tool-use": [
       "2026-04-03-smart-tool-overuse.md"
+    ],
+    "tooling": [
+      "2026-04-12-purpose-built-tools-75x-faster.md"
     ],
     "traces": [
       "2026-04-05-self-improving-harness.md"
@@ -3639,6 +4639,9 @@
     "transcript": [
       "2026-03-23-youtube-transcript-yt-dlp.md"
     ],
+    "transparency": [
+      "2026-04-13-ai-persuasion-disclosure-insufficient.md"
+    ],
     "trigger-description": [
       "2026-03-23-superpowers-adoption.md"
     ],
@@ -3649,7 +4652,11 @@
       "2026-04-03-anthropic-skill-creator-patterns.md"
     ],
     "trust": [
+      "2026-04-13-ai-persuasion-creates-genuine-preferences.md",
+      "2026-04-12-model-size-negatively-correlated-honesty.md",
+      "2026-04-12-sycophancy-not-hallucination.md",
       "2026-04-08-long-horizon-deception-eval.md",
+      "2026-04-12-fresh-session-self-report-verification.md",
       "2026-04-08-agent-deception-pressure-trigger.md"
     ],
     "ui-architecture": [
@@ -3658,16 +4665,22 @@
     "upstream-first": [
       "2026-04-07-mom-taro-orchestration-upgrades.md"
     ],
+    "user-autonomy": [
+      "2026-04-13-ai-persuasion-creates-genuine-preferences.md"
+    ],
     "validation": [
       "2026-04-08-llm-native-validation-hardstop.md",
       "2026-03-23-harness-engineering.md"
     ],
     "verification": [
       "2026-04-02-audit-must-verify-consumers.md",
+      "2026-04-12-sycophancy-not-hallucination.md",
       "2026-04-11-verification-shift-meta-pattern.md",
       "2026-04-11-task-alignment-bypasses-instruction-defenses.md",
       "2026-04-05-egoalpha-prompt-patterns.md",
       "2026-04-04-toolgenesis-cascade-evaluation.md",
+      "2026-04-14-traceguard-5d-critic.md",
+      "2026-04-12-fresh-session-self-report-verification.md",
       "2026-04-03-testing-bottleneck.md",
       "2026-03-23-gsd-patterns.md"
     ],
@@ -3676,6 +4689,9 @@
     ],
     "versioning": [
       "2026-03-24-checkpoint-versioning.md"
+    ],
+    "video": [
+      "2026-04-14-openmontage-production-governance.md"
     ],
     "watch": [
       "2026-04-07-kaizen-loop-weekly-improvement.md"
@@ -3689,6 +4705,9 @@
     ],
     "weak-to-strong": [
       "2026-04-07-mom-taro-orchestration-upgrades.md"
+    ],
+    "wiki": [
+      "2026-04-12-queries-back-to-wiki-compounding.md"
     ],
     "windows": [
       "2026-03-23-environment-falai.md"
@@ -3713,6 +4732,9 @@
     "general": [
       "2026-03-27-playwright-mcp-download-hijack.md",
       "2026-03-27-secrets-in-config-files.md",
+      "2026-04-13-ai-persuasion-creates-genuine-preferences.md",
+      "2026-04-13-ai-persuasion-disclosure-insufficient.md",
+      "2026-04-13-disparagement-stronger-than-promotion.md",
       "2026-04-11-calm-continuous-autoregressive.md",
       "2026-04-11-iha-interleaved-head-attention.md",
       "2026-04-08-jevons-paradox-ai-coding.md",
@@ -3723,17 +4745,21 @@
       "2026-03-23-ecosystem-scan.md"
     ],
     "hook": [
+      "2026-04-12-model-router-hook.md",
       "2026-04-11-self-incrimination-training.md",
       "2026-04-11-task-alignment-bypasses-instruction-defenses.md",
       "2026-04-07-hook-architecture-patterns.md",
       "2026-04-07-hook-failure-modes.md",
       "2026-04-07-judgment-script-separation-reliability.md",
+      "2026-04-12-steering-ov-circuit-sparsification.md",
       "2026-04-11-adaptive-attacks-defeat-static-defenses.md",
       "2026-04-11-no-defense-achieves-security-and-utility.md",
       "2026-04-07-hook-testing-patterns.md",
       "2026-04-05-agent-defense-frameworks.md"
     ],
     "memory": [
+      "2026-04-12-evolve-must-verify-current-state.md",
+      "2026-04-12-queries-back-to-wiki-compounding.md",
       "2026-04-11-memory-sovereignty-open-harness.md",
       "2026-04-09-local-aggregator-beats-global.md",
       "2026-04-08-living-memory-over-static-retrieval.md",
@@ -3749,6 +4775,20 @@
     ],
     "orchestration": [
       "2026-04-02-audit-must-verify-consumers.md",
+      "2026-04-14-dacs-context-scoping.md",
+      "2026-04-14-paseo-orchestration-patterns.md",
+      "2026-04-13-breadth-depth-axis-tier-selection.md",
+      "2026-04-13-do-nothing-first-class-option.md",
+      "2026-04-13-experience-replay-outcomes-reuse.md",
+      "2026-04-13-generate-then-discard-suboptimal.md",
+      "2026-04-13-pretraining-loss-insufficient-generalization-proxy.md",
+      "2026-04-13-tournament-self-refinement-abc.md",
+      "2026-04-12-advisor-tool-public-beta.md",
+      "2026-04-12-ib-optimality-predicts-benchmarks.md",
+      "2026-04-12-model-size-negatively-correlated-honesty.md",
+      "2026-04-12-skillclaw-auto-evolve-pipeline.md",
+      "2026-04-12-small-model-compression-threshold.md",
+      "2026-04-12-sycophancy-not-hallucination.md",
       "2026-04-11-iteration-paradox-meta-pattern.md",
       "2026-04-11-task-guided-context-beats-raw-sharing.md",
       "2026-04-10-eggroll-evolutionary-optimization.md",
@@ -3776,6 +4816,12 @@
       "2026-03-26-channels-24x7-architecture.md",
       "2026-03-26-harness-simplification.md",
       "2026-03-24-openclaw-postmortem-patterns.md",
+      "2026-04-14-traceguard-5d-critic.md",
+      "2026-04-13-judge-panel-size-convergence.md",
+      "2026-04-13-pairwise-choice-sufficient-verifiable-signal.md",
+      "2026-04-12-fresh-session-self-report-verification.md",
+      "2026-04-12-morning-briefing-cron-pattern.md",
+      "2026-04-12-pretraining-vs-posttraining-dissociation.md",
       "2026-04-11-compression-regime-maps-to-tiers.md",
       "2026-04-11-speculative-reasoning-degrades-workers.md",
       "2026-04-08-agent-deception-pressure-trigger.md",
@@ -3799,11 +4845,15 @@
     ],
     "pipeline": [
       "2026-04-01-sonnet46-thinking-effort-breaking-change.md",
+      "2026-04-14-openmontage-production-governance.md",
       "2026-03-23-harness-engineering.md",
       "2026-04-09-triattention-pre-rope-kv-compression.md"
     ],
     "skill": [
       "2026-03-27-commands-vs-skills-structure.md",
+      "2026-04-12-latent-deterministic-boundary.md",
+      "2026-04-12-latent-deterministic-extraction.md",
+      "2026-04-12-purpose-built-tools-75x-faster.md",
       "2026-04-11-verification-shift-meta-pattern.md",
       "2026-04-08-early-iteration-performance-unreliable.md",
       "2026-04-08-llm-native-validation-hardstop.md",
@@ -3822,6 +4872,7 @@
       "2026-03-25-skill-description-triggers.md",
       "2026-03-23-superpowers-adoption.md",
       "2026-03-23-youtube-transcript-yt-dlp.md",
+      "2026-04-12-diarization-as-knowledge-extraction.md",
       "2026-04-08-descriptive-over-narrative-generative.md",
       "2026-04-08-direction-magnitude-decoupling-optimization.md",
       "2026-04-08-education-teaches-agents-not-humans.md",

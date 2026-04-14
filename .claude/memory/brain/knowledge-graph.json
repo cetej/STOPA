@@ -1,9 +1,9 @@
 {
-  "version": "1.2",
-  "updated": "2026-04-13",
+  "version": "1.3",
+  "updated": "2026-04-14",
   "description": "2BRAIN knowledge graph — entity-centric storage with typed edges",
   "node_types": ["person", "concept", "project", "value", "reasoning", "experience", "goal"],
-  "edge_types": ["created", "inspired", "contradicts", "enables", "blocks", "applied-in", "drives", "taught-me", "practiced-in", "related-to", "part-of", "complementary"],
+  "edge_types": ["created", "inspired", "contradicts", "enables", "blocks", "applied-in", "drives", "taught-me", "practiced-in", "related-to", "part-of", "complementary", "validates", "formalizes"],
   "nodes": {
     "karpathy": {
       "type": "person",
@@ -165,6 +165,27 @@
       "tags": ["ai", "mental-model", "software-development"],
       "wiki": "concepts/verifiability-sw2.md",
       "added": "2026-04-13"
+    },
+    "memfactory": {
+      "type": "concept",
+      "label": "MemFactory — Unified Agent Memory Framework",
+      "tags": ["ai", "memory", "agent", "rl", "unified-framework"],
+      "wiki": "concepts/memfactory.md",
+      "added": "2026-04-14"
+    },
+    "agent-memory-taxonomy": {
+      "type": "concept",
+      "label": "Agent Memory Taxonomy (Write-Manage-Read)",
+      "tags": ["ai", "memory", "agent", "taxonomy", "survey"],
+      "wiki": "concepts/agent-memory-taxonomy.md",
+      "added": "2026-04-14"
+    },
+    "operating-knowledge": {
+      "type": "concept",
+      "label": "Operating Knowledge (Karpathy 2026)",
+      "tags": ["ai", "knowledge-management", "token-economy", "llm-wiki"],
+      "wiki": null,
+      "added": "2026-04-14"
     }
   },
   "edges": [
@@ -174,12 +195,14 @@
     {"from": "karpathy", "to": "rlvr", "rel": "related-to", "date": "2025", "evidence": "described as paradigm 1 in 2025 review"},
     {"from": "karpathy", "to": "jagged-intelligence", "rel": "created", "date": "2025", "evidence": "Ghosts vs Animals + Space of Minds posts"},
     {"from": "karpathy", "to": "verifiability-sw2", "rel": "created", "date": "2025", "evidence": "Verifiability post Nov 2025"},
+    {"from": "karpathy", "to": "operating-knowledge", "rel": "created", "date": "2026-04", "evidence": "token consumption shifting from operating code to operating knowledge"},
     {"from": "tiago-forte", "to": "basb-code", "rel": "created"},
     {"from": "tiago-forte", "to": "para-method", "rel": "created"},
     {"from": "tiago-forte", "to": "progressive-summarization", "rel": "created"},
     {"from": "llm-wiki", "to": "second-brain", "rel": "part-of"},
     {"from": "llm-wiki", "to": "compiler-analogy", "rel": "applied-in"},
     {"from": "llm-wiki", "to": "stopa", "rel": "inspired", "evidence": "brain/ structure mirrors raw/wiki/schema"},
+    {"from": "llm-wiki", "to": "operating-knowledge", "rel": "enables", "evidence": "LLM Wiki is the primary implementation of operating knowledge shift"},
     {"from": "autonomy", "to": "stopa", "rel": "drives", "evidence": "no step-by-step approval, autonomous agents"},
     {"from": "compound-effect", "to": "second-brain", "rel": "drives", "evidence": "knowledge accumulates across sessions"},
     {"from": "basb-code", "to": "second-brain", "rel": "part-of", "evidence": "Capture->Organize->Distill->Express"},
@@ -202,6 +225,15 @@
     {"from": "verifiability-sw2", "to": "jagged-intelligence", "rel": "drives", "evidence": "non-verifiable tasks lag → jagged frontier"},
     {"from": "vibe-coding", "to": "context-engineering", "rel": "related-to", "evidence": "both shift focus from writing code to managing intent"},
     {"from": "jagged-intelligence", "to": "stopa", "rel": "applied-in", "evidence": "STOPA verifiable subtask design, /verify and /harness skills"},
-    {"from": "verifiability-sw2", "to": "stopa", "rel": "applied-in", "evidence": "STOPA /verify, /tdd, /harness skills embody verifiability principle"}
+    {"from": "verifiability-sw2", "to": "stopa", "rel": "applied-in", "evidence": "STOPA /verify, /tdd, /harness skills embody verifiability principle"},
+    {"from": "memfactory", "to": "agent-memory-taxonomy", "rel": "part-of", "evidence": "MemFactory implements policy-learned management family"},
+    {"from": "memfactory", "to": "active-metacognitive-curation", "rel": "enables", "evidence": "GRPO-based learning = learned memory curation policy"},
+    {"from": "memfactory", "to": "second-brain", "rel": "related-to", "evidence": "extract/update/retrieve primitives map to ingest/lint/query"},
+    {"from": "agent-memory-taxonomy", "to": "second-brain", "rel": "formalizes", "evidence": "write-manage-read loop formalizes ingest/query/lint cycle"},
+    {"from": "agent-memory-taxonomy", "to": "stopa", "rel": "formalizes", "evidence": "write=ingest/scribe, manage=evolve/sweep, read=grep+hybrid"},
+    {"from": "agent-memory-taxonomy", "to": "llm-wiki", "rel": "validates", "evidence": "hierarchical virtual context = primary family for LLM Wiki pattern"},
+    {"from": "operating-knowledge", "to": "llm-wiki", "rel": "drives", "evidence": "operating knowledge shift → LLM Wiki as natural implementation"},
+    {"from": "operating-knowledge", "to": "second-brain", "rel": "drives", "evidence": "second brain systems are natural response to operating knowledge paradigm"},
+    {"from": "operating-knowledge", "to": "context-engineering", "rel": "related-to", "evidence": "both describe LLM usage shifting from code to knowledge/context management"}
   ]
 }

@@ -3,12 +3,12 @@
 Obsah kompilovaných wiki článků organizovaný podle typu entity.
 LLM čte tento soubor PRVNÍ při odpovídání na dotazy.
 
-**Last updated:** 2026-04-13
-**Total articles:** 18
+**Last updated:** 2026-04-14
+**Total articles:** 22
 
 ---
 
-## Concepts (11)
+## Concepts (13)
 
 | Article | Summary | Sources | Updated |
 |---------|---------|---------|---------|
@@ -18,17 +18,19 @@ LLM čte tento soubor PRVNÍ při odpovídání na dotazy.
 | [active-metacognitive-curation](concepts/active-metacognitive-curation.md) | Aktivní memory management: systém rozhoduje co udržovat/promovat/zahazovat | arXiv:2508.13171 | 2026-04-13 |
 | [zettelkasten](concepts/zettelkasten.md) | Atomicita + connectivity: PKM metoda pro long-term knowledge emergence | zettelkasten.de | 2026-04-13 |
 | [basb-code](concepts/basb-code.md) | Capture→Organize→Distill→Express: workflow pro transformaci informací | Tiago Forte | 2026-04-13 |
-| [llm-wiki](concepts/llm-wiki.md) | Karpathyho vzor: LLM buduje markdown wiki místo RAG | Karpathy Gist | 2026-04-13 |
+| [llm-wiki](concepts/llm-wiki.md) | Karpathyho vzor: LLM buduje markdown wiki místo RAG; token shift k "operating knowledge" | Karpathy Gist, CoderSera, EvoAI, X | 2026-04-14 |
 | [rlvr](concepts/rlvr.md) | 4. fáze tréninku LLM: RL na ověřitelných odměnách → spontánní reasoning emergence | Karpathy blog 2025 | 2026-04-13 |
 | [vibe-coding](concepts/vibe-coding.md) | Programování v přirozeném jazyce: kód je zdarma, pomíjivý, tvárný | Karpathy blog 2025 | 2026-04-13 |
 | [jagged-intelligence](concepts/jagged-intelligence.md) | LLMs jako "přivolaní duchové": geniální v math/code, zmatkaní u triviálního | Karpathy blog 2025 | 2026-04-13 |
 | [verifiability-sw2](concepts/verifiability-sw2.md) | SW 2.0 klíčový prediktor: verifikovatelné úkoly → dramatický AI pokrok | Karpathy blog Nov 2025 | 2026-04-13 |
+| [memfactory](concepts/memfactory.md) | RL-based unifikovaný framework pro agent memory (extraction/updating/retrieval + GRPO, +14.8%) | arXiv:2603.29493 | 2026-04-14 |
+| [agent-memory-taxonomy](concepts/agent-memory-taxonomy.md) | Write-Manage-Read loop + 5 rodin memory mechanismů + 3D taxonomie (temporal/substrate/control) | arXiv:2603.07670 | 2026-04-14 |
 
 ## People (2)
 
 | Article | Summary | Updated |
 |---------|---------|---------|
-| [karpathy](people/karpathy.md) | Andrej Karpathy — LLM Wiki, RLVR, Vibe Coding, Ghosts vs Animals, Verifiability | 2026-04-13 |
+| [karpathy](people/karpathy.md) | Andrej Karpathy — LLM Wiki, RLVR, Vibe Coding, Ghosts vs Animals, Verifiability, Operating Knowledge | 2026-04-14 |
 | [tiago-forte](people/tiago-forte.md) | Tiago Forte — BASB, PARA, Progressive Summarization | 2026-04-13 |
 
 ## Reasoning Patterns (5)
