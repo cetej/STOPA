@@ -32,7 +32,7 @@ count_matches() {
 
 writes=$(count_matches "\| (Write|Edit|MultiEdit) \|" "$LOG")
 agents=$(count_matches "\| Agent " "$LOG")
-skills=$(count_matches "\| Skill \|" "$LOG")
+skills=$(count_matches "\| Skill[: ]" "$LOG")
 bash_sig=$(count_matches "\| Bash \(significant\) \|" "$LOG")
 errors=$(count_matches "exit=[^0]" "$LOG")
 total=$((writes + agents + skills + bash_sig))

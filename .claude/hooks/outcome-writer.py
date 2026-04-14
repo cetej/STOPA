@@ -226,6 +226,63 @@ def archive_if_needed():
         f.rename(archive_dir / f.name)
 
 
+def _record_failure_inline(skill: str, outcome: str, exit_reason: str, one_line: str, outcome_path: Path):
+    """Record failure directly from outcome-writer, bypassing the broken PostToolUse/Write trigger.
+
+    Simplified version of failure-recorder.py logic — creates a minimal failure record
+    so the failures/ directory actually gets populated.
+    """
+    failures_dir = Path(".claude/memory/failures")
+    failures_dir.mkdir(parents=True, exist_ok=True)
+
+    # Map exit_reason to failure_class
+    class_map = {
+        "crash_loop": "logic",
+        "budget_exceeded": "resource",
+        "stuck": "logic",
+        "plateau": "logic",
+        "timeout": "timeout",
+        "infra_error": "resource",
+    }
+    failure_class = class_map.get(exit_reason, "logic")
+
+    # Next failure ID
+    existing = list(failures_dir.glob("*-F???-*.md"))
+    if existing:
+        ids = []
+        for f in existing:
+            match = re.search(r"-F(\d{3})-", f.name)
+            if match:
+                ids.append(int(match.group(1)))
+        fid = f"F{(max(ids) + 1) if ids else 1:03d}"
+    else:
+        fid = "F001"
+
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    slug = re.sub(r"[^a-z0-9]+", "-", one_line.lower())[:40].strip("-")
+    filename = f"{today}-{fid}-{slug}.md"
+
+    content = f"""---
+id: {fid}
+date: {today}
+task: "{one_line}"
+failure_class: {failure_class}
+failure_agent: {skill}
+resolved: false
+---
+
+## Root Cause
+
+Auto-recorded from outcome: {outcome_path.name}
+Exit reason: {exit_reason}
+
+## Reflexion
+
+(To be filled by /learn-from-failure or manual review)
+"""
+    (failures_dir / filename).write_text(content, encoding="utf-8")
+
+
 def main():
     tool_name = os.environ.get("CLAUDE_TOOL_NAME", "")
     if tool_name != "Skill":
@@ -254,7 +311,7 @@ def main():
 
     # Write micro-outcome
     try:
-        write_micro_outcome(skill, outcome, exit_reason, one_line)
+        outcome_path = write_micro_outcome(skill, outcome, exit_reason, one_line)
     except OSError:
         return  # non-blocking: silently fail
 
@@ -269,6 +326,15 @@ def main():
         archive_if_needed()
     except OSError:
         pass
+
+    # Direct failure recording — bypasses broken Write-tool trigger
+    # (failure-recorder.py waits for Write tool event that never comes
+    #  because we use path.write_text(), not the Claude Write tool)
+    if outcome in ("failure", "partial"):
+        try:
+            _record_failure_inline(skill, outcome, exit_reason, one_line, outcome_path)
+        except Exception:
+            pass  # non-blocking
 
 
 if __name__ == "__main__":

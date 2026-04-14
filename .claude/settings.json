@@ -65,27 +65,9 @@
           },
           {
             "type": "command",
-            "command": "bash .claude/hooks/harness-audit.sh",
-            "timeout": 10,
-            "statusMessage": "Running harness audit..."
-          },
-          {
-            "type": "command",
             "command": "python .claude/hooks/learning-lifecycle.py",
             "timeout": 5,
             "statusMessage": "Learning lifecycle check..."
-          },
-          {
-            "type": "command",
-            "command": "python .claude/hooks/skill-detector.py",
-            "timeout": 5,
-            "statusMessage": "Detecting skill patterns..."
-          },
-          {
-            "type": "command",
-            "command": "python .claude/hooks/build-permission-registry.py",
-            "timeout": 5,
-            "statusMessage": "Building permission registry..."
           },
           {
             "type": "command",
@@ -157,14 +139,7 @@
     "PostToolUse": [
       {
         "matcher": "Agent",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python .claude/hooks/model-perf-tracker.py",
-            "timeout": 5,
-            "statusMessage": ""
-          }
-        ]
+        "hooks": []
       },
       {
         "matcher": "WebFetch|WebSearch|mcp__brave-search__brave_web_search|mcp__brave-search__brave_local_search|mcp__Claude_in_Chrome__get_page_text|mcp__Claude_in_Chrome__read_page",
@@ -188,24 +163,6 @@
           },
           {
             "type": "command",
-            "command": "python .claude/hooks/trace-capture.py",
-            "timeout": 2,
-            "statusMessage": ""
-          },
-          {
-            "type": "command",
-            "command": "python .claude/hooks/session-trace.py",
-            "timeout": 2,
-            "statusMessage": ""
-          },
-          {
-            "type": "command",
-            "command": "python .claude/hooks/suggest-compact.py",
-            "timeout": 3,
-            "statusMessage": ""
-          },
-          {
-            "type": "command",
             "command": "bash .claude/hooks/observe.sh",
             "timeout": 3,
             "statusMessage": ""
@@ -213,12 +170,6 @@
           {
             "type": "command",
             "command": "python .claude/hooks/panic-detector.py",
-            "timeout": 3,
-            "statusMessage": ""
-          },
-          {
-            "type": "command",
-            "command": "python .claude/hooks/stagnation-detector.py",
             "timeout": 3,
             "statusMessage": ""
           },
@@ -245,20 +196,6 @@
             "command": "bash .claude/hooks/post-commit-analyzer.sh",
             "timeout": 10,
             "statusMessage": "Analyzing commit..."
-          },
-          {
-            "type": "command",
-            "if": "Bash(git commit*)",
-            "command": "python .claude/hooks/critic-accuracy-tracker.py",
-            "timeout": 3,
-            "statusMessage": ""
-          },
-          {
-            "type": "command",
-            "if": "Bash(*fal_client*)|Bash(*elevenlabs*)|Bash(*genai*)",
-            "command": "python .claude/hooks/generation-tracker.py",
-            "timeout": 3,
-            "statusMessage": ""
           }
         ]
       },
@@ -302,24 +239,6 @@
           },
           {
             "type": "command",
-            "command": "bash .claude/hooks/skill-chain-engine.sh",
-            "timeout": 5,
-            "statusMessage": ""
-          },
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/skill-context-tracker.sh",
-            "timeout": 2,
-            "statusMessage": ""
-          },
-          {
-            "type": "command",
-            "command": "python .claude/hooks/impact-tracker.py",
-            "timeout": 3,
-            "statusMessage": ""
-          },
-          {
-            "type": "command",
             "command": "python .claude/hooks/outcome-writer.py",
             "timeout": 5,
             "statusMessage": ""
@@ -329,12 +248,6 @@
       {
         "matcher": "Read",
         "hooks": [
-          {
-            "type": "command",
-            "command": "python .claude/hooks/file-read-dedup.py",
-            "timeout": 2,
-            "statusMessage": ""
-          },
           {
             "type": "command",
             "command": "python .claude/hooks/uses-tracker.py",
@@ -359,13 +272,6 @@
             "timeout": 5,
             "statusMessage": "",
             "if": "Write(**/learnings/**)|Edit(**/learnings/**)"
-          },
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/eval-trigger.sh",
-            "timeout": 3,
-            "statusMessage": "",
-            "if": "Write(**SKILL.md)|Edit(**SKILL.md)|Write(**/skills/**)|Edit(**/skills/**)"
           },
           {
             "type": "command",
@@ -396,38 +302,10 @@
           },
           {
             "type": "command",
-            "if": "Write(**/learnings/**)|Edit(**/learnings/**)",
-            "command": "python .claude/hooks/auto-relate.py",
-            "timeout": 3,
-            "statusMessage": "Auto-linking related learnings..."
-          },
-          {
-            "type": "command",
-            "if": "Write(**/learnings/**)|Edit(**/learnings/**)",
-            "command": "python .claude/hooks/graduation-check.py",
-            "timeout": 3,
-            "statusMessage": ""
-          },
-          {
-            "type": "command",
             "if": "Write(**/outcomes/**)",
             "command": "python .claude/hooks/outcome-credit.py",
             "timeout": 5,
             "statusMessage": "Updating learning credit counters..."
-          },
-          {
-            "type": "command",
-            "if": "Write(**/outcomes/**)",
-            "command": "python .claude/hooks/failure-recorder.py",
-            "timeout": 5,
-            "statusMessage": "Checking for failure recording..."
-          },
-          {
-            "type": "command",
-            "if": "Write(**/outcomes/**)|Write(**/learnings/**)|Write(**/failures/**)|Edit(**/outcomes/**)|Edit(**/learnings/**)|Edit(**/failures/**)",
-            "command": "python .claude/hooks/trigger-engine.py",
-            "timeout": 5,
-            "statusMessage": "Evaluating trigger rules..."
           }
         ]
       }
@@ -505,39 +383,9 @@
           },
           {
             "type": "command",
-            "command": "python .claude/hooks/mempalace-archive.py",
-            "timeout": 10,
-            "statusMessage": "Archiving session to MemPalace..."
-          },
-          {
-            "type": "command",
             "command": "bash .claude/hooks/raw-capture.sh",
             "timeout": 5,
             "statusMessage": "Capturing raw session data..."
-          },
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/graph-consolidate.sh",
-            "timeout": 10,
-            "statusMessage": "Consolidating concept graph..."
-          },
-          {
-            "type": "command",
-            "command": "python .claude/hooks/hebbian-consolidate.py",
-            "timeout": 10,
-            "statusMessage": "Hebbian consolidation..."
-          },
-          {
-            "type": "command",
-            "command": "python scripts/kg-sync.py",
-            "timeout": 15,
-            "statusMessage": "Syncing knowledge graphs..."
-          },
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/compile-trigger.sh",
-            "timeout": 5,
-            "statusMessage": "Checking compound loop..."
           }
         ]
       }
@@ -613,12 +461,6 @@
             "type": "command",
             "command": "python .claude/hooks/associative-recall.py",
             "timeout": 3,
-            "statusMessage": ""
-          },
-          {
-            "type": "command",
-            "command": "python .claude/hooks/brain-telegram-capture.py",
-            "timeout": 2,
             "statusMessage": ""
           }
         ]
