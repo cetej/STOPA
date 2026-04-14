@@ -23,7 +23,8 @@ Archived decisions: `decisions-archive.md`
 | 0013 | 2026-04-04 | [Wiki synthesis layer](../../docs/decisions/0013-wiki-synthesis-layer.md) | IMPLEMENTING |
 
 | 0014 | 2026-04-13 | [OpenMontage patterns adoption](../../docs/decisions/0014-openmontage-patterns-adoption.md) | IMPLEMENTING |
+| 0015 | 2026-04-14 | [KODER execution agent](../../docs/decisions/0015-koder-execution-agent.md) | IMPLEMENTING |
 
 ## Creating new decisions
 
-Use `/scribe` or create manually in `docs/decisions/` using `_template.md`. Next number: **0015**.
+Use `/scribe` or create manually in `docs/decisions/` using `_template.md`. Next number: **0016**.

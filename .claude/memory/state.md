@@ -10,10 +10,14 @@ last_update: 2026-04-14T11:00:00
 **Phase 2: Rozdělit STOPA a KODER** (scheduler / execution split)
 
 Příprava:
-- [x] Phase 1 complete: sensors fixed, hooks pruned, skills archived
-- [ ] Phase 2.1: Create KODER profile (new persona)
-- [ ] Phase 2.2: Define handoff protocol (task queue system)
-- [ ] Phase 2.3: Implement task distribution mechanism
+- [x] Phase 1 complete: sensors fixed, hooks pruned, skills archived (commit 890f00b)
+- [x] Phase 2.1: KODER agent definition (`.claude/agents/koder.md`)
+- [x] Phase 2.1: `/koder` dispatch skill (`.claude/skills/koder/SKILL.md`)
+- [x] Phase 2.2: Task queue (``.claude/tasks/koder-queue/``) + template
+- [x] Phase 2.2: Scheduled task `koder-queue-check` (denně 9:53 po-pá)
+- [x] Phase 2.5: ADR 0015 — plugin upgrade path naplánován
+- [ ] Phase 2.3: End-to-end test — vytvořit a dispatchnout testovací task
+- [ ] Phase 2.3: Outcome reading integration (STOPA čte KODER outcomes)
 
 ## Session Files (Phase 1 Completion)
 
