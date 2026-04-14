@@ -16,9 +16,10 @@ This directory is what gets installed into target projects.
 - Use `scripts/sync-orchestration.sh` for automated sync
 
 ## Target projects
-- NG-ROBOT (github.com/cetej/NG-ROBOT)
-- test1 (github.com/cetej/test1)
-- ADOBE-AUTOMAT (github.com/cetej/ADOBE-AUTOMAT)
+Full list in `~/.claude/memory/projects/`. Primary targets:
+- NG-ROBOT (github.com/cetej/NG-ROBOT) — high priority
+- ADOBE-AUTOMAT (github.com/cetej/ADOBE-AUTOMAT) — medium
+- ZACHVEV, POLYBOT, MONITOR — medium
 
 ## Installation methods
 1. Marketplace via `settings.json` (recommended)

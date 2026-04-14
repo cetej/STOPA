@@ -11,7 +11,10 @@ Hooks must be registered in `.claude/settings.json` under the `hooks` key.
 Format: event type -> array of hook configs with `command` and optional `timeout`.
 
 ## Hook events
+- `SessionStart` — session initialization (memory brief, context injection, improvement notifications)
 - `PreToolUse` / `PostToolUse` — before/after tool execution
+- `UserPromptSubmit` — after user sends a message (associative recall, auto-scribe)
+- `PermissionRequest` — auto-approve/deny tool permissions
 - `Notification` — system notifications
 - `Stop` — session end
 
