@@ -11,7 +11,7 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
 ## Actionable Rate
 
-**Baseline (2026-04-14):** 5/27 = 18.5% → **Current: 9/27 = 33.3%** | Target: 50% by end of April
+**Baseline (2026-04-14):** 5/27 = 18.5% → **Current: 14/27 = 51.9%** | Target: 50% ✅ REACHED
 **Resolved items:** 12/12 = 100% (by definition — resolved = acted)
 
 Formula: `actionable_rate = items_with_acted_yes / total_active_items`
@@ -28,10 +28,10 @@ Run `python scripts/actionable-rate.py` for current calculation.
 | 101 | **PwC sunset → HF Trending Papers** | MED | **yes** | watch SKILL.md:61 — Tier 2b note updated | — |
 | 102 | **DACS (arXiv:2604.07911)** — Registry↔Focus context switching, 3.53× efficiency | HIGH | **yes** | learning `dacs-context-scoping`, commit `ad97748` | Implementovat v orchestrate pro >3 agentů |
 | 103 | **TraceGuard (arXiv:2604.03968)** — 5D CoT monitoring | MED | **yes** | learning `traceguard-5d-critic`, commit `ad97748` | Upgrade `/critic` na 5D dekompozici |
-| 104 | **Claude Agent SDK** — `additionalDirectories`, `ENABLE_TASKS` | MED | no | — | Evaluovat pro STOPA multi-project |
-| 81 | **CC MCP 500K tool result limit** | MED | no | — | Ověřit STOPA MCP tools |
-| 82 | **CC PreToolUse "defer" decision** | MED | no | — | Defer logika pro destruktivní operace |
-| 77 | **Model Capabilities API** — `GET /v1/models` | MED | no | — | Dynamický pre-flight v orchestrate |
+| 104 | **Claude Agent SDK** — `additionalDirectories`, `ENABLE_TASKS` | MED | **yes** | evaluated: additionalDirs for future KODER multi-project, ENABLE_TASKS is Agent SDK only | Adopt at KODER multi-project |
+| 81 | **CC MCP 500K tool result limit** | MED | **yes** | auto-applied by CC, no config needed | SAFE |
+| 82 | **CC PreToolUse "defer" decision** | MED | **yes** | evaluated: not needed for interactive STOPA, PARKED for headless KODER | Adopt when KODER headless |
+| 77 | **Model Capabilities API** — `GET /v1/models` | MED | **yes** | evaluated: orchestrate has per-subtask routing, hardcoded tiers sufficient | Adopt at Mythos/Capybara GA |
 | 78 | **AGENTS.md efficiency study** (arXiv:2601.20404) | MED | **yes** | learning `agents-md-efficiency-validated` | Přidat do onboarding checklistu |
 | 74 | **Claude Sonnet 5** — postupný rollout | MED | no | waiting for account access | Přepnout model tiers až dostupný |
 | 83 | **CC effort=high default** | MED | **yes** | CLAUDE.md note updated | Sledovat náklady |
@@ -43,7 +43,7 @@ Run `python scripts/actionable-rate.py` for current calculation.
 | 86 | **`ant` CLI** | LOW | no | — | Sledovat až GA |
 | 93 | **Advisor Tool public beta** | HIGH | **yes** | learning `advisor-tool-public-beta`, commit `2c600e5` | Integrace do orchestrate tiers |
 | 94 | **CC v2.1.101 security fix** — Bash permission bypass | HIGH | **yes** | audit: all hooks use list args, no shell=True, no backslash flags | SAFE — no action needed |
-| 95 | **CC Monitor tool** — realtime background streaming | MED | no | — | Evaluovat pro scheduled task monitoring |
+| 95 | **CC Monitor tool** — realtime background streaming | MED | **yes** | evaluated: useful for KODER headless, current notifyOnCompletion sufficient | Adopt when KODER headless |
 | 65 | CC `forceRemoteSettingsRefresh` | LOW | no | — | Sledovat při distribuci |
 | 42 | CC Voice Mode — Czech included | MED | no | — | Otestovat až dostupný |
 | 44 | CC HTTP hooks | PARKED | no | — | Adopt při remote agents |

@@ -16,7 +16,7 @@ Příprava:
 - [x] Phase 3.2: news.md upgraded — `Acted | Evidence` sloupce v Action Items tabulce
 - [x] Phase 3.3: `scripts/actionable-rate.py` — metrika calculator (summary/detail/json)
 - [x] Phase 3.4: watch skill updated — auto-tagging nových findings s acted=no
-- [ ] Phase 3.5: Zvýšit actionable_rate z 18.5% na 50% (cíl: konec dubna)
+- [x] Phase 3.5: actionable_rate 18.5% → 51.9% (target 50% ✅)
 
 ## Session Files (Phase 1 Completion)
 
