@@ -6,10 +6,10 @@ component: orchestration
 tags: [notifications, rhythm, cron, scheduled-tasks, signal-noise, morning-brief]
 summary: Scheduled morning brief + evening wrap delivered via messaging channel, with strict "silence when nothing to say" discipline, transforms an AI tool into something that feels like a chief of staff. The silence rule is as important as the content.
 source: external_research
-uses: 0
+uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.6
+confidence: 0.65
 verify_check: manual
 ---
 

@@ -274,6 +274,31 @@ Before planning, check if similar tasks were solved before:
    - Decision precedent found → follow unless current context materially differs (explain why if deviating)
    - No match → proceed normally (first-time task)
 
+## Phase 1.9: Lightweight Grill (default mode only, Paseo pattern)
+
+**Skip if:** `--auto` flag, light tier, or task description is already specific enough (has file paths, acceptance criteria, and constraints).
+
+Before scouting, verify you're about to research the right thing. Vague tasks lead to wide-scope scouts that waste budget.
+
+**Protocol:**
+1. **Codebase pre-scan** (max 5 Grep/Glob calls): Answer questions the code can answer — don't ask the user what you can find yourself
+2. **Identify 1-3 unresolved decision points** — things that change the implementation approach:
+   - Ambiguous scope ("improve auth" — which auth? login? API keys? sessions?)
+   - Missing constraint ("add feature X" — backwards compatible? new API? migration?)
+   - Unclear success criteria ("make it faster" — which endpoint? what target?)
+3. **Ask ALL questions in a single batch** — never one at a time (respects autonomous behavioral genome)
+4. **If 0 questions** after pre-scan → skip Grill entirely, proceed to Phase 2
+
+**Anti-pattern:** Grill that asks 5+ questions, or questions answerable from the codebase. If you need to ask that many, the task needs `/brainstorm` not `/orchestrate`.
+
+**Format:**
+```
+Before I scout, 2 things need clarification:
+1. [specific question with options if applicable]
+2. [specific question]
+(If both are obvious from context, say so and I'll skip this.)
+```
+
 ## Phase 2: Scout (scaled to tier)
 
 ### Precomputed Results Check
@@ -417,7 +442,17 @@ Based on scout results:
    - Good: `["src/auth.py", "src/middleware.py", "tests/test_auth.py"]`
    - Bad: `["src/"]` (too broad — agent wastes context on irrelevant files)
 
-Write the plan to `.claude/memory/state.md`. Include **both** YAML frontmatter (machine-readable) and markdown body (human-readable):
+### Plan Persistence (Paseo pattern — survives compaction)
+
+After finalizing the plan, persist it to a dedicated file that agents re-read from disk:
+
+1. Write full plan (subtask table + dependency graph + acceptance criteria) to `.claude/memory/intermediate/orchestrate-plan.md`
+2. This file is the **source of truth** for the current orchestration — it survives context compaction
+3. Every agent prompt includes: `"Re-read the plan from .claude/memory/intermediate/orchestrate-plan.md before starting work."`
+4. Heartbeat (Phase 3.9) re-reads this file on every cycle
+5. Delete the file in Phase 6 (Close) after task completion
+
+Also write the plan to `.claude/memory/state.md`. Include **both** YAML frontmatter (machine-readable) and markdown body (human-readable):
 
 ```markdown
 ---
@@ -554,6 +589,47 @@ If scout confidence on the subtask domain is low (fragmented knowledge, no match
 
 **Heuristic:** If grep for subtask keywords in `learnings/` returns 0 matches AND scout found <2 relevant files → skip adapt for this subtask.
 
+## Phase 3.9: Heartbeat Setup (standard/deep tier only)
+
+After plan is persisted to disk, set up a periodic self-check for the orchestration. Skip for light tier (too short-lived) and farm tier (mechanical, no steering needed).
+
+**Setup:** Use `CronCreate` or `ScheduleWakeup` to create a recurring check:
+
+```
+CronCreate:
+  cron: "*/5 * * * *"  (every 5 minutes)
+  prompt: |
+    HEARTBEAT — periodic orchestration self-check.
+    1. Re-read plan: Read .claude/memory/intermediate/orchestrate-plan.md
+    2. Re-read state: Read .claude/memory/state.md
+    3. Compare progress: which subtasks are done vs pending?
+    4. Check for stuck agents: any subtask in_progress for >10 minutes without artifacts?
+    5. Course-correct: if an agent errored → relaunch. If blocked → investigate dependency.
+    6. If ALL acceptance criteria met → proceed to Phase 5.
+    7. Budget check: are we approaching limits?
+  recurring: true
+```
+
+**Lifecycle:**
+- Created in Phase 3.9 — store the cron job ID
+- Active during Phase 4 (Execute) — monitors agent progress
+- **Post-PR mode**: If orchestration creates a PR, heartbeat transitions to CI monitoring:
+  ```
+  Updated prompt: |
+    CI MONITOR for PR #<number>.
+    1. Run: gh pr checks <number>
+    2. All green → CronDelete this job, report to user with full PR URL
+    3. Any failed → read failure logs (gh run view <id> --log-failed), spawn fix agent, push fix
+    4. Still running → do nothing, wait for next heartbeat
+  ```
+- Deleted in Phase 6 (Close) via `CronDelete` — or after CI is green
+
+**Rules:**
+- Max lifetime: 4 hours (set `expiresIn` or let session-scoped cron handle it)
+- Heartbeat is advisory — it course-corrects, doesn't restart the entire orchestration
+- Never act on heartbeat notifications alone as state source — always re-read state.md (MCP Tasks principle: notifications = hints, polling = truth)
+- If heartbeat finds 0 issues for 3 consecutive cycles → reduce frequency or delete early
+
 ## Phase 4: Execute
 
 ### Budget Soft Gate (Karpathy throughput awareness)
@@ -620,6 +696,8 @@ For detailed agent spawn templates, file access manifests, diversity framing, ou
 `Read ${CLAUDE_SKILL_DIR}/references/agent-execution.md`
 
 Core principles:
+- **Non-blocking agent launch (Paseo pattern)**: For independent subtasks within the same wave, use `run_in_background: true` on Agent() calls. This allows the orchestrator to launch multiple agents simultaneously and receive completion notifications instead of blocking. After launching, do NOT poll — wait for the task notification. For dependent subtasks (next wave), wait for all current-wave agents to complete before launching.
+- **Plan re-read**: Every agent prompt includes instruction to re-read plan from `.claude/memory/intermediate/orchestrate-plan.md` before starting work. This ensures agents have the latest plan even after context compaction.
 - **Hierarchical context injection**: Orchestrator loads shared memory ONCE (Phase 0). Pass relevant context directly in agent prompts — agents do NOT re-read memory files.
 - **Operator-Scoped Context (Feature Selector φ)**: Each agent receives ONLY the context relevant to its subtask — not the full scout report or entire task description. Build the agent prompt from:
   1. **Subtask description + criterion + done-when** (from state.md)
@@ -927,6 +1005,10 @@ When a subtask FAILS (critic FAIL or agent error):
 
 ## Phase 6: Learn & Close
 
+### Cleanup Paseo-adopted artifacts
+1. **Delete heartbeat**: If heartbeat cron was created in Phase 3.9, `CronDelete` it now (unless in post-PR CI monitoring mode — delete only after CI green)
+2. **Delete plan file**: Remove `.claude/memory/intermediate/orchestrate-plan.md` — its content is captured in state.md and the commit
+
 For detailed close workflow (budget report, execution trace capture, entropy sweep, trace milestone check):
 
 `Read ${CLAUDE_SKILL_DIR}/references/phase6-close.md`
@@ -944,6 +1026,29 @@ Summary of Phase 6 actions:
 6. **Entropy sweep** (standard/deep, 5+ files): Auto-invoke `/sweep --scope blast-radius --auto`.
 7. **Summarize** results to user with cost summary.
 8. **Trace milestone** (20+ traces): Auto-run tier analysis, generate heuristics.
+
+### Phase 6b: Post-PR CI Monitoring (Paseo pattern, if user requests PR)
+
+When the user asks to create a PR after task completion, the orchestration is **NOT done until CI is green**.
+
+**Protocol:**
+1. Create PR via `gh pr create ...`
+2. **Keep heartbeat running** — do NOT delete it yet. Update heartbeat prompt to CI monitoring mode:
+   ```
+   CI MONITOR for PR #<number>.
+   1. Check: gh pr checks <number>
+   2. All green → delete this cron, report full PR URL to user
+   3. Any failed → read logs (gh run view <id> --log-failed), spawn fix agent, push fix
+   4. Still running → do nothing
+   ```
+3. **On CI failure:** Spawn fix agent with failure context (log output, failing check name). Agent pushes fix. CI re-runs automatically.
+4. **On ALL green:** Delete heartbeat cron. Report to user: `"PR #<number> is ready — all CI checks green: <full URL>"`
+5. **Circuit breaker:** Max 3 fix attempts per CI run. After 3 failures → stop, report to user with failure details.
+
+**Alternative (simpler, for light tier):** Instead of heartbeat loop, invoke `/autofix <PR-number>` which handles CI monitoring internally. Use this when:
+- Tier is light or standard
+- You don't have an active heartbeat from Phase 3.9
+- The PR was created outside of orchestration flow
 
 ## Decision Framework: Agent vs. Skill vs. Direct
 
