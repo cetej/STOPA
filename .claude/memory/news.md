@@ -11,7 +11,7 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
 ## Actionable Rate
 
-**Baseline (2026-04-14):** 5 acted / 27 active items = **18.5%** | Target: 50% by end of April
+**Baseline (2026-04-14):** 5/27 = 18.5% → **Current: 9/27 = 33.3%** | Target: 50% by end of April
 **Resolved items:** 12/12 = 100% (by definition — resolved = acted)
 
 Formula: `actionable_rate = items_with_acted_yes / total_active_items`
@@ -23,9 +23,9 @@ Run `python scripts/actionable-rate.py` for current calculation.
 
 | # | Item | Urgency | Acted | Evidence | Next Step |
 |---|------|---------|-------|----------|-----------|
-| 99 | **CC Analytics API (GA)** — programmatický přístup k denním metrikám CC | HIGH | no | — | Integrace do `/budget` — auto daily cost download |
+| 99 | **CC Analytics API (GA)** — programmatický přístup k denním metrikám CC | HIGH | **yes** | budget SKILL.md:34 — tertiary source documented | Full impl when ccusage unavailable |
 | 100 | **Meta Muse Spark** — Meta's first proprietary frontier model, "Contemplating mode" | MED | no | — | Přidat do `/eval` tier srovnání |
-| 101 | **PwC sunset → HF Trending Papers** | MED | no | — | Aktualizovat `/watch` Tier 2b |
+| 101 | **PwC sunset → HF Trending Papers** | MED | **yes** | watch SKILL.md:61 — Tier 2b note updated | — |
 | 102 | **DACS (arXiv:2604.07911)** — Registry↔Focus context switching, 3.53× efficiency | HIGH | **yes** | learning `dacs-context-scoping`, commit `ad97748` | Implementovat v orchestrate pro >3 agentů |
 | 103 | **TraceGuard (arXiv:2604.03968)** — 5D CoT monitoring | MED | **yes** | learning `traceguard-5d-critic`, commit `ad97748` | Upgrade `/critic` na 5D dekompozici |
 | 104 | **Claude Agent SDK** — `additionalDirectories`, `ENABLE_TASKS` | MED | no | — | Evaluovat pro STOPA multi-project |
@@ -39,10 +39,10 @@ Run `python scripts/actionable-rate.py` for current calculation.
 | 97 | **Compaction API (beta)** | MED | no | — | Evaluovat pro /compact backend |
 | 98 | **OpenClaw extra cost** | LOW | no | — | Sledovat pricing |
 | 84 | **Claude Managed Agents (Public Beta)** | MED | no | — | Evaluovat jako alternativu |
-| 85 | **`thinking: {type: enabled}` deprecated** | MED | no | — | Ověřit target projekty |
+| 85 | **`thinking: {type: enabled}` deprecated** | MED | **yes** | audit: NG-ROBOT+ADOBE both use adaptive, no deprecated code | SAFE |
 | 86 | **`ant` CLI** | LOW | no | — | Sledovat až GA |
 | 93 | **Advisor Tool public beta** | HIGH | **yes** | learning `advisor-tool-public-beta`, commit `2c600e5` | Integrace do orchestrate tiers |
-| 94 | **CC v2.1.101 security fix** — Bash permission bypass | HIGH | no | — | Audit STOPA hooks |
+| 94 | **CC v2.1.101 security fix** — Bash permission bypass | HIGH | **yes** | audit: all hooks use list args, no shell=True, no backslash flags | SAFE — no action needed |
 | 95 | **CC Monitor tool** — realtime background streaming | MED | no | — | Evaluovat pro scheduled task monitoring |
 | 65 | CC `forceRemoteSettingsRefresh` | LOW | no | — | Sledovat při distribuci |
 | 42 | CC Voice Mode — Czech included | MED | no | — | Otestovat až dostupný |
