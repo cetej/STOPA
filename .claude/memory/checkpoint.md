@@ -3,29 +3,29 @@
 **Saved**: 2026-04-15 (auto-saved (session end))
 **Task**: none
 **Branch**: main
-**Last commit**: `16ee121` chore: checkpoint + advisor-state update
+**Last commit**: `627e902` feat: strukturální komprese kontextu — Progressive Withdrawal + hook dedup
 
 ---
 
 ## Session Activity
 
-Session: 113 file edits, 20 agent spawns, 7 skill calls. Skills: capture, compile, fetch
-Duration: ~26686 min
+Session: 85 file edits, 19 agent spawns, 2 skill calls. Skills: capture, fetch
+Duration: ~26737 min
 
 ## Files Touched
 
 | File | Operations | Date |
 |------|-----------|------|
-| index.md | 14 edits | 2026-04-15 |
-| knowledge-graph.json | 11 edits | 2026-04-15 |
-| watchlist.md | 7 edits | 2026-04-15 |
-| loop-state.py | 6 edits | 2026-04-15 |
-| log.md | 5 edits | 2026-04-15 |
-| news.md | 4 edits | 2026-04-15 |
-| checkpoint.md | 4 edits | 2026-04-15 |
-| skill-generator.md | 3 edits | 2026-04-15 |
-| self-evolve.md | 3 edits | 2026-04-15 |
-| inbox.md | 3 edits | 2026-04-15 |
+| SKILL.md | 12 edits | 2026-04-15 |
+| index.md | 9 edits | 2026-04-15 |
+| knowledge-graph.json | 6 edits | 2026-04-15 |
+| log.md | 4 edits | 2026-04-15 |
+| memory-brief.sh | 3 edits | 2026-04-15 |
+| watchlist.md | 2 edits | 2026-04-15 |
+| soft-questing-trinket.md | 2 edits | 2026-04-15 |
+| server.mjs | 2 edits | 2026-04-15 |
+| news.md | 2 edits | 2026-04-15 |
+| app.js | 2 edits | 2026-04-15 |
 
 ## Key Results
 
@@ -63,7 +63,7 @@ _No pending subtasks detected in state.md_
 
 > **Task**: none
 >
-> **Context**: Last commit `16ee121` (chore: checkpoint + advisor-state update). Branch: main.
-> Session had 113 edits, 20 agents, 7 skill calls, 0 errors.
+> **Context**: Last commit `627e902` (feat: strukturální komprese kontextu — Progressive Withdrawal + hook dedup). Branch: main.
+> Session had 85 edits, 19 agents, 2 skill calls, 0 errors.
 
 
