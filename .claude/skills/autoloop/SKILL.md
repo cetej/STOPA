@@ -321,6 +321,28 @@ Rules:
 - **Preserve structure** — never break YAML frontmatter or file format
 - **In-scope only** — never modify guard/test files
 
+### Step 2.5: Self-Revision Check (SD-ZERO inspired)
+
+Before committing, review your own change for obvious errors:
+
+1. **Re-read the diff** — `git diff` on modified files
+2. **Answer 3 questions** (internally, don't output):
+   - Does this change match my stated hypothesis from Step 1?
+   - Could this break the file format / structure / imports?
+   - Is this truly ONE atomic change, or did I sneak in extras?
+3. **If any answer is NO** → fix before proceeding to Step 3
+4. **If all YES** → proceed to Step 3
+
+Time budget: <15 seconds. This is a fast sanity gate, not a full review.
+Do NOT spawn a critic agent here — that defeats the purpose (SD-ZERO: self-revision is cheaper than external evaluation).
+
+Log in run diary if self-revision caught something:
+```
+**Self-check**: caught <issue> — fixed before commit
+```
+
+**Anti-loop safeguard:** This step runs ONCE — check, optional fix, proceed. No retry loop. If the fix itself is wrong, the normal verify/discard cycle (Steps 4-6) catches it.
+
 ### Step 3: Commit (before verification)
 
 ```bash

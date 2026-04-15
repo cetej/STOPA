@@ -109,7 +109,8 @@ RCL-inspired outcome storage (arXiv:2604.03189). Captures both success and failu
 - Max 100 files — archive oldest to `outcomes/archive/` on overflow
 - YAML frontmatter: `skill`, `run_id`, `date`, `task`, `outcome` (success|partial|failure), `score_start`, `score_end`, `iterations`, `kept`, `discarded`, `exit_reason`, `baseline_run`
 - `baseline_run:` = volitelné pole — filename předchozího outcome se stejným `skill` + podobným `task` pro contrastive credit assignment (RCL dual-trace, arXiv:2604.03189). Při zápisu outcome hledej nejnovější run se stejným skill. Reflector (`/evolve`) čte oba runs pro attribution — contrastive pár (success + failure na stejný task type) je atomická jednotka credit assignment.
-- Body sections: `## Trajectory Summary` (max 15 key iterations), `## Learnings Applied` (file + credit + evidence), `## What Worked`, `## What Failed`
+- Body sections: `## Trajectory Summary` (max 15 key iterations), `## Learnings Applied` (file + credit + evidence), `## What Worked`, `## What Failed`, `## Error Localization` (optional)
+- **Error Localization format** (SD-ZERO inspired, for failure/partial outcomes): table with columns `| Iteration | Error Location | What Was Wrong | Self-Check Caught? |`. Tracks WHERE errors occurred (file:line) and whether the self-revision step (Step 2.5/3.5) caught them before verify. Enables measuring self-check hit rate across runs.
 - **Learnings Applied format**: `- file: <filename.md> | credit: helpful|harmful|neutral | evidence: <1-sentence>`
 - Hook `outcome-credit.py` auto-updates learning counters on write
 - Hook `failure-recorder.py` auto-creates failure record when outcome = failure|partial

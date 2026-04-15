@@ -331,6 +331,28 @@ Make code changes. Rules:
 - **Single-file mutation** — only ONE target file changes per iteration; everything else locked. This is non-negotiable. If a hypothesis requires changing 2+ files, split it into sequential hypotheses.
 - **Never modify the eval script** — that's the ground truth. If you modify it, the entire experiment history is invalidated.
 
+### Step 3.5: Self-Revision Check (SD-ZERO inspired)
+
+Before committing, validate hypothesis-implementation alignment:
+
+1. **Re-read the diff** — `git diff` on modified files
+2. **Answer 3 questions** (internally, don't output):
+   - Does the code change match my HYPOTHESIS and EXPECTED EFFECT from Step 2?
+   - Did I modify ONLY the target file? (single-file mutation rule)
+   - Could this change produce a false positive on the eval metric?
+3. **If misalignment detected** → fix implementation to match hypothesis
+4. **If aligned** → proceed to Step 4
+
+Time budget: <15 seconds. Fast alignment gate, not a full code review.
+Do NOT spawn a critic or separate review agent.
+
+Log in run diary if self-revision caught something:
+```
+**Self-check**: caught <issue> — fixed before commit
+```
+
+**Anti-loop safeguard:** This step runs ONCE — check, optional fix, proceed. No retry loop. If the fix itself is wrong, the normal eval/discard cycle (Steps 5-6) catches it.
+
 ### Step 4: Commit (before running)
 
 ```bash
