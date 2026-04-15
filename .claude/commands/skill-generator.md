@@ -7,7 +7,7 @@ phase: meta
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep
 model: sonnet
-effort: high
+effort: auto
 maxTurns: 15
 disallowedTools: Agent
 ---

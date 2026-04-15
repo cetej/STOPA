@@ -20,7 +20,7 @@ allowed-tools: Read, Glob, Grep, Agent, TodoWrite
 deny-tools: [Bash, Write, Edit]
 permission-tier: coordinator
 model: opus
-effort: high
+effort: auto
 maxTurns: 40
 handoffs:
   - skill: /critic

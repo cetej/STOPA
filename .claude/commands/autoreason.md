@@ -7,7 +7,7 @@ phase: review
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Agent, AskUserQuestion, TodoWrite
 model: sonnet
-effort: high
+effort: auto
 maxTurns: 40
 handoffs:
   - skill: /scribe

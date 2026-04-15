@@ -5,6 +5,7 @@ user-invocable: true
 allowed-tools: Read, Write, Glob, Grep, Bash, Agent
 tags: [memory, documentation, meta, synthesis]
 phase: meta
+effort: auto
 ---
 
 # /compile — Wiki Synthesis Engine

@@ -33,6 +33,30 @@ if [ -f "$MEMORY_DIR/activity-log.md" ]; then
   fi
 fi
 
+# --- Permission log auto-rotation ---
+# Keep last 200 lines in permission-log.md, archive the rest
+PLOG="$MEMORY_DIR/permission-log.md"
+PLOG_ARCHIVE="$MEMORY_DIR/permission-log-archive.md"
+if [ -f "$PLOG" ]; then
+  plog_lines=$(wc -l < "$PLOG" 2>/dev/null | tr -d ' ')
+  if [ "$plog_lines" -gt "$CRITICAL_THRESHOLD" ]; then
+    plog_keep=200
+    plog_to_archive=$((plog_lines - plog_keep))
+    if [ "$plog_to_archive" -gt 0 ]; then
+      {
+        echo "## Archived $(date +%Y-%m-%d) ($plog_to_archive lines)"
+        echo ""
+        head -n "$plog_to_archive" "$PLOG"
+        echo ""
+        [ -f "$PLOG_ARCHIVE" ] && cat "$PLOG_ARCHIVE"
+      } > "$PLOG_ARCHIVE.tmp"
+      tail -n "$plog_keep" "$PLOG" > "$PLOG.tmp"
+      mv "$PLOG.tmp" "$PLOG"
+      mv "$PLOG_ARCHIVE.tmp" "$PLOG_ARCHIVE"
+    fi
+  fi
+fi
+
 # --- Learning confidence audit (Dream consolidation detection) ---
 # Check for learnings with confidence < 0.3 (pruning candidates)
 LEARNINGS_DIR="$MEMORY_DIR/learnings"

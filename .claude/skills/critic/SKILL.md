@@ -10,7 +10,7 @@ phase: verify
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash, Agent
 model: sonnet
-effort: high
+effort: auto
 maxTurns: 15
 disallowedTools: Write, Edit
 eval-tags: [quality_review, codebase_search, file_operations]

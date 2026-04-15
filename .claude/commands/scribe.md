@@ -7,7 +7,7 @@ phase: meta
 user-invocable: true
 allowed-tools: Read, Write, Edit
 model: haiku
-effort: low
+effort: auto
 maxTurns: 6
 disallowedTools: Agent
 ---

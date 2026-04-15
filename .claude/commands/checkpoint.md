@@ -10,7 +10,7 @@ phase: ship
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 model: haiku
-effort: low
+effort: auto
 maxTurns: 10
 disallowedTools: Agent
 ---

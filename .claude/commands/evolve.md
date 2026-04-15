@@ -5,6 +5,7 @@ user-invocable: true
 allowed-tools: Read, Write, Edit, Grep, Glob, Bash
 tags: [memory, documentation, session, orchestration]
 phase: meta
+effort: auto
 ---
 
 # /evolve — Learning Evolution Audit

@@ -7,7 +7,7 @@ phase: verify
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent
 model: sonnet
-effort: high
+effort: auto
 maxTurns: 30
 ---
 

@@ -23,9 +23,13 @@ if [ -d "$LEARNINGS_DIR" ]; then
   cp_count=0
   if [ -f "$LEARNINGS_DIR/critical-patterns.md" ]; then
     cp_count=$(grep -cE "^\*\*|^[0-9]+\." "$LEARNINGS_DIR/critical-patterns.md" 2>/dev/null || echo 0)
+    cp_count=$(echo "$cp_count" | tr -cd '0-9')
+    cp_count=${cp_count:-0}
   fi
   # Count total learnings files (excluding indexes and critical-patterns)
-  total_learnings=$(find "$LEARNINGS_DIR" -maxdepth 1 -name "202*.md" 2>/dev/null | wc -l | tr -d ' ')
+  total_learnings=$(find "$LEARNINGS_DIR" -maxdepth 1 -name "202*.md" 2>/dev/null | wc -l)
+  total_learnings=$(echo "$total_learnings" | tr -cd '0-9')
+  total_learnings=${total_learnings:-0}
   # Get 3 most recent learnings by filename (YYYY-MM-DD prefix sorts naturally)
   recent=$(ls -1 "$LEARNINGS_DIR"/202*.md 2>/dev/null | sort -r | head -3 | while read -r f; do
     # Extract summary from YAML frontmatter
@@ -46,6 +50,8 @@ fi
 # 3. DECISIONS — count only (not content)
 if [ -f "$MEMORY_DIR/decisions.md" ]; then
   count=$(grep -c "^### " "$MEMORY_DIR/decisions.md" 2>/dev/null || echo 0)
+  count=$(echo "$count" | tr -cd '0-9')
+  count=${count:-0}
   if [ "$count" -gt 0 ]; then
     brief="${brief}\nActive decisions: $count (read .claude/memory/decisions.md if relevant)\n"
   fi
@@ -87,42 +93,11 @@ if [ -f "$MEMORY_DIR/patterns.md" ]; then
   fi
 fi
 
-# 7. RELEVANCE PREFETCH — load learnings relevant to checkpoint task
-if [ -f "$MEMORY_DIR/checkpoint.md" ]; then
-  task_line=$(sed -n 's/.*\*\*Task\*\*: //p' "$MEMORY_DIR/checkpoint.md" 2>/dev/null | head -1)
-  if [ -n "$task_line" ] && [ "$task_line" != "none" ]; then
-    # Extract up to 3 keywords (4+ chars, lowercase, skip common words)
-    keywords=$(echo "$task_line" | tr '[:upper:]' '[:lower:]' | tr -cs '[:alpha:]' '\n' | \
-      grep -vE '^(this|that|with|from|into|have|been|will|would|should|could|none|task|the|and|for|are|but|not|all|can|had|her|was|one|our|out|you|also|each|make|like|over|such|take|than|them|then|very|when|just|know|more|some|time|what|work)$' | \
-      awk 'length >= 4' | head -3)
-    if [ -n "$keywords" ]; then
-      matches=""
-      seen=""
-      while IFS= read -r kw; do
-        [ -z "$kw" ] && continue
-        for f in "$LEARNINGS_DIR"/202*.md; do
-          [ -f "$f" ] || continue
-          fname=$(basename "$f")
-          # Skip already matched
-          echo "$seen" | grep -qF "$fname" && continue
-          if grep -qiE "(summary|tags):.*$kw" "$f" 2>/dev/null; then
-            summary=$(grep "^summary:" "$f" 2>/dev/null | head -1 | sed "s/^summary:[[:space:]]*//" | sed "s/^['\"]//;s/['\"]$//" | head -c 80)
-            if [ -n "$summary" ]; then
-              matches="${matches}  - $summary\n"
-              seen="${seen}${fname}\n"
-              # Max 5 results total
-              count=$(echo -e "$seen" | grep -c '.' 2>/dev/null)
-              [ "$count" -ge 5 ] && break 2
-            fi
-          fi
-        done
-      done <<< "$keywords"
-      if [ -n "$matches" ]; then
-        brief="${brief}\nRelevant for continued work:\n${matches}"
-      fi
-    fi
-  fi
-fi
+# 7. RELEVANCE PREFETCH — REMOVED
+# Redundant with context-inject.py hybrid retrieval which does the same
+# (keyword extraction from checkpoint → learning matching) but better
+# (uses hybrid-retrieve.py with BM25+graph instead of simple grep).
+# Removing saves ~200-400 chars per session and eliminates double-retrieval.
 
 # Output brief to stdout → injected into Claude's context
 if [ -n "$brief" ]; then

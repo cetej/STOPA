@@ -7,7 +7,7 @@ phase: meta
 user-invocable: true
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Agent, WebFetch
 model: sonnet
-effort: high
+effort: auto
 maxTurns: 20
 input-contract: "user or deepresearch → URL, file path, or directory → non-empty readable content"
 output-contract: "source summary → wiki/sources/<slug>.md + entity pages → wiki/entities/<name>.md + optional learnings → learnings/"
