@@ -3,29 +3,29 @@
 **Saved**: 2026-04-15 (auto-saved (session end))
 **Task**: none
 **Branch**: main
-**Last commit**: `70689c2` chore: advisor-state + activity-log update (post session 2026-04-15)
+**Last commit**: `9206e54` feat: reinforced reasoning — PRM step-checkpoints, consensus voting, Best-of-N forking
 
 ---
 
 ## Session Activity
 
-Session: 120 file edits, 15 agent spawns, 5 skill calls. Skills: anthropic-skills, compile, dreams, evolve, watch
-Duration: ~26079 min
+Session: 109 file edits, 14 agent spawns, 7 skill calls. Skills: capture, compile, fetch
+Duration: ~26497 min
 
 ## Files Touched
 
 | File | Operations | Date |
 |------|-----------|------|
-| article_index.py | 11 edits | 2026-04-15 |
-| watchlist.md | 5 edits | 2026-04-15 |
-| news.md | 5 edits | 2026-04-15 |
-| skill-generator.md | 4 edits | 2026-04-15 |
-| klip.md | 4 edits | 2026-04-15 |
+| index.md | 14 edits | 2026-04-15 |
+| knowledge-graph.json | 11 edits | 2026-04-15 |
+| watchlist.md | 7 edits | 2026-04-15 |
+| loop-state.py | 6 edits | 2026-04-15 |
+| log.md | 5 edits | 2026-04-15 |
 | checkpoint.md | 4 edits | 2026-04-15 |
-| SKILL.md | 4 edits | 2026-04-15 |
-| settings.json | 3 edits | 2026-04-15 |
-| scout.md | 2 edits | 2026-04-15 |
-| harness.md | 2 edits | 2026-04-15 |
+| skill-generator.md | 3 edits | 2026-04-15 |
+| self-evolve.md | 3 edits | 2026-04-15 |
+| inbox.md | 3 edits | 2026-04-15 |
+| SKILL.md | 3 edits | 2026-04-15 |
 
 ## Key Results
 
@@ -41,8 +41,12 @@ _No commits this session_
 
 ## Learnings Captured
 
-learnings_this_session: 0
-_No new learnings files created_
+learnings_this_session: 5
+  - 2026-04-15-best-of-n-parallel-candidates
+  - 2026-04-15-msys-tmp-path-mismatch
+  - 2026-04-15-parcae-exponential-decay-stopping
+  - 2026-04-15-prm-step-verification-orchestrate
+  - 2026-04-15-sd-zero-self-revision-supervision
 
 ## Workflow Decisions
 
@@ -59,7 +63,7 @@ _No pending subtasks detected in state.md_
 
 > **Task**: none
 >
-> **Context**: Last commit `70689c2` (chore: advisor-state + activity-log update (post session 2026-04-15)). Branch: main.
-> Session had 120 edits, 15 agents, 5 skill calls, 0 errors.
+> **Context**: Last commit `9206e54` (feat: reinforced reasoning — PRM step-checkpoints, consensus voting, Best-of-N forking). Branch: main.
+> Session had 109 edits, 14 agents, 7 skill calls, 0 errors.
 
 

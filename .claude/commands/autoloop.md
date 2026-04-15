@@ -510,6 +510,20 @@ AUTOLOOP_STATUS:
 ```
 
 Exit when ANY:
+- **Exponential decay ceiling** (Parcae-inspired, arXiv:2604.12946): after 4+ iterations, predict ceiling:
+
+  `Run: python scripts/loop-state.py decay-predict <tsv_path> --target <target_score>`
+
+  Returns JSON with `{fitted, s_inf, remaining_gain_pct, early_stop_recommended, target_reachable, iterations_to_target}`.
+
+  | Signal | Action |
+  |--------|--------|
+  | `early_stop_recommended: true` (remaining < 1%, R² > 0.7) | EXIT with reason `predicted_ceiling` — further iterations waste budget |
+  | `target_reachable: false` | Log warning: ceiling below target. Consider PIVOT (different approach) instead of more iterations |
+  | `target_reachable: true` + `iterations_to_target > remaining_budget` | Log: target theoretically reachable but budget insufficient |
+
+  Run decay-predict at every progress summary (every 5 iterations). Between summaries, use adaptive plateau below.
+
 - **Adaptive plateau** (Hyperagents-inspired): instead of hard stop, ramp exploration first:
 
   **Deterministic alternative:** `Run: python scripts/loop-state.py exploration-weight <tsv_path>` Returns JSON with `{consecutive_discards, exploration_weight, exit_signal}`.

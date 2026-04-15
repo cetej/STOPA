@@ -30,10 +30,16 @@ Emaily od těchto odesílatelů se automaticky zpracují:
 
 ## arXiv Topics
 
-| Query | Oblast | Poslední scan |
-|-------|--------|---------------|
-| LLM memory augmented agents | AI/ML | 2026-04-15 |
-| personal knowledge management AI | PKM | 2026-04-15 |
+| Query | Oblast | Kategorie | Poslední scan |
+|-------|--------|-----------|---------------|
+| LLM memory augmented agents | AI/ML | cs.AI | 2026-04-15 |
+| personal knowledge management AI | PKM | cs.AI | 2026-04-15 |
+| agent orchestration multi-agent tool-use | Orchestrace | cs.AI, cs.MA | 2026-04-15 |
+| RAG retrieval-augmented prompting context-engineering | Retrieval | cs.CL | 2026-04-15 |
+| LLM coding agent automated software engineering | Dev tools | cs.SE | 2026-04-15 |
+| self-improving agent reinforcement learning feedback | Self-improve | cs.AI, cs.LG | 2026-04-15 |
+| process reward model step verification | RL/Rewards | cs.AI, cs.LG | 2026-04-15 |
+| prompt injection agent safety defense | Safety | cs.CR, cs.AI | 2026-04-15 |
 
 ## X/Twitter Accounts
 
@@ -46,6 +52,17 @@ Emaily od těchto odesílatelů se automaticky zpracují:
 ## Google Drive Folders (auto-scan)
 
 _(Drive API vrací prázdné — scope možná omezený. Přidej složku manuálně pokud potřebuješ.)_
+
+## Weekly Deep Sources (scanned by weekly-sources-digest)
+
+| Zdroj | URL/Query | Typ | Frekvence |
+|-------|-----------|-----|-----------|
+| Simon Willison blog | https://simonwillison.net/ | Blog | weekly |
+| Latent Space newsletter | site:latent.space new post | Newsletter | weekly |
+| GitHub Trending AI | github.com/trending?since=weekly lang:python topic:llm | Tools | weekly |
+| awesome-claude-code | github.com/anthropics/anthropic-cookbook | Patterns | weekly |
+| HuggingFace Daily Papers | https://huggingface.co/papers | Papers | weekly |
+| Claude Code GitHub discussions | github.com/anthropics/claude-code discussions | Community | weekly |
 
 ## RSS/Feeds
 

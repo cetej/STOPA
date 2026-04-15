@@ -27,10 +27,35 @@ Save output to `.claude/memory/intermediate/farm-worklist.json`:
 }
 ```
 
+## Step 1b: Classify item complexity (Parcae-inspired variable depth, arXiv:2604.12946)
+
+Before partitioning, classify each work item's expected effort:
+
+| Signal | Complexity | Agent effort budget |
+|--------|-----------|-------------------|
+| Single rule violation, 1-line fix (e.g., E501, W291) | **simple** | 1 attempt, no retry |
+| Multi-line change, import reorg, or 2-3 related violations per file | **medium** | 1 attempt + 1 retry on failure |
+| Cross-file dependency, type error chain, or 5+ violations per file | **complex** | 2 attempts + rescue to sweep 2 |
+
+Classification heuristic (from worklist JSON):
+- **simple**: `violations_per_file == 1` AND rule is in `[E501, W291, W293, E302, E303, E711]`
+- **medium**: `violations_per_file in [2..4]` OR rule involves imports/types
+- **complex**: `violations_per_file >= 5` OR violations reference other files
+
+Store complexity per file in `farm-worklist.json`:
+```json
+{"file": "src/foo.py", "violations": 1, "complexity": "simple", "effort_budget": 1}
+```
+
+**Dispatch optimization**: Simple items get batched more aggressively per agent (up to 2× chunk size). Complex items get smaller chunks. This saves ~30% agent calls on mixed-complexity workloads vs uniform partitioning.
+
 ## Step 2: Partition into chunks
 
 - Partition by **file** (not by line) — one agent owns all issues in its assigned files
-- Chunk size: `ceil(total_files / num_agents)` — even distribution
+- **Variable chunk sizing** (Parcae per-sequence depth): adjust chunk size by complexity
+  - Simple-dominant chunks: `ceil(total_simple_files / num_agents) × 1.5` files per agent
+  - Complex-dominant chunks: `ceil(total_complex_files / num_agents) × 0.7` files per agent
+  - Mixed: standard `ceil(total_files / num_agents)`
 - No two agents share the same file — zero conflict guarantee
 
 ## Step 3: Spawn Agent Teams

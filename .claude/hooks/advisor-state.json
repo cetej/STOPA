@@ -1,5 +1,5 @@
 {
-  "call_count": 6717,
+  "call_count": 7112,
   "has_todo": true,
   "edit_file_set": [
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\capability-gaps.md",
@@ -484,10 +484,36 @@
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\commands\\scout.md",
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\outcomes\\2026-04-15-koder-T-2026-04-14-002-stale-refs.md",
     "C:\\Users\\stock\\Documents\\000_NGM\\ADOBE-AUTOMAT\\.gitignore",
-    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.gitignore"
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.gitignore",
+    "C:\\Users\\stock\\.claude\\scheduled-tasks\\brain-ingest\\SKILL.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\commands\\capture.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\raw\\2026-04-15-nurture-first-development.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\wiki\\concepts\\nurture-first-development.md",
+    "C:\\Users\\stock\\.claude\\scheduled-tasks\\auto-evolve-skills\\SKILL.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-15-sd-zero-self-revision-supervision.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-15-parcae-exponential-decay-stopping.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\wiki\\concepts\\reinforced-reasoning.md",
+    "C:\\Users\\stock\\.claude\\projects\\C--Users-stock-Documents-000-NGM-STOPA\\memory\\reference_parcae_looped_scaling.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-15-prm-step-verification-orchestrate.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-15-best-of-n-parallel-candidates.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\wiki\\entities\\process-reward-models.md",
+    "C:\\Users\\stock\\.claude\\plans\\whimsical-leaping-stonebraker.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\commands\\autoloop.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\commands\\autoresearch.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\skills\\orchestrate\\references\\farm-execution.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\raw\\2026-04-15-rational-rewards.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\wiki\\concepts\\rational-rewards.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-15-msys-tmp-path-mismatch.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\raw\\2026-04-15-ai-empathic-templates.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\wiki\\concepts\\ai-empathic-templates.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\raw\\2026-04-15-memory-caching-rnn.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\wiki\\concepts\\memory-caching-rnn.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\raw\\2026-04-15-artifacts-as-memory.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\wiki\\concepts\\artifacts-as-memory.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\skills\\critic\\references\\output-format.md"
   ],
   "last_edit_was_py": false,
-  "grep_count": 2288,
+  "grep_count": 2409,
   "last_suggestion_ts": 1776240116.120274,
-  "skill_count": 38
+  "skill_count": 45
 }

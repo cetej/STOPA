@@ -559,17 +559,27 @@ When comparing PRM scores across roles (e.g., in Best-of-N with heterogeneous te
 
 **Faithfulness modifier (AH cross-check):** If any AH-1 through AH-4 violations are found, apply -0.5 penalty to final weighted score. This is a modifier, not a separate weight — it catches false completion claims regardless of task type.
 
+**Rationale-First Scoring** (PARROT principle, arXiv:2604.11626):
+
+For EACH dimension, write a 1-sentence rationale BEFORE assigning the score. The rationale must be grounded in Verifier/Reviewer evidence. Then derive the score FROM the rationale — not the other way around. This prevents post-hoc rationalization where you pick a score and then justify it.
+
+**Protocol per dimension:**
+1. Write rationale (what you observed, citing evidence)
+2. Derive score from rationale
+3. Consistency check: does the rationale predict the score? If not → adjust score
+4. If score < 4: write a targeted `refine` suggestion (what specifically to fix for THIS dimension)
+
 **Fill the Scoring Rubric** (using selected weight profile):
 
-| Criteria | Weight | Score (1-5) | Evidence |
-|----------|--------|-------------|----------|
-| Correctness (logic, edge cases) | ? | ? | <from Verifier results + Reviewer concerns> |
-| Completeness (all requirements met) | ? | ? | <from Selector coverage + missing milestones> |
-| Code Quality (readability, patterns) | ? | ? | <from quality dimensions check> |
-| Safety (no regressions, no security holes) | ? | ? | <from Impact Radius + security milestones> |
-| Test Coverage (adequate tests exist) | ? | ? | <from test file check> |
-| Depth / Insight *(if active)* | ? | ? | <from 3 Depth Questions> |
-| **Weighted Average** | | **?.?** | |
+| Criteria | Weight | Rationale | Score (1-5) | Refine |
+|----------|--------|-----------|-------------|--------|
+| Correctness (logic, edge cases) | ? | <1-sentence grounded rationale> | ? | <fix or null> |
+| Completeness (all requirements met) | ? | <1-sentence grounded rationale> | ? | <fix or null> |
+| Code Quality (readability, patterns) | ? | <1-sentence grounded rationale> | ? | <fix or null> |
+| Safety (no regressions, no security holes) | ? | <1-sentence grounded rationale> | ? | <fix or null> |
+| Test Coverage (adequate tests exist) | ? | <1-sentence grounded rationale> | ? | <fix or null> |
+| Depth / Insight *(if active)* | ? | <1-sentence grounded rationale> | ? | <fix or null> |
+| **Weighted Average** | | | **?.?** | |
 
 **Scoring rules:** 1=broken, 2=functional but concerns, 3=solid, 4=good with minor nits, 5=exemplary.
 **Default score: 2** — require concrete evidence (from Verifier/Reviewer) to score higher.

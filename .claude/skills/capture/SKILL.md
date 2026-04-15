@@ -8,25 +8,32 @@ phase: build
 tags: [memory, documentation, pkm]
 discovery-keywords: [idea, nápad, thought, myšlenka, source, zdroj, mental model, reasoning, second brain, knowledge, znalost]
 input-contract: "user → text/URL/idea description → non-empty"
-output-contract: "wiki article + graph update + timeline entry → brain/ directory"
+output-contract: "URL: řádek v inbox.md NEBO wiki article + graph update + timeline entry → brain/ directory"
 ---
 
 # /capture — Quick Entry into 2BRAIN
 
-Rychlý vstup: text, URL nebo myšlenka → raw/ archive + wiki/ compiled article + knowledge-graph update + timeline entry.
+Rychlý vstup podle typu: URL → fronta pro asynchronní zpracování, text/myšlenka → okamžitě do wiki.
 
 ## Workflow
 
 ### Phase 1: Classify Input
 
-Rozpoznej typ vstupu:
+Rozpoznej typ vstupu a zvol cestu:
 
-| Input | Action |
-|-------|--------|
-| **URL** | Fetch via Jina (`https://r.jina.ai/{url}`), uložit do raw/, kompilovat do wiki/ |
-| **Text/myšlenka** | Přímo kompilovat do wiki/ (raw/ = originální text) |
-| **Screenshot/soubor** | Uložit do raw/, extrahovat klíčové koncepty, kompilovat |
-| **Existující STOPA learning** | Cross-link do brain/, nekopírovat |
+| Input | Cesta | Důvod |
+|-------|-------|-------|
+| **URL** | Append do `inbox.md` → STOP | Fetch + kompilace je pomalá, brain-ingest udělá dávkově |
+| **Text/myšlenka** | Přímá kompilace do wiki/ | Kontext je horký, nemůže čekat |
+| **Screenshot/soubor** | Přímá kompilace do wiki/ | Máš otevřený kontext, zpracuj hned |
+| **Existující STOPA learning** | Cross-link do brain/, nekopírovat | Duplikace poškozuje konzistenci |
+
+**Pokud URL:**
+1. Přečti `C:\Users\stock\Documents\000_NGM\STOPA\.claude\memory\brain\inbox.md`
+2. Vlož řádek `URL: <url>` do sekce `## Queue`
+3. Uložit soubor
+4. Reportuj uživateli: "Přidáno do fronty. brain-ingest zpracuje při příštím spuštění."
+5. STOP — nepokračuj do Phase 2
 
 ### Phase 2: Capture to raw/
 

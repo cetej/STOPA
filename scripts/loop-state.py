@@ -17,6 +17,7 @@ Subcommands:
     perf-record       Generate performance record JSON
     optstate-update   Update optimizer state JSON (FIFO ledger)
     exploration-weight  Compute adaptive exploration weight from TSV
+    decay-predict     Fit exponential decay to predict ceiling (Parcae arXiv:2604.12946)
 
 Design: Model does LATENT (what to mutate, quality judgment).
         This script does DETERMINISTIC (arithmetic, state, thresholds).
@@ -35,8 +36,31 @@ sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 MEMORY = Path(".claude/memory")
 
 
+def _resolve_path(path: Path) -> Path:
+    """Resolve MSYS2/Git Bash path translation on Windows.
+
+    Git Bash translates /tmp → C:\\Users\\<user>\\AppData\\Local\\Temp before
+    Python sees the argument, but Python's own Path('/tmp') resolves to C:\\tmp.
+    When the MSYS-translated path doesn't exist, try the Python-native resolution.
+    """
+    if path.exists():
+        return path
+    if sys.platform == "win32":
+        # Try interpreting the original Unix-style path via Python's resolution
+        posix = path.as_posix()
+        if "/AppData/Local/Temp/" in posix:
+            # MSYS translated /tmp/foo → C:\Users\...\AppData\Local\Temp\foo
+            # Try C:\tmp\foo instead
+            basename = posix.split("/AppData/Local/Temp/", 1)[1]
+            alt = Path("C:/tmp") / basename
+            if alt.exists():
+                return alt
+    return path  # Return original even if not found (caller handles missing)
+
+
 def read_tsv_tail(path: Path, n: int = 10) -> list[dict]:
     """Read last N rows from TSV file."""
+    path = _resolve_path(path)
     if not path.exists():
         return []
     lines = path.read_text(encoding="utf-8", errors="replace").strip().split("\n")
@@ -198,7 +222,7 @@ def cmd_regression(args):
 # =============================================================================
 def cmd_pareto_update(args):
     """Update Pareto frontier JSON with new candidate."""
-    path = Path(args.pareto_path)
+    path = _resolve_path(Path(args.pareto_path))
     new_metric = args.metric
     new_cost = args.cost
 
@@ -373,7 +397,7 @@ def cmd_perf_record(args):
 # =============================================================================
 def cmd_optstate_update(args):
     """Update optimizer state JSON with new run data."""
-    path = Path(args.optstate_path)
+    path = _resolve_path(Path(args.optstate_path))
 
     # Load existing
     if path.exists():
@@ -459,6 +483,173 @@ def cmd_optstate_update(args):
 # =============================================================================
 # Subcommand: exploration-weight
 # =============================================================================
+# =============================================================================
+# Subcommand: decay-predict (Parcae-inspired, arXiv:2604.12946)
+# =============================================================================
+def _fit_exponential_decay(iterations: list[float], scores: list[float]) -> dict | None:
+    """Fit L(T) = L_inf + Z * exp(-z * T) to score trajectory.
+
+    For optimization (higher=better), we flip: S(T) = S_inf - Z * exp(-z * T)
+    where S_inf is the predicted ceiling, Z is the initial gap, z is the decay rate.
+
+    Uses simple least-squares grid search (no scipy dependency).
+    """
+    n = len(iterations)
+    if n < 3:
+        return None
+
+    s_min = min(scores)
+    s_max = max(scores)
+    s_range = s_max - s_min
+    if s_range < 1e-9:
+        # All scores identical — no decay to fit
+        return {"s_inf": s_max, "z": 0.0, "Z": 0.0, "r_squared": 1.0}
+
+    best_err = float("inf")
+    best_params = None
+
+    # Grid search over S_inf candidates (ceiling above current max)
+    for s_inf_mult in [1.0, 1.02, 1.05, 1.1, 1.15, 1.2, 1.3, 1.5]:
+        s_inf = s_max + s_range * (s_inf_mult - 1.0)
+        if s_inf_mult == 1.0:
+            s_inf = s_max * 1.001  # Tiny offset to avoid log(0)
+
+        # Z = S_inf - S(0), must be positive
+        Z_est = s_inf - s_min
+        if Z_est <= 0:
+            continue
+
+        # Grid search over decay rate z
+        for z in [0.05, 0.1, 0.15, 0.2, 0.3, 0.5, 0.7, 1.0, 1.5, 2.0]:
+            err = 0.0
+            for i_idx in range(n):
+                predicted = s_inf - Z_est * math.exp(-z * iterations[i_idx])
+                err += (predicted - scores[i_idx]) ** 2
+            if err < best_err:
+                best_err = err
+                best_params = {"s_inf": s_inf, "Z": Z_est, "z": z}
+
+    if best_params is None:
+        return None
+
+    # R² calculation
+    mean_s = sum(scores) / n
+    ss_tot = sum((s - mean_s) ** 2 for s in scores)
+    r_squared = 1.0 - best_err / ss_tot if ss_tot > 1e-9 else 0.0
+
+    best_params["r_squared"] = max(0.0, r_squared)
+    return best_params
+
+
+def cmd_decay_predict(args):
+    """Fit exponential decay to score trajectory, predict ceiling and remaining gain.
+
+    Model: S(T) = S_inf - Z * exp(-z * T)
+    where S_inf = predicted ceiling, Z = initial gap, z = decay rate.
+
+    Returns JSON:
+    {
+      "fitted": true/false,
+      "s_inf": predicted ceiling score,
+      "current_best": current best score,
+      "remaining_gain": s_inf - current_best,
+      "remaining_gain_pct": remaining_gain / current_best * 100,
+      "z": decay rate,
+      "r_squared": fit quality (>0.8 = trustworthy),
+      "early_stop_recommended": true if remaining gain < 1% of current,
+      "target_reachable": true/false (if --target given),
+      "iterations_to_target": estimated iterations to reach target (null if unreachable)
+    }
+    """
+    path = _resolve_path(Path(args.tsv_path))
+    rows = read_tsv_tail(path, 50)  # Read up to 50 iterations
+
+    if len(rows) < (args.min_points or 4):
+        print(json.dumps({
+            "fitted": False,
+            "reason": f"insufficient_data (need {args.min_points}, have {len(rows)})",
+            "early_stop_recommended": False,
+        }))
+        return
+
+    # Extract iteration numbers and metric values (only keeps, not discards/crashes)
+    points = []
+    best_so_far = None
+    for r in rows:
+        try:
+            it = int(r.get("iteration", 0))
+            metric = float(r.get("metric", 0))
+            status = r.get("status", "").lower()
+        except (ValueError, TypeError):
+            continue
+
+        # Track best-so-far trajectory (running max) — this is what we fit
+        if best_so_far is None or metric > best_so_far:
+            best_so_far = metric
+        points.append((float(it), best_so_far))
+
+    if len(points) < (args.min_points or 4):
+        print(json.dumps({
+            "fitted": False,
+            "reason": "insufficient_valid_points",
+            "early_stop_recommended": False,
+        }))
+        return
+
+    iterations = [p[0] for p in points]
+    scores = [p[1] for p in points]
+    current_best = scores[-1]
+
+    params = _fit_exponential_decay(iterations, scores)
+    if params is None:
+        print(json.dumps({
+            "fitted": False,
+            "reason": "fit_failed",
+            "early_stop_recommended": False,
+        }))
+        return
+
+    s_inf = params["s_inf"]
+    remaining = max(0, s_inf - current_best)
+    remaining_pct = (remaining / abs(current_best) * 100) if abs(current_best) > 1e-9 else 0.0
+
+    result = {
+        "fitted": True,
+        "s_inf": round(s_inf, 4),
+        "current_best": round(current_best, 4),
+        "remaining_gain": round(remaining, 4),
+        "remaining_gain_pct": round(remaining_pct, 2),
+        "z": round(params["z"], 4),
+        "Z": round(params["Z"], 4),
+        "r_squared": round(params["r_squared"], 4),
+        "data_points": len(points),
+        "early_stop_recommended": remaining_pct < 1.0 and params["r_squared"] > 0.7,
+    }
+
+    # Target analysis (optional)
+    if args.target is not None:
+        target = args.target
+        result["target"] = target
+        if s_inf >= target:
+            result["target_reachable"] = True
+            # Solve: target = s_inf - Z * exp(-z * T) → T = -ln((s_inf - target) / Z) / z
+            gap = s_inf - target
+            if gap > 0 and params["Z"] > 0 and params["z"] > 0:
+                ratio = gap / params["Z"]
+                if 0 < ratio < 1:
+                    iters_needed = -math.log(ratio) / params["z"]
+                    result["iterations_to_target"] = round(iters_needed, 1)
+                else:
+                    result["iterations_to_target"] = 0
+            else:
+                result["iterations_to_target"] = 0
+        else:
+            result["target_reachable"] = False
+            result["iterations_to_target"] = None
+
+    print(json.dumps(result, indent=2))
+
+
 def cmd_exploration_weight(args):
     """Compute adaptive exploration weight from consecutive discards."""
     path = Path(args.tsv_path)
@@ -556,6 +747,13 @@ def main():
     p.add_argument("tsv_path")
     p.add_argument("--exit-threshold", type=int, default=6)
     p.set_defaults(func=cmd_exploration_weight)
+
+    # decay-predict (Parcae-inspired, arXiv:2604.12946)
+    p = sub.add_parser("decay-predict", help="Fit exponential decay to score trajectory, predict ceiling")
+    p.add_argument("tsv_path", help="Path to TSV with iteration/metric columns")
+    p.add_argument("--target", type=float, default=None, help="Target score (optional, for gap analysis)")
+    p.add_argument("--min-points", type=int, default=4, help="Min data points before fitting (default: 4)")
+    p.set_defaults(func=cmd_decay_predict)
 
     args = parser.parse_args()
     args.func(args)

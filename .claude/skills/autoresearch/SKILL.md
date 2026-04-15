@@ -495,6 +495,15 @@ Improvement trend: <improving | flat | declining>
 Remaining budget: <remaining> iterations
 ```
 
+**Ceiling prediction** (Parcae-inspired, arXiv:2604.12946): If experiment log TSV exists and has 4+ entries:
+
+`Run: python scripts/loop-state.py decay-predict <tsv_path> --target <target_score>`
+
+Incorporate result into decision matrix:
+- `early_stop_recommended: true` → bias toward PROCEED (ceiling reached, more iterations wasteful)
+- `target_reachable: false` → bias toward PIVOT (current approach can't reach target, try fundamentally different)
+- `target_reachable: true` + sufficient budget → bias toward REFINE (approach works, just needs more iterations)
+
 **Decision matrix:**
 
 | Condition | Decision | Action |

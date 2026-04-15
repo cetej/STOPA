@@ -13,8 +13,7 @@ Zpracované záznamy se přesunou do `inbox-archive.md`.
 
 ## Queue
 
-URL: https://arxiv.org/abs/2603.10808
-<!-- Přidej záznamy sem, nad archive marker -->
+<!-- Prázdná fronta — přidávej URL: řádky sem -->
 
 ## Processed
 
@@ -26,3 +25,4 @@ URL: https://arxiv.org/abs/2603.10808
 | 2026-04-14 | URL: https://ghost.codersera.com/blog/karpathy-llm-knowledge-base-second-brain/ — Karpathy LLM KB → updated llm-wiki.md (3-folder arch, limits) |
 | 2026-04-14 | URL: https://evoailabs.medium.com/why-andrej-karpathys-llm-wiki-is-the-future-of-personal-knowledge-7ac398383772 — LLM Wiki EvoAI → updated llm-wiki.md (compounding, RAG critique) |
 | 2026-04-14 | URL: https://x.com/ICPandaDAO/status/2040434533619892603 — Karpathy operating knowledge → updated llm-wiki.md + karpathy.md + new graph node |
+| 2026-04-15 | URL: https://arxiv.org/abs/2603.10808 — Nurture-First Development → new wiki article nurture-first-development.md, 8 graph edges |

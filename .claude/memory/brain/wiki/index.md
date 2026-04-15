@@ -4,11 +4,11 @@ Obsah kompilovaných wiki článků organizovaný podle typu entity.
 LLM čte tento soubor PRVNÍ při odpovídání na dotazy.
 
 **Last updated:** 2026-04-15
-**Total articles:** 23
+**Total articles:** 27
 
 ---
 
-## Concepts (13)
+## Concepts (16)
 
 | Article | Summary | Sources | Updated |
 |---------|---------|---------|---------|
@@ -27,6 +27,10 @@ LLM čte tento soubor PRVNÍ při odpovídání na dotazy.
 | [agent-memory-taxonomy](concepts/agent-memory-taxonomy.md) | Write-Manage-Read loop + 5 rodin memory mechanismů + 3D taxonomie (temporal/substrate/control) | arXiv:2603.07670 | 2026-04-14 |
 | [nurture-first-development](concepts/nurture-first-development.md) | NFD paradigma: agent začíná minimálně, roste z dialogu s experty; Knowledge Crystallization Cycle | arXiv:2603.10808 | 2026-04-15 |
 | [reinforced-reasoning](concepts/reinforced-reasoning.md) | 3 pilíře reasoning LLM: data construction, RL (PRM>ORM), test-time scaling; 5 metod + STOPA mapování | arXiv:2501.09686 | 2026-04-15 |
+| [memory-caching-rnn](concepts/memory-caching-rnn.md) | RNN + cachované memory checkpointy = O(L) až O(L²) interpolace; GRM gating; hybrid modely = MC se segment=1 | arXiv:2602.24281 | 2026-04-15 |
+| [ai-empathic-templates](concepts/ai-empathic-templates.md) | 83-90% LLM odpovědí = 1 regex šablona; 10 taktik; struktura > slovník pro AI detection | arXiv:2604.08479 | 2026-04-15 |
+| [rational-rewards](concepts/rational-rewards.md) | PARROT: reasoning reward model s 4-dim kritikou; dual-space (RL + test-time prompt refinement); 8B = Gemini-2.5-Pro | arXiv:2604.11626 | 2026-04-15 |
+| [artifacts-as-memory](concepts/artifacts-as-memory.md) | Formální důkaz: env artefakty = external memory, 4× redukce interní kapacity; "artifacts first, scale second" | arXiv:2604.08756 | 2026-04-15 |
 
 ## People (2)
 

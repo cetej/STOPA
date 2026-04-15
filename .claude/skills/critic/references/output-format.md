@@ -89,20 +89,46 @@ If `quality-gates.md` exists, append approved proposals to its Gate Proposal Log
 
 ### Structured Verdict (machine-parseable)
 
-Always include this JSON block — it enables automated quality gates in /orchestrate and skill-chain-engine:
+Always include this JSON block — it enables automated quality gates in /orchestrate, skill-chain-engine, and dimensional drift tracking in /eval.
+
+**PARROT principle (arXiv:2604.11626):** Structured multi-dimensional critique with rationale BEFORE scoring prevents reward hacking and enables targeted fixes. Each dimension gets a rationale (WHY this score) and a refine suggestion (HOW to fix).
 
 ```json
 {
   "verdict": "PASS|WARN|FAIL",
   "score": 3.8,
+  "dimensions": {
+    "correctness": {"score": 4, "weight": 0.30, "rationale": "All milestones verified with tool output", "refine": null},
+    "completeness": {"score": 3, "weight": 0.25, "rationale": "M3 unverified — no test covers new path", "refine": "Add test for the new auth middleware path"},
+    "quality": {"score": 4, "weight": 0.20, "rationale": "Clean code, follows project patterns", "refine": null},
+    "safety": {"score": 2, "weight": 0.15, "rationale": "No rate limiting on new endpoint", "refine": "Add rate limit middleware to POST /api/users"},
+    "test_coverage": {"score": 3, "weight": 0.10, "rationale": "Existing tests pass but no new tests added", "refine": "Add integration test for token expiry edge case"},
+    "depth": {"score": null, "weight": 0, "rationale": null, "refine": null}
+  },
   "blockers": [],
   "security_concerns": [],
   "logic_errors": [],
-  "suggestions": ["..."]
+  "suggestions": ["..."],
+  "pressure_penalty": 0.0,
+  "consensus_tag": null
 }
 ```
 
+**Dimension fields:**
+- `score`: 1-5 integer (null if dimension inactive, e.g. depth when not in deep tier)
+- `weight`: float from selected weight profile
+- `rationale`: 1 sentence — WHY this score, grounded in evidence. MUST be written BEFORE the score (PARROT consistency: rationale predicts score, not post-hoc justifies it)
+- `refine`: null if PASS (score >= 4), otherwise a specific actionable fix suggestion targeting THIS dimension. Used by orchestrator for Generate→Critique→Refine loop — the orchestrator can pass `refine` strings directly to the worker as targeted instructions.
+
+**Scoring protocol (PARROT-inspired):**
+1. For each dimension, write the `rationale` first (what you observed)
+2. Then derive the `score` from the rationale (not the other way around)
+3. If rationale suggests problems but score is high → consistency violation → lower the score
+4. If rationale is positive but score is low → consistency violation → raise the score
+
 **Fail-closed override rule:** If `security_concerns` is non-empty OR `logic_errors` is non-empty → verdict MUST be "FAIL" regardless of score. Unparseable JSON = auto-FAIL.
+
+**Dimensional drift tracking:** `/eval` can compare `dimensions` across runs to detect which specific dimension is degrading. Example: correctness stable at 4 but safety dropping from 4→3→2 across 3 runs = targeted intervention on safety, not full re-review.
 
 This block is MANDATORY for STANDARD and DEEP paths. For QUICK path, include a minimal version: `{"verdict": "PASS|WARN|FAIL", "score": 4.0}`.
 

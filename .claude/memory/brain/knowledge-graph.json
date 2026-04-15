@@ -1,6 +1,6 @@
 {
-  "version": "1.3",
-  "updated": "2026-04-14",
+  "version": "1.4",
+  "updated": "2026-04-15",
   "description": "2BRAIN knowledge graph — entity-centric storage with typed edges",
   "node_types": ["person", "concept", "project", "value", "reasoning", "experience", "goal"],
   "edge_types": ["created", "inspired", "contradicts", "enables", "blocks", "applied-in", "drives", "taught-me", "practiced-in", "related-to", "part-of", "complementary", "validates", "formalizes"],
@@ -186,6 +186,41 @@
       "tags": ["ai", "knowledge-management", "token-economy", "llm-wiki"],
       "wiki": null,
       "added": "2026-04-14"
+    },
+    "nurture-first-development": {
+      "type": "concept",
+      "label": "Nurture-First Development (NFD)",
+      "tags": ["ai", "agent", "methodology", "knowledge-crystallization", "tacit-knowledge"],
+      "wiki": "concepts/nurture-first-development.md",
+      "added": "2026-04-15"
+    },
+    "memory-caching-rnn": {
+      "type": "concept",
+      "label": "Memory Caching — RNNs with Growing Memory",
+      "tags": ["ai", "architecture", "memory", "rnn", "attention", "efficiency"],
+      "wiki": "concepts/memory-caching-rnn.md",
+      "added": "2026-04-15"
+    },
+    "ai-empathic-templates": {
+      "type": "concept",
+      "label": "AI Empathic Templates — Structural LLM Detection",
+      "tags": ["ai", "detection", "writing-quality", "empathy", "anti-slop"],
+      "wiki": "concepts/ai-empathic-templates.md",
+      "added": "2026-04-15"
+    },
+    "rational-rewards": {
+      "type": "concept",
+      "label": "RationalRewards — PARROT Reasoning Reward Model",
+      "tags": ["ai", "reward-model", "structured-critique", "visual-generation", "rl"],
+      "wiki": "concepts/rational-rewards.md",
+      "added": "2026-04-15"
+    },
+    "artifacts-as-memory": {
+      "type": "concept",
+      "label": "Artifacts as Memory Beyond Agent Boundary",
+      "tags": ["ai", "memory", "agent", "rl", "external-memory", "stigmergy", "formal-theory"],
+      "wiki": "concepts/artifacts-as-memory.md",
+      "added": "2026-04-15"
     }
   },
   "edges": [
@@ -234,6 +269,29 @@
     {"from": "agent-memory-taxonomy", "to": "llm-wiki", "rel": "validates", "evidence": "hierarchical virtual context = primary family for LLM Wiki pattern"},
     {"from": "operating-knowledge", "to": "llm-wiki", "rel": "drives", "evidence": "operating knowledge shift → LLM Wiki as natural implementation"},
     {"from": "operating-knowledge", "to": "second-brain", "rel": "drives", "evidence": "second brain systems are natural response to operating knowledge paradigm"},
-    {"from": "operating-knowledge", "to": "context-engineering", "rel": "related-to", "evidence": "both describe LLM usage shifting from code to knowledge/context management"}
+    {"from": "operating-knowledge", "to": "context-engineering", "rel": "related-to", "evidence": "both describe LLM usage shifting from code to knowledge/context management"},
+    {"from": "nurture-first-development", "to": "second-brain", "rel": "enables", "evidence": "NFD is an implementation approach for building agent second brain through interaction"},
+    {"from": "nurture-first-development", "to": "compiler-analogy", "rel": "applies", "evidence": "Knowledge Crystallization Cycle = compiler analogy at agent level: dialog=source, crystallization=compile, assets=binary"},
+    {"from": "nurture-first-development", "to": "active-metacognitive-curation", "rel": "complementary", "evidence": "both argue memory management must be active, not passive RAG"},
+    {"from": "nurture-first-development", "to": "llm-wiki", "rel": "enables", "evidence": "LLM Wiki is the output artifact of iterative NFD crystallization process"},
+    {"from": "nurture-first-development", "to": "memfactory", "rel": "complementary", "evidence": "MemFactory=technical infrastructure (RL extraction), NFD=methodological framework"},
+    {"from": "nurture-first-development", "to": "stopa", "rel": "applied-in", "evidence": "STOPA /evolve, /scribe, behavioral-genome.md are NFD implementations: started minimal, grows from corrections"},
+    {"from": "nurture-first-development", "to": "basb-code", "rel": "contradicts", "evidence": "BASB is user-driven capture, NFD is agent-driven extraction from normal dialogue"},
+    {"from": "memory-caching-rnn", "to": "context-engineering", "rel": "related-to", "evidence": "MC is hardware-level implementation of context window scaling"},
+    {"from": "memory-caching-rnn", "to": "memfactory", "rel": "related-to", "evidence": "MemFactory extract/update/retrieve maps to MC segment/cache/gate"},
+    {"from": "memory-caching-rnn", "to": "agent-memory-taxonomy", "rel": "related-to", "evidence": "MC formalizes growing memory family from write-manage-read taxonomy"},
+    {"from": "memory-caching-rnn", "to": "second-brain", "rel": "related-to", "evidence": "checkpoint caching is isomorphic to session checkpoints and progressive summarization"},
+    {"from": "ai-empathic-templates", "to": "jagged-intelligence", "rel": "related-to", "evidence": "template pattern is ghost-like behavior: fluent but mechanical"},
+    {"from": "ai-empathic-templates", "to": "stopa", "rel": "validates", "evidence": "empirically confirms behavioral-genome Writing Quality rule: structure=#1 detection signal"},
+    {"from": "ai-empathic-templates", "to": "context-engineering", "rel": "related-to", "evidence": "structured empathy vs structured critique — both learned templates with opposite valuations"},
+    {"from": "rational-rewards", "to": "rlvr", "rel": "related-to", "evidence": "PARROT is reward model for visual domains, RLVR is broader RL paradigm"},
+    {"from": "rational-rewards", "to": "stopa", "rel": "applied-in", "evidence": "dual-space optimization maps to /critic (multi-dim), /autoreason (Generate-Critique-Refine), /prompt-evolve (test-time)"},
+    {"from": "rational-rewards", "to": "context-engineering", "rel": "enables", "evidence": "structured critique as inductive bias = context engineering for reward models"},
+    {"from": "artifacts-as-memory", "to": "agent-memory-taxonomy", "rel": "formalizes", "evidence": "formal proof that artifacts reduce history information requirements (Theorem 1)"},
+    {"from": "artifacts-as-memory", "to": "second-brain", "rel": "validates", "evidence": "second brain files = artifacts reducing agent internal capacity needs"},
+    {"from": "artifacts-as-memory", "to": "stopa", "rel": "validates", "evidence": "checkpoint.md, state.md, post-it pattern = artifacts enabling session continuity with less context"},
+    {"from": "artifacts-as-memory", "to": "context-engineering", "rel": "enables", "evidence": "artifacts first, scale second — optimize environment before scaling model"},
+    {"from": "artifacts-as-memory", "to": "memfactory", "rel": "complementary", "evidence": "MemFactory manages artifacts operationally, this paper proves WHY artifacts help formally"},
+    {"from": "artifacts-as-memory", "to": "active-metacognitive-curation", "rel": "related-to", "evidence": "curation decides WHAT to keep in artifacts; this paper proves artifacts reduce capacity needs"}
   ]
 }

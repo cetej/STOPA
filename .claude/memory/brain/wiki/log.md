@@ -15,3 +15,10 @@ Append-only chronologický záznam ingestů, dotazů a maintenance průchodů.
 | 2026-04-13 | GRAPH: expanded to 23 nodes, 35 edges (v1.2) — added rlvr, vibe-coding, jagged-intelligence, verifiability-sw2 | knowledge-graph.json v1.2 | — |
 | 2026-04-14 | INGEST: 5 inbox items — MemFactory (arXiv:2603.29493), Agent Memory Survey (arXiv:2603.07670), 3× Karpathy LLM Wiki articles (CoderSera, EvoAI, X) | +2 new articles (memfactory, agent-memory-taxonomy), updated llm-wiki.md + karpathy.md | brain-ingest scheduled task |
 | 2026-04-14 | GRAPH: expanded to 26 nodes, 46 edges (v1.3) — added memfactory, agent-memory-taxonomy, operating-knowledge + 11 new edges | knowledge-graph.json v1.3 | — |
+| 2026-04-15 | INGEST: arXiv:2603.10808 — Nurture-First Development | +1 new article (nurture-first-development.md) | brain-ingest (manual run) |
+| 2026-04-15 | GRAPH: expanded to 27 nodes, 54 edges (v1.4) — added nurture-first-development + 8 new edges | knowledge-graph.json v1.4 | — |
+| 2026-04-15 | FIX: brain-ingest absolute path opravena, /capture hybrid routing implementována (URL→inbox, text→direct) | — | maintenance |
+| 2026-04-15 | CAPTURE: RationalRewards (arXiv:2604.11626) — PARROT reasoning reward model, dual-space optimization | +1 new article (rational-rewards.md), graph +1 node +3 edges | /capture (text) |
+| 2026-04-15 | CAPTURE: AI Empathic Templates (arXiv:2604.08479) — 10 taktik, regex šablona, struktura > slovník | +1 new article (ai-empathic-templates.md), graph +1 node +3 edges | /capture (text) |
+| 2026-04-15 | CAPTURE: Memory Caching (arXiv:2602.24281) — RNN + checkpoint caching, O(L)↔O(L²) interpolace, 4 varianty | +1 new article (memory-caching-rnn.md), graph +1 node +4 edges | /capture (text) |
+| 2026-04-15 | CAPTURE: Artifacts as Memory (arXiv:2604.08756) — formální důkaz external memory, 4× kapacitní redukce, emergentní traces | +1 new article (artifacts-as-memory.md), graph +1 node +6 edges | /capture (text) |

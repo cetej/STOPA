@@ -6,10 +6,10 @@ component: skill
 tags: [skill-design, validation, prompt-quality, critic, hardstop]
 summary: "Structured numbered validation rules with explicit error/warning tiers, executed by the LLM itself, with hard-stop before output delivery — stronger than advisory self-check. Python scripts decoupled to CI/CD only."
 source: external_research
-uses: 0
+uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.7
+confidence: 0.75
 verify_check: "manual"
 ---
 

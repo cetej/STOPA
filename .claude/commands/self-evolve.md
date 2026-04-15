@@ -437,12 +437,21 @@ Updates optimizer state with FIFO ledger (max 20 entries).
       "last_pass_rate": 0.85,
       "best_pass_rate": 0.92,
       "runs": 3,
-      "dominant_strategy": "adversarial"
+      "dominant_strategy": "adversarial",
+      "convergence_round": 8,
+      "recommended_max_iterations": 10
     }
   }
 }
 ```
 UCB1 selector reads `change_ledger` on next run → strategies that consistently produced kept changes get higher exploration/exploitation scores.
+
+**Convergence ceiling propagation** (Parcae-inspired, arXiv:2604.12946):
+After updating optstate, also write:
+- `convergence_round`: the round number where the last meaningful improvement happened (last `keep` before convergence/budget exit)
+- `recommended_max_iterations`: `ceil(convergence_round × 1.25)` — padding 25% above observed convergence point
+
+These values propagate to `/autoloop` and `/autoresearch`: if the target skill's optstate has `recommended_max_iterations`, those skills use it as a soft cap. Rationale: Parcae shows training depth = inference ceiling — more runtime iterations beyond evolution depth yield diminishing returns.
 
 ### Replay Buffer from Outcomes (RCL failure replay)
 
