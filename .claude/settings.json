@@ -165,6 +165,12 @@
           },
           {
             "type": "command",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/session-trace.py",
+            "timeout": 2,
+            "statusMessage": ""
+          },
+          {
+            "type": "command",
             "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/observe.sh",
             "timeout": 3,
             "statusMessage": ""

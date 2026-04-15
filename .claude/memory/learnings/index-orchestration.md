@@ -4,76 +4,76 @@ Auto-generated L2 index. 70 learnings.
 
 | Date | File | Severity | Score | Summary |
 |------|------|----------|-------|---------|
-| 2026-04-14 | [2026-04-14-dacs-context-scoping.md](2026-04-14-dacs-context-scoping.md) | high | 3.00 | DACS (arXiv:2604.07911) — Registry↔Focus context switching pro multi-age... |
-| 2026-04-14 | [2026-04-14-mcp-server-token-overhead.md](2026-04-14-mcp-server-token-overhead.md) | high | 3.00 | Each connected MCP server loads ~18K tokens per message into context. Di... |
-| 2026-04-14 | [2026-04-14-paseo-orchestration-patterns.md](2026-04-14-paseo-orchestration-patterns.md) | high | 3.00 | Paseo (getpaseo/paseo) — open-source multi-provider orchestrátor pro Cla... |
-| 2026-04-14 | [2026-04-14-traceguard-5d-critic.md](2026-04-14-traceguard-5d-critic.md) | medium | 2.00 | TraceGuard (arXiv:2604.03968) — 5D CoT monitoring: goal alignment, const... |
-| 2026-04-13 | [2026-04-13-breadth-depth-axis-tier-selection.md](2026-04-13-breadth-depth-axis-tier-selection.md) | high | 2.95 | Tao's Copernican View maps directly to STOPA tier selection: AI agents c... |
-| 2026-04-13 | [2026-04-13-do-nothing-first-class-option.md](2026-04-13-do-nothing-first-class-option.md) | high | 2.95 | In iterative improvement loops, 'do nothing' (incumbent preservation) mu... |
-| 2026-04-13 | [2026-04-13-experience-replay-outcomes-reuse.md](2026-04-13-experience-replay-outcomes-reuse.md) | high | 2.95 | Skills čtou optstate momentum, ale ne konkrétní outcomes z minulých runů... |
-| 2026-04-13 | [2026-04-13-generate-then-discard-suboptimal.md](2026-04-13-generate-then-discard-suboptimal.md) | high | 2.95 | Generate-then-discard' je suboptimální pattern pro iterativní skills. Př... |
-| 2026-04-13 | [2026-04-13-judge-panel-size-convergence.md](2026-04-13-judge-panel-size-convergence.md) | medium | 1.97 | 7 fresh judges converge 3× faster than 3 judges in blind Borda voting; e... |
-| 2026-04-13 | [2026-04-13-pairwise-choice-sufficient-verifiable-signal.md](2026-04-13-pairwise-choice-sufficient-verifiable-signal.md) | medium | 1.97 | Pairwise comparison (A vs B) je dostatečný verifiable reward signal pro ... |
-| 2026-04-13 | [2026-04-13-pretraining-loss-insufficient-generalization-proxy.md](2026-04-13-pretraining-loss-insufficient-generalization-proxy.md) | high | 2.95 | Pretraining loss není dostatečný proxy pro downstream kvalitu — dva mode... |
-| 2026-04-13 | [2026-04-13-tournament-self-refinement-abc.md](2026-04-13-tournament-self-refinement-abc.md) | high | 2.95 | Tournament self-refinement (A=incumbent, B=adversarial, AB=synthesis) wi... |
-| 2026-04-12 | [2026-04-12-advisor-tool-public-beta.md](2026-04-12-advisor-tool-public-beta.md) | high | 2.90 | Anthropic Advisor Tool in public beta — validates STOPA executor+advisor... |
-| 2026-04-12 | [2026-04-12-fresh-session-self-report-verification.md](2026-04-12-fresh-session-self-report-verification.md) | medium | 1.94 | Fresh-session self-report catches sycophancy: asking a model in a new co... |
-| 2026-04-12 | [2026-04-12-ib-optimality-predicts-benchmarks.md](2026-04-12-ib-optimality-predicts-benchmarks.md) | high | 2.90 | LLM optimality I(Y;Z)/I(X;Z) predicts benchmark performance (r=0.52) fro... |
-| 2026-04-12 | [2026-04-12-model-size-negatively-correlated-honesty.md](2026-04-12-model-size-negatively-correlated-honesty.md) | high | 2.90 | MASK benchmark: negative correlation between model size and honesty unde... |
-| 2026-04-12 | [2026-04-12-morning-briefing-cron-pattern.md](2026-04-12-morning-briefing-cron-pattern.md) | medium | 1.94 | Morning briefing cron pattern: single claude -p command reads Memory.md ... |
-| 2026-04-12 | [2026-04-12-pretraining-vs-posttraining-dissociation.md](2026-04-12-pretraining-vs-posttraining-dissociation.md) | medium | 1.94 | Pre-training = broad compression (knowledge, reasoning); post-training (... |
-| 2026-04-12 | [2026-04-12-skillclaw-auto-evolve-pipeline.md](2026-04-12-skillclaw-auto-evolve-pipeline.md) | high | 2.90 | SkillClaw (arXiv:2604.08377) auto-evolve pipeline implemented in STOPA —... |
-| 2026-04-12 | [2026-04-12-small-model-compression-threshold.md](2026-04-12-small-model-compression-threshold.md) | high | 2.90 | Models below ~1B parameters fail to enter the compression phase of IB tr... |
-| 2026-04-12 | [2026-04-12-sycophancy-not-hallucination.md](2026-04-12-sycophancy-not-hallucination.md) | high | 2.90 | Sycophancy ≠ hallucination. Hallucination = model doesn't know. Sycophan... |
-| 2026-04-11 | [2026-04-11-compression-regime-maps-to-tiers.md](2026-04-11-compression-regime-maps-to-tiers.md) | medium | 1.91 | Optimal context compression varies systematically by task type: long/bro... |
-| 2026-04-11 | [2026-04-11-iteration-paradox-meta-pattern.md](2026-04-11-iteration-paradox-meta-pattern.md) | high | 2.86 | Iteration Paradox: iteruj s bounded refinement, ale nevěř prvním výsledk... |
-| 2026-04-11 | [2026-04-11-speculative-reasoning-degrades-workers.md](2026-04-11-speculative-reasoning-degrades-workers.md) | medium | 1.91 | Orchestrator's speculative reasoning (dead-end hypotheses, exploration t... |
-| 2026-04-11 | [2026-04-11-task-guided-context-beats-raw-sharing.md](2026-04-11-task-guided-context-beats-raw-sharing.md) | high | 2.86 | Latent Briefing: task-guided KV cache compaction pro cross-agent memory ... |
-| 2026-04-10 | [2026-04-10-eggroll-evolutionary-optimization.md](2026-04-10-eggroll-evolutionary-optimization.md) | high | 2.81 | EGGROLL (Oxford/MILA 2026) dokazuje 3 principy pro evoluci skills: (1) r... |
-| 2026-04-10 | [2026-04-10-rlm-architectural-principles.md](2026-04-10-rlm-architectural-principles.md) | high | 2.81 | RLM (arXiv:2512.24601) validuje STOPA RLM principy a přidává 3 implement... |
-| 2026-04-08 | [2026-04-08-agent-deception-pressure-trigger.md](2026-04-08-agent-deception-pressure-trigger.md) | medium | 1.82 | Agent deception increases under event pressure (failures, high stakes) a... |
-| 2026-04-08 | [2026-04-08-auto-research-removes-human-bottleneck.md](2026-04-08-auto-research-removes-human-bottleneck.md) | high | 2.73 | The human is always the bottleneck in iterative optimization. For any ta... |
-| 2026-04-08 | [2026-04-08-group-experience-sharing-beats-isolated-evolution.md](2026-04-08-group-experience-sharing-beats-isolated-evolution.md) | high | 2.73 | Sdílení evolučních trajektorií (patches, logs, failures) mezi agenty zdv... |
-| 2026-04-08 | [2026-04-08-heartbeat-mid-run-steering.md](2026-04-08-heartbeat-mid-run-steering.md) | medium | 1.82 | Heartbeat-triggered intervention: orchestrátor posílá prompt-injections ... |
-| 2026-04-08 | [2026-04-08-in-place-ttt-long-context-multiplier.md](2026-04-08-in-place-ttt-long-context-multiplier.md) | medium | 1.82 | In-Place TTT gives 3-12× improvement on long-context benchmarks (RULER-1... |
-| 2026-04-08 | [2026-04-08-inference-time-sampling-beats-rl-for-diversity.md](2026-04-08-inference-time-sampling-beats-rl-for-diversity.md) | medium | 1.82 | For iterative exploration tasks (autoloop, autoresearch), high-temperatu... |
-| 2026-04-08 | [2026-04-08-iterative-refinement-beats-long-cot.md](2026-04-08-iterative-refinement-beats-long-cot.md) | high | 2.73 | Sequential Refinement (iterative bounded drafts) beats long chain-of-tho... |
-| 2026-04-08 | [2026-04-08-llm-judge-factuality-weak.md](2026-04-08-llm-judge-factuality-weak.md) | high | 2.73 | LLM judges (GPT-5, Claude) prioritize structural formatting over factual... |
-| 2026-04-08 | [2026-04-08-long-horizon-deception-eval.md](2026-04-08-long-horizon-deception-eval.md) | high | 2.73 | Per-step critic agents miss chains of deception — trajectory-level audit... |
-| 2026-04-08 | [2026-04-08-reasoning-midtraining-beats-posttraining.md](2026-04-08-reasoning-midtraining-beats-posttraining.md) | high | 2.73 | Front-loading reasoning structure (mid-training or curriculum-hints) yie... |
-| 2026-04-08 | [2026-04-08-shared-public-state-agent-coordination.md](2026-04-08-shared-public-state-agent-coordination.md) | medium | 1.82 | CORAL pattern: agents share knowledge via symlinked `.coral/public/` dir... |
-| 2026-04-08 | [2026-04-08-test-time-learning-inference-evolution.md](2026-04-08-test-time-learning-inference-evolution.md) | medium | 1.82 | Test-time learning (TTL) enables agent components to update strategies d... |
-| 2026-04-07 | [2026-04-07-agents-md-efficiency-validated.md](2026-04-07-agents-md-efficiency-validated.md) | high | 2.69 | Repo-level instrukční soubory (AGENTS.md / CLAUDE.md / skills) snižují r... |
-| 2026-04-07 | [2026-04-07-budget-calibration-baseline.md](2026-04-07-budget-calibration-baseline.md) | medium | 1.79 | Budget calibration baseline: 7 historical tasks analyzed, no actual cost... |
-| 2026-04-07 | [2026-04-07-kaizen-loop-weekly-improvement.md](2026-04-07-kaizen-loop-weekly-improvement.md) | high | 2.69 | Weekly kaizen loop (Friday cron research + Sunday human review) combines... |
-| 2026-04-07 | [2026-04-07-mom-taro-orchestration-upgrades.md](2026-04-07-mom-taro-orchestration-upgrades.md) | high | 2.69 | Implemented 4 MoM/TARo-inspired upgrades: scout quality gate (upstream-f... |
-| 2026-04-07 | [2026-04-07-nsm-neuro-symbolic-orchestration.md](2026-04-07-nsm-neuro-symbolic-orchestration.md) | high | 2.69 | Neuro-symbolic architecture (PDDL planner + learned policies) outperform... |
-| 2026-04-07 | [2026-04-07-operational-rhythm-silence-discipline.md](2026-04-07-operational-rhythm-silence-discipline.md) | medium | 1.79 | Scheduled morning brief + evening wrap delivered via messaging channel, ... |
-| 2026-04-07 | [2026-04-07-sas-beats-mas-equal-compute.md](2026-04-07-sas-beats-mas-equal-compute.md) | high | 2.69 | Při rovném thinking token budgetu single-agent systémy dosahují stejného... |
-| 2026-04-06 | [2026-04-06-osft-self-sharpening.md](2026-04-06-osft-self-sharpening.md) | medium | 1.76 | OSFT (Online SFT) achieves RL-comparable reasoning improvement by self-s... |
-| 2026-04-06 | [2026-04-06-self-organizing-agents-ab-test.md](2026-04-06-self-organizing-agents-ab-test.md) | high | 2.65 | A/B test potvrdil: self-organizing agenti (jen mise, bez rolí) překonáva... |
-| 2026-04-05 | [2026-04-05-openfang-architecture-patterns.md](2026-04-05-openfang-architecture-patterns.md) | medium | 1.74 | OpenFang (Rust Agent OS) nabízí 3 architektonické vzory pro STOPA: sandb... |
-| 2026-04-05 | [2026-04-05-regression-gate-pattern.md](2026-04-05-regression-gate-pattern.md) | high | 2.61 | Regression gate pattern — fixed failures se stávají permanentními test c... |
-| 2026-04-05 | [2026-04-05-self-improving-harness.md](2026-04-05-self-improving-harness.md) | high | 2.61 | Self-improving harness: 6 upgrades closing feedback loops — auto-scribe ... |
-| 2026-04-04 | [2026-04-04-gap-budget-calibration.md](2026-04-04-gap-budget-calibration.md) | medium | 1.71 | GAP: No data on budget tracking accuracy — estimated costs vs actual API... |
-| 2026-04-03 | [2026-04-03-autoagent-overfitting-guard.md](2026-04-03-autoagent-overfitting-guard.md) | high | 2.54 | AutoAgent's anti-overfitting guard: ask 'if this exact eval case disappe... |
-| 2026-04-03 | [2026-04-03-autoagent-parallel-candidates.md](2026-04-03-autoagent-parallel-candidates.md) | medium | 1.69 | AutoAgent evaluates multiple candidates in parallel via Docker sandboxes... |
-| 2026-04-03 | [2026-04-03-smart-tool-overuse.md](2026-04-03-smart-tool-overuse.md) | medium | 1.69 | SMART gate: before spawning agent or tool call, ask 'Is this answerable ... |
-| 2026-04-03 | [2026-04-03-testing-bottleneck.md](2026-04-03-testing-bottleneck.md) | medium | 1.69 | Code generation is no longer the bottleneck — verification and testing a... |
-| 2026-04-02 | [2026-04-02-audit-must-verify-consumers.md](2026-04-02-audit-must-verify-consumers.md) | critical | 3.33 | Audit/refactor that changes shared interfaces (API envelope, response fo... |
-| 2026-04-02 | [2026-04-02-distributed-systems-amdahl-gate.md](2026-04-02-distributed-systems-amdahl-gate.md) | high | 2.50 | arXiv:2603.12229 proves centralized > decentralized for LLM teams (1.36×... |
-| 2026-04-01 | [2026-04-01-autocompact-threshold.md](2026-04-01-autocompact-threshold.md) | medium | 1.64 | Setting CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=70 triggers context compaction e... |
-| 2026-04-01 | [2026-04-01-gsd2-error-classification.md](2026-04-01-gsd2-error-classification.md) | high | 2.47 | Classify errors before counting fix attempts: infrastructure (ENOENT/OOM... |
-| 2026-03-30 | [2026-03-30-society-of-thought-orchestration.md](2026-03-30-society-of-thought-orchestration.md) | high | 2.40 | Kim et al. (2026) empiricky dokázali, že RL optimalizační tlak spontánně... |
-| 2026-03-29 | [2026-03-29-bigmas-directed-graph-orchestration.md](2026-03-29-bigmas-directed-graph-orchestration.md) | medium | 1.58 | BIGMAS dynamic graph orchestration — PARTIALLY IMPLEMENTED (2026-04-11):... |
-| 2026-03-29 | [2026-03-29-claudini-autoresearch-loop.md](2026-03-29-claudini-autoresearch-loop.md) | high | 2.37 | Autoresearch via Claude Code agent loop succeeds when: (1) starting from... |
-| 2026-03-29 | [2026-03-29-paged-context-protocol.md](2026-03-29-paged-context-protocol.md) | medium | 1.58 | Paged context protocol: read block-manifest.json (metadata) first, fetch... |
-| 2026-03-29 | [2026-03-29-slopcodebench-iterative-degradation.md](2026-03-29-slopcodebench-iterative-degradation.md) | high | 2.37 | AI coding agents produkují kód 2.2× více redundantní než lidský a trpí s... |
-| 2026-03-26 | [2026-03-26-channels-24x7-architecture.md](2026-03-26-channels-24x7-architecture.md) | high | 2.28 | Claude Channels has no message queue — messages lost if session not runn... |
-| 2026-03-26 | [2026-03-26-harness-simplification.md](2026-03-26-harness-simplification.md) | high | 2.28 | Modern Claude models handle multi-step reasoning natively. Simplify harn... |
-| 2026-03-24 | [2026-03-24-openclaw-postmortem-patterns.md](2026-03-24-openclaw-postmortem-patterns.md) | high | 2.22 | OpenClaw $12K burn postmortem: 5 agent degradation patterns — identity c... |
-| 2026-03-23 | [2026-03-23-gsd-patterns.md](2026-03-23-gsd-patterns.md) | medium | 1.46 | GSD wave execution: batch independent tasks, verify after each wave, dev... |
-| 2026-03-23 | [2026-03-23-spec-kit-adoption.md](2026-03-23-spec-kit-adoption.md) | medium | 1.46 | spec-kit patterns worth adopting: constitution files, structured handoff... |
+| 2026-04-14 | [2026-04-14-dacs-context-scoping.md](2026-04-14-dacs-context-scoping.md) | high | 2.95 | DACS (arXiv:2604.07911) — Registry↔Focus context switching pro multi-age... |
+| 2026-04-14 | [2026-04-14-mcp-server-token-overhead.md](2026-04-14-mcp-server-token-overhead.md) | high | 2.95 | Each connected MCP server loads ~18K tokens per message into context. Di... |
+| 2026-04-14 | [2026-04-14-paseo-orchestration-patterns.md](2026-04-14-paseo-orchestration-patterns.md) | high | 2.95 | Paseo (getpaseo/paseo) — open-source multi-provider orchestrátor pro Cla... |
+| 2026-04-14 | [2026-04-14-traceguard-5d-critic.md](2026-04-14-traceguard-5d-critic.md) | medium | 1.97 | TraceGuard (arXiv:2604.03968) — 5D CoT monitoring: goal alignment, const... |
+| 2026-04-13 | [2026-04-13-breadth-depth-axis-tier-selection.md](2026-04-13-breadth-depth-axis-tier-selection.md) | high | 2.90 | Tao's Copernican View maps directly to STOPA tier selection: AI agents c... |
+| 2026-04-13 | [2026-04-13-do-nothing-first-class-option.md](2026-04-13-do-nothing-first-class-option.md) | high | 2.90 | In iterative improvement loops, 'do nothing' (incumbent preservation) mu... |
+| 2026-04-13 | [2026-04-13-experience-replay-outcomes-reuse.md](2026-04-13-experience-replay-outcomes-reuse.md) | high | 2.90 | Skills čtou optstate momentum, ale ne konkrétní outcomes z minulých runů... |
+| 2026-04-13 | [2026-04-13-generate-then-discard-suboptimal.md](2026-04-13-generate-then-discard-suboptimal.md) | high | 2.90 | Generate-then-discard' je suboptimální pattern pro iterativní skills. Př... |
+| 2026-04-13 | [2026-04-13-judge-panel-size-convergence.md](2026-04-13-judge-panel-size-convergence.md) | medium | 1.94 | 7 fresh judges converge 3× faster than 3 judges in blind Borda voting; e... |
+| 2026-04-13 | [2026-04-13-pairwise-choice-sufficient-verifiable-signal.md](2026-04-13-pairwise-choice-sufficient-verifiable-signal.md) | medium | 1.94 | Pairwise comparison (A vs B) je dostatečný verifiable reward signal pro ... |
+| 2026-04-13 | [2026-04-13-pretraining-loss-insufficient-generalization-proxy.md](2026-04-13-pretraining-loss-insufficient-generalization-proxy.md) | high | 2.90 | Pretraining loss není dostatečný proxy pro downstream kvalitu — dva mode... |
+| 2026-04-13 | [2026-04-13-tournament-self-refinement-abc.md](2026-04-13-tournament-self-refinement-abc.md) | high | 2.90 | Tournament self-refinement (A=incumbent, B=adversarial, AB=synthesis) wi... |
+| 2026-04-12 | [2026-04-12-advisor-tool-public-beta.md](2026-04-12-advisor-tool-public-beta.md) | high | 2.86 | Anthropic Advisor Tool in public beta — validates STOPA executor+advisor... |
+| 2026-04-12 | [2026-04-12-fresh-session-self-report-verification.md](2026-04-12-fresh-session-self-report-verification.md) | medium | 1.91 | Fresh-session self-report catches sycophancy: asking a model in a new co... |
+| 2026-04-12 | [2026-04-12-ib-optimality-predicts-benchmarks.md](2026-04-12-ib-optimality-predicts-benchmarks.md) | high | 2.86 | LLM optimality I(Y;Z)/I(X;Z) predicts benchmark performance (r=0.52) fro... |
+| 2026-04-12 | [2026-04-12-model-size-negatively-correlated-honesty.md](2026-04-12-model-size-negatively-correlated-honesty.md) | high | 2.86 | MASK benchmark: negative correlation between model size and honesty unde... |
+| 2026-04-12 | [2026-04-12-morning-briefing-cron-pattern.md](2026-04-12-morning-briefing-cron-pattern.md) | medium | 1.91 | Morning briefing cron pattern: single claude -p command reads Memory.md ... |
+| 2026-04-12 | [2026-04-12-pretraining-vs-posttraining-dissociation.md](2026-04-12-pretraining-vs-posttraining-dissociation.md) | medium | 1.91 | Pre-training = broad compression (knowledge, reasoning); post-training (... |
+| 2026-04-12 | [2026-04-12-skillclaw-auto-evolve-pipeline.md](2026-04-12-skillclaw-auto-evolve-pipeline.md) | high | 2.86 | SkillClaw (arXiv:2604.08377) auto-evolve pipeline implemented in STOPA —... |
+| 2026-04-12 | [2026-04-12-small-model-compression-threshold.md](2026-04-12-small-model-compression-threshold.md) | high | 2.86 | Models below ~1B parameters fail to enter the compression phase of IB tr... |
+| 2026-04-12 | [2026-04-12-sycophancy-not-hallucination.md](2026-04-12-sycophancy-not-hallucination.md) | high | 2.86 | Sycophancy ≠ hallucination. Hallucination = model doesn't know. Sycophan... |
+| 2026-04-11 | [2026-04-11-compression-regime-maps-to-tiers.md](2026-04-11-compression-regime-maps-to-tiers.md) | medium | 1.88 | Optimal context compression varies systematically by task type: long/bro... |
+| 2026-04-11 | [2026-04-11-iteration-paradox-meta-pattern.md](2026-04-11-iteration-paradox-meta-pattern.md) | high | 2.81 | Iteration Paradox: iteruj s bounded refinement, ale nevěř prvním výsledk... |
+| 2026-04-11 | [2026-04-11-speculative-reasoning-degrades-workers.md](2026-04-11-speculative-reasoning-degrades-workers.md) | medium | 1.88 | Orchestrator's speculative reasoning (dead-end hypotheses, exploration t... |
+| 2026-04-11 | [2026-04-11-task-guided-context-beats-raw-sharing.md](2026-04-11-task-guided-context-beats-raw-sharing.md) | high | 2.81 | Latent Briefing: task-guided KV cache compaction pro cross-agent memory ... |
+| 2026-04-10 | [2026-04-10-eggroll-evolutionary-optimization.md](2026-04-10-eggroll-evolutionary-optimization.md) | high | 2.77 | EGGROLL (Oxford/MILA 2026) dokazuje 3 principy pro evoluci skills: (1) r... |
+| 2026-04-10 | [2026-04-10-rlm-architectural-principles.md](2026-04-10-rlm-architectural-principles.md) | high | 2.77 | RLM (arXiv:2512.24601) validuje STOPA RLM principy a přidává 3 implement... |
+| 2026-04-08 | [2026-04-08-agent-deception-pressure-trigger.md](2026-04-08-agent-deception-pressure-trigger.md) | medium | 1.79 | Agent deception increases under event pressure (failures, high stakes) a... |
+| 2026-04-08 | [2026-04-08-auto-research-removes-human-bottleneck.md](2026-04-08-auto-research-removes-human-bottleneck.md) | high | 2.69 | The human is always the bottleneck in iterative optimization. For any ta... |
+| 2026-04-08 | [2026-04-08-group-experience-sharing-beats-isolated-evolution.md](2026-04-08-group-experience-sharing-beats-isolated-evolution.md) | high | 2.69 | Sdílení evolučních trajektorií (patches, logs, failures) mezi agenty zdv... |
+| 2026-04-08 | [2026-04-08-heartbeat-mid-run-steering.md](2026-04-08-heartbeat-mid-run-steering.md) | medium | 1.79 | Heartbeat-triggered intervention: orchestrátor posílá prompt-injections ... |
+| 2026-04-08 | [2026-04-08-in-place-ttt-long-context-multiplier.md](2026-04-08-in-place-ttt-long-context-multiplier.md) | medium | 1.79 | In-Place TTT gives 3-12× improvement on long-context benchmarks (RULER-1... |
+| 2026-04-08 | [2026-04-08-inference-time-sampling-beats-rl-for-diversity.md](2026-04-08-inference-time-sampling-beats-rl-for-diversity.md) | medium | 1.79 | For iterative exploration tasks (autoloop, autoresearch), high-temperatu... |
+| 2026-04-08 | [2026-04-08-iterative-refinement-beats-long-cot.md](2026-04-08-iterative-refinement-beats-long-cot.md) | high | 2.69 | Sequential Refinement (iterative bounded drafts) beats long chain-of-tho... |
+| 2026-04-08 | [2026-04-08-llm-judge-factuality-weak.md](2026-04-08-llm-judge-factuality-weak.md) | high | 2.69 | LLM judges (GPT-5, Claude) prioritize structural formatting over factual... |
+| 2026-04-08 | [2026-04-08-long-horizon-deception-eval.md](2026-04-08-long-horizon-deception-eval.md) | high | 2.69 | Per-step critic agents miss chains of deception — trajectory-level audit... |
+| 2026-04-08 | [2026-04-08-reasoning-midtraining-beats-posttraining.md](2026-04-08-reasoning-midtraining-beats-posttraining.md) | high | 2.69 | Front-loading reasoning structure (mid-training or curriculum-hints) yie... |
+| 2026-04-08 | [2026-04-08-shared-public-state-agent-coordination.md](2026-04-08-shared-public-state-agent-coordination.md) | medium | 1.79 | CORAL pattern: agents share knowledge via symlinked `.coral/public/` dir... |
+| 2026-04-08 | [2026-04-08-test-time-learning-inference-evolution.md](2026-04-08-test-time-learning-inference-evolution.md) | medium | 1.79 | Test-time learning (TTL) enables agent components to update strategies d... |
+| 2026-04-07 | [2026-04-07-agents-md-efficiency-validated.md](2026-04-07-agents-md-efficiency-validated.md) | high | 2.65 | Repo-level instrukční soubory (AGENTS.md / CLAUDE.md / skills) snižují r... |
+| 2026-04-07 | [2026-04-07-budget-calibration-baseline.md](2026-04-07-budget-calibration-baseline.md) | medium | 1.76 | Budget calibration baseline: 7 historical tasks analyzed, no actual cost... |
+| 2026-04-07 | [2026-04-07-kaizen-loop-weekly-improvement.md](2026-04-07-kaizen-loop-weekly-improvement.md) | high | 2.65 | Weekly kaizen loop (Friday cron research + Sunday human review) combines... |
+| 2026-04-07 | [2026-04-07-mom-taro-orchestration-upgrades.md](2026-04-07-mom-taro-orchestration-upgrades.md) | high | 2.65 | Implemented 4 MoM/TARo-inspired upgrades: scout quality gate (upstream-f... |
+| 2026-04-07 | [2026-04-07-nsm-neuro-symbolic-orchestration.md](2026-04-07-nsm-neuro-symbolic-orchestration.md) | high | 2.65 | Neuro-symbolic architecture (PDDL planner + learned policies) outperform... |
+| 2026-04-07 | [2026-04-07-operational-rhythm-silence-discipline.md](2026-04-07-operational-rhythm-silence-discipline.md) | medium | 1.76 | Scheduled morning brief + evening wrap delivered via messaging channel, ... |
+| 2026-04-07 | [2026-04-07-sas-beats-mas-equal-compute.md](2026-04-07-sas-beats-mas-equal-compute.md) | high | 2.65 | Při rovném thinking token budgetu single-agent systémy dosahují stejného... |
+| 2026-04-06 | [2026-04-06-osft-self-sharpening.md](2026-04-06-osft-self-sharpening.md) | medium | 1.74 | OSFT (Online SFT) achieves RL-comparable reasoning improvement by self-s... |
+| 2026-04-06 | [2026-04-06-self-organizing-agents-ab-test.md](2026-04-06-self-organizing-agents-ab-test.md) | high | 2.61 | A/B test potvrdil: self-organizing agenti (jen mise, bez rolí) překonáva... |
+| 2026-04-05 | [2026-04-05-openfang-architecture-patterns.md](2026-04-05-openfang-architecture-patterns.md) | medium | 1.71 | OpenFang (Rust Agent OS) nabízí 3 architektonické vzory pro STOPA: sandb... |
+| 2026-04-05 | [2026-04-05-regression-gate-pattern.md](2026-04-05-regression-gate-pattern.md) | high | 2.57 | Regression gate pattern — fixed failures se stávají permanentními test c... |
+| 2026-04-05 | [2026-04-05-self-improving-harness.md](2026-04-05-self-improving-harness.md) | high | 2.57 | Self-improving harness: 6 upgrades closing feedback loops — auto-scribe ... |
+| 2026-04-04 | [2026-04-04-gap-budget-calibration.md](2026-04-04-gap-budget-calibration.md) | medium | 1.69 | GAP: No data on budget tracking accuracy — estimated costs vs actual API... |
+| 2026-04-03 | [2026-04-03-autoagent-overfitting-guard.md](2026-04-03-autoagent-overfitting-guard.md) | high | 2.50 | AutoAgent's anti-overfitting guard: ask 'if this exact eval case disappe... |
+| 2026-04-03 | [2026-04-03-autoagent-parallel-candidates.md](2026-04-03-autoagent-parallel-candidates.md) | medium | 1.67 | AutoAgent evaluates multiple candidates in parallel via Docker sandboxes... |
+| 2026-04-03 | [2026-04-03-smart-tool-overuse.md](2026-04-03-smart-tool-overuse.md) | medium | 1.67 | SMART gate: before spawning agent or tool call, ask 'Is this answerable ... |
+| 2026-04-03 | [2026-04-03-testing-bottleneck.md](2026-04-03-testing-bottleneck.md) | medium | 1.67 | Code generation is no longer the bottleneck — verification and testing a... |
+| 2026-04-02 | [2026-04-02-audit-must-verify-consumers.md](2026-04-02-audit-must-verify-consumers.md) | critical | 3.29 | Audit/refactor that changes shared interfaces (API envelope, response fo... |
+| 2026-04-02 | [2026-04-02-distributed-systems-amdahl-gate.md](2026-04-02-distributed-systems-amdahl-gate.md) | high | 2.47 | arXiv:2603.12229 proves centralized > decentralized for LLM teams (1.36×... |
+| 2026-04-01 | [2026-04-01-autocompact-threshold.md](2026-04-01-autocompact-threshold.md) | medium | 1.62 | Setting CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=70 triggers context compaction e... |
+| 2026-04-01 | [2026-04-01-gsd2-error-classification.md](2026-04-01-gsd2-error-classification.md) | high | 2.43 | Classify errors before counting fix attempts: infrastructure (ENOENT/OOM... |
+| 2026-03-30 | [2026-03-30-society-of-thought-orchestration.md](2026-03-30-society-of-thought-orchestration.md) | high | 2.37 | Kim et al. (2026) empiricky dokázali, že RL optimalizační tlak spontánně... |
+| 2026-03-29 | [2026-03-29-bigmas-directed-graph-orchestration.md](2026-03-29-bigmas-directed-graph-orchestration.md) | medium | 1.56 | BIGMAS dynamic graph orchestration — PARTIALLY IMPLEMENTED (2026-04-11):... |
+| 2026-03-29 | [2026-03-29-claudini-autoresearch-loop.md](2026-03-29-claudini-autoresearch-loop.md) | high | 2.34 | Autoresearch via Claude Code agent loop succeeds when: (1) starting from... |
+| 2026-03-29 | [2026-03-29-paged-context-protocol.md](2026-03-29-paged-context-protocol.md) | medium | 1.56 | Paged context protocol: read block-manifest.json (metadata) first, fetch... |
+| 2026-03-29 | [2026-03-29-slopcodebench-iterative-degradation.md](2026-03-29-slopcodebench-iterative-degradation.md) | high | 2.34 | AI coding agents produkují kód 2.2× více redundantní než lidský a trpí s... |
+| 2026-03-26 | [2026-03-26-channels-24x7-architecture.md](2026-03-26-channels-24x7-architecture.md) | high | 2.25 | Claude Channels has no message queue — messages lost if session not runn... |
+| 2026-03-26 | [2026-03-26-harness-simplification.md](2026-03-26-harness-simplification.md) | high | 2.25 | Modern Claude models handle multi-step reasoning natively. Simplify harn... |
+| 2026-03-24 | [2026-03-24-openclaw-postmortem-patterns.md](2026-03-24-openclaw-postmortem-patterns.md) | high | 2.19 | OpenClaw $12K burn postmortem: 5 agent degradation patterns — identity c... |
+| 2026-03-23 | [2026-03-23-gsd-patterns.md](2026-03-23-gsd-patterns.md) | medium | 1.45 | GSD wave execution: batch independent tasks, verify after each wave, dev... |
+| 2026-03-23 | [2026-03-23-spec-kit-adoption.md](2026-03-23-spec-kit-adoption.md) | medium | 1.45 | spec-kit patterns worth adopting: constitution files, structured handoff... |
 
 ## Tags in this component
 
