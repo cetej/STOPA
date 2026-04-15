@@ -6,7 +6,7 @@ component: general
 tags: [inference, efficiency, architecture, watch-item]
 summary: "CALM (arXiv:2510.27688) komprimuje K tokenů do 1 spojitého vektoru — K=4 je sweet spot (44% méně FLOPs, >99.9% rekonstrukce). Přenositelné principy: batch K segmentů v pipeline, likelihood-free eval (BrierLM), 4:1 komprese memory."
 source: external_research
-confidence: 0.75
+confidence: 0.95
 uses: 2
 successful_uses: 0
 harmful_uses: 0

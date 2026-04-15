@@ -1,6 +1,6 @@
 ---
 name: verify
-description: Use when you need to prove something works end-to-end on real data. Trigger on verify this, prove it, funguje to. Do NOT use for unit tests only.
+description: "Use when you need to prove something works end-to-end on real data — running the actual pipeline, script, or feature and checking output correctness, not just syntax or types. Trigger on 'verify this', 'prove it', 'funguje to', 'otestuj na reálných datech', 'show me it works'. Also use after major refactors or pipeline changes to confirm nothing broke. Do NOT use for unit tests only (/generate-tests), code review (/critic), or pre-implementation scenario analysis (/scenario)."
 argument-hint: [what to verify — pipeline name, feature, endpoint, or 'last changes']
 discovery-keywords: [prove it works, end-to-end test, funguje to, dokaž, integration test, real data, smoke test]
 context-required:

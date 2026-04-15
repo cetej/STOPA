@@ -1,6 +1,6 @@
 ---
 name: nano
-description: Use when generating images via fal.ai Banana Pro. Trigger on 'generate image', 'nano', 'create picture'. Requires FAL_KEY. Do NOT use for video (/klip).
+description: "Use when generating images via fal.ai Banana Pro (Gemini 3 Pro Image) — hero images, infographics, diagrams, concept art, thumbnails. Supports JSON structured prompts with bounding boxes for precise element placement. Trigger on 'generate image', 'nano', 'create picture', 'vygeneruj obrázek', 'hero image'. Requires FAL_KEY env var. Do NOT use for video generation (/klip), manual image editing (/browse to GRAFIK), or text-only visual design (use HTML/CSS)."
 argument-hint: <prompt> [--model pro|2] [--aspect 16:9|1:1|9:16|4:3|3:4] [--resolution 1K|2K|4K] [--count 1-4] [--for-video] [--output path]
 tags: [generation, media]
 phase: build

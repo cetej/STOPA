@@ -1,17 +1,6 @@
 # Improvement Queue
 
-Generated: 2026-04-15 03:23
-
-## Dedup Clusters for next /evolve (2026-04-15)
-
-Autodream identified 24 dedup pairs across 4 clusters. Requires human judgment to merge — present to user for approval.
-
-| Cluster | Size | Files | Action |
-|---------|------|-------|--------|
-| Deception/trust | 5 pairs | agent-deception-pressure-trigger, long-horizon-deception-eval, model-size-negatively-correlated-honesty, sycophancy-not-hallucination, fresh-session-self-report-verification | Merge into 1-2 deception learnings |
-| AutoLoop iteration | 4 pairs | autoagent-overfitting-guard, iteration-paradox-meta-pattern, experience-replay-outcomes-reuse, generate-then-discard-suboptimal | Keep 1-2, archive rest |
-| Context-sharing | 3 pairs | compression-regime-maps-to-tiers, speculative-reasoning-degrades-workers, task-guided-context-beats-raw-sharing | Review overlap, possibly merge 2 |
-| Latent space | 1 pair | latent-deterministic-boundary, latent-deterministic-extraction | High-probability merge candidate |
+Generated: 2026-04-15 10:04
 
 | Priority | Type | Pattern | Count | Action |
 |----------|------|---------|-------|--------|

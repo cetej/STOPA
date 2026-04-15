@@ -5,6 +5,7 @@ globs: "**/skills/*/SKILL.md"
 # Pravidla pro SKILL.md soubory
 
 - YAML frontmatter musí obsahovat: name, description, user-invocable
+- `description` limit: 1536 characters (raised from 250 in CC v2.1.105). Use the space for richer trigger conditions, Czech trigger phrases, and clearer exclusions — NOT for workflow summaries.
 - `description` MUST start with "Use when..." — trigger conditions and exclusions ONLY
 - `description` MUST NOT summarize the workflow, list steps, or describe internal mechanics
 - Why: tested by obra/superpowers — workflow summaries cause Claude to shortcut the description instead of reading full skill body

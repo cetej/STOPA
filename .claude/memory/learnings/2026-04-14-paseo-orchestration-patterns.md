@@ -6,13 +6,14 @@ component: orchestration
 tags: [orchestration, multi-agent, heartbeat, async, plan-persistence, ci-monitoring, cross-provider]
 summary: "Paseo (getpaseo/paseo) — open-source multi-provider orchestrátor pro Claude Code/Codex/OpenCode. 8 adoptovatelných vzorů identifikováno: heartbeat scheduler (5 min), plan-on-disk pro přežití compaction, post-PR CI monitoring loop, cross-provider worker/verifier, event-driven launch (notifyOnFinish), read-only coordinator hard rule, Grill interview phase, preferences persistence. STOPA je silnější v memory/learnings/evolve, Paseo v multi-device/multi-provider distribuci."
 source: external_research
-uses: 0
+uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.85
+confidence: 0.95
 maturity: draft
 verify_check: "Glob('outputs/paseo-stopa-research.md') → 1+ matches"
 task_context: {task_class: research, complexity: high, tier: standard}
+related: [2026-04-12-morning-briefing-cron-pattern.md]
 ---
 
 ## Paseo Orchestration Patterns — Adoption Analysis

@@ -1,6 +1,6 @@
 ---
 name: scribe
-description: Use when capturing decisions or discovered patterns worth remembering. Trigger on 'record this', 'remember that', 'update state'. Do NOT use for ephemeral notes.
+description: "Use when capturing decisions, discovered patterns, or architectural insights worth remembering across sessions — anything that would be lost when context compresses. Trigger on 'record this', 'remember that', 'update state', 'zapiš rozhodnutí', 'zapiš learning'. Also triggered automatically after significant debugging sessions or architecture decisions. Do NOT use for ephemeral notes, session checkpoints (/checkpoint), or synthesizing existing learnings into wiki articles (/compile)."
 argument-hint: [what to record — "decision", "learning", "state", or free text]
 tags: [memory, documentation]
 phase: meta

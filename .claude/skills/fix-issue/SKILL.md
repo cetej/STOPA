@@ -1,6 +1,6 @@
 ---
 name: fix-issue
-description: Use when user provides a GitHub issue to resolve with code fix and commit. Trigger on 'fix issue', 'resolve issue', 'close issue #N'. Do NOT use for feature requests without criteria.
+description: "Use when user provides a GitHub issue URL or number to resolve with a code fix, tests, and commit. Handles the full cycle: read issue, scout codebase, implement fix, verify, commit. Trigger on 'fix issue', 'resolve issue', 'close issue #N', GitHub issue URL. Do NOT use for feature requests without acceptance criteria, PRs with CI failures (/autofix), or bugs without a GitHub issue (use /orchestrate instead)."
 argument-hint: <issue number or URL> [--no-commit]
 discovery-keywords: [github issue, bug fix, close issue, oprav issue, resolve bug, pr for issue, implement fix]
 context-required:

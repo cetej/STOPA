@@ -6,10 +6,10 @@ component: pipeline
 tags: [video, orchestration, quality-gates, provider-selection, openmontage]
 summary: "OpenMontage production governance patterns: 7D provider scoring, delivery promise classifier, slideshow risk scorer, post-render self-review — adopted into STOPA/NG-ROBOT."
 source: external_research
-uses: 0
+uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.7
+confidence: 0.75
 maturity: draft
 verify_check: "Glob('scripts/media-provider-selector.py') → 1+ matches"
 ---

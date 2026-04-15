@@ -6,11 +6,12 @@ component: session
 tags: [tokens, cache, cost-optimization]
 summary: Prompt cache TTL is 5 minutes. After 5min pause, next message reprocesses entire context at full cost. Compact or clear before stepping away.
 source: external_research
-uses: 0
+uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.7
+confidence: 0.80
 maturity: draft
+related: [2026-04-14-compact-timing-60pct.md, 2026-04-01-autocompact-threshold.md]
 verify_check: "manual"
 ---
 

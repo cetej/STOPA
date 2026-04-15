@@ -9,7 +9,7 @@ source: external_research
 uses: 2
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.80
+confidence: 1.0
 maturity: draft
 related: [2026-04-08-direction-magnitude-decoupling-optimization.md]
 verify_check: "manual"

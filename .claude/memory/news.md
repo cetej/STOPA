@@ -2,8 +2,10 @@
 
 Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
-## Last Scan: 2026-04-14 (full) | Next: ~2026-04-21
+## Last Scan: 2026-04-15 (quick CC-focused) | Next: ~2026-04-22
 
+**Scan log**: `2026-04-15` — scheduled morning-watch | Searches: 2 | Items: 2 action — CC plugin monitors manifest key (#109), fine-grained tool streaming GA (#110)
+**Scan log**: `2026-04-15` — CC-focused | Searches: 5 | Fetches: 4 | Items: 4 action, 2 watch — Desktop redesign, v2.1.108 recap+caching, PreCompact hook, skill desc cap 250→1536
 **Scan log**: `2026-04-14` — full scan | Searches: 19 | Items: 6 action, 4 watch, 2 info — CC Analytics API GA, Meta Muse Spark (Contemplating mode), DACS paper (3.53× context efficiency), TraceGuard 5D CoT, PwC→HF Trending, Agent SDK additionalDirectories
 **Scan log**: `2026-04-14` — scheduled morning-watch | Searches: 2 | Items: 3 action — prompt caching auto, compaction API beta, OpenClaw extra cost
 **Scan log**: `2026-04-13` — scheduled morning-watch | Searches: 2 | Items: 1 watch, 2 info — /team-onboarding command, Vertex AI setup wizard, effort param GA
@@ -23,6 +25,12 @@ Run `python scripts/actionable-rate.py` for current calculation.
 
 | # | Item | Urgency | Acted | Evidence | Next Step |
 |---|------|---------|-------|----------|-----------|
+| 109 | **CC Plugin `monitors` manifest key** — Background monitoring v pluginech přes top-level `monitors` klíč v manifestu; auto-arms při startu session nebo invoke skillu | HIGH | no | — | Evaluovat pro stopa-orchestration plugin — background monitoring skills |
+| 110 | **Fine-grained tool streaming GA** — Dostupné na všech modelech bez beta headeru; event-level streaming tool calls | MED | no | — | Využít v Claude API integracích, NG-ROBOT pipeline monitoring |
+| 105 | **CC Desktop redesign** — sidebar pro multi-session, built-in terminal+editor, HTML/PDF preview, drag&drop panes, routines | HIGH | no | — | Otestovat nový workspace; routines = /loop GUI ekvivalent |
+| 106 | **CC v2.1.108 — `/recap` + 1h prompt cache** — `/recap` obnoví kontext session; `ENABLE_PROMPT_CACHING_1H` env var pro 1h TTL; model invokuje slash commands přes Skill tool | HIGH | **yes** | settings.json: ENABLE_PROMPT_CACHING_1H=1, CLAUDE_CODE_ENABLE_AWAY_SUMMARY=1 | /recap = krátkodobé přerušení, /checkpoint = mezisession |
+| 107 | **CC v2.1.105 — Skill description cap 250→1536 znaků** — STOPA skill descriptions mohou být 6× delší | HIGH | **yes** | 13 commands expanded (verify, scribe, budget, brainstorm, fix-issue, harness, skill-generator, nano, klip, youtube-transcript, autofix, autoharness, project-sweep) | — |
+| 108 | **CC v2.1.105 — PreCompact hook** — pluginy mohou blokovat /compact přes exit code 2 | MED | **yes** | pre-compact.sh hook created + registered in settings.json (PreCompact event) | — |
 | 99 | **CC Analytics API (GA)** — programmatický přístup k denním metrikám CC | HIGH | **yes** | budget SKILL.md:34 — tertiary source documented | Full impl when ccusage unavailable |
 | 100 | **Meta Muse Spark** — Meta's first proprietary frontier model, "Contemplating mode" | MED | no | — | Přidat do `/eval` tier srovnání |
 | 101 | **PwC sunset → HF Trending Papers** | MED | **yes** | watch SKILL.md:61 — Tier 2b note updated | — |

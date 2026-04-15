@@ -1,6 +1,6 @@
 ---
 name: youtube-transcript
-description: Use when extracting transcripts from YouTube videos for analysis. Trigger on 'youtube transcript', 'video transcript', YouTube URL. Do NOT use for non-YouTube content.
+description: "Use when extracting transcripts from YouTube videos for analysis, summarization, or knowledge extraction. Supports multiple languages, timestamp inclusion/exclusion. Trigger on 'youtube transcript', 'video transcript', YouTube URL (youtube.com/watch or youtu.be links), 'přepis videa'. Do NOT use for non-YouTube content, web page text extraction (/fetch), or video generation (/klip)."
 argument-hint: <YouTube URL(s)> [--lang cs,en] [--analyze] [--output path]
 tags: [research, media]
 phase: meta

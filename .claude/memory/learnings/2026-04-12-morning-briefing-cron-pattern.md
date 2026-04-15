@@ -6,10 +6,10 @@ component: orchestration
 tags: [scheduled-tasks, cron, morning-briefing, automation, memory]
 summary: "Morning briefing cron pattern: single claude -p command reads Memory.md + new raw sources from last 24h + prints terminal digest. Set once, runs forever. Directly implementable as STOPA scheduled task."
 source: external_research
-uses: 0
+uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.7
+confidence: 0.75
 verify_check: "manual"
 ---
 

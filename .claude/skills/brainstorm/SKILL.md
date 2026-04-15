@@ -1,6 +1,6 @@
 ---
 name: brainstorm
-description: Use when user has a vague idea without clear spec. Trigger on 'brainstorm', 'I have an idea', 'spec this out'. Do NOT use for clear tasks (/orchestrate) or review (/critic).
+description: "Use when user has a vague idea without clear spec and needs to refine it into actionable requirements — exploring possibilities, tradeoffs, and constraints before committing to implementation. Trigger on 'brainstorm', 'I have an idea', 'spec this out', 'mám nápad', 'co kdybychom', 'how should we approach'. Do NOT use for clear tasks with defined scope (/orchestrate), code review (/critic), or architecture decisions with known options (/council)."
 argument-hint: <idea or topic to explore>
 discovery-keywords: [vague idea, spec it out, what should I build, nápad, requirements, refine concept, unclear scope]
 tags: [planning, documentation]

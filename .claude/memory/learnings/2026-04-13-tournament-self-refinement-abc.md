@@ -9,7 +9,7 @@ source: external_research
 uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.70
+confidence: 0.9
 verify_check: "manual"
 skill_scope: [autoreason, critic, autoloop]
 ---

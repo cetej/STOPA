@@ -50,3 +50,16 @@ experiments/*/data/
 
 # Research temp files
 /research/
+
+# Auto-generated session raw captures (high volume, transient)
+.claude/memory/raw/
+
+# Auto-generated summaries (derived from raw)
+.claude/memory/summaries/
+
+# Log files (ng_robot pipeline, auto-generated)
+*.jsonl
+*.log
+
+# Windows crash dumps
+*.stackdump

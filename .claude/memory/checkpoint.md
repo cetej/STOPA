@@ -1,31 +1,31 @@
 # Session Checkpoint
 
-**Saved**: 2026-04-14 (auto-saved (session end))
+**Saved**: 2026-04-15 (auto-saved (session end))
 **Task**: none
 **Branch**: main
-**Last commit**: `f9c49af` chore: session state — indexes, raw archive, hook state, compile artifacts
+**Last commit**: `faaea18` fix(skills): remove stale file references — T-2026-04-14-002
 
 ---
 
 ## Session Activity
 
-Session: 156 file edits, 22 agent spawns, 10 skill calls. Skills: checkpoint, compile, deepresearch, dreams, evolve, ingest, status
-Duration: ~24763 min
+Session: 112 file edits, 15 agent spawns, 4 skill calls. Skills: anthropic-skills, dreams, evolve, watch
+Duration: ~26070 min
 
 ## Files Touched
 
 | File | Operations | Date |
 |------|-----------|------|
-| news.md | 16 edits | 2026-04-14 |
-| INDEX.md | 12 edits | 2026-04-14 |
-| SKILL.md | 10 edits | 2026-04-14 |
-| orchestration-infrastructure.md | 6 edits | 2026-04-14 |
-| watchlist.md | 5 edits | 2026-04-14 |
-| state.md | 5 edits | 2026-04-14 |
-| stopa-restructure-plan.md | 4 edits | 2026-04-14 |
-| render.py | 4 edits | 2026-04-14 |
-| critical-patterns.md | 4 edits | 2026-04-14 |
-| MEMORY.md | 4 edits | 2026-04-14 |
+| article_index.py | 11 edits | 2026-04-15 |
+| watchlist.md | 5 edits | 2026-04-15 |
+| news.md | 5 edits | 2026-04-15 |
+| skill-generator.md | 4 edits | 2026-04-15 |
+| klip.md | 4 edits | 2026-04-15 |
+| checkpoint.md | 4 edits | 2026-04-15 |
+| settings.json | 2 edits | 2026-04-15 |
+| scout.md | 2 edits | 2026-04-15 |
+| harness.md | 2 edits | 2026-04-15 |
+| T-2026-04-14-002.md | 2 edits | 2026-04-15 |
 
 ## Key Results
 
@@ -41,12 +41,8 @@ _No commits this session_
 
 ## Learnings Captured
 
-learnings_this_session: 7
-  - 2026-04-14-compact-timing-60pct
-  - 2026-04-14-dacs-context-scoping
-  - 2026-04-14-mcp-server-token-overhead
-  - 2026-04-14-openmontage-production-governance
-  - 2026-04-14-paseo-orchestration-patterns
+learnings_this_session: 0
+_No new learnings files created_
 
 ## Workflow Decisions
 
@@ -63,7 +59,7 @@ _No pending subtasks detected in state.md_
 
 > **Task**: none
 >
-> **Context**: Last commit `f9c49af` (chore: session state — indexes, raw archive, hook state, compile artifacts). Branch: main.
-> Session had 156 edits, 22 agents, 10 skill calls, 0 errors.
+> **Context**: Last commit `faaea18` (fix(skills): remove stale file references — T-2026-04-14-002). Branch: main.
+> Session had 112 edits, 15 agents, 4 skill calls, 0 errors.
 
 

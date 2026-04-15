@@ -9,7 +9,7 @@ source: external_research
 uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.75
+confidence: 0.95
 maturity: draft
 skill_scope: [autoloop, autoresearch, self-evolve, orchestrate]
 verify_check: "manual"

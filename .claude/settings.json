@@ -1,6 +1,8 @@
 {
   "env": {
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "ENABLE_PROMPT_CACHING_1H": "1",
+    "CLAUDE_CODE_ENABLE_AWAY_SUMMARY": "1",
     "STOPA_HOOK_PROFILE": "standard",
     "STOPA_VERBOSITY": "standard"
   },
@@ -319,6 +321,19 @@
             "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/permission-auto-approve.sh",
             "timeout": 3,
             "statusMessage": ""
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/pre-compact.sh",
+            "timeout": 5,
+            "statusMessage": "Saving pre-compaction snapshot..."
           }
         ]
       }

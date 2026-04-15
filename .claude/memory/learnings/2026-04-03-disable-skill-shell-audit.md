@@ -8,7 +8,7 @@ summary: "CC v2.1.91 přidalo disableSkillShellExecution. Audit: 25/48 (52%) STO
 source: auto_pattern
 uses: 1
 harmful_uses: 0
-confidence: 0.85
+confidence: 0.95
 verify_check: "Grep('```bash', path='.claude/skills/') → 20+ matches"
 successful_uses: 0
 ---

@@ -9,7 +9,7 @@ source: external_research
 uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.70
+confidence: 0.9
 maturity: draft
 skill_scope: [autoloop, autoresearch, self-evolve]
 verify_check: "Glob('.claude/memory/outcomes/autoloop-*') → 0+ files (can be empty)"

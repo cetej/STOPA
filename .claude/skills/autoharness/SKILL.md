@@ -1,6 +1,6 @@
 ---
 name: autoharness
-description: Use when a skill or command repeatedly fails with the same error patterns. Trigger on 'autoharness', 'generate validator', 'auto-constraint'. Do NOT use for one-off fixes or manual validation.
+description: "Use when a skill or command repeatedly fails with the same error patterns and you need to auto-generate validators or constraints that prevent recurrence. Analyzes failure traces, extracts patterns, creates harness rules. Trigger on 'autoharness', 'generate validator', 'auto-constraint', 'opakuje se stejná chyba'. Do NOT use for one-off fixes, manual validation, debugging a single failure (/systematic-debugging), or iterative skill improvement (/self-evolve)."
 argument-hint: <target-skill> [iterations:N] [scope:action-filter|action-verifier|policy] [escalate:true]
 tags: [testing, orchestration]
 phase: verify

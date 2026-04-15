@@ -1,6 +1,6 @@
 ---
 name: budget
-description: Use when checking or managing task budget and cost tracking. Trigger on 'budget', 'cost check', 'how much', 'kolik to stojí'. Do NOT use for billing or payments.
+description: "Use when checking or managing task budget and cost tracking — current spend, remaining budget, per-model breakdown, cost-per-agent analysis. Trigger on 'budget', 'cost check', 'how much', 'kolik to stojí', 'kolik zbývá', 'rozpočet'. Also use when deciding budget tier for a new task or when cost seems to be escalating. Do NOT use for billing, payments, or Anthropic account management."
 argument-hint: [check / today / week / blocks / report / reset]
 tags: [session, orchestration]
 phase: meta

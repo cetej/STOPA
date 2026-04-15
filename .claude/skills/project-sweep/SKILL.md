@@ -1,6 +1,6 @@
 ---
 name: project-sweep
-description: Use when performing the same operation across all registered projects. Trigger on sweep all projects, project sweep. Do NOT use for single-project tasks.
+description: "Use when performing the same operation across all registered projects (NG-ROBOT, ADOBE-AUTOMAT, ZACHVEV, POLYBOT, etc.) — bulk updates, config changes, dependency audits, skill syncs. Reads project registry from ~/.claude/memory/projects.json. Trigger on 'sweep all projects', 'project sweep', 'across all projects', 'všechny projekty'. Do NOT use for single-project tasks (/orchestrate), single-project cleanup (/sweep), or cross-project improvement routing (/improve)."
 argument-hint: [operation description] [--dry-run]
 tags: [orchestration, devops]
 phase: meta

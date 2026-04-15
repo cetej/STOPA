@@ -6,12 +6,13 @@ component: orchestration
 tags: [multi-agent, context-management, token-efficiency]
 summary: "DACS (arXiv:2604.07911) — Registry↔Focus context switching pro multi-agent orchestrátory. Registry mode = ≤200 tokenů/agent summary, Focus mode = plný kontext jednoho agenta. 90–98% steering accuracy vs 21–60% baseline, 3.53× context efficiency. Aplikovat v orchestrate pro >3 paralelní agenty."
 source: external_research
-uses: 0
+uses: 2
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.6
+confidence: 0.70
 maturity: draft
 skill_scope: [orchestrate]
+related: [2026-04-11-task-guided-context-beats-raw-sharing.md, 2026-04-11-compression-regime-maps-to-tiers.md]
 verify_check: "Grep('DACS', path='.claude/skills/orchestrate/SKILL.md') → 1+ matches"
 ---
 

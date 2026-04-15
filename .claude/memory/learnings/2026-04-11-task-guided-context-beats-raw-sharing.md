@@ -6,12 +6,12 @@ component: orchestration
 tags: [multi-agent, context-sharing, token-efficiency, kv-cache, orchestration]
 summary: "Latent Briefing: task-guided KV cache compaction pro cross-agent memory dosahuje 49-65% token savings + 3pp accuracy gain. Princip platí i na API úrovni: orchestrátor by měl posílat workerům task-relevantní kontext, ne celou trajektorii. Speculative reasoning je šum pro workery."
 source: external_research
-uses: 1
+uses: 3
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.80
+confidence: 1.00
 verify_check: "manual"
-related: [2026-04-10-rlm-architectural-principles.md, 2026-04-09-triattention-pre-rope-kv-compression.md]
+related: [2026-04-10-rlm-architectural-principles.md, 2026-04-09-triattention-pre-rope-kv-compression.md, 2026-04-14-dacs-context-scoping.md]
 skill_scope: [orchestrate]
 ---
 
@@ -43,3 +43,5 @@ STOPA orchestrate currently passes subtask descriptions to worker agents. Orches
 
 **Why:** Raw context sharing compounds tokens across agent calls (N workers × full trajectory). Task-guided selection gives each worker what IT needs, not everything the orchestrator knows.
 **How to apply:** In orchestrate Phase 4 (agent assignment): build per-subtask context packet. Include: relevant scout facts, relevant prior results. Exclude: orchestrator's plan-level reasoning, failed hypotheses, unrelated subtask results.
+
+> Updated 2026-04-15: DACS (arXiv:2604.07911) implements Registry↔Focus mode switching on top of this principle — provides explicit data for the baseline problem: without selective context, steering accuracy drops to 21-60%; with DACS Registry/Focus, achieves 90-98%. Use DACS as the implementation model for >3 concurrent agents in orchestrate.

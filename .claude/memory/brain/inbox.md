@@ -13,6 +13,7 @@ Zpracované záznamy se přesunou do `inbox-archive.md`.
 
 ## Queue
 
+URL: https://arxiv.org/abs/2603.10808
 <!-- Přidej záznamy sem, nad archive marker -->
 
 ## Processed

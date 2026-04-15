@@ -9,7 +9,7 @@ source: external_research
 uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.85
+confidence: 0.95
 related: [2026-04-08-living-memory-over-static-retrieval.md, 2026-03-29-memcollab-agent-agnostic-memory.md]
 verify_check: "manual"
 ---

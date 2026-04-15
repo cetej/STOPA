@@ -6,11 +6,12 @@ component: session
 tags: [tokens, compact, context-management]
 summary: Compact at 60% context capacity, not at autocompact's 95%. After 3-4 compacts, quality degrades — do /clear + session summary + fresh start instead.
 source: external_research
-uses: 0
+uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.6
+confidence: 0.70
 maturity: draft
+related: [2026-04-01-autocompact-threshold.md, 2026-04-14-prompt-cache-ttl-5min.md]
 verify_check: "manual"
 ---
 

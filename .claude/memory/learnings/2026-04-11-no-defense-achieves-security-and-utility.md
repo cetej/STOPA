@@ -9,7 +9,7 @@ source: external_research
 uses: 1
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.75
+confidence: 0.85
 verify_check: "manual"
 ---
 

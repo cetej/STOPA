@@ -9,7 +9,7 @@ source: external_research
 uses: 2
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.90
+confidence: 1.0
 verify_check: "Grep('skill_scope', path='.claude/rules/memory-files.md') → 1+ matches"
 related: [2026-03-30-write-time-gating-salience.md]
 ---

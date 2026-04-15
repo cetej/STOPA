@@ -7,7 +7,7 @@ tags: [gsd, wave-execution, deviation-rules, verification]
 summary: "GSD wave execution: batch independent tasks, verify after each wave, deviation rules for agent coordination."
 source: external_research
 uses: 2
-confidence: 0.8
+confidence: 1.0
 ---
 
 ## Problém

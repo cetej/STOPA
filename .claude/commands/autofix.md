@@ -1,6 +1,6 @@
 ---
 name: autofix
-description: "Use when a PR has CI failures or review comments that need fixing. Trigger on 'autofix', 'fix CI', 'fix PR', 'watch PR'. Do NOT use for creating new PRs (/fix-issue) or code review (/critic)."
+description: "Use when a PR has CI failures, lint errors, or review comments that need fixing — reads CI logs, applies fixes, pushes updates, and optionally watches for next CI run. Works with both local and cloud PRs. Trigger on 'autofix', 'fix CI', 'fix PR', 'watch PR', 'oprav CI', PR URL with failing checks. Do NOT use for creating new PRs from issues (/fix-issue), code quality review (/critic), or manual code changes without a PR context."
 argument-hint: "<PR number or URL> [--local]"
 tags: [devops, code-quality]
 phase: build

@@ -6,10 +6,10 @@ component: orchestration
 tags: [multi-agent, context-sharing, budget-tiers, compression, orchestration]
 summary: "Optimal context compression varies systematically by task type: long/broad → light compression (preserve coverage, 49% savings), hard/focused → aggressive compression (strip noise, +3pp accuracy), simple → moderate. Maps directly to STOPA budget tiers."
 source: external_research
-uses: 1
+uses: 2
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.70
+confidence: 0.85
 verify_check: "manual"
 related: [2026-04-11-task-guided-context-beats-raw-sharing.md, 2026-04-10-rlm-architectural-principles.md]
 skill_scope: [orchestrate]

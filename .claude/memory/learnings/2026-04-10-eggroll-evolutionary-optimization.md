@@ -9,7 +9,7 @@ source: external_research
 uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.90
+confidence: 1.0
 skill_scope: [prompt-evolve, self-evolve, autoloop]
 verify_check: "Grep('EGGROLL', path='.claude/skills/prompt-evolve/SKILL.md') → 1+ matches"
 ---
