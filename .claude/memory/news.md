@@ -246,8 +246,15 @@ Older: see `news-archive.md`
 | 94 | **CC Vertex AI interactive setup wizard** — interaktivní průvodce nastavením Google Vertex AI přístupný z login screen. Alternativa k manuální .env konfiguraci. | 🟢 INFO | Sledovat pokud STOPA bude potřebovat Vertex AI backend |
 | 95 | **`effort` parameter GA** — bez beta headeru, nativně podporuje Opus 4.6. Nahrazuje `budget_tokens` na nových modelech. | 🟡 MEDIUM | STOPA orchestrate tier selection — ověřit, zda skills posílají `effort` bez beta headeru |
 
+| 2026-04-15 | [ACTION] | Self-Optimizing Multi-Agent Systems for Deep Research (arXiv:2604.02988) — orchestrátor + paralelní worker agenti se self-play optimalizací promptů; přímo aplikovatelné na STOPA self-evolve/autoloop | high | Yes | arxiv-daily-digest |
+| 2026-04-15 | [WATCH] | CLEAR: Context Augmentation from Contrastive Learning via Agentic Reflection (arXiv:2604.07487) — kontrastivní porovnání rolloutů extrahuje znovupoužitelný strategy-level kontext pro agenty | medium | No | arxiv-daily-digest |
+| 2026-04-15 | [WATCH] | Verified Multi-Agent Orchestration: Plan-Execute-Verify-Replan Framework (arXiv:2603.11445) — DAG dekompozice dotazů s verification-driven koordinací specializovaných agentů | medium | No | arxiv-daily-digest |
+| 2026-04-15 | [WATCH] | SiriuS: Self-improving Multi-agent Systems via Bootstrapped Reasoning (arXiv:2502.04780) — buduje knihovnu zkušeností z úspěšných reasoning trajektorií pro bootstrapped self-improvement | medium | No | arxiv-daily-digest |
+| 2026-04-15 | [WATCH] | CoCR-RAG: Concept-oriented Context Reconstruction for RAG (arXiv:2603.23989) — concept-level fúze více zdrojů pro koherentnější retrieval augmentaci | medium | No | arxiv-daily-digest |
+
 ### Scan History
 
+### 2026-04-15 — arxiv-daily-digest | Searches: 4 | Items: 1 action, 4 watch — Self-Optimizing MAS (arXiv:2604.02988), CLEAR context augmentation (arXiv:2604.07487), Verified Orchestration (arXiv:2603.11445), SiriuS (arXiv:2502.04780), CoCR-RAG (arXiv:2603.23989)
 ### 2026-04-14 — full scan | Searches: 19 | Items: 6 action, 4 watch, 2 info — CC Analytics API GA (#99), Meta Muse Spark (#100), PwC→HF Trending (#101), DACS arXiv:2604.07911 (#102), TraceGuard arXiv:2604.03968 (#103), Agent SDK additionalDirectories (#104)
 ### 2026-04-12 — full scan | Searches: 12 | Fetches: 3 | Items: 3 action, 3 watch, 4 info — Advisor Tool public beta, CC v2.1.101 security fixes + Monitor tool, Hermes Agent v0.8.0, Memory Intelligence Agent paper, Qwen3.6-Plus, BEHELM benchmark
 ### 2026-04-10 — scheduled morning-watch | Searches: 2 | Items: 1 action, 2 watch — Sonnet 3.7+Haiku 3.5 retired (errors), Bedrock Messages API preview, CC Focus view

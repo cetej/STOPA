@@ -132,3 +132,17 @@ Pruned to last 100 entries by memory-maintenance.sh.
 - 2026-04-15 17:08 | Agent spawn | exit=0
 - 2026-04-15 17:22 | Edit | watchlist.md | exit=0
 - 2026-04-15 17:22 | Edit | watchlist.md | exit=0
+- 2026-04-15 17:32 | Agent spawn | exit=0
+- 2026-04-15 19:46 | Edit | news.md | exit=0
+- 2026-04-15 19:47 | Edit | news.md | exit=0
+- 2026-04-15 20:19 | Agent spawn | exit=0
+- 2026-04-15 20:21 | Agent spawn | exit=0
+- 2026-04-15 20:27 | Agent spawn | exit=0
+- 2026-04-15 20:27 | Agent spawn | exit=0
+- 2026-04-15 20:28 | Write | soft-questing-trinket.md | exit=0
+- 2026-04-15 20:29 | Agent spawn | exit=0
+- 2026-04-15 20:31 | Edit | soft-questing-trinket.md | exit=0
+- 2026-04-15 20:33 | Write | package.json | exit=0
+- 2026-04-15 20:33 | Write | .gitignore | exit=0
+- 2026-04-15 20:33 | Write | launch.json | exit=0
+- 2026-04-15 20:33 | Write | settings.json | exit=0

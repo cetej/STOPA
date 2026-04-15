@@ -6,9 +6,9 @@ component: general
 tags: [ui-architecture, media, generation, pattern, dynamic-controls]
 summary: "Model metadata jako single source of truth pro dynamické UI: jeden JSON soubor definuje inputy/limity/typy controls pro 200+ modelů, UI se generuje automaticky. Eliminuje O(N) komponent per model → O(1) generický formulář. Aplikovatelné na GRAFIK layery/efekty."
 source: external_research
-uses: 0
+uses: 1
 harmful_uses: 0
-confidence: 0.7
+confidence: 0.75
 successful_uses: 0
 verify_check: "manual"
 ---

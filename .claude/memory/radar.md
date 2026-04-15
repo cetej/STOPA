@@ -4,7 +4,7 @@ Tracked findings from `/radar` scans and manual evaluations.
 Archived: `radar-archive.md` (when >400 lines)
 
 ## Stats
-Last scan: 2026-04-15 (scheduled #22) | Total: 67 tools | 🔴 13 | 🟡 51 | 🟢 3
+Last scan: 2026-04-15 (scheduled #23) | Total: 68 tools | 🔴 13 | 🟡 52 | 🟢 3
 
 ## Active Research (🔴)
 | Tool | Category | Score | Source | Captured | Status | Project fit |
@@ -80,6 +80,7 @@ Last scan: 2026-04-15 (scheduled #22) | Total: 67 tools | 🔴 13 | 🟡 51 | �
 | [OpenTimelineEngine](https://github.com/JOELJOSEPHCHALAKUDY/open-timeline-engine) | Shared agent memory / MCP | 5/10 | scan/HN | 2026-04-13 | Sdílená paměť přes MCP pro více AI coding agentů (CC + Codex). Local-first, gated autonomy, decisions + patterns. 5 HN upvotes, ~44 dní staré (indie dev). Řeší problém "Claude fixuje bug, Codex ho zopakuje v příští session". STOPA fit: referenční architektura pro cross-agent memory patterns — STOPA má vlastní markdown memory, ale MCP-based sdílení pro farm tier je zajímavé. Low urgency — sledovat. |
 | [SkillKit](https://github.com/rfxlamia/skillkit) | Skill creation/validation toolkit / Claude Code | 6/10 | scan | 2026-04-12 | Open toolkit pro tvorbu a validaci skills pro CC, Copilot, OpenCode, Codex. 14 Python scripts: init, validation, token estimation, security scanning, quality scoring (target 9.0+/10). v3.0.0, 93 stars, Apache 2.0, `npx @rfxlamia/skillkit`. Dual-mode creation (fast 12 kroků / comprehensive 15 kroků). STOPA fit: reference pro /skill-generator vylepšení — quality scoring + token estimation + security scan jsou relevantní pro SKILL.md kvalitu. |
 | [OpenClaude](https://github.com/Gitlawb/openclaude) | Multi-provider Claude Code clone | 7/10 | manual | 2026-04-12 | TypeScript, MIT, 20.8k★, `npm install -g @gitlawb/openclaude`. Multi-provider: OpenAI, Gemini, DeepSeek, Ollama, GitHub Models, 200+ OpenAI-compatible APIs. **Unikátní: gRPC headless server mode** = programmatic control z Pythonu/čehokoliv. VS Code extension + launch integration. Diferenciace vs ostatní CC klony: Claw Code (Python+Rust, architekt. studie), oh-my-codex (STOPA-mirror skills/hooks), OpenClaude (největší userbase + multi-provider routing + headless API). STOPA fit: studie multi-provider agent routing + gRPC headless jako alternativa k claude-code-sdk-python pro programmatic control. |
+| [Crit](https://github.com/tomasz-tomczyk/crit) | AI agent output review / human-in-loop | 6/10 | scan/HN | 2026-04-15 | Single-binary CLI, `brew install tomasz-tomczyk/tap/crit`. Otevře soubor v browseru s GitHub-style inline komentáři (line-level feedback), generuje strukturované prompty pro clipboard → back to agent, zobrazuje diffy mezi revizemi. Řeší: "Reviewing 1000-line Claude output in terminal is painful." Indie dev (Tomasz Tomczyk), crit.live. **Gate 2 partial** — Homebrew install = macOS-first; Windows support neznámé. STOPA fit: vzor pro human-in-loop feedback loop v /critic + /autoloop — ale STOPA je automatizovaný stack, ne interaktivní review UI. Reference architektura pro budoucí /review-session skill. Bez MCP závislostí. |
 
 ## Archive (🟢 — last 30, older → radar-archive.md)
 | Tool | Score | Captured | Why low |
@@ -93,6 +94,11 @@ Last scan: 2026-04-15 (scheduled #22) | Total: 67 tools | 🔴 13 | 🟡 51 | �
 ## Scan Log
 ### 2026-04-08 — manual | Lightpanda — 5/10 🟡
 - Headless browser postavený v Zig (ne Chromium fork). CDP na port 9222 → drop-in pro Playwright/Puppeteer. V8 engine, AJAX/XHR, cookies, proxy. Beta, stovky Web APIs chybí, Windows pouze WSL2. Benchmarks: 11× rychlejší než Chrome, 9× méně RAM (AWS EC2 m5.large, 100 págů). 11.8k★. Potenciál pro MONITOR scraping agenty až dospěje.
+
+### 2026-04-15 — scheduled scan #23 | Searches: 5 | Fetches: 2 | Found: 1 new
+- [Crit](https://github.com/tomasz-tomczyk/crit) — 6/10 🟡 — CLI pro human-in-loop review agent outputu (GitHub PR inline komentáře). `brew install`, crit.live. macOS-first, indie dev. STOPA fit: vzor pro interaktivní feedback loop — samotný STOPA ale nepotřebuje UI review tool (autoloop pokrývá). Sledovat pro budoucí /review-session skill.
+- Skipped (already tracked): AgentBouncr (5/10, noted scan #8+), C3 Code (enterprise, noted 5×), Lucidworks MCP (enterprise, noted 4×), Gemma 4 (model)
+- No score >= 8 → no Telegram notification
 
 ### 2026-04-15 — scheduled scan #22 | Searches: 4 | Fetches: 3 | Found: 1 new
 - [CC Routines](https://claude.com/blog/claude-code-desktop-redesign) — 9/10 🔴 — Anthropic, research preview (April 14, 2026). Scheduled/repeatable automations běžící na CC web infrastruktuře — Mac nemusí být online. Access k repos + connectors. Součást CC Desktop Redesign (nový sidebar, drag-drop layout, integrovaný terminál+editor, Side Chat Ctrl+;, view modes Verbose/Normal/Summary). Přímý dopad na STOPA /schedule skill + scheduled-tasks systém. Evaluovat: jsou routines náhrada /schedule nebo komplement? Telegram notified.
