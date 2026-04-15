@@ -14,6 +14,7 @@ Usage:
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import time
@@ -106,9 +107,12 @@ def get_current_skill(skill_name: str) -> tuple[str | None, Path | None]:
 
 def call_claude(prompt: str, model: str) -> str:
     """Call Claude via CLI subprocess."""
+    # On Windows, 'claude' is a .cmd file — shutil.which resolves the full path
+    # so subprocess can execute it without shell=True (avoids quoting issues)
+    claude_bin = shutil.which("claude") or "claude"
     try:
         result = subprocess.run(
-            ["claude", "-p", "--model", model, prompt],
+            [claude_bin, "-p", "--model", model, prompt],
             capture_output=True,
             text=True,
             encoding="utf-8",
