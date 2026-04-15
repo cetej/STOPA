@@ -1,6 +1,6 @@
 ---
 name: klip
-description: Use when generating video via Kling on fal.ai. Trigger on 'generate video', 'klip', 'video clip'. Requires FAL_KEY env var. Do NOT use for images (/nano).
+description: "Use when generating short video clips via Kling on fal.ai — product demos, social media clips, animated explainers. Supports text-to-video and image-to-video modes. Trigger on 'generate video', 'klip', 'video clip', 'udělej video', 'animace'. Requires FAL_KEY env var. Do NOT use for static images (/nano), video editing/montage (use external tools), or YouTube transcript extraction (/youtube-transcript)."
 argument-hint: <prompt> [--image path/url] [--duration 5|10|15] [--aspect 16:9|9:16|1:1] [--tier standard|pro] [--output path]
 tags: [generation, media]
 phase: build
@@ -70,10 +70,12 @@ Before sending to the API, validate and enhance the prompt. This is a hard gate 
 |---|------|----------|-------|
 | ① | Prompt length 15–150 words | ❌ error if <15 or >200 | Too short = vague; too long = concept drift |
 | ② | At least 1 camera/motion term | ⚠️ warning | Without motion direction, output looks like a slideshow. Add one: pan, zoom, tracking, dolly, rotate, drift, push-in, pull-back, orbit, tilt |
-| ③ | No filler words | ❌ error | Hard-block: masterpiece, ultra-HD, 8K, best quality, hyper-realistic, extremely detailed, super resolution, ultra-clear. Use physical material/light words instead |
+| ③ | No filler/degrading words | ❌ error | Hard-block: masterpiece, ultra-HD, 8K, best quality, hyper-realistic, extremely detailed, super resolution, ultra-clear, epic, amazing, beautiful, stunning. Soft-block (⚠️ warn + auto-fix): "fast" (unqualified), "cinematic" (alone without anchor), "lots of movement", "glow"/"glimmer"/"glints" (→ "steady intensity"/"diffuse"). Use physical material/light words instead |
 | ④ | Descriptive, not narrative | ⚠️ warning | Emotions → physical expressions. "She feels sad" → "tears streaming down her cheeks". Only describe what the renderer can SEE |
 | ⑤ | No style conflicts | ❌ error | See conflict matrix below |
 | ⑥ | I2V: changes only | ⚠️ warning | If `--image` provided: describe only motion/changes from the input image, not static content already visible. Prepend `preserve composition and colors` |
+| ⑦ | Has lighting descriptor | ⚠️ warning | Lighting has the BIGGEST impact on quality. If no lighting term present, auto-add at least one (golden hour as universal default). See Lighting Keywords in Prompt Architecture |
+| ⑧ | 5-layer structure | ⚠️ warning | Prompt should follow Subject > Action > Camera > Style > Constraints order. Reorder if needed. Missing layers = lower quality |
 
 ### Style Conflict Matrix (mutually exclusive — ❌ error if combined)
 
@@ -85,9 +87,14 @@ Before sending to the API, validate and enhance the prompt. This is a hard gate 
 
 ### Enhancement (auto-apply before API call)
 
+- **Restructure to 5-layer stack**: Subject > Action > Camera > Style > Constraints (see Prompt Architecture below)
 - Convert emotional/narrative descriptions → observable physical actions
 - Add motion intensity modifier if action verbs are vague (see Motion Intensity Scale below)
 - Prefer semantic rhythm words (gentle, gradual, smooth) over technical params (24fps, f/2.8) — Kling parses semantics, not numbers
+- **Lighting injection**: if no lighting descriptor present, add "golden hour" or contextually appropriate lighting keyword
+- **Constraint suffix**: always append `sharp clarity, natural colors, stable picture, no blur, no ghosting, no flickering`
+- **Character constraints**: if humans in scene, also append `avoid jitter, avoid bent limbs, maintain face consistency`
+- **Degrading keyword replacement**: "fast" → specify which element; "cinematic" alone → add film ref + lighting; "glow"/"glimmer" → "steady intensity"/"diffuse"
 
 If any ❌ error after enhancement: inform user of the conflict and suggest fix. Do NOT proceed to API.
 
@@ -232,21 +239,31 @@ File: output/videos/kling_pro_5s_20260322_143052.mp4 (4.2 MB)
 Cost estimate: ~$0.56 (5s × $0.112/s pro, no audio)
 ```
 
-## Prompt Tips
+## Prompt Architecture — 5-Layer Stack
 
-### Effect Patterns (Kling 3.0)
+Structure every prompt in this order. The ordering carries weight — subject first pins the model's center of gravity, action second provides kinetic anchor, camera third locks framing, style adds flavor without hijacking motion, constraints close gaps.
 
-| Effect | Prompt Pattern |
-|--------|---------------|
-| Rotating object | "smoothly rotating [object], center of mass stays fixed, rotating on its axis" |
-| Exploding view | "exploding view diagram of [object], components separate in all directions, white background" |
-| Camera pan | "cinematic slow pan across [scene], smooth camera movement" |
-| Product shot | "product photography of [item], slowly rotating on pedestal, studio lighting" |
-| Zoom in | "camera slowly zooming into [subject], shallow depth of field" |
+```
+[SUBJECT]: who/what — specific identity markers (age, hair, clothing, posture, accessories)
+[ACTION]:  what happens — present tense, ONE primary movement, separate subject motion from camera motion
+[CAMERA]:  ONE primary camera movement + rhythm modifier (slow/smooth/dynamic)
+[STYLE]:   lighting FIRST (biggest quality impact), then color grade, then film reference
+[CONSTRAINTS]: quality guardrails — always append the constraint suffix
+```
 
-### Descriptive Over Narrative
+### Layer 1: Subject — Specificity is load-bearing
 
-Only describe what the renderer can SEE — not emotions, intentions, or backstory:
+Every identity marker you provide is one the model doesn't hallucinate. One subject per generation is safest, two work if spatially separated.
+
+| Level | Example |
+|-------|---------|
+| Bad | "a woman" |
+| Better | "a young woman with brown hair" |
+| Best | "a woman in her late 20s, tight dark curls at ear length, small silver hoop in left ear, fitted black turtleneck, neutral expression" |
+
+### Layer 2: Action — Directions, not states
+
+Separate subject movement from camera movement ALWAYS. "Spinning camera around a dancing person" = ambiguous. "The dancer spins slowly, camera holds fixed framing" = two clear directives.
 
 | Don't write | Write instead |
 |-------------|---------------|
@@ -255,9 +272,114 @@ Only describe what the renderer can SEE — not emotions, intentions, or backsto
 | "Peaceful morning" | "Morning light through thin curtains, dust particles drifting slowly through beam" |
 | "He is angry" | "Jaw clenched, fists tightening, veins visible on forearms" |
 
-### Motion Intensity Scale
+### Layer 3: Camera — Keyword Library
 
-Use specific modifiers — avoid vague motion ("the camera moves", "object moves"):
+ONE primary camera movement per generation. Describe rhythm (slow, smooth, gentle) rather than technical specs (f-stop, ISO, mm).
+
+**Static shots:**
+
+| Keyword | Effect |
+|---------|--------|
+| fixed / locked-off | Zero camera movement |
+| static wide | Wide unmoving establishing shot |
+| locked tripod | Eliminates ambient jitter |
+
+**Movement keywords:**
+
+| Keyword | Effect | Best for |
+|---------|--------|----------|
+| push-in / dolly in | Camera moves toward subject | Tension, emphasis, emotional close-ups |
+| pull-out / dolly out | Camera moves away | Environmental reveals, context |
+| pan left/right | Horizontal rotation in place | Scanning, following action |
+| tracking shot / follow | Moves alongside subject | Action sequences |
+| orbit / arc / 360 orbit | Circles subject | Product showcases, portraits, hero moments |
+| aerial / drone shot | High altitude | Landscapes, establishing geography |
+| handheld | Natural shake | Documentary feel, UGC authenticity |
+| crane up/down | Vertical ascent/descent | Dramatic height reveals |
+| steadicam walk | Smooth forward following | Polished cinematic walk-and-talk |
+| whip pan | Rapid horizontal sweep | Urgency, scene transitions |
+| rack focus | Shift focus foreground↔background | Redirecting attention |
+
+**Speed modifiers:**
+
+| Modifier | When to use |
+|----------|-------------|
+| imperceptible / barely | Extremely slow, almost unnoticeable |
+| slow / gentle / gradual | Safest starting point (DEFAULT) |
+| smooth / controlled | Natural rhythm |
+| dynamic / swift | High impact — use with EXTREME caution |
+
+For compound camera movement, sequence it: "start: slow dolly-in, then: gentle pan right for the final 2 seconds" — two temporal phases, not two competing instructions.
+
+### Layer 4: Style — Lighting First
+
+**Lighting has the single biggest impact on video quality** among all prompt elements — bigger than style adjectives, quality modifiers, or resolution requests. If you only add one element to a weak prompt, make it lighting.
+
+**Lighting keywords that consistently produce:**
+
+| Keyword | Effect |
+|---------|--------|
+| golden hour | Single highest quality-per-word improvement |
+| rim light / dramatic rim light | Cinematic edge separation against dark bg |
+| soft key from 45 degrees | Flattering talking-head lighting |
+| overcast daylight / even overcast | Eliminates flicker in bright scenes |
+| backlit silhouette at sunset | Dramatic mood |
+| motivated lighting from practical source | Realism with visible light source |
+| volumetric fog | Atmospheric depth, pairs with backlit |
+| chiaroscuro | High-contrast Godfather-style |
+
+**Color grading:**
+
+| Keyword | Effect |
+|---------|--------|
+| teal and orange | Classic Hollywood |
+| bleach bypass | Desaturated, gritty, high-contrast |
+| warm tone / amber-tinted | Nostalgic |
+| crushed blacks | Deep cinematic shadow loss |
+| pastel | Soft anime or fashion aesthetic |
+
+**Film reference anchors:**
+
+| Reference | Result |
+|-----------|--------|
+| cinematic film tone, 35mm | Most reliable all-purpose anchor |
+| 16mm film, handheld camera | Raw indie aesthetic |
+| anamorphic lens flare | Widescreen cinematic |
+| national geographic quality | Nature documentary |
+| documentary-style handheld framing | Observational realism |
+
+### Layer 5: Constraints — Quality Guardrails
+
+**Standard constraint suffix** — append to EVERY generation:
+
+```
+sharp clarity, natural colors, stable picture, no blur, no ghosting, no flickering
+```
+
+**Character-specific constraints** — add when humans are in the shot:
+
+```
+avoid jitter, avoid bent limbs, avoid identity drift, maintain face consistency
+```
+
+### Degrading Keywords — NEVER Use
+
+These look helpful and actively degrade output:
+
+| Keyword | Problem | Fix |
+|---------|---------|-----|
+| "fast" (unqualified) | Accelerates everything simultaneously | Name which SINGLE element moves fast |
+| "cinematic" (alone) | No visual meaning without anchors | Pair with texture + lighting + film ref |
+| "epic" | No visual meaning to diffusion model | Describe the specific scale/grandeur |
+| "amazing" / "beautiful" / "stunning" | Feelings, not instructions | Describe physical qualities |
+| "lots of movement" | Triggers jitter across entire frame | Name ONE specific movement |
+| "glow" / "glimmer" / "glints" | Specular flicker artifacts | Use "steady intensity" or "diffuse" |
+| masterpiece / ultra-HD / 8K | Filler, no visual effect | Use physical material/light words |
+| hyper-realistic / extremely detailed | Filler, concept drift | Describe specific textures |
+
+**Principle**: if a word describes how the viewer should feel rather than what the camera should see, the model guesses what visual would produce that feeling — and guesses wrong.
+
+### Motion Intensity Scale
 
 | Intensity | Modifiers | Example |
 |-----------|-----------|---------|
@@ -267,7 +389,22 @@ Use specific modifiers — avoid vague motion ("the camera moves", "object moves
 | Gentle | gradual, drifting, easing | "petals gradually falling from branch" |
 | Minimal | barely, subtly, faintly | "candle flame subtly flickering" |
 
-Prefer rhythm words over technical params — `gentle gradual push-in` > `24fps f/2.8 slow dolly`.
+If movement is too subtle, prepend "dynamic motion" or "vibrant energy" — acts as global intensity modifier without introducing new movement types.
+
+### Effect Patterns
+
+| Effect | Prompt Pattern |
+|--------|---------------|
+| Rotating object | "smoothly rotating [object], center of mass stays fixed, rotating on its axis" |
+| Exploding view | "exploding view diagram of [object], components separate in all directions, white background" |
+| Product hero | "[SUBJECT] on dark surface, [CAMERA] slow orbit, [STYLE] rim light catching edges, volumetric lighting, [CONSTRAINTS]" |
+| Talking head UGC | "[SUBJECT] specific person details, [ACTION] holds product to camera, [CAMERA] handheld selfie angle, [STYLE] natural window lighting no ring light, [CONSTRAINTS]" |
+| Cinematic scene | "[SUBJECT] detailed character, [ACTION] specific physical motion, [CAMERA] slow push-in, [STYLE] 35mm golden hour shallow DOF, [CONSTRAINTS]" |
+| Nature documentary | "[SUBJECT] animal/landscape, [CAMERA] aerial drone or tracking, [STYLE] national geographic quality overcast daylight, [CONSTRAINTS]" |
+
+### Iteration Rule
+
+Generate 2-3 baseline options, then change ONE variable per iteration (camera, lighting, speed modifier — one thing). Score each for continuity and adherence, keep best, change one more variable. Never rewrite entire prompt after a failed generation — isolate what helped and what hurt.
 
 ## Error Handling
 
