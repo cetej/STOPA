@@ -4,13 +4,14 @@ type: architecture
 severity: medium
 component: memory
 tags: [memory-sharing, cross-project, gap]
-summary: "GAP: No documented mechanics for how memory should transfer between STOPA and target projects (NG-ROBOT, test1, ADOBE-AUTOMAT). Current sync script copies skills but not learnings. Need to define what gets shared vs stays project-local."
+summary: "RESOLVED 2026-04-15: Cross-project memory mechanics now implemented — auto-memory system (~/.claude/projects/*/memory/), /improve skill for routing findings to target projects, behavioral-genome.md documents handoff protocol."
 source: auto_pattern
 uses: 0
 harmful_uses: 0
 confidence: 0.5
 verify_check: manual
 successful_uses: 0
+valid_until: 2026-04-15
 ---
 
 ## Knowledge Gap: Cross-Project Memory Sharing

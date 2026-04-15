@@ -313,7 +313,12 @@ def main() -> None:
             })
 
         # Graduation check: uses >= 10 AND confidence >= 0.8 AND harmful < 2
-        if uses >= 10 and new_confidence >= 0.8 and harmful_uses < 2:
+        # Skip if already graduated (maturity=core) or explicitly marked graduated_to
+        already_graduated = (
+            fields.get("maturity", "") == "core"
+            or bool(fields.get("graduated_to", ""))
+        )
+        if uses >= 10 and new_confidence >= 0.8 and harmful_uses < 2 and not already_graduated:
             graduation.append({
                 "file": filename,
                 "uses": uses,

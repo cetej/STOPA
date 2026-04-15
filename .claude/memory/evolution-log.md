@@ -4,6 +4,41 @@ Record of /evolve audit proposals and outcomes.
 
 ---
 
+## Evolution Run — 2026-04-15 (#11)
+
+### Signals
+- 12 corrections (0 new since #10)
+- 28 violations (0 new, same stale pool — field is `label:` not `rule:`, all known)
+- 157 learnings scanned (+0 new since #10 yesterday)
+- 0 graduation candidates (bigmas at uses=9, maturity=validated — 1 use from threshold)
+- 0 maturity upgrades
+- 1 decay warning: gap-cross-project-memory (conf=0.5, uses=0) → RESOLVED
+- 0 prune candidates, 0 replay queue items
+- 1 model_gate (sonnet-4.6, correctly scoped)
+- Sessions: 100% healthy
+
+### Proposals
+- 3 proposed, 3 approved, 0 rejected
+
+### Applied
+- PRUNE: critical-patterns #7 (Tool Descriptions — Routing) — freed slot for bigmas graduation (uses=9→10 imminent); content preserved in rules/skill-files.md. Renumbered: #8→#7, #9→#8, #10→#9. Now 9/10 capacity.
+- SUPERSEDE: gap-cross-project-memory.md — set valid_until: 2026-04-15, summary updated to RESOLVED. Gap addressed by auto-memory + /improve + behavioral-genome.md.
+- UPDATE_CONFIRMED: All critical-patterns last_confirmed → 2026-04-15
+
+### Infrastructure Changes (this session, pre-evolve)
+- FIX: autodream.py — graduation check now skips maturity:core and graduated_to: learnings (prevented false re-flagging)
+- CREATE: scripts/auto-graduation.py — auto-promotes eligible learnings to critical-patterns when capacity < 10
+- UPDATE: autodream scheduled task — now runs auto-graduation.py after autodream.py
+- UPDATE: weekly-evolve scheduled task — auto-applies objective graduation/maturity changes; judgment-required actions still go to user
+- UPDATE: improvement-queue.md — 24 dedup pairs in 4 clusters logged for next /evolve
+
+### Key Findings
+- System stable — no new corrections or violations for 2+ weeks
+- bigmas (uses=9) will graduate on next retrieval — slot now ready (9/10)
+- Auto-graduation pipeline fully wired for future graduations without manual intervention
+
+---
+
 ## Evolution Run — 2026-04-14 (#10)
 
 ### Signals
