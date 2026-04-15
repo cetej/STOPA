@@ -339,10 +339,10 @@ For each role category, read wiki articles matching that role's tags and produce
 
 | Role | Wiki tags to include | Output file |
 |------|---------------------|-------------|
-| orchestration | orchestration, planning, multi-agent, resilience | `.claude/memory/briefings/orchestration.md` |
-| research | research, osint, exploration | `.claude/memory/briefings/research.md` |
-| code-quality | code-quality, review, testing, debugging | `.claude/memory/briefings/code-quality.md` |
-| memory | memory, session, documentation | `.claude/memory/briefings/memory.md` |
+| orchestration | orchestration, planning, multi-agent, resilience | `.claude/memory/wiki/briefing-orchestration.md` |
+| research | research, osint, exploration | `.claude/memory/wiki/briefing-research.md` |
+| code-quality | code-quality, review, testing, debugging | `.claude/memory/wiki/briefing-code-quality.md` |
+| memory | memory, session, documentation | `.claude/memory/wiki/briefing-memory.md` |
 
 ### Briefing format:
 ```markdown

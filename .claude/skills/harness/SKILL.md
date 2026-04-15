@@ -1,6 +1,6 @@
 ---
 name: harness
-description: Use when running a deterministic, repeatable process from a harness definition. Trigger on 'run harness', 'execute pipeline'. Do NOT use for ad-hoc tasks.
+description: "Use when running a deterministic, repeatable process from a harness definition (JSONL trace file). Executes steps sequentially with validation gates, captures traces for later /eval. Trigger on 'run harness', 'execute pipeline', 'spusť harness', harness file path. Do NOT use for ad-hoc tasks without a harness file, iterative optimization (/autoloop), or one-off script execution (use Bash)."
 argument-hint: "[harness-name] [--dry-run] [--trace]"
 context-required:
   - "harness name — required; use /harness with no args to list available"
@@ -90,7 +90,7 @@ Run each check and record result:
 | 2 | Harness has `requires:` section with env vars listed | Grep `requires:` in HARNESS.md | +1 |
 | 3 | Every phase has `validation:` criteria defined | Count phases with validation block | +1 |
 | 4 | Every phase has `outputs:` schema or path defined | Check output definitions per phase | +1 |
-| 5 | Context budget OK (session-stats.json < 70%, or file absent = assume OK) | Read `.claude/memory/session-stats.json` | +1 |
+| 5 | Context budget OK (context < 70%, or unknown = assume OK) | Check current context usage if available | +1 |
 
 Display result before proceeding:
 

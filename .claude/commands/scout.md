@@ -68,36 +68,9 @@ Before scanning, check for reusable cached results:
    - If caller requests fresh scan (`--refresh-map`), ignore cache and proceed normally
 3. If no cache or cache is stale → continue to 0b
 
-**0b. Codebase Map Check:**
+**0b. Intermediate Cache Check (continued):**
 
-Check if `.claude/memory/codebase-map.md` exists:
-
-1. **If file exists AND `Updated:` timestamp is <24h old AND no git commits newer than timestamp**:
-   - Read the map, use it as context for Steps 1-4
-   - Skip Step 1 surface scan (map already has structure + key files)
-   - Jump to Step 2 with map-informed context
-
-2. **If file is stale (>24h), missing, or `--refresh-map` flag is present**:
-   - Run normal Step 1, then save results as `.claude/memory/codebase-map.md`
-
-Codebase map format:
-```markdown
-# Codebase Map — <project name>
-Updated: <ISO 8601>
-
-## Structure
-<directory tree, depth 2>
-
-## Key Files
-| File | Purpose | Last changed |
-|------|---------|-------------|
-| src/main.ts | Entry point | 2026-03-25 |
-
-## Patterns
-- <pattern>: <where used>
-```
-
-Staleness check: `git log --oneline --since="<map timestamp>" | head -1` — if any output, map is stale.
+If no intermediate cache was found in 0a, proceed to Step 1 normally.
 
 ### Step 0.3: Metadata-Only Mode (RLM-inspired, arXiv:2512.24601)
 
@@ -142,7 +115,7 @@ After metadata output, STOP — do not proceed to Step 1.
 Before external exploration, assess what you already know:
 1. Check `.claude/memory/key-facts.md` — does it contain the answer or relevant pointers?
 2. Check `.claude/memory/learnings/` via Grep for the exploration target keywords
-3. Check `.claude/memory/codebase-map.md` (if exists) — does it already cover the target area?
+3. Check `.claude/memory/intermediate/` for recent scout cache — does it already cover the target area?
 
 **Decision rule:**
 - If memory fully answers the question → report from memory, skip Steps 1-4. Mark as "from cached knowledge."

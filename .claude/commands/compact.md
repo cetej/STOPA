@@ -98,7 +98,7 @@ The combined operation — use this by default.
 
 4. **Update JSON**: Write the Haiku summary to the `summary` field.
 
-5. **Append to scratchpad**: Add a row to `.claude/memory/intermediate/scratchpad.md`:
+5. **Append to scratchpad**: Add a row to the scratchpad (`.claude/memory/intermediate/scratchpad.md`, created if not present):
    ```markdown
    | <next #> | <HH:MM> | <source> | <summary> |
    ```

@@ -38,7 +38,6 @@ If any file is missing, report that field as "n/a".
 
 ### Step 1a: Read trigger health (if available)
 
-Read `.claude/hooks/trigger-log.jsonl` (if exists). Count entries from last 7 days.
 Read `.claude/hooks/trigger-state.json` (if exists). Check session fire count and pending cooldowns.
 Read `.claude/hooks/trigger-rules.yaml` (if exists). Count total enabled rules.
 Check condition proximity: for each rule, evaluate whether its condition is "close to threshold" (e.g., 1 failure when threshold is 2, success rate at 65% when threshold is 60%).

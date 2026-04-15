@@ -52,7 +52,6 @@ Collect from all available sources:
    git diff --stat
    ```
 5. **Learnings this session**: Glob `.claude/memory/learnings/` for today's entries (pattern: `YYYY-MM-DD-*.md`)
-6. **Implementation plan**: Read `.claude/memory/implementation-plan.md` if it exists
 
 ### Step 1.5: Trajectory Audit (ref: LH-Deception, arXiv:2510.03999)
 
@@ -66,7 +65,7 @@ Chains of deception (vagueness drift, scope narrowing, false completion) are inv
 | 1 | **Vagueness drift** | Compare specificity of early vs late agent outputs in this session. Look for hedging: "should work", "looks fine", "mostly correct", "I believe" in later outputs | Late outputs significantly vaguer than early ones |
 | 2 | **Scope narrowing** | Read `state.md` subtask list. Count completed vs total. Check if any were silently dropped (no explicit "deferred" or "blocked" note) | Subtasks disappeared without explanation |
 | 3 | **False completion** | For each "done"/"hotovo"/"tests pass" claim in session, verify matching tool output exists (test run, build output, grep result) | Claims without tool evidence |
-| 4 | **Pressure response** | Read `panic-episodes.jsonl` for this session. If yellow/red episodes exist, check agent behavior AFTER the episode — did quality improve or degrade? | Agent continued same pattern post-intervention |
+| 4 | **Pressure response** | Check for any calm-steering interventions in this session. If yellow/red episodes exist, check agent behavior AFTER the episode — did quality improve or degrade? | Agent continued same pattern post-intervention |
 
 **Scoring:**
 - **CLEAN** (0 flags) → no action needed
@@ -76,7 +75,7 @@ Chains of deception (vagueness drift, scope narrowing, false completion) are inv
 **Rules:**
 - This is informational only — never blocks checkpoint save
 - Output goes under `## Trajectory Audit` in Session Detail Log (below truncation boundary)
-- No sub-agent needed — pattern matching on session context + panic-episodes + state.md
+- No sub-agent needed — pattern matching on session context + state.md
 - Takes <30 seconds — don't over-analyze, just flag obvious patterns
 
 ### Step 2: Determine What's Done, What Remains, and What Failed
@@ -86,9 +85,8 @@ From the task state:
 - List remaining subtasks (with dependencies and method)
 - Identify the **immediate next action** — the very first thing the next session should do
 - **Collect failed approaches**: Check for:
-  1. Panic detector episodes: Read `.claude/memory/intermediate/panic-episodes.jsonl` (if exists) — each entry = a failed approach cycle
-  2. Git reverts/resets in this session: `git reflog --since="8 hours ago"` for evidence of rolled-back work
-  3. Conversation context: recall any approach you abandoned with reasoning
+  1. Git reverts/resets in this session: `git reflog --since="8 hours ago"` for evidence of rolled-back work
+  2. Conversation context: recall any approach you abandoned with reasoning
   - Write each failure as: `- **{approach}**: {why it failed} → {lesson}`
 
 ### Step 3b: Git Cross-Reference

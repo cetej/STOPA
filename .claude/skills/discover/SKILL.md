@@ -213,7 +213,7 @@ Pattern #N needs your judgment:
 
 After human classification:
 
-1. **Reinforceable patterns** → write to `.claude/memory/discovered-patterns.md`:
+1. **Reinforceable patterns** → write to `.claude/memory/learnings/discovered-patterns.md`:
    ```markdown
    ## [Pattern Name] — reinforceable
    - Signature: [tool sequence]
@@ -223,7 +223,7 @@ After human classification:
    - Suggested artifact: [best_practice learning | routing hint | skill hint]
    ```
 
-2. **Suppressible patterns** → write to `.claude/memory/discovered-patterns.md`:
+2. **Suppressible patterns** → write to `.claude/memory/learnings/discovered-patterns.md`:
    ```markdown
    ## [Pattern Name] — suppressible
    - Signature: [tool sequence]

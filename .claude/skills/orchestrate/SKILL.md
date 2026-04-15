@@ -111,7 +111,7 @@ This is a safety net — if the user already ran `/triage`, skip this check.
 
 ## Phase 0.7: Environment Snapshot
 
-Run ONCE per session (skip if `.claude/memory/intermediate/env-snapshot.md` exists and is <1 hour old).
+Run ONCE per session.
 
 Single Bash command to discover available tools and project type:
 

@@ -1,6 +1,6 @@
 ---
 name: skill-generator
-description: Use when creating or modifying Claude Code skills. Trigger on 'create skill', 'new skill', 'modify skill'. Do NOT use for running existing skills.
+description: "Use when creating new Claude Code skills from scratch or modifying existing skill files (SKILL.md frontmatter, workflow, phases). Handles YAML frontmatter generation, anti-rationalization tables, verification checklists, and commands/skills sync. Trigger on 'create skill', 'new skill', 'modify skill', 'nový skill', 'uprav skill'. Do NOT use for running existing skills, iterative skill improvement with evals (/self-evolve), or skill description audit (/evolve)."
 argument-hint: [description of the skill to create]
 tags: [orchestration, documentation]
 phase: meta
@@ -37,7 +37,6 @@ When creating new skills, ensure they integrate with this system:
 ## Before Starting
 
 1. Check your memory for learned patterns and past generations:
-   - Read `.claude/skills/skill-generator/LEARNINGS.md` if it exists
    - Read `.claude/memory/learnings.md` — check Skill Gaps section for requested skills
    - Apply any lessons learned from previous skill creation sessions
 
@@ -209,16 +208,7 @@ When action is "list":
 
 Update learnings for future improvements:
 
-1. Read `.claude/skills/skill-generator/LEARNINGS.md` (create if missing)
-2. Append a brief entry:
-   ```
-   ## <date> - <skill-name>
-   - What was created/modified
-   - Any patterns discovered
-   - What worked well / what to improve next time
-   ```
-3. Write the updated file
-4. Update `.claude/memory/learnings.md`:
+1. Update `.claude/memory/learnings.md`:
    - Remove the skill gap entry if this skill was created to fill one
    - Add any new patterns discovered during creation
 5. Log the decision to `.claude/memory/decisions.md` via scribe pattern
@@ -228,7 +218,6 @@ Update learnings for future improvements:
 When invoked with "improve-all" or "audit":
 
 1. **Read all learnings**:
-   - `.claude/skills/skill-generator/LEARNINGS.md` — past creation lessons
    - `.claude/memory/learnings.md` — system-wide patterns and anti-patterns
 2. **Scan all skills**: Glob `.claude/skills/*/SKILL.md`
 3. **For each skill, run M5 structural scoring** (same metric as `/autoloop`):

@@ -543,7 +543,7 @@ Meta-optimization of STOPA itself — treating the orchestration system as a "pr
    - Routing accuracy: % of tasks routed to correct skill
    - Tier accuracy: % of tasks assigned correct budget tier
    - Token cost estimate: sum of estimated tokens across all task routings
-4. **Load system optstate**: `.claude/memory/optstate/system-evolve.json`
+4. **Load system optstate**: `.claude/memory/optstate/self-evolve.json` (if exists)
 
 ### System Mode Curriculum Strategies
 

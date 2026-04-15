@@ -188,10 +188,10 @@ TREND: Corrections X→Y (↓ improving | → flat | ↑ worsening)
 
 ## Step 4c: Skill Usage Audit
 
-Read `.claude/memory/skill-usage.jsonl` (if it exists). Each line is `{"ts":"...","skill":"..."}`.
+Usage data is tracked in `~/.claude/memory/skill-usage.jsonl` (global, written by hook). Each line is `{"ts":"...","skill":"..."}`.
 
 **Build usage report:**
-1. Count invocations per skill (last 60 days)
+1. Read `~/.claude/memory/skill-usage.jsonl` (if it exists). Count invocations per skill (last 60 days)
 2. List ALL skills from `.claude/skills/*/SKILL.md` — compare against usage data
 3. Identify **stale skills** (0 invocations in 60+ days or never used)
 4. Identify **hot skills** (top 5 by usage count)
@@ -209,7 +209,7 @@ SKILL USAGE AUDIT: [N skills total, M with usage data]
   Action: ARCHIVE [skill] | REVIEW [skill] | OK
 ```
 
-If skill-usage.jsonl doesn't exist or is empty, note "No usage data yet — tracking started" and skip.
+If skill-usage.jsonl doesn't exist or is empty, note "No usage data yet — tracking not active" and skip.
 
 ---
 
