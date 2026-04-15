@@ -3,8 +3,8 @@
 Obsah kompilovaných wiki článků organizovaný podle typu entity.
 LLM čte tento soubor PRVNÍ při odpovídání na dotazy.
 
-**Last updated:** 2026-04-14
-**Total articles:** 22
+**Last updated:** 2026-04-15
+**Total articles:** 23
 
 ---
 
@@ -25,6 +25,8 @@ LLM čte tento soubor PRVNÍ při odpovídání na dotazy.
 | [verifiability-sw2](concepts/verifiability-sw2.md) | SW 2.0 klíčový prediktor: verifikovatelné úkoly → dramatický AI pokrok | Karpathy blog Nov 2025 | 2026-04-13 |
 | [memfactory](concepts/memfactory.md) | RL-based unifikovaný framework pro agent memory (extraction/updating/retrieval + GRPO, +14.8%) | arXiv:2603.29493 | 2026-04-14 |
 | [agent-memory-taxonomy](concepts/agent-memory-taxonomy.md) | Write-Manage-Read loop + 5 rodin memory mechanismů + 3D taxonomie (temporal/substrate/control) | arXiv:2603.07670 | 2026-04-14 |
+| [nurture-first-development](concepts/nurture-first-development.md) | NFD paradigma: agent začíná minimálně, roste z dialogu s experty; Knowledge Crystallization Cycle | arXiv:2603.10808 | 2026-04-15 |
+| [reinforced-reasoning](concepts/reinforced-reasoning.md) | 3 pilíře reasoning LLM: data construction, RL (PRM>ORM), test-time scaling; 5 metod + STOPA mapování | arXiv:2501.09686 | 2026-04-15 |
 
 ## People (2)
 

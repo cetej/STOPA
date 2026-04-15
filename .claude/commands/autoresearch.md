@@ -284,6 +284,40 @@ Quick web search to seed hypotheses — NOT a full deepresearch run.
 - Question is purely implementation-specific (no external knowledge needed)
 - Budget ≤ 3 (not enough iterations to justify research time)
 
+## Phase 1.5: Parallel Hypothesis Seeding (Best-of-N, opt-in, arXiv:2501.09686)
+
+When `parallel_seed:N` is set (N=2-3), test N hypotheses in parallel BEFORE the sequential experiment loop. Picks the best starting hypothesis, then continues with sequential iteration from that winner. Reduces the risk of wasting early iterations on a bad initial direction.
+
+**When to use:**
+- Research question has 2-3 clearly distinct approach families (e.g., regex vs NLP vs heuristic)
+- Previous runs on similar questions stagnated (check optstate)
+- Budget >= 6 (need iterations for both seeding AND subsequent refinement)
+- NOT useful when user provided a single explicit hypothesis to test
+
+**Protocol:**
+1. Generate N hypothesis candidates (from literature scout, user input, or optstate strategies):
+   - Each must be from a DIFFERENT approach family (not variations of one idea)
+   - Format: same as Step 2 (HYPOTHESIS/RATIONALE/APPROACH/EXPECTED EFFECT)
+
+2. For each hypothesis, spawn a parallel agent:
+   ```
+   Agent(model: sonnet, prompt: "Test hypothesis '{name}': {approach}.
+   Implement in {target_file}. Run: {eval_command}. 
+   Report: metric result + 1-sentence what happened.
+   Revert changes after measuring (git checkout).")
+   ```
+
+3. Collect N results:
+   - Pick winner = best metric improvement over baseline
+   - If all N are worse than baseline: proceed with the one closest to baseline (least harm)
+   - Log all N in TSV with status `seed_A`, `seed_B`, etc.
+
+4. Apply winner's changes as the starting point. Continue to Phase 2 (Experiment Loop) from there.
+
+**Cost:** N× one experiment cost. With N=2 and budget=10, seeding uses 2 of 10 iteration-equivalents.
+
+**Interaction with PIVOT:** If the experiment loop later triggers PIVOT (no improvement, >50% budget spent), the runner should try one of the discarded seed hypotheses rather than generating entirely new ones — they were already measured and ranked.
+
 ## Phase 2: Experiment Loop
 
 The loop runs in **batches**. After each batch, a strategic ASSESS step decides the next action.

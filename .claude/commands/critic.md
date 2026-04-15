@@ -92,8 +92,54 @@ Default to QUICK unless evidence of higher complexity. Upgrade mid-review if sco
 - `--spec` → Spec Compliance dimensions only
 - `--quality` → Code Quality dimensions only
 - `--deep` → Force DEEP triage path
+- `--consensus` → Self-consistency voting: 3 independent runs, majority verdict (see below)
 - `--council` → Council mode: 3 independent reviewers + anonymized cross-review + aggregate ranking (see below)
 - No flag → run both dimension sets (default)
+
+**Auto-consensus trigger:** When orchestrator invokes critic with `tier: deep` in context AND `--consensus` is NOT explicitly disabled, auto-enable consensus mode. This is the default for deep-tier orchestrate calls.
+
+---
+
+## CONSENSUS Path (--consensus flag or auto-triggered by deep tier)
+
+Self-consistency voting (arXiv:2501.09686, arXiv:2203.11171 — Wang et al. +20% accuracy): run the STANDARD pipeline 3 times independently, then majority-vote the verdict. Cheaper than COUNCIL (3 pipeline runs vs 3 reviewers + 2 judges + chairman), more robust than single-pass DEEP.
+
+**When to use:**
+- `--consensus` flag explicit
+- Auto-triggered: orchestrator context includes `tier: deep` (unless `--no-consensus`)
+- NOT used with `--council` (council is already multi-perspective — combining them wastes budget)
+- NOT used with QUICK path (overkill for trivial changes)
+
+**Protocol:**
+
+1. **Fork 3 independent STANDARD pipeline runs** (parallel Agent spawns, haiku or sonnet per critic STANDARD config):
+   - Each run gets identical input: diff, changed files, milestones, context
+   - Each run is INDEPENDENT — no shared state, no cross-contamination
+   - Each run uses the full Phase 1→4 pipeline (SELECTOR → VERIFIER → REVIEWER → JUDGE)
+   - Vary the framing minimally to encourage diversity:
+     - Run A: default perspective
+     - Run B: "Focus on what could silently break downstream"
+     - Run C: "Focus on what the original intent was and whether it's achieved"
+
+2. **Collect 3 verdicts**: each run produces PASS/WARN/FAIL + weighted score + milestone table
+
+3. **Majority vote**:
+   - 3× PASS → **PASS** (high confidence)
+   - 3× FAIL → **FAIL** (high confidence)
+   - 2× PASS + 1× FAIL → **WARN** (disagreement — flag the dissenting milestone for attention)
+   - 2× FAIL + 1× PASS → **FAIL** (conservative — two independent analyses found issues)
+   - Any mix with WARN → use the median severity (WARN counts as middle)
+
+4. **Merge report**: combine unique findings from all 3 runs:
+   - Milestones flagged by 2+ runs → **confirmed issues** (report prominently)
+   - Milestones flagged by only 1 run → **potential issues** (report as advisory)
+   - Score = median of 3 weighted scores (robust against outliers)
+
+5. **Output**: standard Critic Report format with added `[CONSENSUS: 3/3 PASS]` or `[CONSENSUS: 2/3 FAIL]` tag
+
+**Cost estimate:** 3× STANDARD pipeline cost. For haiku critics: ~$0.003-0.005 total. For sonnet: ~$0.01-0.02.
+
+**Why not COUNCIL?** COUNCIL uses 3 specialized personas (Correctness Hawk, Security, Simplicity) + 2 cross-review judges + chairman = ~6 agent calls with complex merging. Consensus uses 3 identical pipelines + simple vote = 3 agent calls. Use COUNCIL for PR-level reviews where persona diversity matters. Use CONSENSUS for orchestrator deep-tier where verdict reliability matters.
 
 ---
 

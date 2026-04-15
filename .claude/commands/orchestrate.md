@@ -890,8 +890,49 @@ Before launching the next wave, verify completeness of the current wave:
 3. **Downstream readiness:** For each subtask in the next wave, confirm its `depends_on` subtasks all have artifacts available.
 If any check fails → do NOT launch next wave. Fix the gap first (re-run subtask or mark as blocked).
 (Ref: VMAO arXiv:2603.11445 — inter-phase completeness verifier raised quality 3.1→4.2 on 5-point scale.)
-4. **Mid-Execution Replanning** (standard/deep tier only, arXiv:2602.19260):
-   If any subtask in this wave FAILED (agent error or criterion not met):
+
+4. **PRM Step-Checkpoint** (standard/deep tier only, arXiv:2501.09686):
+   After VMAO confirms artifacts are present, verify each completed subtask actually meets its plan criterion — not just "produced output" but "produced the RIGHT output". This is the Process Reward Model principle: score each step, not just the final outcome.
+
+   **Protocol:**
+   For each subtask completed in this wave:
+   a. Read the subtask's `criterion` and `done_when` from state.md
+   b. Read the subtask's output artifacts (agent's result, changed files)
+   c. Spawn a **haiku** agent (standard tier) or **sonnet** agent (deep tier) with this prompt:
+
+   ```
+   You are a step verification checkpoint. Answer ONE question:
+
+   **Subtask:** {subtask.description}
+   **Expected criterion:** {subtask.criterion}
+   **Done-when condition:** {subtask.done_when}
+   **Agent output:** {artifact summary — first 500 chars of each artifact}
+   **Changed files:** {list of files modified}
+
+   Does the output satisfy the criterion? Respond with EXACTLY one of:
+   - STEP_PASS: <1-sentence evidence why criterion is met>
+   - STEP_WARN: <1-sentence concern that doesn't block but needs attention>
+   - STEP_FAIL: <1-sentence explanation of what's missing or wrong>
+
+   Be strict. "Produced output" is not enough — the output must match the criterion.
+   Do NOT suggest fixes. Do NOT elaborate. One line only.
+   ```
+
+   d. **Parse result:**
+      - `STEP_PASS` → continue, log to state.md: `step_check: pass`
+      - `STEP_WARN` → continue, append warning to subtask's `artifacts` for Phase 5 critic awareness
+      - `STEP_FAIL` → mark subtask as `failed`, trigger Mid-Execution Replanning (step 5 below)
+
+   **Cost:** ~200 tokens per subtask (haiku). Standard tier with 4 subtasks = ~$0.001 overhead.
+   **ROI:** One early STEP_FAIL saves the entire cost of downstream subtasks that would build on wrong output.
+
+   **Skip conditions:**
+   - Light tier: skip entirely (single critic at end is sufficient)
+   - Farm tier: skip (mechanical tasks, criterion is trivially checkable)
+   - Subtask with `method: "Skill:/critic"` or `method: "Skill:/verify"`: skip (self-verifying)
+
+5. **Mid-Execution Replanning** (standard/deep tier only, arXiv:2602.19260):
+   If any subtask in this wave FAILED (agent error, criterion not met, OR PRM STEP_FAIL):
    a. **Assess plan validity**: Does the failure invalidate downstream subtasks? Check `depends_on` chains.
    b. **If downstream invalidated**: Re-enter Phase 3 Decomposition with updated state:
       - Mark failed subtask as `blocked:root-cause`
@@ -901,11 +942,11 @@ If any check fails → do NOT launch next wave. Fix the gap first (re-run subtas
    c. **If downstream still valid**: Standard retry (3-fix escalation) — no replanning needed
    d. **Cost guard**: Max 1 replan per task. If replan also fails → circuit breaker → user.
    Why: NSM classical planner recomputes plans from current state, not from scratch. VLA's inability to replan mid-task was the primary cause of 0% success on unseen variants. Same principle: partial plan recovery > full restart or blind retry.
-5. **Budget gate**: Check if any counter hit its limit → stop and report
-5. **De-sloppify check** (standard/deep only): Haiku agent scans for debug prints, TODO markers, mixed naming, commented-out code in changed files. Non-blocking — log findings for critic.
-6. Invoke `/critic` if tier allows. Light tier: skip per-subtask, critic once at end.
-7. If critic FAIL → re-execute ONCE. If FAIL again → circuit breaker → escalate to user
-8. Log decisions to `.claude/memory/decisions.md`
+6. **Budget gate**: Check if any counter hit its limit → stop and report
+7. **De-sloppify check** (standard/deep only): Haiku agent scans for debug prints, TODO markers, mixed naming, commented-out code in changed files. Non-blocking — log findings for critic.
+8. Invoke `/critic` if tier allows. Light tier: skip per-subtask, critic once at end.
+9. If critic FAIL → re-execute ONCE. If FAIL again → circuit breaker → escalate to user
+10. Log decisions to `.claude/memory/decisions.md`
 
 ### Context health check (after each subtask)
 

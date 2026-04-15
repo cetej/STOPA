@@ -262,6 +262,39 @@ Record as baseline in TSV:
 0	a1b2c3d	85.2	0.0	1240	yes	pass	baseline	initial state
 ```
 
+### Best-of-N Approach Forking (opt-in, arXiv:2501.09686)
+
+When `approaches:N` is set (N=2-3), before the iteration loop begins, fork N fundamentally different approaches and pick the best starting point. Unlike `population:N` (which varies mutations within an approach), this varies the STRATEGY itself.
+
+**When to use:**
+- Optimization target has multiple plausible strategies (e.g., skill file: restructure vs condense vs rewrite)
+- Previous autoloop runs on same target stagnated (check optstate)
+- Budget >= 6 iterations (need headroom for both forking AND subsequent iteration)
+- NOT useful for single-axis optimization (just tuning a number) — use `population:N` instead
+
+**Protocol:**
+1. After baseline, generate N approach descriptions (1 sentence each):
+   - Approach A: conservative (incremental refinement of current structure)
+   - Approach B: restructural (change organization/flow, preserve content)
+   - Approach C (if N=3): radical (simplify aggressively, different paradigm)
+
+2. For each approach, spawn a parallel agent:
+   ```
+   Agent(model: haiku, prompt: "Apply approach '{description}' to {target}.
+   Make ONE focused edit embodying this approach. Then run: {verify_command}.
+   Report: the edit description + metric result.")
+   ```
+
+3. Collect N results, pick the one with best metric as starting point for iteration 1.
+   - If all N are worse than baseline: start from baseline (approaches didn't help)
+   - Log all N in TSV with status `approach_A`, `approach_B`, etc.
+
+4. Continue to Phase 1 (Iteration Loop) from the winning approach's state.
+
+**Cost:** N× one iteration cost for the forking phase. Amortized over the full run, this is typically <20% overhead for N=2.
+
+**Interaction with population:N:** Approaches fork the STRATEGY (phase 0.5), population forks the MUTATIONS (per iteration). They compose: `approaches:2 population:2` = 2 starting strategies, then 2 mutations per iteration from the winning strategy. Budget accounting: `approaches × 1 + iterations × population`.
+
 ## Phase 1: Iteration Loop
 
 For each iteration (1 to budget):
