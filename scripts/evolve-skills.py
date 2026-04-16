@@ -112,12 +112,13 @@ def call_claude(prompt: str, model: str) -> str:
     claude_bin = shutil.which("claude") or "claude"
     try:
         result = subprocess.run(
-            [claude_bin, "-p", "--model", model, prompt],
+            [claude_bin, "-p", "--model", model],
+            input=prompt,
             capture_output=True,
             text=True,
             encoding="utf-8",
             errors="replace",
-            timeout=120,
+            timeout=300,
         )
         return result.stdout
     except (subprocess.TimeoutExpired, FileNotFoundError) as e:

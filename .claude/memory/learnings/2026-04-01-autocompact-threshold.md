@@ -8,7 +8,7 @@ summary: Setting CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=70 triggers context compaction 
 source: external_research
 uses: 3
 harmful_uses: 0
-confidence: 0.90
+confidence: 1.0
 verify_check: "manual"
 successful_uses: 0
 ---

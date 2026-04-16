@@ -6,12 +6,13 @@ component: general
 tags: [self-improvement, training, distillation, repair-loop]
 summary: "SD-ZERO: self-revision turns binary rewards into dense token-level supervision. Model plays dual roles (generator + reviser). Reviser concentrates corrections on error tokens (self-localization). Phase 1 trains revision ability, Phase 2 distills reviser knowledge back into generator. +10.5% on Qwen3-4B, -50% response length. Directly applicable to repair loops and critic patterns."
 source: external_research
-confidence: 0.65
+confidence: 0.80
 maturity: draft
-uses: 1
+uses: 3
 successful_uses: 0
 harmful_uses: 0
 skill_scope: [autoloop, autoresearch, self-evolve, critic]
+related: [2026-04-15-prm-step-verification-orchestrate.md, 2026-04-15-best-of-n-parallel-candidates.md, 2026-04-13-generate-then-discard-suboptimal.md]
 ---
 
 ## SD-ZERO: Self-Distillation Zero (arXiv:2604.12002)

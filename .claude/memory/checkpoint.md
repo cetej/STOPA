@@ -1,31 +1,31 @@
 # Session Checkpoint
 
-**Saved**: 2026-04-15 (auto-saved (session end))
+**Saved**: 2026-04-16 (auto-saved (session end))
 **Task**: none
 **Branch**: main
-**Last commit**: `627e902` feat: strukturální komprese kontextu — Progressive Withdrawal + hook dedup
+**Last commit**: `f10abc8` chore: fix brain inbox routing — weekly-sources-digest + brain-watch path/format bugs
 
 ---
 
 ## Session Activity
 
-Session: 85 file edits, 19 agent spawns, 2 skill calls. Skills: capture, fetch
-Duration: ~26737 min
+Session: 106 file edits, 22 agent spawns, 5 skill calls. Skills: capture, commit-commands, dreams, evolve, fetch
+Duration: ~27382 min
 
 ## Files Touched
 
 | File | Operations | Date |
 |------|-----------|------|
-| SKILL.md | 12 edits | 2026-04-15 |
-| index.md | 9 edits | 2026-04-15 |
-| knowledge-graph.json | 6 edits | 2026-04-15 |
-| log.md | 4 edits | 2026-04-15 |
-| memory-brief.sh | 3 edits | 2026-04-15 |
-| watchlist.md | 2 edits | 2026-04-15 |
-| soft-questing-trinket.md | 2 edits | 2026-04-15 |
-| server.mjs | 2 edits | 2026-04-15 |
-| news.md | 2 edits | 2026-04-15 |
-| app.js | 2 edits | 2026-04-15 |
+| SKILL.md | 12 edits | 2026-04-16 |
+| index.md | 9 edits | 2026-04-16 |
+| watchlist.md | 7 edits | 2026-04-16 |
+| knowledge-graph.json | 6 edits | 2026-04-16 |
+| news.md | 5 edits | 2026-04-16 |
+| server.mjs | 4 edits | 2026-04-16 |
+| log.md | 4 edits | 2026-04-16 |
+| memory-brief.sh | 3 edits | 2026-04-16 |
+| soft-questing-trinket.md | 2 edits | 2026-04-16 |
+| index.html | 2 edits | 2026-04-16 |
 
 ## Key Results
 
@@ -41,12 +41,8 @@ _No commits this session_
 
 ## Learnings Captured
 
-learnings_this_session: 5
-  - 2026-04-15-best-of-n-parallel-candidates
-  - 2026-04-15-msys-tmp-path-mismatch
-  - 2026-04-15-parcae-exponential-decay-stopping
-  - 2026-04-15-prm-step-verification-orchestrate
-  - 2026-04-15-sd-zero-self-revision-supervision
+learnings_this_session: 0
+_No new learnings files created_
 
 ## Workflow Decisions
 
@@ -63,7 +59,7 @@ _No pending subtasks detected in state.md_
 
 > **Task**: none
 >
-> **Context**: Last commit `627e902` (feat: strukturální komprese kontextu — Progressive Withdrawal + hook dedup). Branch: main.
-> Session had 85 edits, 19 agents, 2 skill calls, 0 errors.
+> **Context**: Last commit `f10abc8` (chore: fix brain inbox routing — weekly-sources-digest + brain-watch path/format bugs). Branch: main.
+> Session had 106 edits, 22 agents, 5 skill calls, 0 errors.
 
 

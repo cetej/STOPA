@@ -2,7 +2,7 @@
 
 Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
-## Last Scan: 2026-04-15 (quick CC-focused) | Next: ~2026-04-22
+## Last Scan: 2026-04-16 (arxiv-daily-digest) | Next: ~2026-04-23
 
 **Scan log**: `2026-04-15` — scheduled morning-watch | Searches: 2 | Items: 2 action — CC plugin monitors manifest key (#109), fine-grained tool streaming GA (#110)
 **Scan log**: `2026-04-15` — CC-focused | Searches: 5 | Fetches: 4 | Items: 4 action, 2 watch — Desktop redesign, v2.1.108 recap+caching, PreCompact hook, skill desc cap 250→1536
@@ -246,6 +246,11 @@ Older: see `news-archive.md`
 | 94 | **CC Vertex AI interactive setup wizard** — interaktivní průvodce nastavením Google Vertex AI přístupný z login screen. Alternativa k manuální .env konfiguraci. | 🟢 INFO | Sledovat pokud STOPA bude potřebovat Vertex AI backend |
 | 95 | **`effort` parameter GA** — bez beta headeru, nativně podporuje Opus 4.6. Nahrazuje `budget_tokens` na nových modelech. | 🟡 MEDIUM | STOPA orchestrate tier selection — ověřit, zda skills posílají `effort` bez beta headeru |
 
+| 2026-04-16 | [ACTION] | Context Engineering: From Prompts to Corporate Multi-Agent Architecture (arXiv:2603.09619) — nová taxonomie context engineering pro multi-agent systémy přímo aplikovatelná na design STOPA skills a orchestration vrstev | high | No | arxiv-daily-digest |
+| 2026-04-16 | [ACTION] | Scaling Multi-agent Systems: A Smart Middleware for Improving Agent Interactions (arXiv:2604.03430) — smart middleware vrstva pro koordinaci agentů, řeší latenci a interference při paralelním spouštění — implementovatelné do STOPA orchestrate | high | No | arxiv-daily-digest |
+| 2026-04-16 | [WATCH] | Adaptive Orchestration: Scalable Self-Evolving Multi-Agent Systems (arXiv:2601.09742) — Dynamic Mixture of Experts přístup pro self-evolving orchestrátor s dynamickým přeskupováním agentů za běhu | medium | No | arxiv-daily-digest |
+| 2026-04-16 | [WATCH] | Multi-Agent Orchestration for High-Throughput Screening with MCP (arXiv:2604.07681) — planner-executor architektura s centrálním MCP serverem sdíleným mezi paralelními executor agenty | medium | No | arxiv-daily-digest |
+| 2026-04-16 | [WATCH] | Principled Context Engineering for RAG: Statistical Guarantees via Conformal Prediction (arXiv:2511.17908) — conformal prediction po retrieval garantuje pokrytí relevantního kontextu při 2-3× redukci velikosti kontextu | medium | No | arxiv-daily-digest |
 | 2026-04-15 | [ACTION] | Self-Optimizing Multi-Agent Systems for Deep Research (arXiv:2604.02988) — orchestrátor + paralelní worker agenti se self-play optimalizací promptů; přímo aplikovatelné na STOPA self-evolve/autoloop | high | Yes | arxiv-daily-digest |
 | 2026-04-15 | [WATCH] | CLEAR: Context Augmentation from Contrastive Learning via Agentic Reflection (arXiv:2604.07487) — kontrastivní porovnání rolloutů extrahuje znovupoužitelný strategy-level kontext pro agenty | medium | No | arxiv-daily-digest |
 | 2026-04-15 | [WATCH] | Verified Multi-Agent Orchestration: Plan-Execute-Verify-Replan Framework (arXiv:2603.11445) — DAG dekompozice dotazů s verification-driven koordinací specializovaných agentů | medium | No | arxiv-daily-digest |
@@ -254,6 +259,7 @@ Older: see `news-archive.md`
 
 ### Scan History
 
+### 2026-04-16 — arxiv-daily-digest | Searches: 4 | Items: 2 action, 3 watch — Context Engineering Multi-Agent (arXiv:2603.09619), Smart MAS Middleware (arXiv:2604.03430), Adaptive Orchestration MoE (arXiv:2601.09742), MCP Planner-Executor (arXiv:2604.07681), Conformal RAG (arXiv:2511.17908)
 ### 2026-04-15 — arxiv-daily-digest | Searches: 4 | Items: 1 action, 4 watch — Self-Optimizing MAS (arXiv:2604.02988), CLEAR context augmentation (arXiv:2604.07487), Verified Orchestration (arXiv:2603.11445), SiriuS (arXiv:2502.04780), CoCR-RAG (arXiv:2603.23989)
 ### 2026-04-14 — full scan | Searches: 19 | Items: 6 action, 4 watch, 2 info — CC Analytics API GA (#99), Meta Muse Spark (#100), PwC→HF Trending (#101), DACS arXiv:2604.07911 (#102), TraceGuard arXiv:2604.03968 (#103), Agent SDK additionalDirectories (#104)
 ### 2026-04-12 — full scan | Searches: 12 | Fetches: 3 | Items: 3 action, 3 watch, 4 info — Advisor Tool public beta, CC v2.1.101 security fixes + Monitor tool, Hermes Agent v0.8.0, Memory Intelligence Agent paper, Qwen3.6-Plus, BEHELM benchmark

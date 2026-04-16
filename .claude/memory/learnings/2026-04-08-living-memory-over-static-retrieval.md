@@ -9,7 +9,7 @@ source: external_research
 uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.95
+confidence: 1.0
 related: [2026-03-30-write-time-gating-salience.md, 2026-04-08-recency-beats-complex-memory.md]
 verify_check: "manual"
 ---

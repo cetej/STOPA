@@ -6,12 +6,13 @@ component: orchestration
 tags: [autoloop, autoresearch, self-evolve, outcomes, optstate, replay, compute-efficiency]
 summary: "Skills čtou optstate momentum, ale ne konkrétní outcomes z minulých runů. Phase 0 by mělo glob outcomes/<skill>-* (last 5, desc) a číst Trajectory Summary — stejný mechanismus jako experience replay v RL snižuje 'inference cost' (agent spawns) bez ztráty kvality."
 source: external_research
-uses: 2
+uses: 3
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.9
+confidence: 1.00
 maturity: draft
 skill_scope: [autoloop, autoresearch, self-evolve]
+related: [2026-04-15-prm-step-verification-orchestrate.md]
 verify_check: "Glob('.claude/memory/outcomes/autoloop-*') → 0+ files (can be empty)"
 task_context:
   task_class: research
@@ -42,3 +43,5 @@ Phase 0 enhanced:
 **Positive-bias:** čti `## What Worked` sekce outcomes s prioritou, `## What Failed` jako anticuriculum.
 
 Ref: arXiv:2604.08706 Theorem 4.5 — optimal replay ratio B/R = √(μ/(ρ + 1/x*)), kde μ = cost inference/training
+
+> Updated 2026-04-16: PRM step-verification (arXiv:2501.09686) can enrich outcome replay labels. Currently outcomes only record run-level "What Worked"/"What Failed". Future enhancement: annotate which step failed (step_results[] from PRM check) — enables step-level replay attribution instead of coarse run-level signal.

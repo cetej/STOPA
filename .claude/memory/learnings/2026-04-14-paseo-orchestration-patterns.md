@@ -9,7 +9,7 @@ source: external_research
 uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.95
+confidence: 1.0
 maturity: draft
 verify_check: "Glob('outputs/paseo-stopa-research.md') → 1+ matches"
 task_context: {task_class: research, complexity: high, tier: standard}

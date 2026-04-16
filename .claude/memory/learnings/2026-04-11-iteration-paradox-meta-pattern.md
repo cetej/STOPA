@@ -6,7 +6,7 @@ component: orchestration
 tags: [autoloop, autoresearch, self-evolve, iteration, optimization, meta-pattern]
 summary: "Iteration Paradox: iteruj s bounded refinement, ale nevěř prvním výsledkům. Udržuj diverzitu (high-temp sampling), dej každému přístupu 5+ iterací, odhadni strop (sigmoidal fit), používej regression gate. RL post-training ničí diverzitu potřebnou pro exploraci."
 source: auto_pattern
-uses: 2
+uses: 3
 successful_uses: 0
 harmful_uses: 0
 confidence: 1.00
@@ -40,3 +40,5 @@ Consolidated from /dreams 2026-04-11 — 5 learnings with seemingly contradictor
 ### When to Apply
 
 Every iterative optimization skill: /autoloop, /autoresearch, /self-evolve, /prompt-evolve.
+
+> Updated 2026-04-16: Parcae (arXiv:2604.12946) provides a more accurate ceiling model than sigmoidal — use exponential fit L(T)=L∞+Z·exp(-z·T) instead. Key advantage: only 3 parameters (vs. 4 for sigmoidal), fits after just 3-4 data points, provides explicit irreducible floor L∞. Current protocol says "sigmoidal fit" in Step 4 — prefer exponential when ≥4 iterations available.

@@ -8,7 +8,7 @@ summary: "Tool-Genesis (arXiv:2603.05578) prokázal cascade failure — drobné 
 source: external_research
 uses: 1
 harmful_uses: 0
-confidence: 0.95
+confidence: 1.0
 impact_score: 0.0
 verify_check: "Grep('Schema-Utility Decoupling', path='.claude/skills/') → 3+ matches"
 related: [2026-03-26-harness-simplification.md]

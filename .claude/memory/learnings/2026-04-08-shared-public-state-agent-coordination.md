@@ -11,7 +11,7 @@ harmful_uses: 0
 successful_uses: 1
 confidence: 1.00
 maturity: core
-graduated_to: critical-patterns-10
+graduated_to: ""
 verify_check: "Glob('.claude/memory/intermediate/shared/notes.md') → 1+ matches"
 related: [2026-03-29-claudini-autoresearch-loop.md]
 failure_class: ""

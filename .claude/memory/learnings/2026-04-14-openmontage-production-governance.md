@@ -9,7 +9,7 @@ source: external_research
 uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.75
+confidence: 0.8
 maturity: draft
 verify_check: "Glob('scripts/media-provider-selector.py') → 1+ matches"
 ---

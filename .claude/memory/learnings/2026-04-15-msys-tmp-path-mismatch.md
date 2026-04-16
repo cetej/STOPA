@@ -6,10 +6,10 @@ component: hook
 tags: [windows, path, msys, git-bash, loop-state]
 summary: "Git Bash/MSYS2 přeloží /tmp na C:\\Users\\<user>\\AppData\\Local\\Temp PŘED předáním argumentu Pythonu, ale Python Path('/tmp') resoluje na C:\\tmp. Každý skript přijímající cestu z bash musí mít _resolve_path() fallback. Opraveno v loop-state.py pro všechny subcommandy."
 source: user_correction
-uses: 0
+uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.95
+confidence: 1.00
 failure_class: resource
 verify_check: "Grep('_resolve_path', path='scripts/loop-state.py') → 1+ matches"
 ---

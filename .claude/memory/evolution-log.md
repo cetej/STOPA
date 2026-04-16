@@ -4,6 +4,38 @@ Record of /evolve audit proposals and outcomes.
 
 ---
 
+## Evolution Run — 2026-04-16 (#12)
+
+### Signals
+- 13 corrections (0 new since #11)
+- 28 violations (unchanged — 23 stale file refs, 5 grep failures)
+- 162 learnings scanned (+5 since #11)
+- 2 graduation candidates: heartbeat (uses=12, core), shared-public-state (uses=13, core)
+- 0 maturity upgrades (no draft with uses>=5)
+- 0 decay/prune candidates (system 24 days old)
+- 1 model_gate (sonnet-4.6, correctly scoped)
+- 0 panic episodes, no replay queue, no skill-usage data
+- Sessions: 100% healthy (5/5)
+- Near-graduation: bigmas (uses=9, validated) — 1 use from threshold
+
+### Proposals
+- 4 proposed, 4 approved, 0 rejected
+
+### Applied
+- PROMOTE: heartbeat-mid-run-steering → critical-patterns #10 (uses=12, conf=1.0, core). Added graduated_to field. Critical-patterns now at 10/10 capacity.
+- FIX_DATA: shared-public-state — removed stale `graduated_to: critical-patterns-10` (was never actually added as CP entry, heartbeat took the slot instead)
+- DELEGATE: Spawned side-task to fix 23 stale file references across 12 skills (cleanup, not evolve scope)
+- SKIP: autocompact verify_check — already fixed to "manual" in previous run
+
+### Key Findings
+- System stable — 18 days without new corrections
+- First learning successfully graduated via full lifecycle: draft → validated → core → critical-patterns (#10)
+- bigmas at uses=9 will auto-graduate when it hits 10 (auto-graduation pipeline active)
+- 162 learnings — many low-use external_research (avg uses=1.4). Decay will handle over time.
+- Stale file refs in skills are persistent tech debt — delegated as side-task
+
+---
+
 ## Evolution Run — 2026-04-15 (#11)
 
 ### Signals

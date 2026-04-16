@@ -6,7 +6,7 @@ component: general
 tags: [attention, inference, architecture, watch-item, long-context]
 summary: "IHA (arXiv:2602.21371) umožňuje cross-head komunikaci přes pseudo-hlavy — P² attention patterns na hlavu místo 1. Multi-key retrieval +112% @16k, GSM8K +5.8%. Kompatibilní s FlashAttention. Watch item pro long-context a multi-hop reasoning."
 source: external_research
-confidence: 0.95
+confidence: 1.0
 uses: 2
 successful_uses: 0
 harmful_uses: 0

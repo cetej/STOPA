@@ -6,12 +6,12 @@ component: skill
 tags: [autoloop, autoresearch, self-evolve, optimization, scaling-laws, iteration-strategy, test-time-compute, stopping-criterion]
 summary: "Parcae (arXiv:2604.12946): iterativní optimalizace sleduje saturující exponenciální decay L(T)=L∞+Z·exp(-z·T), ne lineární zlepšení. Tréninková hloubka (počet iterací při vývoji) = strop runtime scalingu. Farm tier: per-item variable depth místo uniformní. Tři ortogonální osy: iterace × data × model size."
 source: external_research
-uses: 0
+uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.75
+confidence: 0.85
 skill_scope: [autoloop, autoresearch, self-evolve]
-related: [2026-04-08-early-iteration-performance-unreliable.md]
+related: [2026-04-08-early-iteration-performance-unreliable.md, 2026-04-11-iteration-paradox-meta-pattern.md, 2026-04-15-best-of-n-parallel-candidates.md]
 verify_check: "manual"
 ---
 

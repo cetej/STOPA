@@ -6,12 +6,13 @@ component: orchestration
 tags: [prm, step-verification, critic, early-termination, test-time-scaling]
 summary: "Process Reward Models (step-level scoring) dramaticky překonávají Outcome Reward Models (finální verdikt) pro multi-step reasoning. STOPA orchestrate by měl přidat lightweight step-level verification po každém subtasku — haiku check 'splnil krok plán?', kill early při selhání."
 source: external_research
-uses: 1
+uses: 3
 successful_uses: 1
 harmful_uses: 0
-confidence: 0.7
+confidence: 0.85
 maturity: draft
 skill_scope: [orchestrate, critic]
+related: [2026-04-15-sd-zero-self-revision-supervision.md, 2026-04-13-experience-replay-outcomes-reuse.md]
 verify_check: "manual"
 ---
 

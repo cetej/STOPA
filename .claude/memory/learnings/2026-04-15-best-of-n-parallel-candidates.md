@@ -6,12 +6,13 @@ component: orchestration
 tags: [best-of-n, parallel-exploration, mcts, autoloop, autoresearch, test-time-scaling]
 summary: "Best-of-N s PRM scoring: místo lineární iterace (zkus A, pokud fail zkus B) generuj 2-3 kandidáty paralelně, ohodnoť lightweight criticem, expand nejlepšího. Aplikovatelné na autoloop, autoresearch, deep-tier orchestrate."
 source: external_research
-uses: 1
+uses: 3
 successful_uses: 1
 harmful_uses: 0
-confidence: 0.6
+confidence: 0.75
 maturity: draft
 skill_scope: [autoloop, autoresearch, orchestrate]
+related: [2026-04-15-parcae-exponential-decay-stopping.md, 2026-04-15-sd-zero-self-revision-supervision.md]
 verify_check: "manual"
 ---
 

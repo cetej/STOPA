@@ -10,6 +10,7 @@ uses: 12
 harmful_uses: 0
 confidence: 1.00
 maturity: core
+graduated_to: critical-patterns-10
 successful_uses: 1
 verify_check: "Grep('stagnation-detector', path='.claude/settings.json') → 1+ matches"
 related: [2026-04-08-shared-public-state-agent-coordination.md]

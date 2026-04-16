@@ -50,3 +50,8 @@ last_confirmed: 2026-04-15
 Před doporučením akce (RECOMMEND, PROMOTE, CREATE) VŽDY ověř aktuální stav souborového systému (Glob/Read). Nečti vlastní evolution-log a nepředpokládej, že stav odpovídá minulému záznamu. Paralelní sessions mohou měnit stav nezávisle — poslední zapisovatel vyhrává. Příklad: /compile wiki existovala, ale evolve ji 7x doporučil vytvořit, protože četl vlastní log místo ověření `Glob('.claude/memory/wiki/INDEX.md')`.
 verify: manual
 last_confirmed: 2026-04-15
+
+## 10. Heartbeat Mid-Run Steering for Multi-Agent
+Orchestrátor může posílat heartbeat prompts do běžících agentů pro non-destructive mid-run steering (reflection, direction change, skill consolidation). Odlišné od kritika: critic hodnotí hotový output, heartbeat mění direction za běhu. Zdroj: CORAL (arXiv:2604.01658), uses=12, core maturity.
+verify: Grep("stagnation-detector", path=".claude/settings.json") → 1+ matches
+last_confirmed: 2026-04-16

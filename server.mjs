@@ -117,6 +117,13 @@ const PROJECTS = [
       { cmd: 'python scraper.py', desc: 'Scrape BioLib species data' },
       { cmd: 'ngm-term lookup "Cervus elaphus"', desc: 'Term lookup (via ngm-terminology)' },
     ]},
+  { id: 'sokrates', name: 'SOKRATES', path: `${ROOT}/SOKRATES`, port: 3401,
+    cmd: 'node', args: ['--watch', 'server.mjs'], tech: 'Express', stack: ['Node.js', 'Express 5', 'Anthropic SDK', 'SSE'],
+    desc: 'Multi-agent Socratic dialogue — 7 philosophers debate events in 4 phases (Aporie → Syntéza)',
+    commands: [
+      { cmd: 'node server.mjs', desc: 'Start server on :3401' },
+      { cmd: 'node --watch server.mjs', desc: 'Start with auto-reload (dev)' },
+    ]},
   { id: 'petra', name: 'PETRA', path: `${ROOT}/PETRA`, port: 8506,
     cmd: 'python', args: ['app.py'], tech: 'Flask', stack: ['Python', 'Flask', 'openpyxl', 'Excel VBA'],
     desc: 'Lead time splitter — supplier delivery data processing (AEV, BTL, EATON, SAFIRAL, TYCO)',
