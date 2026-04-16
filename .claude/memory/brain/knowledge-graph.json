@@ -1,6 +1,6 @@
 {
-  "version": "1.4",
-  "updated": "2026-04-15",
+  "version": "1.5",
+  "updated": "2026-04-16",
   "description": "2BRAIN knowledge graph — entity-centric storage with typed edges",
   "node_types": ["person", "concept", "project", "value", "reasoning", "experience", "goal"],
   "edge_types": ["created", "inspired", "contradicts", "enables", "blocks", "applied-in", "drives", "taught-me", "practiced-in", "related-to", "part-of", "complementary", "validates", "formalizes"],
@@ -221,6 +221,13 @@
       "tags": ["ai", "memory", "agent", "rl", "external-memory", "stigmergy", "formal-theory"],
       "wiki": "concepts/artifacts-as-memory.md",
       "added": "2026-04-15"
+    },
+    "cpmi-process-reward": {
+      "type": "concept",
+      "label": "CPMI — Contrastive Process Reward Modeling",
+      "tags": ["ai", "reward-model", "prm", "reasoning", "rl", "mutual-information", "efficiency"],
+      "wiki": "concepts/cpmi-process-reward.md",
+      "added": "2026-04-16"
     }
   },
   "edges": [
@@ -292,6 +299,10 @@
     {"from": "artifacts-as-memory", "to": "stopa", "rel": "validates", "evidence": "checkpoint.md, state.md, post-it pattern = artifacts enabling session continuity with less context"},
     {"from": "artifacts-as-memory", "to": "context-engineering", "rel": "enables", "evidence": "artifacts first, scale second — optimize environment before scaling model"},
     {"from": "artifacts-as-memory", "to": "memfactory", "rel": "complementary", "evidence": "MemFactory manages artifacts operationally, this paper proves WHY artifacts help formally"},
-    {"from": "artifacts-as-memory", "to": "active-metacognitive-curation", "rel": "related-to", "evidence": "curation decides WHAT to keep in artifacts; this paper proves artifacts reduce capacity needs"}
+    {"from": "artifacts-as-memory", "to": "active-metacognitive-curation", "rel": "related-to", "evidence": "curation decides WHAT to keep in artifacts; this paper proves artifacts reduce capacity needs"},
+    {"from": "cpmi-process-reward", "to": "rational-rewards", "rel": "related-to", "evidence": "oba překonávají skalární reward signály — PARROT přes structured critique, CPMI přes contrastive PMI"},
+    {"from": "cpmi-process-reward", "to": "rlvr", "rel": "enables", "evidence": "efektivní PRM labeling umožňuje škálování RLVR bez MC rolloutů"},
+    {"from": "cpmi-process-reward", "to": "memfactory", "rel": "related-to", "evidence": "CPMI poskytuje levnější step-level labels pro RL-based memory management"},
+    {"from": "cpmi-process-reward", "to": "stopa", "rel": "applied-in", "evidence": "step-level reward model insight aplikovatelný v /critic a /autoreason (intermediate step quality)"}
   ]
 }

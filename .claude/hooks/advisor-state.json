@@ -1,5 +1,5 @@
 {
-  "call_count": 8231,
+  "call_count": 8644,
   "has_todo": true,
   "edit_file_set": [
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\capability-gaps.md",
@@ -558,10 +558,16 @@
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\server.mjs",
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\dashboard\\public\\index.html",
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-11-iteration-paradox-meta-pattern.md",
-    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\dreams\\2026-04-16.md"
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\dreams\\2026-04-16.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\raw\\2026-04-16-cpmi-process-reward.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\wiki\\concepts\\cpmi-process-reward.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\routing-traces.jsonl",
+    "C:\\Users\\stock\\.claude\\scheduled-tasks\\p22-router-trace-check\\SKILL.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\hooks\\raw-capture.sh",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-16-hook-cwd-anchor-pattern.md"
   ],
   "last_edit_was_py": false,
-  "grep_count": 2787,
-  "last_suggestion_ts": 1776320919.5401235,
-  "skill_count": 48
+  "grep_count": 2916,
+  "last_suggestion_ts": 1776369754.102211,
+  "skill_count": 49
 }

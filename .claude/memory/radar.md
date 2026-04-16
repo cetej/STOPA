@@ -4,7 +4,7 @@ Tracked findings from `/radar` scans and manual evaluations.
 Archived: `radar-archive.md` (when >400 lines)
 
 ## Stats
-Last scan: 2026-04-15 (scheduled #23) | Total: 68 tools | 🔴 13 | 🟡 52 | 🟢 3
+Last scan: 2026-04-16 (scheduled #25) | Total: 70 tools | 🔴 14 | 🟡 53 | 🟢 3
 
 ## Active Research (🔴)
 | Tool | Category | Score | Source | Captured | Status | Project fit |
@@ -26,6 +26,8 @@ Last scan: 2026-04-15 (scheduled #23) | Total: 68 tools | 🔴 13 | 🟡 52 | �
 ## Watch List (🟡)
 | Tool | Category | Score | Source | Captured | Notes |
 |------|----------|-------|--------|----------|-------|
+| [Google Antigravity](https://antigravity.google/) | Multi-agent IDE / CC competitor | 8/10 | scan | 2026-04-16 | **EVALUATE** | STOPA farm tier architecture + CC competitor tracking — Manager Surface (spawn/orchestrate/observe multi-agent workspaces) + Artifacts (task plans, screenshots, browser recordings) for agent verification. Multi-provider (Claude Sonnet 4.5, GPT-OSS, Gemini 3 Pro). Windows + macOS + Linux. Free public preview. No MCP, no GitHub. Stability issues (context memory errors, premature termination). Announced Nov 2025, public preview April 2026. antigravity.google/download. Telegram notified. |
+| [Kimi Code K2.6](https://code.kimi.com/) | Coding terminal agent / CC competitor | 7/10 | scan | 2026-04-16 | Moonshot AI, GA April 13 2026. 1T param MoE (32B active), 76.8% SWE-Bench Verified, 256K context, 100 tok/s. **Agent Swarm: 100 parallel sub-agents, 4.5× faster** na paralelizovatelných tasků. `curl -L code.kimi.com/install.sh \| bash`, v1.33.0+, K2.5 weights HuggingFace (Modified MIT). $0.60/$2.50 MTok — výrazně levnější než Sonnet 4.6. STOPA fit: competitor tracking + Agent Swarm architektura relevantní pro farm tier design + POLYBOT/ORAKULUM model tier. |
 | [Kreuzberg](https://github.com/kreuzberg-dev/kreuzberg) | Document extraction / Rust Python lib | 7/10 | scan | 2026-04-14 | v4.8.5, 91+ formats (PDF/DOCX/XLSX/PPTX/HTML/images/email/archives/code 248 langs), Rust core, 10-50x rychlejší než alternativy, OCR built-in (Tesseract/EasyOCR/PaddleOCR). `pip install kreuzberg`, Python 3.10+, **Elastic-2.0 (proprietární)**. Streaming parsers pro velké soubory. CLI + REST API + Docker. Na'aman Hirschfeld, activně udržováno (poslední release dnes). NG-ROBOT document intake upgrade vs MarkItDown (více formátů + rychlost ale proprietární licence). MONITOR HTML scraping. DANE PDF intake. Zváž MarkItDown vs Kreuzberg pilot na NG-ROBOT vstupech. |
 | [agent-governance-toolkit](https://github.com/microsoft/agent-governance-toolkit) | Agent security / runtime governance | 7/10 | scan | 2026-04-13 | Microsoft, MIT, Python+TS+Rust+Go+.NET. 7 packages: Agent OS (policy engine, <0.1ms p99), Agent Mesh (crypto identity + A2A comms), Agent Runtime (execution rings), Agent SRE (circuit breakers), Agent Compliance (OWASP Agentic Top 10 — all 10 risks), Agent Marketplace (plugin lifecycle), Agent Lightning (RL training governance). `pip install agent-governance-toolkit[full]`. STOPA fit: enforcement layer komplementární k qsag-core (detection). Agent Mesh crypto identity relevantní pro multi-agent farms. Microsoft authority. Released 2026-04-02. |
 | [codex-plugin-cc](https://github.com/openai/codex-plugin-cc) | Cross-provider AI review / Claude Code plugin | 7/10 | scan | 2026-04-14 | Official OpenAI plugin pro Claude Code. Exposes Codex CLI jako MCP tools uvnitř CC session. Klíčové commands: `/codex:review` (code review), `/codex:adversarial-review` (pressure-test design decisions + failure modes), `/codex:rescue` + `/codex:status` + `/codex:result` (background job mgmt). Optional review gate (blokuje shipping pokud Codex identifikuje issues). Install: `/plugin install codex@openai-codex`. Node.js 18.18+. STOPA fit: adversarial second opinion bez opuštění CC session — přirozený komplement k /critic a /peer-review. `/codex:adversarial-review` = multi-model critic bez STOPA orchestrace overhead. Evaluate jako alternativu k peer-review skill pro design pressure-testing. |
@@ -94,6 +96,17 @@ Last scan: 2026-04-15 (scheduled #23) | Total: 68 tools | 🔴 13 | 🟡 52 | �
 ## Scan Log
 ### 2026-04-08 — manual | Lightpanda — 5/10 🟡
 - Headless browser postavený v Zig (ne Chromium fork). CDP na port 9222 → drop-in pro Playwright/Puppeteer. V8 engine, AJAX/XHR, cookies, proxy. Beta, stovky Web APIs chybí, Windows pouze WSL2. Benchmarks: 11× rychlejší než Chrome, 9× méně RAM (AWS EC2 m5.large, 100 págů). 11.8k★. Potenciál pro MONITOR scraping agenty až dospěje.
+
+### 2026-04-16 — scheduled scan #25 | Searches: 4 | Fetches: 4 | Found: 1 new
+- [Google Antigravity](https://antigravity.google/) — 8/10 🔴 — Google official multi-agent IDE (public preview April 2026). Editor View + Manager Surface (spawn/orchestrate/observe agents across workspaces) + Artifacts (verification deliverables). Multi-provider: Claude Sonnet 4.5, GPT-OSS, Gemini 3 Pro. Windows/macOS/Linux. Free for individuals. Stability issues (context memory errors, premature termination mid-task). No MCP integration mentioned. Direct CC competitor; Manager Surface architektura relevantní pro STOPA farm tier design. Telegram notified.
+- Skipped (already tracked): Kimi Code K2.6 (7/10, scan #24), Cursor 3.0 (6/10, scan #12), codex-plugin-cc (7/10, scan #20), Goose (7/10, scan #7), MarkItDown (7/10 noted), SmolAgents (HF established), Meta Llama Stack (model infra), ADK python (variant of adk-js 5/10)
+- Skipped (not tools): Plain framework (Django fork, established, not new), Lovable/Mintlify/Codeium/v0 (established tools), MCP ecosystem updates (→/watch)
+- Score >= 8 → Telegram notified (Google Antigravity)
+
+### 2026-04-16 — scheduled scan #24 | Searches: 3 | Fetches: 2 | Found: 1 new
+- [Kimi Code K2.6](https://code.kimi.com/) — 7/10 🟡 — Moonshot AI terminal coding agent (GA April 13, 2026). 1T param MoE, 76.8% SWE-bench, Agent Swarm 100 parallel sub-agents (4.5× faster). $0.60/$2.50 MTok. Přímý CC competitor; Agent Swarm architektura referenčně zajímavá pro STOPA farm tier.
+- Skipped: Eyeball (3/10 — screenshot-inline evidence tool, indie, too early-stage), C3 Code (enterprise, noted 5×), Gemma 4 (model, noted 6×), Lucidworks MCP (enterprise, noted 4×)
+- No score >= 8 → no Telegram notification
 
 ### 2026-04-15 — scheduled scan #23 | Searches: 5 | Fetches: 2 | Found: 1 new
 - [Crit](https://github.com/tomasz-tomczyk/crit) — 6/10 🟡 — CLI pro human-in-loop review agent outputu (GitHub PR inline komentáře). `brew install`, crit.live. macOS-first, indie dev. STOPA fit: vzor pro interaktivní feedback loop — samotný STOPA ale nepotřebuje UI review tool (autoloop pokrývá). Sledovat pro budoucí /review-session skill.

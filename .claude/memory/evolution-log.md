@@ -4,6 +4,39 @@ Record of /evolve audit proposals and outcomes.
 
 ---
 
+## Evolution Run — 2026-04-16 (#13)
+
+### Signals
+- 12 corrections (0 new since #11 — stable 15+ days)
+- 28 violations (unchanged — 23 stale refs delegated as tech-debt, 5 historical)
+- 163 learnings scanned (+1 since #12: cpmi-process-reward)
+- 1 graduation candidate: bigmas (uses=10, validated, conf=1.0, harmful=0)
+- 0 maturity draft→validated (all uses≥5 already validated)
+- 0 prune candidates (0 learnings below 0.3 confidence)
+- 0 harmful_uses ≥1 across all 163 learnings
+- Sessions: 10/10 healthy today (0 corrections, 0 frustrations, 0 violations)
+- Replay queue: empty
+- Panic episodes file does not exist
+
+### Proposals
+- 2 proposed, 2 approved, 0 rejected, 2 deferred (CP promotion, /compile recommendation)
+
+### Applied
+- MATURITY: bigmas-directed-graph-orchestration.md → core (uses=10, conf=1.0, harmful=0)
+- CLEANUP: improvement-queue.md — removed 5 stale references to runtime-created files (implementation-plan.md, scratchpad.md, panic-episodes.jsonl, wiki/.compile, briefings/*); kept 5 real violations with ALREADY_COVERED/stale notes
+
+### Deferred
+- CP promotion for bigmas — critical-patterns at 10/10 capacity, implementation already in orchestrate SKILL.md Phase 3.3, no need to duplicate
+- /compile run — recommended as next step outside evolve scope (wiki 4 days stale, 373 raw captures unprocessed)
+
+### Key Findings
+- System extremely stable — 15+ days without new corrections
+- Fourth learning graduated to `core` maturity (heartbeat, shared-public-state, cpmi-process-reward... + now bigmas)
+- Near-graduation candidates: triattention (uses=6), rlm-principles (uses=6) — both validated, need ~4 more uses
+- improvement-queue.md had persistent stale entries from unknown writer — root cause needs investigation
+
+---
+
 ## Evolution Run — 2026-04-16 (#12)
 
 ### Signals

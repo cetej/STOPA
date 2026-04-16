@@ -22,3 +22,4 @@ Append-only chronologický záznam ingestů, dotazů a maintenance průchodů.
 | 2026-04-15 | CAPTURE: AI Empathic Templates (arXiv:2604.08479) — 10 taktik, regex šablona, struktura > slovník | +1 new article (ai-empathic-templates.md), graph +1 node +3 edges | /capture (text) |
 | 2026-04-15 | CAPTURE: Memory Caching (arXiv:2602.24281) — RNN + checkpoint caching, O(L)↔O(L²) interpolace, 4 varianty | +1 new article (memory-caching-rnn.md), graph +1 node +4 edges | /capture (text) |
 | 2026-04-15 | CAPTURE: Artifacts as Memory (arXiv:2604.08756) — formální důkaz external memory, 4× kapacitní redukce, emergentní traces | +1 new article (artifacts-as-memory.md), graph +1 node +6 edges | /capture (text) |
+| 2026-04-16 | INGEST: arXiv:2604.10660 — CPMI (Contrastive Process Reward Modeling, ACL 2026); −84% dataset time, −98% token gen | +1 new article (cpmi-process-reward.md), graph +1 node +4 edges (v1.5) | brain-ingest scheduled task |

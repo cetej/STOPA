@@ -767,7 +767,7 @@ TARo proves routers trained on small models transfer to large ones — they lear
 1. Run subtask through **haiku first** (cheapest option)
 2. If haiku succeeds AND critic scores ≥ 3.5 → **keep haiku result** (save 80% cost)
 3. If haiku fails OR critic scores < 3.5 → route to sonnet/opus with haiku's partial work as context
-4. Track success patterns: `{task_class, subtask_type, haiku_success: bool}` in budget.md traces
+4. **Log outcome in routing trace** — set `haiku_success: true|false` when writing the subtask trace in Phase 4 "After each subtask" step 10. This feeds the P2.2 classifier — do not skip even when haiku fails.
 
 **When to use haiku-first:**
 - Subtask has no security/auth/payment signals
@@ -946,7 +946,19 @@ If any check fails → do NOT launch next wave. Fix the gap first (re-run subtas
 7. **De-sloppify check** (standard/deep only): Haiku agent scans for debug prints, TODO markers, mixed naming, commented-out code in changed files. Non-blocking — log findings for critic.
 8. Invoke `/critic` if tier allows. Light tier: skip per-subtask, critic once at end.
 9. If critic FAIL → re-execute ONCE. If FAIL again → circuit breaker → escalate to user
-10. Log decisions to `.claude/memory/decisions.md`
+10. **Emit routing trace** — append one JSONL line to `.claude/memory/routing-traces.jsonl`:
+    ```json
+    {"date": "YYYY-MM-DD", "task_class": "<state.md type field>", "subtask_id": "st-N", "model": "haiku|sonnet|opus", "haiku_first": true, "haiku_success": true, "tier": "standard", "files_changed": 2, "wave": 1, "critic_score": "PASS"}
+    ```
+    Field guide:
+    - `task_class`: from state.md `type:` field (bug_fix|feature|refactor|research|maintenance|docs|security)
+    - `model`: from router selection logged in state.md `model:` per subtask
+    - `haiku_first`: true if Haiku-First strategy was attempted for this subtask
+    - `haiku_success`: true/false if haiku_first=true; null otherwise
+    - `critic_score`: PASS|WARN|FAIL from critic verdict; null if critic skipped this subtask (light tier per-subtask)
+    - `files_changed`: count of files in `context_scope` (or actual diff count if available)
+    **Target:** 50+ traces with critic_score → enables P2.2 data-driven routing classifier. Append mode — never overwrite.
+11. Log decisions to `.claude/memory/decisions.md`
 
 ### Context health check (after each subtask)
 

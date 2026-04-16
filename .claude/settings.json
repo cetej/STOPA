@@ -250,6 +250,12 @@
             "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/outcome-writer.py",
             "timeout": 5,
             "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/impact-tracker.py",
+            "timeout": 3,
+            "statusMessage": ""
           }
         ]
       },
@@ -310,10 +316,24 @@
           },
           {
             "type": "command",
+            "if": "Write(**/learnings/**)|Edit(**/learnings/**)",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/graduation-check.py",
+            "timeout": 3,
+            "statusMessage": ""
+          },
+          {
+            "type": "command",
             "if": "Write(**/outcomes/**)",
             "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/outcome-credit.py",
             "timeout": 5,
             "statusMessage": "Updating learning credit counters..."
+          },
+          {
+            "type": "command",
+            "if": "Write(**/outcomes/**)",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/failure-recorder.py",
+            "timeout": 5,
+            "statusMessage": "Recording failure trajectory..."
           }
         ]
       }

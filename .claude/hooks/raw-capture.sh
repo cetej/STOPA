@@ -9,7 +9,11 @@
 HOOK_INPUT=$(cat 2>/dev/null || true)
 echo "$HOOK_INPUT" | grep -q '"agent_type"' && exit 0
 
-MEMORY_DIR=".claude/memory"
+# Anchor to project root via script location — prevents CWD-dependent writes
+# (previous bug: hook ran from .claude/memory/learnings/ → created nested anomaly tree)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+MEMORY_DIR="$PROJECT_ROOT/.claude/memory"
 RAW_DIR="$MEMORY_DIR/raw"
 LOG="$MEMORY_DIR/activity-log.md"
 STATE="$MEMORY_DIR/state.md"
