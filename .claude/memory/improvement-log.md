@@ -14,3 +14,4 @@ Cross-project improvement routing audit trail. Each row = one routed finding.
 | 2026-04-15 | CC Routines — server-side scheduled automations, /schedule impact | radar.md 9/10 + news.md #105 HIGH | cetej/STOPA | [#4](https://github.com/cetej/STOPA/issues/4) |
 | 2026-04-15 | pytest-aitest — LLM-based TDD for SKILL.md quality validation | radar.md 8/10 EVALUATE | cetej/STOPA | [#5](https://github.com/cetej/STOPA/issues/5) |
 | 2026-04-15 | CC Plugin `monitors` manifest key — background monitoring skills | news.md #109 HIGH | cetej/STOPA | [#6](https://github.com/cetej/STOPA/issues/6) |
+| 2026-04-17 | OpenHarness — architectural mirror STOPA (10 subsystems, multi-provider, MIT) | radar.md 8/10 EVALUATE | cetej/STOPA | [#7](https://github.com/cetej/STOPA/issues/7) |
