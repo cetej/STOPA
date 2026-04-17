@@ -76,6 +76,18 @@
             "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/pulse-generator.py",
             "timeout": 8,
             "statusMessage": "Generating system pulse..."
+          },
+          {
+            "type": "command",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/build-permission-registry.py",
+            "timeout": 8,
+            "statusMessage": "Building skill permission registry..."
+          },
+          {
+            "type": "command",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/improvement-notify.sh",
+            "timeout": 5,
+            "statusMessage": "Checking cross-project improvements..."
           }
         ]
       }
@@ -141,7 +153,14 @@
     "PostToolUse": [
       {
         "matcher": "Agent",
-        "hooks": []
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/model-perf-tracker.py",
+            "timeout": 3,
+            "statusMessage": ""
+          }
+        ]
       },
       {
         "matcher": "WebFetch|WebSearch|mcp__brave-search__brave_web_search|mcp__brave-search__brave_local_search|mcp__Claude_in_Chrome__get_page_text|mcp__Claude_in_Chrome__read_page",
@@ -183,6 +202,18 @@
           },
           {
             "type": "command",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/stagnation-detector.py",
+            "timeout": 3,
+            "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/trace-capture.py",
+            "timeout": 2,
+            "statusMessage": ""
+          },
+          {
+            "type": "command",
             "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/instruction-detector.py",
             "timeout": 3,
             "statusMessage": ""
@@ -204,6 +235,19 @@
             "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/post-commit-analyzer.sh",
             "timeout": 10,
             "statusMessage": "Analyzing commit..."
+          },
+          {
+            "type": "command",
+            "if": "Bash(git commit*)",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/critic-accuracy-tracker.py",
+            "timeout": 3,
+            "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/generation-tracker.py",
+            "timeout": 3,
+            "statusMessage": ""
           }
         ]
       },
@@ -243,6 +287,18 @@
             "type": "command",
             "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/skill-usage-tracker.sh",
             "timeout": 3,
+            "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/skill-context-tracker.sh",
+            "timeout": 3,
+            "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/skill-chain-engine.sh",
+            "timeout": 5,
             "statusMessage": ""
           },
           {
@@ -323,6 +379,13 @@
           },
           {
             "type": "command",
+            "if": "Write(**/learnings/**)|Edit(**/learnings/**)",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/auto-relate.py",
+            "timeout": 5,
+            "statusMessage": "Populating related learnings..."
+          },
+          {
+            "type": "command",
             "if": "Write(**/outcomes/**)",
             "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/outcome-credit.py",
             "timeout": 5,
@@ -334,6 +397,13 @@
             "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/failure-recorder.py",
             "timeout": 5,
             "statusMessage": "Recording failure trajectory..."
+          },
+          {
+            "type": "command",
+            "if": "Write(**/outcomes/**)|Write(**/learnings/**)|Edit(**/learnings/**)",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/trigger-engine.py",
+            "timeout": 5,
+            "statusMessage": "Evaluating trigger rules..."
           }
         ]
       }
@@ -427,6 +497,24 @@
             "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/raw-capture.sh",
             "timeout": 5,
             "statusMessage": "Capturing raw session data..."
+          },
+          {
+            "type": "command",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/graph-consolidate.sh",
+            "timeout": 10,
+            "statusMessage": "Rebuilding concept graph..."
+          },
+          {
+            "type": "command",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/hebbian-consolidate.py",
+            "timeout": 10,
+            "statusMessage": "Hebbian consolidation..."
+          },
+          {
+            "type": "command",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/compile-trigger.sh",
+            "timeout": 5,
+            "statusMessage": "Checking compile threshold..."
           }
         ]
       }

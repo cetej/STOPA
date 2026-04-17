@@ -325,7 +325,50 @@ def main():
         except Exception:
             pass
 
-    # 4. Log violations
+    # 4. Check SKILL.md frontmatter conventions (rules/skill-files.md)
+    # Gated by STOPA_VERIFY_SKILL_FRONTMATTER=1 — emits ~63 violations on full audit
+    import os as _os
+    if _os.environ.get("STOPA_VERIFY_SKILL_FRONTMATTER") == "1":
+        skills_dir = Path(".claude/skills")
+        if skills_dir.exists():
+            for skill_dir in sorted(skills_dir.iterdir()):
+                if not skill_dir.is_dir():
+                    continue
+                skill_file = skill_dir / "SKILL.md"
+                if not skill_file.exists():
+                    continue
+                try:
+                    content = skill_file.read_text(encoding="utf-8", errors="replace")
+                    meta = parse_yaml_frontmatter(content)
+
+                    # Rule: description must start with "Use when..." (rules/skill-files.md)
+                    desc = meta.get("description", "")
+                    if desc and not desc.strip().lower().startswith("use when"):
+                        checked += 1
+                        failed += 1
+                        violations.append({
+                            "timestamp": ts,
+                            "source": f"skills/{skill_dir.name}/SKILL.md",
+                            "label": "description should start with 'Use when...'",
+                            "check": "description starts with 'Use when'",
+                            "result": f"starts with: {desc[:60]!r}",
+                        })
+
+                    # Rule: max-depth required (core-invariant #8)
+                    if "max-depth" not in meta:
+                        checked += 1
+                        failed += 1
+                        violations.append({
+                            "timestamp": ts,
+                            "source": f"skills/{skill_dir.name}/SKILL.md",
+                            "label": "missing max-depth (core-invariant #8)",
+                            "check": "max-depth field present",
+                            "result": "field missing",
+                        })
+                except Exception:
+                    pass
+
+    # 5. Log violations
     if violations:
         VIOLATIONS_LOG.parent.mkdir(parents=True, exist_ok=True)
         with VIOLATIONS_LOG.open("a", encoding="utf-8") as f:

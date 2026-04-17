@@ -110,7 +110,7 @@ if os.path.isdir(learnings_dir):
 raw_dir = os.path.join(MEMORY, 'raw')
 if os.path.isdir(raw_dir):
     raw_files = [f for f in os.listdir(raw_dir) if f.endswith('.md') and not f.startswith('.')]
-    if len(raw_files) > 15:
+    if len(raw_files) > 100:
         reasons.append(f'{len(raw_files)} unprocessed raw captures — run /compile to synthesize')
 
 if reasons:
