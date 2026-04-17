@@ -13,6 +13,13 @@ Zpracované záznamy se přesunou do `inbox-archive.md`.
 
 ## Queue
 
+URL: https://arxiv.org/abs/2504.16828
+URL: https://arxiv.org/abs/2604.11623
+URL: https://arxiv.org/abs/2604.07681
+URL: https://arxiv.org/abs/2603.22862
+URL: https://arxiv.org/abs/2603.27910
+URL: https://x.com/karpathy/status/2039805659525644595
+
 ## Processed
 
 | Date | Item |

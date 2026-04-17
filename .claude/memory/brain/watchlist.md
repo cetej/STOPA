@@ -8,10 +8,10 @@ Emaily v těchto labelech se automaticky zpracují do inbox.md:
 
 | Label | Gmail ID | Popis | Poslední scan |
 |-------|----------|-------|---------------|
-| To Read | Label_13 | Články a zdroje k přečtení | 2026-04-16 |
-| To Watch | Label_14 | Videa k zhlédnutí | 2026-04-16 |
-| Later | Label_15 | Odložené k pozdějšímu zpracování | 2026-04-16 |
-| Starred (unread) | STARRED | Hvězdičkou označené nepřečtené | 2026-04-16 |
+| To Read | Label_13 | Články a zdroje k přečtení | 2026-04-17 |
+| To Watch | Label_14 | Videa k zhlédnutí | 2026-04-17 |
+| Later | Label_15 | Odložené k pozdějšímu zpracování | 2026-04-17 |
+| Starred (unread) | STARRED | Hvězdičkou označené nepřečtené | 2026-04-17 |
 
 ## Gmail Senders (auto-capture newsletters)
 
@@ -19,35 +19,35 @@ Emaily od těchto odesílatelů se automaticky zpracují:
 
 | Sender | Popis | Poslední scan |
 |--------|-------|---------------|
-| newsletter@platformer.news | Tech news (Platformer) | 2026-04-16 |
-| noreply@substack.com | Substack newsletters | 2026-04-16 |
+| newsletter@platformer.news | Tech news (Platformer) | 2026-04-17 |
+| noreply@substack.com | Substack newsletters | 2026-04-17 |
 
 ## Blogs & Personal Sites
 
 | URL | Autor | Frekvence | Poslední scan |
 |-----|-------|-----------|---------------|
-| https://karpathy.bearblog.dev/ | Karpathy | daily | 2026-04-16 |
+| https://karpathy.bearblog.dev/ | Karpathy | daily | 2026-04-17 |
 
 ## arXiv Topics
 
 | Query | Oblast | Kategorie | Poslední scan |
 |-------|--------|-----------|---------------|
 | LLM memory augmented agents | AI/ML | cs.AI | 2026-04-16 |
-| personal knowledge management AI | PKM | cs.AI | 2026-04-16 |
-| agent orchestration multi-agent tool-use | Orchestrace | cs.AI, cs.MA | 2026-04-16 |
-| RAG retrieval-augmented prompting context-engineering | Retrieval | cs.CL | 2026-04-16 |
-| LLM coding agent automated software engineering | Dev tools | cs.SE | 2026-04-16 |
-| self-improving agent reinforcement learning feedback | Self-improve | cs.AI, cs.LG | 2026-04-16 |
-| process reward model step verification | RL/Rewards | cs.AI, cs.LG | 2026-04-16 |
-| prompt injection agent safety defense | Safety | cs.CR, cs.AI | 2026-04-16 |
+| personal knowledge management AI | PKM | cs.AI | 2026-04-17 |
+| agent orchestration multi-agent tool-use | Orchestrace | cs.AI, cs.MA | 2026-04-17 |
+| RAG retrieval-augmented prompting context-engineering | Retrieval | cs.CL | 2026-04-17 |
+| LLM coding agent automated software engineering | Dev tools | cs.SE | 2026-04-17 |
+| self-improving agent reinforcement learning feedback | Self-improve | cs.AI, cs.LG | 2026-04-17 |
+| process reward model step verification | RL/Rewards | cs.AI, cs.LG | 2026-04-17 |
+| prompt injection agent safety defense | Safety | cs.CR, cs.AI | 2026-04-17 |
 
 ## X/Twitter Accounts
 
 | Handle | Důvod sledování | Poslední scan |
 |--------|----------------|---------------|
-| @karpathy | LLM Wiki, context engineering, Software 3.0 | 2026-04-16 |
-| @AnthropicAI | Claude updates, safety research | 2026-04-16 |
-| @simonw | LLM tooling, datasette, practical AI | 2026-04-16 |
+| @karpathy | LLM Wiki, context engineering, Software 3.0 | 2026-04-17 |
+| @AnthropicAI | Claude updates, safety research | 2026-04-17 |
+| @simonw | LLM tooling, datasette, practical AI | 2026-04-17 |
 
 ## Google Drive Folders (auto-scan)
 
