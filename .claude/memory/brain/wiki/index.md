@@ -3,12 +3,12 @@
 Obsah kompilovaných wiki článků organizovaný podle typu entity.
 LLM čte tento soubor PRVNÍ při odpovídání na dotazy.
 
-**Last updated:** 2026-04-16
-**Total articles:** 28
+**Last updated:** 2026-04-17
+**Total articles:** 34
 
 ---
 
-## Concepts (16)
+## Concepts (25)
 
 | Article | Summary | Sources | Updated |
 |---------|---------|---------|---------|
@@ -32,6 +32,11 @@ LLM čte tento soubor PRVNÍ při odpovídání na dotazy.
 | [rational-rewards](concepts/rational-rewards.md) | PARROT: reasoning reward model s 4-dim kritikou; dual-space (RL + test-time prompt refinement); 8B = Gemini-2.5-Pro | arXiv:2604.11626 | 2026-04-15 |
 | [artifacts-as-memory](concepts/artifacts-as-memory.md) | Formální důkaz: env artefakty = external memory, 4× redukce interní kapacity; "artifacts first, scale second" | arXiv:2604.08756 | 2026-04-15 |
 | [cpmi-process-reward](concepts/cpmi-process-reward.md) | CPMI: contrastive PMI jako step-level reward label bez MC rolloutů; −84% čas, −98% tokeny, ACL 2026 | arXiv:2604.10660 | 2026-04-16 |
+| [think-prm](concepts/think-prm.md) | ThinkPRM: generativní PRM s CoT verifikací; 1% labelů, +8% OOD, +7.2% vs LLM-as-a-Judge | arXiv:2504.16828 | 2026-04-17 |
+| [context-kubernetes](concepts/context-kubernetes.md) | Deklarativní knowledge orchestrace pro agenty; YAML manifesty, 3-tier permissions, TLA+ ověřeno | arXiv:2604.11623 | 2026-04-17 |
+| [multi-agent-hpc](concepts/multi-agent-hpc.md) | Planner-executor na exascale HPC; shared MCP server coordination; Aurora supercomputer | arXiv:2604.07681 | 2026-04-17 |
+| [tool-use-evolution](concepts/tool-use-evolution.md) | Survey: single→multi-tool orchestration; 6 dimenzí (planning, training, safety, efficiency, completeness, eval) | arXiv:2603.22862 | 2026-04-17 |
+| [gaama](concepts/gaama.md) | Graph Augmented Associative Memory; 4 node types, PPR retrieval, 78.9% LoCoMo-10 SOTA | arXiv:2603.27910 | 2026-04-17 |
 
 ## People (2)
 

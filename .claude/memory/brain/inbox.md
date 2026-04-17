@@ -13,13 +13,6 @@ Zpracované záznamy se přesunou do `inbox-archive.md`.
 
 ## Queue
 
-URL: https://arxiv.org/abs/2504.16828
-URL: https://arxiv.org/abs/2604.11623
-URL: https://arxiv.org/abs/2604.07681
-URL: https://arxiv.org/abs/2603.22862
-URL: https://arxiv.org/abs/2603.27910
-URL: https://x.com/karpathy/status/2039805659525644595
-
 ## Processed
 
 | Date | Item |
@@ -32,3 +25,9 @@ URL: https://x.com/karpathy/status/2039805659525644595
 | 2026-04-14 | URL: https://x.com/ICPandaDAO/status/2040434533619892603 — Karpathy operating knowledge → updated llm-wiki.md + karpathy.md + new graph node |
 | 2026-04-15 | URL: https://arxiv.org/abs/2603.10808 — Nurture-First Development → new wiki article nurture-first-development.md, 8 graph edges |
 | 2026-04-16 | URL: https://arxiv.org/abs/2604.10660 — CPMI Process Reward Modeling (ACL 2026) → new wiki article cpmi-process-reward.md, 4 graph edges |
+| 2026-04-17 | URL: https://arxiv.org/abs/2504.16828 — ThinkPRM → new wiki article think-prm.md, 4 graph edges |
+| 2026-04-17 | URL: https://arxiv.org/abs/2604.11623 — Context Kubernetes → new wiki article context-kubernetes.md, 3 graph edges |
+| 2026-04-17 | URL: https://arxiv.org/abs/2604.07681 — Multi-Agent HPC → new wiki article multi-agent-hpc.md, 2 graph edges |
+| 2026-04-17 | URL: https://arxiv.org/abs/2603.22862 — Tool Use Evolution → new wiki article tool-use-evolution.md, 2 graph edges |
+| 2026-04-17 | URL: https://arxiv.org/abs/2603.27910 — GAAMA → new wiki article gaama.md, 5 graph edges |
+| 2026-04-17 | URL: https://x.com/karpathy/status/2039805659525644595 — Karpathy LLM KB tweet → updated llm-wiki.md (Operační workflow sekce) |

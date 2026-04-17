@@ -1,6 +1,6 @@
 {
-  "version": "1.5",
-  "updated": "2026-04-16",
+  "version": "1.6",
+  "updated": "2026-04-17",
   "description": "2BRAIN knowledge graph — entity-centric storage with typed edges",
   "node_types": ["person", "concept", "project", "value", "reasoning", "experience", "goal"],
   "edge_types": ["created", "inspired", "contradicts", "enables", "blocks", "applied-in", "drives", "taught-me", "practiced-in", "related-to", "part-of", "complementary", "validates", "formalizes"],
@@ -228,6 +228,41 @@
       "tags": ["ai", "reward-model", "prm", "reasoning", "rl", "mutual-information", "efficiency"],
       "wiki": "concepts/cpmi-process-reward.md",
       "added": "2026-04-16"
+    },
+    "think-prm": {
+      "type": "concept",
+      "label": "ThinkPRM — Generative Process Reward Model",
+      "tags": ["ai", "reward-model", "prm", "reasoning", "verification", "cot", "test-time-scaling"],
+      "wiki": "concepts/think-prm.md",
+      "added": "2026-04-17"
+    },
+    "context-kubernetes": {
+      "type": "concept",
+      "label": "Context Kubernetes — Declarative Knowledge Orchestration",
+      "tags": ["ai", "agent", "governance", "enterprise", "permissions", "knowledge-management"],
+      "wiki": "concepts/context-kubernetes.md",
+      "added": "2026-04-17"
+    },
+    "multi-agent-hpc": {
+      "type": "concept",
+      "label": "Multi-Agent Orchestration for HPC (Planner-Executor)",
+      "tags": ["ai", "orchestration", "multi-agent", "hpc", "planner-executor", "scalability"],
+      "wiki": "concepts/multi-agent-hpc.md",
+      "added": "2026-04-17"
+    },
+    "tool-use-evolution": {
+      "type": "concept",
+      "label": "Tool Use Evolution — Single to Multi-Tool Orchestration",
+      "tags": ["ai", "agent", "tool-use", "orchestration", "survey", "safety"],
+      "wiki": "concepts/tool-use-evolution.md",
+      "added": "2026-04-17"
+    },
+    "gaama": {
+      "type": "concept",
+      "label": "GAAMA — Graph Augmented Associative Memory",
+      "tags": ["ai", "memory", "agent", "knowledge-graph", "retrieval", "ppr", "associative"],
+      "wiki": "concepts/gaama.md",
+      "added": "2026-04-17"
     }
   },
   "edges": [
@@ -303,6 +338,22 @@
     {"from": "cpmi-process-reward", "to": "rational-rewards", "rel": "related-to", "evidence": "oba překonávají skalární reward signály — PARROT přes structured critique, CPMI přes contrastive PMI"},
     {"from": "cpmi-process-reward", "to": "rlvr", "rel": "enables", "evidence": "efektivní PRM labeling umožňuje škálování RLVR bez MC rolloutů"},
     {"from": "cpmi-process-reward", "to": "memfactory", "rel": "related-to", "evidence": "CPMI poskytuje levnější step-level labels pro RL-based memory management"},
-    {"from": "cpmi-process-reward", "to": "stopa", "rel": "applied-in", "evidence": "step-level reward model insight aplikovatelný v /critic a /autoreason (intermediate step quality)"}
+    {"from": "cpmi-process-reward", "to": "stopa", "rel": "applied-in", "evidence": "step-level reward model insight aplikovatelný v /critic a /autoreason (intermediate step quality)"},
+    {"from": "think-prm", "to": "cpmi-process-reward", "rel": "related-to", "evidence": "CPMI řeší labeling efektivitu PRMs, ThinkPRM řeší verifikaci quality; komplementární přístupy k PRM improvement"},
+    {"from": "think-prm", "to": "rational-rewards", "rel": "related-to", "evidence": "PARROT structured critique ↔ ThinkPRM CoT verifikace: obojí přidává reasoning vrstvu nad skalární reward signal"},
+    {"from": "think-prm", "to": "rlvr", "rel": "enables", "evidence": "lepší step-level verifikace = lepší reward signal pro RLVR trénování"},
+    {"from": "think-prm", "to": "stopa", "rel": "applied-in", "evidence": "/critic = LLM-as-a-Judge, ThinkPRM ukazuje CoT verifikace dává +7.2% — upgrade path pro /critic"},
+    {"from": "context-kubernetes", "to": "context-engineering", "rel": "related-to", "evidence": "CK je enterprise-scale implementace context engineering principů s formální governance vrstvou"},
+    {"from": "context-kubernetes", "to": "agent-memory-taxonomy", "rel": "formalizes", "evidence": "permission model + freshness policies = governance vrstva nad write-manage-read loop"},
+    {"from": "context-kubernetes", "to": "stopa", "rel": "applied-in", "evidence": "memory governance, key-facts.md, permission-tier v SKILL.md sdílejí CK architekturu"},
+    {"from": "multi-agent-hpc", "to": "stopa", "rel": "applied-in", "evidence": "planner-executor vzor = /orchestrate + worker agents + shared state.md; HPC validuje vzor domain-agnosticky"},
+    {"from": "multi-agent-hpc", "to": "context-engineering", "rel": "related-to", "evidence": "shared MCP server = shared context window implementace pro paralelní agenty"},
+    {"from": "tool-use-evolution", "to": "stopa", "rel": "validates", "evidence": "circuit breakers, budget tiers, /verify, constrained-tools řeší přesně 6 dimenzí surveye"},
+    {"from": "tool-use-evolution", "to": "context-engineering", "rel": "related-to", "evidence": "multi-tool trajectory management = context engineering challenge (tool results v kontextu)"},
+    {"from": "gaama", "to": "agent-memory-taxonomy", "rel": "formalizes", "evidence": "GAAMA přidává konkrétní 4-node/5-edge implementaci k write-manage-read taxonomii"},
+    {"from": "gaama", "to": "ecphory-rag", "rel": "related-to", "evidence": "oba graf-based retrieval: EcphoryRAG entity-centric 94% token reduction, GAAMA PPR-based SOTA benchmark"},
+    {"from": "gaama", "to": "second-brain", "rel": "enables", "evidence": "GAAMA architektura s 78.9% na LoCoMo-10 empiricky validuje KG-based second brain přístup"},
+    {"from": "gaama", "to": "memfactory", "rel": "related-to", "evidence": "MemFactory: RL-based update policy (CO udržovat); GAAMA: graph-based struktura (JAK organizovat) — komplementární"},
+    {"from": "gaama", "to": "active-metacognitive-curation", "rel": "related-to", "evidence": "reflection nodes ≈ metacognitive curation výstup; GAAMA implementuje synthesis tier hierarchicky"}
   ]
 }

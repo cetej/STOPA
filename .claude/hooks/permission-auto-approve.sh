@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # PermissionRequest hook: Auto-approve safe operations, prompt for risky ones
-# v3.0 — autonomous mode: most operations auto-approved
+# v3.1 — reads tool_name from stdin JSON (PermissionRequest passes data via stdin, not env vars)
 #
 # AUTO-APPROVE: Read, Glob, Grep, WebFetch, WebSearch, ToolSearch, Edit, Write,
 #               Agent, TodoWrite, NotebookEdit, filesystem MCP (local),
@@ -13,25 +13,45 @@
 #               Chrome file_upload, unknown tools
 # SKIP:         Bash (handled by Dippy PreToolUse hook)
 
-TOOL="${CLAUDE_TOOL_NAME:-unknown}"
 LOG=".claude/memory/permission-log.md"
 TS=$(date +"%Y-%m-%d %H:%M")
+
+# Read stdin JSON and extract tool_name
+TMPFILE=$(mktemp 2>/dev/null || echo "/tmp/perm-hook-$$")
+cat > "$TMPFILE"
+TOOL=$(python -c "
+import json, sys
+try:
+    with open(sys.argv[1]) as f:
+        d = json.load(f)
+    # PermissionRequest sends tool_name in the JSON body
+    name = d.get('tool_name') or d.get('tool') or d.get('name') or 'unknown'
+    print(name)
+except Exception:
+    print('unknown')
+" "$TMPFILE" 2>/dev/null || echo "unknown")
+rm -f "$TMPFILE" 2>/dev/null
+
+# Fallback to env var (some CC versions set it)
+if [ "$TOOL" = "unknown" ] && [ -n "$CLAUDE_TOOL_NAME" ]; then
+  TOOL="$CLAUDE_TOOL_NAME"
+fi
 
 # Create log if missing
 if [ ! -f "$LOG" ]; then
   echo "# Permission Request Log" > "$LOG"
   echo "" >> "$LOG"
-  echo "Auto-captured by PermissionRequest hook. Autonomous mode v3.0." >> "$LOG"
+  echo "Auto-captured by PermissionRequest hook. Autonomous mode v3.1." >> "$LOG"
   echo "" >> "$LOG"
 fi
 
 auto_allow() {
-  echo "- $TS | AUTO | $TOOL" >> "$LOG"
+  echo "- $TS | AUTO | $TOOL" >> "$LOG" 2>/dev/null
   echo '{"behavior":"allow","suppressOutput":true}'
 }
 
 ask_user() {
-  echo "- $TS | ASK | $TOOL" >> "$LOG"
+  echo "- $TS | ASK | $TOOL" >> "$LOG" 2>/dev/null
   echo '{"behavior":"ask","suppressOutput":true}'
 }
 
@@ -63,6 +83,12 @@ case "$TOOL" in
   mcp__mcp-registry__*)
     auto_allow
     ;;
+  mcp__ccd_session__*)
+    auto_allow
+    ;;
+  mcp__ccd_directory__*)
+    auto_allow
+    ;;
 
   # --- GITHUB: most write ops auto, merge/delete ask ---
   mcp__github__get_*|mcp__github__list_*|mcp__github__search_*)
@@ -91,7 +117,10 @@ case "$TOOL" in
     ;;
 
   # --- CALENDAR: read/find auto, write ask ---
-  mcp__e27626c3*gcal_list*|mcp__e27626c3*gcal_get*|mcp__e27626c3*gcal_find*)
+  mcp__e27626c3*list*|mcp__e27626c3*get*)
+    auto_allow
+    ;;
+  mcp__e27626c3*suggest_time*)
     auto_allow
     ;;
   mcp__e27626c3*)
@@ -99,11 +128,11 @@ case "$TOOL" in
     ask_user
     ;;
 
-  # --- GOOGLE DRIVE: read auto, write ask ---
-  mcp__c1fc4002*google_drive_search*|mcp__c1fc4002*google_drive_fetch*)
+  # --- GOOGLE DRIVE (22ffc942 UUID): read auto, write ask ---
+  mcp__22ffc942*list*|mcp__22ffc942*get*|mcp__22ffc942*search*|mcp__22ffc942*read*|mcp__22ffc942*download*)
     auto_allow
     ;;
-  mcp__c1fc4002*)
+  mcp__22ffc942*)
     ask_user
     ;;
 
@@ -134,7 +163,10 @@ case "$TOOL" in
     ;;
 
   # --- CRON: auto (session-only, no persistent damage) ---
-  Cron*)
+  Cron*|SendMessage|Monitor|RemoteTrigger|TaskOutput|TaskStop|TeamCreate|TeamDelete)
+    auto_allow
+    ;;
+  EnterWorktree|ExitWorktree|EnterPlanMode|ExitPlanMode|ScheduleWakeup)
     auto_allow
     ;;
 
@@ -143,8 +175,12 @@ case "$TOOL" in
     auto_allow
     ;;
 
+  # --- PUSH NOTIFICATION: auto (outbound to own devices) ---
+  PushNotification)
+    auto_allow
+    ;;
+
   # --- BASH: auto-allow (Dippy PreToolUse hook handles command-level filtering) ---
-  # NOTE: exit 0 without JSON caused "stream closed" errors in scheduled task context
   Bash)
     auto_allow
     ;;

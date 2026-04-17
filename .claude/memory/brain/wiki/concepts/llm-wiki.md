@@ -65,6 +65,21 @@ Zettelkasten / Obsidian selhávají protože "bookkeeping burden — updating cr
 
 LLM Wiki automatizuje tuto vrstvu: AI je "tireless librarian and system maintainer".
 
+## Operační workflow (Karpathy tweet, 2026)
+
+Karpathy popsal konkrétní tooling stack pro LLM KB provoz:
+
+| Krok | Nástroj / přístup |
+|------|------------------|
+| Data ingest | Obsidian Web Clipper → raw/ adresář |
+| Wiki compilation | LLM generuje summaries, backlinky, konceptuální org. |
+| Viewing & management | Obsidian jako IDE |
+| Output formats | Markdown, Marp slides, matplotlib vizualizace |
+| Health checks | LLM-driven consistency audit |
+| Search | Custom search engine + CLI integrace |
+
+Scale threshold potvrzení: **~100 articles / 400K slov** zvládne komplexní Q&A bez sofistikovaného RAG.
+
 ## Limity škálování
 
 - ~few hundred articles před context window constraints
