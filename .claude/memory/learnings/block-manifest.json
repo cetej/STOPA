@@ -1,8 +1,33 @@
 {
-  "generated": "2026-04-15",
-  "total_blocks": 149,
-  "active_blocks": 146,
+  "generated": "2026-04-17",
+  "total_blocks": 155,
+  "active_blocks": 152,
   "blocks": {
+    "2026-04-15-sd-zero-self-revision-supervision.md": {
+      "id": "2026-04-15-sd-zero-self-revision-supervision.md",
+      "component": "general",
+      "date": "2026-04-15",
+      "type": "architecture",
+      "severity": "medium",
+      "tags": [
+        "self-improvement",
+        "training",
+        "distillation",
+        "repair-loop"
+      ],
+      "summary": "SD-ZERO: self-revision turns binary rewards into dense token-level supervision. Model plays dual roles (generator + reviser). Reviser concentrates corrections on error tokens (self-localization). Phase 1 trains revision ability, Phase 2 distills reviser knowledge back into generator. +10.5% on Qwen3-4B, -50% response length. Directly applicable to repair loops and critic patterns.",
+      "uses": 3,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [
+        "2026-04-15-prm-step-verification-orchestrate.md",
+        "2026-04-15-best-of-n-parallel-candidates.md",
+        "2026-04-13-generate-then-discard-suboptimal.md"
+      ],
+      "token_estimate": 582,
+      "retrieval_score": 1.935,
+      "active": true
+    },
     "2026-04-13-ai-persuasion-creates-genuine-preferences.md": {
       "id": "2026-04-13-ai-persuasion-creates-genuine-preferences.md",
       "component": "general",
@@ -22,7 +47,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 531,
-      "retrieval_score": 2.903,
+      "retrieval_score": 2.812,
       "active": true
     },
     "2026-04-13-ai-persuasion-disclosure-insufficient.md": {
@@ -44,7 +69,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 490,
-      "retrieval_score": 2.903,
+      "retrieval_score": 2.812,
       "active": true
     },
     "2026-04-13-disparagement-stronger-than-promotion.md": {
@@ -66,7 +91,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 461,
-      "retrieval_score": 2.903,
+      "retrieval_score": 2.812,
       "active": true
     },
     "2026-04-11-calm-continuous-autoregressive.md": {
@@ -87,7 +112,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 393,
-      "retrieval_score": 1.875,
+      "retrieval_score": 1.818,
       "active": true
     },
     "2026-04-11-iha-interleaved-head-attention.md": {
@@ -110,8 +135,8 @@
       "related": [
         "2026-04-11-calm-continuous-autoregressive.md"
       ],
-      "token_estimate": 417,
-      "retrieval_score": 1.875,
+      "token_estimate": 416,
+      "retrieval_score": 1.818,
       "active": true
     },
     "2026-04-08-jevons-paradox-ai-coding.md": {
@@ -131,7 +156,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 328,
-      "retrieval_score": 1.791,
+      "retrieval_score": 1.739,
       "active": true
     },
     "2026-04-07-model-metadata-dynamic-ui-pattern.md": {
@@ -148,12 +173,12 @@
         "dynamic-controls"
       ],
       "summary": "Model metadata jako single source of truth pro dynamické UI: jeden JSON soubor definuje inputy/limity/typy controls pro 200+ modelů, UI se generuje automaticky. Eliminuje O(N) komponent per model → O(1) generický formulář. Aplikovatelné na GRAFIK layery/efekty.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 471,
-      "retrieval_score": 1.765,
+      "retrieval_score": 1.714,
       "active": true
     },
     "2026-04-07-multi-reward-normalization-collapse.md": {
@@ -174,7 +199,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 454,
-      "retrieval_score": 1.765,
+      "retrieval_score": 1.714,
       "active": true
     },
     "2026-04-01-image-cache-invalidation.md": {
@@ -195,7 +220,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 419,
-      "retrieval_score": 1.622,
+      "retrieval_score": 1.579,
       "active": true
     },
     "2026-03-27-playwright-mcp-download-hijack.md": {
@@ -219,7 +244,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 797,
-      "retrieval_score": 3.038,
+      "retrieval_score": 2.963,
       "active": true
     },
     "2026-03-27-secrets-in-config-files.md": {
@@ -240,8 +265,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 328,
-      "retrieval_score": 3.038,
+      "token_estimate": 329,
+      "retrieval_score": 2.963,
       "active": true
     },
     "2026-03-23-ecosystem-scan.md": {
@@ -256,12 +281,12 @@
         "positioning"
       ],
       "summary": "STOPA ecosystem positioning: unique in combining skill system + shared memory + orchestration. Competitors lack memory layer.",
-      "uses": 3,
+      "uses": 4,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 222,
-      "retrieval_score": 0.723,
+      "retrieval_score": 0.706,
       "active": true
     },
     "2026-03-23-environment-falai.md": {
@@ -281,8 +306,59 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 203,
-      "retrieval_score": 1.446,
+      "token_estimate": 204,
+      "retrieval_score": 1.412,
+      "active": true
+    },
+    "2026-04-15-best-of-n-parallel-candidates.md": {
+      "id": "2026-04-15-best-of-n-parallel-candidates.md",
+      "component": "orchestration",
+      "date": "2026-04-15",
+      "type": "architecture",
+      "severity": "medium",
+      "tags": [
+        "best-of-n",
+        "parallel-exploration",
+        "mcts",
+        "autoloop",
+        "autoresearch",
+        "test-time-scaling"
+      ],
+      "summary": "Best-of-N s PRM scoring: místo lineární iterace (zkus A, pokud fail zkus B) generuj 2-3 kandidáty paralelně, ohodnoť lightweight criticem, expand nejlepšího. Aplikovatelné na autoloop, autoresearch, deep-tier orchestrate.",
+      "uses": 3,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [
+        "2026-04-15-parcae-exponential-decay-stopping.md",
+        "2026-04-15-sd-zero-self-revision-supervision.md"
+      ],
+      "token_estimate": 559,
+      "retrieval_score": 1.935,
+      "active": true
+    },
+    "2026-04-15-prm-step-verification-orchestrate.md": {
+      "id": "2026-04-15-prm-step-verification-orchestrate.md",
+      "component": "orchestration",
+      "date": "2026-04-15",
+      "type": "architecture",
+      "severity": "high",
+      "tags": [
+        "prm",
+        "step-verification",
+        "critic",
+        "early-termination",
+        "test-time-scaling"
+      ],
+      "summary": "Process Reward Models (step-level scoring) dramaticky překonávají Outcome Reward Models (finální verdikt) pro multi-step reasoning. STOPA orchestrate by měl přidat lightweight step-level verification po každém subtasku — haiku check 'splnil krok plán?', kill early při selhání.",
+      "uses": 3,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [
+        "2026-04-15-sd-zero-self-revision-supervision.md",
+        "2026-04-13-experience-replay-outcomes-reuse.md"
+      ],
+      "token_estimate": 564,
+      "retrieval_score": 2.903,
       "active": true
     },
     "2026-04-14-dacs-context-scoping.md": {
@@ -305,7 +381,7 @@
         "2026-04-11-compression-regime-maps-to-tiers.md"
       ],
       "token_estimate": 420,
-      "retrieval_score": 2.951,
+      "retrieval_score": 2.857,
       "active": true
     },
     "2026-04-14-mcp-server-token-overhead.md": {
@@ -328,7 +404,7 @@
         "2026-04-14-compact-timing-60pct.md"
       ],
       "token_estimate": 342,
-      "retrieval_score": 2.951,
+      "retrieval_score": 2.857,
       "active": true
     },
     "2026-04-14-paseo-orchestration-patterns.md": {
@@ -354,7 +430,7 @@
         "2026-04-12-morning-briefing-cron-pattern.md"
       ],
       "token_estimate": 688,
-      "retrieval_score": 2.951,
+      "retrieval_score": 2.857,
       "active": true
     },
     "2026-04-14-traceguard-5d-critic.md": {
@@ -377,7 +453,7 @@
         "2026-04-13-judge-panel-size-convergence.md"
       ],
       "token_estimate": 431,
-      "retrieval_score": 1.967,
+      "retrieval_score": 1.905,
       "active": true
     },
     "2026-04-13-breadth-depth-axis-tier-selection.md": {
@@ -399,7 +475,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 466,
-      "retrieval_score": 2.903,
+      "retrieval_score": 2.812,
       "active": true
     },
     "2026-04-13-do-nothing-first-class-option.md": {
@@ -421,7 +497,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 329,
-      "retrieval_score": 2.903,
+      "retrieval_score": 2.812,
       "active": true
     },
     "2026-04-13-experience-replay-outcomes-reuse.md": {
@@ -440,12 +516,14 @@
         "compute-efficiency"
       ],
       "summary": "Skills čtou optstate momentum, ale ne konkrétní outcomes z minulých runů. Phase 0 by mělo glob outcomes/<skill>-* (last 5, desc) a číst Trajectory Summary — stejný mechanismus jako experience replay v RL snižuje 'inference cost' (agent spawns) bez ztráty kvality.",
-      "uses": 2,
+      "uses": 3,
       "harmful_uses": 0,
       "supersedes": null,
-      "related": [],
-      "token_estimate": 466,
-      "retrieval_score": 2.903,
+      "related": [
+        "2026-04-15-prm-step-verification-orchestrate.md"
+      ],
+      "token_estimate": 562,
+      "retrieval_score": 2.812,
       "active": true
     },
     "2026-04-13-generate-then-discard-suboptimal.md": {
@@ -468,7 +546,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 468,
-      "retrieval_score": 2.903,
+      "retrieval_score": 2.812,
       "active": true
     },
     "2026-04-13-judge-panel-size-convergence.md": {
@@ -491,7 +569,7 @@
         "2026-04-14-traceguard-5d-critic.md"
       ],
       "token_estimate": 267,
-      "retrieval_score": 1.935,
+      "retrieval_score": 1.875,
       "active": true
     },
     "2026-04-13-pairwise-choice-sufficient-verifiable-signal.md": {
@@ -515,7 +593,7 @@
         "2026-04-08-direction-magnitude-decoupling-optimization.md"
       ],
       "token_estimate": 404,
-      "retrieval_score": 1.935,
+      "retrieval_score": 1.875,
       "active": true
     },
     "2026-04-13-pretraining-loss-insufficient-generalization-proxy.md": {
@@ -539,7 +617,7 @@
         "2026-04-08-early-iteration-unreliable-eval.md"
       ],
       "token_estimate": 424,
-      "retrieval_score": 2.903,
+      "retrieval_score": 2.812,
       "active": true
     },
     "2026-04-13-tournament-self-refinement-abc.md": {
@@ -561,7 +639,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 328,
-      "retrieval_score": 2.903,
+      "retrieval_score": 2.812,
       "active": true
     },
     "2026-04-12-advisor-tool-public-beta.md": {
@@ -582,7 +660,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 311,
-      "retrieval_score": 2.857,
+      "retrieval_score": 2.769,
       "active": true
     },
     "2026-04-12-fresh-session-self-report-verification.md": {
@@ -604,7 +682,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 391,
-      "retrieval_score": 1.905,
+      "retrieval_score": 1.846,
       "active": true
     },
     "2026-04-12-ib-optimality-predicts-benchmarks.md": {
@@ -626,7 +704,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 410,
-      "retrieval_score": 2.857,
+      "retrieval_score": 2.769,
       "active": true
     },
     "2026-04-12-model-size-negatively-correlated-honesty.md": {
@@ -651,7 +729,7 @@
         "2026-04-08-agent-deception-pressure-trigger.md"
       ],
       "token_estimate": 380,
-      "retrieval_score": 2.857,
+      "retrieval_score": 2.769,
       "active": true
     },
     "2026-04-12-morning-briefing-cron-pattern.md": {
@@ -673,7 +751,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 395,
-      "retrieval_score": 1.905,
+      "retrieval_score": 1.846,
       "active": true
     },
     "2026-04-12-pretraining-vs-posttraining-dissociation.md": {
@@ -696,7 +774,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 388,
-      "retrieval_score": 1.905,
+      "retrieval_score": 1.846,
       "active": true
     },
     "2026-04-12-skillclaw-auto-evolve-pipeline.md": {
@@ -719,7 +797,7 @@
         "2026-04-08-nlah-skill-evolution.md"
       ],
       "token_estimate": 450,
-      "retrieval_score": 2.857,
+      "retrieval_score": 2.769,
       "active": true
     },
     "2026-04-12-small-model-compression-threshold.md": {
@@ -742,7 +820,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 372,
-      "retrieval_score": 2.857,
+      "retrieval_score": 2.769,
       "active": true
     },
     "2026-04-12-sycophancy-not-hallucination.md": {
@@ -766,7 +844,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 401,
-      "retrieval_score": 2.857,
+      "retrieval_score": 2.769,
       "active": true
     },
     "2026-04-11-compression-regime-maps-to-tiers.md": {
@@ -791,7 +869,7 @@
         "2026-04-10-rlm-architectural-principles.md"
       ],
       "token_estimate": 584,
-      "retrieval_score": 1.875,
+      "retrieval_score": 1.818,
       "active": true
     },
     "2026-04-11-iteration-paradox-meta-pattern.md": {
@@ -809,7 +887,7 @@
         "meta-pattern"
       ],
       "summary": "Iteration Paradox: iteruj s bounded refinement, ale nevěř prvním výsledkům. Udržuj diverzitu (high-temp sampling), dej každému přístupu 5+ iterací, odhadni strop (sigmoidal fit), používej regression gate. RL post-training ničí diverzitu potřebnou pro exploraci.",
-      "uses": 2,
+      "uses": 3,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
@@ -819,8 +897,8 @@
         "2026-04-10-eggroll-evolutionary-optimization.md",
         "2026-04-03-autoagent-overfitting-guard.md"
       ],
-      "token_estimate": 535,
-      "retrieval_score": 2.812,
+      "token_estimate": 631,
+      "retrieval_score": 2.727,
       "active": true
     },
     "2026-04-11-speculative-reasoning-degrades-workers.md": {
@@ -844,7 +922,7 @@
         "2026-04-11-task-guided-context-beats-raw-sharing.md"
       ],
       "token_estimate": 649,
-      "retrieval_score": 1.875,
+      "retrieval_score": 1.818,
       "active": true
     },
     "2026-04-11-task-guided-context-beats-raw-sharing.md": {
@@ -861,7 +939,7 @@
         "orchestration"
       ],
       "summary": "Latent Briefing: task-guided KV cache compaction pro cross-agent memory dosahuje 49-65% token savings + 3pp accuracy gain. Princip platí i na API úrovni: orchestrátor by měl posílat workerům task-relevantní kontext, ne celou trajektorii. Speculative reasoning je šum pro workery.",
-      "uses": 3,
+      "uses": 4,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
@@ -870,7 +948,7 @@
         "2026-04-14-dacs-context-scoping.md"
       ],
       "token_estimate": 797,
-      "retrieval_score": 2.812,
+      "retrieval_score": 2.727,
       "active": true
     },
     "2026-04-10-eggroll-evolutionary-optimization.md": {
@@ -892,7 +970,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 564,
-      "retrieval_score": 2.769,
+      "retrieval_score": 2.687,
       "active": true
     },
     "2026-04-10-rlm-architectural-principles.md": {
@@ -915,7 +993,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 564,
-      "retrieval_score": 2.769,
+      "retrieval_score": 2.687,
       "active": true
     },
     "2026-04-08-agent-deception-pressure-trigger.md": {
@@ -940,7 +1018,7 @@
         "2026-04-08-long-horizon-deception-eval.md"
       ],
       "token_estimate": 418,
-      "retrieval_score": 1.791,
+      "retrieval_score": 1.739,
       "active": true
     },
     "2026-04-08-auto-research-removes-human-bottleneck.md": {
@@ -962,7 +1040,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 403,
-      "retrieval_score": 2.687,
+      "retrieval_score": 2.609,
       "active": true
     },
     "2026-04-08-group-experience-sharing-beats-isolated-evolution.md": {
@@ -984,7 +1062,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 368,
-      "retrieval_score": 2.687,
+      "retrieval_score": 2.609,
       "active": true
     },
     "2026-04-08-heartbeat-mid-run-steering.md": {
@@ -1007,8 +1085,8 @@
       "related": [
         "2026-04-08-shared-public-state-agent-coordination.md"
       ],
-      "token_estimate": 491,
-      "retrieval_score": 1.791,
+      "token_estimate": 500,
+      "retrieval_score": 1.739,
       "active": true
     },
     "2026-04-08-in-place-ttt-long-context-multiplier.md": {
@@ -1030,7 +1108,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 360,
-      "retrieval_score": 1.791,
+      "retrieval_score": 1.739,
       "active": true
     },
     "2026-04-08-inference-time-sampling-beats-rl-for-diversity.md": {
@@ -1053,7 +1131,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 363,
-      "retrieval_score": 1.791,
+      "retrieval_score": 1.739,
       "active": true
     },
     "2026-04-08-iterative-refinement-beats-long-cot.md": {
@@ -1075,7 +1153,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 408,
-      "retrieval_score": 2.687,
+      "retrieval_score": 2.609,
       "active": true
     },
     "2026-04-08-llm-judge-factuality-weak.md": {
@@ -1097,7 +1175,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 307,
-      "retrieval_score": 2.687,
+      "retrieval_score": 2.609,
       "active": true
     },
     "2026-04-08-long-horizon-deception-eval.md": {
@@ -1120,7 +1198,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 428,
-      "retrieval_score": 2.687,
+      "retrieval_score": 2.609,
       "active": true
     },
     "2026-04-08-reasoning-midtraining-beats-posttraining.md": {
@@ -1142,7 +1220,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 400,
-      "retrieval_score": 2.687,
+      "retrieval_score": 2.609,
       "active": true
     },
     "2026-04-08-shared-public-state-agent-coordination.md": {
@@ -1165,8 +1243,8 @@
       "related": [
         "2026-03-29-claudini-autoresearch-loop.md"
       ],
-      "token_estimate": 470,
-      "retrieval_score": 1.791,
+      "token_estimate": 465,
+      "retrieval_score": 1.739,
       "active": true
     },
     "2026-04-08-test-time-learning-inference-evolution.md": {
@@ -1183,14 +1261,14 @@
         "continuous-learning"
       ],
       "summary": "Test-time learning (TTL) enables agent components to update strategies during inference without interrupting reasoning. Complements offline RL: TTL handles distribution shift; RL provides baseline competence.",
-      "uses": 2,
+      "uses": 3,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
         "2026-04-08-living-memory-over-static-retrieval.md"
       ],
-      "token_estimate": 331,
-      "retrieval_score": 1.791,
+      "token_estimate": 332,
+      "retrieval_score": 1.739,
       "active": true
     },
     "2026-04-07-agents-md-efficiency-validated.md": {
@@ -1211,7 +1289,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 516,
-      "retrieval_score": 2.647,
+      "retrieval_score": 2.571,
       "active": true
     },
     "2026-04-07-budget-calibration-baseline.md": {
@@ -1232,7 +1310,7 @@
       "supersedes": "2026-04-04-gap-budget-calibration.md",
       "related": [],
       "token_estimate": 555,
-      "retrieval_score": 1.765,
+      "retrieval_score": 1.714,
       "active": true
     },
     "2026-04-07-kaizen-loop-weekly-improvement.md": {
@@ -1255,7 +1333,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 418,
-      "retrieval_score": 2.647,
+      "retrieval_score": 2.571,
       "active": true
     },
     "2026-04-07-mom-taro-orchestration-upgrades.md": {
@@ -1279,7 +1357,7 @@
         "2026-04-06-self-organizing-agents-ab-test.md"
       ],
       "token_estimate": 622,
-      "retrieval_score": 2.647,
+      "retrieval_score": 2.571,
       "active": true
     },
     "2026-04-07-nsm-neuro-symbolic-orchestration.md": {
@@ -1300,7 +1378,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 556,
-      "retrieval_score": 2.647,
+      "retrieval_score": 2.571,
       "active": true
     },
     "2026-04-07-operational-rhythm-silence-discipline.md": {
@@ -1322,8 +1400,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 418,
-      "retrieval_score": 1.765,
+      "token_estimate": 417,
+      "retrieval_score": 1.714,
       "active": true
     },
     "2026-04-07-sas-beats-mas-equal-compute.md": {
@@ -1345,7 +1423,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 707,
-      "retrieval_score": 2.647,
+      "retrieval_score": 2.571,
       "active": true
     },
     "2026-04-06-osft-self-sharpening.md": {
@@ -1366,7 +1444,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 494,
-      "retrieval_score": 1.739,
+      "retrieval_score": 1.69,
       "active": true
     },
     "2026-04-06-self-organizing-agents-ab-test.md": {
@@ -1386,7 +1464,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 583,
-      "retrieval_score": 2.609,
+      "retrieval_score": 2.535,
       "active": true
     },
     "2026-04-05-openfang-architecture-patterns.md": {
@@ -1409,7 +1487,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 566,
-      "retrieval_score": 1.714,
+      "retrieval_score": 1.667,
       "active": true
     },
     "2026-04-05-regression-gate-pattern.md": {
@@ -1431,7 +1509,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 579,
-      "retrieval_score": 2.571,
+      "retrieval_score": 2.5,
       "active": true
     },
     "2026-04-05-self-improving-harness.md": {
@@ -1452,7 +1530,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 563,
-      "retrieval_score": 2.571,
+      "retrieval_score": 2.5,
       "active": true
     },
     "2026-04-04-gap-budget-calibration.md": {
@@ -1472,8 +1550,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 239,
-      "retrieval_score": 1.69,
+      "token_estimate": 240,
+      "retrieval_score": 1.644,
       "active": false
     },
     "2026-04-03-autoagent-overfitting-guard.md": {
@@ -1495,7 +1573,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 337,
-      "retrieval_score": 2.5,
+      "retrieval_score": 2.432,
       "active": true
     },
     "2026-04-03-autoagent-parallel-candidates.md": {
@@ -1519,7 +1597,7 @@
         "2026-04-03-autoagent-overfitting-guard.md"
       ],
       "token_estimate": 344,
-      "retrieval_score": 1.667,
+      "retrieval_score": 1.622,
       "active": true
     },
     "2026-04-03-smart-tool-overuse.md": {
@@ -1542,7 +1620,7 @@
         "2026-04-03-testing-bottleneck.md"
       ],
       "token_estimate": 360,
-      "retrieval_score": 1.667,
+      "retrieval_score": 1.622,
       "active": true
     },
     "2026-04-03-testing-bottleneck.md": {
@@ -1565,7 +1643,7 @@
         "2026-04-03-smart-tool-overuse.md"
       ],
       "token_estimate": 362,
-      "retrieval_score": 1.667,
+      "retrieval_score": 1.622,
       "active": true
     },
     "2026-04-02-audit-must-verify-consumers.md": {
@@ -1585,7 +1663,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 374,
-      "retrieval_score": 3.288,
+      "retrieval_score": 3.2,
       "active": true
     },
     "2026-04-02-distributed-systems-amdahl-gate.md": {
@@ -1606,7 +1684,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 432,
-      "retrieval_score": 2.466,
+      "retrieval_score": 2.4,
       "active": true
     },
     "2026-04-01-autocompact-threshold.md": {
@@ -1625,8 +1703,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 426,
-      "retrieval_score": 1.622,
+      "token_estimate": 425,
+      "retrieval_score": 1.579,
       "active": true
     },
     "2026-04-01-gsd2-error-classification.md": {
@@ -1646,7 +1724,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 291,
-      "retrieval_score": 2.432,
+      "retrieval_score": 2.368,
       "active": true
     },
     "2026-03-30-society-of-thought-orchestration.md": {
@@ -1668,7 +1746,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 642,
-      "retrieval_score": 2.368,
+      "retrieval_score": 2.308,
       "active": true
     },
     "2026-03-29-bigmas-directed-graph-orchestration.md": {
@@ -1684,15 +1762,15 @@
         "global-workspace-theory"
       ],
       "summary": "BIGMAS dynamic graph orchestration — PARTIALLY IMPLEMENTED (2026-04-11): Phase 3.3 Topology Selection (deep tier), 4-zone workspace schema, full-state routing at wave boundaries, routing count tracking. Gains: +14-36pp on reasoning benchmarks, orthogonal to model-level improvements.",
-      "uses": 9,
+      "uses": 11,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
         "2026-04-07-sas-beats-mas-equal-compute.md",
         "2026-04-07-mom-taro-orchestration-upgrades.md"
       ],
-      "token_estimate": 1070,
-      "retrieval_score": 1.558,
+      "token_estimate": 1069,
+      "retrieval_score": 1.519,
       "active": true
     },
     "2026-03-29-claudini-autoresearch-loop.md": {
@@ -1714,7 +1792,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 540,
-      "retrieval_score": 2.338,
+      "retrieval_score": 2.278,
       "active": true
     },
     "2026-03-29-paged-context-protocol.md": {
@@ -1740,7 +1818,7 @@
         "2026-03-26-harness-simplification.md"
       ],
       "token_estimate": 550,
-      "retrieval_score": 1.558,
+      "retrieval_score": 1.519,
       "active": true
     },
     "2026-03-29-slopcodebench-iterative-degradation.md": {
@@ -1762,7 +1840,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 504,
-      "retrieval_score": 2.338,
+      "retrieval_score": 2.278,
       "active": true
     },
     "2026-03-26-channels-24x7-architecture.md": {
@@ -1786,7 +1864,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 518,
-      "retrieval_score": 2.25,
+      "retrieval_score": 2.195,
       "active": true
     },
     "2026-03-26-harness-simplification.md": {
@@ -1809,7 +1887,7 @@
         "harness-engineering.md"
       ],
       "token_estimate": 556,
-      "retrieval_score": 2.25,
+      "retrieval_score": 2.195,
       "active": true
     },
     "2026-03-24-openclaw-postmortem-patterns.md": {
@@ -1831,7 +1909,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 440,
-      "retrieval_score": 2.195,
+      "retrieval_score": 2.143,
       "active": true
     },
     "2026-03-23-gsd-patterns.md": {
@@ -1852,7 +1930,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 262,
-      "retrieval_score": 1.446,
+      "retrieval_score": 1.412,
       "active": true
     },
     "2026-03-23-spec-kit-adoption.md": {
@@ -1873,7 +1951,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 264,
-      "retrieval_score": 1.446,
+      "retrieval_score": 1.412,
       "active": true
     },
     "2026-04-14-openmontage-production-governance.md": {
@@ -1895,7 +1973,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 677,
-      "retrieval_score": 2.951,
+      "retrieval_score": 2.857,
       "active": true
     },
     "2026-04-09-triattention-pre-rope-kv-compression.md": {
@@ -1918,7 +1996,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 396,
-      "retrieval_score": 1.818,
+      "retrieval_score": 1.765,
       "active": true
     },
     "2026-04-01-sonnet46-thinking-effort-breaking-change.md": {
@@ -1941,7 +2019,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 615,
-      "retrieval_score": 3.243,
+      "retrieval_score": 3.158,
       "active": true
     },
     "2026-03-23-harness-engineering.md": {
@@ -1963,8 +2041,37 @@
       "related": [
         "2026-03-26-harness-simplification.md"
       ],
-      "token_estimate": 239,
-      "retrieval_score": 2.169,
+      "token_estimate": 240,
+      "retrieval_score": 2.118,
+      "active": true
+    },
+    "2026-04-15-parcae-exponential-decay-stopping.md": {
+      "id": "2026-04-15-parcae-exponential-decay-stopping.md",
+      "component": "skill",
+      "date": "2026-04-15",
+      "type": "best_practice",
+      "severity": "high",
+      "tags": [
+        "autoloop",
+        "autoresearch",
+        "self-evolve",
+        "optimization",
+        "scaling-laws",
+        "iteration-strategy",
+        "test-time-compute",
+        "stopping-criterion"
+      ],
+      "summary": "Parcae (arXiv:2604.12946): iterativní optimalizace sleduje saturující exponenciální decay L(T)=L∞+Z·exp(-z·T), ne lineární zlepšení. Tréninková hloubka (počet iterací při vývoji) = strop runtime scalingu. Farm tier: per-item variable depth místo uniformní. Tři ortogonální osy: iterace × data × model size.",
+      "uses": 2,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [
+        "2026-04-08-early-iteration-performance-unreliable.md",
+        "2026-04-11-iteration-paradox-meta-pattern.md",
+        "2026-04-15-best-of-n-parallel-candidates.md"
+      ],
+      "token_estimate": 730,
+      "retrieval_score": 2.903,
       "active": true
     },
     "2026-04-12-diarization-as-knowledge-extraction.md": {
@@ -1986,7 +2093,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 383,
-      "retrieval_score": 1.905,
+      "retrieval_score": 1.846,
       "active": true
     },
     "2026-04-12-latent-deterministic-boundary.md": {
@@ -2008,7 +2115,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 419,
-      "retrieval_score": 2.857,
+      "retrieval_score": 2.769,
       "active": true
     },
     "2026-04-12-latent-deterministic-extraction.md": {
@@ -2033,7 +2140,7 @@
         "2026-04-12-purpose-built-tools-75x-faster.md"
       ],
       "token_estimate": 426,
-      "retrieval_score": 2.857,
+      "retrieval_score": 2.769,
       "active": true
     },
     "2026-04-12-purpose-built-tools-75x-faster.md": {
@@ -2055,7 +2162,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 363,
-      "retrieval_score": 2.857,
+      "retrieval_score": 2.769,
       "active": true
     },
     "2026-04-11-verification-shift-meta-pattern.md": {
@@ -2072,7 +2179,7 @@
         "meta-pattern"
       ],
       "summary": "Verification Shift: generování kódu není bottleneck — verifikace ano. LLM judges slabé na faktičnost, cascade failures zesilují, schema compliance != utility. Kombinuj: LLM scoring + grep/search verifikaci + cascade-order checking + regression gates.",
-      "uses": 2,
+      "uses": 3,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
@@ -2082,7 +2189,7 @@
         "2026-04-05-regression-gate-pattern.md"
       ],
       "token_estimate": 504,
-      "retrieval_score": 2.812,
+      "retrieval_score": 2.727,
       "active": true
     },
     "2026-04-08-descriptive-over-narrative-generative.md": {
@@ -2104,7 +2211,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 526,
-      "retrieval_score": 1.791,
+      "retrieval_score": 1.739,
       "active": true
     },
     "2026-04-08-direction-magnitude-decoupling-optimization.md": {
@@ -2126,7 +2233,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 506,
-      "retrieval_score": 1.791,
+      "retrieval_score": 1.739,
       "active": true
     },
     "2026-04-08-early-iteration-performance-unreliable.md": {
@@ -2144,12 +2251,12 @@
         "iteration-strategy"
       ],
       "summary": "ScaleRL (400K GPU-hours): early small-compute performance is unreliable predictor of scale. Approach winning first 2-3 iterations may lose at scale. Different recipes reach DIFFERENT asymptotes — more iterations don't fix a bad approach. STOPA autoloop/autoresearch must give each approach enough iterations before judging, and predict ceiling early.",
-      "uses": 1,
+      "uses": 2,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 597,
-      "retrieval_score": 2.687,
+      "retrieval_score": 2.609,
       "active": true
     },
     "2026-04-08-education-teaches-agents-not-humans.md": {
@@ -2170,7 +2277,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 373,
-      "retrieval_score": 1.791,
+      "retrieval_score": 1.739,
       "active": true
     },
     "2026-04-08-instruction-following-compositional-not-universal.md": {
@@ -2191,7 +2298,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 481,
-      "retrieval_score": 1.791,
+      "retrieval_score": 1.739,
       "active": true
     },
     "2026-04-08-llm-native-validation-hardstop.md": {
@@ -2208,12 +2315,12 @@
         "hardstop"
       ],
       "summary": "Structured numbered validation rules with explicit error/warning tiers, executed by the LLM itself, with hard-stop before output delivery — stronger than advisory self-check. Python scripts decoupled to CI/CD only.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 542,
-      "retrieval_score": 2.687,
+      "retrieval_score": 2.609,
       "active": true
     },
     "2026-04-08-progressive-knowledge-routing.md": {
@@ -2234,7 +2341,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 533,
-      "retrieval_score": 2.687,
+      "retrieval_score": 2.609,
       "active": true
     },
     "2026-04-08-reverse-engineered-benchmark-from-artifacts.md": {
@@ -2257,7 +2364,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 388,
-      "retrieval_score": 1.791,
+      "retrieval_score": 1.739,
       "active": true
     },
     "2026-04-07-compact-variant-baseline.md": {
@@ -2278,7 +2385,7 @@
       "supersedes": "2026-04-04-gap-compact-variant-measurement.md",
       "related": [],
       "token_estimate": 522,
-      "retrieval_score": 1.765,
+      "retrieval_score": 1.714,
       "active": true
     },
     "2026-04-07-skill-retrieval-bottleneck.md": {
@@ -2299,7 +2406,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 417,
-      "retrieval_score": 2.647,
+      "retrieval_score": 2.571,
       "active": true
     },
     "2026-04-06-deepresearch-agent-scope.md": {
@@ -2319,7 +2426,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 246,
-      "retrieval_score": 2.609,
+      "retrieval_score": 2.535,
       "active": true
     },
     "2026-04-05-egoalpha-prompt-patterns.md": {
@@ -2340,7 +2447,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 922,
-      "retrieval_score": 2.571,
+      "retrieval_score": 2.5,
       "active": true
     },
     "2026-04-04-gap-compact-variant-measurement.md": {
@@ -2361,7 +2468,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 269,
-      "retrieval_score": 1.69,
+      "retrieval_score": 1.644,
       "active": false
     },
     "2026-04-04-skill0-dynamic-curriculum.md": {
@@ -2382,7 +2489,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 331,
-      "retrieval_score": 2.535,
+      "retrieval_score": 2.466,
       "active": true
     },
     "2026-04-04-toolgenesis-cascade-evaluation.md": {
@@ -2405,7 +2512,7 @@
         "2026-03-26-harness-simplification.md"
       ],
       "token_estimate": 491,
-      "retrieval_score": 2.535,
+      "retrieval_score": 2.466,
       "active": true
     },
     "2026-04-03-anthropic-skill-creator-patterns.md": {
@@ -2428,7 +2535,7 @@
         "2026-04-03-description-optimizer-plan.md"
       ],
       "token_estimate": 584,
-      "retrieval_score": 2.5,
+      "retrieval_score": 2.432,
       "active": true
     },
     "2026-04-03-description-optimizer-plan.md": {
@@ -2451,7 +2558,7 @@
         "2026-04-03-anthropic-skill-creator-patterns.md"
       ],
       "token_estimate": 516,
-      "retrieval_score": 2.5,
+      "retrieval_score": 2.432,
       "active": true
     },
     "2026-04-03-disable-skill-shell-audit.md": {
@@ -2472,7 +2579,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 391,
-      "retrieval_score": 2.5,
+      "retrieval_score": 2.432,
       "active": true
     },
     "2026-04-01-autoreason-adversarial-debate.md": {
@@ -2495,7 +2602,7 @@
         "2026-03-30-society-of-thought-orchestration.md"
       ],
       "token_estimate": 501,
-      "retrieval_score": 1.622,
+      "retrieval_score": 1.579,
       "active": true
     },
     "2026-03-27-commands-vs-skills-structure.md": {
@@ -2517,7 +2624,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 424,
-      "retrieval_score": 3.038,
+      "retrieval_score": 2.963,
       "active": true
     },
     "2026-03-27-skills-must-live-in-stopa.md": {
@@ -2537,7 +2644,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 432,
-      "retrieval_score": 2.278,
+      "retrieval_score": 2.222,
       "active": true
     },
     "2026-03-25-decomposed-evaluation.md": {
@@ -2559,7 +2666,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 433,
-      "retrieval_score": 2.222,
+      "retrieval_score": 2.169,
       "active": true
     },
     "2026-03-25-reasoning-isolation.md": {
@@ -2582,7 +2689,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 445,
-      "retrieval_score": 2.222,
+      "retrieval_score": 2.169,
       "active": true
     },
     "2026-03-25-skill-description-triggers.md": {
@@ -2603,7 +2710,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 306,
-      "retrieval_score": 2.222,
+      "retrieval_score": 2.169,
       "active": true
     },
     "2026-03-24-fix-issue-solo-workflow.md": {
@@ -2624,7 +2731,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 241,
-      "retrieval_score": 1.463,
+      "retrieval_score": 1.429,
       "active": true
     },
     "2026-03-23-superpowers-adoption.md": {
@@ -2645,7 +2752,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 232,
-      "retrieval_score": 2.169,
+      "retrieval_score": 2.118,
       "active": true
     },
     "2026-03-23-youtube-transcript-yt-dlp.md": {
@@ -2666,7 +2773,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 240,
-      "retrieval_score": 2.169,
+      "retrieval_score": 2.118,
       "active": true
     },
     "karpathy-loop-autoloop.md": {
@@ -2687,7 +2794,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 213,
-      "retrieval_score": 1.446,
+      "retrieval_score": 1.412,
       "active": true
     },
     "2026-04-12-evolve-must-verify-current-state.md": {
@@ -2709,7 +2816,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 434,
-      "retrieval_score": 2.857,
+      "retrieval_score": 2.769,
       "active": true
     },
     "2026-04-12-queries-back-to-wiki-compounding.md": {
@@ -2730,7 +2837,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 375,
-      "retrieval_score": 2.857,
+      "retrieval_score": 2.769,
       "active": true
     },
     "2026-04-11-memory-sovereignty-open-harness.md": {
@@ -2755,7 +2862,7 @@
         "2026-03-29-memcollab-agent-agnostic-memory.md"
       ],
       "token_estimate": 1412,
-      "retrieval_score": 2.812,
+      "retrieval_score": 2.727,
       "active": true
     },
     "2026-04-09-local-aggregator-beats-global.md": {
@@ -2780,7 +2887,7 @@
         "2026-03-30-write-time-gating-salience.md"
       ],
       "token_estimate": 424,
-      "retrieval_score": 2.727,
+      "retrieval_score": 2.647,
       "active": true
     },
     "2026-04-08-living-memory-over-static-retrieval.md": {
@@ -2806,7 +2913,7 @@
         "2026-04-08-recency-beats-complex-memory.md"
       ],
       "token_estimate": 377,
-      "retrieval_score": 2.687,
+      "retrieval_score": 2.609,
       "active": true
     },
     "2026-04-08-parametric-nonparametric-memory-bridge.md": {
@@ -2832,7 +2939,7 @@
         "2026-03-29-memcollab-agent-agnostic-memory.md"
       ],
       "token_estimate": 418,
-      "retrieval_score": 2.687,
+      "retrieval_score": 2.609,
       "active": true
     },
     "2026-04-08-recency-beats-complex-memory.md": {
@@ -2854,7 +2961,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 339,
-      "retrieval_score": 1.791,
+      "retrieval_score": 1.739,
       "active": true
     },
     "2026-04-07-cross-project-memory-design.md": {
@@ -2875,7 +2982,7 @@
       "supersedes": "2026-04-04-gap-cross-project-memory.md",
       "related": [],
       "token_estimate": 818,
-      "retrieval_score": 2.647,
+      "retrieval_score": 2.571,
       "active": true
     },
     "2026-04-05-bm25-memory-search.md": {
@@ -2897,7 +3004,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 358,
-      "retrieval_score": 2.571,
+      "retrieval_score": 2.5,
       "active": true
     },
     "2026-04-04-gap-cross-project-memory.md": {
@@ -2917,7 +3024,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 287,
-      "retrieval_score": 1.69,
+      "retrieval_score": 1.644,
       "active": false
     },
     "2026-03-30-calm-semantic-bandwidth.md": {
@@ -2937,7 +3044,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 417,
-      "retrieval_score": 1.579,
+      "retrieval_score": 1.538,
       "active": true
     },
     "2026-03-30-write-time-gating-salience.md": {
@@ -2963,7 +3070,7 @@
         "2026-03-29-memcollab-agent-agnostic-memory.md"
       ],
       "token_estimate": 508,
-      "retrieval_score": 2.368,
+      "retrieval_score": 2.308,
       "active": true
     },
     "2026-03-29-memcollab-agent-agnostic-memory.md": {
@@ -2985,7 +3092,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 673,
-      "retrieval_score": 2.338,
+      "retrieval_score": 2.278,
       "active": true
     },
     "2026-03-26-autodream-coexistence.md": {
@@ -3007,7 +3114,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 342,
-      "retrieval_score": 2.25,
+      "retrieval_score": 2.195,
       "active": true
     },
     "2026-03-24-checkpoint-versioning.md": {
@@ -3027,7 +3134,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 186,
-      "retrieval_score": 2.045,
+      "retrieval_score": 2.0,
       "active": true
     },
     "2026-03-25-batch-edit-pattern.md": {
@@ -3048,7 +3155,50 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 291,
-      "retrieval_score": 2.222,
+      "retrieval_score": 2.169,
+      "active": true
+    },
+    "2026-04-16-hook-cwd-anchor-pattern.md": {
+      "id": "2026-04-16-hook-cwd-anchor-pattern.md",
+      "component": "hook",
+      "date": "2026-04-16",
+      "type": "bug_fix",
+      "severity": "medium",
+      "tags": [
+        "bash-hooks",
+        "cwd-dependency",
+        "path-anchoring",
+        "silent-failure"
+      ],
+      "summary": "Bash hooks must anchor paths via SCRIPT_DIR/PROJECT_ROOT, never use relative paths like '.claude/memory/'. CWD at hook invocation is unpredictable — STOPA's raw-capture.sh generated a nested anomaly tree (.claude/memory/learnings/.claude/memory/raw/) for 15+ days before detection because it used MEMORY_DIR='.claude/memory' with no anchor.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 805,
+      "retrieval_score": 1.967,
+      "active": true
+    },
+    "2026-04-15-msys-tmp-path-mismatch.md": {
+      "id": "2026-04-15-msys-tmp-path-mismatch.md",
+      "component": "hook",
+      "date": "2026-04-15",
+      "type": "bug_fix",
+      "severity": "medium",
+      "tags": [
+        "windows",
+        "path",
+        "msys",
+        "git-bash",
+        "loop-state"
+      ],
+      "summary": "Git Bash/MSYS2 přeloží /tmp na C:\\\\Users\\\\<user>\\\\AppData\\\\Local\\\\Temp PŘED předáním argumentu Pythonu, ale Python Path('/tmp') resoluje na C:\\\\tmp. Každý skript přijímající cestu z bash musí mít _resolve_path() fallback. Opraveno v loop-state.py pro všechny subcommandy.",
+      "uses": 2,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 370,
+      "retrieval_score": 1.935,
       "active": true
     },
     "2026-04-12-model-router-hook.md": {
@@ -3068,8 +3218,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 459,
-      "retrieval_score": 2.857,
+      "token_estimate": 458,
+      "retrieval_score": 2.769,
       "active": true
     },
     "2026-04-12-steering-ov-circuit-sparsification.md": {
@@ -3091,7 +3241,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 395,
-      "retrieval_score": 1.905,
+      "retrieval_score": 1.846,
       "active": true
     },
     "2026-04-11-adaptive-attacks-defeat-static-defenses.md": {
@@ -3115,7 +3265,7 @@
         "2026-04-05-agent-defense-frameworks.md"
       ],
       "token_estimate": 536,
-      "retrieval_score": 1.875,
+      "retrieval_score": 1.818,
       "active": true
     },
     "2026-04-11-no-defense-achieves-security-and-utility.md": {
@@ -3135,8 +3285,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 515,
-      "retrieval_score": 1.875,
+      "token_estimate": 514,
+      "retrieval_score": 1.818,
       "active": true
     },
     "2026-04-11-self-incrimination-training.md": {
@@ -3157,7 +3307,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 634,
-      "retrieval_score": 2.812,
+      "retrieval_score": 2.727,
       "active": true
     },
     "2026-04-11-task-alignment-bypasses-instruction-defenses.md": {
@@ -3178,8 +3328,8 @@
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 524,
-      "retrieval_score": 2.812,
+      "token_estimate": 525,
+      "retrieval_score": 2.727,
       "active": true
     },
     "2026-04-07-hook-architecture-patterns.md": {
@@ -3200,7 +3350,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 866,
-      "retrieval_score": 2.647,
+      "retrieval_score": 2.571,
       "active": true
     },
     "2026-04-07-hook-failure-modes.md": {
@@ -3221,7 +3371,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 683,
-      "retrieval_score": 2.647,
+      "retrieval_score": 2.571,
       "active": true
     },
     "2026-04-07-hook-testing-patterns.md": {
@@ -3242,7 +3392,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 621,
-      "retrieval_score": 1.765,
+      "retrieval_score": 1.714,
       "active": true
     },
     "2026-04-07-judgment-script-separation-reliability.md": {
@@ -3265,7 +3415,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 427,
-      "retrieval_score": 2.647,
+      "retrieval_score": 2.571,
       "active": true
     },
     "2026-04-05-agent-defense-frameworks.md": {
@@ -3285,7 +3435,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 758,
-      "retrieval_score": 1.714,
+      "retrieval_score": 1.667,
       "active": true
     },
     "2026-04-14-compact-timing-60pct.md": {
@@ -3308,7 +3458,7 @@
         "2026-04-14-prompt-cache-ttl-5min.md"
       ],
       "token_estimate": 278,
-      "retrieval_score": 1.967,
+      "retrieval_score": 1.905,
       "active": true
     },
     "2026-04-14-prompt-cache-ttl-5min.md": {
@@ -3331,7 +3481,7 @@
         "2026-04-01-autocompact-threshold.md"
       ],
       "token_estimate": 318,
-      "retrieval_score": 1.967,
+      "retrieval_score": 1.905,
       "active": true
     }
   },
@@ -3474,6 +3624,7 @@
       "2026-04-05-regression-gate-pattern.md"
     ],
     "autoloop": [
+      "2026-04-15-parcae-exponential-decay-stopping.md",
       "2026-04-13-experience-replay-outcomes-reuse.md",
       "2026-04-13-generate-then-discard-suboptimal.md",
       "2026-04-11-iteration-paradox-meta-pattern.md",
@@ -3481,6 +3632,7 @@
       "2026-04-08-early-iteration-performance-unreliable.md",
       "2026-04-03-autoagent-overfitting-guard.md",
       "2026-03-25-batch-edit-pattern.md",
+      "2026-04-15-best-of-n-parallel-candidates.md",
       "2026-04-08-inference-time-sampling-beats-rl-for-diversity.md",
       "2026-04-08-direction-magnitude-decoupling-optimization.md",
       "2026-04-03-autoagent-parallel-candidates.md",
@@ -3495,6 +3647,7 @@
       "2026-04-01-autoreason-adversarial-debate.md"
     ],
     "autoresearch": [
+      "2026-04-15-parcae-exponential-decay-stopping.md",
       "2026-04-13-experience-replay-outcomes-reuse.md",
       "2026-04-13-generate-then-discard-suboptimal.md",
       "2026-04-11-iteration-paradox-meta-pattern.md",
@@ -3502,14 +3655,21 @@
       "2026-04-08-early-iteration-performance-unreliable.md",
       "2026-04-03-autoagent-overfitting-guard.md",
       "2026-03-29-claudini-autoresearch-loop.md",
+      "2026-04-15-best-of-n-parallel-candidates.md",
       "2026-04-08-inference-time-sampling-beats-rl-for-diversity.md",
       "2026-04-03-autoagent-parallel-candidates.md"
+    ],
+    "bash-hooks": [
+      "2026-04-16-hook-cwd-anchor-pattern.md"
     ],
     "batch-edit": [
       "2026-03-25-batch-edit-pattern.md"
     ],
     "benchmark": [
       "2026-04-08-reverse-engineered-benchmark-from-artifacts.md"
+    ],
+    "best-of-n": [
+      "2026-04-15-best-of-n-parallel-candidates.md"
     ],
     "bias": [
       "2026-04-09-local-aggregator-beats-global.md"
@@ -3690,6 +3850,7 @@
       "2026-04-08-direction-magnitude-decoupling-optimization.md"
     ],
     "critic": [
+      "2026-04-15-prm-step-verification-orchestrate.md",
       "2026-04-13-do-nothing-first-class-option.md",
       "2026-04-13-tournament-self-refinement-abc.md",
       "2026-04-12-sycophancy-not-hallucination.md",
@@ -3719,6 +3880,9 @@
     ],
     "curriculum": [
       "2026-04-08-reasoning-midtraining-beats-posttraining.md"
+    ],
+    "cwd-dependency": [
+      "2026-04-16-hook-cwd-anchor-pattern.md"
     ],
     "debate": [
       "2026-04-01-autoreason-adversarial-debate.md"
@@ -3779,6 +3943,9 @@
     "disclosure": [
       "2026-04-13-ai-persuasion-disclosure-insufficient.md"
     ],
+    "distillation": [
+      "2026-04-15-sd-zero-self-revision-supervision.md"
+    ],
     "distributed-systems": [
       "2026-04-02-distributed-systems-amdahl-gate.md"
     ],
@@ -3805,6 +3972,9 @@
     ],
     "dynamic-structure": [
       "2026-03-29-bigmas-directed-graph-orchestration.md"
+    ],
+    "early-termination": [
+      "2026-04-15-prm-step-verification-orchestrate.md"
     ],
     "ecosystem": [
       "2026-03-23-ecosystem-scan.md"
@@ -3903,6 +4073,9 @@
     "git": [
       "2026-03-24-fix-issue-solo-workflow.md"
     ],
+    "git-bash": [
+      "2026-04-15-msys-tmp-path-mismatch.md"
+    ],
     "global-workspace-theory": [
       "2026-03-29-bigmas-directed-graph-orchestration.md"
     ],
@@ -3997,6 +4170,7 @@
       "2026-04-08-iterative-refinement-beats-long-cot.md"
     ],
     "iteration-strategy": [
+      "2026-04-15-parcae-exponential-decay-stopping.md",
       "2026-04-08-early-iteration-performance-unreliable.md"
     ],
     "iterative": [
@@ -4075,6 +4249,9 @@
     "long-sessions": [
       "2026-04-01-autocompact-threshold.md"
     ],
+    "loop-state": [
+      "2026-04-15-msys-tmp-path-mismatch.md"
+    ],
     "loss-landscape": [
       "2026-04-13-pretraining-loss-insufficient-generalization-proxy.md"
     ],
@@ -4092,6 +4269,9 @@
       "2026-04-14-mcp-server-token-overhead.md",
       "2026-04-12-purpose-built-tools-75x-faster.md",
       "2026-03-23-youtube-transcript-yt-dlp.md"
+    ],
+    "mcts": [
+      "2026-04-15-best-of-n-parallel-candidates.md"
     ],
     "measurement": [
       "2026-04-07-budget-calibration-baseline.md",
@@ -4167,6 +4347,9 @@
     "morning-briefing": [
       "2026-04-12-morning-briefing-cron-pattern.md"
     ],
+    "msys": [
+      "2026-04-15-msys-tmp-path-mismatch.md"
+    ],
     "multi-agent": [
       "2026-04-14-dacs-context-scoping.md",
       "2026-04-14-paseo-orchestration-patterns.md",
@@ -4220,6 +4403,7 @@
       "2026-04-14-openmontage-production-governance.md"
     ],
     "optimization": [
+      "2026-04-15-parcae-exponential-decay-stopping.md",
       "2026-04-12-latent-deterministic-extraction.md",
       "2026-04-11-iteration-paradox-meta-pattern.md",
       "2026-04-10-eggroll-evolutionary-optimization.md",
@@ -4282,6 +4466,9 @@
     "parallel": [
       "2026-04-03-autoagent-parallel-candidates.md"
     ],
+    "parallel-exploration": [
+      "2026-04-15-best-of-n-parallel-candidates.md"
+    ],
     "parallel-rollouts": [
       "2026-04-07-mom-taro-orchestration-upgrades.md"
     ],
@@ -4290,6 +4477,12 @@
     ],
     "parametric": [
       "2026-04-08-parametric-nonparametric-memory-bridge.md"
+    ],
+    "path": [
+      "2026-04-15-msys-tmp-path-mismatch.md"
+    ],
+    "path-anchoring": [
+      "2026-04-16-hook-cwd-anchor-pattern.md"
     ],
     "pattern": [
       "2026-04-07-model-metadata-dynamic-ui-pattern.md"
@@ -4336,6 +4529,9 @@
     ],
     "pressure": [
       "2026-04-08-agent-deception-pressure-trigger.md"
+    ],
+    "prm": [
+      "2026-04-15-prm-step-verification-orchestrate.md"
     ],
     "prompt-engineering": [
       "2026-04-05-egoalpha-prompt-patterns.md",
@@ -4408,6 +4604,9 @@
     "reliability": [
       "2026-04-07-judgment-script-separation-reliability.md"
     ],
+    "repair-loop": [
+      "2026-04-15-sd-zero-self-revision-supervision.md"
+    ],
     "replay": [
       "2026-04-13-experience-replay-outcomes-reuse.md",
       "2026-04-13-generate-then-discard-suboptimal.md"
@@ -4477,6 +4676,7 @@
       "2026-04-12-small-model-compression-threshold.md"
     ],
     "scaling-laws": [
+      "2026-04-15-parcae-exponential-decay-stopping.md",
       "2026-04-08-early-iteration-performance-unreliable.md"
     ],
     "scheduled-maintenance": [
@@ -4526,6 +4726,7 @@
       "2026-04-08-direction-magnitude-decoupling-optimization.md"
     ],
     "self-evolve": [
+      "2026-04-15-parcae-exponential-decay-stopping.md",
       "2026-04-13-experience-replay-outcomes-reuse.md",
       "2026-04-13-generate-then-discard-suboptimal.md",
       "2026-04-11-iteration-paradox-meta-pattern.md",
@@ -4540,6 +4741,7 @@
     "self-improvement": [
       "2026-04-08-group-experience-sharing-beats-isolated-evolution.md",
       "2026-04-05-self-improving-harness.md",
+      "2026-04-15-sd-zero-self-revision-supervision.md",
       "2026-04-06-osft-self-sharpening.md"
     ],
     "self-report": [
@@ -4556,6 +4758,9 @@
     ],
     "signal-noise": [
       "2026-04-07-operational-rhythm-silence-discipline.md"
+    ],
+    "silent-failure": [
+      "2026-04-16-hook-cwd-anchor-pattern.md"
     ],
     "simplification": [
       "2026-03-26-harness-simplification.md"
@@ -4642,6 +4847,12 @@
     "steering": [
       "2026-04-12-steering-ov-circuit-sparsification.md"
     ],
+    "step-verification": [
+      "2026-04-15-prm-step-verification-orchestrate.md"
+    ],
+    "stopping-criterion": [
+      "2026-04-15-parcae-exponential-decay-stopping.md"
+    ],
     "structural-heuristic": [
       "karpathy-loop-autoloop.md"
     ],
@@ -4671,8 +4882,15 @@
     "temperature-decoupling": [
       "2026-04-06-osft-self-sharpening.md"
     ],
+    "test-time-compute": [
+      "2026-04-15-parcae-exponential-decay-stopping.md"
+    ],
     "test-time-learning": [
       "2026-04-08-test-time-learning-inference-evolution.md"
+    ],
+    "test-time-scaling": [
+      "2026-04-15-prm-step-verification-orchestrate.md",
+      "2026-04-15-best-of-n-parallel-candidates.md"
     ],
     "test-time-training": [
       "2026-04-08-in-place-ttt-long-context-multiplier.md"
@@ -4721,6 +4939,9 @@
     ],
     "tradeoff": [
       "2026-04-11-no-defense-achieves-security-and-utility.md"
+    ],
+    "training": [
+      "2026-04-15-sd-zero-self-revision-supervision.md"
     ],
     "training-methodology": [
       "2026-04-08-reasoning-midtraining-beats-posttraining.md"
@@ -4802,6 +5023,7 @@
       "2026-04-12-queries-back-to-wiki-compounding.md"
     ],
     "windows": [
+      "2026-04-15-msys-tmp-path-mismatch.md",
       "2026-03-23-environment-falai.md"
     ],
     "workflow": [
@@ -4827,6 +5049,7 @@
       "2026-04-13-ai-persuasion-creates-genuine-preferences.md",
       "2026-04-13-ai-persuasion-disclosure-insufficient.md",
       "2026-04-13-disparagement-stronger-than-promotion.md",
+      "2026-04-15-sd-zero-self-revision-supervision.md",
       "2026-04-11-calm-continuous-autoregressive.md",
       "2026-04-11-iha-interleaved-head-attention.md",
       "2026-04-08-jevons-paradox-ai-coding.md",
@@ -4843,6 +5066,8 @@
       "2026-04-07-hook-architecture-patterns.md",
       "2026-04-07-hook-failure-modes.md",
       "2026-04-07-judgment-script-separation-reliability.md",
+      "2026-04-16-hook-cwd-anchor-pattern.md",
+      "2026-04-15-msys-tmp-path-mismatch.md",
       "2026-04-12-steering-ov-circuit-sparsification.md",
       "2026-04-11-adaptive-attacks-defeat-static-defenses.md",
       "2026-04-11-no-defense-achieves-security-and-utility.md",
@@ -4867,6 +5092,7 @@
     ],
     "orchestration": [
       "2026-04-02-audit-must-verify-consumers.md",
+      "2026-04-15-prm-step-verification-orchestrate.md",
       "2026-04-14-dacs-context-scoping.md",
       "2026-04-14-mcp-server-token-overhead.md",
       "2026-04-14-paseo-orchestration-patterns.md",
@@ -4909,6 +5135,7 @@
       "2026-03-26-channels-24x7-architecture.md",
       "2026-03-26-harness-simplification.md",
       "2026-03-24-openclaw-postmortem-patterns.md",
+      "2026-04-15-best-of-n-parallel-candidates.md",
       "2026-04-14-traceguard-5d-critic.md",
       "2026-04-13-judge-panel-size-convergence.md",
       "2026-04-13-pairwise-choice-sufficient-verifiable-signal.md",
@@ -4948,6 +5175,7 @@
     ],
     "skill": [
       "2026-03-27-commands-vs-skills-structure.md",
+      "2026-04-15-parcae-exponential-decay-stopping.md",
       "2026-04-12-latent-deterministic-boundary.md",
       "2026-04-12-latent-deterministic-extraction.md",
       "2026-04-12-purpose-built-tools-75x-faster.md",

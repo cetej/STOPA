@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-07
 cluster: hook-infrastructure
-sources: 8
-last_updated: 2026-04-14
+sources: 10
+last_updated: 2026-04-17
 ---
 
 # Hook Infrastructure & Security
@@ -45,6 +45,22 @@ STOPA hooks operate as the runtime enforcement layer for behavioral constraints 
 3. **Cascading state corruption**: Multiple hooks write shared files (activity-log, concept-graph.json) — no global integrity check
 4. **Ordering dependencies**: Implicit ordering within lifecycle events (auto-scribe before memory-brief, trace-capture before session-trace)
 5. **Windows specifics**: File locking from antivirus, path separator issues, GNU grep incompatibilities
+6. **CWD-relative paths silent-fail**: Hooks using `MEMORY_DIR=".claude/memory"` write to wrong location when CWD isn't project root. STOPA's `raw-capture.sh` produced a nested anomaly tree (`.claude/memory/learnings/.claude/memory/raw/`) for 15+ days before detection — exit 0, no error surface (ref: 2026-04-16-hook-cwd-anchor-pattern.md)
+7. **MSYS path translation mismatch**: Git Bash translates `/tmp` → `%LOCALAPPDATA%/Temp` in shell layer, but Python's `Path('/tmp')` resolves to `C:\tmp` (native). Scripts receiving paths from bash need `_resolve_path()` fallback — differed directories, silent "insufficient_data" failures (ref: 2026-04-15-msys-tmp-path-mismatch.md)
+
+## Path Anchoring (Mandatory Pattern)
+
+Every bash hook writing files MUST anchor paths via script location, never rely on CWD:
+
+```bash
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+MEMORY_DIR="$PROJECT_ROOT/.claude/memory"
+```
+
+Python equivalent: `Path(__file__).resolve().parent.parent / "memory"`.
+
+**Detection**: `find .claude/memory/learnings -type d -name '.claude'` should return 0. Any match = relative-path bug somewhere in hook chain (ref: 2026-04-16-hook-cwd-anchor-pattern.md).
 
 ## Design Principle: Judgment vs Script Separation
 
@@ -99,3 +115,5 @@ LlamaFirewall PromptGuard (BERT, 19-92ms, AUC 0.98) is ADOPT for PostToolUse inj
 | [2026-04-11-self-incrimination-training](../learnings/2026-04-11-self-incrimination-training.md) | 2026-04-11 | high | Self-incrimination hook: 56%→6% undetected; combine with external monitoring |
 | [2026-04-12-model-router-hook](../learnings/2026-04-12-model-router-hook.md) | 2026-04-12 | high | Automated model routing via PreToolUse hook |
 | [2026-04-12-steering-ov-circuit-sparsification](../learnings/2026-04-12-steering-ov-circuit-sparsification.md) | 2026-04-12 | medium | OV circuit steering for calm-steering safety |
+| [2026-04-15-msys-tmp-path-mismatch](../learnings/2026-04-15-msys-tmp-path-mismatch.md) | 2026-04-15 | medium | Git Bash /tmp vs Python `Path('/tmp')` mismatch — `_resolve_path()` fallback required |
+| [2026-04-16-hook-cwd-anchor-pattern](../learnings/2026-04-16-hook-cwd-anchor-pattern.md) | 2026-04-16 | medium | Bash hooks must use `SCRIPT_DIR`/`PROJECT_ROOT` anchor — CWD at invocation unpredictable |

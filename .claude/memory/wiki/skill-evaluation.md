@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: skill-evaluation
-sources: 13
-last_updated: 2026-04-14
+sources: 14
+last_updated: 2026-04-17
 ---
 
 # Skill Evaluation & Optimization
@@ -23,6 +23,8 @@ For generative media prompts (image/video), only describe observable outputs —
 
 For iterative skill improvement, the AutoReason adversarial debate pattern uses cold-start agent isolation to prevent confirmation bias and randomized judge labels to prevent position bias (ref: 2026-04-01-autoreason-adversarial-debate.md). Reasoning quality improves when reasoning and output generation are isolated — BOULDER/CARE patterns reduce bias in multi-turn conversations (ref: 2026-03-25-reasoning-isolation.md).
 
+SD-ZERO (arXiv:2604.12002) turns binary pass/fail rewards into dense token-level supervision via self-revision. Model plays dual roles (generator + reviser); reviser concentrates corrections on error tokens (self-localization). Results on Qwen3-4B: +10.5% combined, -50% response length in Phase 2 distillation. Applicable patterns for STOPA: (1) self-revision before critic — agent revises own output with "check this" prompt BEFORE spawning expensive critic, (2) error localization — critic feedback points to specific lines/tokens, not "globally wrong", (3) binary → dense signal — our outcome pass/fail system can be enriched by self-revision on failures. Limitation: works only for verifiable domains (math, code, structured outputs); doesn't extend to long exploratory CoT (ref: 2026-04-15-sd-zero-self-revision-supervision.md).
+
 ## Key Rules
 
 1. **Decomposed evaluation over holistic**: score each dimension independently (ref: 2026-03-25-decomposed-evaluation.md)
@@ -36,6 +38,8 @@ For iterative skill improvement, the AutoReason adversarial debate pattern uses 
 9. **Decouple direction from magnitude**: critic=direction, diff analysis=magnitude — per-line credit assignment (ref: 2026-04-08-direction-magnitude-decoupling-optimization.md)
 10. **Give each approach 5+ iterations**: early performance unreliable; fit sigmoid to predict ceiling (ref: 2026-04-08-early-iteration-performance-unreliable.md)
 11. **Reverse-engineer benchmarks from real artifacts**: 10-20 high-quality outputs → canonical test cases (ref: 2026-04-08-reverse-engineered-benchmark-from-artifacts.md)
+12. **Self-revise before critic**: Agent revises own output with "check this" before spawning expensive critic — cheaper, catches obvious errors (ref: 2026-04-15-sd-zero-self-revision-supervision.md)
+13. **Error localization over global verdict**: Critic feedback points to specific lines/tokens, not "this is wrong" — enables targeted repair (ref: 2026-04-15-sd-zero-self-revision-supervision.md)
 
 ## Patterns
 
@@ -78,3 +82,4 @@ For iterative skill improvement, the AutoReason adversarial debate pattern uses 
 | [2026-04-08-early-iteration-performance-unreliable](../learnings/2026-04-08-early-iteration-performance-unreliable.md) | 2026-04-08 | high | ScaleRL: early results unreliable; each approach has unique asymptote |
 | [2026-04-08-reverse-engineered-benchmark-from-artifacts](../learnings/2026-04-08-reverse-engineered-benchmark-from-artifacts.md) | 2026-04-08 | medium | Build benchmarks from real artifacts, not synthetic generation |
 | [2026-04-13-pairwise-choice-sufficient-verifiable-signal](../learnings/2026-04-13-pairwise-choice-sufficient-verifiable-signal.md) | 2026-04-13 | medium | Pairwise comparison sufficient for RL signal |
+| [2026-04-15-sd-zero-self-revision-supervision](../learnings/2026-04-15-sd-zero-self-revision-supervision.md) | 2026-04-15 | medium | SD-ZERO: self-revision → dense token-level supervision; +10.5% Qwen3-4B, -50% length |

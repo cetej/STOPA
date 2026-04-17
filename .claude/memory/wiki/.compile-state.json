@@ -1,10 +1,10 @@
 {
-  "last_compile": "2026-04-14T22:30:00Z",
+  "last_compile": "2026-04-17T12:00:00Z",
   "compile_mode": "incremental",
-  "total_learnings": 149,
+  "total_learnings": 152,
   "total_articles": 10,
   "contradictions": 1,
-  "gaps": 2,
+  "gaps": 3,
   "articles": {
     "general-security-environment.md": {
       "source_learnings": [
@@ -23,10 +23,12 @@
         "2026-04-07-hook-architecture-patterns",
         "2026-04-07-hook-failure-modes",
         "2026-04-07-hook-testing-patterns",
-        "2026-04-07-judgment-script-separation-reliability"
+        "2026-04-07-judgment-script-separation-reliability",
+        "2026-04-15-msys-tmp-path-mismatch",
+        "2026-04-16-hook-cwd-anchor-pattern"
       ],
-      "sources_count": 8,
-      "generated": "2026-04-14"
+      "sources_count": 10,
+      "generated": "2026-04-17"
     },
     "memory-architecture.md": {
       "source_learnings": [
@@ -56,10 +58,13 @@
     "orchestration-iteration.md": {
       "source_learnings": [
         "2026-04-12-fresh-session-self-report-verification",
-        "2026-04-12-sycophancy-not-hallucination"
+        "2026-04-12-sycophancy-not-hallucination",
+        "2026-04-15-best-of-n-parallel-candidates",
+        "2026-04-15-parcae-exponential-decay-stopping",
+        "2026-04-15-prm-step-verification-orchestrate"
       ],
-      "sources_count": 13,
-      "generated": "2026-04-14"
+      "sources_count": 16,
+      "generated": "2026-04-17"
     },
     "orchestration-multi-agent.md": {
       "source_learnings": [
@@ -111,10 +116,11 @@
         "2026-04-04-toolgenesis-cascade-evaluation",
         "2026-04-01-autoreason-adversarial-debate",
         "2026-03-25-decomposed-evaluation",
-        "2026-03-25-reasoning-isolation"
+        "2026-03-25-reasoning-isolation",
+        "2026-04-15-sd-zero-self-revision-supervision"
       ],
-      "sources_count": 13,
-      "generated": "2026-04-14"
+      "sources_count": 14,
+      "generated": "2026-04-17"
     }
   },
   "learnings_compiled": [
@@ -259,13 +265,18 @@
     "2026-04-13-pairwise-choice-sufficient-verifiable-signal.md",
     "2026-04-13-pretraining-loss-insufficient-generalization-proxy.md",
     "2026-04-13-tournament-self-refinement-abc.md",
+    "2026-04-14-compact-timing-60pct.md",
     "2026-04-14-dacs-context-scoping.md",
+    "2026-04-14-mcp-server-token-overhead.md",
     "2026-04-14-openmontage-production-governance.md",
     "2026-04-14-paseo-orchestration-patterns.md",
-    "2026-04-14-traceguard-5d-critic.md",
-    "2026-04-14-compact-timing-60pct.md",
     "2026-04-14-prompt-cache-ttl-5min.md",
-    "2026-04-14-mcp-server-token-overhead.md",
-    "karpathy-loop-autoloop.md"
+    "2026-04-14-traceguard-5d-critic.md",
+    "2026-04-15-best-of-n-parallel-candidates.md",
+    "2026-04-15-msys-tmp-path-mismatch.md",
+    "2026-04-15-parcae-exponential-decay-stopping.md",
+    "2026-04-15-prm-step-verification-orchestrate.md",
+    "2026-04-15-sd-zero-self-revision-supervision.md",
+    "2026-04-16-hook-cwd-anchor-pattern.md"
   ]
 }
