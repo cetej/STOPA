@@ -2,7 +2,7 @@
 # PermissionRequest hook: Auto-approve safe operations, prompt for risky ones
 # v3.0 — autonomous mode: most operations auto-approved
 #
-# AUTO-APPROVE: Read, Glob, Grep, WebFetch, WebSearch, Edit, Write,
+# AUTO-APPROVE: Read, Glob, Grep, WebFetch, WebSearch, ToolSearch, Edit, Write,
 #               Agent, TodoWrite, NotebookEdit, filesystem MCP (local),
 #               context7, youtube-transcript, brave-search, playwright,
 #               GitHub (push, PR, issue, comment — own repos),
@@ -138,8 +138,8 @@ case "$TOOL" in
     auto_allow
     ;;
 
-  # --- SKILL: auto ---
-  Skill)
+  # --- SKILL + TOOLSEARCH: auto ---
+  Skill|ToolSearch)
     auto_allow
     ;;
 
