@@ -257,8 +257,20 @@ Older: see `news-archive.md`
 | 2026-04-15 | [WATCH] | SiriuS: Self-improving Multi-agent Systems via Bootstrapped Reasoning (arXiv:2502.04780) — buduje knihovnu zkušeností z úspěšných reasoning trajektorií pro bootstrapped self-improvement | medium | No | arxiv-daily-digest |
 | 2026-04-15 | [WATCH] | CoCR-RAG: Concept-oriented Context Reconstruction for RAG (arXiv:2603.23989) — concept-level fúze více zdrojů pro koherentnější retrieval augmentaci | medium | No | arxiv-daily-digest |
 
+| 2026-04-17 | [ACTION] | Reinforcement Learning for Self-Improving Agent with Skill Library (arXiv:2512.17102) — RL-trained agent buduje a reusuje skill library pro self-improvement bez externího supervisora; přímá aplikace na STOPA skill evolution | high | No | arxiv-daily-digest |
+| 2026-04-17 | [WATCH] | Context Kubernetes: Declarative Orchestration of Enterprise Knowledge for Agentic AI Systems (arXiv:2604.11623) — vendor-neutral deklarativní správa kontextu napříč multi-agent systémy (Copilot Studio, Bedrock, Vertex AI) | medium | No | arxiv-daily-digest |
+| 2026-04-17 | [WATCH] | Multi-Agent Evolve (MAE): LLM Self-Improve with Proposer-Solver-Judge Loop (arXiv:2510.23595) — třírolový self-rewarding loop bez externího supervisora; relevantní pro STOPA autoloop/self-evolve design | medium | No | arxiv-daily-digest |
+| 2026-04-17 | [WATCH] | Agentic Retrieval-Augmented Generation: A Survey on Agentic RAG (arXiv:2501.09136) — taxonomie Agentic RAG architektur (agent cardinality, control structure, autonomy, knowledge representation) | medium | No | arxiv-daily-digest |
+| 2026-04-17 | [WATCH] | LLM-Based Agentic Systems for Software Engineering (arXiv:2601.09822) — survey 2026 agentic SE frameworků: SWE-Adept, TopoEdge, MigMate a dalších | medium | No | arxiv-daily-digest |
+
+| 2026-04-17 | [ACTION] | CC Routines: cloud-side automations — prompt + repo + connectors uloženy jednou, běží automaticky na Anthropic infrastruktuře; alternativa k STOPA scheduled-tasks pro cloud spouštění | high | No | morning-watch |
+| 2026-04-17 | [ACTION] | CC Desktop App Redesign: parallel sessions sidebar, drag-and-drop layout, integrated terminal, in-app file editor, rebuilt diff viewer, preview pane (HTML/PDF/local server) | high | No | morning-watch |
+| 2026-04-17 | [ACTION] | Claude Opus 4.7 GA: 3× visual resolution, nová xhigh reasoning úroveň, Task Budgets mechanismus, stejná cena $5/$25 per MTok jako Opus 4.6 | high | No | morning-watch |
+
 ### Scan History
 
+### 2026-04-17 — morning-watch | Searches: 2 | Items: 3 action — CC Routines, CC Desktop Redesign, Opus 4.7 GA
+### 2026-04-17 — arxiv-daily-digest | Searches: 4 | Items: 1 action, 4 watch — RL Skill Library (arXiv:2512.17102), Context Kubernetes (arXiv:2604.11623), MAE Self-Improve (arXiv:2510.23595), Agentic RAG Survey (arXiv:2501.09136), Agentic SE Survey (arXiv:2601.09822)
 ### 2026-04-16 — arxiv-daily-digest | Searches: 4 | Items: 2 action, 3 watch — Context Engineering Multi-Agent (arXiv:2603.09619), Smart MAS Middleware (arXiv:2604.03430), Adaptive Orchestration MoE (arXiv:2601.09742), MCP Planner-Executor (arXiv:2604.07681), Conformal RAG (arXiv:2511.17908)
 ### 2026-04-15 — arxiv-daily-digest | Searches: 4 | Items: 1 action, 4 watch — Self-Optimizing MAS (arXiv:2604.02988), CLEAR context augmentation (arXiv:2604.07487), Verified Orchestration (arXiv:2603.11445), SiriuS (arXiv:2502.04780), CoCR-RAG (arXiv:2603.23989)
 ### 2026-04-14 — full scan | Searches: 19 | Items: 6 action, 4 watch, 2 info — CC Analytics API GA (#99), Meta Muse Spark (#100), PwC→HF Trending (#101), DACS arXiv:2604.07911 (#102), TraceGuard arXiv:2604.03968 (#103), Agent SDK additionalDirectories (#104)
