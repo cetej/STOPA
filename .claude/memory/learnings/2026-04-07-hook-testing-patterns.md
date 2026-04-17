@@ -6,11 +6,12 @@ component: hook
 tags: [hook, testing, development, debugging]
 summary: "Hook testing patterns: dry-run via env var, isolated testing with mock input JSON, production debugging via hook-errors.log and activity-log."
 source: auto_pattern
-uses: 0
+uses: 1
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.7
+confidence: 0.8
 verify_check: "Glob('.claude/hooks/*.py') → 1+ matches"
+related: [2026-04-16-hook-cwd-anchor-pattern.md]
 ---
 
 ## Hook Testing Patterns

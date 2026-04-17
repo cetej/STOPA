@@ -9,7 +9,7 @@ source: external_research
 uses: 2
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.8
+confidence: 0.9
 maturity: draft
 skill_scope: [orchestrate]
 related: [2026-04-11-task-guided-context-beats-raw-sharing.md, 2026-04-11-compression-regime-maps-to-tiers.md]

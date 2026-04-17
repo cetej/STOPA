@@ -6,10 +6,10 @@ component: hook
 tags: [hook, architecture, lifecycle, patterns]
 summary: "STOPA hook architecture: 70+ hooks across 13 lifecycle events (SessionStart, PreToolUse, PostToolUse, UserPromptSubmit, Stop, etc). Hooks form 5 functional categories: safety, memory, tracing, workflow, and notification."
 source: auto_pattern
-uses: 0
+uses: 1
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.8
+confidence: 0.9
 verify_check: "Grep('hooks', path='.claude/settings.json') → 1+ matches"
 ---
 

@@ -7,7 +7,7 @@ tags: [playwright, mcp, chrome, downloads, claude-desktop, claude-code, security
 summary: "Playwright MCP hijacks Chrome downloads to temp folder, breaking all browser downloads. NEVER add to Claude Desktop."
 source: auto_pattern
 verify_check: "manual"
-confidence: 0.9
+confidence: 0.95
 uses: 1
 successful_uses: 0
 harmful_uses: 0

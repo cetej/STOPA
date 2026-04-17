@@ -8,7 +8,7 @@ summary: "OpenFang (Rust Agent OS) nabízí 3 architektonické vzory pro STOPA: 
 source: external_research
 uses: 1
 harmful_uses: 0
-confidence: 0.8
+confidence: 0.85
 verify_check: manual
 successful_uses: 0
 ---

@@ -6,16 +6,17 @@ component: hook
 tags: [bash-hooks, cwd-dependency, path-anchoring, silent-failure]
 summary: "Bash hooks must anchor paths via SCRIPT_DIR/PROJECT_ROOT, never use relative paths like '.claude/memory/'. CWD at hook invocation is unpredictable — STOPA's raw-capture.sh generated a nested anomaly tree (.claude/memory/learnings/.claude/memory/raw/) for 15+ days before detection because it used MEMORY_DIR='.claude/memory' with no anchor."
 source: auto_pattern
-uses: 0
+uses: 2
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.8
+confidence: 1.0
 maturity: draft
 failure_class: assumption
 failure_agent: hook
 task_context: {task_class: bug_fix, complexity: low, tier: light}
 verify_check: "Grep('SCRIPT_DIR.*pwd', path='.claude/hooks/', glob='*.sh') → 1+ matches"
 skill_scope: []
+related: [2026-04-15-msys-tmp-path-mismatch.md, 2026-04-07-hook-failure-modes.md, 2026-04-07-hook-testing-patterns.md]
 ---
 
 ## Situation

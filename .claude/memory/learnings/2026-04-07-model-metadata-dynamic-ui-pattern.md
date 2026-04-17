@@ -8,7 +8,7 @@ summary: "Model metadata jako single source of truth pro dynamické UI: jeden JS
 source: external_research
 uses: 1
 harmful_uses: 0
-confidence: 0.8
+confidence: 0.85
 successful_uses: 0
 verify_check: "manual"
 ---

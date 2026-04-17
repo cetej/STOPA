@@ -9,7 +9,7 @@ source: external_research
 uses: 2
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.95
+confidence: 1.0
 verify_check: "manual"
 related: [2026-04-11-task-guided-context-beats-raw-sharing.md, 2026-04-10-rlm-architectural-principles.md]
 skill_scope: [orchestrate]

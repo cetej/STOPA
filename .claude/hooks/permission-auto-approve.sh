@@ -143,9 +143,10 @@ case "$TOOL" in
     auto_allow
     ;;
 
-  # --- BASH: handled by Dippy ---
+  # --- BASH: auto-allow (Dippy PreToolUse hook handles command-level filtering) ---
+  # NOTE: exit 0 without JSON caused "stream closed" errors in scheduled task context
   Bash)
-    exit 0
+    auto_allow
     ;;
 
   # --- EVERYTHING ELSE: ask ---

@@ -8,7 +8,7 @@ summary: "GAP: No data on budget tracking accuracy — estimated costs vs actual
 source: auto_pattern
 uses: 1
 harmful_uses: 0
-confidence: 0.95
+confidence: 1.0
 verify_check: manual
 successful_uses: 0
 ---

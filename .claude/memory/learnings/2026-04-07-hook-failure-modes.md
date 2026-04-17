@@ -6,11 +6,12 @@ component: hook
 tags: [hook, failure-modes, timeout, error-handling]
 summary: "Hook failure modes: timeout kills silently (no error to Claude), stderr output becomes system-reminder injection vector, cascading failures when shared state corrupted."
 source: auto_pattern
-uses: 1
+uses: 3
 harmful_uses: 0
 successful_uses: 0
-confidence: 1.0
+confidence: 1.00
 verify_check: "Grep('timeout', path='.claude/settings.json') → 1+ matches"
+related: [2026-04-16-hook-cwd-anchor-pattern.md]
 ---
 
 ## Hook Failure Modes
@@ -56,3 +57,11 @@ Reordering hooks in settings.json can break these implicit dependencies.
 - File locking: antivirus can lock files that hooks try to read/write
 - Path separators: some hooks use hardcoded `/` paths that fail on Windows
 - The `grep -oP` portability fix (learning from 2026-03-31) was needed because bash hooks used GNU-specific regex
+
+### 6. CWD Dependency (Silent Path Corruption)
+
+> Updated 2026-04-17: See `2026-04-16-hook-cwd-anchor-pattern.md` for a concrete case.
+
+Bash hooks that use relative paths like `MEMORY_DIR=".claude/memory"` depend on CWD at invocation time. CWD is not guaranteed to be project root — hooks may fire from subdirectories. Result: files written to wrong location (e.g., `.claude/memory/learnings/.claude/memory/raw/`) with no error. Detection requires filesystem inspection.
+
+**Mitigation**: Always anchor via `SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"` then derive `PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"`.
