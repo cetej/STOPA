@@ -6,15 +6,15 @@ component: orchestration
 tags: [self-evolution, protocol, versioning, rollback, agent-architecture, reflection-optimizer]
 summary: "Autogenesis (arXiv:2604.15034) formalizuje self-evolving agent systém jako dvouvrstvý protokol: RSPL (5 pasivních resource typů: prompt/agent/tool/env/memory s explicit version+lifecycle) + SEPL (5 operátorů: Reflect ρ → Select σ → Improve ι → Evaluate ε → Commit κ). Klíčový princip: decouple what evolves from how evolution occurs. Empirie: GAIA Level 3 +33% absolutní (79→89% SOTA), AIME24 +71% na gpt-4.1, LeetCode C++ +17.9%. Headroom rule: slabé modely + těžké úlohy = největší gain. STOPA má všechny stavební bloky (outcomes, failures, replay-queue, maturity tiers, reflexion notes), chybí jen: per-resource version lineage, formální ρσιεκ mapping, explicit safety invariants na commit, dynamic tool generation."
 source: external_research
-uses: 1
+uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.90
+confidence: 0.95
 maturity: draft
 valid_until:
 skill_scope: [self-evolve, autoloop, autoresearch, evolve, orchestrate]
 related: [2026-04-10-rlm-architectural-principles.md, 2026-04-13-experience-replay-outcomes-reuse.md, 2026-04-15-sd-zero-self-revision-supervision.md]
-verify_check: "Grep('sepl-operators', path='.claude/rules') → 1+ matches"
+verify_check: "Glob('.claude/rules/sepl-operators.md') → 1+ matches"
 model_gate:
 impact_score: 0.0
 task_context:

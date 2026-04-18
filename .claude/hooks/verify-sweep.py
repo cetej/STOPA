@@ -248,6 +248,13 @@ def main():
         "skill-usage.jsonl", "skill-versions.md", "critic-accuracy.jsonl",
         "discovered-patterns.md", "panic-episodes.jsonl",
         "system-evolve.json", "LEARNINGS.md", ".compile",
+        # On-demand skill outputs (created by compile phase 7.5)
+        "briefing-orchestration.md", "briefing-research.md",
+        "briefing-code-quality.md", "briefing-memory.md",
+        # /improve no-repo fallback
+        "improvement-backlog.md",
+        # /orchestrate ephemeral plan (phase 4 write, cleanup at end)
+        "orchestrate-plan.md",
     }
     # Directories that skills create on first run
     RUNTIME_CREATED_DIRS = {"briefings"}
