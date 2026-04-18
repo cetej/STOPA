@@ -86,6 +86,12 @@ Health score: 10 - (0 stale×0.5) - (1 contradiction×1.5) - (3 gaps×0.5) - (55
 - [memory-caching-rnns-growing-memory](sources/memory-caching-rnns-growing-memory.md) — Memory Caching: cached hidden state checkpoints → RNN paměť roste se sekvencí; O(NL) interpolace RNN↔Transformer; GRM varianta uzavírá gap (2026-04-13)
 - [cc-session-management-1m-context](sources/cc-session-management-1m-context.md) — Anthropic session guide: context rot at 300-400k tokens, rewind > correction, bad compact = direction unpredictability, 5-option branching point per turn (2026-04-18)
 - [cognitive-companion-parallel-monitoring](sources/cognitive-companion-parallel-monitoring.md) — arXiv:2604.13759: parallel monitor for LLM reasoning degradation (30% baseline), 52-62% loop reduction @ 11% overhead (LLM-based), zero-overhead probe (layer 28, AUROC 0.840); task-type dependency — hurts structured tasks (2026-04-18)
+- [embedding-retrieval-theoretical-limits](sources/embedding-retrieval-theoretical-limits.md) — Weller et al. (ICLR 2026): proven dimension bound for single-vector embeddings; BM25 97.8% vs 54.3% recall@2 on LIMIT benchmark; validates STOPA's grep+BM25+graph hybrid (2026-04-18)
+- [claude-opus-4-7-best-practices](sources/claude-opus-4-7-best-practices.md) — Anthropic: xhigh=default effort (max=overthinking), adaptive thinking per step, full context in turn 1, each user turn adds reasoning overhead (2026-04-18)
+- [paperless-ngx-document-management](sources/paperless-ngx-document-management.md) — paperless-ngx: self-hosted OCR+full-text-search DMS; Docker Compose; no encryption (local only); potential fit for DANE/MONITOR (2026-04-18)
+- [paperdesk-document-workflow](sources/paperdesk-document-workflow.md) — PaperDesk: Windows-only .NET 8 local-first document automation; safe-by-default philosophy; very early stage (13 commits, no releases) (2026-04-18)
+- [heygen-hyperframes-agentic-video](sources/heygen-hyperframes-agentic-video.md) — HeyGen HyperFrames (Apache 2.0): HTML+CSS+JS → MP4 video via Claude Code skill; agent-native tooling thesis — web is LLM training data's largest creative medium (2026-04-18)
+- [triattention-alphsignal-practitioner](sources/triattention-alphsignal-practitioner.md) — AlphaSignal practitioner eval: budget-accuracy tradeoff dial (3072→2.5×/0pp, 1024→6.3×/1.2pp), prefix caching incompatible, calibration-data-agnostic, R-KV depth collapse 61%→31%, Worth Watching verdict (2026-04-18)
 
 ## By Component
 

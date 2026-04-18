@@ -3,7 +3,7 @@ name: OpenClaw
 type: tool
 first_seen: 2026-04-07
 last_updated: 2026-04-08
-sources: [swarm-kb-research, idea-file-research, chief-of-staff-openclaw, karpathy-nopriors-autoagent-loopy-era]
+sources: [swarm-kb-research, idea-file-research, chief-of-staff-openclaw, karpathy-nopriors-autoagent-loopy-era, heygen-hyperframes-agentic-video]
 tags: [memory, orchestration, session]
 ---
 
@@ -38,3 +38,4 @@ Pre-compaction flush is STOPA's P2 gap — extend `/compact` skill to extract ke
 - [Idea File Research](../sources/idea-file-research.md)
 - [How I Built a Chief of Staff on OpenClaw](../sources/chief-of-staff-openclaw.md)
 - [No Priors: Code Agents, AutoResearch, and the Loopy Era](../sources/karpathy-nopriors-autoagent-loopy-era.md)
+- [Agentic Video is HTML: Open Sourcing HyperFrames](../sources/heygen-hyperframes-agentic-video.md) — cited as inspiration
