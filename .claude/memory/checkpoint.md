@@ -3,7 +3,7 @@
 **Saved**: 2026-04-18 (auto-saved (session end))
 **Task**: none
 **Branch**: main
-**Last commit**: `1fb3eaa` chore(memory): session tail — activity log, checkpoint, concept-graph, 2 learning counters
+**Last commit**: `9fbc593` chore(memory): prune 117 stale allowlisted violations, regen improvement-queue
 
 ---
 
@@ -63,7 +63,7 @@ _No pending subtasks detected in state.md_
 
 > **Task**: none
 >
-> **Context**: Last commit `1fb3eaa` (chore(memory): session tail — activity log, checkpoint, concept-graph, 2 learning counters). Branch: main.
+> **Context**: Last commit `9fbc593` (chore(memory): prune 117 stale allowlisted violations, regen improvement-queue). Branch: main.
 > Session had 114 edits, 5 agents, 8 skill calls, 0 errors.
 
 

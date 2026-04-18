@@ -17,18 +17,20 @@ Adversarial co-evolution: Curriculum (Haiku) generates hard cases, Executor (Son
 5. Create branch: `self-evolve/<target>`
 6. Baseline eval → record pass_rate
 
-## Co-Evolution Loop (per round)
+## Co-Evolution Loop (per round) — SEPL: ρ→σ+ι→ε→κ
 
-| Step | Agent | Action |
-|------|-------|--------|
-| Grade | — | Run all eval cases, record pass_rate |
-| Curriculum | Haiku | If <100%: FIX mode (target oldest failing). If 100%: ESCALATE (add 1-2 harder cases via UCB1 strategy) |
-| Curriculum Critic | Sonnet | Score new cases ≥3/5 to accept. Max 2 retries. |
-| Executor | Sonnet | Single atomic edit fixing failure. Read trace for WHERE it broke. |
-| Critic Gate | /critic | Every 2 rounds. FAIL → git revert. |
-| Re-Grade | — | Run all cases. Regression detection: net gain ≥2 to keep despite regressions. |
-| UCB1 Update | — | Log strategy+outcome to optstate change_ledger |
-| Heartbeat | — | Every 2 rounds: 2 consecutive discards → PAUSE, reflect, switch strategy |
+| Step | SEPL | Agent | Action |
+|------|------|-------|--------|
+| Grade | — | — | Run all eval cases, record pass_rate |
+| Curriculum | ρ | Haiku | If <100%: FIX mode (target oldest failing). If 100%: ESCALATE (add 1-2 harder cases via UCB1 strategy) |
+| Curriculum Critic | ρ | Sonnet | Score new cases ≥3/5 to accept. Max 2 retries. |
+| Executor | σ+ι | Sonnet | Single atomic edit fixing failure. Read trace for WHERE it broke. |
+| Critic Gate | ε | /critic | Every 2 rounds. FAIL → git revert. |
+| Invariants | ε | — | commit-invariants check every round (I1-I6) |
+| Re-Grade | ε | — | Run all cases. Regression detection: net gain ≥2 to keep despite regressions. |
+| Keep/Revert | κ | — | Accept iff pass_rate held/improved AND invariants passed |
+| UCB1 Update | — | — | Log strategy+outcome to optstate change_ledger |
+| Heartbeat | — | — | Every 2 rounds: 2 consecutive discards → PAUSE, reflect, switch strategy |
 
 ## Circuit Breakers
 

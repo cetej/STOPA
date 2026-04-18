@@ -299,7 +299,9 @@ When `approaches:N` is set (N=2-3), before the iteration loop begins, fork N fun
 
 For each iteration (1 to budget):
 
-### Step 1: Review (git + traces as memory)
+**SEPL operator mapping** (ref: `rules/sepl-operators.md`): Step 1 = ρ Reflect | Step 2 = σ Select + ι Improve | Step 4-5 = ε Evaluate | Step 6 = κ Commit. Trace writes (Step 7) are operator Z.
+
+### Step 1 (ρ Reflect): Review (git + traces as memory)
 
 **Heartbeat stagnation check** (CORAL-inspired, before reading git log):
 
@@ -338,7 +340,7 @@ Zero overhead when triggers don't fire — check is O(1) read from TSV tail.
 5. Simplify — remove code while maintaining metric
 6. Radical experiment — when incremental changes stall
 
-### Step 2: Modify (one atomic change)
+### Step 2 (σ Select + ι Improve): Modify (one atomic change)
 
 Make ONE focused edit. The one-sentence test: if you need "and" to describe it, it's two changes — split them.
 
@@ -392,7 +394,7 @@ If pre-commit hook blocks: fix issue and retry (max 2 attempts), then log as `ho
 
 **Trace diff capture:** If traces active, follow `trace-review.md` → Diff Capture section.
 
-### Step 4: Verify (mechanical only)
+### Step 4 (ε Evaluate): Verify (mechanical only)
 
 **Spot-check gate** (AutoAgent-inspired): If eval suite has **5+ cases** (metric mode with multi-case verify, or file mode with multiple scored dimensions), run a random subset of 2-3 cases first. Only proceed to full eval if spot-check passes. This saves compute on obviously broken changes — especially valuable in longer runs (10+ iterations).
 
@@ -413,7 +415,7 @@ IF eval_cases >= 5:
 
 Timeout: if verify exceeds 2x normal time, kill and treat as crash.
 
-### Step 5: Guard (regression check)
+### Step 5 (ε safety invariants): Guard (regression check)
 
 **Only if `guard:` was configured.** Run guard command after successful verify.
 
@@ -446,7 +448,7 @@ IF guard_axes AND critic_scores_available:
 
 Why 0.5 threshold: critic scores are 1-5, so 0.5 = 10% of scale. Smaller drops are noise; larger drops indicate a real trade-off that shouldn't be silently accepted. (arXiv:2604.05018 — PaperOrchestra Content Refinement agent accepts revisions only when no sub-axis regresses.)
 
-### Step 6: Decide
+### Step 6 (κ Commit): Decide
 
 ```
 IF metric improved AND (no guard OR guard passed):

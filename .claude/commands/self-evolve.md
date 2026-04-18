@@ -111,6 +111,8 @@ Validation:
 
 Repeat for `budget` rounds (default 6):
 
+**SEPL operator mapping** (ref: `rules/sepl-operators.md`): Step 2 Curriculum = ρ Reflect | Step 3 Executor = σ Select + ι Improve | Step 4b Invariants + Step 5 Re-Grade = ε Evaluate | Step 6 Keep/Revert = κ Commit.
+
 #### Adaptive Mutation Strength σ (EGGROLL three-regime principle)
 
 EGGROLL (Oxford/MILA 2026) proves ES operates in three regimes based on perturbation scale σ:
@@ -137,7 +139,7 @@ Run all eval cases against current skill version.
 - Record: pass_rate, list of failing case IDs
 - If pass_rate = 100% for 2nd consecutive round after curriculum added cases: **CONVERGENCE** — exit loop
 
-#### Step 2: Curriculum Decision (Haiku sub-agent)
+#### Step 2 (ρ Reflect): Curriculum Decision (Haiku sub-agent)
 
 Spawn a **Haiku** sub-agent with adversarial-thinking system prompt:
 > "You are a red-team curriculum designer. Your job is to find weaknesses, edge cases,
@@ -189,7 +191,7 @@ When Curriculum generates new cases, spawn a **Sonnet** sub-agent as quality gat
 - If 2 retries exhausted: skip case generation this round, proceed to Executor in FIX mode
 - Log: "Curriculum Critic: case-{ID} score={N}/5 → {accepted|rejected}"
 
-#### Step 3: Executor (Sonnet sub-agent)
+#### Step 3 (σ Select + ι Improve): Executor (Sonnet sub-agent)
 
 Spawn a **Sonnet** sub-agent with surgical-editing system prompt:
 > "You are a precision code editor. Your job is to make the MINIMAL change that fixes
@@ -212,7 +214,7 @@ Run `/critic` on accumulated skill changes:
 - If WARN: continue but note concern
 - If PASS: proceed
 
-#### Step 4b: Commit Invariant Check (EVERY round — Autogenesis κ)
+#### Step 4b (ε safety invariants): Commit Invariant Check (EVERY round — Autogenesis κ)
 
 Runs on every round (not just critic rounds). Maps to Autogenesis Commit operator κ
 (arXiv:2604.15034 §3.2.2). Invariant failure forces rollback even if pass_rate improved.
@@ -233,13 +235,13 @@ On any violation:
 
 This step precedes re-grading. Score improvement does NOT override invariant failure.
 
-#### Step 5: Re-Grade
+#### Step 5 (ε Evaluate): Re-Grade
 
 Run all eval cases (including any new ones from Step 2) against modified skill.
 - Record new pass_rate
 - Compare against previous round
 
-#### Step 6: Keep/Revert (Autogenesis κ — final gating)
+#### Step 6 (κ Commit): Keep/Revert (Autogenesis κ — final gating)
 
 - If pass_rate improved or held steady with new harder cases: check regression below, then KEEP
 - If pass_rate decreased: `git revert HEAD` (revert Executor's change)

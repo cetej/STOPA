@@ -164,7 +164,9 @@ If user adjusts: update rubric. Then proceed.
 
 For each round (1 to `rounds`):
 
-### Step 1: Critic Agent (Sonnet sub-agent, cold-start)
+**SEPL operator mapping** (ref: `rules/sepl-operators.md`): Step 1 Critic = ρ Reflect | Step 2 Rewriter = σ Select | Step 3 Synthesizer = ι Improve | Step 4 Judges = ε Evaluate | Step 5 Tally = κ Commit.
+
+### Step 1 (ρ Reflect): Critic Agent (Sonnet sub-agent, cold-start)
 
 Spawn a **fresh** sub-agent with adversarial system prompt. Critical: this agent sees ONLY the current_best text and rubric — NO debate history, NO prior critiques.
 
@@ -206,7 +208,7 @@ Save critique to `outputs/autoreason-<slug>/round-{N}-critique.md`
 
 **Early exit check:** If Critic finds 0 critical and ≤1 important problems → text has converged. Skip remaining steps, jump to Phase 3.
 
-### Step 2: Rewriter Agent (Sonnet sub-agent, cold-start)
+### Step 2 (σ Select): Rewriter Agent (Sonnet sub-agent, cold-start)
 
 Spawn a **fresh** sub-agent. Sees: original text, current_best, critique, rubric. Does NOT see prior rounds or debate history.
 
@@ -246,7 +248,7 @@ Produce an improved version. Address all critical and important problems.
 Save rewrite to `outputs/autoreason-<slug>/round-{N}-rewrite.md`
 Strip `<!-- CHANGE: ... -->` markers, log them to debate-log.
 
-### Step 3: Synthesizer Agent (Sonnet sub-agent, cold-start)
+### Step 3 (ι Improve): Synthesizer Agent (Sonnet sub-agent, cold-start)
 
 Spawn a **fresh** sub-agent. Sees: current_best AND rewrite. Does NOT see critique or debate history.
 
@@ -282,7 +284,7 @@ Synthesize the best version combining strengths of both.
 
 Save synthesis to `outputs/autoreason-<slug>/round-{N}-synthesis.md`
 
-### Step 4: Blind Judge Panel (Haiku sub-agents, parallel, cold-start)
+### Step 4 (ε Evaluate): Blind Judge Panel (Haiku sub-agents, parallel, cold-start)
 
 Spawn `judges` (default 3, recommended 5-7) **independent Haiku** sub-agents in parallel.
 Each judge evaluates **all THREE candidates**: A (incumbent), B (rewrite), AB (synthesis) — with randomized labels.
@@ -332,7 +334,7 @@ RANK 3 (worst): {label}
 Reason: <1-2 sentences summarizing why the top-ranked version wins>
 ```
 
-### Step 5: Tally and Decide (Borda Count)
+### Step 5 (κ Commit): Tally and Decide (Borda Count)
 
 De-randomize labels → map ranks back to A (incumbent), B (rewrite), AB (synthesis).
 

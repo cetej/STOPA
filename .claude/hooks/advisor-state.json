@@ -1,5 +1,5 @@
 {
-  "call_count": 10934,
+  "call_count": 10999,
   "has_todo": true,
   "edit_file_set": [
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\capability-gaps.md",
@@ -724,10 +724,24 @@
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\wiki\\orchestration-resilience.md",
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\wiki\\skill-design.md",
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\epic-wilbur-cdfb17\\.claude\\memory\\learnings\\2026-04-18-panic-detector-requires-failure-signal.md",
-    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\jovial-aryabhata-4bf94e\\.claude\\hooks\\checkpoint-check.sh"
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\jovial-aryabhata-4bf94e\\.claude\\hooks\\checkpoint-check.sh",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\jovial-aryabhata-4bf94e\\.claude\\hooks\\compile-trigger.sh",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\jovial-aryabhata-4bf94e\\.claude\\hooks\\ensure-shared-dir.sh",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\jovial-aryabhata-4bf94e\\.claude\\hooks\\evolve-trigger.sh",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\jovial-aryabhata-4bf94e\\.claude\\hooks\\improvement-funnel.sh",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\jovial-aryabhata-4bf94e\\.claude\\hooks\\memory-brief.sh",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\skills\\autoloop\\SKILL.compact.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\jovial-aryabhata-4bf94e\\.claude\\hooks\\memory-maintenance.sh",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\jovial-aryabhata-4bf94e\\.claude\\hooks\\pre-compact.sh",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\jovial-aryabhata-4bf94e\\.claude\\hooks\\scribe-reminder.sh",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\jovial-aryabhata-4bf94e\\.claude\\hooks\\session-summary.sh",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\jovial-aryabhata-4bf94e\\.claude\\hooks\\auto-checkpoint-suggest.sh",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\skills\\self-evolve\\SKILL.compact.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\skills\\autoresearch\\SKILL.compact.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\skills\\autoreason\\SKILL.compact.md"
   ],
   "last_edit_was_py": false,
-  "grep_count": 3578,
+  "grep_count": 3584,
   "last_suggestion_ts": 1776548744.341334,
   "skill_count": 68
 }

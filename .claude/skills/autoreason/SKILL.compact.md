@@ -15,16 +15,16 @@ Adversarial debate loop for subjective text improvement. Extends auto-research t
 3. Generate 5-dimension scoring rubric per domain. Present to user for approval.
 4. Save to `outputs/autoreason-<slug>/`
 
-## Debate Loop (per round)
+## Debate Loop (per round) — SEPL: ρ→σ→ι→ε→κ
 
-| Step | Agent | Key rule |
-|------|-------|---------|
-| Critic | Sonnet, cold-start | Sees ONLY current text + rubric. No history. Find 3-5 weaknesses. Don't suggest fixes. |
-| Early exit | — | 0 critical + ≤1 important → converged |
-| Rewriter | Sonnet, cold-start | Sees original + current + critique + rubric. Surgical improvements, not wholesale rewrite. |
-| Synthesizer | Sonnet, cold-start | Sees current + rewrite ONLY. Merge best of both. ±20% length. |
-| Judge Panel | Haiku × N, parallel, cold-start | Randomized labels (X/Y not A/B), randomized order per judge. Blind evaluation against rubric. |
-| Tally | — | Majority wins. Tie → current holds (conservative). |
+| Step | SEPL | Agent | Key rule |
+|------|------|-------|---------|
+| Critic | ρ | Sonnet, cold-start | Sees ONLY current text + rubric. No history. Find 3-5 weaknesses. Don't suggest fixes. |
+| Early exit | — | — | 0 critical + ≤1 important → converged |
+| Rewriter | σ | Sonnet, cold-start | Sees original + current + critique + rubric. Surgical improvements, not wholesale rewrite. |
+| Synthesizer | ι | Sonnet, cold-start | Sees current + rewrite ONLY. Merge best of both. ±20% length. |
+| Judge Panel | ε | Haiku × N, parallel, cold-start | Randomized labels (X/Y not A/B), randomized order per judge. Blind evaluation against rubric. |
+| Tally | κ | — | Borda count across judges. Tie or incumbent wins → current holds (conservative). |
 
 ## Convergence Exits
 

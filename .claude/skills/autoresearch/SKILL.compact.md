@@ -17,18 +17,18 @@ Hypothesis-driven experiment loop: propose → implement → measure → keep/re
 | Hypotheses | Read-only direction |
 | Git + TSV log | Memory — commits wins, reverts losses |
 
-## Experiment Loop (per iteration)
+## Experiment Loop (per iteration) — SEPL: ρ→σ→ι→ε→κ
 
 ```
-1. Review: read TSV + git log + traces
-2. Hypothesize: ONE named hypothesis with rationale + expected effect
-3. Implement: single-file mutation only
-4. Commit: before running eval
-5. Run eval: extract scalar metric (spot-check first if >30s)
-6. Evaluate: improved vs best-so-far? → keep / discard / crash
-7. Reward hacking check: LOC creep >30%, churn cycling, metric spike >3x
-8. Log to TSV
-9. Exit check: budget | plateau (6 discards) | solved | crash loop
+1. Review (ρ):       read TSV + git log + traces
+2. Hypothesize (σ):  ONE named hypothesis with rationale + expected effect
+3. Implement (ι):    single-file mutation only
+4. Commit:           git commit before running eval
+5. Run eval (ε):     extract scalar metric (spot-check first if >30s)
+6. Evaluate (κ):     improved vs best-so-far? → keep / discard / crash
+7. Reward hacking (ε safety): LOC creep >30%, churn cycling, metric spike >3x
+8. Log to TSV:       operator Z — trace
+9. Exit check:       budget | plateau (6 discards) | solved | crash loop
 10. Batch ASSESS (every ceil(budget/3)):
     PROCEED → exit to synthesis
     REFINE → narrow focus on best approach
