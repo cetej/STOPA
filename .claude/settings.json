@@ -432,12 +432,6 @@
             "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/outcome-writer.py",
             "timeout": 5,
             "statusMessage": ""
-          },
-          {
-            "type": "command",
-            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/impact-tracker.py",
-            "timeout": 3,
-            "statusMessage": ""
           }
         ]
       },

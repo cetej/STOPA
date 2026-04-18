@@ -6,12 +6,10 @@ When a learning's `uses` counter crosses the graduation threshold, writes it
 to intermediate/graduation-candidates.md for /evolve to review.
 
 Graduation triggers (from memory-files.md):
-  - (uses >= 10 AND confidence >= 0.8 AND harmful_uses < 2)
-  - OR (impact_score >= 0.7 AND uses >= 5 AND harmful_uses < 1)
+  - uses >= 10 AND confidence >= 0.8 AND harmful_uses < 2
 
 Pruning triggers:
   - confidence < 0.3
-  - OR (impact_score < 0.2 AND uses >= 8)
 
 Output: additionalContext JSON when graduation candidate found.
 """
@@ -62,7 +60,6 @@ def check_graduation(fm: dict) -> str | None:
     uses = fm.get("uses", 0)
     confidence = fm.get("confidence", 0.7)
     harmful = fm.get("harmful_uses", 0)
-    impact = fm.get("impact_score", 0.0)
 
     # Skip already graduated (maturity: core) learnings
     maturity = fm.get("maturity", "draft")
@@ -72,13 +69,9 @@ def check_graduation(fm: dict) -> str | None:
     # Graduation check
     if (uses >= 10 and confidence >= 0.8 and harmful < 2):
         return "graduate"
-    if (impact >= 0.7 and uses >= 5 and harmful < 1):
-        return "graduate"
 
     # Pruning check
     if confidence < 0.3:
-        return "prune"
-    if (impact < 0.2 and uses >= 8):
         return "prune"
 
     return None
@@ -109,7 +102,7 @@ def append_candidate(filename: str, fm: dict, action: str):
         f"\n### {action.upper()}: {filename}\n"
         f"- **Date detected**: {today}\n"
         f"- **Uses**: {fm.get('uses', 0)} | **Confidence**: {fm.get('confidence', 'N/A')} | "
-        f"**Impact**: {fm.get('impact_score', 'N/A')} | **Harmful**: {fm.get('harmful_uses', 0)}\n"
+        f"**Harmful**: {fm.get('harmful_uses', 0)}\n"
         f"- **Summary**: {fm.get('summary', 'N/A')}\n"
         f"- **Component**: {fm.get('component', 'N/A')} | **Severity**: {fm.get('severity', 'N/A')}\n"
     )
@@ -182,7 +175,7 @@ def main():
         "additionalContext": (
             f"[graduation-check] Learning '{filename}' is ready for {action}. "
             f"Uses={fm.get('uses', 0)}, confidence={fm.get('confidence', 'N/A')}, "
-            f"impact={fm.get('impact_score', 'N/A')}. "
+            f"harmful={fm.get('harmful_uses', 0)}. "
             f"Run /evolve to process graduation candidates."
         )
     }

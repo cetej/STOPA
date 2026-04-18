@@ -217,7 +217,6 @@ source: agent_generated
 confidence: 0.5
 uses: 0
 harmful_uses: 0
-impact_score: 0.0
 ---
 
 ## Description

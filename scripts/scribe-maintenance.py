@@ -189,11 +189,6 @@ def cmd_counter_health(args):
             confidence = float(conf_str)
         except (ValueError, TypeError):
             confidence = 0.7
-        impact_str = l.get("impact_score", "0.0")
-        try:
-            impact = float(impact_str)
-        except (ValueError, TypeError):
-            impact = 0.0
 
         entry = {
             "file": l["_file"],
@@ -201,7 +196,6 @@ def cmd_counter_health(args):
             "harmful_uses": harmful,
             "successful_uses": successful,
             "confidence": confidence,
-            "impact_score": impact,
             "component": l.get("component", ""),
         }
 
@@ -210,13 +204,9 @@ def cmd_counter_health(args):
             entry["reason"] = "harmful_dominates"
             problematic.append(entry)
 
-        # Also problematic: low confidence OR (low impact + many uses + low confidence)
+        # Also problematic: low confidence
         if confidence < 0.3:
             entry["reason"] = "low_confidence"
-            if entry not in problematic:
-                problematic.append(entry)
-        elif impact < 0.2 and uses >= 8 and confidence < 0.5:
-            entry["reason"] = "low_impact_with_usage"
             if entry not in problematic:
                 problematic.append(entry)
 
@@ -224,10 +214,8 @@ def cmd_counter_health(args):
         if uses > 5 and harmful < 2:
             high_performing.append(entry)
 
-        # Graduation: (uses >= 10 AND confidence >= 0.8 AND harmful < 2)
-        #          OR (impact >= 0.7 AND uses >= 5 AND harmful < 1)
-        if (uses >= 10 and confidence >= 0.8 and harmful < 2) or \
-           (impact >= 0.7 and uses >= 5 and harmful < 1):
+        # Graduation: uses >= 10 AND confidence >= 0.8 AND harmful < 2
+        if uses >= 10 and confidence >= 0.8 and harmful < 2:
             graduation_candidates.append(entry)
 
     result = {

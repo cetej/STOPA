@@ -118,14 +118,12 @@ def grep_learnings(keywords: list[str]) -> list[Path]:
 def score_learning(meta: dict) -> float:
     """Compute time-weighted relevance score for a learning.
 
-    Formula: severity × source × confidence × impact_boost × recency
-    Impact boost: 1.0 + impact_score (default 0.0 → boost 1.0, max 1.0 → boost 2.0)
+    Formula: severity × source × confidence × maturity_boost × recency
     Ref: memory-files.md spec, inspired by A-MAC (arXiv:2603.04549)
     """
     severity = SEVERITY_WEIGHTS.get(meta.get("severity", "medium"), 2)
     source = SOURCE_WEIGHTS.get(meta.get("source", "auto_pattern"), 1.0)
     confidence = float(meta.get("confidence", "0.7"))
-    impact_boost = 1.0 + float(meta.get("impact_score", "0.0"))
 
     # Parse date for recency
     date_str = meta.get("date", "")
@@ -141,7 +139,7 @@ def score_learning(meta: dict) -> float:
     maturity = meta.get("maturity", "").strip().strip('"').strip("'").lower()
     maturity_boost = {"core": 1.3, "validated": 1.1}.get(maturity, 1.0)
 
-    return severity * source * confidence * impact_boost * recency * maturity_boost
+    return severity * source * confidence * recency * maturity_boost
 
 
 def screening_score_learnings(

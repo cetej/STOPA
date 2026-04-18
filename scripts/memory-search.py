@@ -98,7 +98,6 @@ class Document:
     severity: str = "medium"
     source: str = "auto_pattern"
     confidence: float = 0.7
-    impact_score: float = 0.0
     uses: int = 0
     harmful_uses: int = 0
     date: str = ""
@@ -202,7 +201,6 @@ def load_learnings(supersedes_map: dict[str, str]) -> list[Document]:
             severity=meta.get("severity", "medium"),
             source=meta.get("source", "auto_pattern"),
             confidence=float(meta.get("confidence", 0.7)),
-            impact_score=float(meta.get("impact_score", 0.0)),
             uses=int(meta.get("uses", 0)),
             harmful_uses=int(meta.get("harmful_uses", 0)),
             date=str(meta.get("date", "")),
@@ -347,7 +345,6 @@ def metadata_score(doc: Document) -> float:
     severity_w = SEVERITY_WEIGHTS.get(doc.severity, 2.0)
     source_w = SOURCE_WEIGHTS.get(doc.source, 1.0)
     confidence = doc.confidence
-    impact_boost = 1.0 + doc.impact_score
 
     # Time decay (halves relevance every 60 days)
     days_old = 0
@@ -370,7 +367,7 @@ def metadata_score(doc: Document) -> float:
     except OSError:
         pass
 
-    return severity_w * source_w * confidence * impact_boost * time_factor * maturity_boost
+    return severity_w * source_w * confidence * time_factor * maturity_boost
 
 
 # ── Query expansion ────────────────────────────────────────────────────────
@@ -501,7 +498,7 @@ def format_results(results: list[SearchResult], debug: bool = False,
 
         if debug:
             lines.append(f"      Severity={r.doc.severity} Source={r.doc.source} "
-                         f"Confidence={r.doc.confidence} Impact={r.doc.impact_score} "
+                         f"Confidence={r.doc.confidence} "
                          f"Uses={r.doc.uses} Date={r.doc.date}")
             lines.append(f"      Tags: {r.doc.tags}")
             lines.append(f"      Words: {r.doc.word_count}")
