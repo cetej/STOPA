@@ -2,9 +2,14 @@
 # Compound loop trigger — suggest /compile when new learnings accumulate
 # Runs at Stop hook. Compares current learnings count to last compile state.
 
-COMPILE_STATE=".claude/memory/wiki/.compile-state.json"
-LEARNINGS_DIR=".claude/memory/learnings"
-RAW_DIR=".claude/memory/raw"
+# Anchor to project root via script location — prevents CWD-dependent reads
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+MEMORY_DIR="$PROJECT_ROOT/.claude/memory"
+
+COMPILE_STATE="$MEMORY_DIR/wiki/.compile-state.json"
+LEARNINGS_DIR="$MEMORY_DIR/learnings"
+RAW_DIR="$MEMORY_DIR/raw"
 
 # Count current learnings
 CURRENT_COUNT=$(find "$LEARNINGS_DIR" -name "2*.md" 2>/dev/null | wc -l)
@@ -24,7 +29,7 @@ fi
 NEW_LEARNINGS=$((CURRENT_COUNT - LAST_COUNT))
 
 # Check per-component wiki staleness (wiki-pending.json from auto-relate.py)
-WIKI_PENDING=".claude/memory/intermediate/wiki-pending.json"
+WIKI_PENDING="$MEMORY_DIR/intermediate/wiki-pending.json"
 STALE_COMPONENTS=""
 if [ -f "$WIKI_PENDING" ]; then
   STALE_COMPONENTS=$(python -c "

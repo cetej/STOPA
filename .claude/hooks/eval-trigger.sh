@@ -3,8 +3,12 @@
 # Hook event: PostToolUse (matcher: Write|Edit)
 # Outputs a system reminder when a SKILL.md file is modified
 
+# Anchor to project root via script location — prevents CWD-dependent reads
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
 # Profile: standard
-source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standard
+source "$SCRIPT_DIR/lib/profile-check.sh" 2>/dev/null && require_profile standard
 
 TOOL_INPUT="${CLAUDE_TOOL_INPUT:-}"
 
@@ -20,7 +24,7 @@ if [ -z "$SKILL_NAME" ]; then
 fi
 
 # Check if eval cases exist for this skill
-EVAL_DIR=".claude/evals/$SKILL_NAME"
+EVAL_DIR="$PROJECT_ROOT/.claude/evals/$SKILL_NAME"
 if [ -d "$EVAL_DIR" ]; then
     CASE_COUNT=$(find "$EVAL_DIR" -name "case-*.md" 2>/dev/null | wc -l)
     if [ "$CASE_COUNT" -gt 0 ]; then

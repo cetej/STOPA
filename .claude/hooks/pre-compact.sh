@@ -3,8 +3,13 @@
 # Exit code 0 = allow compaction, 2 = block compaction
 # Runs BEFORE PostCompact, so state is captured while full context is still available
 
-STATE=".claude/memory/state.md"
-INTERMEDIATE=".claude/memory/intermediate"
+# Anchor to project root via script location — prevents CWD-dependent writes
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+MEMORY_DIR="$PROJECT_ROOT/.claude/memory"
+
+STATE="$MEMORY_DIR/state.md"
+INTERMEDIATE="$MEMORY_DIR/intermediate"
 TS=$(date +"%Y-%m-%d %H:%M")
 TODAY=$(date +"%Y-%m-%d")
 

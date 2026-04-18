@@ -8,13 +8,17 @@
 #   suggest — soft suggestion: "Consider running ..."
 #   ask     — question: "Want me to run ...?"
 
+# Anchor to project root via script location — prevents CWD-dependent reads
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
 # Profile: standard
-source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standard
+source "$SCRIPT_DIR/lib/profile-check.sh" 2>/dev/null && require_profile standard
 
 TOOL="${CLAUDE_TOOL_NAME:-}"
 INPUT="${CLAUDE_TOOL_INPUT:-}"
 OUTPUT="${CLAUDE_TOOL_OUTPUT:-}"
-CHAINS_FILE=".claude/hooks/skill-chains.json"
+CHAINS_FILE="$SCRIPT_DIR/skill-chains.json"
 
 # Only react to Skill tool
 [ "$TOOL" != "Skill" ] && exit 0
@@ -23,12 +27,12 @@ CHAINS_FILE=".claude/hooks/skill-chains.json"
 [ ! -f "$CHAINS_FILE" ] && exit 0
 
 # All logic in Python — avoids grep -P issues on Windows Git Bash
-python3 -c "
+STOPA_CHAINS_FILE="$CHAINS_FILE" python3 -c "
 import json, re, sys, os
 
 tool_input = os.environ.get('CLAUDE_TOOL_INPUT', '')
 tool_output = os.environ.get('CLAUDE_TOOL_OUTPUT', '')[:2000]
-chains_file = '.claude/hooks/skill-chains.json'
+chains_file = os.environ['STOPA_CHAINS_FILE']
 
 # Extract skill name from input JSON
 try:

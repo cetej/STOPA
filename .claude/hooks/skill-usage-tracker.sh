@@ -3,10 +3,14 @@
 # Called as PostToolUse hook when Skill tool is used
 # Appends to ~/.claude/memory/skill-usage.jsonl
 
-# Profile: standard
-source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standard
+# Anchor to project root via script location — prevents CWD-dependent writes
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
-USAGE_FILE=".claude/memory/skill-usage.jsonl"
+# Profile: standard
+source "$SCRIPT_DIR/lib/profile-check.sh" 2>/dev/null && require_profile standard
+
+USAGE_FILE="$PROJECT_ROOT/.claude/memory/skill-usage.jsonl"
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
 # Read stdin (PostToolUse passes JSON via stdin in newer CC versions)

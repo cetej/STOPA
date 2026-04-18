@@ -10,13 +10,17 @@
 #    - confidence <  0.8 → print suggestion to stdout (injected into context)
 # 3. Telegram notify
 
+# Anchor to project root via script location — prevents CWD-dependent reads
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
 # Profile: standard
-source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standard
+source "$SCRIPT_DIR/lib/profile-check.sh" 2>/dev/null && require_profile standard
 
 set -euo pipefail
 
-STATE_FILE=".claude/memory/state.md"
-CAPTURE_SCRIPT=".claude/hooks/auto-compound-agent.py"
+STATE_FILE="$PROJECT_ROOT/.claude/memory/state.md"
+CAPTURE_SCRIPT="$SCRIPT_DIR/auto-compound-agent.py"
 
 # Only proceed if an orchestrated task ran (state.md has completed subtasks)
 if [ ! -f "$STATE_FILE" ]; then
@@ -34,4 +38,4 @@ fi
 
 # Telegram notify — fire-and-forget
 TASK=$(grep -m1 '^\*\*Goal\*\*:' "$STATE_FILE" 2>/dev/null | sed 's/\*\*Goal\*\*: *//' || echo "unknown")
-bash .claude/hooks/telegram-notify.sh "✅ *Task completed:* ${TASK}" 2>/dev/null &
+bash "$SCRIPT_DIR/telegram-notify.sh" "✅ *Task completed:* ${TASK}" 2>/dev/null &

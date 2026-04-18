@@ -9,9 +9,13 @@
 #
 # Profile: standard
 
-source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standard
+# Anchor to project root via script location — prevents CWD-dependent reads
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
-BUDGET_FILE=".claude/memory/budget.md"
+source "$SCRIPT_DIR/lib/profile-check.sh" 2>/dev/null && require_profile standard
+
+BUDGET_FILE="$PROJECT_ROOT/.claude/memory/budget.md"
 MAX_ACTIVE_TASKS=15
 
 # Count existing tasks (if task file structure is available)

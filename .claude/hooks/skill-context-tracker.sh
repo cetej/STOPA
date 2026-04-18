@@ -7,7 +7,10 @@
 # stdin: {"tool_name": "Skill", "tool_input": {"skill": "orchestrate", ...}, ...}
 # Also available: CLAUDE_TOOL_NAME, CLAUDE_TOOL_INPUT env vars
 
-MARKER=".claude/memory/intermediate/active-skill.json"
+# Anchor to project root via script location — prevents CWD-dependent writes
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+MARKER="$PROJECT_ROOT/.claude/memory/intermediate/active-skill.json"
 TS=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
 # Read stdin

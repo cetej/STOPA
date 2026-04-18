@@ -4,7 +4,10 @@
 # Returns suppressOutput:true on success (silent)
 # Profile: strict+
 
-source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile strict
+# Anchor to project root via script location — prevents CWD-dependent source
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+source "$SCRIPT_DIR/lib/profile-check.sh" 2>/dev/null && require_profile strict
 
 TOOL="${CLAUDE_TOOL_NAME:-unknown}"
 

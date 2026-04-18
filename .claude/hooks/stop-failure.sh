@@ -3,8 +3,11 @@
 # Hook event: StopFailure
 # Logs the failure and suggests recovery steps
 
-BUDGET_FILE=".claude/memory/budget.md"
-CHECKPOINT_FILE=".claude/memory/checkpoint.md"
+# Anchor to project root via script location — prevents CWD-dependent reads
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+BUDGET_FILE="$PROJECT_ROOT/.claude/memory/budget.md"
+CHECKPOINT_FILE="$PROJECT_ROOT/.claude/memory/checkpoint.md"
 
 echo "Session stopped due to API error."
 
@@ -23,6 +26,6 @@ fi
 # Slack notify — fire-and-forget
 TASK="none"
 if [ -f "$BUDGET_FILE" ]; then
-  TASK=$(grep -m1 '^\*\*Goal\*\*:' ".claude/memory/state.md" 2>/dev/null | sed 's/\*\*Goal\*\*: *//' || echo "none")
+  TASK=$(grep -m1 '^\*\*Goal\*\*:' "$PROJECT_ROOT/.claude/memory/state.md" 2>/dev/null | sed 's/\*\*Goal\*\*: *//' || echo "none")
 fi
-python .claude/hooks/slack-notify.py stop_failure checkpoint="$HAS_CHECKPOINT" task="$TASK" &
+python "$SCRIPT_DIR/slack-notify.py" stop_failure checkpoint="$HAS_CHECKPOINT" task="$TASK" &

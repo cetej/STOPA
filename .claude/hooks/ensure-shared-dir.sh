@@ -14,7 +14,10 @@
 #
 # Profile: minimal+ (always runs, <5ms)
 
-MEMORY_DIR=".claude/memory"
+# Anchor to project root via script location — prevents CWD-dependent writes
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+MEMORY_DIR="$PROJECT_ROOT/.claude/memory"
 
 # Core directories (always needed)
 mkdir -p "$MEMORY_DIR/intermediate"
