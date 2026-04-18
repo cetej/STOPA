@@ -4,7 +4,7 @@ type: best_practice
 severity: high
 component: session
 tags: [context-management, compaction, compact, session-management]
-summary: Bad compacts happen when the model can't predict the next task direction — content outside the session's dominant theme gets dropped. Fix: trigger /compact proactively with an explicit direction hint before the topic changes.
+summary: "Bad compacts happen when the model can't predict the next task direction — content outside the session's dominant theme gets dropped. Fix — trigger /compact proactively with an explicit direction hint before the topic changes."
 source: external_research
 uses: 0
 successful_uses: 0
