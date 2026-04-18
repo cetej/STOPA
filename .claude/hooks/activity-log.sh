@@ -3,7 +3,10 @@
 # Only captures Write/Edit/Agent/Skill/significant Bash — skips read-only tools for performance
 # Parses tool name from stdin JSON (reliable) with env var fallback
 
-LOG=".claude/memory/activity-log.md"
+# Anchor to project root via script location — prevents CWD-dependent writes
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+LOG="$PROJECT_ROOT/.claude/memory/activity-log.md"
 TS=$(date +"%Y-%m-%d %H:%M")
 
 # Parse tool name from stdin JSON (CC passes tool details via stdin)

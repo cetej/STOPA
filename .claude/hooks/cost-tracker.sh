@@ -7,10 +7,14 @@
 HOOK_INPUT=$(cat 2>/dev/null || true)
 echo "$HOOK_INPUT" | grep -q '"agent_type"' && exit 0
 
-source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standard
+# Anchor to project root via script location — prevents CWD-dependent writes
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
-BUDGET=".claude/memory/budget.md"
-LOG=".claude/memory/activity-log.md"
+source "$SCRIPT_DIR/lib/profile-check.sh" 2>/dev/null && require_profile standard
+
+BUDGET="$PROJECT_ROOT/.claude/memory/budget.md"
+LOG="$PROJECT_ROOT/.claude/memory/activity-log.md"
 TS=$(date +"%Y-%m-%d %H:%M")
 
 if [ ! -f "$LOG" ]; then
