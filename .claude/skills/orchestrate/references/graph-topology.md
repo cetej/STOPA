@@ -65,7 +65,7 @@ subtasks:
 3. **Disjointness**: no two same-wave subtasks share a `writes_to` entry (except intermediate/ JSON which is always unique)
 4. **Reachability**: every subtask is either a root (reads_from = []) or all its reads_from entries are produced by upstream subtasks
 
-Ref: workspace-schema.md for full zone definitions and validation rules.
+Validation here is **LLM-driven** — perform the 4 checks above mentally while decomposing. A Python `workspace_validator` was prototyped (2026-04-12) but never wired: the orchestrator has no Bash access and the runtime integration was never designed. See `.claude/hooks/archive/workspace_validator.py` if the feature is revived.
 
 ## Step 4: Routing Estimate (difficulty proxy)
 

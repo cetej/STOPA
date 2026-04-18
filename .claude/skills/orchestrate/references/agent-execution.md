@@ -1,6 +1,6 @@
 # Agent Execution — Phase 4 Details
 
-**Workspace reference:** Read `${CLAUDE_SKILL_DIR}/references/workspace-schema.md` for the 4-zone workspace model (B_ctx, B_work, B_sys, B_ans) and per-subtask workspace contracts (`reads_from`/`writes_to`).
+**Workspace model (informal, LLM-driven):** When planning a deep-tier task, think of each subtask as operating in four zones — `B_ctx` (immutable grounding refs), `B_work` (owned write targets), `B_sys` (shared memory like state.md), `B_ans` (final deliverables). Per-subtask contracts (`reads_from`/`writes_to`) are a planning concept only — no runtime validator enforces them. Use the disjointness and readability checks later in this file to verify contracts manually before spawning agents.
 
 ## Pre-Spawn: Task Directory Setup (LLM Wiki v2 — Gap 3: shared/private scoping)
 

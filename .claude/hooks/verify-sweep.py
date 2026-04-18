@@ -382,7 +382,7 @@ def main():
         SKIP_EXACT = {
             "associative_engine.py", "learning_embedder.py", "profile_check.py",
             "project_guard.py", "sidecar_queue.py", "error_classifier.py",
-            "learnings_retrieval.py", "atomic_utils.py", "workspace_validator.py",
+            "learnings_retrieval.py", "atomic_utils.py",
         }
         hooks_checked = 0
         hooks_failed = 0
