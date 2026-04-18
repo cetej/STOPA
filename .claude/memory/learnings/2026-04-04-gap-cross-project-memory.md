@@ -8,7 +8,7 @@ summary: "RESOLVED 2026-04-15: Cross-project memory mechanics now implemented â€
 source: auto_pattern
 uses: 1
 harmful_uses: 0
-confidence: 0.75
+confidence: 0.85
 verify_check: manual
 successful_uses: 0
 valid_until: 2026-04-15

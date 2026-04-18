@@ -3,12 +3,12 @@
 Obsah kompilovaných wiki článků organizovaný podle typu entity.
 LLM čte tento soubor PRVNÍ při odpovídání na dotazy.
 
-**Last updated:** 2026-04-17
-**Total articles:** 34
+**Last updated:** 2026-04-18
+**Total articles:** 45
 
 ---
 
-## Concepts (25)
+## Concepts (35)
 
 | Article | Summary | Sources | Updated |
 |---------|---------|---------|---------|

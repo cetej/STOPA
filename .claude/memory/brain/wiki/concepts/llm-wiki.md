@@ -87,6 +87,20 @@ Scale threshold potvrzení: **~100 articles / 400K slov** zvládne komplexní Q&
 - Human oversight nutný pro fact-checking
 - Žádný real-time retrieval pro concurrent multi-user access
 
+## Farzapedia Pattern — Explicit Personal Wikipedia (Karpathy, Apr 2026)
+
+Karpathy endorse Farzapedia jako ideální model pro AI personalizaci:
+- **Explicitnost**: AI ví přesně to co vidíš v souborech (ne implicitní model)
+- **Ownership**: soubory na vlastním stroji, žádný vendor lock-in
+- **Universal format**: markdown/images → libovolný nástroj, Unix utilities, fine-tuning
+- **Vendor flexibility**: swap między AI providers bez ztráty dat
+
+Managing personal wiki = klíčová dovednost 21. století (Karpathy framing).
+
+Farzapedia (Farza @FarzaTV) konkrétní příklad: 2,500 diary entries + messages → LLM → personal Wikipedia.
+
+→ Viz: [karpathy.md](../people/karpathy.md#farzapedia)
+
 ## Implementace v 2BRAIN
 
 2BRAIN přímo implementuje tento vzor:

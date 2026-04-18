@@ -263,6 +263,90 @@
       "tags": ["ai", "memory", "agent", "knowledge-graph", "retrieval", "ppr", "associative"],
       "wiki": "concepts/gaama.md",
       "added": "2026-04-17"
+    },
+    "a-mem": {
+      "type": "concept",
+      "label": "A-MEM — Zettelkasten Agentic Memory (NeurIPS 2025)",
+      "tags": ["ai", "memory", "agent", "zettelkasten", "dynamic-indexing", "knowledge-network"],
+      "wiki": "concepts/a-mem.md",
+      "added": "2026-04-18"
+    },
+    "agentic-memory-unified": {
+      "type": "concept",
+      "label": "Agentic Memory — Unified RL Memory Management",
+      "tags": ["ai", "memory", "agent", "rl", "grpo", "tool-based-memory"],
+      "wiki": "concepts/agentic-memory-unified.md",
+      "added": "2026-04-18"
+    },
+    "memory-augmented-routing": {
+      "type": "concept",
+      "label": "Memory-Augmented Routing — Knowledge Access > Model Size",
+      "tags": ["ai", "memory", "routing", "retrieval", "cost-reduction", "persistent-agents"],
+      "wiki": "concepts/memory-augmented-routing.md",
+      "added": "2026-04-18"
+    },
+    "agentforge": {
+      "type": "concept",
+      "label": "AgentForge — Execution-Grounded Multi-Agent SWE",
+      "tags": ["ai", "multi-agent", "software-engineering", "execution-grounded", "swe-bench"],
+      "wiki": "concepts/agentforge.md",
+      "added": "2026-04-18"
+    },
+    "prompt-injection-defense": {
+      "type": "concept",
+      "label": "Prompt Injection Defense — Privilege Separation",
+      "tags": ["ai", "security", "prompt-injection", "privilege-separation", "agent-safety"],
+      "wiki": "concepts/prompt-injection-defense.md",
+      "added": "2026-04-18"
+    },
+    "critical-step-optimization": {
+      "type": "concept",
+      "label": "Critical Step Optimization (CSO) — Efficient Post-Training",
+      "tags": ["ai", "rl", "post-training", "process-reward", "preference-learning"],
+      "wiki": "concepts/critical-step-optimization.md",
+      "added": "2026-04-18"
+    },
+    "multi-agent-orchestration-protocols": {
+      "type": "concept",
+      "label": "Multi-Agent Orchestration Protocols (MCP, Agent2Agent)",
+      "tags": ["ai", "orchestration", "mcp", "enterprise", "protocols", "governance"],
+      "wiki": "concepts/multi-agent-orchestration-protocols.md",
+      "added": "2026-04-18"
+    },
+    "automated-alignment-researchers": {
+      "type": "concept",
+      "label": "Automated Alignment Researchers — Anthropic Experiment",
+      "tags": ["ai", "alignment", "automated-research", "scalable-oversight", "parallel-agents"],
+      "wiki": "concepts/automated-alignment-researchers.md",
+      "added": "2026-04-18"
+    },
+    "agentic-engineering-patterns": {
+      "type": "concept",
+      "label": "Agentic Engineering Patterns (Willison)",
+      "tags": ["ai", "programming", "tdd", "coding-agents", "methodology"],
+      "wiki": "concepts/agentic-engineering-patterns.md",
+      "added": "2026-04-18"
+    },
+    "farzapedia": {
+      "type": "concept",
+      "label": "Farzapedia — Personal Wikipedia from LLM",
+      "tags": ["pkm", "personal-wikipedia", "data-ownership", "llm-wiki", "ai-personalization"],
+      "wiki": null,
+      "added": "2026-04-18"
+    },
+    "ai-capability-gap": {
+      "type": "concept",
+      "label": "AI Capability Perception Gap (Karpathy 2026)",
+      "tags": ["ai", "mental-model", "peaky-capabilities", "llm-behavior"],
+      "wiki": null,
+      "added": "2026-04-18"
+    },
+    "simon-willison": {
+      "type": "person",
+      "label": "Simon Willison",
+      "tags": ["developer", "blogger", "tools", "agentic-engineering"],
+      "wiki": null,
+      "added": "2026-04-18"
     }
   },
   "edges": [
@@ -354,6 +438,44 @@
     {"from": "gaama", "to": "ecphory-rag", "rel": "related-to", "evidence": "oba graf-based retrieval: EcphoryRAG entity-centric 94% token reduction, GAAMA PPR-based SOTA benchmark"},
     {"from": "gaama", "to": "second-brain", "rel": "enables", "evidence": "GAAMA architektura s 78.9% na LoCoMo-10 empiricky validuje KG-based second brain přístup"},
     {"from": "gaama", "to": "memfactory", "rel": "related-to", "evidence": "MemFactory: RL-based update policy (CO udržovat); GAAMA: graph-based struktura (JAK organizovat) — komplementární"},
-    {"from": "gaama", "to": "active-metacognitive-curation", "rel": "related-to", "evidence": "reflection nodes ≈ metacognitive curation výstup; GAAMA implementuje synthesis tier hierarchicky"}
+    {"from": "gaama", "to": "active-metacognitive-curation", "rel": "related-to", "evidence": "reflection nodes ≈ metacognitive curation výstup; GAAMA implementuje synthesis tier hierarchicky"},
+    {"from": "a-mem", "to": "zettelkasten", "rel": "part-of", "evidence": "A-MEM directly implements Zettelkasten atomic note + link pattern for agent memory"},
+    {"from": "a-mem", "to": "agent-memory-taxonomy", "rel": "part-of", "evidence": "A-MEM = interconnected store family in write-manage-read taxonomy"},
+    {"from": "a-mem", "to": "memfactory", "rel": "complementary", "evidence": "MemFactory: RL extraction policy; A-MEM: link-based organization — complementary approaches"},
+    {"from": "a-mem", "to": "gaama", "rel": "related-to", "evidence": "both build knowledge graphs from agent memory; GAAMA uses PPR traversal, A-MEM uses Zettelkasten links"},
+    {"from": "a-mem", "to": "stopa", "rel": "applied-in", "evidence": "STOPA learnings/ related: field + supersedes: field implements A-MEM linking; gap: new learnings don't trigger updates to related files"},
+    {"from": "agentic-memory-unified", "to": "agent-memory-taxonomy", "rel": "formalizes", "evidence": "unified framework = formal treatment of write-manage-read loop as single RL policy"},
+    {"from": "agentic-memory-unified", "to": "memfactory", "rel": "related-to", "evidence": "both use RL for memory management; MemFactory=extraction, unified=operations-as-tools"},
+    {"from": "agentic-memory-unified", "to": "rlvr", "rel": "related-to", "evidence": "step-wise GRPO for sparse memory rewards = RLVR applied to memory domain"},
+    {"from": "agentic-memory-unified", "to": "stopa", "rel": "related-to", "evidence": "STOPA memory access is currently reactive; agentic-memory-unified suggests next step: agent decides when to store/discard"},
+    {"from": "memory-augmented-routing", "to": "context-engineering", "rel": "enables", "evidence": "routing based on memory hit = context engineering decision: what context to load"},
+    {"from": "memory-augmented-routing", "to": "agent-memory-taxonomy", "rel": "related-to", "evidence": "routing uses read operation of write-manage-read loop"},
+    {"from": "memory-augmented-routing", "to": "stopa", "rel": "applied-in", "evidence": "47% query similarity finding supports haiku routing for repetitive tasks; hybrid BM25+cosine = STOPA hybrid-retrieve.py"},
+    {"from": "agentforge", "to": "verifiability-sw2", "rel": "validates", "evidence": "execution-grounded verification = verifiability principle applied to every commit"},
+    {"from": "agentforge", "to": "multi-agent-hpc", "rel": "related-to", "evidence": "both multi-agent with role decomposition; HPC: planner/executor, AgentForge: 5-role specialization"},
+    {"from": "agentforge", "to": "stopa", "rel": "applied-in", "evidence": "AgentForge 5-agent roles suggest upgrade path: add Tester + Debugger alongside STOPA's Scout/Worker/Critic"},
+    {"from": "prompt-injection-defense", "to": "tool-use-evolution", "rel": "related-to", "evidence": "injection = tool result manipulation; defense structural separation between tool results and orchestrator"},
+    {"from": "prompt-injection-defense", "to": "context-engineering", "rel": "related-to", "evidence": "JSON formatting = structured context = injection defense through format engineering"},
+    {"from": "prompt-injection-defense", "to": "stopa", "rel": "applied-in", "evidence": "STOPA agents processing web/email content should pass through low-privilege extraction layer first"},
+    {"from": "critical-step-optimization", "to": "cpmi-process-reward", "rel": "related-to", "evidence": "CSO identifies critical steps; CPMI provides efficient step scoring — complementary pipeline"},
+    {"from": "critical-step-optimization", "to": "think-prm", "rel": "related-to", "evidence": "ThinkPRM verifies step quality; CSO selects which steps to train on — complementary"},
+    {"from": "critical-step-optimization", "to": "rlvr", "rel": "enables", "evidence": "CSO makes RLVR training more efficient by focusing on verified critical steps only"},
+    {"from": "critical-step-optimization", "to": "stopa", "rel": "applied-in", "evidence": "/autoloop, /critic should identify critical divergence steps in failed runs, not treat all steps equally"},
+    {"from": "multi-agent-orchestration-protocols", "to": "stopa", "rel": "validates", "evidence": "MCP + Agent2Agent = protocols STOPA already uses; governance/observability/accountability = STOPA decisions.md/status/failures/"},
+    {"from": "multi-agent-orchestration-protocols", "to": "context-engineering", "rel": "related-to", "evidence": "MCP standardizes context delivery to agents — protocol-level context engineering"},
+    {"from": "multi-agent-orchestration-protocols", "to": "multi-agent-hpc", "rel": "related-to", "evidence": "both address multi-agent coordination at different scales (enterprise vs HPC)"},
+    {"from": "automated-alignment-researchers", "to": "stopa", "rel": "validates", "evidence": "9 parallel Opus agents >> 7-day human sprint; validates STOPA /dreams and /deepresearch parallel architecture"},
+    {"from": "automated-alignment-researchers", "to": "rlvr", "rel": "related-to", "evidence": "automated alignment research can use RLVR-style verifiable metrics as training signal"},
+    {"from": "agentic-engineering-patterns", "to": "vibe-coding", "rel": "contradicts", "evidence": "agentic engineering explicitly defined as NOT vibe coding — requires professional engineering foundation"},
+    {"from": "agentic-engineering-patterns", "to": "verifiability-sw2", "rel": "validates", "evidence": "TDD with agents = verifiability as primary SE practice — test IS the verification"},
+    {"from": "agentic-engineering-patterns", "to": "stopa", "rel": "validates", "evidence": "confirms /tdd skill design; 'code is cheap now' framing validates STOPA's multi-agent generation approach"},
+    {"from": "simon-willison", "to": "agentic-engineering-patterns", "rel": "created", "date": "2026-02"},
+    {"from": "karpathy", "to": "ai-capability-gap", "rel": "created", "date": "2026-04-18", "evidence": "tweet 2042334451611693415 — peaky capabilities + free-tier vs frontier"},
+    {"from": "karpathy", "to": "farzapedia", "rel": "related-to", "date": "2026-04", "evidence": "endorses Farzapedia as LLM Wiki personal wikipedia pattern"},
+    {"from": "ai-capability-gap", "to": "jagged-intelligence", "rel": "related-to", "evidence": "peaky capabilities = jagged intelligence seen from user perception angle"},
+    {"from": "ai-capability-gap", "to": "verifiability-sw2", "rel": "related-to", "evidence": "peaky gains in verifiable domains (code/math) exactly because reward functions exist"},
+    {"from": "farzapedia", "to": "llm-wiki", "rel": "part-of", "evidence": "Farzapedia is an instance of LLM Wiki pattern: personal wiki built from personal data"},
+    {"from": "farzapedia", "to": "second-brain", "rel": "part-of", "evidence": "personal Wikipedia = second brain implementation"},
+    {"from": "farzapedia", "to": "operating-knowledge", "rel": "enables", "evidence": "Farzapedia data ownership + vendor flexibility = operating knowledge without vendor lock-in"}
   ]
 }
