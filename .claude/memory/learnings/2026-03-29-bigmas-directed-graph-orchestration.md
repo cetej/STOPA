@@ -9,7 +9,7 @@ source: external_research
 uses: 12
 harmful_uses: 0
 related: [2026-04-07-sas-beats-mas-equal-compute.md, 2026-04-07-mom-taro-orchestration-upgrades.md]
-verify_check: "Grep('Phase 3.3', path='.claude/skills/orchestrate/SKILL.md') → 1+ matches"
+verify_check: "Grep('N-Plan Selection', path='.claude/skills/orchestrate/SKILL.md') → 1+ matches"
 confidence: 1.00
 maturity: core
 successful_uses: 0
