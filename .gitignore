@@ -60,6 +60,8 @@ experiments/*/data/
 # Log files (ng_robot pipeline, auto-generated)
 *.jsonl
 *.log
+# Exception: resource version lineage (Autogenesis RSPL) — must be tracked for rollback
+!.claude/memory/resource-ledger.jsonl
 
 # Windows crash dumps
 *.stackdump

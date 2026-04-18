@@ -1,5 +1,6 @@
 ---
 name: self-evolve
+version: "1.1.0"
 description: "Use when iteratively improving a skill through adversarial co-evolution with auto-generated eval cases. Trigger on 'self-evolve', 'evolve skill', 'improve skill with evals'. Do NOT use for learning audits (/evolve) or file optimization (/autoloop)."
 argument-hint: <target-skill> [budget:N] [bootstrap:true|false] [meta:true|false] [group:N] [mode:skill|system]
 discovery-keywords: [improve skill, evolve skill, skill quality, adversarial eval, co-evolution, benchmark skill]
@@ -211,17 +212,54 @@ Run `/critic` on accumulated skill changes:
 - If WARN: continue but note concern
 - If PASS: proceed
 
+#### Step 4b: Commit Invariant Check (EVERY round — Autogenesis κ)
+
+Runs on every round (not just critic rounds). Maps to Autogenesis Commit operator κ
+(arXiv:2604.15034 §3.2.2). Invariant failure forces rollback even if pass_rate improved.
+
+Mandatory invariants (see `.claude/rules/commit-invariants.md`):
+1. **I1 description regression**: `head -20 .claude/skills/<target>/SKILL.md | grep -q '^description: "Use when'` must succeed
+2. **I2 size bounded**: growth ≤ +15% vs pre-edit line count (`wc -l` pre and post); absolute ceiling 1200 lines
+3. **I3 secret leak**: `git diff HEAD~1 -- .claude/skills/<target>/SKILL.md | grep -E 'sk-[A-Za-z0-9]{20,}|API_KEY=|SECRET=|TOKEN=[A-Za-z0-9]'` must return no matches
+4. **I4 syntax**: YAML frontmatter must parse — `python -c "import yaml,sys; yaml.safe_load(open('.claude/skills/<target>/SKILL.md').read().split('---')[1])"`
+5. **I8 anti-rationalization preserved**: If target skill has `## Anti-Rationalization Defense`, row count must not decrease vs prior commit
+6. **I9 verification checklist preserved**: Same rule for `## Verification Checklist`
+
+On any violation:
+- Log: `"Invariant I{N} violated: {details}"` to evolution log column `invariant_violation`
+- `git revert HEAD` — rollback unconditionally
+- Count as `discarded` in optstate change_ledger with `outcome: "invariant_violation"`
+- If 3 consecutive invariant violations: STOP + escalate to user
+
+This step precedes re-grading. Score improvement does NOT override invariant failure.
+
 #### Step 5: Re-Grade
 
 Run all eval cases (including any new ones from Step 2) against modified skill.
 - Record new pass_rate
 - Compare against previous round
 
-#### Step 6: Keep/Revert
+#### Step 6: Keep/Revert (Autogenesis κ — final gating)
 
 - If pass_rate improved or held steady with new harder cases: check regression below, then KEEP
 - If pass_rate decreased: `git revert HEAD` (revert Executor's change)
 - Log result to evolution table
+
+**On KEEP — bump resource version + append to ledger (R1, Autogenesis RSPL version lineage):**
+
+1. Read `version:` field from target skill frontmatter. If missing, initialize at `1.0.0`.
+2. Bump version:
+   - Patch bump (1.0.0 → 1.0.1): pass_rate delta <= +0.2 (minor improvement)
+   - Minor bump (1.0.1 → 1.1.0): pass_rate delta > +0.2 (significant structural win)
+   - Major bump: reserved for user-initiated `--major` flag
+3. Write new `version:` back to frontmatter via `Edit`.
+4. Append JSONL line to `.claude/memory/resource-ledger.jsonl`:
+   ```json
+   {"ts":"<ISO>","resource":".claude/skills/<target>/SKILL.md","old_version":"X.Y.Z","new_version":"X.Y.Z+1","trigger":"self-evolve round <N>","pass_rate_before":<float>,"pass_rate_after":<float>,"strategy":"<strategy>","commit":"<short-sha>"}
+   ```
+5. Amend the commit message with version: `git commit --amend -m "self-evolve(<target>) v{new_version}: {description}"` (safe — commit was just made in Step 3, no upstream conflict).
+
+The ledger enables `/self-evolve --rollback <target> --to <version>` in future without git surgery. The ledger is append-only, survives archival.
 
 **Per-case regression detection** (PaperOrchestra-inspired, arXiv:2604.05018):
 When pass_rate improves, diff the individual case results:
