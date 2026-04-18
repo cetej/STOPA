@@ -134,7 +134,8 @@
     "ENABLE_PROMPT_CACHING_1H": "1",
     "CLAUDE_CODE_ENABLE_AWAY_SUMMARY": "1",
     "STOPA_HOOK_PROFILE": "standard",
-    "STOPA_VERBOSITY": "standard"
+    "STOPA_VERBOSITY": "standard",
+    "STOPA_VERIFY_HOOKS": "1"
   },
   "hooks": {
     "SessionStart": [

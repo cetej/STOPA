@@ -369,7 +369,70 @@ def main():
                 except Exception:
                     pass
 
-    # 5. Log violations
+    # 5. Hook import-health check — detect silent failures from broken imports.
+    # Cause: commit 269ffdb (2026-04-01) broke sys.path in 8 hooks for 17 days.
+    # Defense: at each SessionStart, verify every Python hook can resolve imports.
+    # Strategy: in-process importlib (fast, ~10ms/hook) + AST syntax check for .sh.
+    # Gate: STOPA_VERIFY_HOOKS=1 (opt-in).
+    if _os.environ.get("STOPA_VERIFY_HOOKS") == "1":
+        import importlib.util
+        import py_compile
+        import tempfile
+        hooks_dir = Path(".claude/hooks")
+        SKIP_EXACT = {
+            "associative_engine.py", "learning_embedder.py", "profile_check.py",
+            "project_guard.py", "sidecar_queue.py", "error_classifier.py",
+            "learnings_retrieval.py", "atomic_utils.py", "workspace_validator.py",
+        }
+        hooks_checked = 0
+        hooks_failed = 0
+        for hook_file in sorted(hooks_dir.glob("*.py")):
+            if hook_file.name in SKIP_EXACT:
+                continue
+            hooks_checked += 1
+            # Step 1: syntax check via py_compile (fast, ~1-2ms per file)
+            try:
+                py_compile.compile(str(hook_file), doraise=True, quiet=1)
+            except py_compile.PyCompileError as e:
+                hooks_failed += 1
+                violations.append({
+                    "timestamp": ts,
+                    "source": f"hooks/{hook_file.name}",
+                    "label": "hook syntax error",
+                    "check": "py_compile.compile → no SyntaxError",
+                    "result": str(e).splitlines()[0][:180] if str(e) else "syntax error",
+                })
+                continue
+            # Step 2: import-resolve via importlib spec_from_file_location.
+            # We load the module spec without executing main() — just the top-level
+            # imports + module-level statements, which is where the class of bugs
+            # from commit 269ffdb manifest. Side effects are limited because hooks
+            # guard main() with `if __name__ == '__main__':`.
+            try:
+                spec = importlib.util.spec_from_file_location(
+                    f"_hookcheck_{hook_file.stem}", hook_file
+                )
+                if spec is None or spec.loader is None:
+                    continue
+                module = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(module)
+            except (ModuleNotFoundError, ImportError) as e:
+                hooks_failed += 1
+                violations.append({
+                    "timestamp": ts,
+                    "source": f"hooks/{hook_file.name}",
+                    "label": "hook import broken",
+                    "check": "importlib.spec_from_file_location → no ImportError",
+                    "result": f"{type(e).__name__}: {str(e)[:160]}",
+                })
+            except SystemExit:
+                pass  # Hook's profile gate or early-exit triggered — that's OK
+            except Exception:
+                pass  # Other errors (IOError etc.) = hook works but needs input
+        checked += hooks_checked
+        failed += hooks_failed
+
+    # 6. Log violations
     if violations:
         VIOLATIONS_LOG.parent.mkdir(parents=True, exist_ok=True)
         with VIOLATIONS_LOG.open("a", encoding="utf-8") as f:

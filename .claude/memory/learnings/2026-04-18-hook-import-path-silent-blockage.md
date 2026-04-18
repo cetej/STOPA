@@ -6,12 +6,12 @@ component: hook
 tags: [signal-pipeline, atomic_write, sys-path, silent-failure, evolve-input]
 summary: 8 hooks měly chybnou sys.path (.parent.parent místo .parent.parent.parent) → ModuleNotFoundError při import atomic_utils → tichá smrt 17 dní. Žádný signál do corrections.jsonl, panic-state.json, uses-ledger. /evolve běžel slepě nad zmrzlými daty.
 source: critic_finding
-uses: 0
+uses: 1
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.95
+confidence: 1.00
 maturity: validated
-verify_check: "Grep('parent.parent / .scripts.', path='.claude/hooks/') → 0 matches"
+verify_check: "manual"  # Defense is verify-sweep smoke test (STOPA_VERIFY_HOOKS=1), not static regex
 skill_scope: [evolve, scribe, watch]
 failure_class: integration
 failure_agent: hook
