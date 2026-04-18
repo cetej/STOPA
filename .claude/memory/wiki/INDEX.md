@@ -85,6 +85,7 @@ Health score: 10 - (0 stale×0.5) - (1 contradiction×1.5) - (3 gaps×0.5) - (55
 - [magika-ai-file-detection](sources/magika-ai-file-detection.md) — Google Magika: AI file type detector, 200+ typů, ~99% accuracy, ~5ms/soubor, Apache 2.0 (2026-04-13)
 - [memory-caching-rnns-growing-memory](sources/memory-caching-rnns-growing-memory.md) — Memory Caching: cached hidden state checkpoints → RNN paměť roste se sekvencí; O(NL) interpolace RNN↔Transformer; GRM varianta uzavírá gap (2026-04-13)
 - [cc-session-management-1m-context](sources/cc-session-management-1m-context.md) — Anthropic session guide: context rot at 300-400k tokens, rewind > correction, bad compact = direction unpredictability, 5-option branching point per turn (2026-04-18)
+- [cognitive-companion-parallel-monitoring](sources/cognitive-companion-parallel-monitoring.md) — arXiv:2604.13759: parallel monitor for LLM reasoning degradation (30% baseline), 52-62% loop reduction @ 11% overhead (LLM-based), zero-overhead probe (layer 28, AUROC 0.840); task-type dependency — hurts structured tasks (2026-04-18)
 
 ## By Component
 
