@@ -13,7 +13,10 @@
 #               Chrome file_upload, unknown tools
 # SKIP:         Bash (handled by Dippy PreToolUse hook)
 
-LOG=".claude/memory/permission-log.md"
+# Anchor to project root via script location — prevents CWD-dependent writes
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+LOG="$PROJECT_ROOT/.claude/memory/permission-log.md"
 TS=$(date +"%Y-%m-%d %H:%M")
 
 # Read stdin JSON and extract tool_name
