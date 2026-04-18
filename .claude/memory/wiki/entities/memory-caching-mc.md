@@ -2,7 +2,7 @@
 name: Memory Caching (MC)
 type: concept
 first_seen: 2026-04-13
-last_updated: 2026-04-13
+last_updated: 2026-04-18
 sources: [memory-caching-rnns-growing-memory]
 tags: [architecture, memory, rnn, inference, long-context]
 ---
@@ -31,3 +31,8 @@ MC princip je analogický STOPA checkpoint systému: cachujeme komprimovaný sta
 ## Mentioned In
 
 - [Memory Caching: RNNs with Growing Memory](../sources/memory-caching-rnns-growing-memory.md)
+
+## Applied Learnings
+
+- `2026-04-18-mc-checkpoint-caching-retrieval-pattern.md` — GRM-style gating jako upgrade hybrid-retrieve
+- `2026-04-18-retrieval-depth-knob-complexity-interpolation.md` — O(NL) complexity knob pro STOPA retrieval tier selection
