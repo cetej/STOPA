@@ -13,7 +13,7 @@ confidence: 0.75
 impact_score: 0.0
 maturity: draft
 skill_scope: [critic, eval, verify, self-evolve]
-related: [2026-04-12-model-size-negatively-correlated-honesty.md, 2026-04-08-long-horizon-deception-eval.md]
+related: [2026-04-12-model-size-negatively-correlated-honesty.md, 2026-04-18-simula-reasoning-first-taxonomies.md, 2026-04-08-long-horizon-deception-eval.md]
 verify_check: "manual"
 valid_until: 2027-04-18
 ---

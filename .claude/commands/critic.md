@@ -730,6 +730,7 @@ Before submitting your report, check yourself:
 | "Just a refactor" | Refactors introduce subtle regressions | Verify before/after |
 | "AI generated it, probably fine" | AI output needs MORE scrutiny, not less | Check for slop patterns |
 | "Format/schema checks pass, logic is probably fine" | Schema compliance ≠ functional correctness (Tool-Genesis: Schema-F1 0.964, SR 0.472) | After L1-L2 pass, run L3-L4 with EXTRA scrutiny — surface compliance creates false confidence |
+| "Looking at this, it seems correct to me" | Single-pass judgment is sycophancy-prone (Simula arXiv:2603.29791): independently ask "what would make this WRONG?" before PASS. If only "why correct?" is asked, model finds supporting reasons regardless | Run double-critic: first pass asks "what makes this correct?", second independent pass asks "what makes this incorrect?" — PASS only if first finds evidence AND second finds none |
 
 ## Red Flags
 
