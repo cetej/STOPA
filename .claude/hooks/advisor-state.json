@@ -1,5 +1,5 @@
 {
-  "call_count": 10276,
+  "call_count": 10468,
   "has_todo": true,
   "edit_file_set": [
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\capability-gaps.md",
@@ -664,10 +664,26 @@
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\wiki\\concepts\\claude-code-design-space.md",
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-18-cc-graduated-compaction-5layer.md",
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-18-cc-sidechain-transcript-isolation.md",
-    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-18-mask-belief-vs-statement-pipeline.md"
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-18-mask-belief-vs-statement-pipeline.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\rules\\behavioral-genome.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\skills\\harness\\SKILL.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\wiki\\sources\\cc-session-management-1m-context.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\wiki\\entities\\rewind.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\wiki\\entities\\session-branching-point.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\wiki\\entities\\context-rot.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-18-rewind-beats-correction.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-18-bad-compact-direction-unpredictability.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-18-context-rot-absolute-threshold.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\wiki\\sources\\cognitive-companion-parallel-monitoring.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\wiki\\entities\\cognitive-companion.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\wiki\\entities\\probe-based-monitoring.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\wiki\\entities\\reasoning-degradation.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-18-simula-reasoning-first-taxonomies.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-18-monitoring-task-type-dependency.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-18-parallel-monitoring-failure-baseline.md"
   ],
-  "last_edit_was_py": false,
-  "grep_count": 3370,
-  "last_suggestion_ts": 1776541765.0169785,
-  "skill_count": 61
+  "last_edit_was_py": true,
+  "grep_count": 3417,
+  "last_suggestion_ts": 1776544241.0147026,
+  "skill_count": 62
 }
