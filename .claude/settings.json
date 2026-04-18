@@ -144,6 +144,12 @@
           },
           {
             "type": "command",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/pending-reminders.sh",
+            "timeout": 3,
+            "statusMessage": "Checking pending reminders..."
+          },
+          {
+            "type": "command",
             "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/memory-maintenance.sh",
             "timeout": 5,
             "statusMessage": "Checking memory health..."
