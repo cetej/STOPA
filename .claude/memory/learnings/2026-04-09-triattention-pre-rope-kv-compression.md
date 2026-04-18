@@ -6,7 +6,7 @@ component: pipeline
 tags: [kv-cache, attention, long-reasoning, efficiency, inference, llm-architecture]
 summary: "Pre-RoPE Q/K vectors cluster around fixed centers (Q/K Concentration), enabling 10.7× KV cache compression and 2.5× throughput for long-reasoning via trigonometric importance scoring — bypassing the instability of post-RoPE attention scores used by prior methods."
 source: external_research
-uses: 6
+uses: 7
 successful_uses: 0
 harmful_uses: 0
 confidence: 1.00

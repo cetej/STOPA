@@ -6,10 +6,10 @@ component: memory
 tags: [retrieval, memory, complexity, hybrid-retrieve, tuning]
 summary: "STOPA retrieval má implicitní complexity knob: grep=O(1) → BM25=O(log L) → graph walk=O(L). MC paper formalizuje tento vzor jako O(NL) interpolaci kde N=počet cached segmentů. Praktické pravidlo: pro shallow tasks (tier=light) stačí grep; pro deep tasks vždy hybrid (BM25+graph). Nepoužívej graph walk pokud grep vrátí 3+ matches — zbytečná kvadratická expanze."
 source: external_research
-uses: 1
+uses: 3
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.8
+confidence: 0.90
 maturity: draft
 valid_until:
 skill_scope: [orchestrate, scout, scribe]

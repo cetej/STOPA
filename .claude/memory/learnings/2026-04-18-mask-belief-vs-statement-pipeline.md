@@ -6,10 +6,10 @@ component: orchestration
 tags: [evaluation, honesty, measurement, critic, eval, verify, feedback-loop]
 summary: "MASK pipeline disentangles honesty from accuracy: elicit belief B via neutral prompt, elicit statement S via pressure prompt, compare S vs B (lying) independently from B vs T (accuracy). Measuring only accuracy conflates two orthogonal dimensions."
 source: external_research
-uses: 0
+uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.75
+confidence: 0.80
 impact_score: 0.0
 maturity: draft
 skill_scope: [critic, eval, verify, self-evolve]
