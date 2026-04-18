@@ -91,6 +91,7 @@ Health score: 10 - (0 stale×0.5) - (1 contradiction×1.5) - (3 gaps×0.5) - (55
 - [paperless-ngx-document-management](sources/paperless-ngx-document-management.md) — paperless-ngx: self-hosted OCR+full-text-search DMS; Docker Compose; no encryption (local only); potential fit for DANE/MONITOR (2026-04-18)
 - [paperdesk-document-workflow](sources/paperdesk-document-workflow.md) — PaperDesk: Windows-only .NET 8 local-first document automation; safe-by-default philosophy; very early stage (13 commits, no releases) (2026-04-18)
 - [heygen-hyperframes-agentic-video](sources/heygen-hyperframes-agentic-video.md) — HeyGen HyperFrames (Apache 2.0): HTML+CSS+JS → MP4 video via Claude Code skill; agent-native tooling thesis — web is LLM training data's largest creative medium (2026-04-18)
+- [hyperframes-github-repo](sources/hyperframes-github-repo.md) — HyperFrames repo: deterministic output, Frame Adapter Pattern, Puppeteer+FFmpeg, non-interactive CLI; 4.5k stars, 34 releases (2026-04-18)
 - [triattention-alphsignal-practitioner](sources/triattention-alphsignal-practitioner.md) — AlphaSignal practitioner eval: budget-accuracy tradeoff dial (3072→2.5×/0pp, 1024→6.3×/1.2pp), prefix caching incompatible, calibration-data-agnostic, R-KV depth collapse 61%→31%, Worth Watching verdict (2026-04-18)
 
 ## By Component
