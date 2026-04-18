@@ -482,6 +482,13 @@
           },
           {
             "type": "command",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/eval-trigger.sh",
+            "timeout": 3,
+            "statusMessage": "",
+            "if": "Write(**SKILL.md)|Edit(**SKILL.md)"
+          },
+          {
+            "type": "command",
             "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/auto-checkpoint-suggest.py",
             "timeout": 3,
             "statusMessage": ""
@@ -713,6 +720,12 @@
           {
             "type": "command",
             "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/correction-tracker.py",
+            "timeout": 3,
+            "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/brain-telegram-capture.py",
             "timeout": 3,
             "statusMessage": ""
           },
