@@ -326,7 +326,9 @@ The loop runs in **batches**. After each batch, a strategic ASSESS step decides 
 
 For each iteration (1 to budget):
 
-### Step 1: Review (git as memory)
+**SEPL operator mapping** (ref: `rules/sepl-operators.md`): Step 1 = ρ Reflect | Step 2 = σ Select | Step 3 = ι Improve | Step 5 = ε Evaluate | Step 6 = κ Commit. Step 7 reward-hacking check is ε safety.
+
+### Step 1 (ρ Reflect): Review (git as memory)
 
 **MUST complete ALL steps** before proposing:
 
@@ -336,7 +338,7 @@ For each iteration (1 to budget):
 4. Identify: what's been tried, what worked, what failed, what's unexplored
 5. **If `.traces/<run_id>/` exists**: follow `trace-review.md` → Trace-Informed Review Protocol (grep traces for failed/successful iteration, read error outputs, mandatory hypothesis diagnosis)
 
-### Step 2: Hypothesize
+### Step 2 (σ Select): Hypothesize
 
 Propose ONE named hypothesis based on:
 - Prior experiment results (exploit successes, avoid repeated failures)
@@ -358,7 +360,7 @@ EXPECTED EFFECT: <prediction — helps detect reward hacking later>
 **Tried**: <approach and rationale>
 ```
 
-### Step 3: Implement
+### Step 3 (ι Improve): Implement
 
 Make code changes. Rules:
 - **One hypothesis per iteration** — atomic changes
@@ -397,7 +399,7 @@ git commit -m "experiment(<hypothesis-name>): <one-sentence description>"
 
 **Trace diff capture:** If traces active, follow `trace-review.md` → Diff Capture section.
 
-### Step 5: Run eval
+### Step 5 (ε Evaluate): Run eval
 
 **Spot-check gate** (AutoAgent-inspired): If the eval script runs multiple test cases (e.g., iterates over a dataset), and total eval time exceeded 30s at baseline, run on a random subset of 2-3 cases first. Only proceed to full eval if spot-check doesn't regress.
 
@@ -417,7 +419,7 @@ metric=$(<eval_command> 2>&1 | grep -oP '[\d.]+' | tail -1)
 
 Timeout: 5× the baseline eval time. If exceeded, kill and treat as crash.
 
-### Step 6: Evaluate
+### Step 6 (κ Commit): Evaluate
 
 Compare to **best-so-far** (not just previous iteration):
 
@@ -435,7 +437,7 @@ ELIF crashed / no output:
     git revert HEAD --no-edit
 ```
 
-### Step 7: Reward hacking check
+### Step 7 (ε safety): Reward hacking check
 
 After every "keep", check:
 
