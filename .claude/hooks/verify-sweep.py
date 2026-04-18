@@ -18,7 +18,8 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+# .claude/hooks/ → .claude/ → repo root → scripts/
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent / "scripts"))
 from atomic_utils import atomic_write
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")

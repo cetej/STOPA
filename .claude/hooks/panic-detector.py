@@ -36,7 +36,8 @@ _levels = {"minimal": 1, "standard": 2, "strict": 3}
 if _levels.get(os.environ.get("STOPA_HOOK_PROFILE", "standard"), 2) < _levels.get("standard", 2):
     sys.exit(0)
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+# .claude/hooks/ → .claude/ → repo root → scripts/
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent / "scripts"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from atomic_utils import atomic_write
 

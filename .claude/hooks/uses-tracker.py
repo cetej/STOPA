@@ -67,7 +67,8 @@ def increment_ledger(filenames: list[str]) -> None:
 
     # Write back atomically
     try:
-        sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+        # .claude/hooks/ → .claude/ → repo root → scripts/
+        sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent / "scripts"))
         from atomic_utils import atomic_write
         atomic_write(LEDGER_PATH, json.dumps(ledger, ensure_ascii=False, indent=2))
     except ImportError:

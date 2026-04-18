@@ -9,11 +9,20 @@ source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standar
 USAGE_FILE=".claude/memory/skill-usage.jsonl"
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-# Extract skill name from CLAUDE_TOOL_INPUT JSON (PostToolUse env var)
+# Read stdin (PostToolUse passes JSON via stdin in newer CC versions)
+STDIN_DATA=$(cat 2>/dev/null || true)
+
+# Extract skill name — try stdin JSON first, then CLAUDE_TOOL_INPUT env var
 SKILL_NAME=""
-if [ -n "$CLAUDE_TOOL_INPUT" ]; then
+if [ -n "$STDIN_DATA" ]; then
+    SKILL_NAME=$(echo "$STDIN_DATA" | sed -n 's/.*"skill"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)
+fi
+if [ -z "$SKILL_NAME" ] && [ -n "$CLAUDE_TOOL_INPUT" ]; then
     SKILL_NAME=$(echo "$CLAUDE_TOOL_INPUT" | python3 -c "import json,sys; print(json.load(sys.stdin).get('skill',''))" 2>/dev/null)
 fi
+
+# Strip namespace prefix if present (e.g., "stopa-orchestration:orchestrate" → "orchestrate")
+SKILL_NAME=$(echo "$SKILL_NAME" | sed 's/.*://')
 
 # Only log if skill name is provided
 if [ -z "$SKILL_NAME" ]; then

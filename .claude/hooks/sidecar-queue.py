@@ -18,7 +18,8 @@ import sys
 import time
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+# .claude/hooks/ → .claude/ → repo root → scripts/
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent / "scripts"))
 from atomic_utils import atomic_write
 
 QUEUE_PATH = Path(".claude/memory/intermediate/sidecar-queue.json")

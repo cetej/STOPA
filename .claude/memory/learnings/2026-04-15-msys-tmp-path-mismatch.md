@@ -10,6 +10,7 @@ uses: 5
 successful_uses: 0
 harmful_uses: 0
 confidence: 1.00
+maturity: validated
 failure_class: resource
 verify_check: "Grep('_resolve_path', path='scripts/loop-state.py') → 1+ matches"
 related: [2026-04-16-hook-cwd-anchor-pattern.md]

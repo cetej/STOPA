@@ -4,6 +4,59 @@ Record of /evolve audit proposals and outcomes.
 
 ---
 
+## Evolution Run — 2026-04-18 (#14, deep signal-pipeline audit)
+
+### Signals
+- 12 corrections (0 new since #13 — but pipeline broken, see findings)
+- 28 violations (unchanged from #13)
+- 166 learnings scanned (+3 since #13)
+- 3 graduation-ready: bigmas (uses=12), heartbeat (uses=13, already #10), shared-public-state (uses=14)
+- 1 maturity draft→validated: msys-tmp-path-mismatch (uses=5)
+- 0 prune candidates, 0 harmful_uses
+- Sessions: 100% healthy (but signal stuck — see findings)
+- Replay queue empty
+
+### Critical Finding — Signal Pipeline Blockage (17 days)
+
+User asked to investigate whether signals are blocked by broken loops. Investigation revealed:
+
+**Commit `269ffdb` (2026-04-01) introduced `scripts/atomic_utils.py` and retrofitted 9 hooks to import it. Wrote WRONG sys.path (`.parent.parent` = `.claude/scripts/`) into 8 of them. Hooks died silently with `ModuleNotFoundError` for 17 days.**
+
+Affected (all silent for 17 days):
+- correction-tracker.py → corrections.jsonl frozen at 2026-04-01
+- panic-detector.py → panic-state.json never created
+- uses-tracker.py → uses counters frozen (explains 150+ learnings stuck at uses:0)
+- auto-scribe.py → auto-learning broken
+- verify-sweep.py → atomic_write path partial fail
+- sidecar-queue.py → deferred suggestions broken
+- auto-compound-agent.py → broken
+- (correction-tracker.py duplicate of #1)
+
+Plus separate bug:
+- skill-usage-tracker.sh read only env var, not stdin → skill-usage.jsonl never created
+
+### Proposals
+- 5 proposed, 5 applied (autonomous — bug fixes, not behavior changes)
+
+### Applied
+- FIX_HOOKS: corrected sys.path in 7 hooks to `.parent.parent.parent / "scripts"`
+- FIX_HOOK: skill-usage-tracker.sh — added stdin JSON fallback (matches skill-context-tracker.sh pattern)
+- VERIFY: all 8 hooks now import cleanly + functional test passes
+- UPGRADE_MATURITY: msys-tmp-path-mismatch.md draft → validated
+- UPDATE_CONFIRMED: critical-patterns.md last_confirmed 2026-04-15 → 2026-04-18
+- CREATE: 2026-04-18-hook-import-path-silent-blockage.md (meta-learning, severity=critical)
+
+### Deferred
+- DEFER_GRADUATION: bigmas + shared-public-state — utility ratio data may be unreliable until pipeline produces fresh signal. Re-evaluate at next /evolve when uses-tracker has been writing for 7+ days.
+
+### Key Findings
+- /evolve runs #5-#13 (9 runs) operated on frozen data, falsely reporting "system stable, 0 new corrections" while signal pipeline was completely broken.
+- "Healthy" metrics from session-summary != actual signal flow. Trust file mtime + sample-payload tests over derived metrics.
+- Path math is whitelist: `Path(__file__).resolve().parent` (file→dir) needs +1 parent vs. variable already holding dir.
+- Need verify-sweep rule: each hook must be import-clean. Failed imports = critical violation.
+
+---
+
 ## Evolution Run — 2026-04-16 (#13)
 
 ### Signals

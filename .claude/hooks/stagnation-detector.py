@@ -38,6 +38,7 @@ if _levels.get(os.environ.get("STOPA_HOOK_PROFILE", "standard"), 2) < _levels.ge
 
 # hooks/ → .claude/ → STOPA/ → scripts/
 _hook_dir = Path(__file__).resolve().parent
+# .claude/hooks/ → .claude/ → repo root → scripts/
 sys.path.insert(0, str(_hook_dir.parent.parent / "scripts"))
 sys.path.insert(0, str(_hook_dir))
 from atomic_utils import atomic_write
