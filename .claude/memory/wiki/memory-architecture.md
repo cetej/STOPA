@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: memory-architecture
-sources: 16
-last_updated: 2026-04-14
+sources: 18
+last_updated: 2026-04-18
 ---
 
 # Memory Architecture
@@ -27,6 +27,8 @@ Harrison Chase (LangChain) frames memory as harness, not plugin: a closed harnes
 
 AutoDream (/dream) coexists with STOPA's structured memory: dream acts as janitor (cleanup, consolidation), while /scribe acts as architect (structured writes with YAML frontmatter). The key boundary is protecting YAML frontmatter from dream's modifications (ref: 2026-03-26-autodream-coexistence.md).
 
+Memory Caching (MC paper) formalizes a universal pattern STOPA already implements implicitly: segment long stream → compress state at boundary → cache checkpoint → gate retrieval by query. Session checkpoints and `hybrid-retrieve.py` are informal instances. The formal design calls for GRM-style query-dependent gating (query × cached-state similarity) when choosing which checkpoints to surface, rather than flat recency ordering (ref: 2026-04-18-mc-checkpoint-caching-retrieval-pattern.md). The same framework exposes STOPA retrieval as a complexity knob: grep = O(1), BM25 = O(log L), graph walk = O(L) — interpolated as O(NL) where N = cached segments. Practical rule: shallow tasks (tier=light) stay grep-only; deep tasks always use hybrid (BM25 + graph). Don't invoke graph walk when grep already returns 3+ matches — wasted quadratic expansion (ref: 2026-04-18-retrieval-depth-knob-complexity-interpolation.md).
+
 ## Key Rules
 
 1. **Write-time gating over read-time filtering**: filter before storing (ref: 2026-03-30-write-time-gating-salience.md)
@@ -40,6 +42,8 @@ AutoDream (/dream) coexists with STOPA's structured memory: dream acts as janito
 9. **Living memory beats static RAG**: compressed trajectory storage + evolution hooks > append-only history (ref: 2026-04-08-living-memory-over-static-retrieval.md)
 10. **Add reverse demote mechanism**: stale critical-patterns.md rules should return to non-parametric for re-evaluation (ref: 2026-04-08-parametric-nonparametric-memory-bridge.md)
 11. **Local graduation over global**: skill_scope field routes learnings to local learned-rules.md (ref: 2026-04-09-local-aggregator-beats-global.md)
+12. **Retrieval depth matches task tier**: grep for light, BM25 for standard, hybrid+graph for deep — don't over-retrieve when grep already hits 3+ (ref: 2026-04-18-retrieval-depth-knob-complexity-interpolation.md)
+13. **Query-dependent checkpoint gating**: surface checkpoints by query × state similarity, not flat recency (ref: 2026-04-18-mc-checkpoint-caching-retrieval-pattern.md)
 
 ## Patterns
 
@@ -82,3 +86,5 @@ AutoDream (/dream) coexists with STOPA's structured memory: dream acts as janito
 | [2026-04-04-gap-cross-project-memory](../learnings/2026-04-04-gap-cross-project-memory.md) | 2026-04-04 | medium | GAP: cross-project memory sharing design |
 | [2026-04-12-evolve-must-verify-current-state](../learnings/2026-04-12-evolve-must-verify-current-state.md) | 2026-04-12 | high | /evolve must verify filesystem before recommending |
 | [2026-04-12-queries-back-to-wiki-compounding](../learnings/2026-04-12-queries-back-to-wiki-compounding.md) | 2026-04-12 | high | Wiki queries compound knowledge over time |
+| [2026-04-18-mc-checkpoint-caching-retrieval-pattern](../learnings/2026-04-18-mc-checkpoint-caching-retrieval-pattern.md) | 2026-04-18 | medium | Memory Caching formalizes segment → compress → checkpoint → gate; use query-dependent gating not flat recency |
+| [2026-04-18-retrieval-depth-knob-complexity-interpolation](../learnings/2026-04-18-retrieval-depth-knob-complexity-interpolation.md) | 2026-04-18 | medium | Retrieval complexity knob: grep O(1) → BM25 O(log L) → graph O(L); shallow tasks stay cheap |

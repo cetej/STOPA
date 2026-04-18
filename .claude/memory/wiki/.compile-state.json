@@ -1,7 +1,7 @@
 {
-  "last_compile": "2026-04-17T12:00:00Z",
+  "last_compile": "2026-04-18T10:40:00Z",
   "compile_mode": "incremental",
-  "total_learnings": 152,
+  "total_learnings": 158,
   "total_articles": 10,
   "contradictions": 1,
   "gaps": 3,
@@ -25,10 +25,12 @@
         "2026-04-07-hook-testing-patterns",
         "2026-04-07-judgment-script-separation-reliability",
         "2026-04-15-msys-tmp-path-mismatch",
-        "2026-04-16-hook-cwd-anchor-pattern"
+        "2026-04-16-hook-cwd-anchor-pattern",
+        "2026-04-18-hook-import-path-silent-blockage",
+        "2026-04-18-verify-sweep-hook-import-smoke-test"
       ],
-      "sources_count": 10,
-      "generated": "2026-04-17"
+      "sources_count": 12,
+      "generated": "2026-04-18"
     },
     "memory-architecture.md": {
       "source_learnings": [
@@ -36,10 +38,12 @@
         "2026-04-07-cross-project-memory-design",
         "2026-04-08-recency-beats-complex-memory",
         "2026-03-30-write-time-gating-salience",
-        "2026-03-30-calm-semantic-bandwidth"
+        "2026-03-30-calm-semantic-bandwidth",
+        "2026-04-18-mc-checkpoint-caching-retrieval-pattern",
+        "2026-04-18-retrieval-depth-knob-complexity-interpolation"
       ],
-      "sources_count": 16,
-      "generated": "2026-04-14"
+      "sources_count": 18,
+      "generated": "2026-04-18"
     },
     "orchestration-infrastructure.md": {
       "source_learnings": [
@@ -277,6 +281,10 @@
     "2026-04-15-parcae-exponential-decay-stopping.md",
     "2026-04-15-prm-step-verification-orchestrate.md",
     "2026-04-15-sd-zero-self-revision-supervision.md",
-    "2026-04-16-hook-cwd-anchor-pattern.md"
+    "2026-04-16-hook-cwd-anchor-pattern.md",
+    "2026-04-18-hook-import-path-silent-blockage.md",
+    "2026-04-18-mc-checkpoint-caching-retrieval-pattern.md",
+    "2026-04-18-retrieval-depth-knob-complexity-interpolation.md",
+    "2026-04-18-verify-sweep-hook-import-smoke-test.md"
   ]
 }

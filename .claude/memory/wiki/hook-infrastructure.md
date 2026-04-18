@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-07
 cluster: hook-infrastructure
-sources: 10
-last_updated: 2026-04-17
+sources: 12
+last_updated: 2026-04-18
 ---
 
 # Hook Infrastructure & Security
@@ -47,6 +47,11 @@ STOPA hooks operate as the runtime enforcement layer for behavioral constraints 
 5. **Windows specifics**: File locking from antivirus, path separator issues, GNU grep incompatibilities
 6. **CWD-relative paths silent-fail**: Hooks using `MEMORY_DIR=".claude/memory"` write to wrong location when CWD isn't project root. STOPA's `raw-capture.sh` produced a nested anomaly tree (`.claude/memory/learnings/.claude/memory/raw/`) for 15+ days before detection — exit 0, no error surface (ref: 2026-04-16-hook-cwd-anchor-pattern.md)
 7. **MSYS path translation mismatch**: Git Bash translates `/tmp` → `%LOCALAPPDATA%/Temp` in shell layer, but Python's `Path('/tmp')` resolves to `C:\tmp` (native). Scripts receiving paths from bash need `_resolve_path()` fallback — differed directories, silent "insufficient_data" failures (ref: 2026-04-15-msys-tmp-path-mismatch.md)
+8. **Sys.path depth miscalculation**: Hook files at `.claude/hooks/foo.py` importing siblings (e.g. `atomic_utils`) computed `.parent.parent` (= `.claude/`) as project root, missing one level. Result: `ModuleNotFoundError` at import, hook exits silently, no signal to `corrections.jsonl` or `panic-state.json`. 8 hooks affected for 17 days before detection — `/evolve` ran on frozen inputs. Correct anchor: `.parent.parent.parent` (= repo root) (ref: 2026-04-18-hook-import-path-silent-blockage.md)
+
+## Import-Health Smoke Test (Defense-in-Depth)
+
+Silent hook blackouts (missing imports, syntax errors, moved siblings) produce no error surface — the model cannot detect them. Defense: `verify-sweep.py` runs an in-process `importlib` over every `.claude/hooks/*.py` at SessionStart (~1.6s). Failures are logged as violations and surfaced in the session brief. Activated by `STOPA_VERIFY_HOOKS=1`. Library modules (underscore naming: `atomic_utils.py`, `sidecar_queue.py`, `error_classifier.py`, `learnings_retrieval.py`) are skip-listed (ref: 2026-04-18-verify-sweep-hook-import-smoke-test.md).
 
 ## Path Anchoring (Mandatory Pattern)
 
@@ -117,3 +122,5 @@ LlamaFirewall PromptGuard (BERT, 19-92ms, AUC 0.98) is ADOPT for PostToolUse inj
 | [2026-04-12-steering-ov-circuit-sparsification](../learnings/2026-04-12-steering-ov-circuit-sparsification.md) | 2026-04-12 | medium | OV circuit steering for calm-steering safety |
 | [2026-04-15-msys-tmp-path-mismatch](../learnings/2026-04-15-msys-tmp-path-mismatch.md) | 2026-04-15 | medium | Git Bash /tmp vs Python `Path('/tmp')` mismatch — `_resolve_path()` fallback required |
 | [2026-04-16-hook-cwd-anchor-pattern](../learnings/2026-04-16-hook-cwd-anchor-pattern.md) | 2026-04-16 | medium | Bash hooks must use `SCRIPT_DIR`/`PROJECT_ROOT` anchor — CWD at invocation unpredictable |
+| [2026-04-18-hook-import-path-silent-blockage](../learnings/2026-04-18-hook-import-path-silent-blockage.md) | 2026-04-18 | critical | 8 hooks had wrong sys.path depth (`.parent.parent` vs `.parent.parent.parent`) — silent `ModuleNotFoundError` for 17 days |
+| [2026-04-18-verify-sweep-hook-import-smoke-test](../learnings/2026-04-18-verify-sweep-hook-import-smoke-test.md) | 2026-04-18 | high | In-process importlib smoke test at SessionStart catches import/syntax errors in all `.claude/hooks/*.py` |
