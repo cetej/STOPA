@@ -6,7 +6,7 @@ component: hook
 tags: [signal-pipeline, atomic_write, sys-path, silent-failure, evolve-input]
 summary: 8 hooks měly chybnou sys.path (.parent.parent místo .parent.parent.parent) → ModuleNotFoundError při import atomic_utils → tichá smrt 17 dní. Žádný signál do corrections.jsonl, panic-state.json, uses-ledger. /evolve běžel slepě nad zmrzlými daty.
 source: critic_finding
-uses: 1
+uses: 2
 harmful_uses: 0
 successful_uses: 0
 confidence: 1.00

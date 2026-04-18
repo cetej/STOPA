@@ -6,6 +6,7 @@ component: orchestration
 tags: [autoloop, autoresearch, parallel, sandbox, future]
 summary: "AutoAgent evaluates multiple candidates in parallel via Docker sandboxes. STOPA skills are sequential — known limitation, not worth solving until CC gets native parallel execution."
 source: external_research
+maturity: draft
 uses: 0
 harmful_uses: 0
 confidence: 0.6

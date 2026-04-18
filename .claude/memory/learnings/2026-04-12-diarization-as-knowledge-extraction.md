@@ -6,6 +6,7 @@ component: skill
 tags: [skill-design, knowledge-extraction, ingest, compile, research]
 summary: "Diarization = reading all documents about a subject and writing a structured profile that holds contradictions, notes temporal changes, and surfaces judgment no query can produce. This is the latent operation at the heart of /ingest and /compile."
 source: external_research
+maturity: draft
 uses: 0
 successful_uses: 0
 harmful_uses: 0

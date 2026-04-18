@@ -6,6 +6,7 @@ component: skill
 tags: [critic, verify, evaluation, os-themis, apm]
 summary: "Decomposed evaluation (per-dimension scoring) catches 3x more issues than holistic review. Use in /critic and /verify."
 source: external_research
+maturity: draft
 uses: 2
 confidence: 1.00
 verify_check: "Glob('.claude/skills/critic/SKILL.md') → 1+ matches"

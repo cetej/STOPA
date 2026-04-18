@@ -6,6 +6,7 @@ component: memory
 tags: [checkpoint, versioning, session-continuity]
 summary: "Never overwrite checkpoints without archiving. Version frequently, especially before scope changes."
 source: auto_pattern
+maturity: draft
 uses: 2
 confidence: 1.0
 ---

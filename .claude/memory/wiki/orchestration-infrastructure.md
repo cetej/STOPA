@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: orchestration-infrastructure
-sources: 21
-last_updated: 2026-04-14
+sources: 27
+last_updated: 2026-04-18
 ---
 
 # Orchestration Infrastructure & Sessions
@@ -23,6 +23,16 @@ Spec-kit competitive analysis (81k stars) yielded three adoptable patterns for S
 
 Operational rhythm transforms an AI tool into a persistent collaborator. A weekly kaizen loop — Friday cron research scan + Sunday human review — combines external community monitoring (/watch) with internal friction detection (/evolve), producing measurable improvement on cadence rather than ad-hoc tinkering (ref: 2026-04-07-kaizen-loop-weekly-improvement.md). Scheduled morning briefs and evening wraps, delivered via messaging channel with strict "silence when nothing to say" discipline, create a chief-of-staff dynamic. The silence rule is as important as the content — noise destroys trust faster than value builds it (ref: 2026-04-07-operational-rhythm-silence-discipline.md).
 
+### 2026-04-18: Compaction, rewind, sidechains, Opus effort
+
+Anthropic confirms context rot begins at 300-400k tokens on the 1M context model (30-40% of window), NOT at 60-95% where prior guidance placed it. Proactive compact should trigger earlier than assumed; the 60% manual-compact rule is now closer to the hard edge of safety, not conservative (ref: 2026-04-18-context-rot-absolute-threshold.md). Bad compacts happen when the model can't predict the next task direction — content outside the session's dominant theme gets dropped silently. Fix: trigger `/compact` proactively with an explicit direction hint BEFORE the topic changes, not after context is already confused (ref: 2026-04-18-bad-compact-direction-unpredictability.md).
+
+Claude Code implements 5 graduated compression layers (Budget Reduction → Snip → Microcompact → Context Collapse → Auto-Compact), each targeting a different pressure type. Apply lightest first, heaviest last. STOPA's `/compact` jumps straight to aggressive summarization — adopt a progressive strategy with lighter interventions first to preserve more recoverable signal (ref: 2026-04-18-cc-graduated-compaction-5layer.md). A related CC feature: `/rewind` (Esc×2) jumps back to before a failed approach and re-prompts with learnings, cleaner than appending "that didn't work, try X" which adds noise without removing the failed reasoning from context (ref: 2026-04-18-rewind-beats-correction.md).
+
+Sidechain isolation: CC subagent sidechains never return full history to parent — only final response text. STOPA `Agent()` already works this way, but agent instructions often don't explicitly mandate concise response summarization before return, causing context bloat at the orchestrator level. Fix: every Agent() prompt should end with "return a <200-word summary — do not dump raw tool output" (ref: 2026-04-18-cc-sidechain-transcript-isolation.md).
+
+Opus 4.7 in Claude Code: default effort=xhigh is the recommended setting; max effort shows diminishing returns plus overthinking. Adaptive thinking is per-step (not a fixed budget). Every user turn adds reasoning overhead — specify the whole task in the first turn rather than incrementally. Treat the model like a delegated engineer (full spec upfront), not a pair-programmer (back-and-forth) (ref: 2026-04-18-opus-4-7-effort-calibration.md).
+
 ## Key Rules
 
 1. **Manual compact at 60%, max 3-4 per session**: after 3-4 compacts, /clear + summary + restart (ref: 2026-04-14-compact-timing-60pct.md)
@@ -38,6 +48,12 @@ Operational rhythm transforms an AI tool into a persistent collaborator. A weekl
 11. **Capability before strategy in multi-agent**: build Executor competence before Planner strategy-building (ref: 2026-04-08-test-time-learning-inference-evolution.md)
 12. **Compact or clear before breaks**: prompt cache TTL is 5 min; >5min pause = full reprocessing at full cost (ref: 2026-04-14-prompt-cache-ttl-5min.md)
 13. **Audit MCP connections per session**: each server = ~18K tokens/message invisible overhead; prefer CLI where equivalent (ref: 2026-04-14-mcp-server-token-overhead.md)
+14. **Context rot at 30-40%, not 60-95%**: 300-400k tokens on 1M model is the actual safety edge — compact earlier than historical thresholds (ref: 2026-04-18-context-rot-absolute-threshold.md)
+15. **Compact with direction hint, not reactively**: trigger `/compact` proactively with next-task direction before topic changes (ref: 2026-04-18-bad-compact-direction-unpredictability.md)
+16. **Progressive compaction**: apply lightest intervention first (Snip/Micro) before aggressive summarization — preserves more recoverable signal (ref: 2026-04-18-cc-graduated-compaction-5layer.md)
+17. **`/rewind` over corrective re-prompt**: after a failed approach, Esc×2 back to pre-failure state — appending "that didn't work" leaves failed reasoning in context (ref: 2026-04-18-rewind-beats-correction.md)
+18. **Mandate <200-word summaries on Agent() returns**: prevents orchestrator context bloat from subagent tool-output dumps (ref: 2026-04-18-cc-sidechain-transcript-isolation.md)
+19. **Opus 4.7: default xhigh, full spec upfront**: max effort diminishes + overthinks; specify whole task in first turn, no incremental pair-programming (ref: 2026-04-18-opus-4-7-effort-calibration.md)
 
 ## Patterns
 
@@ -89,3 +105,9 @@ Operational rhythm transforms an AI tool into a persistent collaborator. A weekl
 | [2026-04-14-compact-timing-60pct](../learnings/2026-04-14-compact-timing-60pct.md) | 2026-04-14 | medium | Compact at 60%, max 3-4 per session, then /clear |
 | [2026-04-14-prompt-cache-ttl-5min](../learnings/2026-04-14-prompt-cache-ttl-5min.md) | 2026-04-14 | medium | Cache TTL 5min; pause = full reprocessing |
 | [2026-04-14-mcp-server-token-overhead](../learnings/2026-04-14-mcp-server-token-overhead.md) | 2026-04-14 | high | MCP servers ~18K tokens/message invisible overhead |
+| [2026-04-18-context-rot-absolute-threshold](../learnings/2026-04-18-context-rot-absolute-threshold.md) | 2026-04-18 | medium | Context rot at 30-40% (300-400k on 1M), not 60-95% |
+| [2026-04-18-bad-compact-direction-unpredictability](../learnings/2026-04-18-bad-compact-direction-unpredictability.md) | 2026-04-18 | high | Compact proactively with direction hint before topic change |
+| [2026-04-18-cc-graduated-compaction-5layer](../learnings/2026-04-18-cc-graduated-compaction-5layer.md) | 2026-04-18 | medium | CC's 5-layer progressive compaction; apply lightest first |
+| [2026-04-18-rewind-beats-correction](../learnings/2026-04-18-rewind-beats-correction.md) | 2026-04-18 | high | `/rewind` (Esc×2) cleaner than corrective re-prompt after failure |
+| [2026-04-18-cc-sidechain-transcript-isolation](../learnings/2026-04-18-cc-sidechain-transcript-isolation.md) | 2026-04-18 | medium | Mandate <200-word summaries on Agent() returns |
+| [2026-04-18-opus-4-7-effort-calibration](../learnings/2026-04-18-opus-4-7-effort-calibration.md) | 2026-04-18 | high | Opus 4.7: default xhigh, full spec upfront, adaptive per-step thinking |

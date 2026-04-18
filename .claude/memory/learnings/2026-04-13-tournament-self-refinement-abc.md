@@ -6,6 +6,7 @@ component: orchestration
 tags: [refinement, iteration, critic, review, anti-pattern]
 summary: "Tournament self-refinement (A=incumbent, B=adversarial, AB=synthesis) with blind Borda panel prevents prompt bias and scope creep; removing either B or AB collapses performance."
 source: external_research
+maturity: draft
 uses: 2
 successful_uses: 0
 harmful_uses: 0

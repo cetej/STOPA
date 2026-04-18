@@ -3,29 +3,29 @@
 **Saved**: 2026-04-18 (auto-saved (session end))
 **Task**: none
 **Branch**: main
-**Last commit**: `37ee756` fix(evolve-trigger): count distinct days, not raw occurrences
+**Last commit**: `b1fe720` chore(memory): session churn — activity log, budget, checkpoint, learning counters
 
 ---
 
 ## Session Activity
 
-Session: 177 file edits, 6 agent spawns, 11 skill calls. Skills: compile, ingest, less-permission-prompts, schedule
-Duration: ~31146 min
+Session: 110 file edits, 5 agent spawns, 8 skill calls. Skills: ingest
+Duration: ~31190 min
 
 ## Files Touched
 
 | File | Operations | Date |
 |------|-----------|------|
-| SKILL.md | 16 edits | 2026-04-18 |
-| INDEX.md | 13 edits | 2026-04-18 |
-| settings.json | 7 edits | 2026-04-18 |
+| INDEX.md | 11 edits | 2026-04-18 |
 | panic-detector.py | 7 edits | 2026-04-18 |
-| index.md | 5 edits | 2026-04-18 |
+| skill-design.md | 4 edits | 2026-04-18 |
+| orchestration-resilience.md | 4 edits | 2026-04-18 |
+| orchestration-iteration.md | 4 edits | 2026-04-18 |
+| orchestration-infrastructure.md | 4 edits | 2026-04-18 |
 | memory-architecture.md | 4 edits | 2026-04-18 |
-| karpathy.md | 4 edits | 2026-04-18 |
-| verify-sweep.py | 3 edits | 2026-04-18 |
-| pending-reminders.sh | 3 edits | 2026-04-18 |
-| log.md | 3 edits | 2026-04-18 |
+| hyperframes.md | 4 edits | 2026-04-18 |
+| SKILL.md | 4 edits | 2026-04-18 |
+| critical-patterns.md | 3 edits | 2026-04-18 |
 
 ## Key Results
 
@@ -63,7 +63,7 @@ _No pending subtasks detected in state.md_
 
 > **Task**: **Phase 3: Měřitelný feedback loop** (watch → ingest → actionable learnings)
 >
-> **Context**: Last commit `4bdfca9 feat(memory): ingest HyperFrames GitHub repo — update entity + source`. Branch: main.
+> **Context**: Last commit `b1fe720 chore(memory): session churn — activity log, budget, checkpoint, learning counters`. Branch: main.
 > Most-edited files: `.claude/hooks/session-summary.sh` (1x), `.claude/hooks/outcome-writer.py` (1x), `.claude/settings.json` (1x), `.claude/archive/skills/` (1x), `.claude/archive/commands/` (1x).
 > Session: 7 files touched, 7 total edits.
 >

@@ -6,6 +6,7 @@ component: orchestration
 tags: [model-selection, rlhf, alignment, pre-training, post-training, instruction-following]
 summary: "Pre-training = broad compression (knowledge, reasoning); post-training (RLHF/DPO) = alignment editing that increases preference info without significantly changing complexity. These are distinct: IFEval predicted by preference info (r=0.39), not compression (r=0.07)."
 source: external_research
+maturity: draft
 uses: 0
 successful_uses: 0
 harmful_uses: 0

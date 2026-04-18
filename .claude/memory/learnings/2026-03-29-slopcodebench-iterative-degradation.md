@@ -9,6 +9,7 @@ uses: 0
 harmful_uses: 0
 verify_check: "manual"
 source: "arXiv:2603.24755 — SlopCodeBench (Orlanski et al.)"
+maturity: draft
 confidence: 0.7
 successful_uses: 0
 ---

@@ -6,6 +6,7 @@ component: orchestration
 tags: [multi-agent, compute-budget, single-agent, orchestration, reasoning]
 summary: "Při rovném thinking token budgetu single-agent systémy dosahují stejného nebo lepšího výkonu než multi-agent systémy. MAS výhoda = nekontrolovaný compute, ne architektura. MAS zbývá zdůvodnění: paralelizace, specializace, fault isolation."
 source: external_research
+maturity: draft
 uses: 3
 harmful_uses: 0
 confidence: 1.00

@@ -6,6 +6,7 @@ component: orchestration
 tags: [channels, telegram, 24x7, syncthing, launchagent, infrastructure, mac-mini]
 summary: "Claude Channels has no message queue — messages lost if session not running. Use SyncThing for cross-device sync, LaunchAgent/systemd for persistence."
 source: external_research
+maturity: draft
 verify_check: "manual"
 confidence: 1.0
 uses: 1

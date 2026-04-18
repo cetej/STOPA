@@ -6,6 +6,7 @@ component: hook
 tags: [security, orchestration, memory]
 summary: "LlamaFirewall PromptGuard (BERT, 19-92ms, pip install) je ADOPT pro tool output scanning; AlignmentCheck (860ms+, Together API) je WATCH; CaMeL plná impl je SKIP (research artifact), ale capability tagging vzor je ADOPT jako STOPA konvence; TaskShield nemá veřejnou impl."
 source: external_research
+maturity: draft
 confidence: 1.0
 uses: 2
 harmful_uses: 0

@@ -6,6 +6,7 @@ component: orchestration
 tags: [error-handling, circuit-breaker, gsd2]
 summary: "Classify errors before counting fix attempts: infrastructure (ENOENT/OOM) = immediate stop, transient (429/timeout) = 1 retry, logic = normal 3-fix escalation. Prevents wasting LLM budget on unrecoverable states."
 source: external_research
+maturity: draft
 uses: 0
 harmful_uses: 0
 confidence: 0.7

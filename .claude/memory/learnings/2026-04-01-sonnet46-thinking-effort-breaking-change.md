@@ -6,8 +6,9 @@ component: pipeline
 tags: [anthropic-api, thinking, effort, sonnet-46, text-reproduction, breaking-change]
 summary: "Sonnet 4.6 s thinking:disabled agresivně sumarizuje dlouhý text (~40% výstupu). S thinking:adaptive leakuje chain-of-thought a XML tool markup do outputu. Effort 'low' zhoršuje oba problémy. Fix: buď effort 'medium'+adaptive, nebo PATCH formát místo reprodukce."
 source: user_correction
-confidence: 1.0
-uses: 1
+maturity: draft
+confidence: 1.00
+uses: 2
 harmful_uses: 0
 model_gate: "sonnet-4.6"
 verify_check: "manual"

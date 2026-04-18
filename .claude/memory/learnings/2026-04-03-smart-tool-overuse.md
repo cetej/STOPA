@@ -6,6 +6,7 @@ component: orchestration
 tags: [tool-use, efficiency, cost-optimization, SMART]
 summary: "SMART gate: before spawning agent or tool call, ask 'Is this answerable from loaded context?' Eliminates ~20% unnecessary calls, especially in light tier."
 source: external_research
+maturity: draft
 uses: 0
 harmful_uses: 0
 confidence: 0.7

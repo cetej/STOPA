@@ -6,6 +6,7 @@ component: orchestration
 tags: [autoloop, autoresearch, self-evolve, reward-hacking, overfitting]
 summary: "AutoAgent's anti-overfitting guard: ask 'if this exact eval case disappeared, would this change still be worthwhile?' before accepting improvements. Prevents metric gaming."
 source: external_research
+maturity: draft
 uses: 2
 harmful_uses: 0
 confidence: 1.00

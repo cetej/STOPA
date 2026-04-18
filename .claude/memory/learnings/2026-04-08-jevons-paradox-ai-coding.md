@@ -6,6 +6,7 @@ component: general
 tags: [orchestration, general, ai-tools]
 summary: "Cheaper AI code generation increases demand for software (Jevons paradox), not decreases it. ATM analogy: made bank branches cheaper → more branches → more tellers. AI coding tools → unlock latent software demand that was too expensive before."
 source: external_research
+maturity: draft
 uses: 1
 successful_uses: 0
 harmful_uses: 0

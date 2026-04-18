@@ -6,6 +6,7 @@ component: skill
 tags: [skill, orchestration, memory, documentation]
 summary: "Education is shifting from teaching humans to teaching agents. SKILL.md files and curriculum hints are more valuable than video tutorials or documentation written for humans. If the agent understands it, it can teach the human at their level with infinite patience."
 source: external_research
+maturity: draft
 uses: 1
 successful_uses: 0
 harmful_uses: 0

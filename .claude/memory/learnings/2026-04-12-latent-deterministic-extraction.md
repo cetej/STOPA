@@ -6,6 +6,7 @@ component: skill
 tags: [deterministic, latent-space, skill-design, optimization, scripts]
 summary: "Audit 10 skills identifikoval 91 kroků kde model dělá deterministickou práci (aritmetika, thresholds, set operace, YAML parsing). 65 z nich (71%) je easy k extrakci do Pythonu. Implementovány 3 skripty: deterministic-gates.py (orchestrate), loop-state.py (autoloop/self-evolve), scribe-maintenance.py (scribe) — celkem 24 subcommands."
 source: auto_pattern
+maturity: draft
 uses: 0
 successful_uses: 0
 harmful_uses: 0

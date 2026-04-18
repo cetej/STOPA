@@ -4,6 +4,44 @@ Record of /evolve audit proposals and outcomes.
 
 ---
 
+## Evolution Run — 2026-04-18 (#15, 100-session audit, autonomous)
+
+### Signals
+- 14 corrections (mostly singletons — no new clusters, 4 real frustrations, 10 article-capture quotes)
+- 200 violations / 26 unique runs (latest run 22:08, active violations already resolving)
+- 100 sessions (all clean: 0 corrections/violations/frustrations today per counters)
+- 20 panic episodes (all yellow, dominant `edit_velocity:3 + scope_creep:1`, 0 failures, task_style:unknown)
+- 186 learning files scanned, 173 active
+- 0 graduation-ready, 0 decay warnings, 0 maturity transitions ready
+- 138/173 learnings missing maturity field (pre-field era legacy)
+- 0/173 learnings with impact_score > 0 (impact tracking dormant)
+- Replay queue empty, generated-skills sandbox empty
+- skill-usage.jsonl not present (usage tracking not active)
+
+### Proposals
+- 6 proposed, 3 applied (autonomous), 2 flagged for follow-up, 1 recommended
+
+### Applied
+- **DEMOTE**: critical-patterns #7 (Sonnet 4.6 Thinking/Effort) — challenge condition triggered (current model Opus 4.7). Content preserved in standalone learning `2026-04-01-sonnet46-thinking-effort-breaking-change.md` (model_gate: sonnet-4.6). Critical-patterns renumbered: 10→9/10. #8→#7 (Anti-Hallucination), #9→#8 (Evolve/Maintenance), #10→#9 (Heartbeat).
+- **UPDATE (no-op — already fixed)**: `2026-04-18-autogenesis-protocol.md` verify_check — file already contained `Glob('.claude/rules/sepl-operators.md')` from prior session. Old violations referred to stale Grep pattern.
+- **BULK MATURITY TAG**: 131 legacy learnings missing `maturity` field → tagged as `draft`. New distribution: 164 draft, 4 validated, 3 core, 8 non-frontmatter. All graduation logic (draft → validated → core) now applicable to 80% larger pool.
+
+### Flagged (spawned tasks / recommendations)
+- **INVESTIGATE**: impact_score never populated (0/173 learnings). Helpfulness-driven retrieval boost defined in rules/memory-files.md has no data source. Check `.claude/hooks/outcome-credit.py` or equivalent.
+- **INVESTIGATE**: panic-detector task_style detection. Recent episodes still log `task_style: unknown` despite commit 113993f adding task-style gating. 20 yellow false-positives in past 24h.
+- **RECOMMEND**: `/compile` — 435 unprocessed raw captures (wiki synthesis stale).
+
+### Rejected / Skipped
+- **Hook import path**: violations log showed 9 broken paths, but verify regex `parent.parent / .scripts.` is overly greedy (matches correct `parent.parent.parent`). File's verify_check already `manual` with smoke-test note. Only remaining "broken" file is `archive/file-read-dedup.py` (unused, in archive/ dir).
+- **BIGMAS + Toolgenesis verify violations**: verify_check strings updated in prior sessions between 22:08 and now. Current state passes (N-Plan Selection → 1 match, Schema-Utility Decoupling → 3 matches).
+
+### Metrics change
+- critical-patterns: 10/10 → 9/10 (1 free slot after DEMOTE)
+- maturity coverage: 20% → 96% (138 untagged → tagged as draft)
+- graduation pool eligible: unchanged (highest untagged uses = 4, still below ≥5 threshold)
+
+---
+
 ## Evolution Run — 2026-04-18 (#14, deep signal-pipeline audit)
 
 ### Signals

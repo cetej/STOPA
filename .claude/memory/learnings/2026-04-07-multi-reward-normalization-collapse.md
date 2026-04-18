@@ -6,6 +6,7 @@ component: general
 tags: [rl-training, multi-reward, optimization, reward-shaping]
 summary: "When optimizing against multiple metrics simultaneously, normalize each metric independently before aggregating — direct sum-then-normalize collapses distinct metric combinations to identical advantage values, destroying signal resolution."
 source: external_research
+maturity: draft
 uses: 0
 successful_uses: 0
 harmful_uses: 0

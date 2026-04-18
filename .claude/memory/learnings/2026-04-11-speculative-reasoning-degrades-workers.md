@@ -6,6 +6,7 @@ component: orchestration
 tags: [multi-agent, context-sharing, noise, speculation, orchestration]
 summary: "Orchestrator's speculative reasoning (dead-end hypotheses, exploration trails) degrades worker accuracy. Aggressive filtering of speculation on hard tasks improves accuracy by +3pp. Workers need clean, focused signal — not the orchestrator's full thought process."
 source: external_research
+maturity: draft
 uses: 0
 harmful_uses: 0
 successful_uses: 0

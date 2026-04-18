@@ -6,6 +6,7 @@ component: skill
 tags: [skill-design, context-engineering, knowledge-loading, reference-files]
 summary: "Skills with reference files should use 3-layer routing: always-on baseline (quality floor), semantic-inference auto-load (from natural language signals), explicit-override (user-named). Bias toward loading — cost of extra tokens << cost of low-quality output."
 source: external_research
+maturity: draft
 uses: 1
 successful_uses: 0
 harmful_uses: 0

@@ -6,6 +6,7 @@ component: orchestration
 tags: [orchestration, planning, agent-execution, context-management]
 summary: "Neuro-symbolic architecture (PDDL planner + learned policies) outperforms end-to-end VLA by 3x on structured tasks. 5 patterns adopted: operator-scoped context, input/output contracts with plan chain validation, done-when completion criteria, mid-execution replanning, and primitive action sequence extraction."
 source: external_research
+maturity: draft
 confidence: 1.0
 uses: 1
 successful_uses: 0

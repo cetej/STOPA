@@ -6,6 +6,7 @@ component: orchestration
 tags: [kaizen, improvement-loop, cron, meta, watch, evolve]
 summary: Weekly kaizen loop (Friday cron research + Sunday human review) combines external community scan with internal friction detection. Produces measurable improvement on cadence rather than ad-hoc tinkering. STOPA has /watch + /evolve but no fused weekly rhythm that covers both.
 source: external_research
+maturity: draft
 uses: 0
 successful_uses: 0
 harmful_uses: 0

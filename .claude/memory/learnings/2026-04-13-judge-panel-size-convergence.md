@@ -6,6 +6,7 @@ component: orchestration
 tags: [evaluation, critic, review, convergence]
 summary: "7 fresh judges converge 3× faster than 3 judges in blind Borda voting; each judge must have independent context (no shared prior from previous rounds)."
 source: external_research
+maturity: draft
 uses: 4
 successful_uses: 0
 harmful_uses: 0

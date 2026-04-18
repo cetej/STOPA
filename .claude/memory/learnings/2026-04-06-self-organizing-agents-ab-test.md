@@ -6,6 +6,7 @@ component: orchestration
 tags: [orchestration, agents, research]
 summary: "A/B test potvrdil: self-organizing agenti (jen mise, bez rolí) překonávají hierarchické přiřazení o +8% na explorativních úkolech. Hierarchický přístup lepší na strukturovaném rankingu. Hybridní přístup v orchestrate by měl detekovat typ tasku."
 source: autoresearch
+maturity: draft
 confidence: 1.00
 uses: 3
 successful_uses: 0

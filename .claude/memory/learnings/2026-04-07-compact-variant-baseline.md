@@ -6,6 +6,7 @@ component: skill
 tags: [compact-variant, measurement, tokens, optimization]
 summary: "Compact variants deliver 87-94% word reduction (measured across 6 skills). Claim of ~80% is conservative — actual savings are higher."
 source: auto_pattern
+maturity: draft
 uses: 1
 harmful_uses: 0
 successful_uses: 0

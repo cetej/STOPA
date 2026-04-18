@@ -6,6 +6,7 @@ component: skill
 tags: [research, orchestration, deepresearch]
 summary: "Researcher sub-agent s 30+ tool calls běží hodiny. Omezit na max 15 volání, široký scope rozdělit na víc menších agentů."
 source: user_correction
+maturity: draft
 uses: 0
 harmful_uses: 0
 confidence: 0.9

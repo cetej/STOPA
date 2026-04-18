@@ -6,6 +6,7 @@ component: orchestration
 tags: [refinement, iteration, critic, convergence, anti-pattern]
 summary: "In iterative improvement loops, 'do nothing' (incumbent preservation) must be a structurally first-class option — not just logically allowed — or the system will always produce changes regardless of quality."
 source: external_research
+maturity: draft
 uses: 2
 successful_uses: 0
 harmful_uses: 0

@@ -6,6 +6,7 @@ component: memory
 tags: [memory, parametric, non-parametric, hybrid-memory, agent-memory, retrieval]
 summary: "Bidirectional conversion between parametric (model weights) and non-parametric (explicit files) memory enables agents to leverage both: fast internalized knowledge + updateable external store. Key to living memory systems."
 source: external_research
+maturity: draft
 uses: 1
 successful_uses: 0
 harmful_uses: 0

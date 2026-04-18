@@ -6,6 +6,7 @@ component: orchestration
 tags: [eval, autoharness, self-evolve, regression, testing]
 summary: "Regression gate pattern — fixed failures se stávají permanentními test cases, takže každé zlepšení je aditivní a bar jde jen nahoru. Bez gate optimalizuješ v kruhu."
 source: external_research
+maturity: draft
 confidence: 1.0
 uses: 1
 harmful_uses: 0

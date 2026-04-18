@@ -6,6 +6,7 @@ component: orchestration
 tags: [audit, verification, cross-cutting]
 summary: "Audit/refactor that changes shared interfaces (API envelope, response format) MUST verify ALL consumers, not just the changed layer. Wave 3 audit broke 70 JS calls by only running pytest."
 source: user_correction
+maturity: draft
 confidence: 1.00
 uses: 2
 harmful_uses: 0

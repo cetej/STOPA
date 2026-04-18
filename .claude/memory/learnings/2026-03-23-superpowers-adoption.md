@@ -7,6 +7,7 @@ tags: [competitive-analysis, superpowers, anti-rationalization, trigger-descript
 uses: 1
 summary: "superpowers v5 insight: skill description triggers matching — CC reads description, not body. Anti-rationalization prompts improve quality."
 source: external_research
+maturity: draft
 confidence: 1.0
 ---
 

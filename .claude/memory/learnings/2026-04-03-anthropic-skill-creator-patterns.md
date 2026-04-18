@@ -6,6 +6,7 @@ component: skill
 tags: [skill, description, triggers, evaluation]
 summary: Anthropic official skill-creator defines 3-level progressive disclosure, 500-line SKILL.md limit, pushy descriptions, ALWAYS/NEVER yellow flag, and full eval+description optimization pipeline. STOPA gaps identified.
 source: external_research
+maturity: draft
 uses: 0
 harmful_uses: 0
 confidence: 0.8

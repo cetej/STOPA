@@ -6,6 +6,7 @@ component: orchestration
 tags: [research, self-improvement, model-training, temperature-decoupling]
 summary: "OSFT (Online SFT) achieves RL-comparable reasoning improvement by self-sharpening — model finetunes on own outputs with decoupled temperatures (sampling sharp, training soft). No reward model needed, 8x cheaper than GRPO. Key insight: latent knowledge unlocking, not new learning."
 source: external_research
+maturity: draft
 confidence: 0.7
 uses: 0
 harmful_uses: 0

@@ -6,6 +6,7 @@ component: orchestration
 tags: [harness, simplification, model-capability, architecture]
 summary: "Modern Claude models handle multi-step reasoning natively. Simplify harnesses — remove unnecessary scaffolding, trust model capability."
 source: external_research
+maturity: draft
 related: [harness-engineering.md]
 verify_check: "manual"
 confidence: 0.7

@@ -7,6 +7,7 @@ tags: [fal-ai, python, windows, environment]
 uses: 1
 summary: "fal.ai on Windows: use fal-client not fal, handle async properly, set FAL_KEY env var, retry on timeouts."
 source: auto_pattern
+maturity: draft
 confidence: 1.0
 ---
 

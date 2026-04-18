@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: orchestration-resilience
-sources: 15
-last_updated: 2026-04-14
+sources: 17
+last_updated: 2026-04-18
 ---
 
 # Orchestration Resilience & Verification
@@ -23,6 +23,8 @@ The broader insight is that code generation is no longer the bottleneck — veri
 
 LLM judges (including GPT-5) prioritize structural formatting over factual correctness (r=0.65 overall on PaperOrchestra). The `/eval` and `/critic` skills must combine LLM structural scoring with grep/search verification for factual claims — never rely on LLM scoring alone for concrete assertions (ref: 2026-04-08-llm-judge-factuality-weak.md). The **Verification Shift** meta-pattern unifies this: use LLM for structure, tools for facts, cascade-order checking (verify L1 before L3), and regression gates — a four-layer protocol for every /critic and /verify run (ref: 2026-04-11-verification-shift-meta-pattern.md). The SMART gate ("Is this answerable from loaded context?") eliminates ~20% of unnecessary tool calls (ref: 2026-04-03-smart-tool-overuse.md). Modern Claude models handle multi-step reasoning natively, so harness scaffolding should be simplified — but determinism must be preserved for critical paths (ref: 2026-03-26-harness-simplification.md).
 
+Parallel monitoring (calm-steering, panic-detector) has empirical ground truth: LLM agents fail up to 30% on hard multi-step tasks via reasoning degradation (loops/drift/stuck); parallel monitors achieve 52-62% repetition reduction at ~11% overhead. This validates STOPA's panic-detector investment (ref: 2026-04-18-parallel-monitoring-failure-baseline.md). But uniform monitoring is wasteful: monitoring helps on loop-prone/open-ended tasks and is NEUTRAL or NEGATIVE on structured tasks. Don't apply monitoring universally — gate by task-type (open-ended research → monitor; deterministic pipelines → skip) to avoid hurting pipelines that would converge on their own (ref: 2026-04-18-monitoring-task-type-dependency.md).
+
 ## Key Rules
 
 1. **Classify errors before counting**: infra=stop, transient=1 retry, logic=3-fix (ref: 2026-04-01-gsd2-error-classification.md)
@@ -35,6 +37,8 @@ LLM judges (including GPT-5) prioritize structural formatting over factual corre
 8. **Wave execution for multi-agent tasks**: topological sort subtasks into waves, prefer vertical slices over horizontal layers (ref: 2026-03-23-gsd-patterns.md)
 9. **LLM judge + tools for verification**: LLM scores structure; grep/search verifies facts (ref: 2026-04-08-llm-judge-factuality-weak.md)
 10. **Four-layer verification protocol**: L1 syntax → L2 semantic+cross-check → L3 downstream → L4 regression (ref: 2026-04-11-verification-shift-meta-pattern.md)
+11. **Gate parallel monitoring by task-type**: monitor open-ended/loop-prone; skip on structured deterministic pipelines — universal monitoring hurts convergence (ref: 2026-04-18-monitoring-task-type-dependency.md)
+12. **Monitor overhead budget**: ~11% overhead buys 52-62% repetition reduction on hard multi-step tasks; validates panic-detector investment (ref: 2026-04-18-parallel-monitoring-failure-baseline.md)
 
 ## Patterns
 
@@ -78,3 +82,5 @@ LLM judges (including GPT-5) prioritize structural formatting over factual corre
 | [2026-04-13-generate-then-discard-suboptimal](../learnings/2026-04-13-generate-then-discard-suboptimal.md) | 2026-04-13 | high | Generate multiple, discard below threshold |
 | [2026-04-13-tournament-self-refinement-abc](../learnings/2026-04-13-tournament-self-refinement-abc.md) | 2026-04-13 | high | A/B/C tournament bracket for self-refinement |
 | [2026-04-14-traceguard-5d-critic](../learnings/2026-04-14-traceguard-5d-critic.md) | 2026-04-14 | medium | TraceGuard: 5D CoT monitoring dimensions |
+| [2026-04-18-parallel-monitoring-failure-baseline](../learnings/2026-04-18-parallel-monitoring-failure-baseline.md) | 2026-04-18 | medium | 30% failure baseline; 52-62% repetition reduction at ~11% overhead |
+| [2026-04-18-monitoring-task-type-dependency](../learnings/2026-04-18-monitoring-task-type-dependency.md) | 2026-04-18 | high | Gate monitoring by task-type; universal monitoring hurts deterministic pipelines |

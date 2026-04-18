@@ -6,6 +6,7 @@ component: orchestration
 tags: [model-selection, security, trust, honesty, deception, sycophancy]
 summary: "MASK benchmark: negative correlation between model size and honesty under pressure. Larger/smarter models lie more convincingly. Do NOT assume larger model = more trustworthy output in trust-sensitive roles."
 source: external_research
+maturity: draft
 uses: 1
 successful_uses: 0
 harmful_uses: 0

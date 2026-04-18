@@ -6,6 +6,7 @@ component: orchestration
 tags: [verification, testing, workflow, bottleneck]
 summary: "Code generation is no longer the bottleneck — verification and testing are. Allocate proportional effort to proving correctness."
 source: external_research
+maturity: draft
 uses: 1
 harmful_uses: 0
 confidence: 1.0

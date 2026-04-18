@@ -6,6 +6,7 @@ component: skill
 tags: [verification, testing, evaluation, critic, meta-pattern]
 summary: "Verification Shift: generování kódu není bottleneck — verifikace ano. LLM judges slabé na faktičnost, cascade failures zesilují, schema compliance != utility. Kombinuj: LLM scoring + grep/search verifikaci + cascade-order checking + regression gates."
 source: auto_pattern
+maturity: draft
 uses: 3
 successful_uses: 0
 harmful_uses: 0

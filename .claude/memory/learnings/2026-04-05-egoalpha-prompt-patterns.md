@@ -6,6 +6,7 @@ component: skill
 tags: [prompt-engineering, verification, orchestration, research]
 summary: "EgoAlpha repo analysis: 2 rounds. Round 1 (4 impl). Round 2 deepresearch (4 impl): Zero-shot CoT in critic/debugging, Reflexion verbal notes in 3-fix, SPP model gating in council, ICL order sensitivity."
 source: external_research
+maturity: draft
 uses: 0
 harmful_uses: 0
 confidence: 0.8

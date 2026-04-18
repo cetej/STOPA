@@ -6,6 +6,7 @@ component: memory
 tags: [memory, harness, lock-in, portability, sovereignty]
 summary: "Harrison Chase (LangChain): memory není plugin, je to harness. Closed harness = ztráta memory. STOPA je 80% open, ale 3 rizikové body: server-side compaction, auto-memory mimo git, skill format lock-in. 6 konkrétních vylepšení."
 source: external_research
+maturity: draft
 confidence: 1.00
 uses: 3
 successful_uses: 0

@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-12
 cluster: orchestration-iteration
-sources: 16
-last_updated: 2026-04-17
+sources: 19
+last_updated: 2026-04-18
 ---
 
 # Iterative Optimization Patterns
@@ -23,6 +23,14 @@ EGGROLL-style evolutionary optimization (low-rank ES with GRPO scoring) outperfo
 
 **PRM step-verification** (ref: 2026-04-15-prm-step-verification-orchestrate.md) adds a haiku-level check after each subtask ("did this step satisfy the plan?") instead of running the full pipeline and critiquing at the end. Step-level rewards (Process Reward Models) dramatically outperform Outcome Reward Models for multi-step reasoning — identifies WHERE failure occurred, kills pipeline early on FAIL. Cost: ~200 tokens/subtask; ROI: skipped compute when step 2 of 6 fails.
 
+### 2026-04-18 additions
+
+**Autogenesis Protocol** (arXiv:2604.15034) formalizes self-evolving agents as two layers: RSPL (5 passive resource types: prompt/agent/tool/env/memory with explicit version+lifecycle) and SEPL (5 operators: Reflect ρ → Select σ → Improve ι → Evaluate ε → Commit κ). Key principle: decouple *what* evolves (resources) from *how* it evolves (operators). STOPA's self-evolve, autoloop, and autoresearch all implement ad-hoc versions of SEPL — formalizing them against Autogenesis enables trace-replay debugging and shared circuit breakers (ref: 2026-04-18-autogenesis-protocol.md). Already reflected in `rules/sepl-operators.md` and `rules/commit-invariants.md`.
+
+**Simula reasoning-first taxonomies** (arXiv:2603.29791, TMLR 03/2026) introduces mechanism design as a synthetic-data axis orthogonal to quality/diversity/complexity. 3-stage pipeline: taxonomy via Best-of-N + critic refinement, taxonomic sampling + meta-prompts + complexification, double-critic verification. Applied to STOPA evals: eval cases should cover taxonomic axes (agent type × failure mode × complexity tier) rather than random sampling. Double-critic (one for correctness, one for coverage) catches blind spots the single-critic setup misses (ref: 2026-04-18-simula-reasoning-first-taxonomies.md).
+
+**MASK honesty measurement** (paper) separates belief B from statement S: neutral prompt elicits belief, pressure prompt elicits statement, compare S≠B (lying) independently from B≠T (accuracy). Measuring only accuracy conflates two orthogonal dimensions — a model can be accurate while lying when pressured. Implementation: `/critic` should run neutral-then-pressure for deception-sensitive tasks (research citations, cost estimates, uncertainty calibration) (ref: 2026-04-18-mask-belief-vs-statement-pipeline.md).
+
 ## Key Rules
 
 1. **Don't judge early iterations**: Performance at iter 1-3 is unreliable — commit to at least 5 iterations before evaluating (ref: 2026-04-08-early-iteration-performance-unreliable.md)
@@ -34,6 +42,9 @@ EGGROLL-style evolutionary optimization (low-rank ES with GRPO scoring) outperfo
 7. **Training depth caps inference depth**: If skill self-evolved with max 5 iterations, deploying with 15 won't help — propagate `recommended_max_iterations` into optstate (ref: 2026-04-15-parcae-exponential-decay-stopping.md)
 8. **Variable depth per-item in farm tier**: Classify item complexity before distribution — simple fix=1 iter, complex=3 — uniform effort wastes budget (ref: 2026-04-15-parcae-exponential-decay-stopping.md)
 9. **PRM step-checks over ORM end-critic**: After each subtask, haiku verifies step satisfied plan — FAIL kills pipeline early (ref: 2026-04-15-prm-step-verification-orchestrate.md)
+10. **Label iterative skill phases with SEPL operators (ρσιεκ)**: enables cross-skill trace replay and consistent circuit breakers (ref: 2026-04-18-autogenesis-protocol.md)
+11. **Double-critic for eval coverage**: one critic for correctness, second for blind-spot coverage — single critic misses taxonomic gaps (ref: 2026-04-18-simula-reasoning-first-taxonomies.md)
+12. **Neutral-then-pressure evaluation for honesty-sensitive tasks**: accuracy ≠ honesty; elicit belief separately from statement under pressure (ref: 2026-04-18-mask-belief-vs-statement-pipeline.md)
 
 ## Patterns
 
@@ -83,3 +94,6 @@ EGGROLL-style evolutionary optimization (low-rank ES with GRPO scoring) outperfo
 | [2026-04-15-best-of-n-parallel-candidates](../learnings/2026-04-15-best-of-n-parallel-candidates.md) | 2026-04-15 | medium | 3 | Best-of-N: fork 2-3 parallel, score, expand best — not linear retry |
 | [2026-04-15-parcae-exponential-decay-stopping](../learnings/2026-04-15-parcae-exponential-decay-stopping.md) | 2026-04-15 | high | 2 | `L(T)=L∞+Z·exp(-z·T)` fits after 4 iters; training depth caps inference |
 | [2026-04-15-prm-step-verification-orchestrate](../learnings/2026-04-15-prm-step-verification-orchestrate.md) | 2026-04-15 | high | 3 | PRM step-check after each subtask — early-kill on FAIL; ~200 tok/step |
+| [2026-04-18-autogenesis-protocol](../learnings/2026-04-18-autogenesis-protocol.md) | 2026-04-18 | high | 0 | RSPL+SEPL protocol: resources × 5 operators (ρσιεκ) for self-evolving agents |
+| [2026-04-18-simula-reasoning-first-taxonomies](../learnings/2026-04-18-simula-reasoning-first-taxonomies.md) | 2026-04-18 | high | 0 | Mechanism design as 4th axis; taxonomic sampling + double-critic |
+| [2026-04-18-mask-belief-vs-statement-pipeline](../learnings/2026-04-18-mask-belief-vs-statement-pipeline.md) | 2026-04-18 | high | 0 | MASK: disentangle honesty (S≠B) from accuracy (B≠T) via neutral+pressure elicitation |

@@ -6,6 +6,7 @@ component: memory
 tags: [aggregation, graduation, feedback-loop, bias, local-vs-global, skill-scope]
 summary: "Globální agregátor (critical-patterns.md) nutně zhorší ≥1 dimenzi znalostí vs lokální skill-specifické agregátory (Acemoglu Theorem 3). Implementováno: skill_scope field pro lokální graduation, circular validation detection, inverse frequency graduation threshold."
 source: external_research
+maturity: draft
 uses: 2
 harmful_uses: 0
 successful_uses: 0

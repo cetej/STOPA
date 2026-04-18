@@ -6,6 +6,7 @@ component: orchestration
 tags: [api, model-selection, cost-optimization, advisor]
 summary: Anthropic Advisor Tool in public beta — validates STOPA executor+advisor tier pattern. Direct API integration for NG-ROBOT/POLYBOT; wait for CC native support for STOPA sub-agents.
 source: external_research
+maturity: draft
 uses: 0
 successful_uses: 0
 harmful_uses: 0

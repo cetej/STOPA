@@ -1,7 +1,7 @@
 ---
 generated: 2026-04-04
 cluster: memory-architecture
-sources: 18
+sources: 22
 last_updated: 2026-04-18
 ---
 
@@ -29,6 +29,10 @@ AutoDream (/dream) coexists with STOPA's structured memory: dream acts as janito
 
 Memory Caching (MC paper) formalizes a universal pattern STOPA already implements implicitly: segment long stream → compress state at boundary → cache checkpoint → gate retrieval by query. Session checkpoints and `hybrid-retrieve.py` are informal instances. The formal design calls for GRM-style query-dependent gating (query × cached-state similarity) when choosing which checkpoints to surface, rather than flat recency ordering (ref: 2026-04-18-mc-checkpoint-caching-retrieval-pattern.md). The same framework exposes STOPA retrieval as a complexity knob: grep = O(1), BM25 = O(log L), graph walk = O(L) — interpolated as O(NL) where N = cached segments. Practical rule: shallow tasks (tier=light) stay grep-only; deep tasks always use hybrid (BM25 + graph). Don't invoke graph walk when grep already returns 3+ matches — wasted quadratic expansion (ref: 2026-04-18-retrieval-depth-knob-complexity-interpolation.md).
 
+Weller et al. (ICLR 2026) proved theoretical limits of single-vector embeddings: dimension d must satisfy d ≥ log(C(n,k)) / log(1 + 1/γ) to retrieve all top-k document combos. BM25 scores 97.8% recall@2 on LIMIT-small where SOTA embeddings score 54.3%. STOPA's grep+BM25+graph hybrid is now theoretically justified, not just pragmatically chosen — pure embedding RAG has hard limits no prompt engineering fixes (ref: 2026-04-18-embedding-dimension-retrieval-limit.md). A deeper failure mode: recency-biased retrieval (scoring by recent-query relevance) collapses at reasoning depth >14 — R-KV/SnapKV drop from 61% to 31% on DFS tasks. Position-independent scoring (TriAttention pre-RoPE, graph walks) maintains accuracy. Mitigation for STOPA: add graph walk fallback when BM25 returns 5+ stale matches, cap recency decay to prevent old-but-relevant learnings being unreachable in deep reasoning (ref: 2026-04-18-recency-biased-scoring-depth-collapse.md). In-Place TTT (ICLR 2026) updates MLP projection matrices during inference as "fast weights" — STOPA's confidence/uses/maturity counters are the agent-level analog. Learning files behave like fast weights on the agent layer instead of the model layer (ref: 2026-04-18-in-place-ttt-fast-weights-analog.md).
+
+Subliminal learning (paper) proved LLMs transfer behavioral traits — including misalignment — through semantically unrelated data (number sequences, code) even after filtering. Transfer works only within the same base model family. Two implications for STOPA: (1) `source: agent_generated` learnings already carry 0.8× weight, but the risk is higher than mere quality dilution — filtering may miss subliminal channels. (2) `model_gate:` should be mandatory for agent-generated learnings, not optional. Model-family isolation prevents cross-family contamination (ref: 2026-04-18-subliminal-learning-agent-generated-risk.md).
+
 ## Key Rules
 
 1. **Write-time gating over read-time filtering**: filter before storing (ref: 2026-03-30-write-time-gating-salience.md)
@@ -44,6 +48,9 @@ Memory Caching (MC paper) formalizes a universal pattern STOPA already implement
 11. **Local graduation over global**: skill_scope field routes learnings to local learned-rules.md (ref: 2026-04-09-local-aggregator-beats-global.md)
 12. **Retrieval depth matches task tier**: grep for light, BM25 for standard, hybrid+graph for deep — don't over-retrieve when grep already hits 3+ (ref: 2026-04-18-retrieval-depth-knob-complexity-interpolation.md)
 13. **Query-dependent checkpoint gating**: surface checkpoints by query × state similarity, not flat recency (ref: 2026-04-18-mc-checkpoint-caching-retrieval-pattern.md)
+14. **BM25 over embeddings for sparse retrieval**: single-vector embeddings have dimensional limits — hybrid BM25+graph outperforms pure embedding RAG theoretically (ref: 2026-04-18-embedding-dimension-retrieval-limit.md)
+15. **Graph walk fallback at deep reasoning**: recency-biased scoring collapses above depth 14 — add position-independent fallback for long-horizon retrieval (ref: 2026-04-18-recency-biased-scoring-depth-collapse.md)
+16. **Mandatory model_gate on agent-generated learnings**: subliminal traits transfer within model family — isolate by family, not just weight-penalize (ref: 2026-04-18-subliminal-learning-agent-generated-risk.md)
 
 ## Patterns
 
@@ -88,3 +95,7 @@ Memory Caching (MC paper) formalizes a universal pattern STOPA already implement
 | [2026-04-12-queries-back-to-wiki-compounding](../learnings/2026-04-12-queries-back-to-wiki-compounding.md) | 2026-04-12 | high | Wiki queries compound knowledge over time |
 | [2026-04-18-mc-checkpoint-caching-retrieval-pattern](../learnings/2026-04-18-mc-checkpoint-caching-retrieval-pattern.md) | 2026-04-18 | medium | Memory Caching formalizes segment → compress → checkpoint → gate; use query-dependent gating not flat recency |
 | [2026-04-18-retrieval-depth-knob-complexity-interpolation](../learnings/2026-04-18-retrieval-depth-knob-complexity-interpolation.md) | 2026-04-18 | medium | Retrieval complexity knob: grep O(1) → BM25 O(log L) → graph O(L); shallow tasks stay cheap |
+| [2026-04-18-embedding-dimension-retrieval-limit](../learnings/2026-04-18-embedding-dimension-retrieval-limit.md) | 2026-04-18 | medium | Embedding dimension has hard limit; BM25 97.8% vs embedding 54.3% on LIMIT-small |
+| [2026-04-18-recency-biased-scoring-depth-collapse](../learnings/2026-04-18-recency-biased-scoring-depth-collapse.md) | 2026-04-18 | high | Recency-biased retrieval collapses above depth 14; position-independent fallback needed |
+| [2026-04-18-in-place-ttt-fast-weights-analog](../learnings/2026-04-18-in-place-ttt-fast-weights-analog.md) | 2026-04-18 | low | Counters = fast weights at agent layer (In-Place TTT analog) |
+| [2026-04-18-subliminal-learning-agent-generated-risk](../learnings/2026-04-18-subliminal-learning-agent-generated-risk.md) | 2026-04-18 | high | Behavioral traits transfer via unrelated data within model family; mandatory model_gate |

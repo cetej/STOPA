@@ -6,6 +6,7 @@ component: skill
 tags: [prompt-engineering, generative-media, klip, nano, anti-pattern]
 summary: "For generative media prompts (image/video): only describe observable outputs (what the renderer sees), never internal states (emotions, intentions). Converts to: 'tears streaming down her cheeks' not 'she feels sad'. Rhythm words > technical params — models parse semantics, not numbers."
 source: external_research
+maturity: draft
 uses: 1
 successful_uses: 0
 harmful_uses: 0

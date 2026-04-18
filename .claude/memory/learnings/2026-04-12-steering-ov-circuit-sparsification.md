@@ -6,6 +6,7 @@ component: hook
 tags: [steering, interpretability, mechanistic, calm-steering, safety]
 summary: "Representation steering (refusal, behavior modification) works through OV circuit, not QK. Vectors are sparsifiable 90-99% with minimal loss. Different methods (DIM/NTP/PO) converge to ≥90% overlapping circuits — mechanistic equivalence despite surface dissimilarity."
 source: external_research
+maturity: draft
 uses: 0
 successful_uses: 0
 harmful_uses: 0

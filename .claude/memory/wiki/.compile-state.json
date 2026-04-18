@@ -1,7 +1,7 @@
 {
-  "last_compile": "2026-04-18T10:40:00Z",
+  "last_compile": "2026-04-18T21:35:39Z",
   "compile_mode": "incremental",
-  "total_learnings": 158,
+  "total_learnings": 174,
   "total_articles": 10,
   "contradictions": 1,
   "gaps": 3,
@@ -40,9 +40,13 @@
         "2026-03-30-write-time-gating-salience",
         "2026-03-30-calm-semantic-bandwidth",
         "2026-04-18-mc-checkpoint-caching-retrieval-pattern",
-        "2026-04-18-retrieval-depth-knob-complexity-interpolation"
+        "2026-04-18-retrieval-depth-knob-complexity-interpolation",
+        "2026-04-18-embedding-dimension-retrieval-limit.md",
+        "2026-04-18-in-place-ttt-fast-weights-analog.md",
+        "2026-04-18-recency-biased-scoring-depth-collapse.md",
+        "2026-04-18-subliminal-learning-agent-generated-risk.md"
       ],
-      "sources_count": 18,
+      "sources_count": 11,
       "generated": "2026-04-18"
     },
     "orchestration-infrastructure.md": {
@@ -54,10 +58,16 @@
         "2026-03-24-openclaw-postmortem-patterns",
         "2026-04-14-compact-timing-60pct",
         "2026-04-14-prompt-cache-ttl-5min",
-        "2026-04-14-mcp-server-token-overhead"
+        "2026-04-14-mcp-server-token-overhead",
+        "2026-04-18-opus-4-7-effort-calibration.md",
+        "2026-04-18-cc-graduated-compaction-5layer.md",
+        "2026-04-18-cc-sidechain-transcript-isolation.md",
+        "2026-04-18-context-rot-absolute-threshold.md",
+        "2026-04-18-bad-compact-direction-unpredictability.md",
+        "2026-04-18-rewind-beats-correction.md"
       ],
-      "sources_count": 21,
-      "generated": "2026-04-14"
+      "sources_count": 14,
+      "generated": "2026-04-18"
     },
     "orchestration-iteration.md": {
       "source_learnings": [
@@ -65,10 +75,13 @@
         "2026-04-12-sycophancy-not-hallucination",
         "2026-04-15-best-of-n-parallel-candidates",
         "2026-04-15-parcae-exponential-decay-stopping",
-        "2026-04-15-prm-step-verification-orchestrate"
+        "2026-04-15-prm-step-verification-orchestrate",
+        "2026-04-18-autogenesis-protocol.md",
+        "2026-04-18-simula-reasoning-first-taxonomies.md",
+        "2026-04-18-mask-belief-vs-statement-pipeline.md"
       ],
-      "sources_count": 16,
-      "generated": "2026-04-17"
+      "sources_count": 8,
+      "generated": "2026-04-18"
     },
     "orchestration-multi-agent.md": {
       "source_learnings": [
@@ -87,10 +100,12 @@
         "2026-04-05-self-improving-harness",
         "2026-04-07-budget-calibration-baseline",
         "2026-04-03-smart-tool-overuse",
-        "2026-04-03-testing-bottleneck"
+        "2026-04-03-testing-bottleneck",
+        "2026-04-18-monitoring-task-type-dependency.md",
+        "2026-04-18-parallel-monitoring-failure-baseline.md"
       ],
-      "sources_count": 15,
-      "generated": "2026-04-14"
+      "sources_count": 7,
+      "generated": "2026-04-18"
     },
     "pipeline-engineering.md": {
       "source_learnings": [
@@ -109,10 +124,11 @@
         "2026-04-04-gap-compact-variant-measurement",
         "2026-04-04-skill0-dynamic-curriculum",
         "2026-04-03-anthropic-skill-creator-patterns",
-        "2026-04-03-description-optimizer-plan"
+        "2026-04-03-description-optimizer-plan",
+        "2026-04-18-html-as-agent-native-medium.md"
       ],
-      "sources_count": 21,
-      "generated": "2026-04-14"
+      "sources_count": 6,
+      "generated": "2026-04-18"
     },
     "skill-evaluation.md": {
       "source_learnings": [
@@ -282,9 +298,25 @@
     "2026-04-15-prm-step-verification-orchestrate.md",
     "2026-04-15-sd-zero-self-revision-supervision.md",
     "2026-04-16-hook-cwd-anchor-pattern.md",
+    "2026-04-18-autogenesis-protocol.md",
+    "2026-04-18-bad-compact-direction-unpredictability.md",
+    "2026-04-18-cc-graduated-compaction-5layer.md",
+    "2026-04-18-cc-sidechain-transcript-isolation.md",
+    "2026-04-18-context-rot-absolute-threshold.md",
+    "2026-04-18-embedding-dimension-retrieval-limit.md",
     "2026-04-18-hook-import-path-silent-blockage.md",
+    "2026-04-18-html-as-agent-native-medium.md",
+    "2026-04-18-in-place-ttt-fast-weights-analog.md",
+    "2026-04-18-mask-belief-vs-statement-pipeline.md",
     "2026-04-18-mc-checkpoint-caching-retrieval-pattern.md",
+    "2026-04-18-monitoring-task-type-dependency.md",
+    "2026-04-18-opus-4-7-effort-calibration.md",
+    "2026-04-18-parallel-monitoring-failure-baseline.md",
+    "2026-04-18-recency-biased-scoring-depth-collapse.md",
     "2026-04-18-retrieval-depth-knob-complexity-interpolation.md",
+    "2026-04-18-rewind-beats-correction.md",
+    "2026-04-18-simula-reasoning-first-taxonomies.md",
+    "2026-04-18-subliminal-learning-agent-generated-risk.md",
     "2026-04-18-verify-sweep-hook-import-smoke-test.md"
   ]
 }

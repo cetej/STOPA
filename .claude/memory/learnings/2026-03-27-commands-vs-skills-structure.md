@@ -6,6 +6,7 @@ component: skill
 tags: [commands, skills, structure, source-of-truth, destructive-error]
 summary: "STOPA has TWO skill locations: commands/ (flat) and skills/ (dirs). They MUST stay identical. Edit commands/ as source, sync to skills/."
 source: auto_pattern
+maturity: draft
 verify_check: "Glob('.claude/commands/*.md') → 30+ matches"
 confidence: 0.7
 uses: 0

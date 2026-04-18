@@ -6,6 +6,7 @@ component: memory
 tags: [evolve, maintenance, race-condition, state-verification, parallel-sessions]
 summary: "/evolve a maintenance skills MUSÍ ověřit aktuální stav souborového systému (Glob/Read) před doporučením akce. Čtení vlastního logu nebo předpokládání stavu z minulého běhu vede k opakovaným falešným doporučením — wiki existovala, ale evolve ji 7x doporučil vytvořit."
 source: user_correction
+maturity: draft
 uses: 0
 harmful_uses: 0
 confidence: 0.9

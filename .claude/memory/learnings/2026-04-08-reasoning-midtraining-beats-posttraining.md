@@ -6,6 +6,7 @@ component: orchestration
 tags: [reasoning, training-methodology, model-selection, curriculum, mid-training]
 summary: "Front-loading reasoning structure (mid-training or curriculum-hints) yields 3-9× gains vs adding it only at post-training/call-time. Meta's thinking mid-training: 9× solo, 3.2× combined. Validates teach-early pattern."
 source: external_research
+maturity: draft
 uses: 1
 harmful_uses: 0
 successful_uses: 0

@@ -6,6 +6,7 @@ component: general
 tags: [cost-optimization, caching, browse, chrome-automation]
 summary: Adding or removing images anywhere in a Claude API prompt invalidates the entire prompt cache. Browse/screenshot workflows consistently miss cache, paying full input price every turn.
 source: external_research
+maturity: draft
 confidence: 0.8
 uses: 0
 harmful_uses: 0

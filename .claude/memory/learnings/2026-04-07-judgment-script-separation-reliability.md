@@ -6,6 +6,7 @@ component: hook
 tags: [judgment, scripts, reliability, deterministic, hooks, orchestration]
 summary: LLMs handle judgment (synthesis, prioritization, drafting), Python scripts handle deterministic work (API calls, file I/O, timestamps). Mixing LLMs into deterministic paths causes unpredictable failures and erodes trust. Validated by production deployment of 100+ LP fundraise pipeline.
 source: external_research
+maturity: draft
 uses: 0
 successful_uses: 0
 harmful_uses: 0

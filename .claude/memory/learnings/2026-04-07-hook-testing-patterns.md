@@ -6,6 +6,7 @@ component: hook
 tags: [hook, testing, development, debugging]
 summary: "Hook testing patterns: dry-run via env var, isolated testing with mock input JSON, production debugging via hook-errors.log and activity-log."
 source: auto_pattern
+maturity: draft
 uses: 1
 harmful_uses: 0
 successful_uses: 0

@@ -6,6 +6,7 @@ component: orchestration
 tags: [multi-agent, reasoning, critic, diversity, alignment]
 summary: "Kim et al. (2026) empiricky dokázali, že RL optimalizační tlak spontánně generuje interní multi-agentní debatu v reasoning modelech (DeepSeek-R1, QwQ-32B). Steering feature 30939 zdvojnásobil přesnost. Heterogenita perspektiv → výkon. Implikace: critic agent s odlišným system promptem není hack, je architektonicky opodstatněn. STOPA checkpoint/shared state potvrzena jako nutnost (bez temporal alignment se systémy rozpadají)."
 source: external_research
+maturity: draft
 uses: 2
 harmful_uses: 0
 verify_check: "manual"

@@ -6,6 +6,7 @@ component: skill
 tags: [autoreason, debate, subjective-optimization, multi-agent]
 summary: "AutoReason pattern (SHL0MS) extends AutoResearch to subjective domains via adversarial debate loop. Key: cold-start agent isolation prevents confirmation bias, randomized judge labels prevent position bias, structured critique > binary preference."
 source: external_research
+maturity: draft
 uses: 0
 harmful_uses: 0
 confidence: 0.6

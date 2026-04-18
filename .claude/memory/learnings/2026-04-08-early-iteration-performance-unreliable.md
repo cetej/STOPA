@@ -6,6 +6,7 @@ component: skill
 tags: [autoloop, autoresearch, self-evolve, optimization, scaling-laws, iteration-strategy]
 summary: "ScaleRL (400K GPU-hours): early small-compute performance is unreliable predictor of scale. Approach winning first 2-3 iterations may lose at scale. Different recipes reach DIFFERENT asymptotes — more iterations don't fix a bad approach. STOPA autoloop/autoresearch must give each approach enough iterations before judging, and predict ceiling early."
 source: external_research
+maturity: draft
 uses: 2
 successful_uses: 0
 harmful_uses: 0

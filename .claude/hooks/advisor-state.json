@@ -1,5 +1,5 @@
 {
-  "call_count": 10717,
+  "call_count": 10847,
   "has_todo": true,
   "edit_file_set": [
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\capability-gaps.md",
@@ -713,10 +713,20 @@
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\hardcore-shaw-25b138\\.claude\\hooks\\permission-auto-approve.sh",
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\hardcore-shaw-25b138\\.claude\\hooks\\cost-tracker.sh",
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\hardcore-shaw-25b138\\.claude\\hooks\\post-compact.sh",
-    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\epic-wilbur-cdfb17\\.claude\\hooks\\panic-detector.py"
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\epic-wilbur-cdfb17\\.claude\\hooks\\panic-detector.py",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\unruffled-tereshkova-6f82de\\.claude\\rules\\memory-files.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\unruffled-tereshkova-6f82de\\.claude\\settings.json",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\unruffled-tereshkova-6f82de\\.claude\\hooks\\auto-scribe.py",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\unruffled-tereshkova-6f82de\\.claude\\hooks\\learnings_retrieval.py",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\unruffled-tereshkova-6f82de\\.claude\\hooks\\graduation-check.py",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\unruffled-tereshkova-6f82de\\scripts\\memory-search.py",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\unruffled-tereshkova-6f82de\\scripts\\scribe-maintenance.py",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\wiki\\orchestration-resilience.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\wiki\\skill-design.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\epic-wilbur-cdfb17\\.claude\\memory\\learnings\\2026-04-18-panic-detector-requires-failure-signal.md"
   ],
-  "last_edit_was_py": true,
-  "grep_count": 3501,
-  "last_suggestion_ts": 1776546204.4127445,
+  "last_edit_was_py": false,
+  "grep_count": 3542,
+  "last_suggestion_ts": 1776548431.865701,
   "skill_count": 68
 }

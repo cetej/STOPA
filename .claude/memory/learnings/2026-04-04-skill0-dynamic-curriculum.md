@@ -6,6 +6,7 @@ component: skill
 tags: [skill, orchestration, token-optimization, SKILL0]
 summary: "SKILL0 (arXiv:2604.02268) Dynamic Curriculum pattern adapted for STOPA: compact skill variants (~7% of full size) for repeat session invocations, impact_score for helpfulness-driven learning graduation, progressive withdrawal protocol in orchestrator."
 source: external_research
+maturity: draft
 uses: 0
 harmful_uses: 0
 confidence: 0.6

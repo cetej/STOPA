@@ -6,6 +6,7 @@ component: skill
 tags: [skill-matching, description, frontmatter, trigger-words]
 summary: "Skill description MUST contain all trigger words — CC matches skills by description text, not by skill name or body."
 source: auto_pattern
+maturity: draft
 verify_check: "Grep('description.*Use when', path='.claude/skills') → 1+ matches"
 confidence: 0.7
 uses: 0

@@ -6,6 +6,7 @@ component: hook
 tags: [security, prompt-injection, tradeoff, defense-design]
 summary: "No current prompt injection defense achieves both high utility AND low ASR. Best security (SecAlign++, 21% ASR) requires accepting 45-84% utility loss. Best utility (PISanitizer, 99%) is defeated by adaptive attacks at 86% ASR. Layered architecture is the correct response."
 source: external_research
+maturity: draft
 uses: 1
 harmful_uses: 0
 successful_uses: 0

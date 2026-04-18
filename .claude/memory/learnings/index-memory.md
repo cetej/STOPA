@@ -1,11 +1,15 @@
 # Component Index: memory
 
-Auto-generated L2 index. 17 learnings.
+Auto-generated L2 index. 21 learnings.
 
 | Date | File | Severity | Score | Summary |
 |------|------|----------|-------|---------|
+| 2026-04-18 | [2026-04-18-embedding-dimension-retrieval-limit.md](2026-04-18-embedding-dimension-retrieval-limit.md) | medium | 2.00 | Weller et al. (ICLR 2026, arXiv:2508.21038) prove single-vector embeddin... |
+| 2026-04-18 | [2026-04-18-in-place-ttt-fast-weights-analog.md](2026-04-18-in-place-ttt-fast-weights-analog.md) | low | 1.00 | In-Place TTT (ICLR 2026) updates MLP projection matrices during inferenc... |
 | 2026-04-18 | [2026-04-18-mc-checkpoint-caching-retrieval-pattern.md](2026-04-18-mc-checkpoint-caching-retrieval-pattern.md) | medium | 2.00 | Memory Caching (MC) formalizes a universal pattern: segment long stream ... |
+| 2026-04-18 | [2026-04-18-recency-biased-scoring-depth-collapse.md](2026-04-18-recency-biased-scoring-depth-collapse.md) | high | 3.00 | Recency-biased retrieval (scoring tokens/learnings by recent-query relev... |
 | 2026-04-18 | [2026-04-18-retrieval-depth-knob-complexity-interpolation.md](2026-04-18-retrieval-depth-knob-complexity-interpolation.md) | medium | 2.00 | STOPA retrieval má implicitní complexity knob: grep=O(1) → BM25=O(log L)... |
+| 2026-04-18 | [2026-04-18-subliminal-learning-agent-generated-risk.md](2026-04-18-subliminal-learning-agent-generated-risk.md) | high | 3.00 | Paper prokázal, že LLM přenášejí behavioral traits (včetně misalignmentu... |
 | 2026-04-12 | [2026-04-12-evolve-must-verify-current-state.md](2026-04-12-evolve-must-verify-current-state.md) | high | 2.73 | /evolve a maintenance skills MUSÍ ověřit aktuální stav souborového systé... |
 | 2026-04-12 | [2026-04-12-queries-back-to-wiki-compounding.md](2026-04-12-queries-back-to-wiki-compounding.md) | high | 2.73 | LLM query answers should be filed back into the wiki as new pages — othe... |
 | 2026-04-11 | [2026-04-11-memory-sovereignty-open-harness.md](2026-04-11-memory-sovereignty-open-harness.md) | high | 2.69 | Harrison Chase (LangChain): memory není plugin, je to harness. Closed ha... |
@@ -24,4 +28,4 @@ Auto-generated L2 index. 17 learnings.
 
 ## Tags in this component
 
-agent-memory, aggregation, architecture, autodream, bias, bm25, cc-native, checkpoint, checkpoints, claude-tiers, coexistence, compaction, complexity, compounding, context, contrastive-learning, cross-project, dedup, distribution, dream, evolution, evolve, feedback-loop, gap, graduation, harness, hybrid-memory, hybrid-retrieve, knowledge-management, learnings, living-memory, local-vs-global, lock-in, maintenance, memory, memory-consolidation, memory-design, memory-sharing, memory-transfer, multi-model, noise-resistance, non-parametric, orchestration, parallel-sessions, parametric, portability, query, race-condition, ranking, recency, research, retrieval, salience, search, session-continuity, skill-scope, sliding-window, source-reputation, sovereignty, state-verification, static-rag, sync, trajectory-distillation, tuning, versioning, wiki, write-time-gating
+agent-generated, agent-memory, aggregation, analog, architecture, attention, autodream, bias, bm25, cc-native, checkpoint, checkpoints, claude-tiers, coexistence, compaction, complexity, compounding, confidence, context, contrastive-learning, cross-project, dedup, depth, distillation, distribution, dream, embedding, evolution, evolve, fast-weights, feedback-loop, gap, graduation, harness, hybrid-memory, hybrid-retrieve, knowledge-management, kv-cache, learnings, living-memory, local-vs-global, lock-in, long-horizon, maintenance, maturity, memory, memory-consolidation, memory-design, memory-sharing, memory-transfer, model-gate, multi-model, noise-resistance, non-parametric, orchestration, parallel-sessions, parametric, portability, query, race-condition, ranking, recency, recency-bias, research, retrieval, safety, salience, search, session-continuity, skill-scope, sliding-window, source-reputation, sovereignty, state-verification, static-rag, subliminal, sync, theory, tool-synth, trajectory-distillation, ttt, tuning, versioning, wiki, write-time-gating

@@ -6,6 +6,7 @@ component: orchestration
 tags: [model-selection, information-bottleneck, compression, evaluation, tier-selection]
 summary: "LLM optimality I(Y;Z)/I(X;Z) predicts benchmark performance (r=0.52) from a single forward pass on C4 — cheaper than benchmark eval suites. Preference info I(Z;pref) is stronger (r=0.76) and predicts alignment/instruction-following quality."
 source: external_research
+maturity: draft
 uses: 0
 successful_uses: 0
 harmful_uses: 0

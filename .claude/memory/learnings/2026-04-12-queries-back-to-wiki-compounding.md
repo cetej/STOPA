@@ -6,6 +6,7 @@ component: memory
 tags: [knowledge-management, wiki, compounding, query]
 summary: "LLM query answers should be filed back into the wiki as new pages — otherwise insights vanish into chat history and the knowledge base loses compounding. Every good answer is itself a wiki artifact."
 source: external_research
+maturity: draft
 uses: 0
 successful_uses: 0
 harmful_uses: 0

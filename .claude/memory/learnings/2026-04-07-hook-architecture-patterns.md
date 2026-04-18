@@ -6,6 +6,7 @@ component: hook
 tags: [hook, architecture, lifecycle, patterns]
 summary: "STOPA hook architecture: 70+ hooks across 13 lifecycle events (SessionStart, PreToolUse, PostToolUse, UserPromptSubmit, Stop, etc). Hooks form 5 functional categories: safety, memory, tracing, workflow, and notification."
 source: auto_pattern
+maturity: draft
 uses: 1
 harmful_uses: 0
 successful_uses: 0

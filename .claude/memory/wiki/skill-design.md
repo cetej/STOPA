@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: skill-design
-sources: 21
-last_updated: 2026-04-14
+sources: 22
+last_updated: 2026-04-18
 ---
 
 # Skill Design & Architecture
@@ -25,6 +25,8 @@ The empirical validation that descriptions must be trigger-only was first establ
 
 Skills with reference files should use 3-layer knowledge routing: always-on baseline (quality floor), semantic-inference auto-load (from natural language signals), and explicit-override (user-named). The bias should favor loading — cost of extra tokens is lower than cost of low-quality output from missing context (ref: 2026-04-08-progressive-knowledge-routing.md). For output validation, structured numbered rules with explicit error/warning tiers executed by the LLM itself with a hard-stop before delivery outperform advisory self-checks. Python scripts should be decoupled to CI/CD only (ref: 2026-04-08-llm-native-validation-hardstop.md).
 
+HeyGen HyperFrames validates a broader principle: tools for agents should use the language from their training data — HTML > After Effects DSL, markdown > proprietary XML. Agents were trained on billions of HTML pages; writing in HTML is their native language. A thin layer (a few `data-*` attributes) over standard HTML/CSS gives agents an expressive medium without domain-specific syntax to learn. Apply to STOPA: prefer markdown/HTML over bespoke YAML schemas where a standard format suffices; skills that generate media (visual-data-architect, nano, klip) should emit in standard formats agents already know how to compose (ref: 2026-04-18-html-as-agent-native-medium.md).
+
 ## Key Rules
 
 1. **Skills develop in STOPA first**: never create skills directly in target projects (ref: 2026-03-27-skills-must-live-in-stopa.md)
@@ -42,6 +44,7 @@ Skills with reference files should use 3-layer knowledge routing: always-on base
 13. **SKILL.md = agent curriculum, not human docs**: agent learns from body, not description (ref: 2026-04-08-education-teaches-agents-not-humans.md)
 14. **Separate constraint types**: format/length blocks separate from content/tone — mixed prompts degrade adherence (ref: 2026-04-08-instruction-following-compositional-not-universal.md)
 15. **Hybrid scoring loop**: structural heuristic fast loop + single LLM judge at end (ref: karpathy-loop-autoloop.md)
+16. **Emit in agent-native formats (HTML/markdown)**: prefer standard formats over proprietary DSLs — agents are trained on HTML/MD (ref: 2026-04-18-html-as-agent-native-medium.md)
 
 ## Patterns
 
@@ -92,3 +95,4 @@ Skills with reference files should use 3-layer knowledge routing: always-on base
 | [2026-04-12-latent-deterministic-extraction](../learnings/2026-04-12-latent-deterministic-extraction.md) | 2026-04-12 | high | Extract deterministic gates into Python scripts |
 | [2026-04-12-purpose-built-tools-75x-faster](../learnings/2026-04-12-purpose-built-tools-75x-faster.md) | 2026-04-12 | high | Purpose-built tools 75x faster than general MCP |
 | [2026-04-12-diarization-as-knowledge-extraction](../learnings/2026-04-12-diarization-as-knowledge-extraction.md) | 2026-04-12 | medium | Diarization as knowledge extraction technique |
+| [2026-04-18-html-as-agent-native-medium](../learnings/2026-04-18-html-as-agent-native-medium.md) | 2026-04-18 | medium | HTML/markdown > proprietary DSL for agent-facing tools |
