@@ -63,7 +63,7 @@ _No pending subtasks detected in state.md_
 
 > **Task**: **Phase 3: Měřitelný feedback loop** (watch → ingest → actionable learnings)
 >
-> **Context**: Last commit `b1fe720 chore(memory): session churn — activity log, budget, checkpoint, learning counters`. Branch: main.
+> **Context**: Last commit `0a62e3d chore(memory): /compile incremental — +16 learnings into 5 wiki articles`. Branch: main.
 > Most-edited files: `.claude/hooks/session-summary.sh` (1x), `.claude/hooks/outcome-writer.py` (1x), `.claude/settings.json` (1x), `.claude/archive/skills/` (1x), `.claude/archive/commands/` (1x).
 > Session: 7 files touched, 7 total edits.
 >
