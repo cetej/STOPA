@@ -13,19 +13,6 @@ Zpracované záznamy se přesunou do `inbox-archive.md`.
 
 ## Queue
 
-URL: https://arxiv.org/abs/2502.12110
-URL: https://arxiv.org/abs/2601.01885
-URL: https://arxiv.org/abs/2603.23013
-URL: https://arxiv.org/abs/2604.13120
-URL: https://arxiv.org/abs/2603.13424
-URL: https://arxiv.org/abs/2602.03412
-URL: https://arxiv.org/abs/2603.15714
-URL: https://arxiv.org/abs/2601.13671
-URL: https://x.com/karpathy/status/2042334451611693415
-URL: https://x.com/karpathy/status/2040572272944324650
-URL: https://x.com/AnthropicAI/status/2044138483870998932
-URL: https://x.com/simonw/status/2025990408514523517
-
 ## Processed
 
 | Date | Item |
@@ -44,3 +31,15 @@ URL: https://x.com/simonw/status/2025990408514523517
 | 2026-04-17 | URL: https://arxiv.org/abs/2603.22862 — Tool Use Evolution → new wiki article tool-use-evolution.md, 2 graph edges |
 | 2026-04-17 | URL: https://arxiv.org/abs/2603.27910 — GAAMA → new wiki article gaama.md, 5 graph edges |
 | 2026-04-17 | URL: https://x.com/karpathy/status/2039805659525644595 — Karpathy LLM KB tweet → updated llm-wiki.md (Operační workflow sekce) |
+| 2026-04-18 | URL: https://arxiv.org/abs/2502.12110 — A-MEM (NeurIPS 2025) → new wiki article a-mem.md |
+| 2026-04-18 | URL: https://arxiv.org/abs/2601.01885 — Agentic Memory RL → new wiki article agentic-memory-unified.md |
+| 2026-04-18 | URL: https://arxiv.org/abs/2603.23013 — Memory-Augmented Routing → new wiki article memory-augmented-routing.md |
+| 2026-04-18 | URL: https://arxiv.org/abs/2604.13120 — AgentForge → new wiki article agentforge.md |
+| 2026-04-18 | URL: https://arxiv.org/abs/2603.13424 — OpenClaw prompt injection → merged into prompt-injection-defense.md |
+| 2026-04-18 | URL: https://arxiv.org/abs/2602.03412 — Critical Step Optimization → new wiki article critical-step-optimization.md |
+| 2026-04-18 | URL: https://arxiv.org/abs/2603.15714 — Injection competition → merged into prompt-injection-defense.md |
+| 2026-04-18 | URL: https://arxiv.org/abs/2601.13671 — MAS orchestration protocols → new wiki article multi-agent-orchestration-protocols.md |
+| 2026-04-18 | URL: https://x.com/karpathy/status/2042334451611693415 — Karpathy AI capability gap → updated karpathy.md, new graph node |
+| 2026-04-18 | URL: https://x.com/karpathy/status/2040572272944324650 — Karpathy Farzapedia → updated karpathy.md + llm-wiki.md, new graph node |
+| 2026-04-18 | URL: https://x.com/AnthropicAI/status/2044138483870998932 — Anthropic automated alignment researchers → new wiki article automated-alignment-researchers.md |
+| 2026-04-18 | URL: https://x.com/simonw/status/2025990408514523517 — Willison agentic engineering → new wiki article agentic-engineering-patterns.md |

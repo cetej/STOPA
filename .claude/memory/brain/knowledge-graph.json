@@ -1,6 +1,6 @@
 {
-  "version": "1.6",
-  "updated": "2026-04-17",
+  "version": "1.8",
+  "updated": "2026-04-18",
   "description": "2BRAIN knowledge graph — entity-centric storage with typed edges",
   "node_types": ["person", "concept", "project", "value", "reasoning", "experience", "goal"],
   "edge_types": ["created", "inspired", "contradicts", "enables", "blocks", "applied-in", "drives", "taught-me", "practiced-in", "related-to", "part-of", "complementary", "validates", "formalizes"],
@@ -347,6 +347,20 @@
       "tags": ["developer", "blogger", "tools", "agentic-engineering"],
       "wiki": null,
       "added": "2026-04-18"
+    },
+    "claude-code-design-space": {
+      "type": "concept",
+      "label": "Claude Code Design Space — Architecture Analysis",
+      "tags": ["ai", "architecture", "claude-code", "agent-design", "context-management", "permissions", "hooks"],
+      "wiki": "concepts/claude-code-design-space.md",
+      "added": "2026-04-18"
+    },
+    "open-claw": {
+      "type": "concept",
+      "label": "OpenClaw — Multi-Channel AI Agent Gateway",
+      "tags": ["ai", "orchestration", "multi-channel", "gateway", "agent-design"],
+      "wiki": null,
+      "added": "2026-04-18"
     }
   },
   "edges": [
@@ -476,6 +490,15 @@
     {"from": "ai-capability-gap", "to": "verifiability-sw2", "rel": "related-to", "evidence": "peaky gains in verifiable domains (code/math) exactly because reward functions exist"},
     {"from": "farzapedia", "to": "llm-wiki", "rel": "part-of", "evidence": "Farzapedia is an instance of LLM Wiki pattern: personal wiki built from personal data"},
     {"from": "farzapedia", "to": "second-brain", "rel": "part-of", "evidence": "personal Wikipedia = second brain implementation"},
-    {"from": "farzapedia", "to": "operating-knowledge", "rel": "enables", "evidence": "Farzapedia data ownership + vendor flexibility = operating knowledge without vendor lock-in"}
+    {"from": "farzapedia", "to": "operating-knowledge", "rel": "enables", "evidence": "Farzapedia data ownership + vendor flexibility = operating knowledge without vendor lock-in"},
+    {"from": "claude-code-design-space", "to": "stopa", "rel": "formalizes", "evidence": "systematic naming of CC's 5 architectural layers that STOPA extends — compaction, permissions, hooks, subagents, persistence"},
+    {"from": "claude-code-design-space", "to": "context-engineering", "rel": "formalizes", "evidence": "5-layer compaction + CLAUDE.md 4-level hierarchy = context engineering implemented at production scale"},
+    {"from": "claude-code-design-space", "to": "artifacts-as-memory", "rel": "validates", "evidence": "CC CLAUDE.md hierarchy + append-only JSONL + sidechain transcripts = artifacts-as-memory at agent-boundary level"},
+    {"from": "claude-code-design-space", "to": "tool-use-evolution", "rel": "validates", "evidence": "CC is the reference production implementation of multi-tool orchestration the survey analyzes"},
+    {"from": "claude-code-design-space", "to": "multi-agent-orchestration-protocols", "rel": "related-to", "evidence": "CC's 4-extension mechanisms (MCP, plugins, skills, hooks) are the implementation layer for Agent2Agent/MCP protocols"},
+    {"from": "claude-code-design-space", "to": "prompt-injection-defense", "rel": "related-to", "evidence": "CC deny-first permission system = multi-layer injection defense; OpenClaw is the shared system between both papers"},
+    {"from": "claude-code-design-space", "to": "agentic-engineering-patterns", "rel": "related-to", "evidence": "Willison's human-side engineering patterns are the complement to CC's tool-side architecture"},
+    {"from": "open-claw", "to": "claude-code-design-space", "rel": "related-to", "evidence": "OpenClaw is the comparative system in the paper — perimeter security vs per-action deny-first"},
+    {"from": "open-claw", "to": "prompt-injection-defense", "rel": "related-to", "evidence": "OpenClaw integrates LlamaFirewall for injection defense at gateway level"}
   ]
 }

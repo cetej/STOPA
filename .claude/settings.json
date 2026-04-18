@@ -17,6 +17,7 @@
       "Bash(echo *)",
       "Bash(diff *)",
       "Bash(rtk *)",
+      "Bash(curl *)",
       "Read",
       "Edit",
       "Write",

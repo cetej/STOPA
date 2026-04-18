@@ -1,5 +1,5 @@
 {
-  "call_count": 9889,
+  "call_count": 10276,
   "has_todo": true,
   "edit_file_set": [
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\capability-gaps.md",
@@ -641,10 +641,33 @@
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\wiki\\concepts\\automated-alignment-researchers.md",
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\wiki\\concepts\\agentic-engineering-patterns.md",
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-18-verify-sweep-hook-import-smoke-test.md",
-    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\handoff-2026-04-18-signal-pipeline.md"
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\handoff-2026-04-18-signal-pipeline.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\brave-leavitt-bc55bf\\.claude\\hooks\\verify-sweep.py",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\brave-leavitt-bc55bf\\.claude\\skills\\orchestrate\\references\\agent-execution.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\brave-leavitt-bc55bf\\.claude\\skills\\orchestrate\\references\\graph-topology.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\pending-reminders.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\hooks\\pending-reminders.sh",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-18-autogenesis-protocol.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\rules\\sepl-operators.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\rules\\commit-invariants.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\resource-ledger.jsonl",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\scripts\\resource-ledger.py",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\handoff-autogenesis-r3.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\skills\\tool-synth\\SKILL.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\skills\\_generated\\extract-svg-to-sprite\\SKILL.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\skills\\sweep\\SKILL.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\skills\\_generated\\smoketest-expired\\SKILL.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\handoff-autogenesis-r3-followup.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\scripts\\generated-skill-counter.py",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\skills\\extract-svg-to-sprite\\SKILL.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\scripts\\test_generated_skill_counter.py",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\wiki\\concepts\\claude-code-design-space.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-18-cc-graduated-compaction-5layer.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-18-cc-sidechain-transcript-isolation.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-18-mask-belief-vs-statement-pipeline.md"
   ],
   "last_edit_was_py": false,
-  "grep_count": 3256,
-  "last_suggestion_ts": 1776500075.3018904,
-  "skill_count": 57
+  "grep_count": 3370,
+  "last_suggestion_ts": 1776541765.0169785,
+  "skill_count": 61
 }

@@ -4,7 +4,7 @@ Obsah kompilovaných wiki článků organizovaný podle typu entity.
 LLM čte tento soubor PRVNÍ při odpovídání na dotazy.
 
 **Last updated:** 2026-04-18
-**Total articles:** 45
+**Total articles:** 46
 
 ---
 
@@ -37,13 +37,24 @@ LLM čte tento soubor PRVNÍ při odpovídání na dotazy.
 | [multi-agent-hpc](concepts/multi-agent-hpc.md) | Planner-executor na exascale HPC; shared MCP server coordination; Aurora supercomputer | arXiv:2604.07681 | 2026-04-17 |
 | [tool-use-evolution](concepts/tool-use-evolution.md) | Survey: single→multi-tool orchestration; 6 dimenzí (planning, training, safety, efficiency, completeness, eval) | arXiv:2603.22862 | 2026-04-17 |
 | [gaama](concepts/gaama.md) | Graph Augmented Associative Memory; 4 node types, PPR retrieval, 78.9% LoCoMo-10 SOTA | arXiv:2603.27910 | 2026-04-17 |
+| [a-mem](concepts/a-mem.md) | Zettelkasten agentic memory: interconnected notes, new memories trigger updates to existing entries (NeurIPS 2025) | arXiv:2502.12110 | 2026-04-18 |
+| [agentic-memory-unified](concepts/agentic-memory-unified.md) | Unified RL framework: memory ops as tools (store/retrieve/update/summarize/discard), step-wise GRPO | arXiv:2601.01885 | 2026-04-18 |
+| [memory-augmented-routing](concepts/memory-augmented-routing.md) | 47% queries semantically similar; 8B+memory = 69% of 235B at 4% cost; hybrid BM25+cosine +7.7 F1 | arXiv:2603.23013 | 2026-04-18 |
+| [agentforge](concepts/agentforge.md) | Execution-grounded SWE: 5 agents, Docker sandbox, 40% SWE-BENCH Lite (+26-28pp) | arXiv:2604.13120 | 2026-04-18 |
+| [prompt-injection-defense](concepts/prompt-injection-defense.md) | Privilege separation (323×) + JSON formatting (7×) = 0% ASR; Claude Opus 4.5 = 0.5% vs Gemini 8.5% | arXiv:2603.13424 + arXiv:2603.15714 | 2026-04-18 |
+| [critical-step-optimization](concepts/critical-step-optimization.md) | CSO: train only on verified critical steps; 37% improvement on GAIA, 16% trajectory coverage needed | arXiv:2602.03412 | 2026-04-18 |
+| [multi-agent-orchestration-protocols](concepts/multi-agent-orchestration-protocols.md) | MCP + Agent2Agent protocols; governance/observability/accountability for enterprise | arXiv:2601.13671 | 2026-04-18 |
+| [automated-alignment-researchers](concepts/automated-alignment-researchers.md) | 9 parallel Claude Opus 4.6 agents close 97% performance gap vs humans 23% in 7 days | Anthropic tweet 2026-04-14 | 2026-04-18 |
+| [agentic-engineering-patterns](concepts/agentic-engineering-patterns.md) | Agentic engineering ≠ vibe coding; code is cheap now; red/green TDD with agents | Willison simonwillison.net | 2026-04-18 |
+| [claude-code-design-space](concepts/claude-code-design-space.md) | 1.6% decision logic / 98.4% operational infra; 5-layer compaction; 7 perm modes; 27 hook events; sidechain isolation | arXiv:2604.14228 Liu et al. | 2026-04-18 |
 
-## People (2)
+## People (3)
 
 | Article | Summary | Updated |
 |---------|---------|---------|
-| [karpathy](people/karpathy.md) | Andrej Karpathy — LLM Wiki, RLVR, Vibe Coding, Ghosts vs Animals, Verifiability, Operating Knowledge | 2026-04-14 |
+| [karpathy](people/karpathy.md) | Andrej Karpathy — LLM Wiki, RLVR, Vibe Coding, Ghosts vs Animals, Verifiability, Farzapedia, AI Capability Gap | 2026-04-18 |
 | [tiago-forte](people/tiago-forte.md) | Tiago Forte — BASB, PARA, Progressive Summarization | 2026-04-13 |
+| simon-willison | Simon Willison — Agentic Engineering Patterns, simonwillison.net | 2026-04-18 |
 
 ## Reasoning Patterns (5)
 
