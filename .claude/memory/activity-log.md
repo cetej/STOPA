@@ -153,3 +153,12 @@ Pruned to last 100 entries by memory-maintenance.sh.
 - 2026-04-18 22:30 | Edit | panic-detector.py | exit=0
 - 2026-04-18 22:30 | Edit | panic-detector.py | exit=0
 - 2026-04-18 22:30 | Edit | panic-detector.py | exit=0
+- 2026-04-18 23:01 | Edit | activity-log.sh | exit=0
+- 2026-04-18 23:02 | Edit | observe.sh | exit=0
+- 2026-04-18 23:02 | Edit | permission-auto-approve.sh | exit=0
+- 2026-04-18 23:02 | Edit | cost-tracker.sh | exit=0
+- 2026-04-18 23:02 | Edit | post-compact.sh | exit=0
+- 2026-04-18 23:02 | Edit | post-compact.sh | exit=0
+- 2026-04-18 23:03 | Edit | post-compact.sh | exit=0
+- 2026-04-18 23:03 | Edit | post-compact.sh | exit=0
+- 2026-04-18 23:03 | Edit | test.txt | exit=0
