@@ -187,10 +187,11 @@ The generated skill is IMMEDIATELY usable — `/orchestrate` treats `.claude/ski
 ## Promotion Path (handled by /evolve, not here)
 
 Generated skills graduate to top-level `.claude/skills/<name>/` when:
-- `uses >= 3` (tracked via auto-increment on invocation; /evolve Step 3c monitors)
-- Last critic score on a run using this skill was PASS
+- `uses >= 3` (tracked via auto-increment by `/orchestrate` Phase 4 step 10a on invocation; `/evolve` Step 3g audits and proposes graduation)
+- `successful_uses >= 1` (at least one critic PASS recorded — proxy for "last critic score on a run using this skill was PASS")
+- `harmful_uses == 0` (any critic FAIL blocks graduation; routes to pruning review instead)
 - `valid_until` not yet expired
-- Human approval (displayed to user as `/evolve` suggestion)
+- Human approval (user explicitly approves the `/evolve` graduation proposal)
 
 Expired drafts are cleaned up by `/sweep` (checks `valid_until < today`).
 

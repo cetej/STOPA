@@ -129,6 +129,99 @@ If file doesn't exist, note it and continue.
 
 ---
 
+## Step 3g: Generated-Skill Graduation (Autogenesis R3)
+
+Promote sandbox drafts from `.claude/skills/_generated/<slug>/` to top-level `.claude/skills/<slug>/` once they have proven themselves via orchestrate invocations. Mirrors the `validated → core` flow for learnings, but for skills.
+
+### 3g.1. Scan sandbox
+
+1. `Glob pattern=".claude/skills/_generated/*/SKILL.md"` — list every draft.
+2. For each hit, read frontmatter and counters (do NOT use the Edit tool; this step is read-only until §3g.3):
+   ```bash
+   python scripts/generated-skill-counter.py read <slug> --json
+   ```
+3. Parse frontmatter for `valid_until`, `maturity`, `synthesized-at`, `version`.
+
+### 3g.2. Evaluate graduation candidates
+
+A draft is **graduation-ready** when ALL hold:
+- `uses >= 3` (from counter — sufficient traffic)
+- `successful_uses >= 1` (at least one critic PASS — "last critic score was PASS" proxy via existence of success)
+- `harmful_uses == 0` (any critic FAIL blocks graduation; flag for pruning review instead)
+- `valid_until` parses as ISO date AND `valid_until > today` (not expired — /sweep Step 8 handles expired drafts)
+- No slug collision at `.claude/skills/<slug>/SKILL.md` OR `.claude/commands/<slug>.md` (top-level not yet occupied)
+
+Edge cases — explicitly surface to user, do NOT silently skip:
+- `uses >= 3` AND `successful_uses == 0` AND `harmful_uses == 0` → NO critic signal (light-tier or self-verifying subtasks). Mark as `NO_CRITIC_SIGNAL` — user decides whether to graduate or keep waiting.
+- `harmful_uses >= 1` → Mark as `PRUNE_CANDIDATE` — draft is actively failing, consider deletion instead of promotion.
+- Slug collision → Mark as `BLOCKED_COLLISION` with the colliding top-level path. User decides whether to supersede or rename.
+
+### 3g.3. Present candidates
+
+Show grouped output (no file mutations yet):
+
+```
+GENERATED SKILL GRADUATION: [N drafts scanned]
+  Ready to promote:    [<slug> — uses=N, successful=M, created=YYYY-MM-DD, expires=YYYY-MM-DD]
+  No critic signal:    [<slug> — uses=N, no PASS/FAIL recorded]
+  Prune candidates:    [<slug> — harmful_uses=K]
+  Blocked (collision): [<slug> — conflicts with .claude/skills/<slug>/]
+  Expired (handled by /sweep): [<slug> — valid_until=YYYY-MM-DD]
+```
+
+Include ready-to-promote items as **GRADUATE_GENERATED** proposals in Step 7 — one proposal per draft. Prune candidates as **PRUNE_GENERATED**. No-critic-signal items as informational (no action proposal).
+
+### 3g.4. Apply on approval (user says "approve")
+
+Per approved draft, in order (stop on first failure → ROLLBACK any partial move):
+
+1. **Re-check slug collision at apply time** (user may have created a conflicting skill between scan and approval):
+   - `Glob ".claude/skills/<slug>/SKILL.md"` must be empty
+   - `Glob ".claude/commands/<slug>.md"` must be empty
+   - Collision → abort this graduation, report; leave draft untouched
+2. **Read draft SKILL.md content** (you'll need it for the frontmatter edit below)
+3. **Move directory**:
+   ```bash
+   mv .claude/skills/_generated/<slug> .claude/skills/<slug>
+   ```
+4. **Rewrite frontmatter** in `.claude/skills/<slug>/SKILL.md` with these changes (use Edit for each line):
+   - `version: "0.1.0"` → `version: "1.0.0"`
+   - `maturity: draft` → `maturity: validated`
+   - `user-invocable: false` → `user-invocable: true`
+   - Remove lines: `valid_until:`, `synthesized-by:`, `synthesized-at:`, `synthesized-for-subtask:`
+   - Strip `generated` from the `tags:` list (leave the remaining tags)
+   - Keep `uses`, `successful_uses`, `harmful_uses` as-is (history preserved)
+5. **Apply commit-invariants** (`rules/commit-invariants.md` I1-I4) to the new location:
+   - I1: `Grep pattern="^description:.*\"Use when" .claude/skills/<slug>/SKILL.md` → 1 match
+   - I2: line count < 500 for memory files N/A; SKILL.md < 1200 (drafts are well under)
+   - I3: no secret patterns in the moved file
+   - I4: frontmatter parses — `python -c "import yaml; yaml.safe_load(open('.claude/skills/<slug>/SKILL.md', encoding='utf-8').read().split('---')[1])"`
+   - ANY failure → revert the move (`mv .claude/skills/<slug> .claude/skills/_generated/<slug>`) AND restore original frontmatter. Report which invariant failed.
+6. **Copy to commands/**:
+   ```bash
+   cp .claude/skills/<slug>/SKILL.md .claude/commands/<slug>.md
+   ```
+   Verify: `diff .claude/commands/<slug>.md .claude/skills/<slug>/SKILL.md` → empty (sync invariant from core-invariants #2)
+7. **Append ledger entry** — trigger string MUST NOT start with `/` (Git Bash MSYS mangles leading-slash paths into `C:/Program Files/Git/...`). Put the slash mid-string:
+   ```bash
+   python scripts/resource-ledger.py log ".claude/skills/<slug>/SKILL.md" "0.1.0" "1.0.0" "graduated <slug> from sandbox via /evolve (uses=N, successful=M)"
+   ```
+8. **Log to decisions.md** (via standard /scribe append — one line: date, graduated slug, uses/successful counters, who approved).
+
+For **PRUNE_GENERATED** approvals:
+1. Delete dir: `rm -rf .claude/skills/_generated/<slug>`
+2. Append ledger entry (same leading-slash caveat as step 7):
+   ```bash
+   python scripts/resource-ledger.py log ".claude/skills/_generated/<slug>/SKILL.md" "0.1.0" "pruned" "pruned <slug> via /evolve — harmful_uses=K"
+   ```
+
+### 3g.5. Skip conditions
+
+- Sandbox dir doesn't exist OR no drafts → skip entirely, note "no generated skills to audit"
+- All drafts expired → handled by /sweep Step 8, not here
+
+---
+
 ## Step 3c: Model Gate Audit
 
 Inspired by CC `@[MODEL_LAUNCH]` tagging — flag model-specific learnings that may be stale.

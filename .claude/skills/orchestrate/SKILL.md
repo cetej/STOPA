@@ -959,6 +959,16 @@ If any check fails → do NOT launch next wave. Fix the gap first (re-run subtas
     - `critic_score`: PASS|WARN|FAIL from critic verdict; null if critic skipped this subtask (light tier per-subtask)
     - `files_changed`: count of files in `context_scope` (or actual diff count if available)
     **Target:** 50+ traces with critic_score → enables P2.2 data-driven routing classifier. Append mode — never overwrite.
+10a. **Generated-skill counter increment** (Autogenesis R3, graduation support):
+    If this subtask's `method:` is `Skill:/<slug>` AND `.claude/skills/_generated/<slug>/SKILL.md` exists, bump the sandbox skill's invocation counters so `/evolve` can later propose graduation:
+    ```bash
+    python scripts/generated-skill-counter.py increment <slug> --critic <PASS|FAIL|NONE>
+    ```
+    - `PASS` if `critic_score == "PASS"` (or `"WARN"` — warnings count as passes for graduation signal)
+    - `FAIL` if `critic_score == "FAIL"`
+    - `NONE` if critic was skipped this subtask (light tier per-subtask, or `method: Skill:/critic|verify` self-verify skip)
+
+    Skip this step entirely when the subtask's skill lives under `.claude/skills/<slug>/` (top-level, not sandbox). Counter storage is frontmatter in the draft itself — `uses`, `successful_uses`, `harmful_uses`. Missing fields auto-initialize to 0 on first increment. One invocation per subtask — do NOT re-run on retry (retries re-count the same work).
 11. Log decisions to `.claude/memory/decisions.md`
 
 ### Context health check (after each subtask)
