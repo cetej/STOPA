@@ -1,7 +1,7 @@
 ---
 name: sweep
 description: Use when cleaning up repository entropy after a long session or multi-file changes. Trigger on 'sweep', 'cleanup', 'entropy', 'stale docs', 'dead code'. Do NOT use for code review (/critic) or refactoring (/simplify).
-argument-hint: [--scope session|blast-radius|full] [--auto]
+argument-hint: "[--scope session|blast-radius|full] [--auto]"
 tags: [code-quality, post-edit, documentation]
 phase: review
 user-invocable: true
@@ -200,6 +200,56 @@ Optionally run sovereignty audit for visibility:
 
 ```bash
 python scripts/sovereignty-audit.py
+```
+
+### Step 8: Expired Draft Skills Cleanup (tool-synth sandbox)
+
+Drafts synthesized by `/tool-synth` live in `.claude/skills/_generated/<slug>/SKILL.md` with a `valid_until:` field (default today+7). Expired drafts must be removed so the sandbox stays a proposal surface, not a landfill.
+
+Run on every sweep scope (session / blast-radius / full):
+
+```bash
+python - <<'PY'
+import sys, yaml, datetime, shutil
+from pathlib import Path
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+today = datetime.date.today()
+root = Path(".claude/skills/_generated")
+if not root.exists():
+    print("no sandbox; skip")
+    sys.exit(0)
+removed = []
+for skill_md in root.glob("*/SKILL.md"):
+    try:
+        fm = yaml.safe_load(skill_md.read_text(encoding="utf-8").split("---", 2)[1])
+    except Exception as exc:
+        print(f"SKIP {skill_md} (frontmatter parse error: {exc})")
+        continue
+    vu = fm.get("valid_until")
+    if isinstance(vu, datetime.date) and vu < today:
+        shutil.rmtree(skill_md.parent)
+        removed.append((str(skill_md), str(vu)))
+for path, vu in removed:
+    print(f"EXPIRED {path} (valid_until={vu})")
+print(f"removed {len(removed)} expired drafts")
+PY
+```
+
+For each removed draft, append a ledger entry so the audit trail records the lifecycle end:
+
+```bash
+python scripts/resource-ledger.py log "<removed-path>" "0.1.0" "expired" "/sweep expired draft cleanup"
+```
+
+Do NOT remove drafts whose `valid_until` is missing or unparseable — report them under "Needs Manual Review" in Step 6 so the user decides (missing field often indicates hand-edited or malformed skill).
+
+If any drafts were removed, include in the Step 6 report under "Sandbox Cleanup":
+
+```markdown
+### Sandbox Cleanup (.claude/skills/_generated/)
+| Slug | valid_until | Action |
+|------|-------------|--------|
+| extract-svg-to-sprite | 2026-04-25 | removed (expired) |
 ```
 
 ## Auto-Invocation
