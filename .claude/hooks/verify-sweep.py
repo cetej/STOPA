@@ -440,6 +440,66 @@ def main():
         checked += hooks_checked
         failed += hooks_failed
 
+    # 5b. CWD-anchor smoke test — detect hooks that use relative `.claude/memory/...`
+    # paths without establishing SCRIPT_DIR/PROJECT_ROOT first. Such hooks silently
+    # write to nested paths when invoked from a CWD below project root.
+    # Cause: learning 2026-04-16-hook-cwd-anchor-pattern.md.
+    # Anti-pattern (any of these without a surrounding anchor variable):
+    #   Python:  Path("\.claude/...")  or  Path('\.claude/...')
+    #   Bash:    ="\.claude/..."
+    #   Python:  Path.cwd() / relpath  (CWD-dependent)
+    # Anchor signals the file is safe: PROJECT_ROOT | SCRIPT_DIR | _REPO_ROOT
+    # Archive/ skipped. Skip pattern-definition files (trigger-rules.yaml etc.).
+    if _os.environ.get("STOPA_VERIFY_HOOKS") == "1":
+        hooks_dir = PROJECT_ROOT / ".claude/hooks"
+        ANCHOR_TOKENS = ("PROJECT_ROOT", "SCRIPT_DIR", "_REPO_ROOT", "HOOKS_DIR")
+        PY_ANTI = re.compile(r"""Path\s*\(\s*['"]\.claude/|Path\.cwd\(\)""")
+        SH_ANTI = re.compile(r"""=\s*['"]\.claude/memory""")
+        anchor_checked = 0
+        anchor_failed = 0
+        for hook_file in sorted(hooks_dir.rglob("*.py")):
+            if "archive" in hook_file.parts:
+                continue
+            try:
+                content = hook_file.read_text(encoding="utf-8", errors="replace")
+            except OSError:
+                continue
+            anchor_checked += 1
+            if not PY_ANTI.search(content):
+                continue
+            if any(tok in content for tok in ANCHOR_TOKENS):
+                continue
+            anchor_failed += 1
+            violations.append({
+                "timestamp": ts,
+                "source": f"hooks/{hook_file.relative_to(hooks_dir).as_posix()}",
+                "label": "CWD-anchor missing (Python hook)",
+                "check": "Path('.claude/...') or Path.cwd() used without PROJECT_ROOT anchor",
+                "result": "add `PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent`",
+            })
+        for hook_file in sorted(hooks_dir.rglob("*.sh")):
+            if "archive" in hook_file.parts:
+                continue
+            try:
+                content = hook_file.read_text(encoding="utf-8", errors="replace")
+            except OSError:
+                continue
+            anchor_checked += 1
+            if not SH_ANTI.search(content):
+                continue
+            if any(tok in content for tok in ANCHOR_TOKENS):
+                continue
+            anchor_failed += 1
+            violations.append({
+                "timestamp": ts,
+                "source": f"hooks/{hook_file.relative_to(hooks_dir).as_posix()}",
+                "label": "CWD-anchor missing (bash hook)",
+                "check": '=".claude/memory/..." used without SCRIPT_DIR anchor',
+                "result": 'add `SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"`',
+            })
+        checked += anchor_checked
+        failed += anchor_failed
+
     # 6. Log violations
     if violations:
         VIOLATIONS_LOG.parent.mkdir(parents=True, exist_ok=True)
