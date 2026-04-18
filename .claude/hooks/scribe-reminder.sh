@@ -7,9 +7,13 @@
 HOOK_INPUT=$(cat 2>/dev/null || true)
 echo "$HOOK_INPUT" | grep -q '"agent_type"' && exit 0
 
-source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standard
+# Anchor to project root via script location — prevents CWD-dependent reads
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
-STATE=".claude/memory/state.md"
+source "$SCRIPT_DIR/lib/profile-check.sh" 2>/dev/null && require_profile standard
+
+STATE="$PROJECT_ROOT/.claude/memory/state.md"
 
 if [ ! -f "$STATE" ]; then
   exit 0
@@ -28,6 +32,6 @@ TASK="none"
 if [ -f "$STATE" ] && grep -q "## Current Task" "$STATE" 2>/dev/null; then
   TASK=$(grep -m1 '^\*\*Goal\*\*:' "$STATE" 2>/dev/null | sed 's/\*\*Goal\*\*: *//' || echo "none")
 fi
-python .claude/hooks/slack-notify.py session_stop task="$TASK" &
+python "$SCRIPT_DIR/slack-notify.py" session_stop task="$TASK" &
 
 exit 0

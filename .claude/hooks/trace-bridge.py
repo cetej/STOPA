@@ -19,9 +19,10 @@ from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-MARKER_PATH = Path(".claude/memory/intermediate/trace-active.json")
-SESSION_CACHE = Path(".claude/memory/intermediate/session-trace-path")
-SESSION_TRACES_DIR = Path(".traces/sessions")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+MARKER_PATH = PROJECT_ROOT / ".claude/memory/intermediate/trace-active.json"
+SESSION_CACHE = PROJECT_ROOT / ".claude/memory/intermediate/session-trace-path"
+SESSION_TRACES_DIR = PROJECT_ROOT / ".traces/sessions"
 
 
 def get_session_trace_path() -> Path | None:

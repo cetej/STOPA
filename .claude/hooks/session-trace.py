@@ -21,12 +21,13 @@ from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-TRACES_DIR = Path(".traces/sessions")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+TRACES_DIR = PROJECT_ROOT / ".traces/sessions"
 MAX_AGE_DAYS = 14
 READ_ONLY_TOOLS = frozenset({"Read", "Glob", "Grep", "TodoRead"})
 # Skip tools that fire too frequently and add noise
 NOISE_TOOLS = frozenset({"TodoWrite"})
-SESSION_FILE_CACHE = Path(".claude/memory/intermediate/session-trace-path")
+SESSION_FILE_CACHE = PROJECT_ROOT / ".claude/memory/intermediate/session-trace-path"
 
 
 def get_session_path() -> Path:
@@ -66,7 +67,7 @@ def get_session_path() -> Path:
 
 def purge_old_traces():
     """Remove session traces older than MAX_AGE_DAYS. Runs at most once per session."""
-    purge_marker = Path(".claude/memory/intermediate/session-trace-purged")
+    purge_marker = PROJECT_ROOT / ".claude/memory/intermediate/session-trace-purged"
     today = time.strftime("%Y-%m-%d")
 
     # Only purge once per day

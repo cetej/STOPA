@@ -2,7 +2,10 @@
 # SessionStart hook: check memory file sizes and warn if maintenance needed
 # Threshold: 100 lines (warn), 500 lines (circuit breaker per CLAUDE.md)
 
-MEMORY_DIR=".claude/memory"
+# Anchor to project root via script location — prevents CWD-dependent reads/prunes
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+MEMORY_DIR="$PROJECT_ROOT/.claude/memory"
 WARN_THRESHOLD=100
 CRITICAL_THRESHOLD=500
 warnings=""

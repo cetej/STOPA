@@ -44,7 +44,8 @@ if _levels.get(os.environ.get("STOPA_HOOK_PROFILE", "standard"), 2) < _levels.ge
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 sys.stderr.reconfigure(encoding='utf-8', errors='replace')
 
-VIOLATIONS_PATH = Path('.claude/memory/intermediate/violations.jsonl')
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+VIOLATIONS_PATH = PROJECT_ROOT / '.claude/memory/intermediate/violations.jsonl'
 
 # Target projects where skills should NOT be created directly
 TARGET_PROJECTS = {'NG-ROBOT', 'test1', 'ADOBE-AUTOMAT'}

@@ -3,7 +3,10 @@
 # Provides task state, recent learnings, decisions count, news staleness, activity summary
 # Runs after checkpoint-check.sh — complements checkpoint with broader memory context
 
-MEMORY_DIR=".claude/memory"
+# Anchor to project root via script location — prevents CWD-dependent reads
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+MEMORY_DIR="$PROJECT_ROOT/.claude/memory"
 brief=""
 
 # 1. TASK STATE — one-liner if active task exists

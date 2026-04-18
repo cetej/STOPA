@@ -30,11 +30,12 @@ from atomic_utils import atomic_write
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
-MEMORY_DIR = Path(".claude/memory")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+MEMORY_DIR = PROJECT_ROOT / ".claude/memory"
 SUMMARY_PATH = MEMORY_DIR / "intermediate" / "session-summary.json"
 PATTERNS_PATH = MEMORY_DIR / "patterns.md"
 LEARNINGS_DIR = MEMORY_DIR / "learnings"
-SESSION_TRACES_DIR = Path(".traces/sessions")
+SESSION_TRACES_DIR = PROJECT_ROOT / ".traces/sessions"
 
 MIN_ACTIVITY_THRESHOLD = 3  # writes + agents >= 3 to be worth analyzing
 MAX_TRACE_LINES = 200  # max session trace lines to include in analysis

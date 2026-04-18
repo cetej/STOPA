@@ -3,7 +3,10 @@
 # Warns if active task has incomplete subtasks (prevents premature session end)
 # Inspired by oh-my-claudecode's ralph persistence, but as WARNING not blocker.
 
-STATE_FILE=".claude/memory/state.md"
+# Anchor to project root via script location — prevents CWD-dependent reads
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+STATE_FILE="$PROJECT_ROOT/.claude/memory/state.md"
 
 # Skip for subagent Stop events (agent_type present = subagent)
 HOOK_INPUT=$(cat 2>/dev/null || true)

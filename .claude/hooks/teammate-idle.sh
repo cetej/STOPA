@@ -8,8 +8,11 @@
 # 2. Modified skill files — YAML frontmatter presence
 # 3. Uncommitted debug artifacts (print statements, console.log)
 
+# Anchor to project root via script location — prevents CWD-dependent source
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # Profile: standard
-source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standard
+source "$SCRIPT_DIR/lib/profile-check.sh" 2>/dev/null && require_profile standard
 
 FEEDBACK=""
 

@@ -4,10 +4,14 @@
 # .claude/memory/improvement-queue.md — a priority-sorted failure collection point.
 # Injects top items into Claude context as "Improvement Opportunities".
 
-# Profile: standard
-source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standard
+# Anchor to project root via script location — prevents CWD-dependent writes
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
-MEMORY_DIR=".claude/memory"
+# Profile: standard
+source "$SCRIPT_DIR/lib/profile-check.sh" 2>/dev/null && require_profile standard
+
+MEMORY_DIR="$PROJECT_ROOT/.claude/memory"
 CORRECTIONS="$MEMORY_DIR/corrections.jsonl"
 VIOLATIONS="$MEMORY_DIR/violations.jsonl"
 SESSIONS="$MEMORY_DIR/sessions.jsonl"
@@ -24,12 +28,12 @@ if [ "$HAS_DATA" = false ]; then
 fi
 
 # Generate queue via Python — handles JSON parsing and priority scoring
-python3 -c "
+STOPA_MEMORY_DIR="$MEMORY_DIR" python3 -c "
 import json, sys, os
 from datetime import datetime, timedelta
 from collections import Counter
 
-MEMORY = '.claude/memory'
+MEMORY = os.environ['STOPA_MEMORY_DIR']
 now = datetime.now()
 week_ago = now - timedelta(days=7)
 

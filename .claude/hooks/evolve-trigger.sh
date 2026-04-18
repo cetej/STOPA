@@ -6,19 +6,23 @@
 #   b) Any violation recurring in 3+ distinct sessions
 #   c) More than 10 sessions since last /evolve run
 
-# Profile: standard
-source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standard
+# Anchor to project root via script location — prevents CWD-dependent reads
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
-MEMORY_DIR=".claude/memory"
+# Profile: standard
+source "$SCRIPT_DIR/lib/profile-check.sh" 2>/dev/null && require_profile standard
+
+MEMORY_DIR="$PROJECT_ROOT/.claude/memory"
 CORRECTIONS="$MEMORY_DIR/corrections.jsonl"
 EVOLUTION_LOG="$MEMORY_DIR/evolution-log.md"
 SESSIONS="$MEMORY_DIR/sessions.jsonl"
 
-python3 -c "
+STOPA_MEMORY_DIR="$MEMORY_DIR" python3 -c "
 import json, os, re, sys
 from datetime import datetime
 
-MEMORY = '.claude/memory'
+MEMORY = os.environ['STOPA_MEMORY_DIR']
 reasons = []
 
 # Check a: corrections with times_corrected >= 3

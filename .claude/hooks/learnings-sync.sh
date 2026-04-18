@@ -4,13 +4,17 @@
 # 1. Copies critical/high severity learnings to ~/.claude/memory/cross-project-learnings.md
 # 2. Auto-rebuilds component indexes and block manifest when stale
 
+# Anchor to project root via script location — prevents CWD-dependent reads
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
 # Profile: standard
-source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standard
+source "$SCRIPT_DIR/lib/profile-check.sh" 2>/dev/null && require_profile standard
 
 TOOL_INPUT="${CLAUDE_TOOL_INPUT:-}"
 GLOBAL_FILE="$HOME/.claude/memory/cross-project-learnings.md"
-MANIFEST=".claude/memory/learnings/block-manifest.json"
-INDEX_SCRIPT="scripts/build-component-indexes.py"
+MANIFEST="$PROJECT_ROOT/.claude/memory/learnings/block-manifest.json"
+INDEX_SCRIPT="$PROJECT_ROOT/scripts/build-component-indexes.py"
 
 # Only trigger on writes to learnings/ directory
 if ! echo "$TOOL_INPUT" | grep -q "learnings/"; then
@@ -56,7 +60,7 @@ if [ -f "$INDEX_SCRIPT" ]; then
     if [ "$NEEDS_REBUILD" = true ]; then
         python "$INDEX_SCRIPT" > /dev/null 2>&1
         # Also rebuild concept graph for hybrid retrieval (LLM Wiki v2 integration)
-        python .claude/hooks/lib/associative_engine.py build > /dev/null 2>&1
+        python "$SCRIPT_DIR/lib/associative_engine.py" build > /dev/null 2>&1
         echo "[LEARNINGS-SYNC] Rebuilt component indexes, block manifest, and concept graph"
     fi
 fi

@@ -20,7 +20,8 @@ from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-MARKER_PATH = Path(".claude/memory/intermediate/trace-active.json")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+MARKER_PATH = PROJECT_ROOT / ".claude/memory/intermediate/trace-active.json"
 MAX_INPUT_SNIPPET = 500
 MAX_OUTPUT_SNIPPET = 2000
 MAX_MARKER_AGE_S = 4 * 3600  # 4 hours — auto-expire stale markers

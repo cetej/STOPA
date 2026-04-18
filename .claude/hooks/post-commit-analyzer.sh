@@ -3,8 +3,11 @@
 # Hook event: PostToolUse (matcher: Bash, command contains "git commit")
 # Checks for: breaking changes, security risks, API surface changes
 
+# Anchor to project root via script location — prevents CWD-dependent source
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # Profile: standard
-source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standard
+source "$SCRIPT_DIR/lib/profile-check.sh" 2>/dev/null && require_profile standard
 
 TOOL_INPUT="${CLAUDE_TOOL_INPUT:-}"
 

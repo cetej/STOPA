@@ -19,8 +19,9 @@ sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
 # --- Config ---
-OUTCOMES_DIR = Path(".claude/memory/outcomes")
-SUMMARY_FILE = Path(".claude/memory/outcomes-summary.json")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+OUTCOMES_DIR = PROJECT_ROOT / ".claude/memory/outcomes"
+SUMMARY_FILE = PROJECT_ROOT / ".claude/memory/outcomes-summary.json"
 MAX_OUTCOMES = 100  # archive threshold
 
 # Outcome detection patterns (conservative: prefer no-write over wrong-write)
@@ -232,7 +233,7 @@ def _record_failure_inline(skill: str, outcome: str, exit_reason: str, one_line:
     Simplified version of failure-recorder.py logic — creates a minimal failure record
     so the failures/ directory actually gets populated.
     """
-    failures_dir = Path(".claude/memory/failures")
+    failures_dir = PROJECT_ROOT / ".claude/memory/failures"
     failures_dir.mkdir(parents=True, exist_ok=True)
 
     # Map exit_reason to failure_class

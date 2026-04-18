@@ -28,7 +28,8 @@ if _levels.get(os.environ.get('STOPA_HOOK_PROFILE', 'standard'), 2) < _levels.ge
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
-MEMORY_DIR = Path(".claude/memory")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+MEMORY_DIR = PROJECT_ROOT / ".claude/memory"
 STATE_PATH = MEMORY_DIR / "state.md"
 ACTIVITY_LOG = MEMORY_DIR / "activity-log.md"
 LEARNINGS_DIR = MEMORY_DIR / "learnings"

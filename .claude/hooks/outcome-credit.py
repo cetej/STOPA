@@ -15,8 +15,9 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 OUTCOMES_DIR = "memory/outcomes/"
-LEARNINGS_DIR = Path(".claude/memory/learnings")
+LEARNINGS_DIR = PROJECT_ROOT / ".claude/memory/learnings"
 
 
 def parse_frontmatter(content: str) -> dict:

@@ -14,7 +14,8 @@ from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-MEMORY_DIR = Path(".claude/memory")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+MEMORY_DIR = PROJECT_ROOT / ".claude/memory"
 
 
 def main() -> None:

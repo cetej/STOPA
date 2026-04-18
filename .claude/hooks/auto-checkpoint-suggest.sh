@@ -2,11 +2,15 @@
 # PostToolUse hook (matcher: Write|Edit): Suggest checkpoint when task is 70%+ complete
 # Advisory only — debounced to max 1 suggestion per 30 minutes.
 
-# Profile: standard
-source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile standard
+# Anchor to project root via script location — prevents CWD-dependent reads
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
-STATE_FILE=".claude/memory/state.md"
-CHECKPOINT_FILE=".claude/memory/checkpoint.md"
+# Profile: standard
+source "$SCRIPT_DIR/lib/profile-check.sh" 2>/dev/null && require_profile standard
+
+STATE_FILE="$PROJECT_ROOT/.claude/memory/state.md"
+CHECKPOINT_FILE="$PROJECT_ROOT/.claude/memory/checkpoint.md"
 MARKER="/tmp/stopa-checkpoint-suggested"
 
 # Skip if no state file

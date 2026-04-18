@@ -25,9 +25,10 @@ from atomic_utils import atomic_write
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
-LEARNINGS_DIR = Path(".claude/memory/learnings")
-VIOLATIONS_LOG = Path(".claude/memory/violations.jsonl")
-CRITICAL_PATTERNS = Path(".claude/memory/learnings/critical-patterns.md")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+LEARNINGS_DIR = PROJECT_ROOT / ".claude/memory/learnings"
+VIOLATIONS_LOG = PROJECT_ROOT / ".claude/memory/violations.jsonl"
+CRITICAL_PATTERNS = PROJECT_ROOT / ".claude/memory/learnings/critical-patterns.md"
 
 
 # ---------------------------------------------------------------------------
@@ -218,7 +219,7 @@ def main():
     current_model = _os.environ.get("ANTHROPIC_MODEL", "")
     if not current_model:
         try:
-            _settings = json.loads(Path(".claude/settings.json").read_text(encoding="utf-8"))
+            _settings = json.loads((PROJECT_ROOT / ".claude/settings.json").read_text(encoding="utf-8"))
             current_model = _settings.get("model", "")
         except Exception:
             pass
@@ -240,7 +241,7 @@ def main():
                 pass
 
     # 2. Scan skill bodies for stale file references
-    skills_dir = Path(".claude/skills")
+    skills_dir = PROJECT_ROOT / ".claude/skills"
     # Files that skills CREATE at runtime — not expected to exist beforehand
     RUNTIME_CREATED = {
         "implementation-plan.md", "scratchpad.md", "codebase-map.md",
@@ -337,7 +338,7 @@ def main():
     # Gated by STOPA_VERIFY_SKILL_FRONTMATTER=1 — emits ~63 violations on full audit
     import os as _os
     if _os.environ.get("STOPA_VERIFY_SKILL_FRONTMATTER") == "1":
-        skills_dir = Path(".claude/skills")
+        skills_dir = PROJECT_ROOT / ".claude/skills"
         if skills_dir.exists():
             for skill_dir in sorted(skills_dir.iterdir()):
                 if not skill_dir.is_dir():
@@ -385,7 +386,7 @@ def main():
         import importlib.util
         import py_compile
         import tempfile
-        hooks_dir = Path(".claude/hooks")
+        hooks_dir = PROJECT_ROOT / ".claude/hooks"
         SKIP_EXACT = {
             "associative_engine.py", "learning_embedder.py", "profile_check.py",
             "project_guard.py", "sidecar_queue.py", "error_classifier.py",
@@ -438,6 +439,66 @@ def main():
                 pass  # Other errors (IOError etc.) = hook works but needs input
         checked += hooks_checked
         failed += hooks_failed
+
+    # 5b. CWD-anchor smoke test — detect hooks that use relative `.claude/memory/...`
+    # paths without establishing SCRIPT_DIR/PROJECT_ROOT first. Such hooks silently
+    # write to nested paths when invoked from a CWD below project root.
+    # Cause: learning 2026-04-16-hook-cwd-anchor-pattern.md.
+    # Anti-pattern (any of these without a surrounding anchor variable):
+    #   Python:  Path("\.claude/...")  or  Path('\.claude/...')
+    #   Bash:    ="\.claude/..."
+    #   Python:  Path.cwd() / relpath  (CWD-dependent)
+    # Anchor signals the file is safe: PROJECT_ROOT | SCRIPT_DIR | _REPO_ROOT
+    # Archive/ skipped. Skip pattern-definition files (trigger-rules.yaml etc.).
+    if _os.environ.get("STOPA_VERIFY_HOOKS") == "1":
+        hooks_dir = PROJECT_ROOT / ".claude/hooks"
+        ANCHOR_TOKENS = ("PROJECT_ROOT", "SCRIPT_DIR", "_REPO_ROOT", "HOOKS_DIR")
+        PY_ANTI = re.compile(r"""Path\s*\(\s*['"]\.claude/|Path\.cwd\(\)""")
+        SH_ANTI = re.compile(r"""=\s*['"]\.claude/memory""")
+        anchor_checked = 0
+        anchor_failed = 0
+        for hook_file in sorted(hooks_dir.rglob("*.py")):
+            if "archive" in hook_file.parts:
+                continue
+            try:
+                content = hook_file.read_text(encoding="utf-8", errors="replace")
+            except OSError:
+                continue
+            anchor_checked += 1
+            if not PY_ANTI.search(content):
+                continue
+            if any(tok in content for tok in ANCHOR_TOKENS):
+                continue
+            anchor_failed += 1
+            violations.append({
+                "timestamp": ts,
+                "source": f"hooks/{hook_file.relative_to(hooks_dir).as_posix()}",
+                "label": "CWD-anchor missing (Python hook)",
+                "check": "Path('.claude/...') or Path.cwd() used without PROJECT_ROOT anchor",
+                "result": "add `PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent`",
+            })
+        for hook_file in sorted(hooks_dir.rglob("*.sh")):
+            if "archive" in hook_file.parts:
+                continue
+            try:
+                content = hook_file.read_text(encoding="utf-8", errors="replace")
+            except OSError:
+                continue
+            anchor_checked += 1
+            if not SH_ANTI.search(content):
+                continue
+            if any(tok in content for tok in ANCHOR_TOKENS):
+                continue
+            anchor_failed += 1
+            violations.append({
+                "timestamp": ts,
+                "source": f"hooks/{hook_file.relative_to(hooks_dir).as_posix()}",
+                "label": "CWD-anchor missing (bash hook)",
+                "check": '=".claude/memory/..." used without SCRIPT_DIR anchor',
+                "result": 'add `SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"`',
+            })
+        checked += anchor_checked
+        failed += anchor_failed
 
     # 6. Log violations
     if violations:

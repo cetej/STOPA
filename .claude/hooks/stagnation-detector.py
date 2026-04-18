@@ -45,16 +45,17 @@ from atomic_utils import atomic_write
 
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
-STATE_PATH = Path('.claude/memory/intermediate/stagnation-state.json')
-EPISODES_PATH = Path('.claude/memory/intermediate/stagnation-episodes.jsonl')
+PROJECT_ROOT = _hook_dir.parent.parent
+STATE_PATH = PROJECT_ROOT / '.claude/memory/intermediate/stagnation-state.json'
+EPISODES_PATH = PROJECT_ROOT / '.claude/memory/intermediate/stagnation-episodes.jsonl'
 
-# TSV result files from iterative skills
+# TSV result files from iterative skills (relative glob patterns kept as strings)
 TSV_PATTERNS = [
-    '.claude/memory/intermediate/autoloop-results.tsv',
-    '.claude/memory/intermediate/autoresearch-results.tsv',
+    str(PROJECT_ROOT / '.claude/memory/intermediate/autoloop-results.tsv'),
+    str(PROJECT_ROOT / '.claude/memory/intermediate/autoresearch-results.tsv'),
 ]
 # Optstate files for velocity tracking
-OPTSTATE_DIR = Path('.claude/memory/optstate')
+OPTSTATE_DIR = PROJECT_ROOT / '.claude/memory/optstate'
 
 # Thresholds
 CONSECUTIVE_DISCARD_YELLOW = 3
@@ -226,7 +227,7 @@ def find_active_tsv() -> Path | None:
             candidates.append((p.stat().st_mtime, p))
 
     # Also check for any *-results.tsv in intermediate/
-    intermediate = Path('.claude/memory/intermediate')
+    intermediate = PROJECT_ROOT / '.claude/memory/intermediate'
     if intermediate.exists():
         for f in intermediate.glob('*-results.tsv'):
             if f not in [c[1] for c in candidates]:

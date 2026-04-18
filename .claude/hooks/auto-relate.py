@@ -15,9 +15,10 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
-LEARNINGS_DIR = Path(".claude/memory/learnings")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+LEARNINGS_DIR = PROJECT_ROOT / ".claude/memory/learnings"
 MANIFEST_PATH = LEARNINGS_DIR / "block-manifest.json"
-WIKI_PENDING = Path(".claude/memory/intermediate/wiki-pending.json")
+WIKI_PENDING = PROJECT_ROOT / ".claude/memory/intermediate/wiki-pending.json"
 MAX_RELATED = 3
 MIN_SCORE = 0.3
 

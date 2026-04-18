@@ -24,10 +24,11 @@ from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-LEARNINGS_DIR = Path(".claude/memory/learnings")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+LEARNINGS_DIR = PROJECT_ROOT / ".claude/memory/learnings"
 CRITICAL_PATTERNS = LEARNINGS_DIR / "critical-patterns.md"
-ARCHIVE_DIR = Path(".claude/memory/learnings-archive")
-USES_LEDGER = Path(".claude/memory/intermediate/uses-ledger.json")
+ARCHIVE_DIR = PROJECT_ROOT / ".claude/memory/learnings-archive"
+USES_LEDGER = PROJECT_ROOT / ".claude/memory/intermediate/uses-ledger.json"
 MAX_CRITICAL = 10
 
 SKIP_FILES = frozenset({
