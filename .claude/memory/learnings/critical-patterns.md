@@ -12,7 +12,7 @@ last_confirmed: 2026-04-18
 
 ## 2. Skill Description = Trigger Only
 Skill `description` field MUST be trigger conditions + exclusions ONLY. Never summarize workflow or list steps — tested by obra/superpowers: workflow summaries cause Claude to shortcut instead of reading the full skill body.
-verify: Grep("description: Use when|description: >\\s*Use when", path=".claude/skills/", glob="*/SKILL.md") → 25+ matches
+verify: Grep("description:[ \"'>\\-]*Use when", path=".claude/skills/", glob="*/SKILL.md") → 40+ matches
 last_confirmed: 2026-04-18
 
 ## 3. Prompts vs Hooks — Suggestion vs Law
