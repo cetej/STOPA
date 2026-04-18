@@ -10,6 +10,13 @@ Combines up to four retrieval signals:
 Signal 4 triggers only when local signals return <2 results AND tier >= standard.
 MemPalace results are injected as virtual learnings with source tag "mempalace".
 
+Reranker boosts applied to fused scores:
+  - Maturity boost (core=1.3, validated=1.1, draft=1.0)
+  - Mentions boost (Zep-inspired, arXiv:2501.13956): log-dampened boost based on
+    how many concept-graph entities reference this learning file. Hub files
+    (central to knowledge graph) get up to +20% boost. Generic entities with
+    >20 learning_files are excluded as noise.
+
 RRF formula: score = Σ 1 / (k + rank_i),  k=60
 
 Usage:
@@ -59,6 +66,58 @@ class RankedFile:
     rrf_score: float = 0.0
     sources: list[str] = field(default_factory=list)
     mempalace_content: str | None = None  # verbatim snippet from MemPalace
+    mentions_boost: float = 1.0  # multiplier from concept-graph mentions reranker
+
+
+# ── Mentions reranker (Zep-inspired, arXiv:2501.13956) ─────────────────
+# Module-level cache — graph loaded once per process.
+_MENTIONS_INDEX: dict[str, int] | None = None
+_MENTIONS_MAX_FILES = 20  # entities with more learning_files than this = noise
+
+
+def _build_mentions_index() -> dict[str, int]:
+    """Build reverse index: filename → count of entities that reference it.
+
+    Excludes overly generic entities (>20 learning_files) as noise — those are
+    index/meta concepts that appear everywhere and carry no discriminative signal.
+    """
+    global _MENTIONS_INDEX
+    if _MENTIONS_INDEX is not None:
+        return _MENTIONS_INDEX
+
+    graph_path = STOPA_ROOT / ".claude" / "memory" / "concept-graph.json"
+    if not graph_path.exists():
+        _MENTIONS_INDEX = {}
+        return _MENTIONS_INDEX
+
+    try:
+        graph = json.loads(graph_path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        _MENTIONS_INDEX = {}
+        return _MENTIONS_INDEX
+
+    index: dict[str, int] = {}
+    for entity_data in graph.get("entities", {}).values():
+        learning_files = entity_data.get("learning_files", [])
+        if len(learning_files) > _MENTIONS_MAX_FILES:
+            continue  # skip generic/noise entities
+        for lf in learning_files:
+            index[lf] = index.get(lf, 0) + 1
+
+    _MENTIONS_INDEX = index
+    return _MENTIONS_INDEX
+
+
+def _mentions_boost(filename: str) -> float:
+    """Return log-dampened boost multiplier based on entity mention count.
+
+    Files referenced by many concept-graph entities are 'hubs' in the knowledge
+    graph. Max boost +20% at count >= 20. No penalty for low counts.
+    """
+    count = _build_mentions_index().get(filename, 0)
+    if count <= 0:
+        return 1.0
+    return 1.0 + min(0.2, math.log1p(count) / math.log1p(20) * 0.2)
 
 
 # ── Signal 1: Grep-first (keyword match in YAML frontmatter) ────────────
@@ -306,7 +365,7 @@ def fuse_rrf(
         if rf.mempalace_rank is not None:
             score += 1.0 / (RRF_K + rf.mempalace_rank)
 
-        # Apply maturity boost (local files only — virtual mp: entries skip)
+        # Apply maturity + mentions boost (local files only — virtual mp: entries skip)
         if not rf.filename.startswith("mp:"):
             fp = LEARNINGS_DIR / rf.filename
             try:
@@ -314,6 +373,8 @@ def fuse_rrf(
                 score *= _maturity_boost(head)
             except OSError:
                 pass
+            rf.mentions_boost = _mentions_boost(rf.filename)
+            score *= rf.mentions_boost
 
         rf.rrf_score = score
 
@@ -393,7 +454,8 @@ def hybrid_search(
         print(f"[RRF] {len(fused)} fused results:")
         for rf in fused:
             extra = f" [{rf.mempalace_content[:60]}...]" if rf.mempalace_content else ""
-            print(f"  {rf.rrf_score:.5f} [{'+'.join(rf.sources)}] {rf.filename}{extra}")
+            mb = f" m×{rf.mentions_boost:.2f}" if rf.mentions_boost != 1.0 else ""
+            print(f"  {rf.rrf_score:.5f} [{'+'.join(rf.sources)}]{mb} {rf.filename}{extra}")
 
     return fused
 
@@ -435,6 +497,7 @@ def main():
                 "bm25_rank": rf.bm25_rank,
                 "graph_rank": rf.graph_rank,
                 "mempalace_rank": rf.mempalace_rank,
+                "mentions_boost": round(rf.mentions_boost, 3),
             }
             if rf.mempalace_content:
                 entry["mempalace_snippet"] = rf.mempalace_content[:300]
