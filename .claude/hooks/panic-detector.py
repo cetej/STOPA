@@ -479,7 +479,12 @@ def main() -> None:
             state['mutations_since_red'] = 0
             log_episode(score, 'red', signals, summary, task_style)
 
-        elif score >= yellow_threshold and (now - last_ts) > YELLOW_COOLDOWN_S:
+        elif (score >= yellow_threshold
+              and any(s.startswith(('bash_fails', 'edit_fail_cycle')) for s in signals)
+              and (now - last_ts) > YELLOW_COOLDOWN_S):
+            # Yellow requires a failure-based signal — edit_velocity + scope_creep alone
+            # is just productive bulk work, not panic (eliminates false positives on
+            # multi-file edit bursts without any failures).
             edits = sum(1 for e in state['window'] if e['tool'] in MUTATION_TOOLS)
             fails = sum(1 for e in state['window']
                         if not e.get('success', True) and not e.get('excluded'))
