@@ -37,11 +37,15 @@ if os.path.isfile(corrections_file):
             except (json.JSONDecodeError, KeyError):
                 continue
 
-# Check b: violations in 3+ sessions (count unique dates)
+# Check b: violations in 3+ distinct recent days (last 7 days)
+# Fix 2026-04-18: previous version counted raw occurrences (e.g. 21× same violation
+# from one day = false '21 times' alarm). Now: key → set of unique YYYY-MM-DD dates,
+# filtered to last 7 days so resolved violations age out naturally.
 violations_file = os.path.join(MEMORY, 'violations.jsonl')
 if os.path.isfile(violations_file):
-    from collections import Counter
-    violation_dates = Counter()
+    from datetime import timedelta
+    cutoff = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d')
+    violation_days: dict[str, set[str]] = {}
     with open(violations_file, 'r', encoding='utf-8', errors='replace') as f:
         for line in f:
             line = line.strip()
@@ -49,15 +53,17 @@ if os.path.isfile(violations_file):
                 continue
             try:
                 entry = json.loads(line)
-                key = f\"{entry.get('source', '')}:{entry.get('label', '')}\"
                 date = entry.get('timestamp', '')[:10]
-                violation_dates[key] += 1
+                if not date or date < cutoff:
+                    continue
+                key = f\"{entry.get('source', '')}:{entry.get('label', '')}\"
+                violation_days.setdefault(key, set()).add(date)
             except (json.JSONDecodeError, KeyError):
                 continue
 
-    for key, count in violation_dates.items():
-        if count >= 3:
-            reasons.append(f'Violation recurring {count} times: {key}')
+    for key, days in violation_days.items():
+        if len(days) >= 3:
+            reasons.append(f'Violation recurring on {len(days)} distinct days (last 7d): {key}')
             break
 
 # Check c: sessions since last /evolve
