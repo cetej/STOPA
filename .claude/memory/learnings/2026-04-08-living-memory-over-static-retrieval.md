@@ -6,11 +6,11 @@ component: memory
 tags: [memory, retrieval, agent-memory, living-memory, static-rag, evolution]
 summary: "Living memory (evolving + compressed trajectories) beats static RAG by +31% avg across 11 benchmarks. Traditional long-context accumulation can underperform even no-memory baselines — more stored context ≠ better performance."
 source: external_research
-uses: 1
+uses: 4
 successful_uses: 0
 harmful_uses: 0
-confidence: 1.0
-related: [2026-03-30-write-time-gating-salience.md, 2026-04-08-recency-beats-complex-memory.md]
+confidence: 1.00
+related: [2026-03-30-write-time-gating-salience.md, 2026-04-08-recency-beats-complex-memory.md, 2026-04-18-mc-checkpoint-caching-retrieval-pattern.md]
 verify_check: "manual"
 ---
 
@@ -21,3 +21,5 @@ MIA (arXiv:2604.04503) demonstrates that memory systems must evolve, not just ac
 **Key implication for STOPA**: STOPA's write-time gating (filter before storing) is validated. Static accumulation of all trajectories is counterproductive. The memory-architecture.md rule "write-time gating over read-time filtering" has empirical backing from MIA's finding that long-context RAG collapses at high distractor ratios.
 
 **Practical rule**: When designing STOPA memory for a new agent, prefer compressed trajectory storage with evolution hooks over append-only history. Recency + quality filtering > completeness.
+
+> Updated 2026-04-18: MC (arXiv:2602.24281) formalizes STOPA's checkpoint→hybrid-retrieve pipeline as O(NL) interpolation, providing theoretical backing for GRM-style query-dependent gating — the mechanism MIA calls "evolution hooks" has a tractable complexity model.

@@ -6,11 +6,12 @@ component: skill
 tags: [compact-variant, measurement, SKILL0, gap]
 summary: "GAP: No measurement data on SKILL.compact.md effectiveness — claimed ~80% token reduction and ~7% size, but no actual before/after data collected. Need baseline measurement protocol."
 source: auto_pattern
-uses: 1
+uses: 3
 harmful_uses: 0
-confidence: 1.0
+confidence: 1.00
 verify_check: manual
 successful_uses: 0
+valid_until: 2026-04-17
 ---
 
 ## Knowledge Gap: Compact Variant Effectiveness Measurement

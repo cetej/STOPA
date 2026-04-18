@@ -9,7 +9,7 @@ source: auto_pattern
 uses: 1
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.8
+confidence: 0.9
 verify_check: "Glob('.claude/hooks/*.py') → 1+ matches"
 related: [2026-04-16-hook-cwd-anchor-pattern.md]
 ---

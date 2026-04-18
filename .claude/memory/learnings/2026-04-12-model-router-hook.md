@@ -9,7 +9,7 @@ source: auto_pattern
 uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.95
+confidence: 1.0
 skill_scope: [orchestrate]
 verify_check: "Glob('.claude/hooks/model-router.py') → 1+ matches"
 ---

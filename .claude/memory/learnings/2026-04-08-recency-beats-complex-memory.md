@@ -6,10 +6,11 @@ component: memory
 tags: [context, recency, sliding-window, memory-design, retrieval]
 summary: "Simple sliding-window recency (last N items) matches/beats complex memory accumulation in time-sensitive tasks. More history can hurt real-time perception even when it helps recall."
 source: external_research
-uses: 1
+uses: 3
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.85
+confidence: 1.00
+related: [2026-04-18-retrieval-depth-knob-complexity-interpolation.md, 2026-04-08-living-memory-over-static-retrieval.md]
 verify_check: "manual"
 ---
 
@@ -24,3 +25,5 @@ SimpleStream (arXiv:2604.02317) shows that feeding only the N most recent items 
 - History-dominant (research, debugging, refactoring) → retrieval-augmented memory (BM25, hybrid)
 
 **Tradeoff**: Adding more history improves recall metrics but degrades real-time perception metrics. Design context loading to match task type, not to maximize total context loaded.
+
+> Updated 2026-04-18: MC complexity model (arXiv:2602.24281) provides formal backing — tier=light (grep only) = O(1) access = N=1 segment config. Recency-dominant tasks map to the lowest complexity tier, confirming this learning's rule with theoretical grounding.

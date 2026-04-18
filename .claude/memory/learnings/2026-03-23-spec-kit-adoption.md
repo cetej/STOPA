@@ -7,7 +7,7 @@ tags: [competitive-analysis, spec-kit, constitution, handoff]
 uses: 1
 summary: "spec-kit patterns worth adopting: constitution files, structured handoffs, role separation. Already partially in STOPA."
 source: external_research
-confidence: 0.9
+confidence: 1.0
 ---
 
 ## Problém

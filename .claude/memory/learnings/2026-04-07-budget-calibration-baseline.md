@@ -6,10 +6,10 @@ component: orchestration
 tags: [budget, calibration, cost-tracking, measurement]
 summary: "Budget calibration baseline: 7 historical tasks analyzed, no actual cost data available. Proposed measurement protocol using ccusage + session tagging."
 source: auto_pattern
-uses: 1
+uses: 2
 harmful_uses: 0
 successful_uses: 0
-confidence: 1.0
+confidence: 1.00
 supersedes: 2026-04-04-gap-budget-calibration.md
 verify_check: "Grep('Measurement Protocol', path='.claude/memory/learnings/2026-04-07-budget-calibration-baseline.md') → 1+ matches"
 ---

@@ -9,7 +9,7 @@ source: external_research
 uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.9
+confidence: 1.0
 maturity: draft
 related: [2026-04-01-autocompact-threshold.md, 2026-04-14-prompt-cache-ttl-5min.md]
 verify_check: "manual"

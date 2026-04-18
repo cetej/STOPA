@@ -9,7 +9,7 @@ source: external_research
 uses: 2
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.9
+confidence: 1.0
 maturity: draft
 skill_scope: [critic]
 related: [2026-04-13-judge-panel-size-convergence.md]

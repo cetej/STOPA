@@ -9,7 +9,7 @@ source: auto_pattern
 uses: 1
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.9
+confidence: 1.0
 verify_check: "Grep('hooks', path='.claude/settings.json') → 1+ matches"
 ---
 

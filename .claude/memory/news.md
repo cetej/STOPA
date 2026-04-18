@@ -267,8 +267,15 @@ Older: see `news-archive.md`
 | 2026-04-17 | [ACTION] | CC Desktop App Redesign: parallel sessions sidebar, drag-and-drop layout, integrated terminal, in-app file editor, rebuilt diff viewer, preview pane (HTML/PDF/local server) | high | No | morning-watch |
 | 2026-04-17 | [ACTION] | Claude Opus 4.7 GA: 3× visual resolution, nová xhigh reasoning úroveň, Task Budgets mechanismus, stejná cena $5/$25 per MTok jako Opus 4.6 | high | No | morning-watch |
 
+| 2026-04-18 | [ACTION] | AgentForge: Execution-Grounded Multi-Agent LLM Framework for Autonomous SE (arXiv:2604.13120) — Planner/Coder/Tester/Debugger/Critic agenti + Docker sandbox dosahují 40% SWE-bench Lite, o 26-28 bodů více než single-agent baseline | high | No | arxiv-daily-digest |
+| 2026-04-18 | [WATCH] | CoMAS: Co-Evolving Multi-Agent Systems via Interaction Rewards (arXiv:2510.08529) — agenti se zlepšují bez externího dohledu pomocí RL z meziagenturních interakcí bez reward modelů | medium | No | arxiv-daily-digest |
+| 2026-04-18 | [WATCH] | The Orchestration of Multi-Agent Systems: Architectures, Protocols, and Enterprise Adoption (arXiv:2601.13671) — enterprise survey: governance layer je nejslabší a nejméně standardizovaná část cross-platform orchestrace | medium | No | arxiv-daily-digest |
+| 2026-04-18 | [WATCH] | Emulating RAG via Prompt Engineering for Enhanced Long Context Comprehension (arXiv:2502.12462) — emulace RAG v jediném forward pass přes CoT prompt engineering bez retrieval pipeline; 2-3× úspora kontextu | medium | No | arxiv-daily-digest |
+| 2026-04-18 | [WATCH] | Rethinking Agent-Generated Tests for LLM-Based SE Agents (arXiv:2602.07900) — hodnotí hodnotu agent-generovaných testů jako zpětné vazby pro LLM coding agenty; kritizuje závislost na vlastní verifikaci | medium | No | arxiv-daily-digest |
+
 ### Scan History
 
+### 2026-04-18 — arxiv-daily-digest | Searches: 4 | Items: 1 action, 4 watch — AgentForge (arXiv:2604.13120), CoMAS (arXiv:2510.08529), Orchestration MAS Survey (arXiv:2601.13671), Emulating RAG (arXiv:2502.12462), Agent Tests (arXiv:2602.07900)
 ### 2026-04-17 — morning-watch | Searches: 2 | Items: 3 action — CC Routines, CC Desktop Redesign, Opus 4.7 GA
 ### 2026-04-17 — arxiv-daily-digest | Searches: 4 | Items: 1 action, 4 watch — RL Skill Library (arXiv:2512.17102), Context Kubernetes (arXiv:2604.11623), MAE Self-Improve (arXiv:2510.23595), Agentic RAG Survey (arXiv:2501.09136), Agentic SE Survey (arXiv:2601.09822)
 ### 2026-04-16 — arxiv-daily-digest | Searches: 4 | Items: 2 action, 3 watch — Context Engineering Multi-Agent (arXiv:2603.09619), Smart MAS Middleware (arXiv:2604.03430), Adaptive Orchestration MoE (arXiv:2601.09742), MCP Planner-Executor (arXiv:2604.07681), Conformal RAG (arXiv:2511.17908)
