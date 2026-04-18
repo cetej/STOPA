@@ -2,7 +2,9 @@
 created: 2026-04-18
 topic: Autogenesis R3 follow-up — graduation loop + uses counter
 prerequisite_commit: 2097d35
-status: ready-to-start
+status: completed
+completed: 2026-04-18
+completed_commit: e8df4f6
 supersedes: handoff-autogenesis-r3.md
 ---
 
