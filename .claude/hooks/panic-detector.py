@@ -52,9 +52,11 @@ sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 STATE_PATH = Path('.claude/memory/intermediate/panic-state.json')
 EPISODES_PATH = Path('.claude/memory/intermediate/panic-episodes.jsonl')
 SESSION_MARKER = Path('.claude/memory/intermediate/.session-pid')
+TASK_STATE_PATH = Path('.claude/memory/state.md')
 
 WINDOW_SIZE = 20
 YELLOW_THRESHOLD = 4
+YELLOW_THRESHOLD_STRUCTURED = 6  # +2 for structured tasks — Cognitive Companion (arXiv:2604.13759): monitoring hurts structured tasks
 RED_THRESHOLD = 7
 YELLOW_COOLDOWN_S = 180   # 3 minutes
 RED_COOLDOWN_S = 300      # 5 minutes
@@ -116,6 +118,37 @@ def save_state(state: dict[str, Any]) -> None:
     atomic_write(STATE_PATH, json.dumps(state, indent=2))
 
 
+def read_task_style() -> str:
+    """Read current task_style from state.md YAML frontmatter.
+
+    Returns 'structured' | 'exploratory' | 'unknown'.
+    Cognitive Companion (arXiv:2604.13759): parallel monitoring is neutral/negative
+    on structured tasks — gate yellow interventions accordingly.
+    """
+    if not TASK_STATE_PATH.exists():
+        return 'unknown'
+    try:
+        with open(TASK_STATE_PATH, 'r', encoding='utf-8', errors='replace') as f:
+            in_frontmatter = False
+            for line in f:
+                line = line.rstrip()
+                if line == '---':
+                    if in_frontmatter:
+                        break
+                    in_frontmatter = True
+                    continue
+                if not in_frontmatter:
+                    continue
+                if line.startswith('task_style:'):
+                    value = line.split(':', 1)[1].strip().strip('"\'')
+                    if value in ('structured', 'exploratory'):
+                        return value
+                    return 'unknown'
+    except OSError:
+        pass
+    return 'unknown'
+
+
 def read_recent_violations(since_seconds: int = 300) -> dict[str, Any]:
     """Read violations.jsonl and summarize recent entries for self_report field.
 
@@ -170,7 +203,8 @@ def read_recent_violations(since_seconds: int = 300) -> dict[str, Any]:
     return result
 
 
-def log_episode(score: int, level: str, signals: list[str], summary: str) -> None:
+def log_episode(score: int, level: str, signals: list[str], summary: str,
+                task_style: str = 'unknown') -> None:
     """Append episode to JSONL log with self-incrimination data."""
     self_report = read_recent_violations(since_seconds=300)
 
@@ -181,6 +215,7 @@ def log_episode(score: int, level: str, signals: list[str], summary: str) -> Non
         'trigger_signals': signals,
         'window_summary': summary,
         'self_report': self_report,
+        'task_style': task_style,
     }
     EPISODES_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(EPISODES_PATH, 'a', encoding='utf-8') as f:
@@ -413,6 +448,13 @@ def main() -> None:
         now = time.time()
         summary = format_window_summary(state['window'])
 
+        # Task-style gating: structured tasks get higher yellow threshold
+        # (Cognitive Companion, arXiv:2604.13759: monitoring hurts structured tasks).
+        task_style = read_task_style()
+        yellow_threshold = (YELLOW_THRESHOLD_STRUCTURED
+                            if task_style == 'structured'
+                            else YELLOW_THRESHOLD)
+
         # Check cooldowns and emit intervention
         last_ts = state.get('last_intervention_ts') or 0
         message = None
@@ -435,9 +477,9 @@ def main() -> None:
             state['last_intervention_ts'] = now
             state['last_red_ts'] = now
             state['mutations_since_red'] = 0
-            log_episode(score, 'red', signals, summary)
+            log_episode(score, 'red', signals, summary, task_style)
 
-        elif score >= YELLOW_THRESHOLD and (now - last_ts) > YELLOW_COOLDOWN_S:
+        elif score >= yellow_threshold and (now - last_ts) > YELLOW_COOLDOWN_S:
             edits = sum(1 for e in state['window'] if e['tool'] in MUTATION_TOOLS)
             fails = sum(1 for e in state['window']
                         if not e.get('success', True) and not e.get('excluded'))
@@ -450,7 +492,7 @@ def main() -> None:
             )
             state['yellow_injections'] = state.get('yellow_injections', 0) + 1
             state['last_intervention_ts'] = now
-            log_episode(score, 'yellow', signals, summary)
+            log_episode(score, 'yellow', signals, summary, task_style)
 
         # Escalation: red was injected but ignored
         elif (state.get('last_red_ts')

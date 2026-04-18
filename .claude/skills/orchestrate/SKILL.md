@@ -460,6 +460,7 @@ Also write the plan to `.claude/memory/state.md`. Include **both** YAML frontmat
 task_id: <kebab-case-id>
 goal: "<goal>"
 type: <feature|bugfix|refactor|research|maintenance>
+task_style: <exploratory|structured>
 status: in_progress
 branch: <git branch>
 subtasks:
