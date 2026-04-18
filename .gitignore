@@ -7,6 +7,8 @@
 .claude/memory/permission-log.md
 .claude/memory/intermediate/
 .claude/plans/
+# tool-synth sandbox — drafts live here until graduated via /evolve
+.claude/skills/_generated/
 .playwright-mcp/
 .traces/
 

@@ -407,6 +407,7 @@ Based on scout results:
 1. **Decompose** the task into subtasks
 2. **Identify dependencies** between subtasks (what blocks what)
 3. **Classify each subtask**: known pattern → skill; new repeatable → create skill; one-off complex → Agent; one-off simple → direct
+   - **Skill-miss hook (Autogenesis R3)**: if no existing skill fits the subtask (semantic search over `.claude/skills/` and `.claude/skills/_generated/` scores all matches < 0.4), invoke `/tool-synth "<subtask description>"` to synthesize a sandbox draft. On SYNTHESIZED, the returned `/<slug>` is usable immediately for this subtask. On REJECT (duplicate, ambiguous, invariant fail), fall back to raw Agent. Never call `/tool-synth` from within `/tool-synth` — max-depth 1 enforces this.
 3a. **Atomic skill routing** (arXiv:2604.05013 — bugfix tasks benefit from decomposition into atomic skills):
    - If type=`bugfix` AND no existing test covers the bug → insert `/reproduce` subtask BEFORE the fix subtask (Wave N, fix in Wave N+1)
    - If type=`bugfix` AND fix subtask uses `/fix-issue` → `/reproduce` output (failing test path) feeds as input to fix-issue
