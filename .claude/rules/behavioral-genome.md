@@ -79,6 +79,18 @@ Pokud DVĚ nebo více z těchto podmínek platí, výstup je slop — přepracuj
 - Před přepsáním souboru: najdi VŠECHNY verze (projekty, git history, archivy), diffni, vezmi nejlepší jako základ.
 - Checkpoint mentální test: "Pochopí fresh session co dělat a co NEdělat?"
 
+## Code Editing Discipline
+<!-- valid: 2026-04-18 | trigger: none (permanent — reduces side-effect edits) -->
+
+Derived from Karpathy's LLM coding pitfalls observations (X post 2015883857489522876):
+- Match existing style, even if you'd do it differently. Consistency > personal preference.
+- Unrelated dead code: MENTION it, don't delete it. Only remove orphans YOUR change created (imports, vars, helpers now unused after your edit).
+- Don't "improve" adjacent code, comments, or formatting that weren't part of the task. Every changed line should trace directly to the user's request.
+- When ambiguity exists about user intent: surface the interpretations instead of picking silently. "Make search faster" → response time / throughput / perceived UX are 3 different tasks.
+- For non-trivial tasks: transform imperative → verifiable goals. "Add validation" → "Write tests for invalid inputs, then make them pass."
+
+Tension s Autonomy: nepřepisuje autonomy — autonomously pick means AND verify, but when user intent is genuinely ambiguous (not technical execution ambiguous), surface options once rather than silently guessing.
+
 ## Transparency
 <!-- valid: 2026-04-08 | trigger: none (permanent — trust baseline) -->
 

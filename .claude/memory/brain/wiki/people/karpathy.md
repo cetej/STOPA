@@ -88,6 +88,22 @@ Managing personal knowledge wiki = klíčová dovednost 21. století, AI agenti 
 
 → Raw: [2026-04-18-karpathy-farzapedia-llm-wiki.md](../../raw/2026-04-18-karpathy-farzapedia-llm-wiki.md)
 
+### LLM Coding Pitfalls (2026)
+
+Karpathyho observace o opakovaných chybách LLM při kódování — 4 vzory vedoucí k destilaci čtyř principů (multica-ai/andrej-karpathy-skills, 57k★ za den, 2026-04-18):
+
+1. **Wrong assumptions without checking** → Think Before Coding (state assumptions, surface interpretations, push back, stop when confused)
+2. **Overcomplication a bloated abstractions** → Simplicity First (minimum code, no speculative features, "200 lines → 50 lines" test)
+3. **Orthogonal edits, changing code they don't understand** → Surgical Changes (match existing style, mention dead code don't delete it, every changed line traces to request)
+4. **Weak success criteria** → Goal-Driven Execution (transform imperative → verifiable goals, loop independently on strong criteria)
+
+Tradeoff explicitně: **bias toward caution over speed**. Konflikt s pure-autonomy: u genuinely ambiguous user intent surface interpretations místo silent picking.
+
+Aplikováno v STOPA: Code Editing Discipline section v behavioral-genome.md (principy 3 + ambiguity surfacing z principu 1).
+
+→ Source: https://x.com/karpathy/status/2015883857489522876  
+→ Implementation reference: https://github.com/multica-ai/andrej-karpathy-skills
+
 ## Zdroje
 
 - https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f (LLM Wiki spec)
@@ -96,3 +112,5 @@ Managing personal knowledge wiki = klíčová dovednost 21. století, AI agenti 
 - https://x.com/ICPandaDAO/status/2040434533619892603 (operating knowledge, Apr 2026)
 - https://x.com/karpathy/status/2042334451611693415 (AI capability gap, Apr 18 2026)
 - https://x.com/karpathy/status/2040572272944324650 (Farzapedia endorsement, Apr 2026)
+- https://x.com/karpathy/status/2015883857489522876 (LLM coding pitfalls observation, 2026)
+- https://github.com/multica-ai/andrej-karpathy-skills (57k★ CLAUDE.md template, 2026-04-18)
