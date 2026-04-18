@@ -139,3 +139,7 @@ Pruned to last 100 entries by memory-maintenance.sh.
 - 2026-04-18 23:50 | Edit | SKILL.compact.md | exit=0
 - 2026-04-18 23:50 | Edit | SKILL.compact.md | exit=0
 - 2026-04-18 23:50 | Edit | SKILL.compact.md | exit=0
+- 2026-04-19 00:18 | Edit | reference_agent_architecture_papers.md | exit=0
+- 2026-04-19 00:20 | Edit | reference_claude_platform.md | exit=0
+- 2026-04-19 00:23 | Edit | reference_agent_architecture_papers.md | exit=0
+- 2026-04-19 00:26 | Write | 2026-04-19-multica-curated-vs-similarity.md | exit=0

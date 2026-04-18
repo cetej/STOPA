@@ -1,31 +1,31 @@
 # Session Checkpoint
 
-**Saved**: 2026-04-18 (auto-saved (session end))
+**Saved**: 2026-04-19 (auto-saved (session end))
 **Task**: none
 **Branch**: main
-**Last commit**: `9fbc593` chore(memory): prune 117 stale allowlisted violations, regen improvement-queue
+**Last commit**: `a05a406` chore(sync): mirror SEPL labels to commands/autoresearch + commands/autoreason
 
 ---
 
 ## Session Activity
 
-Session: 114 file edits, 5 agent spawns, 8 skill calls. Skills: ingest
-Duration: ~31198 min
+Session: 128 file edits, 5 agent spawns, 8 skill calls. Skills: ingest
+Duration: ~31241 min
 
 ## Files Touched
 
 | File | Operations | Date |
 |------|-----------|------|
-| INDEX.md | 11 edits | 2026-04-18 |
-| panic-detector.py | 7 edits | 2026-04-18 |
-| skill-design.md | 4 edits | 2026-04-18 |
-| orchestration-resilience.md | 4 edits | 2026-04-18 |
-| orchestration-iteration.md | 4 edits | 2026-04-18 |
-| orchestration-infrastructure.md | 4 edits | 2026-04-18 |
-| memory-architecture.md | 4 edits | 2026-04-18 |
-| hyperframes.md | 4 edits | 2026-04-18 |
-| SKILL.md | 4 edits | 2026-04-18 |
-| critical-patterns.md | 3 edits | 2026-04-18 |
+| INDEX.md | 11 edits | 2026-04-19 |
+| SKILL.md | 10 edits | 2026-04-19 |
+| panic-detector.py | 7 edits | 2026-04-19 |
+| skill-design.md | 4 edits | 2026-04-19 |
+| orchestration-resilience.md | 4 edits | 2026-04-19 |
+| orchestration-iteration.md | 4 edits | 2026-04-19 |
+| orchestration-infrastructure.md | 4 edits | 2026-04-19 |
+| memory-architecture.md | 4 edits | 2026-04-19 |
+| hyperframes.md | 4 edits | 2026-04-19 |
+| SKILL.compact.md | 4 edits | 2026-04-19 |
 
 ## Key Results
 
@@ -41,12 +41,8 @@ _No commits this session_
 
 ## Learnings Captured
 
-learnings_this_session: 20
-  - 2026-04-18-autogenesis-protocol
-  - 2026-04-18-bad-compact-direction-unpredictability
-  - 2026-04-18-cc-graduated-compaction-5layer
-  - 2026-04-18-cc-sidechain-transcript-isolation
-  - 2026-04-18-context-rot-absolute-threshold
+learnings_this_session: 1
+  - 2026-04-19-multica-curated-vs-similarity
 
 ## Workflow Decisions
 
@@ -63,7 +59,7 @@ _No pending subtasks detected in state.md_
 
 > **Task**: none
 >
-> **Context**: Last commit `9fbc593` (chore(memory): prune 117 stale allowlisted violations, regen improvement-queue). Branch: main.
-> Session had 114 edits, 5 agents, 8 skill calls, 0 errors.
+> **Context**: Last commit `a05a406` (chore(sync): mirror SEPL labels to commands/autoresearch + commands/autoreason). Branch: main.
+> Session had 128 edits, 5 agents, 8 skill calls, 0 errors.
 
 
