@@ -41,8 +41,9 @@ try:
 except ImportError:
     sys.exit(0)
 
-ACTIVITY_LOG = Path(".claude/memory/activity-log.md")
-TRACE_MARKER = Path(".claude/memory/intermediate/trace-active.json")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+ACTIVITY_LOG = PROJECT_ROOT / ".claude/memory/activity-log.md"
+TRACE_MARKER = PROJECT_ROOT / ".claude/memory/intermediate/trace-active.json"
 
 # Hebbian learning constants
 SESSION_EDGE_BOOST = 0.5       # Weight boost for session co-occurrence

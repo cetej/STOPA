@@ -26,7 +26,8 @@ if _levels.get(os.environ.get('STOPA_HOOK_PROFILE', 'standard'), 2) < _levels.ge
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
-CORRECTIONS_LOG = Path(".claude/memory/corrections.jsonl")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+CORRECTIONS_LOG = PROJECT_ROOT / ".claude/memory/corrections.jsonl"
 
 # Correction signal patterns — Czech + English
 # Ordered from most specific to most general to reduce false positives
@@ -186,7 +187,7 @@ def generate_eval_case(summary: str, prompt_snippet: str, times: int) -> str | N
     - eval.md: check that the bad behavior is NOT repeated
     Returns the case directory path, or None if generation failed.
     """
-    evals_dir = Path(".claude/evals")
+    evals_dir = PROJECT_ROOT / ".claude/evals"
 
     # Infer component from correction keywords
     component = "general"

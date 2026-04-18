@@ -22,7 +22,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent / "scripts"))
 from atomic_utils import atomic_write
 
-QUEUE_PATH = Path(".claude/memory/intermediate/sidecar-queue.json")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+QUEUE_PATH = PROJECT_ROOT / ".claude/memory/intermediate/sidecar-queue.json"
 
 
 def _read_queue() -> list[dict]:

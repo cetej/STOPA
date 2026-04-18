@@ -16,8 +16,9 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 OUTCOMES_DIR = "memory/outcomes/"
-FAILURES_DIR = Path(".claude/memory/failures")
+FAILURES_DIR = PROJECT_ROOT / ".claude/memory/failures"
 MAX_FAILURES = 50
 
 # --- ASI-Evolve Structured Diagnostics (arXiv:2603.29640) ---

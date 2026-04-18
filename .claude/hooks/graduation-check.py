@@ -23,9 +23,10 @@ from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-LEARNINGS_DIR = Path(".claude/memory/learnings")
-CANDIDATES_PATH = Path(".claude/memory/intermediate/graduation-candidates.md")
-CRITICAL_PATTERNS = Path(".claude/memory/learnings/critical-patterns.md")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+LEARNINGS_DIR = PROJECT_ROOT / ".claude/memory/learnings"
+CANDIDATES_PATH = PROJECT_ROOT / ".claude/memory/intermediate/graduation-candidates.md"
+CRITICAL_PATTERNS = PROJECT_ROOT / ".claude/memory/learnings/critical-patterns.md"
 
 # Files to skip
 SKIP_FILES = frozenset({

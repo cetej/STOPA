@@ -17,7 +17,8 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
-PERF_FILE = Path(".claude/memory/optstate/model-routing.json")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+PERF_FILE = PROJECT_ROOT / ".claude/memory/optstate/model-routing.json"
 
 
 def classify_subtask(prompt: str) -> str:

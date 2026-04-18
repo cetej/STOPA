@@ -19,8 +19,9 @@ if _levels.get(os.environ.get("STOPA_HOOK_PROFILE", "standard"), 2) < _levels.ge
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from sidecar_queue import enqueue
 
-STATE_FILE = Path(".claude/memory/state.md")
-CHECKPOINT_FILE = Path(".claude/memory/checkpoint.md")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+STATE_FILE = PROJECT_ROOT / ".claude/memory/state.md"
+CHECKPOINT_FILE = PROJECT_ROOT / ".claude/memory/checkpoint.md"
 MARKER = Path("/tmp/stopa-checkpoint-suggested")
 
 

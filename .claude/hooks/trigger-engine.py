@@ -28,6 +28,7 @@ sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
 HOOKS_DIR = Path(__file__).parent
+PROJECT_ROOT = HOOKS_DIR.parent.parent
 MEMORY_DIR = HOOKS_DIR.parent / "memory"
 STATE_FILE = HOOKS_DIR / "trigger-state.json"
 RULES_FILE = HOOKS_DIR / "trigger-rules.yaml"
@@ -293,7 +294,7 @@ def evaluate_file_age(condition: dict) -> tuple[bool, str]:
     """Check if a file is older than max_age_days."""
     filepath = Path(condition.get("file", ""))
     if not filepath.is_absolute():
-        filepath = Path.cwd() / filepath
+        filepath = PROJECT_ROOT / filepath
     max_age = condition.get("max_age_days", 3)
 
     if not filepath.exists():
@@ -375,7 +376,7 @@ def evaluate_gap_count(condition: dict) -> tuple[bool, str]:
     source = condition.get("source_file", ".claude/memory/capability-gaps.md")
     threshold = condition.get("same_pattern_threshold", 3)
 
-    filepath = Path.cwd() / source
+    filepath = PROJECT_ROOT / source
     if not filepath.exists():
         return False, ""
 
@@ -725,7 +726,7 @@ def main():
         elif action_type == "append_file":
             target = action.get("target", "")
             if target:
-                target_path = Path.cwd() / target
+                target_path = PROJECT_ROOT / target
                 try:
                     with open(target_path, "a", encoding="utf-8") as f:
                         f.write(f"\n| {datetime.now().strftime('%Y-%m-%d')} | {context} | 1 | open | — |\n")

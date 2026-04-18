@@ -24,8 +24,9 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
-REGISTRY_PATH = Path(".claude/memory/intermediate/skill-permissions.json")
-ACTIVE_SKILL_PATH = Path(".claude/memory/intermediate/active-skill.json")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+REGISTRY_PATH = PROJECT_ROOT / ".claude/memory/intermediate/skill-permissions.json"
+ACTIVE_SKILL_PATH = PROJECT_ROOT / ".claude/memory/intermediate/active-skill.json"
 
 # Gate mode: warn (default), enforce, off
 GATE_MODE = os.environ.get("STOPA_TOOL_GATE", "warn").lower()

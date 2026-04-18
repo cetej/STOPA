@@ -35,8 +35,10 @@ MAX_ACTIVATED = 15
 CONTEXT_PACKET_MAX_TOKENS = 1200
 RECENCY_LAMBDA = 0.03  # half-life ~23 days
 
-GRAPH_PATH = Path(".claude/memory/concept-graph.json")
-LEARNINGS_DIR = Path(".claude/memory/learnings")
+# lib/ is one extra level deep: .claude/hooks/lib/ → project root needs four .parent hops
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
+GRAPH_PATH = PROJECT_ROOT / ".claude/memory/concept-graph.json"
+LEARNINGS_DIR = PROJECT_ROOT / ".claude/memory/learnings"
 
 # Entity name noise filters (from hippocampus)
 SKIP_PREFIXES = ("/Users/", "/tmp/", "/private/", "/var/",

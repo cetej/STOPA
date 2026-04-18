@@ -30,14 +30,15 @@ if _levels.get(os.environ.get('STOPA_HOOK_PROFILE', 'standard'), 2) < _levels.ge
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-MEMORY_DIR = Path(".claude/memory")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+MEMORY_DIR = PROJECT_ROOT / ".claude/memory"
 ACTIVITY_LOG = MEMORY_DIR / "activity-log.md"
 PENDING_PATH = MEMORY_DIR / "intermediate" / "pending-capture.json"
 LAST_CAPTURE_PATH = MEMORY_DIR / "intermediate" / "last-capture-ts"
 
 DEBOUNCE_SECONDS = 120  # minimum time between captures
 MIN_OPS_SINCE_CAPTURE = 5  # minimum significant ops to trigger capture
-CAPTURE_SCRIPT = Path(".claude/hooks/mid-session-extract.py")
+CAPTURE_SCRIPT = PROJECT_ROOT / ".claude/hooks/mid-session-extract.py"
 
 
 def count_recent_ops() -> int:

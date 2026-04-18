@@ -25,8 +25,9 @@ from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-USES_LEDGER = Path(".claude/memory/intermediate/uses-ledger.json")
-IMPACT_LEDGER = Path(".claude/memory/intermediate/impact-ledger.json")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+USES_LEDGER = PROJECT_ROOT / ".claude/memory/intermediate/uses-ledger.json"
+IMPACT_LEDGER = PROJECT_ROOT / ".claude/memory/intermediate/impact-ledger.json"
 
 
 def extract_critic_result(output: str) -> str | None:

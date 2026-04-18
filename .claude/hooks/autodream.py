@@ -28,9 +28,9 @@ from atomic_utils import atomic_write
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
-LEARNINGS_DIR = Path(".claude/memory/learnings")
+LEARNINGS_DIR = _REPO_ROOT / ".claude/memory/learnings"
 ARCHIVE_DIR = LEARNINGS_DIR / "archive"
-REPORT_PATH = Path(".claude/memory/intermediate/autodream-report.json")
+REPORT_PATH = _REPO_ROOT / ".claude/memory/intermediate/autodream-report.json"
 
 # Confidence defaults by source (from memory-files.md rules)
 SOURCE_DEFAULTS: dict[str, float] = {

@@ -24,7 +24,8 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
-LEARNINGS_DIR = Path(".claude/memory/learnings")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+LEARNINGS_DIR = PROJECT_ROOT / ".claude/memory/learnings"
 
 # Gate mode: soft (warn) or hard (block on critical violations)
 GATE_MODE = os.environ.get("STOPA_ADMISSION_GATE", "soft")

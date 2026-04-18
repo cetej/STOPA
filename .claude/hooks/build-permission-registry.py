@@ -15,9 +15,10 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
-SKILLS_DIR = Path(".claude/skills")
-COMMANDS_DIR = Path(".claude/commands")
-OUTPUT = Path(".claude/memory/intermediate/skill-permissions.json")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+SKILLS_DIR = PROJECT_ROOT / ".claude/skills"
+COMMANDS_DIR = PROJECT_ROOT / ".claude/commands"
+OUTPUT = PROJECT_ROOT / ".claude/memory/intermediate/skill-permissions.json"
 
 
 def parse_yaml_list(value: str) -> list[str]:

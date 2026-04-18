@@ -25,9 +25,10 @@ from atomic_utils import atomic_write
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
-LEARNINGS_DIR = Path(".claude/memory/learnings")
-VIOLATIONS_LOG = Path(".claude/memory/violations.jsonl")
-CRITICAL_PATTERNS = Path(".claude/memory/learnings/critical-patterns.md")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+LEARNINGS_DIR = PROJECT_ROOT / ".claude/memory/learnings"
+VIOLATIONS_LOG = PROJECT_ROOT / ".claude/memory/violations.jsonl"
+CRITICAL_PATTERNS = PROJECT_ROOT / ".claude/memory/learnings/critical-patterns.md"
 
 
 # ---------------------------------------------------------------------------
@@ -218,7 +219,7 @@ def main():
     current_model = _os.environ.get("ANTHROPIC_MODEL", "")
     if not current_model:
         try:
-            _settings = json.loads(Path(".claude/settings.json").read_text(encoding="utf-8"))
+            _settings = json.loads((PROJECT_ROOT / ".claude/settings.json").read_text(encoding="utf-8"))
             current_model = _settings.get("model", "")
         except Exception:
             pass
@@ -240,7 +241,7 @@ def main():
                 pass
 
     # 2. Scan skill bodies for stale file references
-    skills_dir = Path(".claude/skills")
+    skills_dir = PROJECT_ROOT / ".claude/skills"
     # Files that skills CREATE at runtime — not expected to exist beforehand
     RUNTIME_CREATED = {
         "implementation-plan.md", "scratchpad.md", "codebase-map.md",
@@ -337,7 +338,7 @@ def main():
     # Gated by STOPA_VERIFY_SKILL_FRONTMATTER=1 — emits ~63 violations on full audit
     import os as _os
     if _os.environ.get("STOPA_VERIFY_SKILL_FRONTMATTER") == "1":
-        skills_dir = Path(".claude/skills")
+        skills_dir = PROJECT_ROOT / ".claude/skills"
         if skills_dir.exists():
             for skill_dir in sorted(skills_dir.iterdir()):
                 if not skill_dir.is_dir():
@@ -385,7 +386,7 @@ def main():
         import importlib.util
         import py_compile
         import tempfile
-        hooks_dir = Path(".claude/hooks")
+        hooks_dir = PROJECT_ROOT / ".claude/hooks"
         SKIP_EXACT = {
             "associative_engine.py", "learning_embedder.py", "profile_check.py",
             "project_guard.py", "sidecar_queue.py", "error_classifier.py",

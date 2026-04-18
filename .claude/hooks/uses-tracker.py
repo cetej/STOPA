@@ -14,7 +14,8 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
-LEDGER_PATH = Path(".claude/memory/intermediate/uses-ledger.json")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+LEDGER_PATH = PROJECT_ROOT / ".claude/memory/intermediate/uses-ledger.json"
 LEARNINGS_DIR = "learnings/"
 
 # Files that are indexes, not actual learnings

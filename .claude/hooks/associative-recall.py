@@ -30,7 +30,8 @@ try:
 except ImportError:
     sys.exit(0)  # Engine not available — skip silently
 
-GRAPH_PATH = Path(".claude/memory/concept-graph.json")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+GRAPH_PATH = PROJECT_ROOT / ".claude/memory/concept-graph.json"
 # Token budget for associative recall (separate from memory-whisper's 1500)
 # Total injection should be <2500 tokens combined
 ASSOC_TOKEN_BUDGET = 800

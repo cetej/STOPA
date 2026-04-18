@@ -49,10 +49,11 @@ except ImportError:
 
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
-STATE_PATH = Path('.claude/memory/intermediate/panic-state.json')
-EPISODES_PATH = Path('.claude/memory/intermediate/panic-episodes.jsonl')
-SESSION_MARKER = Path('.claude/memory/intermediate/.session-pid')
-TASK_STATE_PATH = Path('.claude/memory/state.md')
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+STATE_PATH = PROJECT_ROOT / '.claude/memory/intermediate/panic-state.json'
+EPISODES_PATH = PROJECT_ROOT / '.claude/memory/intermediate/panic-episodes.jsonl'
+SESSION_MARKER = PROJECT_ROOT / '.claude/memory/intermediate/.session-pid'
+TASK_STATE_PATH = PROJECT_ROOT / '.claude/memory/state.md'
 
 WINDOW_SIZE = 20
 YELLOW_THRESHOLD = 4
@@ -158,7 +159,7 @@ def read_recent_violations(since_seconds: int = 300) -> dict[str, Any]:
     Inspired by arXiv:2602.22303: combining self-incrimination with
     external monitoring reduces undetected attacks to 5.1%.
     """
-    violations_path = Path('.claude/memory/intermediate/violations.jsonl')
+    violations_path = PROJECT_ROOT / '.claude/memory/intermediate/violations.jsonl'
     result: dict[str, Any] = {
         'invariant_violations': [],
         'self_disclosures': [],

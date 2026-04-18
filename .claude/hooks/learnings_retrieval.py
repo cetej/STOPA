@@ -17,7 +17,8 @@ from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-LEARNINGS_DIR = Path(".claude/memory/learnings")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+LEARNINGS_DIR = PROJECT_ROOT / ".claude/memory/learnings"
 
 # Synonym map: keyword -> related terms to retry on zero grep results
 # Covers the most common semantic gaps in STOPA learnings
