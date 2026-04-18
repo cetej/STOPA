@@ -1,5 +1,5 @@
 {
-  "call_count": 10869,
+  "call_count": 10934,
   "has_todo": true,
   "edit_file_set": [
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\capability-gaps.md",
@@ -723,10 +723,11 @@
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\unruffled-tereshkova-6f82de\\scripts\\scribe-maintenance.py",
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\wiki\\orchestration-resilience.md",
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\wiki\\skill-design.md",
-    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\epic-wilbur-cdfb17\\.claude\\memory\\learnings\\2026-04-18-panic-detector-requires-failure-signal.md"
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\epic-wilbur-cdfb17\\.claude\\memory\\learnings\\2026-04-18-panic-detector-requires-failure-signal.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\worktrees\\jovial-aryabhata-4bf94e\\.claude\\hooks\\checkpoint-check.sh"
   ],
   "last_edit_was_py": false,
-  "grep_count": 3551,
-  "last_suggestion_ts": 1776548431.865701,
+  "grep_count": 3578,
+  "last_suggestion_ts": 1776548744.341334,
   "skill_count": 68
 }

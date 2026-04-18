@@ -6,10 +6,10 @@ component: session
 tags: [context-management, compaction, compact, session-management]
 summary: "Bad compacts happen when the model can't predict the next task direction — content outside the session's dominant theme gets dropped. Fix — trigger /compact proactively with an explicit direction hint before the topic changes."
 source: external_research
-uses: 0
+uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.9
+confidence: 0.95
 maturity: draft
 related: [2026-04-01-autocompact-threshold.md, 2026-04-14-compact-timing-60pct.md]
 verify_check: "manual"

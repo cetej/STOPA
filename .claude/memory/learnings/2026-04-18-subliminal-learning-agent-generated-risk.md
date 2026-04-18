@@ -5,7 +5,7 @@ type: anti_pattern
 severity: high
 component: memory
 tags: [safety, agent-generated, model-gate, tool-synth, distillation, subliminal]
-summary: Paper prokázal, že LLM přenášejí behavioral traits (včetně misalignmentu) přes sémanticky nesouvisející data — number sequences, code — i po filtrování. Transfer funguje jen mezi stejnou base model family. Implikace pro STOPA. (1) `source: agent_generated` learnings (0.8× weight) mohou nést subliminální traits z generujícího modelu — samotné sémantické filtrování je nedostatečné. (2) `model_gate:` field by měl být povinný pro agent_generated learnings, ne jen pro model-specific workaroundy. (3) tool-synth generované skills dědí traits base modelu — cross-model použití může přenášet nežádoucí chování.
+summary: "Paper prokázal, že LLM přenášejí behavioral traits (včetně misalignmentu) přes sémanticky nesouvisející data — number sequences, code — i po filtrování. Transfer funguje jen mezi stejnou base model family. Implikace pro STOPA — (1) source agent_generated learnings (0.8× weight) mohou nést subliminální traits z generujícího modelu, samotné sémantické filtrování je nedostatečné. (2) model_gate field by měl být povinný pro agent_generated learnings, ne jen pro model-specific workaroundy. (3) tool-synth generované skills dědí traits base modelu — cross-model použití může přenášet nežádoucí chování."
 source: external_research
 uses: 0
 successful_uses: 0

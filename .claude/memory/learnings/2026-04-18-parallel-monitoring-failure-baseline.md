@@ -6,10 +6,10 @@ component: orchestration
 tags: [monitoring, circuit-breaker, failure-rates, benchmark]
 summary: "Empirical baseline for parallel monitoring — LLM agents fail up to 30% on hard multi-step tasks via reasoning degradation (loops/drift/stuck). Parallel monitor achieves 52-62% repetition reduction at ~11% overhead. Justifies STOPA's panic-detector investment."
 source: external_research
-uses: 0
+uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.7
+confidence: 0.75
 maturity: draft
 verify_check: "manual"
 skill_scope: [orchestrate]

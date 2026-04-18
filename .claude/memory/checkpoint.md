@@ -3,14 +3,14 @@
 **Saved**: 2026-04-18 (auto-saved (session end))
 **Task**: none
 **Branch**: main
-**Last commit**: `8a03f91` chore(memory): tail — activity log + checkpoint + advisor state + 1 learning counter
+**Last commit**: `1fb3eaa` chore(memory): session tail — activity log, checkpoint, concept-graph, 2 learning counters
 
 ---
 
 ## Session Activity
 
-Session: 112 file edits, 5 agent spawns, 8 skill calls. Skills: ingest
-Duration: ~31197 min
+Session: 114 file edits, 5 agent spawns, 8 skill calls. Skills: ingest
+Duration: ~31198 min
 
 ## Files Touched
 
@@ -61,10 +61,9 @@ _No pending subtasks detected in state.md_
 
 ## Resume Prompt
 
-> **Task**: **Phase 3: Měřitelný feedback loop** (watch → ingest → actionable learnings)
+> **Task**: none
 >
-> **Context**: Last commit `8a03f91 chore(memory): tail — activity log + checkpoint + advisor state + 1 learning counter`. Branch: main.
-> Most-edited files: `.claude/hooks/session-summary.sh` (1x), `.claude/hooks/outcome-writer.py` (1x), `.claude/settings.json` (1x), `.claude/archive/skills/` (1x), `.claude/archive/commands/` (1x).
-> Session: 7 files touched, 7 total edits.
->
-> **Resume**: Pokračuj v úkolu "**Phase 3: Měřitelný feedback loop** (watch → ingest → actionable learnings)". Zkontroluj state.md pro detaily.
+> **Context**: Last commit `1fb3eaa` (chore(memory): session tail — activity log, checkpoint, concept-graph, 2 learning counters). Branch: main.
+> Session had 114 edits, 5 agents, 8 skill calls, 0 errors.
+
+
