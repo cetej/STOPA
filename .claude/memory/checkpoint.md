@@ -3,14 +3,14 @@
 **Saved**: 2026-04-18 (auto-saved (session end))
 **Task**: none
 **Branch**: main
-**Last commit**: `ba23464` docs(handoff): detailed follow-up brief for signal-pipeline session
+**Last commit**: `5d2c89f` fix(permissions): consolidate GitHub MCP allowlist to wildcard
 
 ---
 
 ## Session Activity
 
-Session: 134 file edits, 9 agent spawns, 6 skill calls. Skills: deepresearch, dreams, ingest, less-permission-prompts, radar, update-config
-Duration: ~30387 min
+Session: 153 file edits, 9 agent spawns, 9 skill calls. Skills: compile, deepresearch, dreams, ingest, less-permission-prompts, radar, schedule, update-config
+Duration: ~30423 min
 
 ## Files Touched
 
@@ -18,14 +18,14 @@ Duration: ~30387 min
 |------|-----------|------|
 | watchlist.md | 10 edits | 2026-04-18 |
 | permission-auto-approve.sh | 10 edits | 2026-04-18 |
-| settings.json | 7 edits | 2026-04-18 |
+| settings.json | 8 edits | 2026-04-18 |
 | SKILL.md | 6 edits | 2026-04-18 |
+| knowledge-graph.json | 5 edits | 2026-04-18 |
+| index.md | 5 edits | 2026-04-18 |
+| inbox.md | 5 edits | 2026-04-18 |
 | hybrid-retrieve.py | 5 edits | 2026-04-18 |
-| knowledge-graph.json | 4 edits | 2026-04-18 |
-| verify-sweep.py | 3 edits | 2026-04-18 |
-| index.md | 3 edits | 2026-04-18 |
-| inbox.md | 3 edits | 2026-04-18 |
-| 2026-04-18-hook-import-path-silent-blockage.md | 3 edits | 2026-04-18 |
+| INDEX.md | 5 edits | 2026-04-18 |
+| memory-architecture.md | 4 edits | 2026-04-18 |
 
 ## Key Results
 
@@ -62,7 +62,13 @@ _No pending subtasks detected in state.md_
 
 > **Task**: none
 >
-> **Context**: Last commit `ba23464` (docs(handoff): detailed follow-up brief for signal-pipeline session). Branch: main.
-> Session had 134 edits, 9 agents, 6 skill calls, 0 errors.
+> **Context**: Last commit `5d2c89f` (fix(permissions)). Follow-up 1 + 2 z 2026-04-16 auditu DONE. Workspace_validator archivován. /compile incremental +4 learnings. 34 brain/raw captures archivovány do processed/. Branch: main.
+>
+> **⏰ GATED: /evolve #15 — spustit 2026-04-20 nebo později**
+> Signal pipeline fix (`6b425ef`) z 2026-04-18 04:00 potřebuje 48h na akumulaci dat.
+> Čeká se na: `uses-ledger.json` (byl `{}`), `corrections.jsonl` plnění, `panic-episodes.jsonl` růst.
+> Plán: Run /evolve (cyklus #15), porovnej s 2026-04-18 baseline, zapiš do evolution-log.md.
+> Red flags (pipeline stále broken): uses-ledger prázdný po 48h, corrections.jsonl 0 entries (a user měl korekce), žádné nové panic episodes po high-edit session.
+> Detail: `.claude/memory/handoff-2026-04-18-signal-pipeline.md` sekce Follow-up 3.
 
 
