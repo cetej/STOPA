@@ -1,0 +1,46 @@
+# Composition Rules — Proactive Skill Sequences (Session D / Phase 4b)
+# Fired by trigger-engine.py when a matching skill outcome is written to outcomes/.
+#
+# Boundary rule: NEVER include destructive skills.
+# Forbidden: fix-issue, autofix, git push, git commit, koder (writes code autonomously)
+# Allowed: analysis, verification, synthesis, capture, checkpoint
+
+compositions:
+  - name: "Post-research synthesis"
+    description: "After deepresearch succeeds, synthesize results into knowledge base"
+    trigger:
+      skill: deepresearch
+      outcome: success
+    sequence:
+      - "/ingest"
+      - "/compile --incremental"
+      - "/scribe research-complete"
+    budget_cap: 0.5
+    cooldown: 24h
+    enabled: true
+
+  - name: "Failure recovery"
+    description: "After any logic failure, guide structured debugging"
+    trigger:
+      skill: "*"
+      outcome: failure
+      failure_class: logic
+    sequence:
+      - "/reproduce"
+      - "/systematic-debugging"
+    budget_cap: 1.0
+    cooldown: 12h
+    enabled: true
+
+  - name: "Post-build verification"
+    description: "After build-project succeeds, verify quality and save state"
+    trigger:
+      skill: build-project
+      outcome: success
+    sequence:
+      - "/critic"
+      - "/verify"
+      - "/checkpoint save"
+    budget_cap: 0.5
+    cooldown: 0h
+    enabled: true

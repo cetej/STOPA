@@ -5,14 +5,19 @@ Trigger Intelligence Engine — PostToolUse hook.
 Evaluates ECA (Event-Condition-Action) rules from trigger-rules.yaml
 when writes happen to outcomes/ or learnings/ directories.
 
+Also evaluates composition-rules.yaml for proactive skill sequence injection
+when outcome events match composition triggers.
+
 Max trigger depth = 1 (no cascading triggers).
 Max 3 triggers per session.
 Cooldown per-rule + per-context via trigger-state.json.
 Log fires to trigger-log.jsonl.
+Log composition fires to composition-log.jsonl.
 """
 
 import json
 import os
+import re
 import sys
 import time
 from datetime import datetime, timedelta, timezone
@@ -27,6 +32,14 @@ MEMORY_DIR = HOOKS_DIR.parent / "memory"
 STATE_FILE = HOOKS_DIR / "trigger-state.json"
 RULES_FILE = HOOKS_DIR / "trigger-rules.yaml"
 LOG_FILE = HOOKS_DIR / "trigger-log.jsonl"
+COMPOSITION_RULES_FILE = HOOKS_DIR / "composition-rules.yaml"
+COMPOSITION_LOG_FILE = HOOKS_DIR / "composition-log.jsonl"
+
+# Skills that must never appear in a composition sequence
+DESTRUCTIVE_SKILLS = frozenset({
+    "fix-issue", "autofix", "koder", "git", "commit", "push",
+    "rm", "delete", "drop", "clear", "reset",
+})
 
 MAX_TRIGGERS_PER_SESSION = 3
 SESSION_KEY = os.environ.get("CLAUDE_SESSION_ID", "unknown")
@@ -430,6 +443,224 @@ def matches_tool_input(rule: dict, tool_input: str) -> bool:
     return False
 
 
+# ---------------------------------------------------------------------------
+# Composition Engine (Session D / Phase 4b)
+# ---------------------------------------------------------------------------
+
+def load_composition_rules() -> list:
+    """Parse composition-rules.yaml into a list of composition dicts."""
+    if not COMPOSITION_RULES_FILE.exists():
+        return []
+
+    text = COMPOSITION_RULES_FILE.read_text(encoding="utf-8")
+    compositions: list[dict] = []
+    current: dict | None = None
+    in_compositions = False
+    section = None  # "trigger" | "sequence" | None
+
+    for raw_line in text.split("\n"):
+        stripped = raw_line.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+
+        indent = len(raw_line) - len(raw_line.lstrip())
+
+        if stripped == "compositions:":
+            in_compositions = True
+            continue
+
+        if not in_compositions:
+            continue
+
+        if stripped.startswith("- name:"):
+            if current:
+                compositions.append(current)
+            name = stripped.split(":", 1)[1].strip().strip('"').strip("'")
+            current = {"name": name, "sequence": [], "trigger": {}, "cooldown_minutes": 60}
+            section = None
+            continue
+
+        if current is None:
+            continue
+
+        if stripped == "trigger:":
+            section = "trigger"
+            continue
+        if stripped == "sequence:":
+            section = "sequence"
+            continue
+
+        # Top-level fields reset section
+        if ":" in stripped and not stripped.startswith("-"):
+            key, _, val = stripped.partition(":")
+            key = key.strip()
+            if key not in ("skill", "outcome", "failure_class"):
+                section = None  # leaving trigger sub-block
+
+        if section == "trigger":
+            if ":" in stripped:
+                k, _, v = stripped.partition(":")
+                current["trigger"][k.strip()] = v.strip().strip('"').strip("'")
+        elif section == "sequence":
+            if stripped.startswith("- "):
+                current["sequence"].append(stripped[2:].strip().strip('"').strip("'"))
+        else:
+            if ":" in stripped:
+                k, _, v = stripped.partition(":")
+                k, v = k.strip(), v.strip().strip('"').strip("'")
+                if k == "budget_cap":
+                    try:
+                        current["budget_cap"] = float(v)
+                    except ValueError:
+                        pass
+                elif k == "cooldown":
+                    v_clean = v.split()[0]  # strip inline comments
+                    if v_clean.endswith("h"):
+                        try:
+                            current["cooldown_minutes"] = int(float(v_clean[:-1]) * 60)
+                        except ValueError:
+                            current["cooldown_minutes"] = 0
+                    else:
+                        try:
+                            current["cooldown_minutes"] = int(v_clean)
+                        except ValueError:
+                            current["cooldown_minutes"] = 60
+                elif k == "enabled":
+                    current["enabled"] = v.lower() == "true"
+                elif k == "description":
+                    current["description"] = v
+
+    if current:
+        compositions.append(current)
+
+    return [c for c in compositions if c.get("enabled", True)]
+
+
+def validate_composition_safety(sequence: list) -> bool:
+    """Return True if no step in the sequence contains a destructive skill."""
+    for step in sequence:
+        step_lower = step.lower()
+        for ds in DESTRUCTIVE_SKILLS:
+            if ds in step_lower:
+                return False
+    return True
+
+
+def parse_outcome_from_write(tool_input_dict: dict) -> tuple[str, str, str]:
+    """Extract (skill, outcome, failure_class) from a just-written outcome file content."""
+    file_path = tool_input_dict.get("file_path", "")
+    content = tool_input_dict.get("content", "")
+    if not content or "outcomes/" not in file_path:
+        return "", "", ""
+
+    skill = outcome = failure_class = ""
+    in_fm = False
+    for line in content.split("\n"):
+        s = line.strip()
+        if s == "---":
+            if not in_fm:
+                in_fm = True
+            else:
+                break
+        elif in_fm:
+            if s.startswith("skill:"):
+                skill = s.split(":", 1)[1].strip().strip('"')
+            elif s.startswith("outcome:"):
+                outcome = s.split(":", 1)[1].strip().strip('"')
+            elif s.startswith("failure_class:"):
+                failure_class = s.split(":", 1)[1].strip().strip('"')
+    return skill, outcome, failure_class
+
+
+def check_budget_cap(cap: float) -> bool:
+    """Return True if budget allows this composition (cap in USD)."""
+    if cap <= 0:
+        return True
+    budget_file = MEMORY_DIR / "budget.md"
+    if not budget_file.exists():
+        return True
+    try:
+        text = budget_file.read_text(encoding="utf-8", errors="replace")
+        for line in text.split("\n"):
+            line_l = line.lower().strip()
+            if "balance" in line_l or "remaining" in line_l:
+                m = re.search(r"\$?(\d+\.?\d*)", line)
+                if m:
+                    return float(m.group(1)) >= cap
+    except Exception:
+        pass
+    return True  # default: allow
+
+
+def log_composition(name: str, trigger_skill: str, trigger_outcome: str, sequence: list) -> None:
+    entry = {
+        "ts": datetime.now(timezone.utc).isoformat(),
+        "composition": name,
+        "trigger_skill": trigger_skill,
+        "trigger_outcome": trigger_outcome,
+        "sequence": sequence,
+        "session": SESSION_KEY,
+    }
+    with open(COMPOSITION_LOG_FILE, "a", encoding="utf-8") as f:
+        f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+
+
+def evaluate_compositions(tool_input_dict: dict, state: dict) -> list[str]:
+    """Evaluate composition rules against the just-written outcome. Returns injected messages."""
+    skill, outcome, failure_class = parse_outcome_from_write(tool_input_dict)
+    if not skill or not outcome:
+        return []
+
+    compositions = load_composition_rules()
+    messages = []
+
+    for comp in compositions:
+        trigger = comp.get("trigger", {})
+        t_skill = trigger.get("skill", "*")
+        t_outcome = trigger.get("outcome", "")
+        t_fc = trigger.get("failure_class", "")
+
+        # Match skill (wildcard or exact)
+        if t_skill != "*" and t_skill != skill:
+            continue
+        # Match outcome
+        if t_outcome and t_outcome != outcome:
+            continue
+        # Match failure_class if specified
+        if t_fc and t_fc != failure_class:
+            continue
+
+        name = comp["name"]
+        sequence = comp.get("sequence", [])
+        if not sequence:
+            continue
+
+        # Safety check — never fire destructive compositions
+        if not validate_composition_safety(sequence):
+            continue
+
+        # Budget cap
+        if not check_budget_cap(comp.get("budget_cap", 0.0)):
+            continue
+
+        # Cooldown (keyed by composition name)
+        cooldown_min = comp.get("cooldown_minutes", 60)
+        if cooldown_min > 0 and check_cooldown(state, f"comp:{name}", cooldown_min):
+            continue
+
+        # Fire
+        steps = " → ".join(sequence)
+        msg = f"[composition:{name}] Navrhovaná sekvence: {steps}"
+        messages.append(msg)
+
+        # Update cooldown
+        if cooldown_min > 0:
+            set_cooldown(state, f"comp:{name}")
+        log_composition(name, skill, outcome, sequence)
+
+    return messages
+
+
 def main():
     # Read hook input from stdin
     try:
@@ -506,11 +737,24 @@ def main():
         increment_session_fires(state)
         log_fire(rule_id, message, context)
 
+    # Evaluate compositions (outcome-based proactive sequences)
+    if "outcomes/" in tool_input:
+        tool_input_dict = hook_input.get("tool_input", {})
+        comp_messages = evaluate_compositions(tool_input_dict, state)
+        fires.extend(comp_messages)
+
     save_state(state)
 
     # Output for Claude Code
     if fires:
-        output = {"additionalContext": "\n".join(f"[trigger] {m}" for m in fires)}
+        # Trigger messages get [trigger] prefix; composition messages keep their own prefix
+        output_parts = []
+        for m in fires:
+            if m.startswith("[composition:"):
+                output_parts.append(m)
+            else:
+                output_parts.append(f"[trigger] {m}")
+        output = {"additionalContext": "\n".join(output_parts)}
         print(json.dumps(output))
 
 

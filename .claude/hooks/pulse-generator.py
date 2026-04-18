@@ -231,6 +231,41 @@ def count_capability_gaps(memory_dir: Path) -> int:
         return 0
 
 
+def count_compositions_7d(hooks_dir: Path) -> dict:
+    """Count composition fires in last 7 days and find the most recent."""
+    log_file = hooks_dir / "composition-log.jsonl"
+    if not log_file.exists():
+        return {"count_7d": 0, "last_name": None, "last_date": None}
+
+    cutoff = datetime.now(timezone.utc) - timedelta(days=7)
+    count = 0
+    last_ts = ""
+    last_name = ""
+
+    try:
+        for line in log_file.read_text(encoding="utf-8", errors="replace").splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                entry = json.loads(line)
+                ts_str = entry.get("ts", "")
+                if ts_str:
+                    ts = datetime.fromisoformat(ts_str.replace("Z", "+00:00"))
+                    if ts >= cutoff:
+                        count += 1
+                    if ts_str > last_ts:
+                        last_ts = ts_str
+                        last_name = entry.get("composition", "")
+            except (json.JSONDecodeError, ValueError):
+                continue
+    except OSError:
+        pass
+
+    last_date = last_ts[:10] if last_ts else None
+    return {"count_7d": count, "last_name": last_name or None, "last_date": last_date}
+
+
 def build_project_pulse(project: dict) -> dict:
     """Build pulse data for a single project."""
     path = Path(project.get("path", ""))
@@ -270,6 +305,14 @@ def build_project_pulse(project: dict) -> dict:
     result["stale_learnings"] = count_stale_learnings(memory_dir)
     result["open_failures"] = count_open_failures(memory_dir)
     result["capability_gaps"] = count_capability_gaps(memory_dir)
+
+    # Composition stats (Session D)
+    hooks_dir = path / ".claude" / "hooks"
+    comp_stats = count_compositions_7d(hooks_dir)
+    result["compositions_7d"] = comp_stats["count_7d"]
+    if comp_stats["last_name"]:
+        result["last_composition"] = comp_stats["last_name"]
+        result["last_composition_date"] = comp_stats["last_date"]
 
     # Determine health
     result["health"] = determine_health(result)
