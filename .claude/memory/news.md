@@ -19,12 +19,23 @@ Tracked findings from `/watch` scans. Archived: `news-archive.md`
 Formula: `actionable_rate = items_with_acted_yes / total_active_items`
 Run `python scripts/actionable-rate.py` for current calculation.
 
+## Passes Rate (Harness Adoption)
+
+**Baseline (2026-04-19):** 0/0 features = 0.0% | 0/8 projects adopted harness
+**Target:** ≥2 projects adopted AND ≥30% global pass rate by 2026-05-17 (4 weeks)
+
+Formula: `passes_rate = sum(passes:true) / sum(all features)` across registered projects that have `docs/feature-list.json`.
+Run `python scripts/passes-rate.py` for current snapshot. `/watch` auto-populates "Harness Adoption Health" section in weekly report and flags regressions (drop >10pp) or stale projects (no feature-list update in 30+ days).
+
+Adoption trigger: `/project-init <path> --harness` on a target project creates the scaffold.
+
 ## Action Items
 
 <!-- Acted: yes = reálná akce (commit, learning, decision, config change). no = dosud ne. -->
 
 | # | Item | Urgency | Acted | Evidence | Next Step |
 |---|------|---------|-------|----------|-----------|
+| 111 | **Harness adoption pilot** — Multi-session harness (feature-list.json + progress.md + init.sh + startup sequence) resurrected in STOPA (commit 8fafe19, f884988). Baseline: 0/8 projects adopted. Needs first pilot to measure real-world friction. | MED | no | — | Run `/project-init <target> --harness` on one project (NG-ROBOT or ZACHVEV candidates). Track passes-rate delta weekly. |
 | 109 | **CC Plugin `monitors` manifest key** — Background monitoring v pluginech přes top-level `monitors` klíč v manifestu; auto-arms při startu session nebo invoke skillu | HIGH | no | — | Evaluovat pro stopa-orchestration plugin — background monitoring skills |
 | 110 | **Fine-grained tool streaming GA** — Dostupné na všech modelech bez beta headeru; event-level streaming tool calls | MED | no | — | Využít v Claude API integracích, NG-ROBOT pipeline monitoring |
 | 105 | **CC Desktop redesign** — sidebar pro multi-session, built-in terminal+editor, HTML/PDF preview, drag&drop panes, routines | HIGH | no | — | Otestovat nový workspace; routines = /loop GUI ekvivalent |
@@ -286,4 +297,10 @@ Older: see `news-archive.md`
 ### 2026-04-09 — scheduled morning-watch | Searches: 2 | Items: 2 watch, 1 info — Compaction API beta, Mythos Preview live (Project Glasswing), data residency controls
 ### 2026-04-08 — quick+update | Searches: 3+3 | Fetches: 2+1 | Items: 4 action, 3 watch — Managed Agents beta, effort=high default, thinking deprecation, ant CLI, Haiku 3 verified safe
 ### 2026-04-13 — scheduled morning-watch | Searches: 2 | Items: 1 watch, 2 info — /team-onboarding command (#93), Vertex AI wizard (#94), effort param GA (#95)
-### 2026-04-08 — quick (scheduled) | Searches: 3 | Fetches: 2 | Items: 3 action, 3 watch, 2 info — Haiku 3 deadline April 19, CLAUDE.md HTML comments skryty, TaskCreated hook, PermissionDenied hook+retry, 1M context retirement April 30, --bare flag
+### 2026-04-08 — quick (scheduled) | Searches: 3 | Fetches: 2 | Items: 3 action, 3 watch, 2 info — Haiku 3 deadline April 19, CLAUDE.md HTML comments skryty, TaskCreated hook, PermissionDenied hook+retry, 1M context retirement April 30, --bare flag| 2026-04-19 | [ACTION] | Optimizing Retrieval for RAG via Reinforcement Learning (arXiv:2510.24652) — RL-based retrieval optimization pro RAG systémy; přímo aplikovatelné na STOPA hybrid-retrieve.py pro zlepšení retrieval policy | high | No | arxiv-daily-digest |
+| 2026-04-19 | [WATCH] | AgentOrchestra: Orchestrating Multi-Agent Intelligence with the TEA Protocol (arXiv:2506.12508) — Tool-Environment-Agent protokol modeluje nástroje, prostředí a agenty jako first-class resources s explicitním lifecyclem a verzovanými rozhraními | medium | No | arxiv-daily-digest |
+| 2026-04-19 | [WATCH] | Orchestral AI: A Framework for Agent Orchestration (arXiv:2601.02577) — modulární architektura pro orchestraci LLM agentů vyvažující debuggability, extensibilitu a produkční jednoduchost bez kompromisů | medium | No | arxiv-daily-digest |
+| 2026-04-19 | [WATCH] | Hierarchical Retrieval Augmented Generation for Adversarial Technique Annotation (arXiv:2604.14166) — hierarchické vrstvení RAG pro přesnou anotaci v doménově specifických textech; hierarchical retrieval pattern použitelný v STOPA | medium | No | arxiv-daily-digest |
+| 2026-04-19 | [WATCH] | A Survey of Context Engineering for Large Language Models (arXiv:2507.13334) — komplexní survey pokrývající Context Retrieval, Generation, Processing a Management; referenční práce pro STOPA context engineering přístup | medium | No | arxiv-daily-digest |
+
+### 2026-04-19 — arxiv-daily-digest | Searches: 4 | Items: 1 action, 4 watch — RL for RAG (arXiv:2510.24652), TEA Protocol (arXiv:2506.12508), Orchestral AI (arXiv:2601.02577), Hierarchical RAG (arXiv:2604.14166), Context Engineering Survey (arXiv:2507.13334)
