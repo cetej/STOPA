@@ -23,6 +23,32 @@ except Exception:
 
 [ -z "$CMD" ] && exit 0
 
+# Strip heredoc bodies before pattern matching — a commit message or doc
+# string may legitimately contain strings like "dd of=/dev/sda" without
+# actually invoking them. We only care about executed command syntax.
+# Match any `<<'DELIM'` or `<<"DELIM"` or `<<DELIM` and drop everything
+# until a line containing only DELIM.
+CMD_FOR_MATCH=$(python -c "
+import re, sys
+s = sys.argv[1]
+# Repeatedly strip heredocs
+for _ in range(10):
+    m = re.search(r'<<-?\s*[\"\\']?([A-Za-z_][A-Za-z0-9_]*)[\"\\']?', s)
+    if not m:
+        break
+    delim = m.group(1)
+    start = m.start()
+    # find end delimiter on its own line
+    end_re = re.compile(r'^\s*' + re.escape(delim) + r'\s*$', re.MULTILINE)
+    em = end_re.search(s, m.end())
+    if not em:
+        # truncate to heredoc start if no closer
+        s = s[:start]
+        break
+    s = s[:start] + s[em.end():]
+print(s)
+" "$CMD" 2>/dev/null || echo "$CMD")
+
 block() {
   local reason="$1"
   echo "BLOCK: $reason" >&2
