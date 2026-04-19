@@ -13,6 +13,13 @@ Zpracované záznamy se přesunou do `inbox-archive.md`.
 
 ## Queue
 
+URL: https://www.anthropic.com/news/claude-opus-4-7
+URL: https://transformer-circuits.pub/2026/emotions/index.html
+URL: https://arxiv.org/abs/2604.13108
+URL: https://arxiv.org/abs/2604.14403
+URL: https://arxiv.org/abs/2603.28013
+URL: https://x.com/deedydas/status/2020350881464742330
+
 ## Processed
 
 | Date | Item |
