@@ -18,6 +18,7 @@
       "Bash(diff *)",
       "Bash(rtk *)",
       "Bash(curl *)",
+      "Bash(pdftotext *)",
       "Read",
       "Edit",
       "Write",
@@ -144,6 +145,12 @@
       {
         "matcher": "Bash",
         "hooks": [
+          {
+            "type": "command",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/bash-safety.sh",
+            "timeout": 3,
+            "statusMessage": ""
+          },
           {
             "type": "command",
             "command": "python -m dippy",
@@ -651,6 +658,12 @@
             "type": "command",
             "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/associative-recall.py",
             "timeout": 3,
+            "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/autonomy-tracker.py",
+            "timeout": 2,
             "statusMessage": ""
           }
         ]

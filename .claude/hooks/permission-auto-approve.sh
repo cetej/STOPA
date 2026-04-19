@@ -24,12 +24,31 @@ import json, sys
 try:
     with open(sys.argv[1]) as f:
         d = json.load(f)
-    # PermissionRequest sends tool_name in the JSON body
-    name = d.get('tool_name') or d.get('tool') or d.get('name') or 'unknown'
+    # Try multiple JSON shapes — CC versions differ.
+    name = (
+        d.get('tool_name')
+        or d.get('tool')
+        or d.get('name')
+        or (d.get('tool_use') or {}).get('name')
+        or (d.get('input') or {}).get('tool_name')
+        or (d.get('params') or {}).get('tool_name')
+        or 'unknown'
+    )
     print(name)
 except Exception:
     print('unknown')
 " "$TMPFILE" 2>/dev/null || echo "unknown")
+
+# Debug: when parsing fails, dump raw stdin so next iteration can fix the parser.
+if [ "$TOOL" = "unknown" ] && [ -s "$TMPFILE" ]; then
+  DUMP_LOG=".claude/memory/permission-unknown-dumps.jsonl"
+  {
+    printf '{"ts":"%s","raw":' "$TS"
+    python -c "import json,sys; print(json.dumps(open(sys.argv[1]).read()))" "$TMPFILE" 2>/dev/null || echo '"<parse-error>"'
+    printf '}\n'
+  } >> "$DUMP_LOG" 2>/dev/null
+fi
+
 rm -f "$TMPFILE" 2>/dev/null
 
 # Fallback to env var (some CC versions set it)

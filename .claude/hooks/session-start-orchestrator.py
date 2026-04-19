@@ -37,6 +37,7 @@ SUB_HOOKS: list[dict] = [
     {"name": "pulse-generator",         "cmd": ["python", str(HOOKS_DIR / "pulse-generator.py")],       "timeout": 12},
     {"name": "build-permission-registry","cmd": ["python", str(HOOKS_DIR / "build-permission-registry.py")], "timeout": 12},
     {"name": "improvement-notify",      "cmd": ["bash", str(HOOKS_DIR / "improvement-notify.sh")],      "timeout": 12},
+    {"name": "autonomy-digest",         "cmd": ["python", str(HOOKS_DIR / "autonomy-digest.py")],      "timeout": 8},
 ]
 
 
