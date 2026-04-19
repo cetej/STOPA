@@ -6,12 +6,13 @@ component: memory
 tags: [retrieval, memory, skills, architecture, external-validation]
 summary: Multica (15.4k★ open-source Claude Managed Agents clone) ships memory with 6 relational tables and ZERO vector embeddings — explicit skill attachment via JOIN, JSONB snapshot at dispatch. Validates STOPA grep-first + curated discovery-keywords approach: "curated relevance beats learned similarity for coding agents — a migration runbook needs the exact runbook, not the statistically-closest one."
 source: external_research
-confidence: 0.75
+confidence: 0.80
 maturity: draft
-uses: 0
+uses: 1
 successful_uses: 0
 harmful_uses: 0
 verify_check: "Grep('discovery-keywords', path='.claude/skills') → 1+ matches AND Grep('hybrid-retrieve', path='.claude/memory') → 1+ matches"
+related: [2026-04-18-mc-checkpoint-caching-retrieval-pattern.md, 2026-04-08-living-memory-over-static-retrieval.md]
 ---
 
 ## Context

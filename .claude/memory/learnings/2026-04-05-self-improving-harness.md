@@ -7,8 +7,8 @@ tags: [memory, orchestration, self-improvement, traces]
 summary: "Self-improving harness: 6 upgrades closing feedback loops — auto-scribe writes learnings automatically, trace-bridge unifies formats, graduation-check auto-detects promotable learnings, impact-tracker measures learning effectiveness via critic scores, strategy persistence enables warm-start across sessions, auto-handoff chains enforce skill transitions on PIVOT/PLATEAU"
 source: user_correction
 maturity: draft
-confidence: 0.9
-uses: 0
+confidence: 0.95
+uses: 1
 harmful_uses: 0
 impact_score: 0.0
 verify_check: "Glob('.claude/hooks/graduation-check.py') → 1+ matches"

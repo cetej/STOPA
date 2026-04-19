@@ -7,10 +7,10 @@ tags: [skill, memory, orchestration, documentation]
 summary: Repo-level instrukční soubory (AGENTS.md / CLAUDE.md / skills) snižují runtime AI agenta o 28.64% a spotřebu output tokenů o 16.58% při zachování task completion. Empirická validace STOPA design philosophy.
 source: external_research
 maturity: draft
-uses: 0
+uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.7
+confidence: 0.85
 verify_check: "Glob('CLAUDE.md') → 1+ matches"
 ---
 

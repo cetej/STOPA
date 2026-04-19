@@ -10,7 +10,7 @@ maturity: draft
 uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.85
+confidence: 0.9
 impact_score: 0.0
 related: [2026-04-08-agent-deception-pressure-trigger.md]
 verify_check: "manual"

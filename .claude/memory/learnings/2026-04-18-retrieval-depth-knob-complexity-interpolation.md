@@ -9,7 +9,7 @@ source: external_research
 uses: 3
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.90
+confidence: 1.0
 maturity: draft
 valid_until:
 skill_scope: [orchestrate, scout, scribe]

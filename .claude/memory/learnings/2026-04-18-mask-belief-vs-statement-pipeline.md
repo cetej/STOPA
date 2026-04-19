@@ -9,7 +9,7 @@ source: external_research
 uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.80
+confidence: 0.85
 impact_score: 0.0
 maturity: draft
 skill_scope: [critic, eval, verify, self-evolve]
