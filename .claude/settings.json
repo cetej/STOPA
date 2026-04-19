@@ -133,87 +133,9 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/ensure-shared-dir.sh",
-            "timeout": 3,
-            "statusMessage": "Ensuring shared directories..."
-          },
-          {
-            "type": "command",
-            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/checkpoint-check.sh",
-            "timeout": 5,
-            "statusMessage": "Checking checkpoint..."
-          },
-          {
-            "type": "command",
-            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/pending-reminders.sh",
-            "timeout": 3,
-            "statusMessage": "Checking pending reminders..."
-          },
-          {
-            "type": "command",
-            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/memory-maintenance.sh",
-            "timeout": 5,
-            "statusMessage": "Checking memory health..."
-          },
-          {
-            "type": "command",
-            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/auto-scribe.py",
-            "timeout": 15,
-            "statusMessage": "Analyzing previous session..."
-          },
-          {
-            "type": "command",
-            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/memory-brief.sh",
-            "timeout": 5,
-            "statusMessage": "Loading memory brief..."
-          },
-          {
-            "type": "command",
-            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/context-inject.py",
-            "timeout": 12,
-            "statusMessage": "Retrieving relevant context..."
-          },
-          {
-            "type": "command",
-            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/verify-sweep.py",
-            "timeout": 10,
-            "statusMessage": "Verifying rules..."
-          },
-          {
-            "type": "command",
-            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/improvement-funnel.sh",
-            "timeout": 10,
-            "statusMessage": "Building improvement queue..."
-          },
-          {
-            "type": "command",
-            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/evolve-trigger.sh",
-            "timeout": 5,
-            "statusMessage": "Checking evolution thresholds..."
-          },
-          {
-            "type": "command",
-            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/learning-lifecycle.py",
-            "timeout": 5,
-            "statusMessage": "Learning lifecycle check..."
-          },
-          {
-            "type": "command",
-            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/pulse-generator.py",
-            "timeout": 8,
-            "statusMessage": "Generating system pulse..."
-          },
-          {
-            "type": "command",
-            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/build-permission-registry.py",
-            "timeout": 8,
-            "statusMessage": "Building skill permission registry..."
-          },
-          {
-            "type": "command",
-            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/improvement-notify.sh",
-            "timeout": 5,
-            "statusMessage": "Checking cross-project improvements..."
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/session-start-orchestrator.py",
+            "timeout": 30,
+            "statusMessage": "Initializing session (parallel)..."
           }
         ]
       }
