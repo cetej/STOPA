@@ -133,6 +133,30 @@ Store result in working memory. Use to:
 
 > **Why?** Meta-Harness (arXiv:2603.28052) iteration 7: a single 80-line environment snapshot before agent start eliminated 2-4 exploratory turns and became the #1 Haiku 4.5 agent on TerminalBench-2 (37.6%).
 
+## Phase 0.8: Harness Detection
+
+Check if the current project has adopted the multi-session harness pattern (scaffolded by `/project-init --harness` or `/build-project`).
+
+```bash
+# Single check — fast
+test -f docs/feature-list.json && echo "HARNESS: yes" || echo "HARNESS: no"
+```
+
+If `HARNESS: yes`:
+1. Read `docs/feature-list.json` — identify incomplete features (`passes: false`)
+2. Read `docs/progress.md` — understand recent work (last 1-2 session entries only)
+3. **Scope the task to a specific feature** when applicable:
+   - If user's task maps to an existing feature id → constrain subtask plan to that feature's `steps`
+   - If user's task would add a new feature → propose adding it to feature-list.json in Phase 3 before decomposition
+   - If user's task is cross-cutting (affects multiple features) → surface which features it touches; do not silently expand scope
+4. **End-of-task hook**: include in subtask list the final action "update `docs/feature-list.json` (passes + last_updated) and append `docs/progress.md` entry"
+
+If `HARNESS: no`:
+- Skip this phase — project does not use harness discipline
+- Do NOT auto-create harness scaffold (that requires explicit `/project-init --harness`)
+
+**Why?** When harness is present, `docs/feature-list.json` is the project's ground truth for completeness. Orchestrate agents that ignore it can implement overlapping work or declare tasks done without updating the gate. Sequencing via feature ids prevents the "declare victory too early" failure mode documented in Anthropic's Claude Code harness engineering.
+
 ## Pre-Flight Dispatch Rules (GSD-2 pattern)
 
 Evaluate these rules **in order before entering Phase 1**. First match wins — execute the action and skip remaining rules.

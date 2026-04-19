@@ -221,6 +221,18 @@ To minimize cost, use parallel WebSearch calls:
 ### Recommendations for Active Projects
 
 <If any findings affect project dependencies or techniques, list them here>
+
+### Harness Adoption Health
+
+<Auto-populated from `python scripts/passes-rate.py --json`. Shows feature-list.json completion across registered projects. Include global rate + any project with stale_days > 30.>
+
+Example row format:
+| Project | Harness | Passed/Total | Rate | Stale |
+|---------|---------|--------------|------|-------|
+| NG-ROBOT | yes | 12/18 | 66.7% | 3d |
+| ZACHVEV | no | — | — | — |
+
+Flag HIGH urgency if: (a) global rate dropped >10pp vs last scan, or (b) any harness-adopted project has stale_days > 30.
 ```
 
 ## After Scanning
@@ -243,7 +255,16 @@ To minimize cost, use parallel WebSearch calls:
 3. **If ACTION items found for project dependencies**:
    - Note in `.claude/memory/state.md` as a potential future task
 
-4. **Cross-project improvement routing**:
+4. **Harness adoption health check**:
+   - Run `python scripts/passes-rate.py --json` and parse the output
+   - Extract `global.rate`, `global.harness_adopted_projects`, and any project with `stale_days > 30`
+   - Populate the `### Harness Adoption Health` section of the report
+   - Compare `global.rate` against the previous scan's rate (stored in `news.md` scan log):
+     - Drop > 10pp → add HIGH urgency ACTION item: "passes-rate regression — investigate"
+     - Any project stale_days > 30 → add MED urgency ACTION item: "harness project X idle, check status"
+   - Persist current rate in news.md Scan log for next delta
+
+5. **Cross-project improvement routing**:
    - For each HIGH/MED action item: invoke `/improve` to route finding to matching projects
    - `/improve` reads project profiles from `~/.claude/memory/projects/*.yaml`, scores relevance, and creates GitHub issues
    - This ensures findings don't stay STOPA-local but reach the projects where they're actionable
