@@ -6,13 +6,14 @@ component: orchestration
 tags: [cross-project, adoption, agpl, osint, monitor]
 summary: Clean-room adoption AGPL-3.0 projektů bez copy-paste — 3 paralelní Explore agenti pro strukturální analýzu, pak syntéza do Tier A/B/C/D roadmapy, NOTICE.md s atribucí, implementace v target-project stylu.
 source: auto_pattern
-uses: 1
+uses: 3
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.80
+confidence: 0.90
 maturity: draft
 task_context: {task_class: cross_project, complexity: high, tier: deep}
 verify_check: "Glob('.claude/memory/learnings/*worldmonitor*') → 1+ matches"
+related: [2026-04-14-paseo-orchestration-patterns.md]
 ---
 
 ## Pattern: Cross-project OSS adoption bez licenčního rizika

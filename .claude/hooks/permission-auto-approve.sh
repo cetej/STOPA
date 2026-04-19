@@ -18,7 +18,7 @@ TS=$(date +"%Y-%m-%d %H:%M")
 
 # Read stdin JSON and extract tool_name
 TMPFILE=$(mktemp 2>/dev/null || echo "/tmp/perm-hook-$$")
-cat > "$TMPFILE"
+timeout 2 cat > "$TMPFILE" 2>/dev/null || touch "$TMPFILE" 2>/dev/null || true
 TOOL=$(python -c "
 import json, sys
 try:
@@ -46,13 +46,13 @@ if [ ! -f "$LOG" ]; then
 fi
 
 auto_allow() {
-  echo "- $TS | AUTO | $TOOL" >> "$LOG" 2>/dev/null
   echo '{"behavior":"allow","suppressOutput":true}'
+  echo "- $TS | AUTO | $TOOL" >> "$LOG" 2>/dev/null || true
 }
 
 ask_user() {
-  echo "- $TS | ASK | $TOOL" >> "$LOG" 2>/dev/null
   echo '{"behavior":"ask","suppressOutput":true}'
+  echo "- $TS | ASK | $TOOL" >> "$LOG" 2>/dev/null || true
 }
 
 # Classify tool

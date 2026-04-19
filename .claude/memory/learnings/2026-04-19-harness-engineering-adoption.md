@@ -7,12 +7,13 @@ tags: [harness, scaffold, multi-session, feature-list, progress-file, agent-grou
 summary: "Multi-session project harness pattern (Anthropic/OpenAI/SWE-agent): feature-list.json as ground truth, progress.md for continuity, init.sh for reliable startup, docs/ as system-of-record. STOPA adopted via extended /project-init --harness flag + /build-project per-feature loop + passes-rate.py metric. Prevents 'declare victory too early' and context-window-boundary confusion in long-running projects."
 source: external_research
 maturity: draft
-uses: 1
+uses: 3
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.80
+confidence: 0.90
 skill_scope: [project-init, build-project]
 verify_check: "Glob('scripts/passes-rate.py') → 1+ matches"
+related: [2026-04-07-agents-md-efficiency-validated.md, 2026-04-05-self-improving-harness.md]
 ---
 
 ## Harness Engineering Adoption (Three Sources Converge)
