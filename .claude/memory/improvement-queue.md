@@ -1,6 +1,6 @@
 # Improvement Queue
 
-Generated: 2026-04-19 07:22
+Generated: 2026-04-19 08:15
 
 | Priority | Type | Pattern | Count | Action |
 |----------|------|---------|-------|--------|
@@ -9,4 +9,8 @@ Generated: 2026-04-19 07:22
 | 69 | violation | 2. Skill Description = Trigger Only | 23 | /evolve --escalate |
 | 21 | violation | 8 hooks měly chybnou sys.path (.parent.parent místo .parent.parent.parent) → Mod | 7 | /evolve --escalate |
 | 9 | violation | Autogenesis (arXiv:2604.15034) formalizuje self-evolving agent systém jako dvouv | 3 | /evolve --escalate |
-| 3 | violation | hook import broken | 1 | fix rule or code |
+| 6 | violation | CWD-anchor missing (bash hook) | 2 | fix rule or code |
+| 6 | violation | CWD-anchor missing (bash hook) | 2 | fix rule or code |
+| 6 | violation | CWD-anchor missing (bash hook) | 2 | fix rule or code |
+| 6 | violation | CWD-anchor missing (bash hook) | 2 | fix rule or code |
+| 6 | violation | CWD-anchor missing (bash hook) | 2 | fix rule or code |

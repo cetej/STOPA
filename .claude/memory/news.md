@@ -2,6 +2,14 @@
 
 Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
+## Weekly Digest 2026-04-20
+
+Odesláno Telegram (id: 161). Shrnutí:
+- Projekty: STOPA 181, NG-ROBOT 354, MONITOR 18, ADOBE-AUTOMAT 21, POLYBOT 2, ZACHVEV 1 commitů
+- 16 ACTION items otevřeno (HIGH: #109 CC Plugin monitors, #105 CC Desktop)
+- news.md 317 řádků — doporučena archivace
+- Doporučení: CC Desktop test, monitors plugin eval, harness pilot (#111)
+
 ## Last Scan: 2026-04-16 (arxiv-daily-digest) | Next: ~2026-04-23
 
 **Scan log**: `2026-04-15` — scheduled morning-watch | Searches: 2 | Items: 2 action — CC plugin monitors manifest key (#109), fine-grained tool streaming GA (#110)
@@ -304,3 +312,14 @@ Older: see `news-archive.md`
 | 2026-04-19 | [WATCH] | A Survey of Context Engineering for Large Language Models (arXiv:2507.13334) — komplexní survey pokrývající Context Retrieval, Generation, Processing a Management; referenční práce pro STOPA context engineering přístup | medium | No | arxiv-daily-digest |
 
 ### 2026-04-19 — arxiv-daily-digest | Searches: 4 | Items: 1 action, 4 watch — RL for RAG (arXiv:2510.24652), TEA Protocol (arXiv:2506.12508), Orchestral AI (arXiv:2601.02577), Hierarchical RAG (arXiv:2604.14166), Context Engineering Survey (arXiv:2507.13334)
+| 2026-04-20 | [ACTION] | Context Awareness Gate For Retrieval Augmented Generation (arXiv:2411.16133) — gate mechanism pro podmíněné spouštění RAG; přímo aplikovatelné na STOPA hybrid-retrieve.py pro rozhodování kdy spustit drahý retrieval vs. přímé LLM | high | No | arxiv-daily-digest |
+| 2026-04-20 | [WATCH] | A Comprehensive Survey on Benchmarks and Solutions in Software Engineering of LLM-Empowered Agentic System (arXiv:2510.09721) — systematický přehled benchmarků a řešení pro LLM agenty v software inženýrství; referenční materiál pro evaluaci STOPA SE schopností | medium | No | arxiv-daily-digest |
+| 2026-04-20 | [WATCH] | Context Matters: Evaluating Context Strategies for Automated ADR Generation Using LLMs (arXiv:2604.03826) — context engineering dominuje nad škálováním modelu jako faktor kvality výstupu; validuje STOPA přístup context-first před model upgradem | medium | No | arxiv-daily-digest |
+
+### 2026-04-20 — arxiv-daily-digest | Searches: 4 | Items: 1 action, 2 watch — Context Awareness Gate RAG (arXiv:2411.16133), SE Agents Benchmark Survey (arXiv:2510.09721), Context Matters ADR (arXiv:2604.03826)
+
+| 2026-04-20 | [ACTION] | **Claude Cowork GA** — Claude Cowork nyní obecně dostupný na macOS + Windows přes Desktop App; přidán do Analytics API; alternativa k Managed Agents beta pro kolaborativní session | high | No | morning-watch |
+| 2026-04-20 | [ACTION] | **CC /tui fullscreen rendering + mobile push notifications** — nová CC verze (post v2.1.110): TUI fullscreen mode, push notifikace na mobilu, čistší transcript/focus controls, fix MCP+session chyb | medium | No | morning-watch |
+| 2026-04-20 | [INFO] | **Opus 4.7 Auto mode pro Max subscribers** — Auto mode automaticky volí optimální effort tier pro Opus 4.7 bez manuálního /effort příkazu; doplněk k existujícímu xhigh | low | No | morning-watch |
+
+### 2026-04-20 — morning-watch | Searches: 2 | Items: 2 action, 1 info — Cowork GA, CC /tui+push notif, Opus 4.7 Auto mode

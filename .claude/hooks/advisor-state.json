@@ -1,5 +1,5 @@
 {
-  "call_count": 11783,
+  "call_count": 12163,
   "has_todo": true,
   "edit_file_set": [
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\capability-gaps.md",
@@ -824,10 +824,29 @@
     "C:\\Users\\stock\\Documents\\000_NGM\\MONITOR\\apis\\intel-i18n.mjs",
     "C:\\Users\\stock\\Documents\\000_NGM\\MONITOR\\dashboard\\public\\jarvis.html",
     "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\learnings\\2026-04-19-feature-must-reach-main-ui.md",
-    "C:\\Users\\stock\\Documents\\000_NGM\\MONITOR\\apis\\sources\\_world-regions.mjs"
+    "C:\\Users\\stock\\Documents\\000_NGM\\MONITOR\\apis\\sources\\_world-regions.mjs",
+    "C:\\Users\\stock\\Documents\\000_NGM\\MONITOR\\docs\\SPRINT-10-HANDOFF.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\hooks\\session-start-orchestrator.py",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\hooks\\bash-safety.sh",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\hooks\\autonomy-tracker.py",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\hooks\\autonomy-digest.py",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\hooks\\tmp-test-safety.sh",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\wiki\\concepts\\claude-opus-47.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\wiki\\concepts\\architecture-descriptors-ai-agents.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\wiki\\concepts\\on-device-rag-unified.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\brain\\wiki\\concepts\\kill-chain-canary.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\memory\\dreams\\2026-04-20-skip.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\evals\\autoloop\\case-001\\input.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\evals\\autoloop\\case-001\\expected.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\evals\\autoloop\\case-001\\eval.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\evals\\autoloop\\case-002\\input.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\evals\\autoloop\\case-002\\expected.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\evals\\autoloop\\case-002\\eval.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\evals\\autoloop\\case-003\\input.md",
+    "C:\\Users\\stock\\Documents\\000_NGM\\STOPA\\.claude\\evals\\autoloop\\case-003\\expected.md"
   ],
   "last_edit_was_py": false,
-  "grep_count": 3758,
-  "last_suggestion_ts": 1776577039.7751472,
-  "skill_count": 73
+  "grep_count": 3843,
+  "last_suggestion_ts": 1776674679.8174484,
+  "skill_count": 76
 }
