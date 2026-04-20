@@ -12,11 +12,16 @@ Format: event type -> array of hook configs with `command` and optional `timeout
 
 ## Hook events
 - `SessionStart` — session initialization (memory brief, context injection, improvement notifications)
-- `PreToolUse` / `PostToolUse` — before/after tool execution
 - `UserPromptSubmit` — after user sends a message (associative recall, auto-scribe)
-- `PermissionRequest` — auto-approve/deny tool permissions
+- `PreToolUse` / `PostToolUse` — before/after tool execution
+- `PermissionRequest` — before tool runs that need user permission (auto-approve/ask)
+- `PermissionDenied` — fires when a permission prompt is denied (useful for `/less-permission-prompts` feedback loop; not yet wired)
+- `PreCompact` / `PostCompact` — around context compaction (flush scratchpad, auto-checkpoint)
+- `TaskCreated` — when a new sub-agent Task is spawned (budget gate, team tracking)
+- `TeammateIdle` — when a named sub-agent has no pending work (cleanup, re-task)
+- `Stop` — session end (normal completion)
+- `StopFailure` — session stopped due to API error or unrecoverable failure (recovery guidance, notify)
 - `Notification` — system notifications
-- `Stop` — session end
 
 ## Output protocol
 - Hooks communicate via stdout JSON: `{"decision": "allow"|"block"|"skip", "reason": "..."}`
