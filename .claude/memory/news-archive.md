@@ -229,3 +229,135 @@ Archived items from `news.md`. Read-only reference — not actively loaded into 
 2. ~~`/loop` command~~ — **GA** (v2.1.71) — available now
 3. ~~HTTP hooks~~ — **GA** (v2.1.63) — available now
 4. ~~Token limit increase~~ — **CONFIRMED** (Opus 4.6: 64k default, 128k max output)
+
+
+## Archived 2026-04-20 (maintenance)
+
+### Resolved Items (2026-04-04)
+| # | Item | Resolution |
+|---|------|------------|
+| 59 | CC v2.1.91 disableSkillShellExecution | SAFE — STOPA skills pouzivaji Bash pres tool calls. 29 skills neovlivneno. |
+| 60 | Sonnet 4.6 GA | DONE — CLAUDE.md:114 note, tier-definitions.yaml genericky "sonnet". |
+| 64 | CC v2.1.92 Stop hook fix | SAFE — 7 Stop hooks nezavisle na fixnute semantice. |
+| 68 | CC v2.1.92 /cost per-model breakdown | DONE — /budget skill ma ccusage s per-model granularitou. |
+| 36 | Haiku 3 deprecation | DONE — NG-ROBOT na haiku-4-5-20251001, ADOBE aktualni. |
+| 48 | 1M context window retiring 2026-04-30 | SAFE — zadne context-1m headers. |
+| 49 | CC v2.1.89+90 hook upgrades | DONE — settings.json aktualizovan. |
+| 51 | CC v2.1.90 thinking.display omitted | DONE — orchestrate SKILL.md. |
+| 52 | Anthropic API web search/fetch GA | DONE — NG-ROBOT pouziva GA endpoint. |
+| 53 | CC v2.1.90 CLAUDE_CODE_PLUGIN_KEEP_MARKETPLACE_ON_FAILURE | DONE — dokumentovano. |
+
+### Resolved Items (2026-03-31)
+| # | Item | Resolution |
+|---|------|------------|
+| 43 | CC /effort command | DONE — integrovano do orchestrate tier selection |
+| 41 | LiteLLM supply chain attack | DONE — zadny projekt nepouziva LiteLLM |
+
+### Acted Action Items (archived)
+| # | Item | Evidence |
+|---|------|----------|
+| 106 | CC v2.1.108 — /recap + 1h prompt cache | settings.json: ENABLE_PROMPT_CACHING_1H=1 |
+| 107 | CC v2.1.105 — Skill description cap 250->1536 | 13 commands expanded |
+| 108 | CC v2.1.105 — PreCompact hook | pre-compact.sh + settings.json |
+| 99 | CC Analytics API (GA) | budget SKILL.md:34 documented |
+| 101 | PwC sunset -> HF Trending Papers | watch SKILL.md:61 updated |
+| 102 | DACS (arXiv:2604.07911) | learning dacs-context-scoping, commit ad97748 |
+| 103 | TraceGuard (arXiv:2604.03968) | learning traceguard-5d-critic, commit ad97748 |
+| 104 | Claude Agent SDK additionalDirectories | evaluated: additionalDirs for future KODER |
+| 81 | CC MCP 500K tool result limit | auto-applied by CC, no config needed |
+| 82 | CC PreToolUse "defer" decision | PARKED for headless KODER |
+| 77 | Model Capabilities API | evaluated: hardcoded tiers sufficient |
+| 78 | AGENTS.md efficiency study | learning agents-md-efficiency-validated |
+| 83 | CC effort=high default | CLAUDE.md note updated |
+| 85 | thinking.type.enabled deprecated | audit: NG-ROBOT+ADOBE both use adaptive |
+| 93 | Advisor Tool public beta | learning advisor-tool-public-beta, commit 2c600e5 |
+| 94 | CC v2.1.101 security fix | audit: all hooks use list args, no shell=True |
+| 95 | CC Monitor tool | evaluated: current notifyOnCompletion sufficient |
+| 67 | agent_id/agent_type v hook contextu | DONE 2026-04-04 — guard pridan do 7 Stop hooks |
+
+### Watch List Archive — Video & Diffusion (test1 relevance)
+| Item | Detail |
+|------|--------|
+| 57 | Consistency-Preserving Video Gen (arXiv:2602.15287) |
+| 29p | PyTorch 2.11 — FlexAttention + FA4 |
+| 29q | Modular Diffusers 0.37.1 — composable pipeline |
+| 29b | Foveated Diffusion — spatially adaptive token alloc |
+| 29c | FSVideo — 14B DIT |
+| 26 | 3x flow matching papers — FastLightGen, Warm-Start FM, Transition FM |
+| 21 | Wan2.1 + LTX 0.9.5 — Diffusers 0.37.0 video models |
+| 29k | Luma Uni-1 — Decoder-only image gen ~$0.09/img |
+| 50 | EFlow (arXiv:2603.27086) — Fast few-step video DiT |
+| 47 | Flowception (arXiv:2512.11438 v2) — video gen frame insertion |
+
+### Watch List Archive — Papers (methodology, March 2026)
+| Item | Detail |
+|------|--------|
+| 72 | Multiscreen (arXiv:2604.01178) — screening attention, 40% fewer params |
+| 62 | Hi-CoT (arXiv:2604.00130) — hierarchical CoT |
+| 63 | Agentic Tool Use (arXiv:2604.00835) — 3 paradigmata |
+| 46 | Bootstrapping Coding Agents (arXiv:2603.17399) |
+| 29n | SWAP — stepwise CoT penalization |
+| 29o | FinMCP-Bench — MCP tool-use benchmark |
+| 22 | BOULDER — multi-turn degrades reasoning |
+| 23 | MCPAgentBench — MCP tool discrimination |
+| 24 | CARE — confounder-aware LLM-as-judge |
+| 25 | ToolTree — MCTS tool planning |
+| 27 | SWE-CI — CI-loop benchmark |
+| 28 | ClarEval — agent ambiguity detection |
+| 8 | Czech ABSA — ufal/robeczech-base (ZACHVEV sentiment) |
+
+### Watch List Archive — CC Hooks (v2.1.92)
+| Item | Status |
+|------|--------|
+| 66 | InstructionsLoaded hook — redundantni, SessionStart hooks pokryvaji. Skip. |
+| 35 | CC v2.1.85 — /compact fix, deniedMcpServers fix, timestamp markery |
+
+### Watch List Archive — Ecosystem (old items)
+| Item | Detail |
+|------|--------|
+| 1 | Channels — Telegram/Discord integration |
+| 2 | /context suggestions — memory bloat detection |
+| 3 | Memory timestamps — CC freshness awareness |
+| 4 | autoMemoryDirectory — custom memory path |
+| 5 | /remote-control — CC + claude.ai/code + VS Code bridge |
+| 6 | GitHub Spec Kit — competitor analysis done |
+| 19 | Papers with Code -> HF — huggingface.co/papers/trending |
+| 20 | MCP lazy loading — up to 95% context reduction |
+
+### Watch List Archive — Agent/Tool (old items, March 2026)
+| Item | Detail |
+|------|--------|
+| 56 | SMART (arXiv:2502.11435) — tool overuse mitigation |
+| 58 | Tool Use Survey (arXiv:2603.22862) |
+| 49w | Message Batches 300k — kandidat: /farm tier |
+| 45 | LangChain Deep Agents — planning, filesystem offload |
+| 29l | AgentScope — Alibaba, MsgHub orchestration |
+| 29m | MCP Elicitation — MCP servers -> structured user input |
+| 29f | Agent SDK repos — claude-agent-sdk-python + typescript |
+| 29e | Mem0 — graph-based memory architecture |
+| 9 | OpenClaw/NemoClaw — 210k* messaging-first agent runtime |
+| 69 | open-multi-agent — TypeScript DAG, AgentPool semaphore |
+| 79 | Context Engineering (Goodside) — terminologicka divergence |
+| 80 | AI defers architecture decisions (Willison) |
+
+### Weekly Digest 2026-04-06
+**Aktivita projektov:** STOPA 50 commitu (prompt-evolve GEPA, HERA, BM25 memory search). NG-ROBOT aktivni (SEO phase 7b).
+**Novinky:** #73 Meta-Harness, #70 agent-browser, #74 Sonnet 5. Trend: agent defense + self-improvement.
+**Pouceni:** 27 novych learnings — SKILL0 dynamic curriculum, OSFT self-sharpening, agent defense, BM25 retrieval.
+
+### Scan History Archive (before 2026-04-12)
+- 2026-04-10 — morning-watch | Sonnet 3.7+Haiku 3.5 retired, Bedrock Messages API preview
+- 2026-04-09 — morning-watch | Compaction API beta, Mythos Preview live, data residency controls
+- 2026-04-08 — quick+update | Managed Agents beta, effort=high, thinking deprecation, ant CLI
+- 2026-04-07 #2 — full | Model Capabilities API, AGENTS.md study, Context Engineering
+- 2026-04-07 — quick | No new releases since 2026-04-04
+- 2026-04-06 #2 — quick | Extended Thinking whitespace fix, Tool Streaming fix, Write Tool +60%
+- 2026-04-06 — full | Items: 1 action, 2 watch, 3 info
+- 2026-04-05 — quick | No new releases
+- 2026-04-04 — multiple targeted (Meta-Harness, Multiscreen, MCP Toolbox, agent-browser)
+- 2026-04-03 — full x2 | Items: 7 action, 6 watch, 6 info
+- 2026-04-01 — full | Items: 5 action, 4 watch, 4 info
+- 2026-03-31 — full | Items: 3 action, 4 watch, 4 info
+- 2026-03-29 — full (PyTorch 2.11, Modular Diffusers, hf papers CLI)
+- 2026-03-28 — full (Mythos leak, LiteLLM, MCP Elicitation)
+- 2026-03-27 — targeted (CC v2.1.85)

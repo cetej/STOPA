@@ -1,31 +1,31 @@
 # Session Checkpoint
 
-**Saved**: 2026-04-19 (auto-saved (session end))
+**Saved**: 2026-04-20 (auto-saved (session end))
 **Task**: none
 **Branch**: main
-**Last commit**: `94bd1c7` fix(hooks): oprav permission-auto-approve — JSON first + stdin timeout
+**Last commit**: `7d45695` chore(memory): sync auto-memory mirror (33 new files, 1 updated)
 
 ---
 
 ## Session Activity
 
-Session: 136 file edits, 5 agent spawns, 4 skill calls. Skills: dreams, less-permission-prompts
-Duration: ~31673 min
+Session: 172 file edits, 8 agent spawns, 7 skill calls. Skills: dreams, less-permission-prompts
+Duration: ~33274 min
 
 ## Files Touched
 
 | File | Operations | Date |
 |------|-----------|------|
-| watchlist.md | 8 edits | 2026-04-19 |
-| _regions-cz.mjs | 8 edits | 2026-04-19 |
-| SKILL.md | 8 edits | 2026-04-19 |
-| project_monitor.md | 7 edits | 2026-04-19 |
-| package.json | 6 edits | 2026-04-19 |
-| _classifier.mjs | 6 edits | 2026-04-19 |
-| _registry.mjs | 5 edits | 2026-04-19 |
-| skill-design.md | 4 edits | 2026-04-19 |
-| permission-auto-approve.sh | 4 edits | 2026-04-19 |
-| orchestration-resilience.md | 4 edits | 2026-04-19 |
+| watchlist.md | 11 edits | 2026-04-20 |
+| permission-auto-approve.sh | 10 edits | 2026-04-20 |
+| _regions-cz.mjs | 8 edits | 2026-04-20 |
+| SKILL.md | 8 edits | 2026-04-20 |
+| project_monitor.md | 7 edits | 2026-04-20 |
+| settings.json | 6 edits | 2026-04-20 |
+| package.json | 6 edits | 2026-04-20 |
+| _classifier.mjs | 6 edits | 2026-04-20 |
+| inbox.md | 5 edits | 2026-04-20 |
+| _registry.mjs | 5 edits | 2026-04-20 |
 
 ## Key Results
 
@@ -33,19 +33,16 @@ _No commits this session_
 
 ## Errors & Corrections
 
-- [frustration] [frustration] Reakce v jiné konverzaci - nějak to nefunguje: Nemám v aktuáln
-- [frustration] "Don't use approach A, the foo module doesn't expose that — go straight to B
-- [frustration] [frustration] The Harness Is Everything: What Cursor, Claude Code, and Perplexit
+- [correction] You NEVER do the work yourself
+- [correction] Někde jsem četl, že fungování Claude by pomohlo vypnutí paměti v nastaven
 - [frustration] [frustration] You are a skill evolution agent for STOPA — a Claude Code orches
 - [correction] You NEVER do the work yourself
+- [correction] **NEVER** auto-add other patterns — only the three above
 
 ## Learnings Captured
 
-learnings_this_session: 4
-  - 2026-04-19-feature-must-reach-main-ui
-  - 2026-04-19-harness-engineering-adoption
-  - 2026-04-19-multica-curated-vs-similarity
-  - 2026-04-19-worldmonitor-adoption-pattern
+learnings_this_session: 0
+_No new learnings files created_
 
 ## Workflow Decisions
 
@@ -62,7 +59,7 @@ _No pending subtasks detected in state.md_
 
 > **Task**: none
 >
-> **Context**: Last commit `94bd1c7` (fix(hooks): oprav permission-auto-approve — JSON first + stdin timeout). Branch: main.
-> Session had 136 edits, 5 agents, 4 skill calls, 0 errors.
+> **Context**: Last commit `7d45695` (chore(memory): sync auto-memory mirror (33 new files, 1 updated)). Branch: main.
+> Session had 172 edits, 8 agents, 7 skill calls, 0 errors.
 
 
