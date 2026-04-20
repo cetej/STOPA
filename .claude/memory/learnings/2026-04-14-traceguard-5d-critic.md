@@ -6,10 +6,10 @@ component: orchestration
 tags: [critic, verification, decomposition, multi-dimensional]
 summary: "TraceGuard (arXiv:2604.03968) — 5D CoT monitoring: goal alignment, constraint adherence, reasoning coherence, safety awareness, action-trace consistency. Každá dimenze = oddělený LLM call → odolnost proti kolusi a blind spotům. Alternativa k monolitickému critic callu pro DEEP complexity."
 source: external_research
-uses: 2
+uses: 3
 harmful_uses: 0
 successful_uses: 0
-confidence: 1.0
+confidence: 1.00
 maturity: draft
 skill_scope: [critic]
 related: [2026-04-13-judge-panel-size-convergence.md]

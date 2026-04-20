@@ -3,8 +3,8 @@
 Obsah kompilovaných wiki článků organizovaný podle typu entity.
 LLM čte tento soubor PRVNÍ při odpovídání na dotazy.
 
-**Last updated:** 2026-04-20
-**Total articles:** 50
+**Last updated:** 2026-04-21
+**Total articles:** 55
 
 ---
 
@@ -51,6 +51,11 @@ LLM čte tento soubor PRVNÍ při odpovídání na dotazy.
 | [architecture-descriptors-ai-agents](concepts/architecture-descriptors-ai-agents.md) | Formal architecture descriptors: −33–44% agent nav steps, −52% behavioral variance; S-expr > YAML for errors | arXiv:2604.13108 | 2026-04-20 |
 | [on-device-rag-unified](concepts/on-device-rag-unified.md) | Unified on-device RAG: 1/10 context parity with server RAG; shared retrieval + compression model; privacy-first | arXiv:2604.14403 | 2026-04-20 |
 | [kill-chain-canary](concepts/kill-chain-canary.md) | Kill-chain injection tracking EXPOSED→PERSISTED→RELAYED→EXECUTED; Claude 0/164 ASR; write-node = key defense | arXiv:2603.28013 | 2026-04-20 |
+| [system-prompt-archaeology](concepts/system-prompt-archaeology.md) | Willison: Claude system prompts → git repo; git log/diff/blame for prompt evolution tracking across model versions | simonwillison.net | 2026-04-21 |
+| [knowledge-drift-chronos](concepts/knowledge-drift-chronos.md) | Chronos: Event Evolution Graph for time-aware retrieval; vanilla RAG fails under continuous knowledge drift | arXiv:2604.05096 | 2026-04-21 |
+| [context-awareness-gate](concepts/context-awareness-gate.md) | CAG: dynamic gate deciding per-query whether retrieval is needed; prevents context contamination in RAG | arXiv:2411.16133 | 2026-04-21 |
+| [swe-agents-survey](concepts/swe-agents-survey.md) | Survey 150+ papers/50+ benchmarks; agent-based SWE = SOTA; self-evolving systems = research frontier | arXiv:2510.09721 | 2026-04-21 |
+| [adr-context-strategies](concepts/adr-context-strategies.md) | ADR generation: 3-5 prior records = optimal context window; context engineering > model scale | arXiv:2604.03826 | 2026-04-21 |
 
 ## People (3)
 

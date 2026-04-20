@@ -1,6 +1,6 @@
 {
-  "version": "1.9",
-  "updated": "2026-04-20",
+  "version": "2.0",
+  "updated": "2026-04-21",
   "description": "2BRAIN knowledge graph — entity-centric storage with typed edges",
   "node_types": ["person", "concept", "project", "value", "reasoning", "experience", "goal"],
   "edge_types": ["created", "inspired", "contradicts", "enables", "blocks", "applied-in", "drives", "taught-me", "practiced-in", "related-to", "part-of", "complementary", "validates", "formalizes"],
@@ -389,6 +389,41 @@
       "tags": ["prompt-injection", "security", "multi-agent", "pipeline-security", "kill-chain"],
       "wiki": "concepts/kill-chain-canary.md",
       "added": "2026-04-19"
+    },
+    "system-prompt-archaeology": {
+      "type": "concept",
+      "label": "System Prompt Archaeology — Git Timeline Methodology",
+      "tags": ["ai", "research-methodology", "system-prompts", "git", "version-control", "context-engineering"],
+      "wiki": "concepts/system-prompt-archaeology.md",
+      "added": "2026-04-21"
+    },
+    "knowledge-drift-chronos": {
+      "type": "concept",
+      "label": "Knowledge Drift & Chronos — Time-Aware LLM Adaptation",
+      "tags": ["ai", "rag", "temporal-reasoning", "knowledge-drift", "event-evolution-graph", "continual-learning"],
+      "wiki": "concepts/knowledge-drift-chronos.md",
+      "added": "2026-04-21"
+    },
+    "context-awareness-gate": {
+      "type": "concept",
+      "label": "Context Awareness Gate (CAG) — Adaptive RAG Retrieval Gating",
+      "tags": ["ai", "rag", "adaptive-retrieval", "context-contamination", "retrieval-gating", "efficiency"],
+      "wiki": "concepts/context-awareness-gate.md",
+      "added": "2026-04-21"
+    },
+    "swe-agents-survey": {
+      "type": "concept",
+      "label": "LLM-Empowered SWE Agents — Comprehensive Survey",
+      "tags": ["ai", "survey", "software-engineering", "multi-agent", "benchmarks", "agentic-systems"],
+      "wiki": "concepts/swe-agents-survey.md",
+      "added": "2026-04-21"
+    },
+    "adr-context-strategies": {
+      "type": "concept",
+      "label": "ADR Generation with LLMs — Context Window Strategies",
+      "tags": ["ai", "architecture-decision-records", "context-engineering", "rag", "documentation", "prompt-engineering"],
+      "wiki": "concepts/adr-context-strategies.md",
+      "added": "2026-04-21"
     }
   },
   "edges": [
@@ -542,6 +577,27 @@
     {"from": "kill-chain-canary", "to": "prompt-injection-defense", "rel": "related-to", "evidence": "kill-chain canaries extend defense.md: adds stage-level tracking methodology and write-node placement insight"},
     {"from": "kill-chain-canary", "to": "stopa", "rel": "applied-in", "evidence": "write-node = highest-leverage safety point; STOPA orchestration should route all writes through verified model (not workers)"},
     {"from": "kill-chain-canary", "to": "multi-agent-orchestration-protocols", "rel": "related-to", "evidence": "kill-chain tracking addresses pipeline-level injection — MAS orchestration protocols must include write-node governance"},
-    {"from": "kill-chain-canary", "to": "claude-code-design-space", "rel": "validates", "evidence": "Claude 0/164 ASR at memory-write = CC's deny-first permission design validated empirically at pipeline level"}
+    {"from": "kill-chain-canary", "to": "claude-code-design-space", "rel": "validates", "evidence": "Claude 0/164 ASR at memory-write = CC's deny-first permission design validated empirically at pipeline level"},
+    {"from": "simon-willison", "to": "system-prompt-archaeology", "rel": "created", "date": "2026-04-18"},
+    {"from": "system-prompt-archaeology", "to": "claude-code-design-space", "rel": "complementary", "evidence": "design space paper analyzes CC architecture; archaeology surfaces the prompt-level behavioral record"},
+    {"from": "system-prompt-archaeology", "to": "claude-opus-47", "rel": "applied-in", "evidence": "Willison used git archaeology to analyze Opus 4.6 → 4.7 system prompt differences"},
+    {"from": "system-prompt-archaeology", "to": "agentic-engineering-patterns", "rel": "related-to", "evidence": "both apply engineering discipline (versioning, diffing) to AI artifacts instead of treating them as black boxes"},
+    {"from": "system-prompt-archaeology", "to": "context-engineering", "rel": "related-to", "evidence": "system prompts are primary context engineering artifacts; git archaeology reveals their design trajectory"},
+    {"from": "knowledge-drift-chronos", "to": "ecphory-rag", "rel": "related-to", "evidence": "both KG-based retrieval; Chronos adds temporal dimension — events as time-stamped nodes with causal edges"},
+    {"from": "knowledge-drift-chronos", "to": "memory-augmented-routing", "rel": "complementary", "evidence": "routing decides WHAT to retrieve; Chronos structures WHEN/HOW facts changed — orthogonal optimizations"},
+    {"from": "knowledge-drift-chronos", "to": "agent-memory-taxonomy", "rel": "related-to", "evidence": "Chronos implements temporally-aware read operation; Event Evolution Graph = structured manage operation"},
+    {"from": "knowledge-drift-chronos", "to": "stopa", "rel": "applied-in", "evidence": "STOPA learnings supersedes: chain is a primitive Event Evolution Graph; valid_until + confidence decay address same drift problem"},
+    {"from": "context-awareness-gate", "to": "ecphory-rag", "rel": "related-to", "evidence": "CAG decides WHETHER to query the KG; EcphoryRAG handles HOW to query it efficiently — complementary layers"},
+    {"from": "context-awareness-gate", "to": "context-engineering", "rel": "related-to", "evidence": "CAG implements the context engineering principle: don't fill context window with irrelevant content"},
+    {"from": "context-awareness-gate", "to": "memory-augmented-routing", "rel": "complementary", "evidence": "routing chooses the model tier; CAG decides whether to retrieve at all — two-layer adaptive RAG"},
+    {"from": "context-awareness-gate", "to": "stopa", "rel": "applied-in", "evidence": "STOPA hybrid-retrieve.py escalation trigger (grep <3 matches) = primitive CAG; CAG formalizes this into principled statistical gate"},
+    {"from": "swe-agents-survey", "to": "agentforge", "rel": "related-to", "evidence": "AgentForge is a concrete implementation of the agent-based paradigm the survey identifies as SOTA"},
+    {"from": "swe-agents-survey", "to": "agentic-engineering-patterns", "rel": "related-to", "evidence": "Willison's practitioner perspective complements the academic two-dimensional taxonomy"},
+    {"from": "swe-agents-survey", "to": "verifiability-sw2", "rel": "validates", "evidence": "survey confirms: verifiable tasks (code gen + test execution) show the largest gains from agentic approaches"},
+    {"from": "swe-agents-survey", "to": "stopa", "rel": "validates", "evidence": "self-evolving systems research frontier = STOPA /self-evolve + /autoloop skills; validates multi-agent approach"},
+    {"from": "adr-context-strategies", "to": "context-engineering", "rel": "validates", "evidence": "empirical proof: last 3-5 context window outperforms all-history — deliberate selection beats more context"},
+    {"from": "adr-context-strategies", "to": "architecture-descriptors", "rel": "related-to", "evidence": "both address structured AI-assisted documentation for codebases — descriptors at navigation, ADRs at decision level"},
+    {"from": "adr-context-strategies", "to": "knowledge-drift-chronos", "rel": "related-to", "evidence": "both address temporal relevance in structured document retrieval — ADRs = sequential structured decisions"},
+    {"from": "adr-context-strategies", "to": "stopa", "rel": "applied-in", "evidence": "decisions.md = sequential ADRs; last 3-5 entries as context > full history; checkpoint truncation boundary already implements this"}
   ]
 }

@@ -13,12 +13,6 @@ Zpracované záznamy se přesunou do `inbox-archive.md`.
 
 ## Queue
 
-URL: https://simonwillison.net/2026/Apr/18/extract-system-prompts/
-URL: https://arxiv.org/abs/2604.05096
-URL: https://arxiv.org/abs/2411.16133
-URL: https://arxiv.org/abs/2510.09721
-URL: https://arxiv.org/abs/2604.03826
-
 ## Processed
 
 | Date | Item |
@@ -55,3 +49,8 @@ URL: https://arxiv.org/abs/2604.03826
 | 2026-04-20 | URL: https://arxiv.org/abs/2604.14403 — On-Device RAG Unified Model → new wiki article on-device-rag-unified.md, graph +1 node +4 edges |
 | 2026-04-20 | URL: https://arxiv.org/abs/2603.28013 — Kill-Chain Canaries → new wiki article kill-chain-canary.md, graph +1 node +4 edges |
 | 2026-04-20 | URL: https://x.com/deedydas/status/2020350881464742330 — speculative Claude codenames (unofficial), skip |
+| 2026-04-21 | URL: https://simonwillison.net/2026/Apr/18/extract-system-prompts/ — Willison system prompt archaeology → new wiki article system-prompt-archaeology.md, graph +1 node +5 edges |
+| 2026-04-21 | URL: https://arxiv.org/abs/2604.05096 — Chronos: Knowledge Drift in LLMs → new wiki article knowledge-drift-chronos.md, graph +1 node +4 edges |
+| 2026-04-21 | URL: https://arxiv.org/abs/2411.16133 — Context Awareness Gate (CAG) for RAG → new wiki article context-awareness-gate.md, graph +1 node +4 edges |
+| 2026-04-21 | URL: https://arxiv.org/abs/2510.09721 — LLM-SWE Agents Survey (150+ papers, 50+ benchmarks) → new wiki article swe-agents-survey.md, graph +1 node +4 edges |
+| 2026-04-21 | URL: https://arxiv.org/abs/2604.03826 — ADR Context Strategies: 3-5 records optimal → new wiki article adr-context-strategies.md, graph +1 node +4 edges |
