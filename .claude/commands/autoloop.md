@@ -763,3 +763,13 @@ For non-SKILL.md files without `verify:`, create a custom scoring function based
 2. This does NOT count as an agent spawn (runs in main context)
 3. Log the autoloop run to budget event log when done
 4. Estimated cost: ~2-5k tokens per iteration + ~5k for final validation
+
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "The change looks correct, I'll skip the verify step to save time." | Verify is the only source of truth — subjective assessment is how reward hacking starts. Even "obvious" fixes fail verify 30%+ of the time. | Run verify unconditionally every iteration. No exceptions. |
+| "I'll bundle two small changes in one commit to save iterations." | Bundling destroys credit assignment — if the metric drops, you can't tell which change caused it. Two changes = two experiments. | One atomic change per iteration. If you need "and" to describe it, split it. |
+| "Three discards in a row means I should try harder, not stop." | Circuit breakers exist because persistent failure after 3 attempts signals a fundamental problem with approach, not effort. More iterations waste budget on a dead end. | Stop at the circuit breaker, diagnose root cause, escalate or try a structurally different approach. |
+| "The guard failed but the metric improved, so I'll keep the change anyway." | Guard measures regressions in non-target behavior. A metric gain that breaks other functionality is not an improvement — it's a trade-off that needs explicit approval. | Rework the change to satisfy both metric and guard. If impossible after 2 attempts, discard. |
+| "I'll modify the test/guard file to make it pass faster." | Changing the measurement baseline invalidates all prior iterations and makes before/after comparison meaningless. | Adapt the implementation to pass the existing guard. Never modify guard or test files. |
