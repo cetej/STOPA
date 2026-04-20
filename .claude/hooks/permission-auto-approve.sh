@@ -105,12 +105,29 @@ deny_with_reason() {
 ask_user() {
   local layer="${1:-L0}"
   local reason="${2:-unclassified risk}"
+  # If L2 sentinel is enabled (env var or settings.json hook chain), prefer escalation.
+  # Otherwise emit ask for live user.
+  if [ "${STOPA_L2_SENTINEL:-0}" = "1" ]; then
+    passthrough "$layer" "$reason -> L2"
+    return
+  fi
   echo '{"hookSpecificOutput":{"hookEventName":"PermissionRequest","permissionDecision":"ask"},"suppressOutput":true}'
   echo "- $TS | ASK-$layer | $TOOL | $reason" >> "$LOG" 2>/dev/null || true
   log_jsonl "$layer" "ask" "$reason"
 }
 
-# Structured JSONL log for metrics and L1→L2 promotion analysis
+# Passthrough — empty {} response. Lets next hook in chain (L2 sentinel) decide.
+# Used when STOPA_L2_SENTINEL=1 for previously-ASK cases.
+# If no L2 hook is configured, CC falls back to default (asks user).
+passthrough() {
+  local layer="${1:-L0}"
+  local reason="${2:-escalate to L2}"
+  echo '{}'
+  echo "- $TS | ESCALATE-$layer | $TOOL | $reason" >> "$LOG" 2>/dev/null || true
+  log_jsonl "$layer" "escalate" "$reason"
+}
+
+# Structured JSONL log for metrics and L1->L2 promotion analysis
 log_jsonl() {
   local layer="$1"
   local decision="$2"

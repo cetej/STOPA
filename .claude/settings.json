@@ -482,6 +482,12 @@
             "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/permission-auto-approve.sh",
             "timeout": 3,
             "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/permission-sentinel.py",
+            "timeout": 15,
+            "statusMessage": "L2 sentinel reviewing..."
           }
         ]
       }
