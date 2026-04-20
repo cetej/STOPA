@@ -3,9 +3,13 @@
 # Captures tool name + input snippet → .claude/memory/observations.jsonl
 # Profile: strict only (verbose, slight overhead)
 
-source .claude/hooks/lib/profile-check.sh 2>/dev/null && require_profile strict
+# Anchor to project root via script location — prevents CWD-dependent writes
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
-OBS=".claude/memory/observations.jsonl"
+source "$SCRIPT_DIR/lib/profile-check.sh" 2>/dev/null && require_profile strict
+
+OBS="$PROJECT_ROOT/.claude/memory/observations.jsonl"
 TOOL="${CLAUDE_TOOL_NAME:-unknown}"
 INPUT="${CLAUDE_TOOL_INPUT:-}"
 EXIT="${CLAUDE_TOOL_EXIT_CODE:-}"

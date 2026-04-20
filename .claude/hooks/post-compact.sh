@@ -2,9 +2,13 @@
 # PostCompact hook — auto-save checkpoint before context is lost
 # Enhanced: actually writes checkpoint state, not just a reminder
 
-CHECKPOINT=".claude/memory/checkpoint.md"
-STATE=".claude/memory/state.md"
-BUDGET=".claude/memory/budget.md"
+# Anchor to project root via script location — prevents CWD-dependent writes
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
+CHECKPOINT="$PROJECT_ROOT/.claude/memory/checkpoint.md"
+STATE="$PROJECT_ROOT/.claude/memory/state.md"
+BUDGET="$PROJECT_ROOT/.claude/memory/budget.md"
 TS=$(date +"%Y-%m-%d %H:%M")
 TODAY=$(date +"%Y-%m-%d")
 
@@ -41,8 +45,8 @@ Review and update manually if needed.
 CKEOF
 
 # Flush scratchpad/intermediate insights to raw/ for compound loop
-SCRATCHPAD=".claude/memory/intermediate/scratchpad.md"
-RAW_DIR=".claude/memory/raw"
+SCRATCHPAD="$PROJECT_ROOT/.claude/memory/intermediate/scratchpad.md"
+RAW_DIR="$PROJECT_ROOT/.claude/memory/raw"
 if [ -f "$SCRATCHPAD" ] && [ -s "$SCRATCHPAD" ]; then
   RAW_FILE="$RAW_DIR/${TODAY}-compaction-flush.md"
   mkdir -p "$RAW_DIR"
@@ -58,7 +62,7 @@ if [ -f "$SCRATCHPAD" ] && [ -s "$SCRATCHPAD" ]; then
 fi
 
 # Flush pending decisions from activity log
-ACTIVITY=".claude/memory/intermediate/activity-log.md"
+ACTIVITY="$PROJECT_ROOT/.claude/memory/intermediate/activity-log.md"
 if [ -f "$ACTIVITY" ] && [ -s "$ACTIVITY" ]; then
   # Append recent decisions to raw/ for /compile pickup
   DECISION_COUNT=$(grep -c "decision\|DECISION\|rozhodnutí" "$ACTIVITY" 2>/dev/null || echo "0")
