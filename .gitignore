@@ -53,6 +53,14 @@ experiments/*/data/
 # Research temp files
 /research/
 
+# Runtime session state — drifts every session, not worth tracking
+.claude/memory/activity-log.md
+.claude/memory/budget.md
+.claude/memory/checkpoint.md
+.claude/memory/corrections.jsonl
+.claude/memory/violations.jsonl
+.claude/hooks/advisor-state.json
+
 # Auto-generated session raw captures (high volume, transient)
 .claude/memory/raw/
 
