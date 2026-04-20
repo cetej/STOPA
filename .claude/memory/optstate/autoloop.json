@@ -1,10 +1,42 @@
 {
-  "last_updated": "2026-04-08",
-  "total_runs": 0,
-  "health": "cold_start",
-  "change_ledger": [],
-  "strategies_that_work": [],
+  "last_updated": "2026-04-20",
+  "total_runs": 1,
+  "health": "improving",
+  "change_ledger": [
+    {
+      "round": 1,
+      "target": "autoloop",
+      "strategy": "structural completeness",
+      "mutations": ["Added Anti-Rationalization Defense table with 5 rows covering skip-verify, bundling, circuit breaker bypass, guard failure override, test file modification"],
+      "outcome": "success",
+      "pass_rate_delta": 0.33
+    },
+    {
+      "round": 2,
+      "target": "autoloop",
+      "strategy": "structural completeness",
+      "mutations": ["Added Red Flags section (6 items) and Verification Checklist (6 checkboxes) — structural completion"],
+      "outcome": "success",
+      "pass_rate_delta": 0.67
+    }
+  ],
+  "strategies_that_work": [
+    "structural completeness audit (required sections ARD+RF+VC) — covers multiple criteria in one edit",
+    "error classification in ARD: first-person quoted rationalizations in column 1 are more actionable than vague warnings"
+  ],
   "strategies_that_fail": [],
-  "recurring_failure_patterns": [],
-  "optimization_velocity": {"stage": "exploration", "trend": "neutral"}
+  "recurring_failure_patterns": [
+    "Skills missing Anti-Rationalization Defense, Red Flags, Verification Checklist (structural — same as browse)"
+  ],
+  "optimization_velocity": {"stage": "early", "trend": "up"},
+  "per_target": {
+    "autoloop": {
+      "last_pass_rate": 1.0,
+      "best_pass_rate": 1.0,
+      "runs": 1,
+      "dominant_strategy": "structural completeness",
+      "convergence_round": 2,
+      "recommended_max_iterations": 3
+    }
+  }
 }

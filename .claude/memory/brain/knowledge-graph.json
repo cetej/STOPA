@@ -1,6 +1,6 @@
 {
-  "version": "1.8",
-  "updated": "2026-04-18",
+  "version": "1.9",
+  "updated": "2026-04-20",
   "description": "2BRAIN knowledge graph — entity-centric storage with typed edges",
   "node_types": ["person", "concept", "project", "value", "reasoning", "experience", "goal"],
   "edge_types": ["created", "inspired", "contradicts", "enables", "blocks", "applied-in", "drives", "taught-me", "practiced-in", "related-to", "part-of", "complementary", "validates", "formalizes"],
@@ -361,6 +361,34 @@
       "tags": ["ai", "orchestration", "multi-channel", "gateway", "agent-design"],
       "wiki": null,
       "added": "2026-04-18"
+    },
+    "claude-opus-47": {
+      "type": "concept",
+      "label": "Claude Opus 4.7 — Model Release",
+      "tags": ["claude", "anthropic", "model", "vision", "coding", "safety"],
+      "wiki": "concepts/claude-opus-47.md",
+      "added": "2026-04-19"
+    },
+    "architecture-descriptors": {
+      "type": "concept",
+      "label": "Formal Architecture Descriptors for AI Coding Agents",
+      "tags": ["coding-agents", "codebase-navigation", "architecture", "documentation"],
+      "wiki": "concepts/architecture-descriptors-ai-agents.md",
+      "added": "2026-04-19"
+    },
+    "on-device-rag": {
+      "type": "concept",
+      "label": "On-Device RAG — Unified Model (10× context compression)",
+      "tags": ["rag", "edge-computing", "retrieval", "context-compression", "privacy"],
+      "wiki": "concepts/on-device-rag-unified.md",
+      "added": "2026-04-19"
+    },
+    "kill-chain-canary": {
+      "type": "concept",
+      "label": "Kill-Chain Canaries — Stage-Level Prompt Injection Tracking",
+      "tags": ["prompt-injection", "security", "multi-agent", "pipeline-security", "kill-chain"],
+      "wiki": "concepts/kill-chain-canary.md",
+      "added": "2026-04-19"
     }
   },
   "edges": [
@@ -499,6 +527,21 @@
     {"from": "claude-code-design-space", "to": "prompt-injection-defense", "rel": "related-to", "evidence": "CC deny-first permission system = multi-layer injection defense; OpenClaw is the shared system between both papers"},
     {"from": "claude-code-design-space", "to": "agentic-engineering-patterns", "rel": "related-to", "evidence": "Willison's human-side engineering patterns are the complement to CC's tool-side architecture"},
     {"from": "open-claw", "to": "claude-code-design-space", "rel": "related-to", "evidence": "OpenClaw is the comparative system in the paper — perimeter security vs per-action deny-first"},
-    {"from": "open-claw", "to": "prompt-injection-defense", "rel": "related-to", "evidence": "OpenClaw integrates LlamaFirewall for injection defense at gateway level"}
+    {"from": "open-claw", "to": "prompt-injection-defense", "rel": "related-to", "evidence": "OpenClaw integrates LlamaFirewall for injection defense at gateway level"},
+    {"from": "claude-opus-47", "to": "claude-code-design-space", "rel": "related-to", "evidence": "Opus 4.7 is the new primary model for CC — architecture paper analyzes this model family"},
+    {"from": "claude-opus-47", "to": "agentforge", "rel": "related-to", "evidence": "Opus 4.7 3× more SWE tasks = model powering AgentForge-style execution-grounded agents"},
+    {"from": "claude-opus-47", "to": "stopa", "rel": "applied-in", "evidence": "Opus 4.7 = new default model for STOPA orchestration; xhigh effort tier for deep tasks; tokenizer change requires budget recheck"},
+    {"from": "architecture-descriptors", "to": "agentforge", "rel": "enables", "evidence": "formal codebase descriptors reduce agent navigation overhead — complements AgentForge's execution-grounded approach"},
+    {"from": "architecture-descriptors", "to": "context-engineering", "rel": "related-to", "evidence": "architecture descriptors = structured context injection for coding agents — concrete application of context engineering"},
+    {"from": "architecture-descriptors", "to": "stopa", "rel": "applied-in", "evidence": "-33-44% navigation steps; scout agent should generate intent.lisp-style descriptors; -52% behavioral variance"},
+    {"from": "architecture-descriptors", "to": "agentic-engineering-patterns", "rel": "enables", "evidence": "formal codebase documentation is the infrastructure enabling agentic engineering instead of vibe coding"},
+    {"from": "on-device-rag", "to": "ecphory-rag", "rel": "related-to", "evidence": "both achieve token/context reduction in RAG: EcphoryRAG 94% via KG, on-device RAG 10× via unified model"},
+    {"from": "on-device-rag", "to": "memory-augmented-routing", "rel": "related-to", "evidence": "both address efficient retrieval; on-device focuses on context compression, routing focuses on model selection"},
+    {"from": "on-device-rag", "to": "agent-memory-taxonomy", "rel": "related-to", "evidence": "on-device RAG = edge implementation of read operation in write-manage-read taxonomy"},
+    {"from": "on-device-rag", "to": "second-brain", "rel": "enables", "evidence": "10× context compression = practical enabler for on-device personal second brain (medical, financial, private data)"},
+    {"from": "kill-chain-canary", "to": "prompt-injection-defense", "rel": "related-to", "evidence": "kill-chain canaries extend defense.md: adds stage-level tracking methodology and write-node placement insight"},
+    {"from": "kill-chain-canary", "to": "stopa", "rel": "applied-in", "evidence": "write-node = highest-leverage safety point; STOPA orchestration should route all writes through verified model (not workers)"},
+    {"from": "kill-chain-canary", "to": "multi-agent-orchestration-protocols", "rel": "related-to", "evidence": "kill-chain tracking addresses pipeline-level injection — MAS orchestration protocols must include write-node governance"},
+    {"from": "kill-chain-canary", "to": "claude-code-design-space", "rel": "validates", "evidence": "Claude 0/164 ASR at memory-write = CC's deny-first permission design validated empirically at pipeline level"}
   ]
 }

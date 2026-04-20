@@ -6,7 +6,7 @@ component: orchestration
 tags: [orchestration-graph, shared-workspace, dynamic-structure, global-workspace-theory]
 summary: "BIGMAS dynamic graph orchestration — PARTIALLY IMPLEMENTED (2026-04-11): Phase 3.3 Topology Selection (deep tier), 4-zone workspace schema, full-state routing at wave boundaries, routing count tracking. Gains: +14-36pp on reasoning benchmarks, orthogonal to model-level improvements."
 source: external_research
-uses: 14
+uses: 15
 harmful_uses: 0
 related: [2026-04-07-sas-beats-mas-equal-compute.md, 2026-04-07-mom-taro-orchestration-upgrades.md]
 verify_check: "Grep('N-Plan Selection', path='.claude/skills/orchestrate/SKILL.md') → 1+ matches"

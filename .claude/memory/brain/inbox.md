@@ -13,12 +13,11 @@ Zpracované záznamy se přesunou do `inbox-archive.md`.
 
 ## Queue
 
-URL: https://www.anthropic.com/news/claude-opus-4-7
-URL: https://transformer-circuits.pub/2026/emotions/index.html
-URL: https://arxiv.org/abs/2604.13108
-URL: https://arxiv.org/abs/2604.14403
-URL: https://arxiv.org/abs/2603.28013
-URL: https://x.com/deedydas/status/2020350881464742330
+URL: https://simonwillison.net/2026/Apr/18/extract-system-prompts/
+URL: https://arxiv.org/abs/2604.05096
+URL: https://arxiv.org/abs/2411.16133
+URL: https://arxiv.org/abs/2510.09721
+URL: https://arxiv.org/abs/2604.03826
 
 ## Processed
 
@@ -50,3 +49,9 @@ URL: https://x.com/deedydas/status/2020350881464742330
 | 2026-04-18 | URL: https://x.com/karpathy/status/2040572272944324650 — Karpathy Farzapedia → updated karpathy.md + llm-wiki.md, new graph node |
 | 2026-04-18 | URL: https://x.com/AnthropicAI/status/2044138483870998932 — Anthropic automated alignment researchers → new wiki article automated-alignment-researchers.md |
 | 2026-04-18 | URL: https://x.com/simonw/status/2025990408514523517 — Willison agentic engineering → new wiki article agentic-engineering-patterns.md |
+| 2026-04-20 | URL: https://www.anthropic.com/news/claude-opus-4-7 — Claude Opus 4.7 → new wiki article claude-opus-47.md, graph +1 node +3 edges |
+| 2026-04-20 | URL: https://transformer-circuits.pub/2026/emotions/index.html — 403 Forbidden, skip |
+| 2026-04-20 | URL: https://arxiv.org/abs/2604.13108 — Formal Architecture Descriptors → new wiki article architecture-descriptors-ai-agents.md, graph +1 node +4 edges |
+| 2026-04-20 | URL: https://arxiv.org/abs/2604.14403 — On-Device RAG Unified Model → new wiki article on-device-rag-unified.md, graph +1 node +4 edges |
+| 2026-04-20 | URL: https://arxiv.org/abs/2603.28013 — Kill-Chain Canaries → new wiki article kill-chain-canary.md, graph +1 node +4 edges |
+| 2026-04-20 | URL: https://x.com/deedydas/status/2020350881464742330 — speculative Claude codenames (unofficial), skip |

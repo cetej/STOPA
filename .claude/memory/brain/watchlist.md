@@ -26,8 +26,8 @@ Emaily od těchto odesílatelů se automaticky zpracují:
 
 | URL | Autor | Frekvence | Poslední scan |
 |-----|-------|-----------|---------------|
-| https://karpathy.bearblog.dev/ | Karpathy | daily | 2026-04-19 |
-| https://simonwillison.net/ | Simon Willison | daily | 2026-04-19 |
+| https://karpathy.bearblog.dev/ | Karpathy | daily | 2026-04-20 |
+| https://simonwillison.net/ | Simon Willison | daily | 2026-04-20 |
 | https://www.answer.ai/blog | Jeremy Howard (Answer.ai) | weekly | 2026-04-19 |
 | https://www.anthropic.com/research | Anthropic Research | weekly | 2026-04-19 |
 | https://lilianweng.github.io/ | Lilian Weng (OpenAI) | monthly | 2026-04-19 |
@@ -36,27 +36,27 @@ Emaily od těchto odesílatelů se automaticky zpracují:
 
 | Query | Oblast | Kategorie | Poslední scan |
 |-------|--------|-----------|---------------|
-| LLM memory augmented agents | AI/ML | cs.AI | 2026-04-19 |
-| personal knowledge management AI | PKM | cs.AI | 2026-04-19 |
-| agent orchestration multi-agent tool-use | Orchestrace | cs.AI, cs.MA | 2026-04-19 |
-| RAG retrieval-augmented prompting context-engineering | Retrieval | cs.CL | 2026-04-19 |
-| LLM coding agent automated software engineering | Dev tools | cs.SE | 2026-04-19 |
-| self-improving agent reinforcement learning feedback | Self-improve | cs.AI, cs.LG | 2026-04-19 |
-| process reward model step verification | RL/Rewards | cs.AI, cs.LG | 2026-04-19 |
-| prompt injection agent safety defense | Safety | cs.CR, cs.AI | 2026-04-19 |
-| LLM knowledge graph entity extraction structured memory | Knowledge | cs.AI, cs.IR | 2026-04-19 |
-| agentic benchmark evaluation autonomous task | Eval | cs.AI | 2026-04-19 |
+| LLM memory augmented agents | AI/ML | cs.AI | 2026-04-20 |
+| personal knowledge management AI | PKM | cs.AI | 2026-04-20 |
+| agent orchestration multi-agent tool-use | Orchestrace | cs.AI, cs.MA | 2026-04-20 |
+| RAG retrieval-augmented prompting context-engineering | Retrieval | cs.CL | 2026-04-20 |
+| LLM coding agent automated software engineering | Dev tools | cs.SE | 2026-04-20 |
+| self-improving agent reinforcement learning feedback | Self-improve | cs.AI, cs.LG | 2026-04-20 |
+| process reward model step verification | RL/Rewards | cs.AI, cs.LG | 2026-04-20 |
+| prompt injection agent safety defense | Safety | cs.CR, cs.AI | 2026-04-20 |
+| LLM knowledge graph entity extraction structured memory | Knowledge | cs.AI, cs.IR | 2026-04-20 |
+| agentic benchmark evaluation autonomous task | Eval | cs.AI | 2026-04-20 |
 
 ## X/Twitter Accounts
 
 | Handle | Důvod sledování | Poslední scan |
 |--------|----------------|---------------|
-| @karpathy | LLM Wiki, context engineering, Software 3.0 | 2026-04-19 |
-| @AnthropicAI | Claude updates, safety research | 2026-04-19 |
-| @simonw | LLM tooling, datasette, practical AI | 2026-04-19 |
-| @deedydas | Claude Code usage patterns, agentic workflows | 2026-04-19 |
-| @swyx | AI Engineer ecosystem, latent space | 2026-04-19 |
-| @jeremyphoward | Answer.ai, practical ML | 2026-04-19 |
+| @karpathy | LLM Wiki, context engineering, Software 3.0 | 2026-04-20 |
+| @AnthropicAI | Claude updates, safety research | 2026-04-20 |
+| @simonw | LLM tooling, datasette, practical AI | 2026-04-20 |
+| @deedydas | Claude Code usage patterns, agentic workflows | 2026-04-20 |
+| @swyx | AI Engineer ecosystem, latent space | 2026-04-20 |
+| @jeremyphoward | Answer.ai, practical ML | 2026-04-20 |
 
 ## Google Drive Folders (auto-scan)
 

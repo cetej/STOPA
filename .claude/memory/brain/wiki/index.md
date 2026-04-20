@@ -3,8 +3,8 @@
 Obsah kompilovaných wiki článků organizovaný podle typu entity.
 LLM čte tento soubor PRVNÍ při odpovídání na dotazy.
 
-**Last updated:** 2026-04-18
-**Total articles:** 46
+**Last updated:** 2026-04-20
+**Total articles:** 50
 
 ---
 
@@ -47,6 +47,10 @@ LLM čte tento soubor PRVNÍ při odpovídání na dotazy.
 | [automated-alignment-researchers](concepts/automated-alignment-researchers.md) | 9 parallel Claude Opus 4.6 agents close 97% performance gap vs humans 23% in 7 days | Anthropic tweet 2026-04-14 | 2026-04-18 |
 | [agentic-engineering-patterns](concepts/agentic-engineering-patterns.md) | Agentic engineering ≠ vibe coding; code is cheap now; red/green TDD with agents | Willison simonwillison.net | 2026-04-18 |
 | [claude-code-design-space](concepts/claude-code-design-space.md) | 1.6% decision logic / 98.4% operational infra; 5-layer compaction; 7 perm modes; 27 hook events; sidechain isolation | arXiv:2604.14228 Liu et al. | 2026-04-18 |
+| [claude-opus-47](concepts/claude-opus-47.md) | Claude Opus 4.7: 3× SWE tasks, 98.5% visual acuity, xhigh effort tier, tokenizer change 1.0–1.35× | Anthropic 2026-04 | 2026-04-20 |
+| [architecture-descriptors-ai-agents](concepts/architecture-descriptors-ai-agents.md) | Formal architecture descriptors: −33–44% agent nav steps, −52% behavioral variance; S-expr > YAML for errors | arXiv:2604.13108 | 2026-04-20 |
+| [on-device-rag-unified](concepts/on-device-rag-unified.md) | Unified on-device RAG: 1/10 context parity with server RAG; shared retrieval + compression model; privacy-first | arXiv:2604.14403 | 2026-04-20 |
+| [kill-chain-canary](concepts/kill-chain-canary.md) | Kill-chain injection tracking EXPOSED→PERSISTED→RELAYED→EXECUTED; Claude 0/164 ASR; write-node = key defense | arXiv:2603.28013 | 2026-04-20 |
 
 ## People (3)
 
