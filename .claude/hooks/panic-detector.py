@@ -23,6 +23,7 @@ Inspired by: Anthropic "Emotion concepts and their function in a large language 
 Profile: standard+
 Performance target: <50ms — pure JSON/stat ops, no subprocess.
 """
+import hashlib
 import json
 import os
 import sys
@@ -239,9 +240,14 @@ def extract_event(data: dict[str, Any]) -> dict[str, Any] | None:
         except (json.JSONDecodeError, ValueError):
             tool_input = {}
 
+    # Compute args hash for doom-loop detection (Signal 6)
+    args_str = json.dumps(tool_input, sort_keys=True)
+    args_hash = hashlib.md5(args_str.encode()).hexdigest()[:12]
+
     event: dict[str, Any] = {
         'tool': tool_name,
         'ts': now,
+        'args_hash': args_hash,
     }
 
     # Extract file path for mutation/read tools
@@ -280,6 +286,49 @@ def extract_event(data: dict[str, Any]) -> dict[str, Any] | None:
         event['success'] = True
 
     return event
+
+
+def detect_identical_consecutive(sigs: list[tuple[str, str]], threshold: int = 3) -> str | None:
+    """Return tool name if threshold+ identical consecutive (tool, args_hash) pairs found.
+
+    Ported from huggingface/ml-intern agent/core/doom_loop.py — adapted for (str, str) tuples.
+    """
+    if len(sigs) < threshold:
+        return None
+    count = 1
+    for i in range(1, len(sigs)):
+        if sigs[i] == sigs[i - 1]:
+            count += 1
+            if count >= threshold:
+                return sigs[i][0]
+        else:
+            count = 1
+    return None
+
+
+def detect_repeating_sequence(sigs: list[tuple[str, str]]) -> str | None:
+    """Detect [A,B,A,B,...] patterns of length 2-5 with 2+ repetitions.
+
+    Returns a human-readable 'A->B' string if pattern found, else None.
+    Ported from huggingface/ml-intern agent/core/doom_loop.py — adapted for (str, str) tuples.
+    """
+    n = len(sigs)
+    for seq_len in range(2, 6):
+        min_required = seq_len * 2
+        if n < min_required:
+            continue
+        tail = sigs[-min_required:]
+        pattern = tail[:seq_len]
+        reps = 0
+        for start in range(n - seq_len, -1, -seq_len):
+            chunk = sigs[start:start + seq_len]
+            if chunk == pattern:
+                reps += 1
+            else:
+                break
+        if reps >= 2:
+            return '->'.join(p[0] for p in pattern)
+    return None
 
 
 def compute_signals(window: list[dict[str, Any]]) -> tuple[int, list[str]]:
@@ -382,6 +431,22 @@ def compute_signals(window: list[dict[str, Any]]) -> tuple[int, list[str]]:
         score += 1
         signals.append(f'confused_reads:1')
 
+    # --- Signal 6: Doom-loop — repeated identical tool calls (0-3 pts) ---
+    # Ported from huggingface/ml-intern agent/core/doom_loop.py
+    # Uses args_hash per event; infra-excluded events already filtered via scored_events.
+    sigs: list[tuple[str, str]] = [
+        (e['tool'], e.get('args_hash', '')) for e in scored_events
+    ]
+    identical_tool = detect_identical_consecutive(sigs, threshold=3)
+    if identical_tool:
+        score += 3
+        signals.append(f'doom_identical:{identical_tool}')
+    else:
+        seq_pattern = detect_repeating_sequence(sigs)
+        if seq_pattern:
+            score += 2
+            signals.append(f'doom_sequence:{seq_pattern}')
+
     return score, signals
 
 
@@ -460,6 +525,24 @@ def main() -> None:
         last_ts = state.get('last_intervention_ts') or 0
         message = None
 
+        # Build doom-specific suffix for intervention messages (Signal 6)
+        doom_suffix = ''
+        for sig in signals:
+            if sig.startswith('doom_identical:'):
+                tool = sig[len('doom_identical:'):]
+                doom_suffix = (
+                    f"\nPattern: 3× stejný toolcall na '{tool}' se stejnými argumenty. "
+                    f"Změň přístup nebo se zeptej uživatele."
+                )
+                break
+            if sig.startswith('doom_sequence:'):
+                pattern = sig[len('doom_sequence:'):]
+                doom_suffix = (
+                    f"\nPattern: opakující se sekvence {pattern}. "
+                    f"Zacyklil ses — zkus jiný přístup."
+                )
+                break
+
         if score >= RED_THRESHOLD and (now - last_ts) > RED_COOLDOWN_S:
             edits = sum(1 for e in state['window'] if e['tool'] in MUTATION_TOOLS)
             fails = sum(1 for e in state['window']
@@ -473,6 +556,7 @@ def main() -> None:
                 f"2. Proč předchozí {fails} oprav nefungovalo?\n"
                 f"3. Jaký je minimální diagnostický krok pro ověření hypotézy?\n"
                 f"Pokud nevíš → spusť /systematic-debugging"
+                + doom_suffix
             )
             state['red_injections'] = state.get('red_injections', 0) + 1
             state['last_intervention_ts'] = now
@@ -481,7 +565,7 @@ def main() -> None:
             log_episode(score, 'red', signals, summary, task_style)
 
         elif (score >= yellow_threshold
-              and any(s.startswith(('bash_fails', 'edit_fail_cycle')) for s in signals)
+              and any(s.startswith(('bash_fails', 'edit_fail_cycle', 'doom_')) for s in signals)
               and (now - last_ts) > YELLOW_COOLDOWN_S):
             # Yellow requires a failure-based signal — edit_velocity + scope_creep alone
             # is just productive bulk work, not panic (eliminates false positives on
@@ -495,6 +579,7 @@ def main() -> None:
                 f"Posledních {edits} editací, {fails} selhání ({summary}).\n"
                 f"Zvažte: zastavit se, přečíst chybovou hlášku, "
                 f"formulovat hypotézu PŘED dalším editem."
+                + doom_suffix
             )
             state['yellow_injections'] = state.get('yellow_injections', 0) + 1
             state['last_intervention_ts'] = now
