@@ -151,11 +151,33 @@ def read_session_context(transcript_path: str, last_n: int = 5) -> str:
         return "(transcript read error)"
 
 
+def _load_api_key_from_secrets() -> str | None:
+    """Fallback: read ANTHROPIC_API_KEY from ~/.claude/keys/secrets.env.
+
+    Rationale: Claude Code desktop deliberately strips ANTHROPIC_API_KEY from
+    child-process env (isolates subscription auth). Hooks run as children, so
+    they cannot see the env var even when it's in settings.json. Fallback to
+    the master secrets file — same source keys-sync.ps1 populates from.
+    """
+    try:
+        secrets_path = Path.home() / ".claude" / "keys" / "secrets.env"
+        if not secrets_path.exists():
+            return None
+        for line in secrets_path.read_text(encoding="utf-8", errors="replace").splitlines():
+            line = line.strip()
+            if line.startswith("ANTHROPIC_API_KEY="):
+                value = line.split("=", 1)[1].strip()
+                return value or None
+    except Exception:
+        return None
+    return None
+
+
 def call_claude_sentinel(tool_name: str, tool_input: dict, session_context: str) -> tuple[str, str]:
     """Call Claude API for sentinel decision. Returns (decision, reason).
     decision is 'ALLOW' | 'DENY' | 'ERROR'.
     """
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    api_key = os.environ.get("ANTHROPIC_API_KEY") or _load_api_key_from_secrets()
     if not api_key:
         return ("ERROR", "no_api_key")
 
