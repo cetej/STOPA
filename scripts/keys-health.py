@@ -81,11 +81,15 @@ def check_anthropic(key: str) -> dict[str, Any]:
 
 
 def check_fal(key: str) -> dict[str, Any]:
+    # fal.ai has no simple read-only health endpoint.
+    # Using queue status prefix — returns 400/422 for malformed requests (auth passed)
+    # vs 401 for invalid key.
     status, body = http_get(
-        "https://fal.run/fal-ai/flux",
-        {"Authorization": f"Key {key}"},
+        "https://queue.fal.run/fal-ai/flux/requests",
+        {"Authorization": f"Key {key}", "Accept": "application/json"},
     )
-    return classify("FAL_KEY", status, body, allow_404=True)
+    # 400/404/405/422 = auth accepted, endpoint just expects different payload
+    return classify("FAL_KEY", status, body, allow_404=True, allow_codes={400, 404, 405, 422})
 
 
 def check_brave(key: str) -> dict[str, Any]:
@@ -112,11 +116,18 @@ def check_telegram(key: str) -> dict[str, Any]:
     return classify("TELEGRAM_BOT_TOKEN", status, body)
 
 
-def classify(name: str, status: int, body: str, allow_404: bool = False) -> dict[str, Any]:
-    if status in (200, 201):
-        return {"key": name, "ok": True, "status": status}
-    if status == 404 and allow_404:
-        return {"key": name, "ok": True, "status": status, "note": "endpoint not found but auth accepted"}
+def classify(name: str, status: int, body: str, allow_404: bool = False, allow_codes: set[int] | None = None) -> dict[str, Any]:
+    ok_codes = {200, 201}
+    if allow_404:
+        ok_codes.add(404)
+    if allow_codes:
+        ok_codes.update(allow_codes)
+    if status in ok_codes:
+        note = "auth accepted (non-200 endpoint)" if status not in (200, 201) else None
+        result: dict[str, Any] = {"key": name, "ok": True, "status": status}
+        if note:
+            result["note"] = note
+        return result
     severity = "high"
     if status == 401:
         kind = "expired_or_invalid"
