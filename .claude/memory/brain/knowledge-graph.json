@@ -1,5 +1,5 @@
 {
-  "version": "2.0",
+  "version": "2.1",
   "updated": "2026-04-21",
   "description": "2BRAIN knowledge graph — entity-centric storage with typed edges",
   "node_types": ["person", "concept", "project", "value", "reasoning", "experience", "goal"],
@@ -424,6 +424,62 @@
       "tags": ["ai", "architecture-decision-records", "context-engineering", "rag", "documentation", "prompt-engineering"],
       "wiki": "concepts/adr-context-strategies.md",
       "added": "2026-04-21"
+    },
+    "externalization-llm-agents": {
+      "type": "concept",
+      "label": "Externalization in LLM Agents — Memory, Skills, Protocols, Harness",
+      "tags": ["ai", "agent", "harness-engineering", "externalization", "orchestration", "memory", "survey"],
+      "wiki": "concepts/externalization-llm-agents.md",
+      "added": "2026-04-21"
+    },
+    "knowledge-compounding": {
+      "type": "concept",
+      "label": "Knowledge Compounding — Agentic ROI Framework",
+      "tags": ["ai", "knowledge-compounding", "token-efficiency", "llm-wiki", "agentic-roi", "persistent-memory"],
+      "wiki": "concepts/knowledge-compounding.md",
+      "added": "2026-04-21"
+    },
+    "missing-knowledge-layer": {
+      "type": "concept",
+      "label": "Missing Knowledge Layer in Cognitive Architectures",
+      "tags": ["ai", "cognitive-architecture", "knowledge-layer", "persistence-semantics", "coala", "memory"],
+      "wiki": "concepts/missing-knowledge-layer.md",
+      "added": "2026-04-21"
+    },
+    "semaclaw": {
+      "type": "concept",
+      "label": "SemaClaw — Personal AI Agents via Harness Engineering",
+      "tags": ["ai", "harness-engineering", "personal-ai-agent", "multi-agent", "safety", "knowledge-management"],
+      "wiki": "concepts/semaclaw-harness-engineering.md",
+      "added": "2026-04-21"
+    },
+    "byterover": {
+      "type": "concept",
+      "label": "ByteRover — Agent-Native Hierarchical Memory",
+      "tags": ["ai", "agent-memory", "hierarchical-context", "maturity-tiers", "file-based-memory", "mag"],
+      "wiki": "concepts/byterover.md",
+      "added": "2026-04-21"
+    },
+    "persistent-identity-agents": {
+      "type": "concept",
+      "label": "Persistent Identity in AI Agents — Multi-Anchor Architecture",
+      "tags": ["ai", "agent-identity", "persistent-memory", "catastrophic-forgetting", "multi-anchor", "soul"],
+      "wiki": "concepts/persistent-identity-agents.md",
+      "added": "2026-04-21"
+    },
+    "process-reward-agents": {
+      "type": "concept",
+      "label": "Process Reward Agents (PRA) — Knowledge-Intensive Reasoning",
+      "tags": ["ai", "process-reward-model", "test-time-compute", "knowledge-intensive", "medical-ai", "frozen-policy"],
+      "wiki": "concepts/process-reward-agents.md",
+      "added": "2026-04-21"
+    },
+    "corpus2skill": {
+      "type": "concept",
+      "label": "Corpus2Skill — Navigate, Don't Retrieve",
+      "tags": ["ai", "rag", "knowledge-navigation", "hierarchical-rag", "enterprise-qa", "corpus-compilation"],
+      "wiki": "concepts/corpus2skill.md",
+      "added": "2026-04-21"
     }
   },
   "edges": [
@@ -598,6 +654,39 @@
     {"from": "adr-context-strategies", "to": "context-engineering", "rel": "validates", "evidence": "empirical proof: last 3-5 context window outperforms all-history — deliberate selection beats more context"},
     {"from": "adr-context-strategies", "to": "architecture-descriptors", "rel": "related-to", "evidence": "both address structured AI-assisted documentation for codebases — descriptors at navigation, ADRs at decision level"},
     {"from": "adr-context-strategies", "to": "knowledge-drift-chronos", "rel": "related-to", "evidence": "both address temporal relevance in structured document retrieval — ADRs = sequential structured decisions"},
-    {"from": "adr-context-strategies", "to": "stopa", "rel": "applied-in", "evidence": "decisions.md = sequential ADRs; last 3-5 entries as context > full history; checkpoint truncation boundary already implements this"}
+    {"from": "adr-context-strategies", "to": "stopa", "rel": "applied-in", "evidence": "decisions.md = sequential ADRs; last 3-5 entries as context > full history; checkpoint truncation boundary already implements this"},
+    {"from": "externalization-llm-agents", "to": "agent-memory-taxonomy", "rel": "related-to", "evidence": "memory externalization = write-manage-read loop formalized at infrastructure level"},
+    {"from": "externalization-llm-agents", "to": "multi-agent-orchestration-protocols", "rel": "related-to", "evidence": "protocol externalization = MCP + Agent2Agent formalized beyond the model"},
+    {"from": "externalization-llm-agents", "to": "claude-code-design-space", "rel": "related-to", "evidence": "CC design space 98.4% operational infra = harness engineering realized; Liu et al. and this paper are complementary surveys"},
+    {"from": "externalization-llm-agents", "to": "stopa", "rel": "validates", "evidence": "STOPA is a textbook harness engineering system: memory/ (memory ext) + skills/ (skills ext) + hooks/settings.json (protocol ext)"},
+    {"from": "externalization-llm-agents", "to": "agentic-engineering-patterns", "rel": "related-to", "evidence": "Willison's practitioner view of harness engineering = same paradigm from user side"},
+    {"from": "knowledge-compounding", "to": "llm-wiki", "rel": "formalizes", "evidence": "provides the economic theory (Agentic ROI + dynamic cost function) behind LLM Wiki pattern's practical value"},
+    {"from": "knowledge-compounding", "to": "memory-augmented-routing", "rel": "related-to", "evidence": "47% query similarity = those repeat queries are exactly where compounding delivers savings"},
+    {"from": "knowledge-compounding", "to": "byterover", "rel": "related-to", "evidence": "ByteRover's AKL (maturity tiers + recency decay) is the architectural mechanism for H(t) knowledge coverage rate"},
+    {"from": "knowledge-compounding", "to": "stopa", "rel": "validates", "evidence": "learnings/ uses counter + critical-patterns.md always-loaded = compounding mechanism; 2BRAIN = the primary KB for H(t) optimization"},
+    {"from": "missing-knowledge-layer", "to": "agent-memory-taxonomy", "rel": "related-to", "evidence": "4-layer decomposition addresses same gap as 3D taxonomy but from persistence-semantics angle"},
+    {"from": "missing-knowledge-layer", "to": "knowledge-drift-chronos", "rel": "related-to", "evidence": "Chronos addresses Knowledge layer specifically (facts that drift over time); missing-knowledge-layer argues for explicit persistence semantics"},
+    {"from": "missing-knowledge-layer", "to": "a-mem", "rel": "related-to", "evidence": "A-MEM Zettelkasten notes = closer to Knowledge semantics (supersession) than Memory (decay)"},
+    {"from": "missing-knowledge-layer", "to": "stopa", "rel": "applied-in", "evidence": "key-facts.md=Knowledge, learnings/=Memory, critical-patterns.md=Wisdom, reasoning traces=Intelligence — gap: key-facts.md still uses confidence decay"},
+    {"from": "semaclaw", "to": "externalization-llm-agents", "rel": "part-of", "evidence": "SemaClaw is a concrete implementation of all three externalization pillars"},
+    {"from": "semaclaw", "to": "context-kubernetes", "rel": "related-to", "evidence": "both address context governance: CK uses YAML manifests, SemaClaw uses three-tier architecture + PermissionBridge"},
+    {"from": "semaclaw", "to": "claude-code-design-space", "rel": "related-to", "evidence": "both are production harness engineering frameworks; CC + SemaClaw are the reference implementations"},
+    {"from": "semaclaw", "to": "stopa", "rel": "related-to", "evidence": "parallel architectures: SemaClaw DAG orchestration ↔ STOPA budget-tier; PermissionBridge ↔ Guardian L2; Agentic wiki ↔ 2BRAIN"},
+    {"from": "byterover", "to": "agent-memory-taxonomy", "rel": "part-of", "evidence": "ByteRover implements Write-Manage-Read loop with agent-native (LLM) management"},
+    {"from": "byterover", "to": "gaama", "rel": "related-to", "evidence": "both build structured memory stores; GAAMA uses PPR graph traversal, ByteRover uses hierarchical Context Tree"},
+    {"from": "byterover", "to": "knowledge-compounding", "rel": "enables", "evidence": "AKL (maturity tiers + recency decay) is the mechanism behind knowledge compounding's H(t) coverage rate"},
+    {"from": "byterover", "to": "stopa", "rel": "validates", "evidence": "maturity tiers (draft→validated→core) independently discovered in both systems; 5-tier retrieval validates STOPA's grep-first→hybrid escalation"},
+    {"from": "persistent-identity-agents", "to": "agent-memory-taxonomy", "rel": "related-to", "evidence": "multi-anchor = distributed implementation of write-manage-read across separate, independently resilient stores"},
+    {"from": "persistent-identity-agents", "to": "missing-knowledge-layer", "rel": "related-to", "evidence": "identity files=Knowledge layer (supersession), memory logs=Memory layer (decay) — same 4-layer logic from identity angle"},
+    {"from": "persistent-identity-agents", "to": "agentic-memory-unified", "rel": "related-to", "evidence": "memory ops as tools (store/update/discard) can manage transitions between identity anchor types"},
+    {"from": "persistent-identity-agents", "to": "stopa", "rel": "applied-in", "evidence": "behavioral-genome.md=identity file, checkpoint.md=memory log, key-facts.md=stable anchor; gap: these aren't yet explicitly separated by resilience tier"},
+    {"from": "process-reward-agents", "to": "think-prm", "rel": "related-to", "evidence": "ThinkPRM=generative PRM with CoT, PRA=retrieval-augmented step-scorer during generation — both verify intermediate steps"},
+    {"from": "process-reward-agents", "to": "cpmi-process-reward", "rel": "related-to", "evidence": "CPMI=efficient PRM labeling, PRA=PRM deployment during generation — complementary: CPMI trains the reward model PRA uses"},
+    {"from": "process-reward-agents", "to": "critical-step-optimization", "rel": "related-to", "evidence": "CSO identifies which steps to train on; PRA scores those steps at test time — complementary train/test division"},
+    {"from": "process-reward-agents", "to": "stopa", "rel": "applied-in", "evidence": "PRA suggests inline /critic checking each agent step, not just post-hoc; 25.7% gain without retraining = STOPA upgrade path"},
+    {"from": "corpus2skill", "to": "context-awareness-gate", "rel": "related-to", "evidence": "CAG decides whether to retrieve; Corpus2Skill assumes retrieval is needed but navigates smarter — complementary layers"},
+    {"from": "corpus2skill", "to": "adr-context-strategies", "rel": "related-to", "evidence": "both find selective structured context beats exhaustive retrieval; ADR uses last-K, Corpus2Skill uses hierarchical navigation"},
+    {"from": "corpus2skill", "to": "agentforge", "rel": "related-to", "evidence": "AgentForge=execution grounding, Corpus2Skill=knowledge grounding — both reject passive retrieval for active agent reasoning"},
+    {"from": "corpus2skill", "to": "stopa", "rel": "applied-in", "evidence": "2BRAIN wiki+/ingest+/compile = Corpus2Skill pattern; gap: explicit backtracking when wiki branch doesn't answer — scout should navigate siblings"}
   ]
 }

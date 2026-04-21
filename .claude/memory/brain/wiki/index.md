@@ -4,11 +4,11 @@ Obsah kompilovaných wiki článků organizovaný podle typu entity.
 LLM čte tento soubor PRVNÍ při odpovídání na dotazy.
 
 **Last updated:** 2026-04-21
-**Total articles:** 55
+**Total articles:** 63
 
 ---
 
-## Concepts (35)
+## Concepts (43)
 
 | Article | Summary | Sources | Updated |
 |---------|---------|---------|---------|
@@ -56,6 +56,14 @@ LLM čte tento soubor PRVNÍ při odpovídání na dotazy.
 | [context-awareness-gate](concepts/context-awareness-gate.md) | CAG: dynamic gate deciding per-query whether retrieval is needed; prevents context contamination in RAG | arXiv:2411.16133 | 2026-04-21 |
 | [swe-agents-survey](concepts/swe-agents-survey.md) | Survey 150+ papers/50+ benchmarks; agent-based SWE = SOTA; self-evolving systems = research frontier | arXiv:2510.09721 | 2026-04-21 |
 | [adr-context-strategies](concepts/adr-context-strategies.md) | ADR generation: 3-5 prior records = optimal context window; context engineering > model scale | arXiv:2604.03826 | 2026-04-21 |
+| [externalization-llm-agents](concepts/externalization-llm-agents.md) | Agents advance by reorganizing runtime, not weights; 3 externalization pillars (memory/skills/protocols) + harness engineering | arXiv:2604.08224 | 2026-04-21 |
+| [knowledge-compounding](concepts/knowledge-compounding.md) | Tokens as capital goods: persistent KB lowers cost over time; 84.6% savings (47K vs 305K tokens); H(t) coverage rate model | arXiv:2604.11243 | 2026-04-21 |
+| [missing-knowledge-layer](concepts/missing-knowledge-layer.md) | CoALA/JEPA lack Knowledge layer; 4-layer decomposition: Knowledge (supersession) / Memory (decay) / Wisdom (evidence-gated) / Intelligence (ephemeral) | arXiv:2604.11364 | 2026-04-21 |
+| [semaclaw-harness-engineering](concepts/semaclaw-harness-engineering.md) | SemaClaw: open-source personal AI agent framework; DAG orchestration + PermissionBridge + 3-tier context + Agentic wiki | arXiv:2604.11548 | 2026-04-21 |
+| [byterover](concepts/byterover.md) | Agent-native hierarchical memory: same LLM reasons + curates; 5-tier progressive retrieval; maturity tiers (draft→validated→core); SOTA LoCoMo | arXiv:2604.01599 | 2026-04-21 |
+| [persistent-identity-agents](concepts/persistent-identity-agents.md) | Multi-anchor identity: distributed resilience (identity files + memory logs + skill memory); soul.py; RAG+RLM routing | arXiv:2604.09588 | 2026-04-21 |
+| [process-reward-agents](concepts/process-reward-agents.md) | PRA: frozen policy + domain reward module = online step-wise verification; 80.8% MedQA Qwen3-4B SOTA; +25.7% without retraining | arXiv:2604.09482 | 2026-04-21 |
+| [corpus2skill](concepts/corpus2skill.md) | Navigate don't retrieve: offline corpus→skill tree; bird's-eye navigation + backtracking; beats dense RAG/RAPTOR on WixQA | arXiv:2604.14572 | 2026-04-21 |
 
 ## People (3)
 
