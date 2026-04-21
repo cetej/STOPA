@@ -30,6 +30,7 @@ Formula: `python scripts/passes-rate.py`
 
 | # | Item | Urgency | Next Step |
 |---|------|---------|-----------|
+| 117 | **Batches API 300k max_tokens cap** (beta `output-300k-2026-03-24`, Opus/Sonnet 4.6) | MED | NG-ROBOT: acted, decision NE migrovat (viz ng-robot-batches-migration.md) |
 | 111 | **Harness adoption pilot** — multi-session harness resurrected (commit 8fafe19). 0/8 projects. | MED | Run `/project-init <target> --harness` on NG-ROBOT or ZACHVEV |
 | 109 | **CC Plugin monitors manifest key** — background monitoring v pluginech | HIGH | Evaluovat pro stopa-orchestration plugin |
 | 110 | **Fine-grained tool streaming GA** — event-level streaming | MED | Vyuzit v Claude API integracich, NG-ROBOT |
