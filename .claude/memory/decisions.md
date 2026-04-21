@@ -30,4 +30,4 @@ Archived decisions: `decisions-archive.md`
 
 ## Creating new decisions
 
-Use `/scribe` or create manually in `docs/decisions/` using `_template.md`. Next number: **0017**.
+Use `/scribe` or create manually in `docs/decisions/` using `_template.md`. Next number: **0018**.
