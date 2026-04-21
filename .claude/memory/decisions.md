@@ -24,7 +24,8 @@ Archived decisions: `decisions-archive.md`
 
 | 0014 | 2026-04-13 | [OpenMontage patterns adoption](../../docs/decisions/0014-openmontage-patterns-adoption.md) | IMPLEMENTING |
 | 0015 | 2026-04-14 | [KODER execution agent](../../docs/decisions/0015-koder-execution-agent.md) | IMPLEMENTING |
-| 0016 | 2026-04-21 | [Strategic roadmap: goals, means, competition, obsolescence](../../docs/decisions/0016-strategic-roadmap-and-obsolescence.md) | RESEARCH |
+| 0016 | 2026-04-21 | [Strategic roadmap: goals, means, competition, obsolescence](../../docs/decisions/0016-strategic-roadmap-and-obsolescence.md) | IMPLEMENTING |
+| 0016-C | 2026-04-21 | [Phase C council verdict — 90-day execution plan](../../outputs/adr-0016-phase-c-council.md) | DONE |
 
 ## Creating new decisions
 
