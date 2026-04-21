@@ -30,6 +30,42 @@ globs: ".claude/memory/**"
 - Životnost: automatický cleanup při /sweep (soubory starší 24h)
 - Skills které by měly používat post-it: orchestrate, deepresearch, build-project, self-evolve
 
+## Farm Ledger (GEA-inspired group trace sharing)
+
+Shared real-time progress ledger for farm tier agents. Mid-run writes, not final-output-only.
+Ref: GEA (arXiv:2602.04837) — 71.0% vs 56.7% SWE-bench, 2× tool diversity, 1.4 vs 5 repair iterations.
+
+- Uložen v `.claude/memory/intermediate/farm-ledger.md`
+- Vytvořen orchestrátorem na začátku každého farm sweep (overwrite, ne append)
+- Agenti přidávají jeden řádek po dokončení každého souboru (ne až na konci tasku)
+- Formát: YAML frontmatter + markdown tabulka s: `ts | worker | file | status | pattern`
+- `status` hodnoty: `fixed` | `failed` | `skipped`
+- `pattern` = jednolineový popis techniky reusovatelné jinými agenty; `—` pokud žádný
+- Agenti čtou ledger každých 5 souborů — aplikují discovered patterns z "Discovered Patterns" sekce
+- Orchestrátor čte ledger po sweep 1, extrahuje patterns, injectuje je do sweep 2 promptů
+- Archivace: po dokončení tasku rename na `farm-ledger-{task_id}.md`, /sweep cleanup po 24h
+- Odlišné od CORAL `shared/notes.md`: ledger je povinný, per-file; CORAL je volitelný, per-pattern
+
+**Formát při vytvoření:**
+```markdown
+---
+task_id: {task_id}
+sweep: 1
+created: {ISO-timestamp}
+task: "{description}"
+total_files: {N}
+---
+
+## Per-File Progress
+
+| ts | worker | file | status | pattern |
+|----|--------|------|--------|---------|
+
+## Discovered Patterns
+
+(Auto-populated by orchestrator after sweep 1 completes)
+```
+
 ## Truncation Boundaries (CPR-inspired)
 
 - Checkpoint.md používá `## Session Detail Log` heading jako hard truncation boundary

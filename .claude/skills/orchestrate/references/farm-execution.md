@@ -3,6 +3,38 @@
 Farm tier uses a different workflow from standard orchestration. Instead of decomposing into semantic subtasks,
 it partitions work mechanically and runs agents in parallel sweeps.
 
+## Step 0: Initialize Farm Ledger
+
+**Before spawning any workers**, create the shared ledger for mid-run coordination:
+
+Write to `.claude/memory/intermediate/farm-ledger.md` (overwrite any existing file):
+
+```markdown
+---
+task_id: {task_id}
+sweep: 1
+created: {ISO-timestamp}
+task: "{description}"
+total_files: {N}
+---
+
+## Per-File Progress
+
+| ts | worker | file | status | pattern |
+|----|--------|------|--------|---------|
+
+## Discovered Patterns
+
+(Auto-populated by orchestrator after sweep 1 completes)
+```
+
+This file is **mandatory for farm tier**. Workers append one row per file. Orchestrator reads it
+between sweeps and injects discovered patterns into sweep 2 agent prompts.
+
+> **Why:** GEA (arXiv:2602.04837): shared group traces = 71.0% vs 56.7% SWE-bench, 2× tool
+> diversity, 1.4 vs 5 repair iterations. Mid-run sharing outperforms final-output-only sharing
+> because workers benefit from each other's patterns before encountering the same problem.
+
 ## Step 1: Generate work list
 
 Run the verification command(s) to produce a problems/targets list:
@@ -82,6 +114,19 @@ Produces: Fixed files with all violations resolved
 - Run the verification command on your files after fixing to confirm zero violations
 - Write results to .claude/memory/intermediate/farm-worker-{N}.json
 
+## Farm Ledger (mid-run sharing)
+
+After completing EACH file (not at task end), append ONE line to the shared ledger:
+
+  echo "| $(date +%H:%M:%S) | farm-worker-{N} | {file} | {fixed|failed|skipped} | {pattern} |" >> .claude/memory/intermediate/farm-ledger.md
+
+`pattern` = one-line technique OTHER agents would benefit from. Most entries: `—`.
+Good pattern example: `E501 in f-strings: split with backslash continuation on string literal`
+Bad pattern: `fixed the line` (not reusable)
+
+After every 5 files, READ the ledger: `cat .claude/memory/intermediate/farm-ledger.md`
+Apply any patterns from the "Discovered Patterns" section to your remaining files.
+
 ## Verification
 After all fixes, run: {verification command scoped to your files}
 Report: files fixed, violations resolved, any that couldn't be fixed (with reason)
@@ -108,6 +153,31 @@ Stagnation detection: `stagnation-detector.py` hook monitors TSV results and inj
 
 1. After all agents complete, run the full verification command again
 2. Compare: original count vs. remaining count
+
+### Farm Ledger Review (before sweep 2)
+
+Read `.claude/memory/intermediate/farm-ledger.md` and extract patterns:
+
+```python
+# Read ledger, extract non-trivial patterns
+lines = [row for row in table_rows if row['pattern'] != '—']
+patterns = [row['pattern'] for row in lines]
+```
+
+Write the "## Discovered Patterns" section in the ledger, then inject top-3 patterns into
+sweep 2 agent prompts as a **Known Patterns** block (Latent Briefing — filter to relevant only,
+do not pass all entries):
+
+```
+## Known Patterns (from sweep 1)
+- {pattern_1}
+- {pattern_2}
+Apply these before attempting your own approach.
+```
+
+Also check ledger `status: failed` rows — if 3+ files failed with the same pattern, add to
+sweep 2's skip list rather than retrying (coordination failure, not per-file failure).
+
 3. If remaining > 0: partition remaining into a second sweep (max 2 sweeps)
 4. Commit all changes with summary: `farm: fix {N} {rule} violations across {M} files`
 
@@ -121,6 +191,10 @@ Log to `.claude/memory/state.md`:
 - After: 3 violations (98.8% resolved)
 - Agents: 6, Sweeps: 1
 - Remaining: 3 violations in tightly-coupled code (manual review needed)
+- Ledger: 244 rows, 3 patterns discovered, patterns injected into sweep 2: N/A (1 sweep)
 ```
+
+Archive the farm ledger to `.claude/memory/intermediate/farm-ledger-{task_id}.md` (rename, don't delete)
+for post-run analysis. The `/sweep` skill will clean up archived ledgers after 24h.
 
 **Farm tier budget:** Count each agent spawn toward the agent limit (5-8). One critic pass at the end (not per-agent). If sweep 2 is needed, it counts as additional agent spawns.
