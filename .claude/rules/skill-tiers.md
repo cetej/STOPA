@@ -41,6 +41,7 @@ Specialized skills for specific workflows:
 - `/compile` — synthesize learnings into thematic wiki articles for better retrieval
 - `/discover` — semantic behavior discovery from session traces (Tang "Semantic Observability" inspired)
 - `/learn-from-failure` — systematic failure pattern analysis with mental replay (RoPE-lite)
+- `/telescope` — cross-level consistency verifier (mikro/mezo/makro), Phase B validation — use via `/orchestrate --telescope`
 
 ## Tier 3 — Advanced (only on explicit request)
 Generative/creative tools and meta-skills:

@@ -385,6 +385,25 @@ MoM (arXiv:2510.20176) shows upstream agent quality is the bottleneck — fixing
 
 Update `.claude/memory/budget.md` — increment scout counter.
 
+## Phase 2.5: Telescope (opt-in, Phase B validation)
+
+**Only execute if `--telescope` flag is present in `$ARGUMENTS`.**
+
+`/telescope` runs 3 parallel agents (Mikro/Haiku, Mezo/Sonnet, Makro/Sonnet) to verify cross-level consistency BEFORE worker assignment. Cost: ~$0.17, ~2-3 min wall time.
+
+```
+Spawn: Agent(skill: telescope, args: scout-output-from-state.md)
+```
+
+**After telescope report:**
+- **PASS / WARNING** → proceed to Phase 3 normally; include telescope findings as additional context for planning
+- **CRITICAL** → STOP worker assignment; surface the conflict to user before continuing
+- **Log the run** — telescope logs automatically to `.claude/memory/telescope-log.md` for Phase B tracking
+
+**Flag usage:** `/orchestrate --telescope <task description>`
+
+*Phase B: collecting Go/No-Go data. Run with --telescope when task is cross-module (standard/deep tier). Target: 10 runs by 2026-05-18.*
+
 ## Phase 3: Analyze & Plan
 
 ### Constitution Check (before planning)
