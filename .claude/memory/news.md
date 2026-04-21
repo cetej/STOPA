@@ -31,7 +31,7 @@ Formula: `python scripts/passes-rate.py`
 | # | Item | Urgency | Next Step |
 |---|------|---------|-----------|
 | 111 | **Harness adoption pilot** — multi-session harness resurrected (commit 8fafe19). 0/8 projects. | MED | Run `/project-init <target> --harness` on NG-ROBOT or ZACHVEV |
-| 109 | **CC Plugin monitors manifest key** — background monitoring v pluginech | HIGH | Evaluovat pro stopa-orchestration plugin |
+| 109 | **CC Plugin monitors manifest key** — background monitoring v pluginech | ACTED | 2026-04-21 commit deb5aa9 — monitors/monitors.json + memory-health monitor implementován, 5 planned viz stopa-orchestration/docs/MONITORS.md |
 | 110 | **Fine-grained tool streaming GA** — event-level streaming | MED | Vyuzit v Claude API integracich, NG-ROBOT |
 | 105 | **CC Desktop redesign** — sidebar, terminal+editor, HTML/PDF preview, routines | HIGH | Otestovat novy workspace |
 | 100 | **Meta Muse Spark** — Meta frontier model, Contemplating mode | MED | Pridat do /eval tier srovnani |
