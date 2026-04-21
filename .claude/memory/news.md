@@ -30,6 +30,9 @@ Formula: `python scripts/passes-rate.py`
 
 | # | Item | Urgency | Next Step |
 |---|------|---------|-----------|
+| 114 | **ADK Session/Memory formální split** — přejmenovat `memory/` na `session/` + `longterm/`, přidat `writes-to:` validaci | MED | Design doc + sync do target projektů (ref: adk-evaluation-2026-04-22.md) |
+| 113 | **ADK Trajectory eval** — rozšířit `/eval` o `expected_trajectory` + `trajectory_score` | MED | Implementovat v `.claude/evals/<skill>/cases/` schema (ref: adk-evaluation-2026-04-22.md) |
+| 112 | **ADK Workflow Agent primitives** — přidat `workflow-type: sequential\|parallel\|loop\|llm-decided` do `/orchestrate` | MED | Skip LLM Phase 3 pro deterministické workflow (ref: adk-evaluation-2026-04-22.md) |
 | 111 | **Harness adoption pilot** — multi-session harness resurrected (commit 8fafe19). 0/8 projects. | MED | Run `/project-init <target> --harness` on NG-ROBOT or ZACHVEV |
 | 109 | **CC Plugin monitors manifest key** — background monitoring v pluginech | HIGH | Evaluovat pro stopa-orchestration plugin |
 | 110 | **Fine-grained tool streaming GA** — event-level streaming | MED | Vyuzit v Claude API integracich, NG-ROBOT |
