@@ -9,7 +9,7 @@ source: auto_pattern
 uses: 3
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.90
+confidence: 1.0
 maturity: draft
 task_context: {task_class: cross_project, complexity: high, tier: deep}
 verify_check: "Glob('.claude/memory/learnings/*worldmonitor*') → 1+ matches"

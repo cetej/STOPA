@@ -7,11 +7,12 @@ tags: [refinement, iteration, critic, convergence, anti-pattern]
 summary: "In iterative improvement loops, 'do nothing' (incumbent preservation) must be a structurally first-class option — not just logically allowed — or the system will always produce changes regardless of quality."
 source: external_research
 maturity: draft
-uses: 2
+uses: 3
 successful_uses: 0
 harmful_uses: 0
-confidence: 1.0
+confidence: 1.00
 verify_check: "manual"
+related: [2026-04-13-tournament-self-refinement-abc.md, 2026-04-11-iteration-paradox-meta-pattern.md]
 skill_scope: [autoreason, autoloop, critic, self-evolve]
 ---
 

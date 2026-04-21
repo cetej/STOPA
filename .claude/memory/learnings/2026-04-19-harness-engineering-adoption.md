@@ -10,7 +10,7 @@ maturity: draft
 uses: 3
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.90
+confidence: 1.0
 skill_scope: [project-init, build-project]
 verify_check: "Glob('scripts/passes-rate.py') → 1+ matches"
 related: [2026-04-07-agents-md-efficiency-validated.md, 2026-04-05-self-improving-harness.md]

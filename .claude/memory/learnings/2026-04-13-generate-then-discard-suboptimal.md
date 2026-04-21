@@ -6,13 +6,14 @@ component: orchestration
 tags: [autoloop, autoresearch, self-evolve, efficiency, budget-tiers, replay]
 summary: "'Generate-then-discard' je suboptimální pattern pro iterativní skills. Před spuštěním nového agenta zkontroluj existující outcomes — přínos je analogický experience replay v RL (40% compute savings, stabilnější konvergence)."
 source: external_research
-uses: 2
+uses: 3
 successful_uses: 0
 harmful_uses: 0
-confidence: 1.0
+confidence: 1.00
 maturity: draft
 skill_scope: [autoloop, autoresearch, self-evolve, orchestrate]
 verify_check: "manual"
+related: [2026-04-13-experience-replay-outcomes-reuse.md, 2026-04-11-iteration-paradox-meta-pattern.md, 2026-04-03-autoagent-overfitting-guard.md]
 task_context:
   task_class: research
   complexity: medium

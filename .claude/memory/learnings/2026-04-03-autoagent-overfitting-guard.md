@@ -7,11 +7,11 @@ tags: [autoloop, autoresearch, self-evolve, reward-hacking, overfitting]
 summary: "AutoAgent's anti-overfitting guard: ask 'if this exact eval case disappeared, would this change still be worthwhile?' before accepting improvements. Prevents metric gaming."
 source: external_research
 maturity: draft
-uses: 2
+uses: 3
 harmful_uses: 0
 confidence: 1.00
 verify_check: "Grep('exact eval case disappeared', path='.claude/skills/autoloop/references/') → 1+ matches"
-related: []
+related: [2026-04-11-iteration-paradox-meta-pattern.md, 2026-04-13-generate-then-discard-suboptimal.md]
 successful_uses: 0
 ---
 

@@ -7,7 +7,7 @@ tags: [autoloop, autoresearch, self-evolve, iteration, optimization, meta-patter
 summary: "Iteration Paradox: iteruj s bounded refinement, ale nevěř prvním výsledkům. Udržuj diverzitu (high-temp sampling), dej každému přístupu 5+ iterací, odhadni strop (sigmoidal fit), používej regression gate. RL post-training ničí diverzitu potřebnou pro exploraci."
 source: auto_pattern
 maturity: draft
-uses: 3
+uses: 4
 successful_uses: 0
 harmful_uses: 0
 confidence: 1.00
