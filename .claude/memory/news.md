@@ -23,14 +23,20 @@ Formula: `python scripts/actionable-rate.py`
 
 ## Passes Rate (Harness Adoption)
 
+**Current (2026-04-21):** 1/8 projects adopted | 11/15 features pass (73.3%)
 **Baseline (2026-04-19):** 0/8 projects adopted | **Target:** >=2 projects + >=30% pass rate by 2026-05-17
 Formula: `python scripts/passes-rate.py`
+
+**Adopted:**
+- NG-ROBOT (2026-04-21, commit 10a8d0e) — 15 features: 11 done / 3 in_progress (F012 Studio Video, F013 TTS unification, F014 INBOX audit) / 1 planned (F015 Phase 7b SEO)
+
+**Next candidates:** ZACHVEV (active social analysis), POLYBOT (prediction markets), MONITOR (OSINT).
 
 ## Action Items (Open)
 
 | # | Item | Urgency | Next Step |
 |---|------|---------|-----------|
-| 111 | **Harness adoption pilot** — multi-session harness resurrected (commit 8fafe19). 0/8 projects. | MED | Run `/project-init <target> --harness` on NG-ROBOT or ZACHVEV |
+| 111 | **Harness adoption pilot** — NG-ROBOT adopted 2026-04-21 (commit 10a8d0e, 11/15=73.3%). 1/8 projects. | MED | Replicate on ZACHVEV or POLYBOT; reach target 2+ projects by 2026-05-17 |
 | 109 | **CC Plugin monitors manifest key** — background monitoring v pluginech | HIGH | Evaluovat pro stopa-orchestration plugin |
 | 110 | **Fine-grained tool streaming GA** — event-level streaming | MED | Vyuzit v Claude API integracich, NG-ROBOT |
 | 105 | **CC Desktop redesign** — sidebar, terminal+editor, HTML/PDF preview, routines | HIGH | Otestovat novy workspace |
