@@ -44,6 +44,7 @@ sys.path.insert(0, str(STOPA_ROOT / "scripts"))
 
 RRF_K = 60  # RRF constant (standard value from Cormack et al.)
 LEARNINGS_DIR = STOPA_ROOT / ".claude" / "memory" / "learnings"
+METRICS_FILE = STOPA_ROOT / ".claude" / "memory" / "retrieval-metrics.jsonl"
 
 # Files to skip in results
 SKIP_FILES = frozenset({
@@ -478,6 +479,7 @@ def main():
 
     args = parser.parse_args()
 
+    t_start = time.perf_counter()
     results = hybrid_search(
         query=args.query,
         task_tier=args.task_tier,
@@ -485,6 +487,30 @@ def main():
         debug=args.debug,
         mode=args.mode,
     )
+    duration_ms = int((time.perf_counter() - t_start) * 1000)
+
+    # Phase C instrumentation (ADR 0016) — log per-query metrics for
+    # threshold evaluation (re-evaluate July 2026: miss rate > 8% or p95 > 300ms → vectors)
+    try:
+        signal_set: set[str] = set()
+        for rf in results:
+            signal_set.update(rf.sources)
+        metrics_entry = {
+            "ts": time.strftime("%Y-%m-%dT%H:%M:%S"),
+            "query": args.query[:120],
+            "task_tier": args.task_tier,
+            "result_count": len(results),
+            "miss": len(results) == 0,
+            "duration_ms": duration_ms,
+            "top_score": round(results[0].rrf_score, 6) if results else 0.0,
+            "signals": sorted(signal_set),
+        }
+        METRICS_FILE.parent.mkdir(parents=True, exist_ok=True)
+        with METRICS_FILE.open("a", encoding="utf-8") as f:
+            f.write(json.dumps(metrics_entry, ensure_ascii=False) + "\n")
+    except Exception:
+        # Metrics logging must never break retrieval
+        pass
 
     if args.json:
         data = []
