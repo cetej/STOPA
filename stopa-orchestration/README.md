@@ -38,6 +38,17 @@ Multi-agent orchestration system for Claude Code. Decomposes complex tasks, dele
 - **TeammateIdle**: Quality gate for teammate output
 - **StopFailure**: API error recovery
 
+## Background monitors
+
+Long-running watchers armed at session start (CC v2.1.105+). Each stdout line
+becomes a notification in the session.
+
+- **memory-health**: nudges `/sweep` when `.claude/memory/*.md` exceed 500 lines
+  or `failures/`/`outcomes/` directories grow past thresholds.
+
+See [docs/MONITORS.md](docs/MONITORS.md) for the full specification, planned
+monitors, and authoring guide.
+
 ## Installation
 
 ### Method 1: Marketplace via settings.json (recommended)
