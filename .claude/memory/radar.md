@@ -4,7 +4,7 @@ Tracked findings from `/radar` scans and manual evaluations.
 Archived: `radar-archive.md` (when >400 lines)
 
 ## Stats
-Last scan: 2026-04-17 (scheduled #26) | Total: 72 tools | 🔴 15 | 🟡 54 | 🟢 3
+Last scan: 2026-04-21 (manual) | Total: 73 tools | 🔴 15 | 🟡 55 | 🟢 3
 
 ## Active Research (🔴)
 | Tool | Category | Score | Source | Captured | Status | Project fit |
@@ -27,6 +27,7 @@ Last scan: 2026-04-17 (scheduled #26) | Total: 72 tools | 🔴 15 | 🟡 54 | �
 ## Watch List (🟡)
 | Tool | Category | Score | Source | Captured | Notes |
 |------|----------|-------|--------|----------|-------|
+| [ml-intern](https://github.com/huggingface/ml-intern) | Autonomous ML agent / orchestration patterns | 7/10 | manual | 2026-04-21 | HuggingFace official, Python 3.11+, litellm backend (Anthropic-compatible), 254★, aktivní (commit dnes). **3 adoptabilní vzory**: (1) Doom Loop Detector (`doom_loop.py`, ~90 řádků) — hash-based signature detection: identical consecutive (3+ stejné toolcall) + repeating sequence [A→B→A→B] délky 2-5; přímý upgrade STOPA `panic-detector.py`. (2) ContextManager auto-compact při 170k + session upload. (3) ToolRouter kategorie (docs/papers/datasets/jobs/sandbox/plan/MCP). Žádná explicitní licence. **Akce**: koder task — přepsat panic-detector.py pro tool-call signature detection dle doom_loop.py algoritmu. |
 | [Memory Caching: RNNs with Growing Memory](https://arxiv.org/abs/2602.24281) | Research / memory architecture | 7/10 | manual | 2026-04-17 | Behrouz et al. (Titans team, Google Research). Checkpoint caching umožňuje RNN paměti růst O(NL) — interpolace mezi O(L) RNN a O(L²) Transformer. 4 varianty: Residual, GRM (nejlepší), Memory Soup, SSC. Titans+GRM: 100% needle-in-haystack na 16K, +0.8% LM. Klíčový insight: hybridní attention+RNN modely = speciální případ MC (segment=1). **STOPA fit**: checkpoint caching vzor ≈ STOPA session checkpoints + hybrid retrieval gating; formalizuje STOPA learnings scaling jako O(NL) tradeoff. Segment size = retrieval granularita. Wiki: `brain/wiki/concepts/memory-caching-rnn.md` (ingestováno 2026-04-13). **Akce**: /deepresearch srovnání s Titans/Zep/ACT-R. |
 | [Cloudflare Code Mode MCP](https://github.com/cloudflare/agents-sdk) | MCP server / token efficiency | 7/10 | scan | 2026-04-17 | April 16, 2026. Dvounástrojová architektura: `search()` + `execute()` nad OpenAPI specifikací (V8 isolate sandbox). 99.9% redukce tokenů (1.17M → 1,000 pro 2,500 API endpointů). Open-source součást Cloudflare Agents SDK. STOPA fit: vzor pro efektivní MCP tool design + constrained-tools pattern; budoucí relevance pro projekty na Cloudflare Workers. |
 | [Google Antigravity](https://antigravity.google/) | Multi-agent IDE / CC competitor | 8/10 | scan | 2026-04-16 | **EVALUATE** | STOPA farm tier architecture + CC competitor tracking — Manager Surface (spawn/orchestrate/observe multi-agent workspaces) + Artifacts (task plans, screenshots, browser recordings) for agent verification. Multi-provider (Claude Sonnet 4.5, GPT-OSS, Gemini 3 Pro). Windows + macOS + Linux. Free public preview. No MCP, no GitHub. Stability issues (context memory errors, premature termination). Announced Nov 2025, public preview April 2026. antigravity.google/download. Telegram notified. |

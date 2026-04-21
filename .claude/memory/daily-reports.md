@@ -4,6 +4,8 @@ One line per scheduled task run, newest at the top. For silent-OK runs this is t
 
 **Format:** `YYYY-MM-DD HH:MM | task-name | short status (counts, summary)`
 
+2026-04-21 | brain-ingest | 8 URLs processed (articles already created by earlier run); inbox queue cleared. New articles: externalization-llm-agents, knowledge-compounding, missing-knowledge-layer, semaclaw-harness-engineering, byterover, persistent-identity-agents, process-reward-agents, corpus2skill.
+
 **Rotation:** entries older than 30 days move to `daily-reports-archive.md` at weekly memory maintenance.
 
 ---

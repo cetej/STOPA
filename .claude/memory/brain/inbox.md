@@ -13,15 +13,6 @@ Zpracované záznamy se přesunou do `inbox-archive.md`.
 
 ## Queue
 
-URL: https://arxiv.org/abs/2604.08224
-URL: https://arxiv.org/abs/2604.11243
-URL: https://arxiv.org/abs/2604.11364
-URL: https://arxiv.org/abs/2604.11548
-URL: https://arxiv.org/abs/2604.01599
-URL: https://arxiv.org/abs/2604.09588
-URL: https://arxiv.org/abs/2604.09482
-URL: https://arxiv.org/abs/2604.14572
-
 ## Processed
 
 | Date | Item |
@@ -63,3 +54,11 @@ URL: https://arxiv.org/abs/2604.14572
 | 2026-04-21 | URL: https://arxiv.org/abs/2411.16133 — Context Awareness Gate (CAG) for RAG → new wiki article context-awareness-gate.md, graph +1 node +4 edges |
 | 2026-04-21 | URL: https://arxiv.org/abs/2510.09721 — LLM-SWE Agents Survey (150+ papers, 50+ benchmarks) → new wiki article swe-agents-survey.md, graph +1 node +4 edges |
 | 2026-04-21 | URL: https://arxiv.org/abs/2604.03826 — ADR Context Strategies: 3-5 records optimal → new wiki article adr-context-strategies.md, graph +1 node +4 edges |
+| 2026-04-21 | URL: https://arxiv.org/abs/2604.08224 — Externalization in LLM Agents (memory/skills/protocols/harness) → new wiki article externalization-llm-agents.md, graph +1 node +4 edges |
+| 2026-04-21 | URL: https://arxiv.org/abs/2604.11243 — Knowledge Compounding (Agentic ROI, 84.6% token savings) → new wiki article knowledge-compounding.md, graph +1 node +4 edges |
+| 2026-04-21 | URL: https://arxiv.org/abs/2604.11364 — Missing Knowledge Layer in Cognitive Architectures → new wiki article missing-knowledge-layer.md, graph +1 node +4 edges |
+| 2026-04-21 | URL: https://arxiv.org/abs/2604.11548 — SemaClaw harness engineering (DAG orchestration, PermissionBridge) → new wiki article semaclaw-harness-engineering.md, graph +1 node +5 edges |
+| 2026-04-21 | URL: https://arxiv.org/abs/2604.01599 — ByteRover agent-native hierarchical memory (5-tier retrieval, AKL) → new wiki article byterover.md, graph +1 node +5 edges |
+| 2026-04-21 | URL: https://arxiv.org/abs/2604.09588 — Persistent Identity multi-anchor architecture (soul.py, RAG+RLM) → new wiki article persistent-identity-agents.md, graph +1 node +4 edges |
+| 2026-04-21 | URL: https://arxiv.org/abs/2604.09482 — Process Reward Agents (PRA, 80.8% MedQA, step-wise rewards) → new wiki article process-reward-agents.md, graph +1 node +4 edges |
+| 2026-04-21 | URL: https://arxiv.org/abs/2604.14572 — Corpus2Skill navigable RAG (hierarchical skill dirs, beats RAPTOR) → new wiki article corpus2skill.md, graph +1 node +5 edges |
