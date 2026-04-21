@@ -541,12 +541,6 @@
           },
           {
             "type": "command",
-            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/telegram-notify.sh \"🏁 Session dokončena\"",
-            "timeout": 5,
-            "statusMessage": ""
-          },
-          {
-            "type": "command",
             "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/trace-bridge.py",
             "timeout": 5,
             "statusMessage": "Bridging optimization traces..."

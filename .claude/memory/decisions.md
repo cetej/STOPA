@@ -24,7 +24,8 @@ Archived decisions: `decisions-archive.md`
 
 | 0014 | 2026-04-13 | [OpenMontage patterns adoption](../../docs/decisions/0014-openmontage-patterns-adoption.md) | IMPLEMENTING |
 | 0015 | 2026-04-14 | [KODER execution agent](../../docs/decisions/0015-koder-execution-agent.md) | IMPLEMENTING |
+| 0016 | 2026-04-21 | [Strategic roadmap: goals, means, competition, obsolescence](../../docs/decisions/0016-strategic-roadmap-and-obsolescence.md) | RESEARCH |
 
 ## Creating new decisions
 
-Use `/scribe` or create manually in `docs/decisions/` using `_template.md`. Next number: **0016**.
+Use `/scribe` or create manually in `docs/decisions/` using `_template.md`. Next number: **0017**.
