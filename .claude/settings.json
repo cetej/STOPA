@@ -140,6 +140,12 @@
             "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/session-start-orchestrator.py",
             "timeout": 30,
             "statusMessage": "Initializing session (parallel)..."
+          },
+          {
+            "type": "command",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/keys-presence-check.py",
+            "timeout": 3,
+            "statusMessage": ""
           }
         ]
       }

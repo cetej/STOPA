@@ -19,3 +19,10 @@ Rotating log of genuine problems that need user attention: failures, security fi
 ---
 
 ## Log
+
+## 2026-04-21 14:27 — [keys-health] FAL_KEY — expired_or_invalid
+- **Severity:** high
+- **Source:** scripts/keys-health.py
+- **Detail:** HTTP 401. Body: `{"detail": "No user found for Key ID and Secret"}`
+- **Action suggested:** rotate FAL_KEY in ~/.claude/keys/secrets.env, run keys-sync.ps1
+- **Status:** open
