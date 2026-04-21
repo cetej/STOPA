@@ -26,6 +26,7 @@ Archived decisions: `decisions-archive.md`
 | 0015 | 2026-04-14 | [KODER execution agent](../../docs/decisions/0015-koder-execution-agent.md) | IMPLEMENTING |
 | 0016 | 2026-04-21 | [Strategic roadmap: goals, means, competition, obsolescence](../../docs/decisions/0016-strategic-roadmap-and-obsolescence.md) | IMPLEMENTING |
 | 0016-C | 2026-04-21 | [Phase C council verdict — 90-day execution plan](../../outputs/adr-0016-phase-c-council.md) | DONE |
+| 0016-D | 2026-04-21 | [Phase D obsolescence scenarios — horizons Q3/Q1/H2](../../outputs/adr-0016-phase-d-obsolescence.md) | DONE |
 | 0017 | 2026-04-21 | [Memory Backend Abstraction Layer](../../docs/decisions/0017-memory-backend-abstraction.md) | IMPLEMENTING |
 
 ## Creating new decisions
