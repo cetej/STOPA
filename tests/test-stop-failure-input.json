@@ -1,0 +1,10 @@
+{
+  "hook_event_name": "StopFailure",
+  "session_id": "test-session-001",
+  "error": {
+    "type": "RateLimitError",
+    "message": "429 Too Many Requests — rate limit exceeded, retry after 60s",
+    "code": "rate_limit_error"
+  },
+  "transcript_path": "/tmp/transcript.md"
+}

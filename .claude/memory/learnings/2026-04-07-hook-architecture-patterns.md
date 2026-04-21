@@ -55,3 +55,27 @@ Hooks form a pipeline per lifecycle event. Each hook is independent — failures
 ### Performance Consideration
 
 SessionStart has 11 hooks with total timeout budget ~75s. Most complete in <3s, but session startup can feel slow. The `improvement-funnel.sh` (10s) and `auto-scribe.py` (15s) are the heaviest.
+
+### CC v2.1.x New Hook Events (added 2026-04)
+
+Claude Code v2.1.x introduced 7 new hook events beyond the original 13. Mapped to STOPA's 5 functional categories:
+
+| Event | Category | Purpose | STOPA coverage |
+|-------|----------|---------|----------------|
+| **CwdChanged** | memory | Fires when working directory changes — reactive env management (direnv-style) | not wired |
+| **FileChanged** | memory | Fires on external file modification — reactive state sync | not wired |
+| **TaskCreated** | workflow | Fires when sub-agent Task is spawned — budget gate, team tracking | `task-created-gate.sh` |
+| **PostCompact** | memory | Fires after context compaction completes — checkpoint reminder, state flush | `post-compact.sh` |
+| **StopFailure** | safety | Fires on API errors ending turns (HIGH priority) — failure logging, recovery guidance | `stop-failure.sh` + `stop-failure-logger.py` |
+| **PermissionDenied** | safety | Fires after auto-mode classifier denials — feedback loop for `/less-permission-prompts` | partial (logger planned) |
+| **Elicitation / ElicitationResult** | workflow | Intercepts structured input responses — form-fill, confirmation gates | not wired |
+
+### Category Assignment Rules (for future event additions)
+
+- **safety**: events that can block/invalidate actions (permission, failure, security)
+- **memory**: events that trigger state reconciliation (file/dir changes, compaction)
+- **tracing**: events capturing observability data (tool calls, metrics)
+- **workflow**: events orchestrating multi-step tasks (task lifecycle, elicitation, skill chains)
+- **notification**: events producing user-visible messages (stop, telegram, slack)
+
+StopFailure receives dual handler: bash for user-visible recovery guidance, Python for structured failure record persistence (enables `/learn-from-failure` pattern matching).

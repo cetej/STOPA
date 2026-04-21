@@ -625,6 +625,12 @@
             "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/stop-failure.sh",
             "timeout": 3,
             "statusMessage": "API error — checking recovery..."
+          },
+          {
+            "type": "command",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/stop-failure-logger.py",
+            "timeout": 5,
+            "statusMessage": "Recording failure trajectory..."
           }
         ]
       }
