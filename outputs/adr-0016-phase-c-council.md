@@ -125,9 +125,12 @@ The Skeptic alone argued (C) stay custom indefinitely for memory — "CMM is 'we
 Two questions that the council could not answer:
 
 1. **Futurist's forcing question:** *If CMM worked perfectly and cost $0, would you abandon STOPA immediately, or is there something about skill coupling, local-first, Czech heuristics, orchestration patterns that you'd miss enough to keep building?* This is the platform-vs-tool framing decision.
+
+   **User answered 2026-04-21: "Neopustil."** → STOPA has independent value beyond memory backend. Sub-decision 1 stays (B) abstraction + CMM adapter. Sub-decision 1 does NOT flip to (D) beta adoption. All verdicts above remain in force.
+
 2. **Resourcing question:** who does the abstraction work in weeks 3–4? Is it solo-you, or koder-delegated, or paused because bod 1 (API key + friction) is higher priority?
 
-If user defers both, execution starts at week 1 tasks (API key + retrieval instrumentation). Those are no-regrets.
+   **Pending user input.**
 
 ---
 
