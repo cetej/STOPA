@@ -91,6 +91,8 @@ Derived from Karpathy's LLM coding pitfalls observations (X post 201588385748952
 
 Tension s Autonomy: nepřepisuje autonomy — autonomously pick means AND verify, but when user intent is genuinely ambiguous (not technical execution ambiguous), surface options once rather than silently guessing.
 
+Konkrétní před/po příklady pro každé z 5 pravidel: [`code-editing-examples.md`](code-editing-examples.md). Konzultovat před non-trivial edit, po critic FAIL na orthogonal damage, nebo při ambiguous request.
+
 ## Transparency
 <!-- valid: 2026-04-08 | trigger: none (permanent — trust baseline) -->
 
