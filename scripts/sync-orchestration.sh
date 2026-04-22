@@ -225,6 +225,20 @@ for TARGET_REPO in "${TARGETS[@]}"; do
         done
     fi
 
+    # --- Rules ---
+    # Auto-loaded by CC as project instructions every session.
+    # Rules define shared behavioral baseline across all target projects.
+    if [ -d "$SOURCE_DIR/rules" ]; then
+        [ "$JSON_OUTPUT" = false ] && echo "" && echo "--- Rules ---"
+        mkdir -p "$TARGET_CLAUDE/rules"
+
+        for rule_file in "$SOURCE_DIR/rules"/*.md; do
+            [ -f "$rule_file" ] || continue
+            filename="$(basename "$rule_file")"
+            sync_file "$rule_file" "$TARGET_CLAUDE/rules/$filename" "rules/$filename" || ((changed++))
+        done
+    fi
+
     # --- Settings ---
     if [ "$SYNC_SETTINGS" = true ]; then
         [ "$JSON_OUTPUT" = false ] && echo "" && echo "--- Settings ---"

@@ -336,6 +336,8 @@ Now switch to **strict auditor mode**. Your job is to catch what the Selector mi
 5. **Unintended side effects** — What does the code do BESIDES the stated goal? Look for: logging sensitive data, modifying shared state, adding implicit dependencies, changing behavior of unrelated code paths. (ref: arXiv:2603.19138 — P4 knowledge-guided prioritization causes false confidence when verification only checks positive criteria)
 6. **Static-dynamic mismatch** — Did Phase 2.5 (Dynamic Verifier) contradict Phase 2 (Static Verifier)? If a milestone was overridden from PASS to FAIL by runtime checks, investigate WHY static analysis missed it. Common causes: stale imports, conditional logic hiding dead code, type coercion masking errors.
 
+**Reference for scope-creep findings:** `.claude/rules/code-editing-examples.md` Rule 2 (pre-existing dead code deleted) and Rule 3 (uninvited adjacent improvements) show diff-level contrasts for the most common orthogonal-damage patterns. Cite them in your review output when relevant.
+
 **Rules for Reviewer:**
 - Every concern MUST be supported by observable signals in the code or diff
 - Do NOT raise hypothetical concerns without evidence

@@ -34,7 +34,7 @@ Write task file to `.claude/tasks/koder-queue/<id>.md` with:
 - Clear task description from user input
 - Acceptance criteria (infer from task type, ask user if unclear)
 - Context: grep relevant learnings, check recent failures for the project
-- Constraints: default to light budget, no new deps
+- Constraints: default to light budget, no new deps; koder must follow `.claude/rules/code-editing-examples.md` Rule 3 — every diff line must trace to task requirements (no "while I'm here" improvements)
 
 ### Step 3: Dispatch (optional)
 
