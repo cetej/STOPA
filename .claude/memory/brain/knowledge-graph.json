@@ -1,6 +1,6 @@
 {
-  "version": "2.1",
-  "updated": "2026-04-21",
+  "version": "2.2",
+  "updated": "2026-04-22",
   "description": "2BRAIN knowledge graph — entity-centric storage with typed edges",
   "node_types": ["person", "concept", "project", "value", "reasoning", "experience", "goal"],
   "edge_types": ["created", "inspired", "contradicts", "enables", "blocks", "applied-in", "drives", "taught-me", "practiced-in", "related-to", "part-of", "complementary", "validates", "formalizes"],
@@ -480,6 +480,48 @@
       "tags": ["ai", "rag", "knowledge-navigation", "hierarchical-rag", "enterprise-qa", "corpus-compilation"],
       "wiki": "concepts/corpus2skill.md",
       "added": "2026-04-21"
+    },
+    "headless-services-ai": {
+      "type": "concept",
+      "label": "Headless Everything — API-First Services for AI Agents",
+      "tags": ["ai", "mcp", "api-first", "saas", "headless", "agentic-engineering"],
+      "wiki": "concepts/headless-services-ai.md",
+      "added": "2026-04-22"
+    },
+    "training-data-poisoning": {
+      "type": "concept",
+      "label": "Training Data Poisoning as Adversarial Resistance",
+      "tags": ["ai-safety", "training-data", "adversarial-ml", "data-integrity"],
+      "wiki": "concepts/training-data-poisoning.md",
+      "added": "2026-04-22"
+    },
+    "paramanager": {
+      "type": "concept",
+      "label": "ParaManager — Small Model as Master Orchestrator",
+      "tags": ["ai", "multi-agent", "orchestration", "agent-as-tool", "parallel-execution"],
+      "wiki": "concepts/paramanager-orchestrator.md",
+      "added": "2026-04-22"
+    },
+    "self-optimizing-deep-research": {
+      "type": "concept",
+      "label": "Self-Optimizing Multi-Agent Deep Research",
+      "tags": ["ai", "deep-research", "self-optimization", "multi-agent", "prompt-optimization", "self-play"],
+      "wiki": "concepts/self-optimizing-deep-research.md",
+      "added": "2026-04-22"
+    },
+    "cocr-rag": {
+      "type": "concept",
+      "label": "CoCR-RAG — Concept-Oriented Context Reconstruction",
+      "tags": ["ai", "rag", "context-reconstruction", "amr", "multi-source", "retrieval"],
+      "wiki": "concepts/cocr-rag.md",
+      "added": "2026-04-22"
+    },
+    "adaptive-orchestration-dmoe": {
+      "type": "concept",
+      "label": "Adaptive Orchestration — Dynamic Mixture of Experts (DMoE)",
+      "tags": ["ai", "multi-agent", "orchestration", "self-evolving", "mixture-of-experts", "resource-management"],
+      "wiki": "concepts/adaptive-orchestration-dmoe.md",
+      "added": "2026-04-22"
     }
   },
   "edges": [
@@ -687,6 +729,31 @@
     {"from": "corpus2skill", "to": "context-awareness-gate", "rel": "related-to", "evidence": "CAG decides whether to retrieve; Corpus2Skill assumes retrieval is needed but navigates smarter — complementary layers"},
     {"from": "corpus2skill", "to": "adr-context-strategies", "rel": "related-to", "evidence": "both find selective structured context beats exhaustive retrieval; ADR uses last-K, Corpus2Skill uses hierarchical navigation"},
     {"from": "corpus2skill", "to": "agentforge", "rel": "related-to", "evidence": "AgentForge=execution grounding, Corpus2Skill=knowledge grounding — both reject passive retrieval for active agent reasoning"},
-    {"from": "corpus2skill", "to": "stopa", "rel": "applied-in", "evidence": "2BRAIN wiki+/ingest+/compile = Corpus2Skill pattern; gap: explicit backtracking when wiki branch doesn't answer — scout should navigate siblings"}
+    {"from": "corpus2skill", "to": "stopa", "rel": "applied-in", "evidence": "2BRAIN wiki+/ingest+/compile = Corpus2Skill pattern; gap: explicit backtracking when wiki branch doesn't answer — scout should navigate siblings"},
+    {"from": "simon-willison", "to": "headless-services-ai", "rel": "created", "date": "2026-04-19"},
+    {"from": "headless-services-ai", "to": "multi-agent-orchestration-protocols", "rel": "related-to", "evidence": "MCP = the key protocol enabling headless-services-ai — agent accesses Salesforce via MCP, not browser"},
+    {"from": "headless-services-ai", "to": "agentic-engineering-patterns", "rel": "related-to", "evidence": "headless services = infrastructure layer enabling agentic engineering; APIs replace browser automation"},
+    {"from": "headless-services-ai", "to": "stopa", "rel": "applied-in", "evidence": "STOPA MCP-first architecture is already headless-services-ai compliant; trend validates approach and expands future capability surface"},
+    {"from": "simon-willison", "to": "training-data-poisoning", "rel": "created", "date": "2026-04-21"},
+    {"from": "training-data-poisoning", "to": "prompt-injection-defense", "rel": "related-to", "evidence": "both are adversarial ML vectors: poisoning corrupts training signal, injection corrupts inference context"},
+    {"from": "training-data-poisoning", "to": "kill-chain-canary", "rel": "related-to", "evidence": "both represent attack vectors against AI systems: training-time vs inference-time"},
+    {"from": "paramanager", "to": "agentforge", "rel": "related-to", "evidence": "both multi-agent SWE coordination; AgentForge uses 5 role-specialized agents, ParaManager uses unified Agent-as-Tool interface"},
+    {"from": "paramanager", "to": "multi-agent-orchestration-protocols", "rel": "related-to", "evidence": "both address standardized agent interfaces; ParaManager's Agent-as-Tool = concrete implementation of Agent2Agent protocol"},
+    {"from": "paramanager", "to": "gaama", "rel": "related-to", "evidence": "both decompose coordination: GAAMA at memory level, ParaManager at task decomposition level"},
+    {"from": "paramanager", "to": "stopa", "rel": "applied-in", "evidence": "Agent-as-Tool pattern = STOPA budget-tier haiku orchestrator path; uniform Agent() calls already implement this partially"},
+    {"from": "paramanager", "to": "adaptive-orchestration-dmoe", "rel": "complementary", "evidence": "ParaManager = static pool with unified interface; DMoE = dynamic pool with LRU eviction — complementary orchestration approaches"},
+    {"from": "self-optimizing-deep-research", "to": "memfactory", "rel": "related-to", "evidence": "both use self-improvement for agent performance: MemFactory RL for memory ops, self-optimizing for prompt strategies"},
+    {"from": "self-optimizing-deep-research", "to": "critical-step-optimization", "rel": "related-to", "evidence": "self-play identifies effective prompt strategies; CSO identifies critical steps to train on — both adaptive selection"},
+    {"from": "self-optimizing-deep-research", "to": "swe-agents-survey", "rel": "related-to", "evidence": "both identify self-evolving systems as the research frontier for agentic capabilities"},
+    {"from": "self-optimizing-deep-research", "to": "stopa", "rel": "applied-in", "evidence": "/autoresearch could adopt self-play optimization for prompt strategy selection; current fixed-strategy approach = suboptimal"},
+    {"from": "cocr-rag", "to": "ecphory-rag", "rel": "related-to", "evidence": "both address multi-source fusion quality: EcphoryRAG via entity-centric KG, CoCR-RAG via AMR concept distillation"},
+    {"from": "cocr-rag", "to": "context-awareness-gate", "rel": "complementary", "evidence": "CAG decides whether to retrieve; CoCR-RAG reconstructs what was retrieved — gating layer + reconstruction layer"},
+    {"from": "cocr-rag", "to": "memory-augmented-routing", "rel": "related-to", "evidence": "both address retrieval quality for multi-source queries; routing selects source, CoCR-RAG fuses across sources"},
+    {"from": "cocr-rag", "to": "knowledge-compounding", "rel": "related-to", "evidence": "concept distillation = compounding mechanism; distilled concepts across sessions → lower retrieval token cost"},
+    {"from": "adaptive-orchestration-dmoe", "to": "agentforge", "rel": "related-to", "evidence": "both dynamic multi-agent systems; AgentForge: fixed 5-role pool, DMoE: fluid pool with LRU eviction"},
+    {"from": "adaptive-orchestration-dmoe", "to": "paramanager", "rel": "complementary", "evidence": "ParaManager = unified interface for fixed pool; DMoE = dynamic pool composition — complementary orchestration dimensions"},
+    {"from": "adaptive-orchestration-dmoe", "to": "context-kubernetes", "rel": "related-to", "evidence": "CK manages knowledge governance; DMoE manages agent pool governance — both dynamic resource management for agents"},
+    {"from": "adaptive-orchestration-dmoe", "to": "stopa", "rel": "applied-in", "evidence": "LRU eviction + Meta-Cognition Engine upgrade path for STOPA /orchestrate: lazy agent recruitment vs pre-planned budget tiers"},
+    {"from": "adaptive-orchestration-dmoe", "to": "tool-use-evolution", "rel": "related-to", "evidence": "DMoE is the next evolution: agents recruited dynamically, not from fixed tool registry"}
   ]
 }

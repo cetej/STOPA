@@ -6,10 +6,10 @@ component: hook
 tags: [panic-detector, false-positive, calm-steering, signal-quality]
 summary: Panic-detector yellow fired ~20×/day on edit_velocity + scope_creep alone (0 failures). Fixed by requiring a failure-based signal (bash_fails|edit_fail_cycle) for yellow. False positives erode calm-steering signal credibility per calm-steering.md ("2 yellows = pattern is real").
 source: user_correction
-uses: 0
+uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.85
+confidence: 0.90
 maturity: draft
 failure_class: logic
 failure_agent: panic-detector

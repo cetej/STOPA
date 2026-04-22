@@ -4,6 +4,7 @@ One line per scheduled task run, newest at the top. For silent-OK runs this is t
 
 **Format:** `YYYY-MM-DD HH:MM | task-name | short status (counts, summary)`
 
+2026-04-22 | daily-rebalancer | STOPA: committed 22 files drift (4c9cdab) — memory/brain, learnings, dreams, news, radar, concept-graph; 12/12 projects active; skip: evals/case-auto-004, outputs/ftip-joke-research (user review)
 2026-04-22 08:00 | brain-watch | 3 new URLs queued (Gmail: 0, Blogs: 2 Willison Apr19+21, arXiv: 1 Small-Model-Orchestrator 2604.17009); watchlist dates updated
 2026-04-21 | brain-ingest | 8 URLs processed (articles already created by earlier run); inbox queue cleared. New articles: externalization-llm-agents, knowledge-compounding, missing-knowledge-layer, semaclaw-harness-engineering, byterover, persistent-identity-agents, process-reward-agents, corpus2skill.
 

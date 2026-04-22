@@ -6,10 +6,10 @@ component: orchestration
 tags: [cross-project, adoption, agpl, osint, monitor]
 summary: Clean-room adoption AGPL-3.0 projektů bez copy-paste — 3 paralelní Explore agenti pro strukturální analýzu, pak syntéza do Tier A/B/C/D roadmapy, NOTICE.md s atribucí, implementace v target-project stylu.
 source: auto_pattern
-uses: 3
+uses: 4
 harmful_uses: 0
 successful_uses: 0
-confidence: 1.0
+confidence: 1.00
 maturity: draft
 task_context: {task_class: cross_project, complexity: high, tier: deep}
 verify_check: "Glob('.claude/memory/learnings/*worldmonitor*') → 1+ matches"

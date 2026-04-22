@@ -6,10 +6,10 @@ component: orchestration
 tags: [feature-completeness, ui, verification, dead-code]
 summary: Nová feature (backend + standalone page) není hotová dokud není dostupná z hlavní navigace projektu. Bez linku/pillu/entry-pointu z hlavního UI je feature mrtvá — user ji nenajde.
 source: user_correction
-uses: 0
+uses: 1
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.9
+confidence: 0.95
 maturity: draft
 task_context: {task_class: feature, complexity: medium, tier: standard}
 verify_check: "manual"

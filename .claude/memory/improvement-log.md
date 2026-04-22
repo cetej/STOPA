@@ -25,3 +25,4 @@ Cross-project improvement routing audit trail. Each row = one routed finding.
 | 2026-04-18 | Claude Opus 4.7 GA — 3× visual resolution for OCR pipeline, model ID update | news.md 2026-04-17 HIGH | cetej/NG-ROBOT | [#5](https://github.com/cetej/NG-ROBOT/issues/5) |
 | 2026-04-18 | Fine-grained tool streaming GA (#110) — event-level pipeline monitoring | news.md #110 MED | cetej/NG-ROBOT | [#6](https://github.com/cetej/NG-ROBOT/issues/6) |
 | 2026-04-18 | Prompt caching auto-placement (#96) — remove manual cache_control markers | news.md #96 MED | cetej/NG-ROBOT | [#7](https://github.com/cetej/NG-ROBOT/issues/7) |
+| 2026-04-22 | ParaManager — Small Model as Master Orchestrator (arXiv:2604.17009) | ingest | cetej/STOPA | [#18](https://github.com/cetej/STOPA/issues/18) |

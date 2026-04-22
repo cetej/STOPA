@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: memory-architecture
-sources: 22
-last_updated: 2026-04-18
+sources: 23
+last_updated: 2026-04-22
 ---
 
 # Memory Architecture

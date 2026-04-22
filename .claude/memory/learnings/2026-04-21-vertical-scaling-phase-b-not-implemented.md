@@ -6,10 +6,10 @@ component: orchestration
 tags: [vertical-scaling, telescope, scheduling, phase-management]
 summary: "Fáze B vertikálního škálování (skill /telescope) nebyla nikdy implementována, přestože C-DECIDE scheduled task vyhodnocoval Go/No-Go. Task fired na datum B-START (2026-04-21), nikoli C-DECIDE (2026-05-18). Výsledek: NO-GO pro Fázi C, nutno implementovat Fázi B."
 source: auto_pattern
-uses: 1
+uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.75
+confidence: 0.80
 maturity: draft
 verify_check: "manual"
 ---

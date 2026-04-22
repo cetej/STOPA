@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-07
 cluster: hook-infrastructure
-sources: 12
-last_updated: 2026-04-18
+sources: 14
+last_updated: 2026-04-22
 ---
 
 # Hook Infrastructure & Security
@@ -94,6 +94,14 @@ LlamaFirewall PromptGuard (BERT, 19-92ms, AUC 0.98) is ADOPT for PostToolUse inj
 - **Dry-run mode**: `STOPA_TOOL_GATE=log` for tool-gate, some hooks check `DRY_RUN=1`
 - **Debug via activity log**: `.claude/hooks/lib/activity-log.jsonl`
 - **Traces**: `.claude/traces/` from trace-capture.py and session-trace.py
+
+## Panic Detector Design Principles
+
+The panic-detector.py hook tracks edit→fail cycles and drift signals to inject `[calm-steering]` interventions. Two critical lessons emerged:
+
+**Signal-based gating over state-based gating**: Yellow must require at least one failure signal (`bash_fails|edit_fail_cycle`). Relying on `task_style` from `state.md` (written only by `/orchestrate`) silently fails for direct workflows — the gate never applies when orchestrate isn't invoked. False-positive flooding (20×/day with 0 real failures) degrades calm-steering credibility: "2 yellows = pattern is real" stops meaning anything (ref: 2026-04-18-panic-detector-requires-failure-signal.md).
+
+**Doom loop detection via signature hashing (Signal 6)**: Catches Grep/Read repetition loops that edit-fail cycles miss. `args_hash = md5(json.dumps(tool_input, sort_keys=True))[:12]` enables: identical consecutive (3+, +3 pts) and `[A,B,A,B]` alternating sequence detection (+2 pts). The `doom_` prefix bypasses the failure requirement for yellow — enabling early detection before failures accumulate (ref: 2026-04-21-doom-loop-signal-from-ml-intern.md).
 
 ## Distribution: Local vs Plugin
 

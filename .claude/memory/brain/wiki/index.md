@@ -3,12 +3,12 @@
 Obsah kompilovaných wiki článků organizovaný podle typu entity.
 LLM čte tento soubor PRVNÍ při odpovídání na dotazy.
 
-**Last updated:** 2026-04-21
-**Total articles:** 63
+**Last updated:** 2026-04-22
+**Total articles:** 69
 
 ---
 
-## Concepts (43)
+## Concepts (49)
 
 | Article | Summary | Sources | Updated |
 |---------|---------|---------|---------|
@@ -64,6 +64,12 @@ LLM čte tento soubor PRVNÍ při odpovídání na dotazy.
 | [persistent-identity-agents](concepts/persistent-identity-agents.md) | Multi-anchor identity: distributed resilience (identity files + memory logs + skill memory); soul.py; RAG+RLM routing | arXiv:2604.09588 | 2026-04-21 |
 | [process-reward-agents](concepts/process-reward-agents.md) | PRA: frozen policy + domain reward module = online step-wise verification; 80.8% MedQA Qwen3-4B SOTA; +25.7% without retraining | arXiv:2604.09482 | 2026-04-21 |
 | [corpus2skill](concepts/corpus2skill.md) | Navigate don't retrieve: offline corpus→skill tree; bird's-eye navigation + backtracking; beats dense RAG/RAPTOR on WixQA | arXiv:2604.14572 | 2026-04-21 |
+| [headless-services-ai](concepts/headless-services-ai.md) | API/MCP-first services for AI agents; headless > GUI for agent access; Salesforce Headless 360; SaaS pricing disruption | Willison simonwillison.net | 2026-04-22 |
+| [training-data-poisoning](concepts/training-data-poisoning.md) | Adversarial data labeling (pelicans_riding_bicycles) as resistance to AI crawling; integrity concerns for web-trained models | Willison simonwillison.net | 2026-04-22 |
+| [paramanager-orchestrator](concepts/paramanager-orchestrator.md) | Small Model as Master Orchestrator; Agent-as-Tool paradigm; parallel subtask decomposition; decoupled planning/execution | arXiv:2604.17009 | 2026-04-22 |
+| [self-optimizing-deep-research](concepts/self-optimizing-deep-research.md) | Self-play prompt optimization for Deep Research agents; rivals expert-engineered systems; removes prompt engineering bottleneck | arXiv:2604.02988 | 2026-04-22 |
+| [cocr-rag](concepts/cocr-rag.md) | CoCR-RAG: AMR-based concept distillation + context reconstruction for multi-source RAG; PopQA/EntityQuestions SOTA | arXiv:2603.23989 | 2026-04-22 |
+| [adaptive-orchestration-dmoe](concepts/adaptive-orchestration-dmoe.md) | Generalization-Specialization Dilemma; DMoE dynamic agent pool; Meta-Cognition Engine + LRU eviction; Self-Evolving Concierge | arXiv:2601.09742 | 2026-04-22 |
 
 ## People (3)
 
