@@ -13,6 +13,14 @@ Zpracované záznamy se přesunou do `inbox-archive.md`.
 
 ## Queue
 
+URL: https://simonwillison.net/2026/Apr/19/headless-everything/
+URL: https://simonwillison.net/2026/Apr/21/scosman/
+URL: https://arxiv.org/abs/2604.17009
+URL: https://arxiv.org/abs/2604.02988
+URL: https://arxiv.org/abs/2603.23989
+URL: https://arxiv.org/abs/2604.13120
+URL: https://arxiv.org/abs/2601.09742
+
 ## Processed
 
 | Date | Item |

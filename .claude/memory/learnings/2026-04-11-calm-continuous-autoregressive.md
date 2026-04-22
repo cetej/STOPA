@@ -7,11 +7,12 @@ tags: [inference, efficiency, architecture, watch-item]
 summary: "CALM (arXiv:2510.27688) komprimuje K tokenů do 1 spojitého vektoru — K=4 je sweet spot (44% méně FLOPs, >99.9% rekonstrukce). Přenositelné principy: batch K segmentů v pipeline, likelihood-free eval (BrierLM), 4:1 komprese memory."
 source: external_research
 maturity: draft
-confidence: 1.0
-uses: 2
+confidence: 1.00
+uses: 3
 successful_uses: 0
 harmful_uses: 0
 verify_check: manual
+related: [2026-04-11-iha-interleaved-head-attention.md]
 ---
 
 ## CALM — Continuous Autoregressive Language Models

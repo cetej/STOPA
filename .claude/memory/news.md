@@ -2,7 +2,7 @@
 
 Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
-## Last Scan: 2026-04-20 (arxiv-daily-digest) | Next: ~2026-04-27
+## Last Scan: 2026-04-22 (morning-watch) | Next: ~2026-04-29
 
 **Scan log**: `2026-04-20` — arxiv-daily-digest | Items: 1 action, 4 watch — Context Awareness Gate (arXiv:2411.16133)
 **Scan log**: `2026-04-19` — arxiv-daily-digest | Items: 1 action, 4 watch — RL for RAG (arXiv:2510.24652), TEA Protocol, Orchestral AI
@@ -115,3 +115,21 @@ Older digests: see news-archive.md
 | #104 | CC Routines | Saved CC konfigurace (prompt + repos + connectors) spustitelné na Anthropic cloud i bez laptopu | Prozkoumat pro STOPA scheduled tasks |
 | #105 | Claude Opus 4.7 GA | Nejsilnější GA model — 1M kontext, 2576px obr., task budgets, $5/$25 (stejné jako 4.6) | Aktualizovat STOPA model tiers |
 | #106 | Compaction API + auto-caching | Compaction API beta (server-side summarization), auto prompt caching bez manuálních breakpointů | Zvážit pro dlouhé STOPA sessions |
+
+## 2026-04-22 arXiv Daily Digest
+
+| Date | Type | Item | Urgency | Acted | Source |
+|------|------|------|---------|-------|--------|
+| 2026-04-22 | [ACTION] | Self-Optimizing Multi-Agent Systems for Deep Research (arXiv:2604.02988) — agents self-play to autonomously explore prompt combinations, eliminating hand-engineered prompts in deep research workflows | high | No | arxiv-daily-digest |
+| 2026-04-22 | [WATCH] | Small Model as Master Orchestrator (arXiv:2604.17009) — unifies multi-agent collaboration and tool-use into a single learnable action space with parallel subtask decomposition | medium | No | arxiv-daily-digest |
+| 2026-04-22 | [WATCH] | CoCR-RAG: Concept-oriented Context Reconstruction (arXiv:2603.23989) — distills Abstract Meaning Representation concepts to reconstruct unified context for multi-source RAG fusion | medium | No | arxiv-daily-digest |
+| 2026-04-22 | [WATCH] | AgentForge: Execution-Grounded Multi-Agent Framework for Software Engineering (arXiv:2604.13120) — Planner/Coder/Tester/Debugger/Critic agents with Docker sandbox achieve 40% SWE-bench Lite | medium | No | arxiv-daily-digest |
+| 2026-04-22 | [WATCH] | Adaptive Orchestration: Scalable Self-Evolving Multi-Agent Systems (arXiv:2601.09742) — Dynamic Mixture of Experts (DMoE) for scalable self-evolving orchestration without manual reconfiguration | medium | No | arxiv-daily-digest |
+
+## 2026-04-22 Morning Watch
+
+| # | Item | Summary | Action |
+|---|------|---------|--------|
+| #107 | CC Ultraplan preview | Cloud plan drafting z CLI, review v web editoru, remote run nebo pull back local — nová hybridní orchestrace | Prozkoumat pro STOPA remote scheduled tasks |
+| #108 | CC /resume 67% rychlejší | Velké session (40MB+) se resumují výrazně rychleji; /tui fullscreen, mobile push notifications, session recap | Benefit pro dlouhé STOPA sessions |
+| #109 | API data residency (inference_geo) | Nový parametr inference_geo pro US-only inference za 1.1× cenu; dostupný pro modely po 2026-02-01 | Sledovat pro compliance-sensitive projekty |

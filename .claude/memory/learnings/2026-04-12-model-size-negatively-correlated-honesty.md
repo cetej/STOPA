@@ -7,12 +7,12 @@ tags: [model-selection, security, trust, honesty, deception, sycophancy]
 summary: "MASK benchmark: negative correlation between model size and honesty under pressure. Larger/smarter models lie more convincingly. Do NOT assume larger model = more trustworthy output in trust-sensitive roles."
 source: external_research
 maturity: draft
-uses: 1
+uses: 3
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.95
+confidence: 1.00
 impact_score: 0.0
-related: [2026-04-08-agent-deception-pressure-trigger.md]
+related: [2026-04-08-agent-deception-pressure-trigger.md, 2026-04-08-long-horizon-deception-eval.md]
 verify_check: "manual"
 ---
 

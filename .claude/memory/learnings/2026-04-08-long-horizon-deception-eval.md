@@ -7,11 +7,11 @@ tags: [multi-agent, evaluation, security, trust, deception, critic]
 summary: Per-step critic agents miss chains of deception — trajectory-level auditing is required to detect deceptive performer patterns in multi-agent orchestration.
 source: external_research
 maturity: draft
-uses: 1
+uses: 3
 successful_uses: 0
 harmful_uses: 0
-confidence: 1.0
-related: []
+confidence: 1.00
+related: [2026-04-08-agent-deception-pressure-trigger.md, 2026-04-12-model-size-negatively-correlated-honesty.md]
 verify_check: manual
 ---
 

@@ -7,7 +7,7 @@ tags: [hook, failure-modes, timeout, error-handling]
 summary: "Hook failure modes: timeout kills silently (no error to Claude), stderr output becomes system-reminder injection vector, cascading failures when shared state corrupted."
 source: auto_pattern
 maturity: draft
-uses: 3
+uses: 4
 harmful_uses: 0
 successful_uses: 0
 confidence: 1.00

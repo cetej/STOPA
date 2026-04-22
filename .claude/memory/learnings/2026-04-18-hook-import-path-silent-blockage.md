@@ -6,7 +6,7 @@ component: hook
 tags: [signal-pipeline, atomic_write, sys-path, silent-failure, evolve-input]
 summary: 8 hooks měly chybnou sys.path (.parent.parent místo .parent.parent.parent) → ModuleNotFoundError při import atomic_utils → tichá smrt 17 dní. Žádný signál do corrections.jsonl, panic-state.json, uses-ledger. /evolve běžel slepě nad zmrzlými daty.
 source: critic_finding
-uses: 2
+uses: 3
 harmful_uses: 0
 successful_uses: 0
 confidence: 1.00
@@ -68,3 +68,4 @@ User prompt "možná by stálo za hlubší analýzu, zda potřebné signály nej
 2. **Add verify-sweep check**: každý hook musí být import-clean. Failed imports = critical violation.
 3. **Konvence cest**: vždy přidat komentář `# .claude/hooks/ → .claude/ → repo root → scripts/` jako autodream.py — usnadňuje code review.
 4. **Path math je whitelistový**: `Path(__file__).resolve().parent` (od file) potřebuje +1 parent navíc oproti `Path(__file__).resolve().parent.parent` (od hook dir).
+> Updated 2026-04-21: `panic-detector.py` was one of the 8 affected hooks. After sys.path fix (commit ~2026-04-18), koder added Signal 6 (doom-loop detection via tool-call hashing) on 2026-04-21 — first successful on-policy use of the restored hook. 7/7 tests pass. See `2026-04-21-doom-loop-signal-from-ml-intern.md`.
