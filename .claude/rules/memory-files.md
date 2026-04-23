@@ -205,6 +205,8 @@ Agent assumed stateless auth, but app uses server-side sessions.
 Příště přečíst existující testy PŘED editací — testy by odhalily session-based pattern.
 ```
 
+**TAR trajectory format** (preferred for new failure records, ref: arXiv:2604.01437 Li & Storhaug, ICSE/FSE/ASE review): explicitní 3-section struktura `## Thought` (what agent believed going in) → `## Action` (what it did) → `## Result` (what happened/error). Kompatibilní s existujícím `## Trajectory` — `## Trajectory` zůstává pro chronological rollup, TAR sekce přidávají semantic layering pro cross-run causal analysis. /scribe emituje TAR sections pro nové failure records.
+
 ### Failure Retrieval
 
 - Grep-first přes `failure_class:` a `failure_agent:` pro pattern matching

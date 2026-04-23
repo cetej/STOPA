@@ -34,3 +34,9 @@ Cross-project improvement routing audit trail. Each row = one routed finding.
 | 2026-04-22 | Kreuzberg — multi-format document extraction for Czech source scraping | radar.md 7/10 Watch | cetej/MONITOR | [#4](https://github.com/cetej/MONITOR/issues/4) |
 | 2026-04-22 | Harness adoption pilot — feature tracking for ZACHVEV pipeline | news.md #111 MED | cetej/ZACHVEV | [#4](https://github.com/cetej/ZACHVEV/issues/4) |
 | 2026-04-22 | Harness adoption pilot — feature tracking for POLYBOT trading phases | news.md #111 MED | cetej/POLYBOT | [#2](https://github.com/cetej/POLYBOT/issues/2) |
+| 2026-04-23 | CII formula from worldmonitor (baseline×0.4 + event×0.6) | radar.md 8/10 | cetej/MONITOR | [#5](https://github.com/cetej/MONITOR/issues/5) |
+| 2026-04-23 | DeepMind 6-vector attack framework — input sanitization (86% Content Injection) | learning CRITICAL | cetej/MONITOR | [#6](https://github.com/cetej/MONITOR/issues/6) |
+| 2026-04-23 | semantica PROV-O bi-temporal OSINT entity tracking (in-memory default) | radar.md 8/10 | cetej/MONITOR | [#7](https://github.com/cetej/MONITOR/issues/7) |
+| 2026-04-23 | Trending spike detection threshold from worldmonitor (5+ AND 3× AND 2+ AND 30min) | radar.md 8/10 | cetej/ZACHVEV | [#5](https://github.com/cetej/ZACHVEV/issues/5) |
+| 2026-04-23 | HyperFrames PoC — deterministic HTML→MP4 data viz (Apache 2.0, 9.5k⭐) | radar.md 8/10 | cetej/NG-ROBOT | [#9](https://github.com/cetej/NG-ROBOT/issues/9) |
+| 2026-04-23 | Claude Context MCP pilot — AST hybrid code search (Zilliz, 7.95k⭐) | radar.md 7/10 | cetej/NG-ROBOT | [#10](https://github.com/cetej/NG-ROBOT/issues/10) |

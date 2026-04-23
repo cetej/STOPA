@@ -360,6 +360,23 @@ EXPECTED EFFECT: <prediction — helps detect reward hacking later>
 **Tried**: <approach and rationale>
 ```
 
+### Step 2.5: Falsification Gate (mandatory, ref: 2026-04-23-llm-confirmation-bias.md)
+
+Before implementing, explicitly answer these two questions in the Run Diary:
+1. **"What evidence would refute current hypothesis?"** — name at least one measurable counter-example
+2. **"Did I seek it in prior experiments?"** — yes/no + which experiment
+
+```
+**Falsification check**: If H is true, I'd expect Y. Counter-evidence would be Z.
+Prior experiments seeking counter-evidence: [list] / [none found — reason]
+```
+
+**Counter-example prompting** (arXiv 25K runs, 42→56% rule discovery): if hypothesis is about technique X, run ONE experiment with NOT-X as control before full implementation. Adds 1 iteration but prevents confirmatory bias accumulation.
+
+**SKIP triggers /critic FAIL:** If step skipped or answered with "none" without search → critic must flag as incomplete trace. Do not graduate to Step 3.
+
+Time budget: <30s. Mental check, not a full research sprint.
+
 ### Step 3 (ι Improve): Implement
 
 Make code changes. Rules:
@@ -613,6 +630,7 @@ Read `${CLAUDE_SKILL_DIR}/references/failure-taxonomy.md` for the 10-category cl
 
 | Rationalization | Why Wrong | Do Instead |
 |------------|-----------|------------|
+| "This hypothesis looks solid, falsification is overkill" | 68% of LLM agent traces ignore evidence (25K runs, 8 domains); confirmatory bias is default mode | Run Step 2.5 counter-example check every iteration — takes <30s |
 | "Let me try 5 things at once" | Can't attribute improvement | One hypothesis per iteration |
 | "The metric went up, ship it" | Might be reward hacking | Check secondary signals |
 | "This approach is obviously better" | Subjective ≠ measured | Run the eval |
