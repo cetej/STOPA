@@ -4,6 +4,7 @@ One line per scheduled task run, newest at the top. For silent-OK runs this is t
 
 **Format:** `YYYY-MM-DD HH:MM | task-name | short status (counts, summary)`
 
+2026-04-23 | brain-ingest | 9 items processed — 2× Willison (Qwen3.6-27B, Claude Code pricing), 7× arXiv (mnemonic-sovereignty, CAMCO, RAG-DIVE, AnalysisBench, conformal-RAG, single-multi-loop, cognitive-fabric-nodes). 9 new wiki articles. Graph: +9 nodes +40 edges. Total wiki: 78 articles.
 2026-04-23 07:00 | brain-watch | 6 new items queued — 2× Willison blog (Qwen3.6-27B, Claude Code pricing), 4× arXiv (2604.16548 memory security, 2604.17240 CAMCO orchestration, 2604.16310 RAG-DIVE, 2604.11270 SWE eval). Gmail: 0 new emails across all labels/senders. Karpathy blog: no new posts.
 
 2026-04-23 | auto-evolve-skills | 2 sessions analyzed, 15 skills evaluated, 0 candidates (all 0% error rate — no failure signal)

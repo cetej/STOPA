@@ -13,16 +13,6 @@ Zpracované záznamy se přesunou do `inbox-archive.md`.
 
 ## Queue
 
-URL: https://simonwillison.net/2026/Apr/22/qwen36-27b/
-URL: https://simonwillison.net/2026/apr/22/claude-code-confusion/
-URL: https://arxiv.org/abs/2604.16548
-URL: https://arxiv.org/abs/2604.17240
-URL: https://arxiv.org/abs/2604.16310
-URL: https://arxiv.org/abs/2604.11270
-URL: https://arxiv.org/abs/2511.17908
-URL: https://arxiv.org/abs/2602.05182
-URL: https://arxiv.org/abs/2604.03430
-
 ## Processed
 
 | Date | Item |
@@ -79,3 +69,12 @@ URL: https://arxiv.org/abs/2604.03430
 | 2026-04-22 | URL: https://arxiv.org/abs/2603.23989 — CoCR-RAG concept-oriented context reconstruction → new wiki article cocr-rag.md, graph +1 node +4 edges |
 | 2026-04-22 | URL: https://arxiv.org/abs/2604.13120 — DUPLICATE SKIP (AgentForge already processed 2026-04-18) |
 | 2026-04-22 | URL: https://arxiv.org/abs/2601.09742 — Adaptive Orchestration DMoE (Self-Evolving Concierge, Meta-Cognition Engine) → new wiki article adaptive-orchestration-dmoe.md, graph +1 node +5 edges |
+| 2026-04-23 | URL: https://simonwillison.net/2026/Apr/22/qwen36-27b/ — Qwen3.6-27B dense 27B matches 397B MoE on coding → new wiki article qwen3-27b-dense-coding.md, graph +1 node +3 edges |
+| 2026-04-23 | URL: https://simonwillison.net/2026/apr/22/claude-code-confusion/ — Claude Code Max pricing incident → new wiki article claude-code-pricing-incident.md, graph +1 node +3 edges |
+| 2026-04-23 | URL: https://arxiv.org/abs/2604.16548 — Mnemonic Sovereignty (LTM security, 6-phase lifecycle, 9 governance primitives) → new wiki article mnemonic-sovereignty.md, graph +1 node +5 edges |
+| 2026-04-23 | URL: https://arxiv.org/abs/2604.17240 — CAMCO constraint-aware enterprise orchestration (0 violations, 92-97% utility) → new wiki article camco-policy-orchestration.md, graph +1 node +4 edges |
+| 2026-04-23 | URL: https://arxiv.org/abs/2604.16310 — RAG-DIVE dynamic multi-turn dialogue evaluation → new wiki article rag-dive.md, graph +1 node +3 edges |
+| 2026-04-23 | URL: https://arxiv.org/abs/2604.11270 — AnalysisBench LLM agents on software analysis (94% vs 77%, self-validation bias) → new wiki article analysis-bench-agents.md, graph +1 node +4 edges |
+| 2026-04-23 | URL: https://arxiv.org/abs/2511.17908 — Conformal RAG context filtering (2-3× reduction, statistical guarantees) → new wiki article conformal-rag-filtering.md, graph +1 node +4 edges |
+| 2026-04-23 | URL: https://arxiv.org/abs/2602.05182 — Single-Multi Evolution Loop (+8% individual, +14.9% collaborative) → new wiki article single-multi-evolution-loop.md, graph +1 node +4 edges |
+| 2026-04-23 | URL: https://arxiv.org/abs/2604.03430 — Cognitive Fabric Nodes active middleware (>10% HotPotQA/MuSiQue) → new wiki article cognitive-fabric-nodes.md, graph +1 node +5 edges |

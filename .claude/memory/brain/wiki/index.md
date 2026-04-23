@@ -3,8 +3,8 @@
 Obsah kompilovaných wiki článků organizovaný podle typu entity.
 LLM čte tento soubor PRVNÍ při odpovídání na dotazy.
 
-**Last updated:** 2026-04-22
-**Total articles:** 69
+**Last updated:** 2026-04-23
+**Total articles:** 78
 
 ---
 
@@ -70,6 +70,15 @@ LLM čte tento soubor PRVNÍ při odpovídání na dotazy.
 | [self-optimizing-deep-research](concepts/self-optimizing-deep-research.md) | Self-play prompt optimization for Deep Research agents; rivals expert-engineered systems; removes prompt engineering bottleneck | arXiv:2604.02988 | 2026-04-22 |
 | [cocr-rag](concepts/cocr-rag.md) | CoCR-RAG: AMR-based concept distillation + context reconstruction for multi-source RAG; PopQA/EntityQuestions SOTA | arXiv:2603.23989 | 2026-04-22 |
 | [adaptive-orchestration-dmoe](concepts/adaptive-orchestration-dmoe.md) | Generalization-Specialization Dilemma; DMoE dynamic agent pool; Meta-Cognition Engine + LRU eviction; Self-Evolving Concierge | arXiv:2601.09742 | 2026-04-22 |
+| [qwen3-27b-dense-coding](concepts/qwen3-27b-dense-coding.md) | Qwen3.6-27B: 27B dense model matches 397B MoE on coding; 16.8 GB quantized = local inference viable | simonwillison.net | 2026-04-23 |
+| [claude-code-pricing-incident](concepts/claude-code-pricing-incident.md) | Anthropic's Max plan pricing test rollback; trust erosion from opaque pricing changes; STOPA budget impact | simonwillison.net | 2026-04-23 |
+| [mnemonic-sovereignty](concepts/mnemonic-sovereignty.md) | Security of LTM in LLM agents: 6-phase lifecycle, 9 governance primitives, no architecture covers all; STOPA gaps identified | arXiv:2604.16548 | 2026-04-23 |
+| [camco-policy-orchestration](concepts/camco-policy-orchestration.md) | CAMCO: constraint-explicit middleware for enterprise MAS; 0 policy violations, 92-97% utility retention, 2.4 iterations | arXiv:2604.17240 | 2026-04-23 |
+| [rag-dive](concepts/rag-dive.md) | Dynamic multi-turn RAG evaluation via LLM-simulated users; detects performance changes static benchmarks miss | arXiv:2604.16310 | 2026-04-23 |
+| [analysis-bench-agents](concepts/analysis-bench-agents.md) | AnalysisBench: agentic architecture > model choice; 94% vs 77%; LLM self-validation overstates success | arXiv:2604.11270 | 2026-04-23 |
+| [conformal-rag-filtering](concepts/conformal-rag-filtering.md) | Conformal prediction for RAG context filtering; 2-3× reduction with statistical coverage guarantees | arXiv:2511.17908 | 2026-04-23 |
+| [single-multi-evolution-loop](concepts/single-multi-evolution-loop.md) | Multi-model collaboration + distillation loop: +8% individual, +14.9% collaborative; single-model inference cost | arXiv:2602.05182 | 2026-04-23 |
+| [cognitive-fabric-nodes](concepts/cognitive-fabric-nodes.md) | CFN active middleware: memory + topology + semantic grounding + security; >10% improvement on HotPotQA/MuSiQue | arXiv:2604.03430 | 2026-04-23 |
 
 ## People (3)
 

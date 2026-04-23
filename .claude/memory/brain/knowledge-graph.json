@@ -522,6 +522,69 @@
       "tags": ["ai", "multi-agent", "orchestration", "self-evolving", "mixture-of-experts", "resource-management"],
       "wiki": "concepts/adaptive-orchestration-dmoe.md",
       "added": "2026-04-22"
+    },
+    "qwen3-27b": {
+      "type": "concept",
+      "label": "Qwen3.6-27B — Flagship Coding in Dense 27B",
+      "tags": ["ai", "open-source-models", "local-inference", "coding", "efficiency"],
+      "wiki": "concepts/qwen3-27b-dense-coding.md",
+      "added": "2026-04-23"
+    },
+    "claude-code-pricing-incident": {
+      "type": "concept",
+      "label": "Claude Code Pricing Incident — Max Plan Test Rollback",
+      "tags": ["anthropic", "product-strategy", "pricing", "trust"],
+      "wiki": "concepts/claude-code-pricing-incident.md",
+      "added": "2026-04-23"
+    },
+    "mnemonic-sovereignty": {
+      "type": "concept",
+      "label": "Mnemonic Sovereignty — Long-Term Memory Security for LLM Agents",
+      "tags": ["ai", "security", "agent-memory", "governance", "long-term-memory"],
+      "wiki": "concepts/mnemonic-sovereignty.md",
+      "added": "2026-04-23"
+    },
+    "camco": {
+      "type": "concept",
+      "label": "CAMCO — Constraint-Aware Multi-Agent Cognitive Orchestration",
+      "tags": ["ai", "multi-agent", "orchestration", "compliance", "enterprise", "policy"],
+      "wiki": "concepts/camco-policy-orchestration.md",
+      "added": "2026-04-23"
+    },
+    "rag-dive": {
+      "type": "concept",
+      "label": "RAG-DIVE — Dynamic Multi-Turn Dialogue Evaluation for RAG",
+      "tags": ["ai", "rag", "evaluation", "benchmarking", "multi-turn"],
+      "wiki": "concepts/rag-dive.md",
+      "added": "2026-04-23"
+    },
+    "analysis-bench": {
+      "type": "concept",
+      "label": "AnalysisBench — LLM Agents on Automated Software Analysis",
+      "tags": ["ai", "software-analysis", "benchmarking", "agentic-swe", "evaluation"],
+      "wiki": "concepts/analysis-bench-agents.md",
+      "added": "2026-04-23"
+    },
+    "conformal-rag": {
+      "type": "concept",
+      "label": "Conformal RAG — Statistical Guarantees for Context Filtering",
+      "tags": ["ai", "rag", "context-engineering", "statistical-methods", "retrieval"],
+      "wiki": "concepts/conformal-rag-filtering.md",
+      "added": "2026-04-23"
+    },
+    "single-multi-loop": {
+      "type": "concept",
+      "label": "Single-Multi Evolution Loop — Self-Improving Model Collaboration",
+      "tags": ["ai", "multi-agent", "self-improvement", "distillation", "collaboration"],
+      "wiki": "concepts/single-multi-evolution-loop.md",
+      "added": "2026-04-23"
+    },
+    "cognitive-fabric-nodes": {
+      "type": "concept",
+      "label": "Cognitive Fabric Nodes — Active Middleware for Multi-Agent Systems",
+      "tags": ["ai", "multi-agent", "middleware", "memory", "orchestration", "scaling"],
+      "wiki": "concepts/cognitive-fabric-nodes.md",
+      "added": "2026-04-23"
     }
   },
   "edges": [
@@ -754,6 +817,43 @@
     {"from": "adaptive-orchestration-dmoe", "to": "paramanager", "rel": "complementary", "evidence": "ParaManager = unified interface for fixed pool; DMoE = dynamic pool composition — complementary orchestration dimensions"},
     {"from": "adaptive-orchestration-dmoe", "to": "context-kubernetes", "rel": "related-to", "evidence": "CK manages knowledge governance; DMoE manages agent pool governance — both dynamic resource management for agents"},
     {"from": "adaptive-orchestration-dmoe", "to": "stopa", "rel": "applied-in", "evidence": "LRU eviction + Meta-Cognition Engine upgrade path for STOPA /orchestrate: lazy agent recruitment vs pre-planned budget tiers"},
-    {"from": "adaptive-orchestration-dmoe", "to": "tool-use-evolution", "rel": "related-to", "evidence": "DMoE is the next evolution: agents recruited dynamically, not from fixed tool registry"}
+    {"from": "adaptive-orchestration-dmoe", "to": "tool-use-evolution", "rel": "related-to", "evidence": "DMoE is the next evolution: agents recruited dynamically, not from fixed tool registry"},
+    {"from": "simon-willison", "to": "qwen3-27b", "rel": "created", "date": "2026-04-22"},
+    {"from": "qwen3-27b", "to": "agentforge", "rel": "related-to", "evidence": "both enable powerful agentic coding; Qwen3.6-27B is a viable local-inference worker for AgentForge-style pipelines"},
+    {"from": "qwen3-27b", "to": "paramanager", "rel": "related-to", "evidence": "ParaManager small-model orchestrator + Qwen3.6-27B workers = cheap local agentic coding stack"},
+    {"from": "qwen3-27b", "to": "stopa", "rel": "applied-in", "evidence": "viable Haiku-alternative for STOPA farm-tier coding tasks at 16.8 GB GGUF — eliminates API cost for bulk mechanical tasks"},
+    {"from": "simon-willison", "to": "claude-code-pricing-incident", "rel": "created", "date": "2026-04-22"},
+    {"from": "claude-code-pricing-incident", "to": "claude-opus-47", "rel": "related-to", "evidence": "both Anthropic product decisions in April 2026; pricing incident reflects ongoing Max tier strategy post Opus 4.7 launch"},
+    {"from": "claude-code-pricing-incident", "to": "agentic-engineering-patterns", "rel": "related-to", "evidence": "Willison's 105+ CC blog posts demonstrate dependency on Pro access for agentic engineering practice"},
+    {"from": "claude-code-pricing-incident", "to": "stopa", "rel": "applied-in", "evidence": "STOPA automation budget directly affected by Pro→Max pricing changes; monitor Anthropic pricing pages"},
+    {"from": "mnemonic-sovereignty", "to": "prompt-injection-defense", "rel": "related-to", "evidence": "injection defense addresses inference-time attacks; mnemonic sovereignty addresses cross-session memory persistence attacks — complementary threat models"},
+    {"from": "mnemonic-sovereignty", "to": "kill-chain-canary", "rel": "related-to", "evidence": "kill-chain canary tracks propagation stages; mnemonic sovereignty's 'share' phase = canary's RELAYED stage"},
+    {"from": "mnemonic-sovereignty", "to": "agent-memory-taxonomy", "rel": "related-to", "evidence": "taxonomy covers write-manage-read; mnemonic sovereignty maps security threats to each lifecycle phase"},
+    {"from": "mnemonic-sovereignty", "to": "persistent-identity-agents", "rel": "related-to", "evidence": "identity persistence requires mnemonic sovereignty — if memory can be poisoned, identity is fragile"},
+    {"from": "mnemonic-sovereignty", "to": "stopa", "rel": "applied-in", "evidence": "STOPA has partial governance (learning-admission, git audit) but missing cross-agent isolation and rollback — direct upgrade path"},
+    {"from": "camco", "to": "multi-agent-orchestration-protocols", "rel": "related-to", "evidence": "both address enterprise MAS governance; protocols define interfaces, CAMCO enforces runtime constraints"},
+    {"from": "camco", "to": "context-kubernetes", "rel": "related-to", "evidence": "CK manages knowledge governance, CAMCO manages policy enforcement — complementary runtime governance layers"},
+    {"from": "camco", "to": "adaptive-orchestration-dmoe", "rel": "complementary", "evidence": "DMoE handles dynamic agent pool composition; CAMCO handles policy compliance during execution — orthogonal"},
+    {"from": "camco", "to": "stopa", "rel": "applied-in", "evidence": "STOPA behavioral-genome + circuit-breakers = informal CAMCO; formalizing into OPA-style policy engine = upgrade path"},
+    {"from": "rag-dive", "to": "context-awareness-gate", "rel": "complementary", "evidence": "CAG decides whether to retrieve; RAG-DIVE evaluates quality of multi-turn retrieval that does happen"},
+    {"from": "rag-dive", "to": "memory-augmented-routing", "rel": "related-to", "evidence": "routing needs multi-turn context; RAG-DIVE measures whether multi-turn context is correctly maintained"},
+    {"from": "rag-dive", "to": "knowledge-drift-chronos", "rel": "related-to", "evidence": "both address temporal dynamics in retrieval; Chronos structures drift, RAG-DIVE evaluates dialogue consistency under drift"},
+    {"from": "analysis-bench", "to": "swe-agents-survey", "rel": "related-to", "evidence": "AnalysisBench provides concrete benchmark for the agent-based SWE paradigm identified in the survey"},
+    {"from": "analysis-bench", "to": "agentforge", "rel": "related-to", "evidence": "AgentForge=general SWE agent, AnalysisAgent=analysis-specific; AnalysisBench validates both architectural approaches"},
+    {"from": "analysis-bench", "to": "agentic-engineering-patterns", "rel": "validates", "evidence": "94% vs 77% confirms Willison's claim: agentic architecture > vibe-coding for complex tool execution"},
+    {"from": "analysis-bench", "to": "stopa", "rel": "applied-in", "evidence": "self-validation bias finding validates STOPA's Verification invariant — agent-reported success consistently overstates actual completion"},
+    {"from": "conformal-rag", "to": "context-awareness-gate", "rel": "complementary", "evidence": "CAG = binary gate (retrieve or not); conformal RAG = quantitative filter (how much to retain with statistical guarantee)"},
+    {"from": "conformal-rag", "to": "context-engineering", "rel": "formalizes", "evidence": "conformal prediction provides the statistical framework for disciplined context window filling"},
+    {"from": "conformal-rag", "to": "adr-context-strategies", "rel": "related-to", "evidence": "both find selective context beats full retrieval; ADR uses empirical last-K rule, conformal RAG uses coverage guarantees"},
+    {"from": "conformal-rag", "to": "stopa", "rel": "applied-in", "evidence": "hybrid-retrieve.py fixed --top 8 → upgrade to coverage-guarantee cutoff calibrated on STOPA's outcomes/ dataset"},
+    {"from": "single-multi-loop", "to": "self-optimizing-deep-research", "rel": "related-to", "evidence": "both use self-improvement for agent performance; self-optimizing=prompt strategies, single-multi=knowledge distillation"},
+    {"from": "single-multi-loop", "to": "nurture-first-development", "rel": "related-to", "evidence": "NFD=agent grows from expert dialogue, single-multi=models grow from collaborative outputs — both iterative capability growth"},
+    {"from": "single-multi-loop", "to": "memfactory", "rel": "related-to", "evidence": "both use RL-based self-improvement; MemFactory for memory ops, single-multi for model collaboration efficiency"},
+    {"from": "single-multi-loop", "to": "stopa", "rel": "applied-in", "evidence": "/evolve skill distills multi-agent learnings into SKILL.md rules = practical single-multi loop implementation"},
+    {"from": "cognitive-fabric-nodes", "to": "multi-agent-orchestration-protocols", "rel": "related-to", "evidence": "CFN implements the middleware layer; protocols define what messages go through it"},
+    {"from": "cognitive-fabric-nodes", "to": "camco", "rel": "complementary", "evidence": "CAMCO enforces policy constraints; CFN handles semantic grounding and memory — both middleware but different concerns"},
+    {"from": "cognitive-fabric-nodes", "to": "paramanager", "rel": "complementary", "evidence": "ParaManager=orchestration via unified interface; CFN=communication fabric enabling agents to maintain context"},
+    {"from": "cognitive-fabric-nodes", "to": "gaama", "rel": "related-to", "evidence": "GAAMA uses PPR graph traversal for memory; CFN uses active nodes for memory — both elevate memory beyond passive storage"},
+    {"from": "cognitive-fabric-nodes", "to": "stopa", "rel": "applied-in", "evidence": "farm-ledger.md = primitive CFN (agents write/read shared state); upgrading to non-farm tiers = lightweight CFN implementation"}
   ]
 }
