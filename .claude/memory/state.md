@@ -1,13 +1,13 @@
 ---
 branch: main
-last_update: 2026-04-14T11:00:00
+last_update: 2026-04-23T10:30:00
 ---
 
 # Shared Memory — Task State
 
 ## Active Task
 
-**Phase 3: Měřitelný feedback loop** (watch → ingest → actionable learnings)
+**Chase Context-Engineering Patterns: Align Evals & Agent Attribution** (Harrison Chase 5 patterns integration)
 
 Příprava:
 - [x] Phase 1 complete: sensors fixed, hooks pruned, skills archived (commit 890f00b)
@@ -17,6 +17,7 @@ Příprava:
 - [x] Phase 3.3: `scripts/actionable-rate.py` — metrika calculator (summary/detail/json)
 - [x] Phase 3.4: watch skill updated — auto-tagging nových findings s acted=no
 - [x] Phase 3.5: actionable_rate 18.5% → 51.9% (target 50% ✅)
+- [x] Phase 4.1: Sync invariant fixed — `.claude/commands/annotate.md` created as identical copy of `.claude/skills/annotate/SKILL.md` (verified via diff)
 
 ## Session Files (Phase 1 Completion)
 
