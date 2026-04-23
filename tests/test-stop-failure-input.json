@@ -1,0 +1,7 @@
+{
+  "event": "StopFailure",
+  "error": "overloaded_error: Anthropic API returned 529 (overloaded) after 3 retries",
+  "stop_reason": "api_error",
+  "timestamp": "2026-04-23T10:00:00Z",
+  "session_id": "test-session-abc123"
+}
