@@ -115,6 +115,9 @@ def main():
     tool_name = event.get("tool_name", "")
     exit_code = event.get("tool_exit_code", 0)
     tool_input = event.get("tool_input", "")
+    # Agent attribution: agent_type present = subagent (CC convention, see completion-guard.sh)
+    agent_type = event.get("agent_type", "")
+    session_id = event.get("session_id", "")
 
     if not tool_name:
         return
@@ -154,6 +157,10 @@ def main():
         record["cmd"] = input_cmd
     if skill_name:
         record["skill"] = skill_name
+    if agent_type:
+        record["agent"] = agent_type  # subagent type name (main agent omits field)
+    if session_id:
+        record["sid"] = session_id[:8]  # short session id for cross-trace correlation
 
     # Write to session trace file
     session_path = get_session_path()

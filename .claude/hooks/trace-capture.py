@@ -77,6 +77,8 @@ def main():
     tool_input = event.get("tool_input", "")
     tool_output = event.get("tool_output", "")
     exit_code = event.get("tool_exit_code", 0)
+    # Agent attribution: agent_type present = subagent (CC convention)
+    agent_type = event.get("agent_type", "")
 
     if not tool_name:
         return
@@ -138,6 +140,8 @@ def main():
         record["input_cmd"] = input_cmd
     if output_full:
         record["output_full"] = output_full
+    if agent_type:
+        record["agent"] = agent_type  # subagent attribution (main agent omits)
 
     # Append to JSONL (atomic-ish on Windows)
     try:
