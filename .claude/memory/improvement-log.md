@@ -40,3 +40,4 @@ Cross-project improvement routing audit trail. Each row = one routed finding.
 | 2026-04-23 | Trending spike detection threshold from worldmonitor (5+ AND 3× AND 2+ AND 30min) | radar.md 8/10 | cetej/ZACHVEV | [#5](https://github.com/cetej/ZACHVEV/issues/5) |
 | 2026-04-23 | HyperFrames PoC — deterministic HTML→MP4 data viz (Apache 2.0, 9.5k⭐) | radar.md 8/10 | cetej/NG-ROBOT | [#9](https://github.com/cetej/NG-ROBOT/issues/9) |
 | 2026-04-23 | Claude Context MCP pilot — AST hybrid code search (Zilliz, 7.95k⭐) | radar.md 7/10 | cetej/NG-ROBOT | [#10](https://github.com/cetej/NG-ROBOT/issues/10) |
+| 2026-04-23 | Brain → STOPA memory bridge (G7 postmortem) — sync-all/selective/propose-only | postmortem G7 | cetej/STOPA | [#24](https://github.com/cetej/STOPA/issues/24) |
