@@ -360,7 +360,7 @@ EXPECTED EFFECT: <prediction — helps detect reward hacking later>
 **Tried**: <approach and rationale>
 ```
 
-### Step 2.5: Falsification Gate (mandatory, ref: 2026-04-23-llm-confirmation-bias.md)
+### Step 2.5: Falsification Step (mandatory, ref: 2026-04-23-llm-confirmation-bias.md)
 
 Before implementing, explicitly answer these two questions in the Run Diary:
 1. **"What evidence would refute current hypothesis?"** — name at least one measurable counter-example
