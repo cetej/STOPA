@@ -12,5 +12,6 @@
     "url": "https://github.com/cetej/STOPA",
     "subdir": "stopa-orchestration"
   },
+  "monitors": "./monitors/monitors.json",
   "license": "MIT"
 }

@@ -1,0 +1,7 @@
+[
+  {
+    "name": "memory-health",
+    "command": "python \"${CLAUDE_PLUGIN_ROOT}/hooks/monitor-memory-health.py\"",
+    "description": "STOPA memory health (file sizes, failures/learnings buildup)"
+  }
+]
