@@ -60,3 +60,22 @@ Managed by `scripts/vllm-manager.py` (auto-calibrate, health checks, PID trackin
 - Paths: forward slashes or pathlib.Path()
 - OS: Windows 11 (primary), skills should be cross-platform
 - Language: Czech for user-facing, English for technical instructions
+
+## CC PowerShell Tool compatibility (Windows, 2026-04-23)
+
+CC exposes a `PowerShell` tool alongside `Bash` on Windows. Tested: works without `CLAUDE_CODE_USE_POWERSHELL_TOOL=1` env var (edition: Windows PowerShell 5.1 Desktop — not PS Core 7+).
+
+| Area | Status | Note |
+|------|--------|------|
+| `python script.py` | OK | Identical output to Bash |
+| `git` commands | OK | Identical |
+| `Select-String` recursive search | **Not default** | Use `Get-ChildItem -Recurse \| Select-String`; `**/*.md` glob ≠ `grep -r` |
+| `Measure-Object -Line` | **Off-by-one** | Counts newlines, not content rows |
+| `Out-File` default encoding | **UTF-16 LE BOM** | Pass `-Encoding utf8` for cross-tool consumption |
+| `&&` / `\|\|` pipeline chains | **Not in PS 5.1** | Use `A; if ($?) { B }` |
+| `2>&1` on native exes | **Mangles stderr** | Wraps as ErrorRecord, flips `$?` even on exit 0 |
+
+**Use Bash for**: shell pipelines, `grep -r`, heredocs for git commits, STOPA `.sh` hooks.
+**Use PowerShell for**: Python/git ops when Windows-specific cmdlets needed (registry, services).
+
+Full test report: `.claude/memory/intermediate/powershell-test-2026-04-23.md`
