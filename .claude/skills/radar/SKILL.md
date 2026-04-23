@@ -1,7 +1,7 @@
 ---
 name: radar
-description: "Use when evaluating a tool, library, or technique from Twitter/X or other source, or running a proactive scan for new tools. Trigger on 'radar', tweet URL, 'evaluate tool', 'posoudit nástroj', 'scan tools'. Do NOT use for ecosystem news (/watch) or deep multi-source research (/deepresearch)."
-argument-hint: "<URL or text> | scan | digest"
+description: "Use when evaluating a tool, library, or technique from Twitter/X or other source, running a proactive scan for new tools, or batch-evaluating a list of URLs. Trigger on 'radar', tweet URL, 'evaluate tool', 'posoudit nástroj', 'scan tools', batch URL list (2+ URLs pasted). Do NOT use for ecosystem news (/watch) or deep multi-source research (/deepresearch)."
+argument-hint: "<URL or text> | <URL-list (2+ lines)> | scan | digest"
 tags: [research, osint, ai-tools, memory]
 phase: meta
 user-invocable: true
@@ -13,7 +13,7 @@ maxTurns: 25
 
 # Tool Radar — Proactive Tool Discovery & Evaluation
 
-You discover, evaluate, and track new tools, libraries, and techniques relevant to the user's projects. You operate in two modes: **manual** (single URL/text evaluation) and **scan** (proactive multi-source discovery).
+You discover, evaluate, and track new tools, libraries, and techniques relevant to the user's projects. You operate in three modes: **manual** (single URL/text evaluation), **batch** (multi-URL parallel evaluation), and **scan** (proactive multi-source discovery).
 
 ## Shared Memory
 
@@ -26,10 +26,43 @@ You discover, evaluate, and track new tools, libraries, and techniques relevant 
 ## Input
 
 Parse `$ARGUMENTS`:
-- **URL or text** → Single-item evaluation (manual mode)
-- **"scan"** → Proactive scan across all sources
+- **2+ lines each starting with `https?://`** → Batch evaluation mode (Mode 3)
+- **URL or text** → Single-item evaluation (Mode 1)
+- **"scan"** → Proactive scan across all sources (Mode 2)
 - **"digest"** → Show summary of current radar.md state
 - **(empty)** → Show radar.md state (same as digest)
+
+---
+
+## Mode 3: Batch URL Evaluation
+
+**Circuit breaker:** > 50 URLs → STOP, ask user to split.
+
+### Step 1: Classify & Parallel Fetch
+
+For each URL (all in parallel, one turn):
+- `github` / `arxiv` → `WebFetch("https://r.jina.ai/{url}")`
+- `x.com` / `twitter.com` → `WebSearch` for tool name (direct fetch blocked)
+- other → Jina Reader, fallback direct WebFetch if < 200 chars
+
+Extract per URL: tool name, what it does (1-2 sentences), stack, maturity signals.
+
+### Step 2: Score & Aggregate
+
+Apply 3-Gate Filter + Numeric Score (see Scoring). Output table before storing:
+
+```
+## Batch Evaluation — {date} ({N} URLs)
+| URL | Score | Tier | Category | Note |
+|-----|-------|------|----------|------|
+| github.com/owner/repo | 8 | 🔴 | orchestration | Self-wiring graph, STOPA-fit |
+| arxiv.org/abs/2604.XXXXX | 6 | 🟡 | NLP | Czech NLP, MONITOR candidate |
+| x.com/... | 3 | 🟢 | unrelated | iOS-only, Gate 1 fail |
+```
+
+### Step 3: Append to radar.md
+
+Append to appropriate tier section (score ≥ 8 → 🔴, 5-7 → 🟡, <5 → 🟢). Update Stats line + one Scan Log entry. For 🔴 items: launch `/improve` for cross-project routing.
 
 ---
 
@@ -217,6 +250,7 @@ GATE 3: NOVELTY — Is it new to us?
 | "I'll skip the competition analysis since this is clearly the best option" | Without comparing alternatives, you cannot assess relative fit; the 'best' tool may have a better competitor | Always identify at least 2 alternatives and compare on the same criteria |
 | "The tool's README says it does X so I'll trust that" | READMEs are marketing; claimed features may be incomplete, broken, or in alpha | Verify claims by checking issues, tests, and actual code; note discrepancies |
 | "I'll recommend this tool without checking if it fits the user's stack" | A great tool for Python is useless if the user runs Node.js; fit is as important as quality | Always cross-reference tool requirements against key-facts.md and the user's environment |
+| "I'll process batch URLs one-by-one to be safe" | Sequential fetching defeats the purpose of batch mode and wastes turns | Fetch all URLs in parallel in a single turn; only process sequentially if context limit forces it |
 
 ## Memory Update Rules
 
