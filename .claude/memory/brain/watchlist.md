@@ -61,6 +61,23 @@ Emaily od těchto odesílatelů se automaticky zpracují:
 | @garrytan | YC/startups, agent tooling (gbrain/Minions) | 2026-04-23 |
 | @liu8in | AI video tooling, HyperFrames, motion graphics | 2026-04-23 |
 | @SakanaAILabs | Evolutionary AI research (AC/DC, CycleQD) | 2026-04-23 |
+| @MillieMarconnni | Kritika AI research agentů, meta-analýzy (Jena/IIT Delhi confirmation bias) | 2026-04-23 |
+| @HowToAI_ | AI security, DeepMind attack vectors, practical AI threats | 2026-04-23 |
+| @ZabihullahAtal | Agentic AI SE papers, evaluation methodology (TAR trajectories) | 2026-04-23 |
+| @ihtesham2005 | MCP servers, context compression tools (context-mode) | 2026-04-23 |
+| @socialwithaayan | MCP ecosystem, code search tools (Claude Context) | 2026-04-23 |
+| @askalphaxiv | AlphaXiv paper curator, Sakana/evolutionary AI research | 2026-04-23 |
+| @heygurisingh | Dev practices, field studies o AI coding agents | 2026-04-23 |
+| @Suryanshti777 | Claude Code deep-dives, Opus feature analysis | 2026-04-23 |
+| @TawohAwa | AI video editors, Claude Code media tools (video-use) | 2026-04-23 |
+| @RidgerZhu | LLM architecture research (looped LLMs, Parcae, Ouro) | 2026-04-23 |
+| @hasantoxr | Claude Code tooling, API proxying, cost optimization | 2026-04-23 |
+| @DAIEvolutionHub | Open-source AI projects, trending GitHub repos (DeepTutor) | 2026-04-23 |
+| @elora_khatun | Anthropic ecosystem, courses a learning paths | 2026-04-23 |
+| @chrisfirst | AI video generation tutorials (Seedance, Runway) — low priority | 2026-04-23 |
+| @TheTuringPost | AI/ML newsletter, popular-science content — low priority filter | 2026-04-23 |
+| @isaakfreeman | Startup/vision posts — low priority filter | 2026-04-23 |
+| @IATheYoker | Claude Code resource curator (španělsky) — obrázkový obsah | 2026-04-23 |
 
 ## Google Drive Folders (auto-scan)
 
