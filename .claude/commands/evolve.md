@@ -23,6 +23,7 @@ Read these files silently:
 
 ```
 .claude/memory/corrections.jsonl     — user corrections (most valuable signal)
+.claude/memory/annotations.jsonl     — retrospective trace annotations from /annotate (Align Evals)
 .claude/memory/violations.jsonl      — failed rule checks from verify-sweep
 .claude/memory/sessions.jsonl        — session scorecards (trend data)
 .claude/memory/learnings/critical-patterns.md  — current always-read patterns
@@ -33,18 +34,19 @@ If a file doesn't exist, note it and continue.
 
 ---
 
-## Step 2: Analyze Corrections
+## Step 2: Analyze Corrections & Annotations
 
-Group corrections.jsonl entries by semantic similarity (keyword overlap):
-- Same pattern corrected **2+ times** → **must** be in critical-patterns.md. If not: PROMOTE.
-- Correction clusters pointing to a **missing rule** → CREATE new learning.
-- Correction that **contradicts** an existing learning → UPDATE (the rule was wrong, not you).
+Group `corrections.jsonl` AND `annotations.jsonl` entries by semantic similarity (keyword overlap). Annotations with `verdict: bad` carry same weight as corrections — both are user-confirmed negative signals. Merge both streams before clustering; attribute each occurrence to its source in the cluster output.
+
+- Same pattern corrected/annotated **2+ times** → **must** be in critical-patterns.md. If not: PROMOTE.
+- Clusters pointing to a **missing rule** → CREATE new learning.
+- Signal that **contradicts** an existing learning → UPDATE (the rule was wrong, not you).
 
 Show groupings:
 ```
-CORRECTION CLUSTER: [pattern description]
-  Occurrences: N times
-  Examples: [correction 1], [correction 2]
+CORRECTION/ANNOTATION CLUSTER: [pattern description]
+  Occurrences: N times (C corrections + A annotations)
+  Examples: [correction 1], [annotation note 1]
   Action: PROMOTE | CREATE | UPDATE | ALREADY_COVERED
 ```
 
