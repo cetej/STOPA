@@ -7,7 +7,7 @@ tags: [skill-evolution, auto-evolve, skillclaw, pipeline]
 summary: "SkillClaw (arXiv:2604.08377) auto-evolve pipeline implemented in STOPA — summarize-sessions.py groups traces by skill, evolve-skills.py produces staged candidates, /evolve --candidates for human review. Key insight — pattern detection is purely LLM-based (no embeddings), quality gate is prompt-level safeguards + human review."
 source: external_research
 maturity: draft
-confidence: 0.95
+confidence: 1.0
 uses: 1
 successful_uses: 0
 harmful_uses: 0

@@ -33,6 +33,12 @@ Sidechain isolation: CC subagent sidechains never return full history to parent 
 
 Opus 4.7 in Claude Code: default effort=xhigh is the recommended setting; max effort shows diminishing returns plus overthinking. Adaptive thinking is per-step (not a fixed budget). Every user turn adds reasoning overhead — specify the whole task in the first turn rather than incrementally. Treat the model like a delegated engineer (full spec upfront), not a pair-programmer (back-and-forth) (ref: 2026-04-18-opus-4-7-effort-calibration.md).
 
+### Cross-project OSS adoption & scheduling anti-patterns
+
+For adopting large AGPL/GPL projects (WorldMonitor 48.9k★, ~10MB TypeScript, 2636 files), clean-room adoption beats copy-paste: (1) 3 parallel Explore agents partition the codebase (feeds, scoring, UI), each with ~1000-word limit; (2) Tier A/B/C/D classification at synthesis (A=2-week value, D=skip); (3) clean-room implementation in target-project style (algorithms aren't copyrighted, only the code); (4) NOTICE.md with attribution table. Applies only to copyleft licenses — MIT/Apache projects can copy directly. Phase A (highest-value) first, others as roadmap (ref: 2026-04-19-worldmonitor-adoption-pattern.md).
+
+Scheduled task naming anti-pattern: task `vertical-scaling-phase-c` was set to fire on B-START date (2026-04-21, the start of Phase B), not C-DECIDE date (2026-05-18). When it fired, Phase B (/telescope skill) didn't exist — Go/No-Go could not be evaluated. The name "phase-c" implied evaluation readiness, but the fire date was phase B's beginning. Rule: scheduled task names MUST match their fire-date phase, or include explicit date anchors in the task description (ref: 2026-04-21-vertical-scaling-phase-b-not-implemented.md).
+
 ## Key Rules
 
 1. **Manual compact at 60%, max 3-4 per session**: after 3-4 compacts, /clear + summary + restart (ref: 2026-04-14-compact-timing-60pct.md)
@@ -54,6 +60,8 @@ Opus 4.7 in Claude Code: default effort=xhigh is the recommended setting; max ef
 17. **`/rewind` over corrective re-prompt**: after a failed approach, Esc×2 back to pre-failure state — appending "that didn't work" leaves failed reasoning in context (ref: 2026-04-18-rewind-beats-correction.md)
 18. **Mandate <200-word summaries on Agent() returns**: prevents orchestrator context bloat from subagent tool-output dumps (ref: 2026-04-18-cc-sidechain-transcript-isolation.md)
 19. **Opus 4.7: default xhigh, full spec upfront**: max effort diminishes + overthinks; specify whole task in first turn, no incremental pair-programming (ref: 2026-04-18-opus-4-7-effort-calibration.md)
+20. **Cross-project OSS adoption (AGPL): 3 parallel Explore agents + Tier A/B/C/D + clean-room + NOTICE.md**: only for copyleft licenses; MIT/Apache copy directly (ref: 2026-04-19-worldmonitor-adoption-pattern.md)
+21. **Scheduled task name must match fire-date phase**: "phase-c" task firing on phase-B-start date = invisible logic error; include explicit date anchor in task description (ref: 2026-04-21-vertical-scaling-phase-b-not-implemented.md)
 
 ## Patterns
 
@@ -111,3 +119,5 @@ Opus 4.7 in Claude Code: default effort=xhigh is the recommended setting; max ef
 | [2026-04-18-rewind-beats-correction](../learnings/2026-04-18-rewind-beats-correction.md) | 2026-04-18 | high | `/rewind` (Esc×2) cleaner than corrective re-prompt after failure |
 | [2026-04-18-cc-sidechain-transcript-isolation](../learnings/2026-04-18-cc-sidechain-transcript-isolation.md) | 2026-04-18 | medium | Mandate <200-word summaries on Agent() returns |
 | [2026-04-18-opus-4-7-effort-calibration](../learnings/2026-04-18-opus-4-7-effort-calibration.md) | 2026-04-18 | high | Opus 4.7: default xhigh, full spec upfront, adaptive per-step thinking |
+| [2026-04-19-worldmonitor-adoption-pattern](../learnings/2026-04-19-worldmonitor-adoption-pattern.md) | 2026-04-19 | medium | AGPL adoption pattern: 3 parallel Explore agents + Tier A/B/C/D + clean-room + NOTICE.md |
+| [2026-04-21-vertical-scaling-phase-b-not-implemented](../learnings/2026-04-21-vertical-scaling-phase-b-not-implemented.md) | 2026-04-21 | medium | Scheduled task fired on phase-B date while named "phase-c" — NO-GO, naming must match fire-date phase |

@@ -9,7 +9,7 @@ source: user_correction
 uses: 1
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.95
+confidence: 1.0
 maturity: draft
 task_context: {task_class: feature, complexity: medium, tier: standard}
 verify_check: "manual"

@@ -57,3 +57,13 @@ Rotating log of genuine problems that need user attention: failures, security fi
   - `ANTHROPIC_API_KEY` — blocks L2 permission sentinel, sub-agents
 - **Action suggested:** fill values in `~/.claude/keys/secrets.env`, run `pwsh scripts/keys-sync.ps1`, restart CC.
 - **Status:** open
+
+## 2026-04-23 04:08 — [hook] 🏁 Session dokončena 
+- **Severity:** low
+- **Source:** telegram-notify.sh (legacy caller)
+- **Status:** open
+
+## 2026-04-23 04:11 — [hook] 🏁 Session dokončena 
+- **Severity:** low
+- **Source:** telegram-notify.sh (legacy caller)
+- **Status:** open

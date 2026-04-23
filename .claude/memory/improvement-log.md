@@ -26,3 +26,11 @@ Cross-project improvement routing audit trail. Each row = one routed finding.
 | 2026-04-18 | Fine-grained tool streaming GA (#110) — event-level pipeline monitoring | news.md #110 MED | cetej/NG-ROBOT | [#6](https://github.com/cetej/NG-ROBOT/issues/6) |
 | 2026-04-18 | Prompt caching auto-placement (#96) — remove manual cache_control markers | news.md #96 MED | cetej/NG-ROBOT | [#7](https://github.com/cetej/NG-ROBOT/issues/7) |
 | 2026-04-22 | ParaManager — Small Model as Master Orchestrator (arXiv:2604.17009) | ingest | cetej/STOPA | [#18](https://github.com/cetej/STOPA/issues/18) |
+| 2026-04-22 | Context Awareness Gate (arXiv:2411.16133) — conditional RAG gating for hybrid-retrieve.py | news.md 2026-04-20 HIGH | cetej/STOPA | [#19](https://github.com/cetej/STOPA/issues/19) |
+| 2026-04-22 | RL for RAG (arXiv:2510.24652) — RL-optimized retrieval for hybrid-retrieve.py | news.md 2026-04-19 HIGH | cetej/STOPA | [#20](https://github.com/cetej/STOPA/issues/20) |
+| 2026-04-22 | CC Ultraplan — cloud plan drafting for STOPA remote scheduled tasks | news.md #107 HIGH | cetej/STOPA | [#21](https://github.com/cetej/STOPA/issues/21) |
+| 2026-04-22 | ml-intern doom_loop.py — hash-based tool-call loop detection for panic-detector.py | radar.md 7/10 Watch | cetej/STOPA | [#22](https://github.com/cetej/STOPA/issues/22) |
+| 2026-04-22 | Kreuzberg — faster multi-format document extraction (91+ formats, 10-50x faster) | radar.md 7/10 Watch | cetej/NG-ROBOT | [#8](https://github.com/cetej/NG-ROBOT/issues/8) |
+| 2026-04-22 | Kreuzberg — multi-format document extraction for Czech source scraping | radar.md 7/10 Watch | cetej/MONITOR | [#4](https://github.com/cetej/MONITOR/issues/4) |
+| 2026-04-22 | Harness adoption pilot — feature tracking for ZACHVEV pipeline | news.md #111 MED | cetej/ZACHVEV | [#4](https://github.com/cetej/ZACHVEV/issues/4) |
+| 2026-04-22 | Harness adoption pilot — feature tracking for POLYBOT trading phases | news.md #111 MED | cetej/POLYBOT | [#2](https://github.com/cetej/POLYBOT/issues/2) |

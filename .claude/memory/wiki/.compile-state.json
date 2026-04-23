@@ -1,73 +1,40 @@
 {
-  "last_compile": "2026-04-18T21:35:39Z",
+  "last_compile": "2026-04-22T10:00:00Z",
   "compile_mode": "incremental",
-  "total_learnings": 174,
+  "total_learnings": 182,
   "total_articles": 10,
   "contradictions": 1,
-  "gaps": 3,
+  "gaps": 4,
   "articles": {
     "general-security-environment.md": {
       "source_learnings": [
-        "2026-04-08-agent-deception-pressure-trigger",
-        "2026-04-08-long-horizon-deception-eval",
-        "2026-04-11-task-alignment-bypasses-instruction-defenses",
-        "2026-04-11-adaptive-attacks-defeat-static-defenses",
-        "2026-04-11-no-defense-achieves-security-and-utility"
+        "2026-04-21-ch-samostatne-pismeno-ceske-abecedy"
       ],
-      "sources_count": 16,
-      "generated": "2026-04-14"
+      "sources_count": 20,
+      "generated": "2026-04-22"
     },
     "hook-infrastructure.md": {
       "source_learnings": [
-        "2026-04-05-agent-defense-frameworks",
-        "2026-04-07-hook-architecture-patterns",
-        "2026-04-07-hook-failure-modes",
-        "2026-04-07-hook-testing-patterns",
-        "2026-04-07-judgment-script-separation-reliability",
-        "2026-04-15-msys-tmp-path-mismatch",
-        "2026-04-16-hook-cwd-anchor-pattern",
-        "2026-04-18-hook-import-path-silent-blockage",
-        "2026-04-18-verify-sweep-hook-import-smoke-test"
+        "2026-04-18-panic-detector-requires-failure-signal",
+        "2026-04-21-doom-loop-signal-from-ml-intern"
       ],
-      "sources_count": 12,
-      "generated": "2026-04-18"
+      "sources_count": 14,
+      "generated": "2026-04-22"
     },
     "memory-architecture.md": {
       "source_learnings": [
-        "2026-04-05-bm25-memory-search",
-        "2026-04-07-cross-project-memory-design",
-        "2026-04-08-recency-beats-complex-memory",
-        "2026-03-30-write-time-gating-salience",
-        "2026-03-30-calm-semantic-bandwidth",
-        "2026-04-18-mc-checkpoint-caching-retrieval-pattern",
-        "2026-04-18-retrieval-depth-knob-complexity-interpolation",
-        "2026-04-18-embedding-dimension-retrieval-limit.md",
-        "2026-04-18-in-place-ttt-fast-weights-analog.md",
-        "2026-04-18-recency-biased-scoring-depth-collapse.md",
-        "2026-04-18-subliminal-learning-agent-generated-risk.md"
+        "2026-04-19-multica-curated-vs-similarity"
       ],
-      "sources_count": 11,
-      "generated": "2026-04-18"
+      "sources_count": 23,
+      "generated": "2026-04-22"
     },
     "orchestration-infrastructure.md": {
       "source_learnings": [
-        "2026-04-06-osft-self-sharpening",
-        "2026-04-01-autocompact-threshold",
-        "2026-03-29-paged-context-protocol",
-        "2026-03-26-channels-24x7-architecture",
-        "2026-03-24-openclaw-postmortem-patterns",
-        "2026-04-14-compact-timing-60pct",
-        "2026-04-14-prompt-cache-ttl-5min",
-        "2026-04-14-mcp-server-token-overhead",
-        "2026-04-18-opus-4-7-effort-calibration.md",
-        "2026-04-18-cc-graduated-compaction-5layer.md",
-        "2026-04-18-cc-sidechain-transcript-isolation.md",
-        "2026-04-18-context-rot-absolute-threshold.md",
-        "2026-04-18-bad-compact-direction-unpredictability.md",
-        "2026-04-18-rewind-beats-correction.md"
+        "2026-04-19-worldmonitor-adoption-pattern",
+        "2026-04-21-vertical-scaling-phase-b-not-implemented"
       ],
-      "sources_count": 14,
-      "generated": "2026-04-18"
+      "sources_count": 29,
+      "generated": "2026-04-22"
     },
     "orchestration-iteration.md": {
       "source_learnings": [
@@ -80,7 +47,7 @@
         "2026-04-18-simula-reasoning-first-taxonomies.md",
         "2026-04-18-mask-belief-vs-statement-pipeline.md"
       ],
-      "sources_count": 8,
+      "sources_count": 19,
       "generated": "2026-04-18"
     },
     "orchestration-multi-agent.md": {
@@ -96,27 +63,17 @@
     },
     "orchestration-resilience.md": {
       "source_learnings": [
-        "2026-04-05-regression-gate-pattern",
-        "2026-04-05-self-improving-harness",
-        "2026-04-07-budget-calibration-baseline",
-        "2026-04-03-smart-tool-overuse",
-        "2026-04-03-testing-bottleneck",
-        "2026-04-18-monitoring-task-type-dependency.md",
-        "2026-04-18-parallel-monitoring-failure-baseline.md"
+        "2026-04-19-feature-must-reach-main-ui"
       ],
-      "sources_count": 7,
-      "generated": "2026-04-18"
+      "sources_count": 18,
+      "generated": "2026-04-22"
     },
     "pipeline-engineering.md": {
       "source_learnings": [
-        "2026-04-01-sonnet46-thinking-effort-breaking-change",
-        "2026-03-25-batch-edit-pattern",
-        "2026-03-23-harness-engineering",
-        "2026-04-09-triattention-pre-rope-kv-compression",
-        "2026-04-14-openmontage-production-governance"
+        "2026-04-19-harness-engineering-adoption"
       ],
-      "sources_count": 5,
-      "generated": "2026-04-14"
+      "sources_count": 6,
+      "generated": "2026-04-22"
     },
     "skill-design.md": {
       "source_learnings": [
@@ -127,7 +84,7 @@
         "2026-04-03-description-optimizer-plan",
         "2026-04-18-html-as-agent-native-medium.md"
       ],
-      "sources_count": 6,
+      "sources_count": 22,
       "generated": "2026-04-18"
     },
     "skill-evaluation.md": {
@@ -311,12 +268,20 @@
     "2026-04-18-mc-checkpoint-caching-retrieval-pattern.md",
     "2026-04-18-monitoring-task-type-dependency.md",
     "2026-04-18-opus-4-7-effort-calibration.md",
+    "2026-04-18-panic-detector-requires-failure-signal.md",
     "2026-04-18-parallel-monitoring-failure-baseline.md",
     "2026-04-18-recency-biased-scoring-depth-collapse.md",
     "2026-04-18-retrieval-depth-knob-complexity-interpolation.md",
     "2026-04-18-rewind-beats-correction.md",
     "2026-04-18-simula-reasoning-first-taxonomies.md",
     "2026-04-18-subliminal-learning-agent-generated-risk.md",
-    "2026-04-18-verify-sweep-hook-import-smoke-test.md"
+    "2026-04-18-verify-sweep-hook-import-smoke-test.md",
+    "2026-04-19-feature-must-reach-main-ui.md",
+    "2026-04-19-harness-engineering-adoption.md",
+    "2026-04-19-multica-curated-vs-similarity.md",
+    "2026-04-19-worldmonitor-adoption-pattern.md",
+    "2026-04-21-ch-samostatne-pismeno-ceske-abecedy.md",
+    "2026-04-21-doom-loop-signal-from-ml-intern.md",
+    "2026-04-21-vertical-scaling-phase-b-not-implemented.md"
   ]
 }

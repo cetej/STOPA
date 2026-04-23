@@ -9,7 +9,7 @@ source: external_research
 uses: 2
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.80
+confidence: 0.9
 maturity: draft
 verify_check: "Grep('doom_identical', path='.claude/hooks/panic-detector.py') → 1+ matches"
 related: [2026-04-07-hook-failure-modes.md, 2026-04-18-hook-import-path-silent-blockage.md]

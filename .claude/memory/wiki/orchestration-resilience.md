@@ -23,6 +23,8 @@ The broader insight is that code generation is no longer the bottleneck — veri
 
 LLM judges (including GPT-5) prioritize structural formatting over factual correctness (r=0.65 overall on PaperOrchestra). The `/eval` and `/critic` skills must combine LLM structural scoring with grep/search verification for factual claims — never rely on LLM scoring alone for concrete assertions (ref: 2026-04-08-llm-judge-factuality-weak.md). The **Verification Shift** meta-pattern unifies this: use LLM for structure, tools for facts, cascade-order checking (verify L1 before L3), and regression gates — a four-layer protocol for every /critic and /verify run (ref: 2026-04-11-verification-shift-meta-pattern.md). The SMART gate ("Is this answerable from loaded context?") eliminates ~20% of unnecessary tool calls (ref: 2026-04-03-smart-tool-overuse.md). Modern Claude models handle multi-step reasoning natively, so harness scaffolding should be simplified — but determinism must be preserved for critical paths (ref: 2026-03-26-harness-simplification.md).
 
+Feature completeness has a hidden definition: a backend + route is NOT done until it's reachable from the main UI. In a MONITOR sprint, 8 complete intel features were deployed with functional routes (`/intel`, `/intel-globe`) but no link from the main dashboard — invisible to any user who didn't know the exact URL. The fix is a user journey check before "done": open `/` and ask "Can the user find this without knowing the URL?" New routes always require a parallel edit to main navigation. API endpoints also warrant a live badge/pill in the topbar so users see value without clicking through. Exceptions: backend-only modules, admin/debug pages behind feature flags, and hidden-by-design health endpoints (ref: 2026-04-19-feature-must-reach-main-ui.md).
+
 Parallel monitoring (calm-steering, panic-detector) has empirical ground truth: LLM agents fail up to 30% on hard multi-step tasks via reasoning degradation (loops/drift/stuck); parallel monitors achieve 52-62% repetition reduction at ~11% overhead. This validates STOPA's panic-detector investment (ref: 2026-04-18-parallel-monitoring-failure-baseline.md). But uniform monitoring is wasteful: monitoring helps on loop-prone/open-ended tasks and is NEUTRAL or NEGATIVE on structured tasks. Don't apply monitoring universally — gate by task-type (open-ended research → monitor; deterministic pipelines → skip) to avoid hurting pipelines that would converge on their own (ref: 2026-04-18-monitoring-task-type-dependency.md).
 
 ## Key Rules
@@ -39,6 +41,7 @@ Parallel monitoring (calm-steering, panic-detector) has empirical ground truth: 
 10. **Four-layer verification protocol**: L1 syntax → L2 semantic+cross-check → L3 downstream → L4 regression (ref: 2026-04-11-verification-shift-meta-pattern.md)
 11. **Gate parallel monitoring by task-type**: monitor open-ended/loop-prone; skip on structured deterministic pipelines — universal monitoring hurts convergence (ref: 2026-04-18-monitoring-task-type-dependency.md)
 12. **Monitor overhead budget**: ~11% overhead buys 52-62% repetition reduction on hard multi-step tasks; validates panic-detector investment (ref: 2026-04-18-parallel-monitoring-failure-baseline.md)
+13. **Feature done = reachable from main UI**: new route + no navigation link = invisible feature; always edit main nav in the same commit (ref: 2026-04-19-feature-must-reach-main-ui.md)
 
 ## Patterns
 
@@ -84,3 +87,4 @@ Parallel monitoring (calm-steering, panic-detector) has empirical ground truth: 
 | [2026-04-14-traceguard-5d-critic](../learnings/2026-04-14-traceguard-5d-critic.md) | 2026-04-14 | medium | TraceGuard: 5D CoT monitoring dimensions |
 | [2026-04-18-parallel-monitoring-failure-baseline](../learnings/2026-04-18-parallel-monitoring-failure-baseline.md) | 2026-04-18 | medium | 30% failure baseline; 52-62% repetition reduction at ~11% overhead |
 | [2026-04-18-monitoring-task-type-dependency](../learnings/2026-04-18-monitoring-task-type-dependency.md) | 2026-04-18 | high | Gate monitoring by task-type; universal monitoring hurts deterministic pipelines |
+| [2026-04-19-feature-must-reach-main-ui](../learnings/2026-04-19-feature-must-reach-main-ui.md) | 2026-04-19 | high | Feature is not done until linked from main navigation — routes without entry point are invisible |

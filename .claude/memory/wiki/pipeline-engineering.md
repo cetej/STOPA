@@ -15,9 +15,13 @@ Pipeline engineering bridges the gap between skill-based best-effort processing 
 
 When bulk mechanical changes touch 30+ files, the Read/Edit tool loop creates approval fatigue — batch Python scripts with --dry-run mode are the practical solution (ref: 2026-03-25-batch-edit-pattern.md). For any repeatable multi-step process requiring >90% reliability, use deterministic Python harnesses: fixed phases (Python controls order), programmatic validation after each step, template output. Skills are best-effort (~90%), harnesses are deterministic (99.9%), prompt tweaking caps at ~95% (ref: 2026-03-23-harness-engineering.md). For long-reasoning deep-tier tasks at >64k context, TriAttention (arXiv:2604.04921) provides 10.7× KV cache compression and 2.5× throughput by using pre-RoPE vector space for importance scoring instead of unstable post-RoPE attention scores. Watch model release notes for "fast weights" or "TTT support" signals (ref: 2026-04-09-triattention-pre-rope-kv-compression.md).
 
+Three independent sources converge on a multi-session project harness pattern: Anthropic's Claude Code internal practices, OpenAI Codex (1M LOC, 3 engineers), and Princeton SWE-agent (+64% from interface design alone). Convergent patterns: `feature-list.json` as JSON ground truth (models resist editing JSON casually — the rigidity is the feature), `progress.md` + git commits for context-boundary survival, `init.sh` + smoke test for session-start reliability, and `docs/` as a progressive-disclosure system of record. STOPA adopted this via `/project-init --harness` and `/build-project` per-feature loop, with `scripts/passes-rate.py` measuring global completion rate. **Do NOT convert `feature-list.json` to YAML** — JSON rigidity prevents "I'll just tweak this done" edits. Per-feature sequential loop (not parallel batch): isolates which commit broke passes:bool and collapses rework costs (ref: 2026-04-19-harness-engineering-adoption.md).
+
 ## Key Rules
 
-1. **Sonnet 4.6 thinking:disabled summarizes**: use adaptive+medium or PATCH format (ref: 2026-04-01-sonnet46-thinking-effort-breaking-change.md)
+1. **Multi-session harness: JSON ground truth + progress.md + init.sh**: these three together prevent context-boundary confusion and "declare victory too early" (ref: 2026-04-19-harness-engineering-adoption.md)
+2. **Sequential per-feature loop, not parallel batch**: isolates passes:bool regression to a single commit (ref: 2026-04-19-harness-engineering-adoption.md)
+3. **Sonnet 4.6 thinking:disabled summarizes**: use adaptive+medium or PATCH format (ref: 2026-04-01-sonnet46-thinking-effort-breaking-change.md)
 2. **Strip thinking tags as safety net**: `<antml*>` and `<thinking>` can leak (ref: 2026-04-01-sonnet46-thinking-effort-breaking-change.md)
 3. **Batch scripts for 30+ files**: --dry-run mode, avoids approval fatigue (ref: 2026-03-25-batch-edit-pattern.md)
 4. **Harness > skill for >90% reliability**: Python-controlled phases, programmatic validation, template output (ref: 2026-03-23-harness-engineering.md)
@@ -53,3 +57,4 @@ When bulk mechanical changes touch 30+ files, the Read/Edit tool loop creates ap
 | [2026-03-23-harness-engineering](../learnings/2026-03-23-harness-engineering.md) | 2026-03-23 | high | Deterministic harnesses: Python phases + validation > skill best-effort |
 | [2026-04-09-triattention-pre-rope-kv-compression](../learnings/2026-04-09-triattention-pre-rope-kv-compression.md) | 2026-04-09 | medium | TriAttention: 10.7× KV cache, 2.5× throughput for long-reasoning |
 | [2026-04-14-openmontage-production-governance](../learnings/2026-04-14-openmontage-production-governance.md) | 2026-04-14 | high | OpenMontage: 7D scoring, delivery promises, slideshow risk |
+| [2026-04-19-harness-engineering-adoption](../learnings/2026-04-19-harness-engineering-adoption.md) | 2026-04-19 | high | Multi-session harness: feature-list.json + progress.md + init.sh validated by Anthropic+OpenAI+SWE-agent |

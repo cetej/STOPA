@@ -55,12 +55,15 @@ CALM (arXiv:2510.27688) compresses K tokens into 1 continuous vector with K=4 as
 
 Model metadata as single source of truth for dynamic UI: one JSON file defines inputs, limits, and control types for 200+ models; UI generates automatically. This eliminates O(N) components per model → O(1) generic form. Applicable to GRAFIK layers/effects and any multi-model tool (ref: 2026-04-07-model-metadata-dynamic-ui-pattern.md).
 
+**Czech language processing**: CH is a standalone letter in the Czech alphabet (position between H and I), not a digraph C+H. Any grapheme-based tool must treat CH as one token. In Python: replace `"CH"` with a placeholder marker before per-character iteration. Applies to ngm-terminology, KRIZOVKA, NG-ROBOT phonetics, ZACHVEV lexical analysis, DANE name fields — any project touching Czech text at the grapheme level. Web research may claim commercial crosswords split CH into two cells — this is a production error, not the linguistic standard. Verify against Pravidla českého pravopisu / ÚJČ AV ČR, not magazine conventions (ref: 2026-04-21-ch-samostatne-pismeno-ceske-abecedy.md).
+
 When optimizing against multiple reward metrics simultaneously, normalize each metric independently before aggregating. Direct sum-then-normalize collapses distinct metric combinations to identical advantage values, destroying signal resolution. GDPO (arXiv:2601.05242) fixes this with decoupled normalization + conditional gating for priority ordering (ref: 2026-04-07-multi-reward-normalization-collapse.md).
 
 ## Open Questions
 
 - GAP: No trajectory-level auditing implemented in STOPA — `/checkpoint` could add a session diff reviewer flagging escalating hedging language and output scope narrowing
 - GAP: Task-alignment defense not implemented — RAG/summarization pipelines lack grounding verification step; `/verify` skill candidate for adding source-grounding assertions
+- GAP: Czech language processing rule applies across multiple projects (ngm-terminology, KRIZOVKA, NG-ROBOT, ZACHVEV, DANE) but is only documented here — consider propagating to per-project CLAUDE.md for those projects
 
 ## Related Articles
 

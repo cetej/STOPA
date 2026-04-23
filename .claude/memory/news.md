@@ -2,8 +2,9 @@
 
 Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
-## Last Scan: 2026-04-22 (morning-watch) | Next: ~2026-04-29
+## Last Scan: 2026-04-23 (morning-watch) | Next: ~2026-04-30
 
+**Scan log**: `2026-04-21` — full scan | Items: 7 action, 5 watch, 4 info — CC hooks expansion, Google ADK, Agent resume breaking change, context engineering moat
 **Scan log**: `2026-04-20` — arxiv-daily-digest | Items: 1 action, 4 watch — Context Awareness Gate (arXiv:2411.16133)
 **Scan log**: `2026-04-19` — arxiv-daily-digest | Items: 1 action, 4 watch — RL for RAG (arXiv:2510.24652), TEA Protocol, Orchestral AI
 **Scan log**: `2026-04-18` — arxiv-daily-digest | Items: 1 action, 4 watch — AgentForge (arXiv:2604.13120), CoMAS
@@ -50,6 +51,34 @@ Formula: `python scripts/passes-rate.py`
 | 65 | CC forceRemoteSettingsRefresh | LOW | Sledovat pri distribuci |
 | 42 | CC Voice Mode — Czech included | MED | Otestovat az dostupny |
 | 44 | CC HTTP hooks | PARKED | Adopt pri remote agents |
+| 112 | **Agent `resume` param removed** — Breaking: Agent() resume param gone, must use SendMessage() | DONE | STOPA skills zkontrolovany (grep cisty) — nulovy dopad |
+| 113 | **CC /ultrareview** — cloud parallel multi-agent code review command | MED | Evaluovat jako heavy-tier backend pro /critic skill |
+| 114 | **CC 7 novych hook events** — CwdChanged, FileChanged, TaskCreated, PostCompact, StopFailure, PermissionDenied, Elicitation | MED | Aktualizovat event list v behavioral-genome.md; StopFailure handler pro STOPA |
+| 115 | **CC PowerShell Tool (Windows preview)** — CLAUDE_CODE_USE_POWERSHELL_TOOL opt-in | MED | Otestovat na Windows — potencialni nahrada Bash pro Windows-native ops |
+| 116 | **Google ADK** (google/adk-python) — 8200+ stars, multi-agent Python framework | MED | Evaluovat vs STOPA architektura — overit jestli uz pokryto v ADR 0016 Phase B |
+| 117 | **max_tokens 300k Batches API** — Opus 4.6 + Sonnet 4.6, beta header output-300k-2026-03-24 | DEFER | NG-ROBOT potvrzen jako pokracujici (ADR 0016 Phase D: 20% sunset H2 2027). Odlozit AZ po OCR migraci (GLM-OCR, immediate priority #1). |
+| 118 | **Context Engineering as AI Moat** (Harrison Chase) — 5 patterns: trace observability, state mgmt, external memory, HITL, sleep-time compute | MED | Chase 5-pattern gap analysis vs STOPA — preverit prekryv s ADR 0016 MemoryBackend |
+
+## Recent Findings (Apr 21)
+
+| Date | Type | Item | Priority | Acted |
+|------|------|------|----------|-------|
+| 2026-04-21 | ACTION | Agent `resume` param removed (breaking) — SendMessage() jedina cesta | high | Yes (grep 0 matches) |
+| 2026-04-21 | ACTION | CC /ultrareview — cloud multi-agent code review | med | No |
+| 2026-04-21 | ACTION | CC 7 novych hooks: CwdChanged, FileChanged, TaskCreated, PostCompact, StopFailure, PermissionDenied, Elicitation | med | No |
+| 2026-04-21 | ACTION | CC PowerShell Tool — Windows opt-in preview (CLAUDE_CODE_USE_POWERSHELL_TOOL) | med | No |
+| 2026-04-21 | ACTION | Google ADK (google/adk-python) — 8200+ stars | med | No (check ADR 0016 Phase B) |
+| 2026-04-21 | ACTION | Harrison Chase: Context Engineering as AI Moat — 5 patterns | med | No (check vs ADR 0016) |
+| 2026-04-21 | ACTION | max_tokens 300k Batches API (Opus 4.6/Sonnet 4.6) | low | No (check NG-ROBOT obsolescence) |
+| 2026-04-21 | WATCH | CC /ultraplan — cloud planning sessions | med | No |
+| 2026-04-21 | WATCH | arXiv:2604.04990 Architecture Without Architects | med | No |
+| 2026-04-21 | WATCH | arXiv:2604.12843 Growing Pains Benchmarking — 100 anchor questions | med | No |
+| 2026-04-21 | WATCH | Simon Willison LLM library: server-side tool execution | med | No |
+| 2026-04-21 | WATCH | transformers v5.5.0: TimesFM 2.5, VibeVoice ASR | med | No |
+| 2026-04-21 | INFO | Claude Mythos Preview gated (Project Glasswing, invite-only) | low | No |
+| 2026-04-21 | INFO | /less-permission-prompts oficialni CC command | low | No |
+| 2026-04-21 | INFO | Qwen3.6-35B lepsi nez Opus 4.7 na vizualech | low | No |
+| 2026-04-21 | INFO | SWE-Bench-Verified data leakage concern (arXiv:2512.10218) | low | No |
 
 ## Recent Findings (Apr 15-20)
 
@@ -133,3 +162,21 @@ Older digests: see news-archive.md
 | #107 | CC Ultraplan preview | Cloud plan drafting z CLI, review v web editoru, remote run nebo pull back local — nová hybridní orchestrace | Prozkoumat pro STOPA remote scheduled tasks |
 | #108 | CC /resume 67% rychlejší | Velké session (40MB+) se resumují výrazně rychleji; /tui fullscreen, mobile push notifications, session recap | Benefit pro dlouhé STOPA sessions |
 | #109 | API data residency (inference_geo) | Nový parametr inference_geo pro US-only inference za 1.1× cenu; dostupný pro modely po 2026-02-01 | Sledovat pro compliance-sensitive projekty |
+
+## 2026-04-23 arXiv Daily Digest
+
+| Date | Type | Item | Urgency | Acted | Source |
+|------|------|------|---------|-------|--------|
+| 2026-04-23 | [ACTION] | Principled Context Engineering for RAG: Statistical Guarantees via Conformal Prediction (arXiv:2511.17908) — applies conformal prediction post-retrieval to guarantee evidence coverage while reducing context size 2-3×; directly implementable for STOPA hybrid retrieval | high | No | arxiv-daily-digest |
+| 2026-04-23 | [WATCH] | Safe and Policy-Compliant Multi-Agent Orchestration for Enterprise AI (arXiv:2604.17240) — CAMCO models multi-agent decision-making as constrained optimization, adding runtime policy compliance layer to orchestration | medium | No | arxiv-daily-digest |
+| 2026-04-23 | [WATCH] | The Single-Multi Evolution Loop for Self-Improving Model Collaboration (arXiv:2602.05182) — self-play loop where single-model and multi-model phases alternate to continuously improve collaboration quality | medium | No | arxiv-daily-digest |
+| 2026-04-23 | [WATCH] | Scaling Multi-Agent Systems: A Smart Middleware for Improving Agent Interactions (arXiv:2604.03430) — middleware layer that optimizes inter-agent communication patterns and reduces coordination overhead at scale | medium | No | arxiv-daily-digest |
+| 2026-04-23 | [WATCH] | Context Kubernetes: Declarative Orchestration of Enterprise Knowledge for Agentic AI (arXiv:2604.11623) — reference architecture treating enterprise knowledge as declaratively managed resources with explicit lifecycle and versioning | medium | No | arxiv-daily-digest |
+
+## 2026-04-23 Morning Watch
+
+| # | Item | Summary | Action |
+|---|------|---------|--------|
+| #110 | CC odstraněn z Pro (test) | Anthropic testoval odstranění CC z $20/měs Pro pro ~2% nových uživatelů (2026-04-22); existující Pro/Max nejsou ovlivněni; min. tier s CC = Max 5× za $100/měs | Sledovat — může ovlivnit STOPA pricing doporučení |
+| #111 | Claude Cowork GA | Cowork obecně dostupný na macOS+Windows v Claude Desktop; nová Analytics API + SCIM správa skupin s vlastními rolemi | Prozkoumat Analytics API pro STOPA usage monitoring |
+| #112 | CC prompt caching controls | Nové ovládání cache: 1-hodinový cache + vynucený 5-minutový; Skill tool získal přístup k built-in slash commands | Relevant pro STOPA session optimization |

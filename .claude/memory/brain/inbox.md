@@ -13,13 +13,15 @@ Zpracované záznamy se přesunou do `inbox-archive.md`.
 
 ## Queue
 
-URL: https://simonwillison.net/2026/Apr/19/headless-everything/
-URL: https://simonwillison.net/2026/Apr/21/scosman/
-URL: https://arxiv.org/abs/2604.17009
-URL: https://arxiv.org/abs/2604.02988
-URL: https://arxiv.org/abs/2603.23989
-URL: https://arxiv.org/abs/2604.13120
-URL: https://arxiv.org/abs/2601.09742
+URL: https://simonwillison.net/2026/Apr/22/qwen36-27b/
+URL: https://simonwillison.net/2026/apr/22/claude-code-confusion/
+URL: https://arxiv.org/abs/2604.16548
+URL: https://arxiv.org/abs/2604.17240
+URL: https://arxiv.org/abs/2604.16310
+URL: https://arxiv.org/abs/2604.11270
+URL: https://arxiv.org/abs/2511.17908
+URL: https://arxiv.org/abs/2602.05182
+URL: https://arxiv.org/abs/2604.03430
 
 ## Processed
 
@@ -70,3 +72,10 @@ URL: https://arxiv.org/abs/2601.09742
 | 2026-04-21 | URL: https://arxiv.org/abs/2604.09588 — Persistent Identity multi-anchor architecture (soul.py, RAG+RLM) → new wiki article persistent-identity-agents.md, graph +1 node +4 edges |
 | 2026-04-21 | URL: https://arxiv.org/abs/2604.09482 — Process Reward Agents (PRA, 80.8% MedQA, step-wise rewards) → new wiki article process-reward-agents.md, graph +1 node +4 edges |
 | 2026-04-21 | URL: https://arxiv.org/abs/2604.14572 — Corpus2Skill navigable RAG (hierarchical skill dirs, beats RAPTOR) → new wiki article corpus2skill.md, graph +1 node +5 edges |
+| 2026-04-22 | URL: https://simonwillison.net/2026/Apr/19/headless-everything/ — Headless Everything for Personal AI → new wiki article headless-services-ai.md, graph +1 node +3 edges |
+| 2026-04-22 | URL: https://simonwillison.net/2026/Apr/21/scosman/ — Training data poisoning (pelicans_riding_bicycles) → new wiki article training-data-poisoning.md, graph +1 node +2 edges |
+| 2026-04-22 | URL: https://arxiv.org/abs/2604.17009 — Small Model as Master Orchestrator (ParaManager) → new wiki article paramanager-orchestrator.md, graph +1 node +4 edges |
+| 2026-04-22 | URL: https://arxiv.org/abs/2604.02988 — Self-Optimizing Multi-Agent Deep Research (ECIR 2026) → new wiki article self-optimizing-deep-research.md, graph +1 node +4 edges |
+| 2026-04-22 | URL: https://arxiv.org/abs/2603.23989 — CoCR-RAG concept-oriented context reconstruction → new wiki article cocr-rag.md, graph +1 node +4 edges |
+| 2026-04-22 | URL: https://arxiv.org/abs/2604.13120 — DUPLICATE SKIP (AgentForge already processed 2026-04-18) |
+| 2026-04-22 | URL: https://arxiv.org/abs/2601.09742 — Adaptive Orchestration DMoE (Self-Evolving Concierge, Meta-Cognition Engine) → new wiki article adaptive-orchestration-dmoe.md, graph +1 node +5 edges |
