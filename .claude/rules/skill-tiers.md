@@ -42,6 +42,7 @@ Specialized skills for specific workflows:
 - `/discover` — semantic behavior discovery from session traces (Tang "Semantic Observability" inspired)
 - `/learn-from-failure` — systematic failure pattern analysis with mental replay (RoPE-lite)
 - `/telescope` — cross-level consistency verifier (mikro/mezo/makro), Phase B validation — use via `/orchestrate --telescope`
+- `/annotate` — retrospective trace annotation (Align Evals): human marks past decision points good/bad → eval cases for /self-evolve
 
 ## Tier 3 — Advanced (only on explicit request)
 Generative/creative tools and meta-skills:
@@ -75,7 +76,7 @@ Skills mapped to SDLC phases. Use `phase:` in frontmatter for each skill.
 | `plan` | Dekompozice, explorace, architektura | orchestrate, scout, scenario, prp, project-init, build-project |
 | `build` | Implementace, generace, exekuce | tdd, fix-issue, autofix, autoloop, autoresearch, nano, klip, browse, fetch |
 | `verify` | Testování, důkaz, validace | verify, critic, harness, eval, security-review, dependency-audit, autoharness, reproduce, generate-tests |
-| `review` | Retrospektivní kvalita, peer audit | peer-review, pr-review, autoreason, self-evolve, sweep |
+| `review` | Retrospektivní kvalita, peer audit | peer-review, pr-review, autoreason, self-evolve, sweep, annotate |
 | `ship` | Deployment, handoff, cleanup | checkpoint, handoff, compact |
 | `meta` | Introspekce, evoluce, budget | status, budget, scribe, evolve, compile, ingest, improve, discover, learn-from-failure, skill-generator, radar, watch, liveprompt, xsearch, deepresearch, seo-audit, youtube-transcript, incident-runbook, systematic-debugging, project-sweep |
 
@@ -95,7 +96,7 @@ Every skill has `tags:` in frontmatter. Use tags to find skills by capability in
 | Research | `research`, `osint` | deepresearch, scout, liveprompt, watch, radar |
 | Testing | `testing` | verify, harness, eval, tdd, scenario, generate-tests, reproduce |
 | Debugging | `debugging` | systematic-debugging, incident-runbook, learn-from-failure, reproduce |
-| Session mgmt | `session`, `memory` | checkpoint, handoff, compact, scribe, ingest |
+| Session mgmt | `session`, `memory` | checkpoint, handoff, compact, scribe, ingest, annotate |
 | DevOps/PRs | `devops` | fix-issue, autofix, pr-review, harness |
 | Planning | `planning` | orchestrate, brainstorm, scenario, build-project |
 | Security | `security` | security-review, dependency-audit |
