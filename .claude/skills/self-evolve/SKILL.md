@@ -81,6 +81,7 @@ Validation:
    - If cases exist: count them, read structure
    - If no cases AND bootstrap=true: delegate to `/autoharness` to generate 3-5 initial cases
    - If no cases AND bootstrap=false: ERROR — "No eval cases found. Run with bootstrap:true or create cases in .claude/evals/<target>/"
+   - **Also scan `.claude/evals/annotated/`** for user-annotated cases from `/annotate`. Include cases whose `input.md` frontmatter mentions `<target>` in trace/skill context (grep for target name). When `mode:system`, include all annotated cases as cross-cutting eval pool. These apply alongside target-specific cases during baseline and re-grade.
 3. **Load evolved parameters** (if `meta:true`):
    - Check `.claude/memory/intermediate/self-evolve-meta/<target>.json`
    - If exists: load params as defaults. Print: `♻ Loaded evolved parameters from previous run (v{version}).`

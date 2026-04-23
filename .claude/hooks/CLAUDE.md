@@ -22,6 +22,24 @@ Format: event type -> array of hook configs with `command` and optional `timeout
 - `Stop` — session end (normal completion)
 - `StopFailure` — session stopped due to API error or unrecoverable failure (recovery guidance, notify)
 - `Notification` — system notifications
+- `CwdChanged` — fires when the working directory changes (reactive env mgmt: direnv reload, project detect)
+- `FileChanged` — fires when a watched file changes (reactive env mgmt: reload config, re-index)
+- `Elicitation` — intercepts structured input requests from the model (can inject defaults)
+- `ElicitationResult` — fires after the user responds to an elicitation prompt
+
+### CC v2.1.x new events — categorization
+
+| Event | Category | STOPA status | Purpose |
+|-------|----------|--------------|---------|
+| `CwdChanged` | workflow | not wired | Reactive env (direnv, auto-profile) |
+| `FileChanged` | workflow | not wired | Reactive reload on watched-file edits |
+| `TaskCreated` | workflow | wired (`task-created-gate.sh`) | Budget gate on sub-agent spawn |
+| `PostCompact` | memory | wired (`post-compact.sh`) | Checkpoint reminder post-compaction |
+| `StopFailure` | safety+tracing | wired (`stop-failure.sh` + `stop-failure-logger.py`) | API error recovery + failure record |
+| `PermissionDenied` | tracing | catalogued only | Feedback loop for `/less-permission-prompts` |
+| `Elicitation` / `ElicitationResult` | workflow | not wired | Intercept/log structured input responses |
+
+Categories: `safety` (block/deny), `memory` (persist/consolidate), `tracing` (observe), `workflow` (coordinate), `notification` (surface).
 
 ## Output protocol
 - Hooks communicate via stdout JSON: `{"decision": "allow"|"block"|"skip", "reason": "..."}`

@@ -55,6 +55,7 @@ experiments/*/data/
 
 # Runtime session state — drifts every session, not worth tracking
 .claude/memory/activity-log.md
+.claude/memory/activity-log-archive.md
 .claude/memory/budget.md
 .claude/memory/checkpoint.md
 .claude/memory/corrections.jsonl
