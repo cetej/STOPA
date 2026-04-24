@@ -4,6 +4,8 @@ One line per scheduled task run, newest at the top. For silent-OK runs this is t
 
 **Format:** `YYYY-MM-DD HH:MM | task-name | short status (counts, summary)`
 
+2026-04-24 | daily-rebalancer | STOPA: 2 files committed (concept-graph.json, radar.md). NG-ROBOT: utilities.py unstaged (source code, skip). 12/12 projects active last 3d. No .gitignore extensions needed.
+2026-04-24 | tool-radar-scan | 3 new 🟡 tools: AI-SPM (OPA runtime security 6/10), Hive Memory (cross-project MCP 5/10), Almanac MCP (web research 5/10). No score >=8. Total: 99 tools tracked.
 2026-04-24 | morning-watch | 2 new items: #113 Memory for Managed Agents public beta, #114 CC inline thinking progress. Most Apr results already tracked.
 
 2026-04-24 08:00 | brain-watch | OK — 12 nových URLs → inbox.md Queue (arXiv: 8, Anthropic Research: 3, X: 1). Gmail MCP unauthenticated (skip). Karpathy blog: žádný nový post. Simon Willison: poslední archiv Apr 15 (žádný Apr 24). All scan dates updated.
