@@ -4,6 +4,10 @@ One line per scheduled task run, newest at the top. For silent-OK runs this is t
 
 **Format:** `YYYY-MM-DD HH:MM | task-name | short status (counts, summary)`
 
+2026-04-24 | morning-watch | 2 new items: #113 Memory for Managed Agents public beta, #114 CC inline thinking progress. Most Apr results already tracked.
+
+2026-04-24 08:00 | brain-watch | OK — 12 nových URLs → inbox.md Queue (arXiv: 8, Anthropic Research: 3, X: 1). Gmail MCP unauthenticated (skip). Karpathy blog: žádný nový post. Simon Willison: poslední archiv Apr 15 (žádný Apr 24). All scan dates updated.
+
 2026-04-23 | brain-ingest | 9 items processed — 2× Willison (Qwen3.6-27B, Claude Code pricing), 7× arXiv (mnemonic-sovereignty, CAMCO, RAG-DIVE, AnalysisBench, conformal-RAG, single-multi-loop, cognitive-fabric-nodes). 9 new wiki articles. Graph: +9 nodes +40 edges. Total wiki: 78 articles.
 2026-04-23 07:00 | brain-watch | 6 new items queued — 2× Willison blog (Qwen3.6-27B, Claude Code pricing), 4× arXiv (2604.16548 memory security, 2604.17240 CAMCO orchestration, 2604.16310 RAG-DIVE, 2604.11270 SWE eval). Gmail: 0 new emails across all labels/senders. Karpathy blog: no new posts.
 
@@ -39,3 +43,4 @@ One line per scheduled task run, newest at the top. For silent-OK runs this is t
 2026-04-23 11:07 | arxiv-daily-digest | OK — 5 papers found (1 ACTION: arXiv:2511.17908 conformal RAG context reduction), 3 new URLs queued in brain/inbox.md
 2026-04-23 08:00 | morning-watch | OK — 3 new items: #110 CC odstraněn z Pro (test ~2% nových), #111 Claude Cowork GA + Analytics API, #112 CC prompt caching controls (1h + 5min)
 2026-04-24 00:00 | autodream | OK — 185 learnings scanned; 7 confidence boosts (3× to 1.0); 0 archived; 0 promoted (no graduation candidates); 27 dedup candidates flagged for next /evolve
+2026-04-24 07:52 | arxiv-daily-digest | OK — 5 papers added to news.md (1 [ACTION]: 2604.02988 self-optimizing deep research); 1 new URL queued in inbox.md (2512.17102 SAGE)

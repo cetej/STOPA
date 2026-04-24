@@ -7,10 +7,10 @@ tags: [memory, parametric, non-parametric, hybrid-memory, agent-memory, retrieva
 summary: "Bidirectional conversion between parametric (model weights) and non-parametric (explicit files) memory enables agents to leverage both: fast internalized knowledge + updateable external store. Key to living memory systems."
 source: external_research
 maturity: draft
-uses: 1
+uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 1.0
+confidence: 1.00
 related: [2026-04-08-living-memory-over-static-retrieval.md, 2026-03-29-memcollab-agent-agnostic-memory.md]
 verify_check: "manual"
 ---

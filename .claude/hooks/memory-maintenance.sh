@@ -60,6 +60,36 @@ if [ -f "$PLOG" ]; then
   fi
 fi
 
+# --- JSONL log rotation: keep last 10000 lines ---
+JSONL_KEEP=10000
+for jlog in "$MEMORY_DIR/sentinel-log.jsonl" "$MEMORY_DIR/session-start-perf.jsonl" "$MEMORY_DIR/retrieval-log.jsonl" "$MEMORY_DIR/violations.jsonl" "$MEMORY_DIR/autonomy-learning.jsonl" "$MEMORY_DIR/retrieval-metrics.jsonl"; do
+  [ -f "$jlog" ] || continue
+  jlog_lines=$(wc -l < "$jlog" 2>/dev/null | tr -d ' ')
+  if [ "$jlog_lines" -gt "$JSONL_KEEP" ]; then
+    tail -n "$JSONL_KEEP" "$jlog" > "$jlog.tmp" && mv "$jlog.tmp" "$jlog"
+  fi
+done
+
+# --- Dated permission-log archives: move to archive/permission-logs/ after 14 days ---
+PLOG_ARCHIVE_DIR="$MEMORY_DIR/archive/permission-logs"
+mkdir -p "$PLOG_ARCHIVE_DIR"
+find "$MEMORY_DIR" -maxdepth 1 -name "permission-log-*-archive.md" -type f -mtime +14 -exec mv {} "$PLOG_ARCHIVE_DIR/" \; 2>/dev/null
+
+# --- Raw session data retention: delete raw/*.md older than 14 days (preserve .gitkeep) ---
+if [ -d "$MEMORY_DIR/raw" ]; then
+  find "$MEMORY_DIR/raw" -type f -mtime +14 ! -name ".gitkeep" -delete 2>/dev/null
+fi
+
+# --- Brain raw retention: delete brain/raw/*.md older than 30 days ---
+if [ -d "$MEMORY_DIR/brain/raw" ]; then
+  find "$MEMORY_DIR/brain/raw" -type f -mtime +30 ! -name ".gitkeep" -delete 2>/dev/null
+fi
+
+# --- Old one-shot briefings: clean briefings/ older than 7 days ---
+if [ -d "$MEMORY_DIR/briefings" ]; then
+  find "$MEMORY_DIR/briefings" -type f -mtime +7 ! -name ".gitkeep" -delete 2>/dev/null
+fi
+
 # --- Learning confidence audit (Dream consolidation detection) ---
 # Check for learnings with confidence < 0.3 (pruning candidates)
 LEARNINGS_DIR="$MEMORY_DIR/learnings"

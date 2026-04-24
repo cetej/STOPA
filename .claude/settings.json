@@ -146,6 +146,12 @@
             "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/keys-presence-check.py",
             "timeout": 3,
             "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/memory-maintenance.sh",
+            "timeout": 15,
+            "statusMessage": "Memory maintenance (rotate logs, prune archives)..."
           }
         ]
       }

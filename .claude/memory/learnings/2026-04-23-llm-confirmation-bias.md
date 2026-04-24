@@ -6,14 +6,14 @@ component: skill
 tags: [autoresearch, deepresearch, critic, falsification, evidence, bias]
 summary: "LLM scientific agents ignore evidence in 68% of traces, revise beliefs only 26%, use independent evidence lines only 7% (25K runs, 8 domains). Counter-example prompting boosts rule discovery 42→56%. STOPA /autoresearch + /critic need explicit falsification gate."
 source: external_research
-uses: 2
+uses: 4
 harmful_uses: 0
 successful_uses: 0
-confidence: 1.0
+confidence: 1.00
 maturity: draft
 skill_scope: [autoresearch, deepresearch, critic, self-evolve]
 verify_check: "manual"
-related: []
+related: [2026-04-08-auto-research-removes-human-bottleneck.md, 2026-03-29-claudini-autoresearch-loop.md]
 ---
 
 ## Context

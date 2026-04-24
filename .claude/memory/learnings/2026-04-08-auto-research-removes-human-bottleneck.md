@@ -7,10 +7,11 @@ tags: [orchestration, research, pipeline, autoloop, autoresearch]
 summary: "The human is always the bottleneck in iterative optimization. For any task with a cheap-to-verify objective metric, remove yourself from the loop: define objective + metric + boundaries, let agents iterate autonomously. Karpathy's overnight auto-research found issues 20 years of manual tuning missed."
 source: external_research
 maturity: draft
-uses: 1
+uses: 3
 successful_uses: 0
 harmful_uses: 0
-confidence: 1.0
+confidence: 1.00
+related: [2026-04-23-llm-confirmation-bias.md, 2026-03-29-claudini-autoresearch-loop.md]
 failure_class:
 verify_check: "manual"
 ---

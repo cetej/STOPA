@@ -7,7 +7,7 @@ tags: [memory, retrieval, agent-memory, living-memory, static-rag, evolution]
 summary: "Living memory (evolving + compressed trajectories) beats static RAG by +31% avg across 11 benchmarks. Traditional long-context accumulation can underperform even no-memory baselines — more stored context ≠ better performance."
 source: external_research
 maturity: draft
-uses: 7
+uses: 8
 successful_uses: 0
 harmful_uses: 0
 confidence: 1.00

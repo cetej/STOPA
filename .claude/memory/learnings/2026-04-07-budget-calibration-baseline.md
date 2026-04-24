@@ -7,7 +7,7 @@ tags: [budget, calibration, cost-tracking, measurement]
 summary: "Budget calibration baseline: 7 historical tasks analyzed, no actual cost data available. Proposed measurement protocol using ccusage + session tagging."
 source: auto_pattern
 maturity: draft
-uses: 2
+uses: 3
 harmful_uses: 0
 successful_uses: 0
 confidence: 1.00

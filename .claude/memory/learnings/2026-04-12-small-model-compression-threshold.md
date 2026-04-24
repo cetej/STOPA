@@ -7,10 +7,10 @@ tags: [model-selection, scaling, small-models, haiku, compression, capacity]
 summary: "Models below ~1B parameters fail to enter the compression phase of IB training dynamics — they lack capacity to compress a given data complexity. This is a fundamental limit, not a training duration issue: SmolLM2 1.7B (11T tokens) also fails."
 source: external_research
 maturity: draft
-uses: 0
+uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.6
+confidence: 0.65
 impact_score: 0.0
 verify_check: "manual"
 skill_scope: [orchestrate, council]

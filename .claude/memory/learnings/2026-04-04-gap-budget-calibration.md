@@ -7,7 +7,7 @@ tags: [budget, calibration, cost-tracking, gap]
 summary: "GAP: No data on budget tracking accuracy — estimated costs vs actual API costs are never compared. Budget tier assignments may be systematically over- or under-estimating."
 source: auto_pattern
 maturity: draft
-uses: 3
+uses: 4
 harmful_uses: 0
 confidence: 1.00
 verify_check: manual

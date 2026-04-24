@@ -2,7 +2,7 @@
 
 Tracked findings from `/watch` scans. Archived: `news-archive.md`
 
-## Last Scan: 2026-04-23 (morning-watch) | Next: ~2026-04-30
+## Last Scan: 2026-04-24 (morning-watch) | Next: ~2026-05-01
 
 **Scan log**: `2026-04-21` — full scan | Items: 7 action, 5 watch, 4 info — CC hooks expansion, Google ADK, Agent resume breaking change, context engineering moat
 **Scan log**: `2026-04-20` — arxiv-daily-digest | Items: 1 action, 4 watch — Context Awareness Gate (arXiv:2411.16133)
@@ -180,3 +180,20 @@ Older digests: see news-archive.md
 | #110 | CC odstraněn z Pro (test) | Anthropic testoval odstranění CC z $20/měs Pro pro ~2% nových uživatelů (2026-04-22); existující Pro/Max nejsou ovlivněni; min. tier s CC = Max 5× za $100/měs | Sledovat — může ovlivnit STOPA pricing doporučení |
 | #111 | Claude Cowork GA | Cowork obecně dostupný na macOS+Windows v Claude Desktop; nová Analytics API + SCIM správa skupin s vlastními rolemi | Prozkoumat Analytics API pro STOPA usage monitoring |
 | #112 | CC prompt caching controls | Nové ovládání cache: 1-hodinový cache + vynucený 5-minutový; Skill tool získal přístup k built-in slash commands | Relevant pro STOPA session optimization |
+
+## 2026-04-24 Morning Watch
+
+| # | Item | Summary | Action |
+|---|------|---------|--------|
+| #113 | Memory for Claude Managed Agents public beta | Memory API pro Managed Agents v public beta pod `managed-agents-2026-04-01` headerem — agenti si pamatují kontext přes sessions | Evaluovat pro STOPA cross-session agent state; update #84 |
+| #114 | CC inline thinking progress | Thinking spinner nyní zobrazuje průběh inline ("still thinking", "thinking more", "almost done") místo separátního hint řádku — nový CC release | Minor UX, žádná akce |
+
+## 2026-04-24 arXiv Daily Digest
+
+| Date | Type | Item | Urgency | Acted | Source |
+|------|------|------|---------|-------|--------|
+| 2026-04-24 | [ACTION] | Self-Optimizing Multi-Agent Systems for Deep Research (arXiv:2604.02988) — self-play loop where agents explore prompt combinations autonomously to match or outperform expert-crafted deep research systems; directly adoptable for autoresearch/deepresearch skills | high | No | arxiv-daily-digest |
+| 2026-04-24 | [WATCH] | Small Model as Master Orchestrator with Parallel Subtask Decomposition (arXiv:2604.17009) — ParaManager uses small model (haiku-scale) as unified orchestrator across agents and tools in one learnable action space; validates STOPA's haiku-for-orchestration tier | medium | No | arxiv-daily-digest |
+| 2026-04-24 | [WATCH] | Adaptive Orchestration: Scalable Self-Evolving Multi-Agent Systems (arXiv:2601.09742) — Dynamic Mixture of Experts (DMoE) concierge dynamically hires specialized sub-agents based on real-time task analysis; relevant for evolve and orchestrate | medium | No | arxiv-daily-digest |
+| 2026-04-24 | [WATCH] | RL for Self-Improving Agent with Skill Library — SAGE (arXiv:2512.17102) — reinforcement learning with skill library achieves 8.9% task completion improvement and skill reuse across similar tasks; directly relevant to self-evolve | medium | No | arxiv-daily-digest |
+| 2026-04-24 | [WATCH] | CoCR-RAG: Concept-oriented Context Reconstruction for Web Q&A (arXiv:2603.23989) — concept distillation from AMR fuses multi-document concepts into unified dense context; complements STOPA concept-graph retrieval | medium | No | arxiv-daily-digest |

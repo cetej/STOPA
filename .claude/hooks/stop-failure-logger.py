@@ -38,7 +38,14 @@ TIMEOUT_MARKERS = (
     "overloaded",
     "timeout",
     "timed out",
+    "server_error",
+    "invalid_request",
+    "api_error",
+    "overloaded_error",
 )
+
+# Generic API error signals with no actionable context — not worth a failure record
+SKIP_IF_BARE = ("server_error", "invalid_request", "api_error", "overloaded_error", "unknown_error")
 RESOURCE_MARKERS = (
     "out of memory",
     " oom",
@@ -186,6 +193,11 @@ def main() -> None:
     task = read_active_task()
     tier = read_active_tier()
     today = date.today().isoformat()
+
+    # Skip noise: bare API-error signals with no active task context — nothing to learn from
+    if task == "unknown" and error_msg.strip().lower() in SKIP_IF_BARE:
+        print(json.dumps({"decision": "allow", "reason": f"StopFailure skipped (bare {error_msg}, no task context)"}))
+        return
 
     FAILURES_DIR.mkdir(parents=True, exist_ok=True)
 

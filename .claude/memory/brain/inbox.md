@@ -13,6 +13,20 @@ Zpracované záznamy se přesunou do `inbox-archive.md`.
 
 ## Queue
 
+URL: https://arxiv.org/abs/2512.17102
+URL: https://arxiv.org/abs/2604.17240
+URL: https://arxiv.org/abs/2604.17009
+URL: https://arxiv.org/abs/2604.10842
+URL: https://arxiv.org/abs/2604.11270
+URL: https://arxiv.org/abs/2604.16548
+URL: https://arxiv.org/abs/2604.10029
+URL: https://arxiv.org/abs/2604.02460
+URL: https://arxiv.org/abs/2603.28052
+URL: https://www.anthropic.com/research/disempowerment-patterns
+URL: https://www.anthropic.com/research/AI-assistance-coding-skills
+URL: https://www.anthropic.com/research/how-ai-is-transforming-work-at-anthropic
+URL: https://x.com/AnthropicAI/status/2046327624092487688
+
 ## Processed
 
 | Date | Item |

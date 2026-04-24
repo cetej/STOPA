@@ -7,11 +7,11 @@ tags: [autoresearch, pipeline, claude-code, agent-loop, research-automation]
 summary: "Autoresearch via Claude Code agent loop succeeds when: (1) starting from existing implementations, (2) dense quantitative feedback per iteration, (3) white-box domain (red-teaming). Claudini discovered novel adversarial attacks outperforming 30+ baselines by iterating on GCG."
 source: external_research
 maturity: draft
-uses: 0
+uses: 2
 harmful_uses: 0
 related: []
 verify_check: "manual"
-confidence: 0.7
+confidence: 0.80
 successful_uses: 0
 ---
 

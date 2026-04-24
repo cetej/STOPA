@@ -1,3 +1,1430 @@
+## Archived 2026-04-24 (1424 lines)
+
+- 2026-04-20 02:18 | AUTO | Bash
+- 2026-04-20 02:18 | AUTO | Bash
+- 2026-04-20 02:19 | AUTO | Bash
+- 2026-04-20 02:19 | AUTO | Bash
+- 2026-04-20 02:52 | AUTO | Edit
+- 2026-04-20 02:52 | AUTO | Edit
+- 2026-04-20 03:15 | AUTO | Bash
+- 2026-04-20 03:15 | AUTO | Bash
+- 2026-04-20 04:34 | AUTO | Bash
+- 2026-04-20 04:34 | AUTO | Bash
+- 2026-04-20 04:34 | AUTO | Edit
+- 2026-04-20 04:34 | AUTO | Edit
+- 2026-04-20 04:48 | AUTO | Edit
+- 2026-04-20 04:48 | AUTO | Edit
+- 2026-04-20 04:49 | AUTO | Write
+- 2026-04-20 04:49 | AUTO | Write
+- 2026-04-20 04:49 | AUTO | Edit
+- 2026-04-20 04:49 | AUTO | Edit
+- 2026-04-20 04:49 | AUTO | Edit
+- 2026-04-20 04:49 | AUTO | Edit
+- 2026-04-20 04:50 | AUTO | unknown
+- 2026-04-20 04:50 | AUTO | unknown
+- 2026-04-20 04:51 | AUTO | Edit
+- 2026-04-20 04:51 | AUTO | Edit
+- 2026-04-20 04:51 | AUTO | Edit
+- 2026-04-20 04:51 | AUTO | Edit
+- 2026-04-20 05:50 | AUTO | Edit
+- 2026-04-20 05:50 | AUTO | Edit
+- 2026-04-20 06:49 | AUTO | Bash
+- 2026-04-20 06:49 | AUTO | Bash
+- 2026-04-20 07:24 | AUTO | Edit
+- 2026-04-20 07:24 | AUTO | Edit
+- 2026-04-20 10:11 | AUTO | Edit
+- 2026-04-20 10:11 | AUTO | Edit
+- 2026-04-20 10:11 | AUTO | Edit
+- 2026-04-20 10:11 | AUTO | Edit
+- 2026-04-20 10:11 | AUTO | Edit
+- 2026-04-20 10:11 | AUTO | Edit
+- 2026-04-20 10:12 | AUTO | Edit
+- 2026-04-20 10:12 | AUTO | Edit
+- 2026-04-20 10:12 | AUTO | Bash
+- 2026-04-20 10:12 | AUTO | Bash
+- 2026-04-20 10:13 | AUTO | Bash
+- 2026-04-20 10:13 | AUTO | Bash
+- 2026-04-20 10:14 | AUTO | Write
+- 2026-04-20 10:14 | AUTO | Write
+- 2026-04-20 10:16 | AUTO | Edit
+- 2026-04-20 10:16 | AUTO | Edit
+- 2026-04-20 10:17 | AUTO | unknown
+- 2026-04-20 10:17 | AUTO | unknown
+- 2026-04-20 10:19 | AUTO | Bash
+- 2026-04-20 10:19 | AUTO | Bash
+- 2026-04-20 10:19 | AUTO | Bash
+- 2026-04-20 10:19 | AUTO | Bash
+- 2026-04-20 10:20 | AUTO | Bash
+- 2026-04-20 10:20 | AUTO | Bash
+- 2026-04-20 10:21 | AUTO | Bash
+- 2026-04-20 10:21 | AUTO | Bash
+- 2026-04-20 10:22 | AUTO | Write
+- 2026-04-20 10:22 | AUTO | Write
+- 2026-04-20 10:23 | AUTO | Edit
+- 2026-04-20 10:23 | AUTO | Edit
+- 2026-04-20 10:26 | AUTO | Bash
+- 2026-04-20 10:26 | AUTO | Bash
+- 2026-04-20 10:26 | AUTO | Bash
+- 2026-04-20 10:26 | AUTO | Bash
+- 2026-04-20 10:31 | AUTO | Bash
+- 2026-04-20 10:31 | AUTO | Bash
+- 2026-04-20 10:33 | AUTO | Bash
+- 2026-04-20 10:33 | AUTO | Bash
+- 2026-04-20 10:33 | AUTO | Bash
+- 2026-04-20 10:33 | AUTO | Bash
+- 2026-04-20 10:40 | AUTO | Bash
+- 2026-04-20 10:40 | AUTO | Bash
+- 2026-04-20 10:43 | AUTO | Bash
+- 2026-04-20 10:43 | AUTO | Bash
+- 2026-04-20 10:44 | AUTO | Bash
+- 2026-04-20 10:44 | AUTO | Bash
+- 2026-04-20 10:44 | AUTO | Write
+- 2026-04-20 10:44 | AUTO | Write
+- 2026-04-20 10:44 | AUTO | Write
+- 2026-04-20 10:44 | AUTO | Write
+- 2026-04-20 10:45 | AUTO | Write
+- 2026-04-20 10:45 | AUTO | Write
+- 2026-04-20 10:45 | AUTO | Bash
+- 2026-04-20 10:45 | AUTO | Bash
+- 2026-04-20 10:45 | AUTO | Write
+- 2026-04-20 10:45 | AUTO | Write
+- 2026-04-20 10:45 | AUTO | Write
+- 2026-04-20 10:45 | AUTO | Write
+- 2026-04-20 10:45 | AUTO | Write
+- 2026-04-20 10:45 | AUTO | Write
+- 2026-04-20 10:45 | AUTO | Write
+- 2026-04-20 10:45 | AUTO | Write
+- 2026-04-20 10:45 | AUTO | Write
+- 2026-04-20 10:45 | AUTO | Write
+- 2026-04-20 10:45 | AUTO | Bash
+- 2026-04-20 10:45 | AUTO | Bash
+- 2026-04-20 10:45 | AUTO | Write
+- 2026-04-20 10:45 | AUTO | Write
+- 2026-04-20 10:45 | AUTO | Bash
+- 2026-04-20 10:45 | AUTO | Bash
+- 2026-04-20 10:45 | AUTO | Bash
+- 2026-04-20 10:45 | AUTO | Bash
+- 2026-04-20 10:46 | AUTO | Bash
+- 2026-04-20 10:46 | AUTO | Bash
+- 2026-04-20 10:46 | AUTO | Bash
+- 2026-04-20 10:46 | AUTO | Bash
+- 2026-04-20 10:46 | AUTO | Bash
+- 2026-04-20 10:46 | AUTO | Bash
+- 2026-04-20 10:46 | AUTO | Write
+- 2026-04-20 10:46 | AUTO | Write
+- 2026-04-20 10:46 | AUTO | Bash
+- 2026-04-20 10:46 | AUTO | Bash
+- 2026-04-20 10:46 | AUTO | Edit
+- 2026-04-20 10:46 | AUTO | Edit
+- 2026-04-20 10:47 | AUTO | Bash
+- 2026-04-20 10:47 | AUTO | Bash
+- 2026-04-20 10:47 | AUTO | Edit
+- 2026-04-20 10:47 | AUTO | Edit
+- 2026-04-20 10:47 | AUTO | Bash
+- 2026-04-20 10:47 | AUTO | Bash
+- 2026-04-20 10:47 | AUTO | Edit
+- 2026-04-20 10:47 | AUTO | Edit
+- 2026-04-20 10:58 | AUTO | Bash
+- 2026-04-20 10:58 | AUTO | Bash
+- 2026-04-20 11:04 | AUTO | Bash
+- 2026-04-20 11:04 | AUTO | Bash
+- 2026-04-20 11:19 | AUTO | Bash
+- 2026-04-20 11:19 | AUTO | Bash
+- 2026-04-20 11:25 | AUTO | Bash
+- 2026-04-20 11:25 | AUTO | Bash
+- 2026-04-20 11:30 | AUTO | Bash
+- 2026-04-20 11:30 | AUTO | Bash
+- 2026-04-20 11:31 | AUTO | Bash
+- 2026-04-20 11:31 | AUTO | Bash
+- 2026-04-20 11:41 | AUTO | Bash
+- 2026-04-20 11:42 | AUTO | Bash
+- 2026-04-20 11:42 | AUTO | Bash
+- 2026-04-20 11:42 | AUTO | Bash
+- 2026-04-20 11:45 | AUTO | Bash
+- 2026-04-20 11:45 | AUTO | Bash
+- 2026-04-20 12:41 | AUTO | Bash
+- 2026-04-20 12:41 | AUTO | Bash
+- 2026-04-20 12:41 | AUTO | Bash
+- 2026-04-20 12:41 | AUTO | Bash
+- 2026-04-20 12:41 | AUTO | Bash
+- 2026-04-20 12:41 | AUTO | Bash
+- 2026-04-20 12:44 | AUTO | Bash
+- 2026-04-20 12:44 | AUTO | Bash
+- 2026-04-20 13:24 | AUTO | Bash
+- 2026-04-20 13:24 | AUTO | Bash
+- 2026-04-20 13:29 | AUTO | Bash
+- 2026-04-20 13:29 | AUTO | Bash
+- 2026-04-20 14:04 | AUTO | Bash
+- 2026-04-20 14:04 | AUTO | Bash
+- 2026-04-20 14:12 | AUTO | unknown
+- 2026-04-20 14:12 | AUTO | unknown
+- 2026-04-20 14:14 | AUTO | Bash
+- 2026-04-20 14:14 | AUTO | Bash
+- 2026-04-20 14:15 | AUTO | Bash
+- 2026-04-20 14:15 | AUTO | Bash
+- 2026-04-20 14:29 | AUTO | Bash
+- 2026-04-20 14:29 | AUTO | Bash
+- 2026-04-20 14:31 | AUTO | Bash
+- 2026-04-20 14:31 | AUTO | Bash
+- 2026-04-20 14:40 | AUTO | Bash
+- 2026-04-20 14:40 | AUTO | Bash
+- 2026-04-20 14:43 | AUTO | Bash
+- 2026-04-20 14:43 | AUTO | Bash
+- 2026-04-20 15:08 | AUTO | Edit
+- 2026-04-20 15:08 | AUTO | Edit
+- 2026-04-20 15:09 | AUTO | Bash
+- 2026-04-20 15:09 | AUTO | Bash
+- 2026-04-20 15:09 | AUTO | Bash
+- 2026-04-20 15:09 | AUTO | Bash
+- 2026-04-20 15:09 | AUTO | Bash
+- 2026-04-20 15:09 | AUTO | Bash
+- 2026-04-20 15:12 | AUTO | Write
+- 2026-04-20 15:12 | AUTO | Write
+- 2026-04-20 15:20 | AUTO | Bash
+- 2026-04-20 15:20 | AUTO | Bash
+- 2026-04-20 15:20 | AUTO | Bash
+- 2026-04-20 15:20 | AUTO | Bash
+- 2026-04-20 15:20 | AUTO | Write
+- 2026-04-20 15:20 | AUTO | Write
+- 2026-04-20 15:28 | AUTO | Write
+- 2026-04-20 15:28 | AUTO | Write
+- 2026-04-20 15:29 | AUTO | Bash
+- 2026-04-20 15:29 | AUTO | Bash
+- 2026-04-20 15:29 | AUTO | Bash
+- 2026-04-20 15:29 | AUTO | Bash
+- 2026-04-20 15:30 | AUTO | Write
+- 2026-04-20 15:30 | AUTO | Write
+- 2026-04-20 15:30 | AUTO | Write
+- 2026-04-20 15:30 | AUTO | Write
+- 2026-04-20 15:32 | AUTO | Bash
+- 2026-04-20 15:32 | AUTO | Bash
+- 2026-04-20 15:33 | AUTO | Bash
+- 2026-04-20 15:33 | AUTO | Bash
+- 2026-04-20 15:34 | AUTO | Bash
+- 2026-04-20 15:34 | AUTO | Bash
+- 2026-04-20 15:36 | AUTO | Bash
+- 2026-04-20 15:36 | AUTO | Bash
+- 2026-04-20 15:38 | AUTO | Edit
+- 2026-04-20 15:38 | AUTO | Edit
+- 2026-04-20 15:40 | AUTO | Edit
+- 2026-04-20 15:40 | AUTO | Edit
+- 2026-04-20 16:01 | AUTO | Bash
+- 2026-04-20 16:01 | AUTO | Bash
+- 2026-04-20 16:16 | AUTO | Bash
+- 2026-04-20 16:16 | AUTO | Bash
+- 2026-04-20 16:22 | AUTO | Bash
+- 2026-04-20 16:22 | AUTO | Bash
+- 2026-04-20 16:27 | AUTO | Bash
+- 2026-04-20 16:27 | AUTO | Bash
+- 2026-04-20 16:27 | AUTO | Bash
+- 2026-04-20 16:27 | AUTO | Bash
+- 2026-04-20 16:28 | AUTO | Bash
+- 2026-04-20 16:28 | AUTO | Bash
+- 2026-04-20 16:28 | AUTO | Bash
+- 2026-04-20 16:28 | AUTO | Bash
+- 2026-04-20 16:28 | AUTO | Bash
+- 2026-04-20 16:28 | AUTO | Bash
+- 2026-04-20 16:28 | AUTO | Bash
+- 2026-04-20 16:28 | AUTO | Bash
+- 2026-04-20 16:28 | AUTO | Bash
+- 2026-04-20 16:28 | AUTO | Bash
+- 2026-04-20 16:29 | AUTO | Bash
+- 2026-04-20 16:29 | AUTO | Bash
+- 2026-04-20 16:29 | AUTO | Bash
+- 2026-04-20 16:29 | AUTO | Bash
+- 2026-04-20 16:29 | AUTO | Bash
+- 2026-04-20 16:29 | AUTO | Bash
+- 2026-04-20 16:29 | AUTO | Bash
+- 2026-04-20 16:29 | AUTO | Bash
+- 2026-04-20 16:42 | AUTO | Bash
+- 2026-04-20 16:42 | AUTO | Bash
+- 2026-04-20 16:46 | AUTO | Bash
+- 2026-04-20 16:46 | AUTO | Bash
+- 2026-04-20 16:46 | AUTO | Bash
+- 2026-04-20 16:46 | AUTO | Bash
+- 2026-04-20 16:48 | AUTO | Bash
+- 2026-04-20 16:48 | AUTO | Bash
+- 2026-04-20 17:02 | AUTO | Bash
+- 2026-04-20 17:02 | AUTO | Bash
+- 2026-04-20 17:03 | AUTO | Bash
+- 2026-04-20 17:03 | AUTO | Bash
+- 2026-04-20 17:05 | AUTO | Bash
+- 2026-04-20 17:05 | AUTO | Bash
+- 2026-04-20 17:05 | AUTO | Bash
+- 2026-04-20 17:05 | AUTO | Bash
+- 2026-04-20 17:07 | AUTO | Bash
+- 2026-04-20 17:07 | AUTO | Bash
+- 2026-04-20 17:10 | AUTO | Bash
+- 2026-04-20 17:10 | AUTO | Bash
+- 2026-04-20 17:11 | AUTO | Bash
+- 2026-04-20 17:11 | AUTO | Bash
+- 2026-04-20 17:11 | AUTO | Bash
+- 2026-04-20 17:11 | AUTO | Bash
+- 2026-04-20 17:12 | AUTO | Bash
+- 2026-04-20 17:12 | AUTO | Bash
+- 2026-04-20 17:12 | AUTO | Bash
+- 2026-04-20 17:12 | AUTO | Bash
+- 2026-04-20 17:22 | AUTO | Bash
+- 2026-04-20 17:22 | AUTO | Bash
+- 2026-04-20 17:23 | AUTO | Bash
+- 2026-04-20 17:23 | AUTO | Bash
+- 2026-04-20 17:23 | AUTO | Bash
+- 2026-04-20 17:23 | AUTO | Bash
+- 2026-04-20 17:23 | AUTO | Bash
+- 2026-04-20 17:23 | AUTO | Bash
+- 2026-04-20 17:25 | AUTO | Bash
+- 2026-04-20 17:25 | AUTO | Bash
+- 2026-04-20 17:27 | AUTO | Bash
+- 2026-04-20 17:27 | AUTO | Bash
+- 2026-04-20 18:00 | AUTO | Bash
+- 2026-04-20 18:00 | AUTO | Bash
+- 2026-04-20 18:02 | AUTO | Bash
+- 2026-04-20 18:02 | AUTO | Bash
+- 2026-04-20 18:02 | AUTO | Bash
+- 2026-04-20 18:02 | AUTO | Bash
+- 2026-04-20 18:03 | AUTO | unknown
+- 2026-04-20 18:03 | AUTO | unknown
+- 2026-04-20 18:03 | AUTO | Bash
+- 2026-04-20 18:03 | AUTO | Bash
+- 2026-04-20 18:23 | AUTO | Bash
+- 2026-04-20 18:22 | AUTO | Bash
+- 2026-04-20 18:24 | AUTO | Bash
+- 2026-04-20 18:24 | AUTO | Bash
+- 2026-04-20 18:25 | AUTO | Bash
+- 2026-04-20 18:25 | AUTO | Bash
+- 2026-04-20 18:25 | AUTO | Write
+- 2026-04-20 18:25 | AUTO | Write
+- 2026-04-20 18:27 | AUTO | Bash
+- 2026-04-20 18:27 | AUTO | Bash
+- 2026-04-20 18:34 | AUTO | Bash
+- 2026-04-20 18:34 | AUTO | Bash
+- 2026-04-20 18:51 | AUTO | Write
+- 2026-04-20 18:51 | AUTO | Write
+- 2026-04-20 18:51 | AUTO | Write
+- 2026-04-20 18:51 | AUTO | Write
+- 2026-04-20 18:52 | AUTO | Write
+- 2026-04-20 18:52 | AUTO | Write
+- 2026-04-20 18:52 | AUTO | Write
+- 2026-04-20 18:52 | AUTO | Write
+- 2026-04-20 18:52 | AUTO | Write
+- 2026-04-20 18:52 | AUTO | Write
+- 2026-04-20 18:53 | AUTO | Bash
+- 2026-04-20 18:53 | AUTO | Bash
+- 2026-04-20 22:53 | AUTO | Edit
+- 2026-04-20 22:53 | AUTO | Edit
+- 2026-04-20 22:54 | AUTO | Write
+- 2026-04-20 22:54 | AUTO | Write
+- 2026-04-20 22:54 | AUTO | Edit
+- 2026-04-20 22:54 | AUTO | Edit
+- 2026-04-20 22:54 | AUTO | Write
+- 2026-04-20 22:54 | AUTO | Write
+- 2026-04-20 22:54 | AUTO | Write
+- 2026-04-20 22:54 | AUTO | Write
+- 2026-04-20 22:54 | AUTO | Edit
+- 2026-04-20 22:54 | AUTO | Edit
+- 2026-04-20 22:54 | AUTO | Edit
+- 2026-04-20 22:54 | AUTO | Edit
+- 2026-04-20 22:54 | AUTO | Edit
+- 2026-04-20 22:54 | AUTO | Edit
+- 2026-04-20 22:55 | AUTO | Edit
+- 2026-04-20 22:54 | AUTO | Edit
+- 2026-04-20 22:55 | AUTO | Edit
+- 2026-04-20 22:55 | AUTO | Edit
+- 2026-04-20 22:55 | AUTO | Edit
+- 2026-04-20 22:55 | AUTO | Edit
+- 2026-04-20 22:55 | AUTO | Bash
+- 2026-04-20 22:55 | AUTO | Bash
+- 2026-04-20 23:35 | AUTO | Bash
+- 2026-04-20 23:35 | AUTO | Bash
+- 2026-04-20 23:35 | AUTO | Bash
+- 2026-04-20 23:35 | AUTO | Bash
+- 2026-04-20 23:35 | AUTO | Bash
+- 2026-04-20 23:35 | AUTO | Bash
+- 2026-04-20 23:40 | AUTO | Bash
+- 2026-04-20 23:40 | AUTO | Bash
+- 2026-04-20 23:40 | AUTO | Bash
+- 2026-04-20 23:40 | AUTO | Bash
+- 2026-04-20 23:56 | AUTO | Write
+- 2026-04-20 23:56 | AUTO | Write
+- 2026-04-20 23:59 | AUTO | Bash
+- 2026-04-20 23:59 | AUTO | Bash
+- 2026-04-21 00:00 | AUTO | Bash
+- 2026-04-21 00:00 | AUTO | Bash
+- 2026-04-21 00:00 | AUTO | Bash
+- 2026-04-21 00:00 | AUTO | Bash
+- 2026-04-21 00:01 | AUTO | Bash
+- 2026-04-21 00:01 | AUTO | Bash
+- 2026-04-21 00:07 | AUTO | Bash
+- 2026-04-21 00:07 | AUTO | Bash
+- 2026-04-21 00:07 | AUTO | Write
+- 2026-04-21 00:07 | AUTO | Write
+- 2026-04-21 00:08 | AUTO | Edit
+- 2026-04-21 00:08 | AUTO | Edit
+- 2026-04-21 00:08 | AUTO | Edit
+- 2026-04-21 00:08 | AUTO | Edit
+- 2026-04-21 00:09 | AUTO | Edit
+- 2026-04-21 00:09 | AUTO | Edit
+- 2026-04-21 00:12 | AUTO | Edit
+- 2026-04-21 00:12 | AUTO | Edit
+- 2026-04-21 00:12 | AUTO | Edit
+- 2026-04-21 00:12 | AUTO | Edit
+- 2026-04-21 00:12 | AUTO | Edit
+- 2026-04-21 00:12 | AUTO | Edit
+- 2026-04-21 00:15 | AUTO | Edit
+- 2026-04-21 00:15 | AUTO | Edit
+- 2026-04-21 00:21 | AUTO | Bash
+- 2026-04-21 00:21 | AUTO | Bash
+- 2026-04-21 00:30 | AUTO | Edit
+- 2026-04-21 00:30 | AUTO | Edit
+- 2026-04-21 00:30 | AUTO | Edit
+- 2026-04-21 00:30 | AUTO | Edit
+- 2026-04-21 00:31 | AUTO | Bash
+- 2026-04-21 00:31 | AUTO | Bash
+- 2026-04-21 00:33 | AUTO | Bash
+- 2026-04-21 00:33 | AUTO | Bash
+- 2026-04-21 00:35 | AUTO | Bash
+- 2026-04-21 00:35 | AUTO | Bash
+- 2026-04-21 00:41 | AUTO | Write
+- 2026-04-21 00:41 | AUTO | Write
+- 2026-04-21 00:48 | AUTO | Bash
+- 2026-04-21 00:48 | AUTO | Bash
+- 2026-04-21 00:52 | AUTO | Read
+- 2026-04-21 00:52 | AUTO | Glob
+- 2026-04-21 00:52 | AUTO | Write
+- 2026-04-21 00:52 | AUTO | Write
+- 2026-04-21 00:52 | AUTO | Edit
+- 2026-04-21 00:52 | AUTO | Write
+- 2026-04-21 00:52 | AUTO | Write
+- 2026-04-21 00:52 | AUTO | Write
+- 2026-04-21 00:52 | AUTO | Write
+- 2026-04-21 00:52 | AUTO | SomeNewTool
+- 2026-04-21 00:52 | ASK | mcp__github__merge_pull_request
+- 2026-04-21 00:52 | AUTO | Read
+- 2026-04-21 00:54 | AUTO | Write
+- 2026-04-21 00:54 | AUTO | Write
+- 2026-04-21 00:55 | AUTO | Bash
+- 2026-04-21 00:55 | AUTO | Bash
+- 2026-04-21 00:55 | AUTO-L0 | Read | read-only
+- 2026-04-21 00:55 | AUTO-L0 | Glob | read-only
+- 2026-04-21 00:55 | AUTO-L1 | Write | routine wiki write
+- 2026-04-21 00:55 | AUTO-L1 | Write | routine brain pipeline write
+- 2026-04-21 00:55 | AUTO-L1 | Edit | routine memory artifact write
+- 2026-04-21 00:55 | AUTO-L1 | Write | routine research output
+- 2026-04-21 00:55 | DENY-L1 | Write | critical invariant: secret value in JSON/config file — use env var
+- 2026-04-21 00:55 | DENY-L1 | Write | critical invariant: secret value in JSON/config file — use env var
+- 2026-04-21 00:55 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 00:55 | AUTO-L0 | SomeNewTool | unknown tool fallthrough
+- 2026-04-21 00:55 | ASK-L0 | mcp__github__merge_pull_request | github irreversible op
+- 2026-04-21 00:55 | AUTO-L0 | Read | read-only
+- 2026-04-21 00:55 | AUTO | Bash
+- 2026-04-21 00:55 | AUTO | Bash
+- 2026-04-21 00:55 | AUTO-L1 | Write | routine wiki write
+- 2026-04-21 00:55 | AUTO | Bash
+- 2026-04-21 00:55 | AUTO | Bash
+- 2026-04-21 00:55 | DENY-L1 | Write | critical invariant: secret value in JSON/config file — use env var
+- 2026-04-21 00:55 | AUTO-L1 | Edit | routine wiki write
+- 2026-04-21 00:56 | AUTO | Bash
+- 2026-04-21 00:56 | AUTO | Bash
+- 2026-04-21 01:02 | DENY-L1 | Write | critical invariant: secret value in JSON/config file — use env var
+- 2026-04-21 01:02 | AUTO | Edit
+- 2026-04-21 01:02 | AUTO | Edit
+- 2026-04-21 01:03 | AUTO | Bash
+- 2026-04-21 01:03 | AUTO | Bash
+- 2026-04-21 01:03 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-21 01:03 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-21 01:03 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-21 01:03 | AUTO | Bash
+- 2026-04-21 01:03 | AUTO | Bash
+- 2026-04-21 01:03 | AUTO-L0 | Read | read-only
+- 2026-04-21 01:03 | AUTO-L0 | Glob | read-only
+- 2026-04-21 01:03 | AUTO-L1 | Write | routine wiki write
+- 2026-04-21 01:03 | AUTO-L1 | Write | routine brain pipeline write
+- 2026-04-21 01:03 | AUTO-L1 | Edit | routine memory artifact write
+- 2026-04-21 01:03 | AUTO-L1 | Write | routine research output
+- 2026-04-21 01:03 | DENY-L1 | Write | critical invariant: secret value in JSON/config file - use env var
+- 2026-04-21 01:03 | DENY-L1 | Write | critical invariant: secret value in JSON/config file - use env var
+- 2026-04-21 01:03 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 01:03 | AUTO-L0 | SomeNewTool | unknown tool fallthrough
+- 2026-04-21 01:03 | ASK-L0 | mcp__github__merge_pull_request | github irreversible op
+- 2026-04-21 01:03 | AUTO-L0 | Read | read-only
+- 2026-04-21 01:03 | AUTO | Bash
+- 2026-04-21 01:03 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 01:04 | AUTO | Bash
+- 2026-04-21 01:04 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 01:09 | AUTO | Write
+- 2026-04-21 01:09 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 01:10 | AUTO | Write
+- 2026-04-21 01:10 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 01:10 | AUTO | Bash
+- 2026-04-21 01:10 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 01:10 | AUTO | PowerShell
+- 2026-04-21 01:10 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-21 01:10 | AUTO | Edit
+- 2026-04-21 01:10 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 01:11 | AUTO | Edit
+- 2026-04-21 01:11 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 01:13 | AUTO | Edit
+- 2026-04-21 01:13 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 01:13 | AUTO | Bash
+- 2026-04-21 01:13 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 01:13 | AUTO-L0 | Read | read-only
+- 2026-04-21 01:13 | AUTO-L0 | Glob | read-only
+- 2026-04-21 01:13 | AUTO-L1 | Write | routine wiki write
+- 2026-04-21 01:13 | AUTO-L1 | Write | routine brain pipeline write
+- 2026-04-21 01:13 | AUTO-L1 | Edit | routine memory artifact write
+- 2026-04-21 01:13 | AUTO-L1 | Write | routine research output
+- 2026-04-21 01:13 | DENY-L1 | Write | critical invariant: secret value in JSON/config file - use env var
+- 2026-04-21 01:13 | DENY-L1 | Write | critical invariant: secret value in JSON/config file - use env var
+- 2026-04-21 01:13 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 01:13 | AUTO-L0 | SomeNewTool | unknown tool fallthrough
+- 2026-04-21 01:14 | ASK-L0 | mcp__github__merge_pull_request | github irreversible op
+- 2026-04-21 01:14 | AUTO-L0 | Read | read-only
+- 2026-04-21 01:14 | ESCALATE-L0 | mcp__github__merge_pull_request | github irreversible op -> L2
+- 2026-04-21 01:14 | AUTO | Bash
+- 2026-04-21 01:14 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 01:35 | AUTO | Bash
+- 2026-04-21 01:35 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 01:35 | AUTO | Bash
+- 2026-04-21 01:35 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 01:37 | AUTO | PowerShell
+- 2026-04-21 01:37 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-21 01:37 | AUTO | Bash
+- 2026-04-21 01:37 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 01:37 | AUTO | Bash
+- 2026-04-21 01:37 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 01:44 | AUTO | Bash
+- 2026-04-21 01:44 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 01:47 | AUTO | Edit
+- 2026-04-21 01:47 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 01:50 | AUTO | Edit
+- 2026-04-21 01:50 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 01:50 | AUTO | Edit
+- 2026-04-21 01:50 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 01:50 | AUTO | unknown
+- 2026-04-21 01:50 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-21 02:06 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-21 02:07 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-21 02:08 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 02:09 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 02:09 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-21 02:12 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-21 02:12 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 02:13 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 02:13 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 02:13 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 02:14 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 02:14 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 02:14 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 02:15 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 02:15 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 02:18 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 02:19 | AUTO | Bash
+- 2026-04-21 02:19 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 02:37 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-21 02:37 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 02:37 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-21 02:38 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-21 02:38 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 02:38 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-21 02:38 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 02:38 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-21 02:38 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-21 02:39 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 02:40 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 02:40 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 02:41 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 03:07 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 03:15 | AUTO | Bash
+- 2026-04-21 03:15 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 03:15 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 03:16 | AUTO | Bash
+- 2026-04-21 03:16 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 03:16 | AUTO | Bash
+- 2026-04-21 03:16 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 03:21 | AUTO | Bash
+- 2026-04-21 03:21 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 03:24 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 03:38 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 03:40 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 03:40 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 03:42 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 03:49 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 03:50 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 03:51 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 03:52 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 03:53 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 03:53 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 03:54 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 04:02 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 04:02 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 04:05 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 04:06 | AUTO | Bash
+- 2026-04-21 04:06 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 04:09 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-21 04:09 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 04:10 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 04:10 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 04:12 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 04:12 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 04:12 | AUTO | Bash
+- 2026-04-21 04:12 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 04:31 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 04:31 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 04:34 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 04:35 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 04:35 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 04:35 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 04:37 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 04:38 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 04:39 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 04:40 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 04:50 | AUTO | Edit
+- 2026-04-21 04:50 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 04:59 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 05:00 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 05:01 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-21 05:12 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 05:12 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 05:12 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 05:13 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 05:13 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 05:25 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 05:25 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 05:25 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 05:29 | AUTO | Edit
+- 2026-04-21 05:29 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 05:29 | AUTO | Edit
+- 2026-04-21 05:29 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 05:30 | AUTO | Edit
+- 2026-04-21 05:30 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 05:30 | AUTO | Edit
+- 2026-04-21 05:30 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 05:30 | AUTO | Edit
+- 2026-04-21 05:30 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 05:30 | AUTO | Write
+- 2026-04-21 05:30 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 05:31 | AUTO | Write
+- 2026-04-21 05:31 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 06:50 | AUTO | Edit
+- 2026-04-21 06:50 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 12:10 | AUTO | Bash
+- 2026-04-21 12:10 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 12:10 | AUTO | unknown
+- 2026-04-21 12:10 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-21 12:11 | AUTO | Bash
+- 2026-04-21 12:11 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 12:13 | ASK | mcp__4d0c1623-7e8b-4f1e-9b9a-36886f0f768b__search_threads
+- 2026-04-21 12:13 | ESCALATE-L0 | mcp__4d0c1623-7e8b-4f1e-9b9a-36886f0f768b__search_threads | gmail send -> L2
+- 2026-04-21 12:13 | AUTO | Bash
+- 2026-04-21 12:13 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 12:16 | AUTO | Bash
+- 2026-04-21 12:16 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 12:16 | AUTO | Edit
+- 2026-04-21 12:16 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 12:19 | AUTO | Edit
+- 2026-04-21 12:19 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 12:21 | AUTO | Bash
+- 2026-04-21 12:21 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 12:22 | AUTO | Edit
+- 2026-04-21 12:22 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 12:22 | AUTO | Write
+- 2026-04-21 12:22 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 12:23 | AUTO | Edit
+- 2026-04-21 12:23 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 12:23 | AUTO | Write
+- 2026-04-21 12:23 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 12:23 | AUTO | Bash
+- 2026-04-21 12:23 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 12:24 | AUTO | Edit
+- 2026-04-21 12:24 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 12:24 | AUTO | Bash
+- 2026-04-21 12:24 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 12:26 | AUTO | Edit
+- 2026-04-21 12:26 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 12:26 | AUTO | Bash
+- 2026-04-21 12:26 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 12:27 | AUTO | Bash
+- 2026-04-21 12:27 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 12:28 | AUTO | Write
+- 2026-04-21 12:28 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 12:31 | AUTO | Write
+- 2026-04-21 12:31 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 12:32 | AUTO | Bash
+- 2026-04-21 12:32 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 12:34 | AUTO | Write
+- 2026-04-21 12:34 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 12:34 | AUTO | Write
+- 2026-04-21 12:34 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 12:34 | AUTO | Write
+- 2026-04-21 12:34 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 12:34 | AUTO | Write
+- 2026-04-21 12:34 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 12:34 | AUTO | Write
+- 2026-04-21 12:34 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 12:34 | AUTO | Write
+- 2026-04-21 12:34 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 12:34 | AUTO | Write
+- 2026-04-21 12:34 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 12:34 | AUTO | Write
+- 2026-04-21 12:34 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 12:35 | AUTO | unknown
+- 2026-04-21 12:35 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-21 12:35 | AUTO | Edit
+- 2026-04-21 12:35 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 12:35 | AUTO | Bash
+- 2026-04-21 12:35 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 12:39 | AUTO | Edit
+- 2026-04-21 12:39 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 12:39 | AUTO | Edit
+- 2026-04-21 12:39 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 12:39 | AUTO | Edit
+- 2026-04-21 12:39 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 12:40 | AUTO | Bash
+- 2026-04-21 12:40 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 12:41 | AUTO | Bash
+- 2026-04-21 12:41 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 12:41 | AUTO | Write
+- 2026-04-21 12:41 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 12:41 | AUTO | Write
+- 2026-04-21 12:41 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 12:41 | AUTO | Write
+- 2026-04-21 12:41 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 12:41 | AUTO | Write
+- 2026-04-21 12:41 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 12:41 | AUTO | unknown
+- 2026-04-21 12:41 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-21 12:42 | AUTO | Write
+- 2026-04-21 12:42 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 12:42 | AUTO | Edit
+- 2026-04-21 12:42 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 12:44 | AUTO | Edit
+- 2026-04-21 12:44 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 12:44 | AUTO | Edit
+- 2026-04-21 12:44 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 12:44 | AUTO | Edit
+- 2026-04-21 12:44 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 12:44 | AUTO | Edit
+- 2026-04-21 12:44 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 12:44 | AUTO | Edit
+- 2026-04-21 12:44 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 12:45 | AUTO | Edit
+- 2026-04-21 12:45 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 12:45 | AUTO | Edit
+- 2026-04-21 12:45 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 12:48 | AUTO | Bash
+- 2026-04-21 12:48 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 12:49 | AUTO | Bash
+- 2026-04-21 12:49 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 13:34 | AUTO | Edit
+- 2026-04-21 13:34 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 13:36 | AUTO | Edit
+- 2026-04-21 13:36 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 14:09 | AUTO | unknown
+- 2026-04-21 14:09 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-21 14:11 | AUTO | Write
+- 2026-04-21 14:11 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 14:12 | AUTO | Write
+- 2026-04-21 14:12 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 14:12 | AUTO | Write
+- 2026-04-21 14:12 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 14:13 | AUTO | Bash
+- 2026-04-21 14:13 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 14:13 | AUTO | Bash
+- 2026-04-21 14:13 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 14:13 | AUTO | Bash
+- 2026-04-21 14:13 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 14:19 | AUTO | Bash
+- 2026-04-21 14:19 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 14:19 | AUTO | Bash
+- 2026-04-21 14:19 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 14:21 | AUTO | Bash
+- 2026-04-21 14:21 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 14:22 | AUTO | Write
+- 2026-04-21 14:22 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 14:22 | AUTO | Write
+- 2026-04-21 14:22 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 14:25 | AUTO | Write
+- 2026-04-21 14:25 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 14:26 | AUTO | Write
+- 2026-04-21 14:26 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 14:26 | AUTO | Edit
+- 2026-04-21 14:26 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 14:27 | AUTO | Bash
+- 2026-04-21 14:27 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 14:27 | AUTO | Bash
+- 2026-04-21 14:27 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 14:27 | AUTO | Bash
+- 2026-04-21 14:27 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 14:58 | AUTO | Bash
+- 2026-04-21 14:58 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 15:04 | AUTO | Bash
+- 2026-04-21 15:04 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 15:04 | AUTO | Bash
+- 2026-04-21 15:04 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 15:04 | AUTO | Bash
+- 2026-04-21 15:04 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 15:04 | AUTO | Bash
+- 2026-04-21 15:04 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 15:05 | AUTO | Bash
+- 2026-04-21 15:05 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 15:07 | AUTO | Bash
+- 2026-04-21 15:07 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 15:12 | AUTO | Bash
+- 2026-04-21 15:12 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 15:13 | AUTO | Bash
+- 2026-04-21 15:13 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 15:24 | AUTO | Bash
+- 2026-04-21 15:24 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 15:32 | AUTO | Edit
+- 2026-04-21 15:32 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 15:37 | AUTO | Bash
+- 2026-04-21 15:37 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 15:41 | AUTO | Bash
+- 2026-04-21 15:41 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 15:42 | AUTO | Bash
+- 2026-04-21 15:42 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 15:42 | AUTO | Bash
+- 2026-04-21 15:42 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 15:43 | AUTO | Bash
+- 2026-04-21 15:43 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 15:43 | AUTO | Bash
+- 2026-04-21 15:43 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 15:47 | AUTO | Bash
+- 2026-04-21 15:47 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 15:52 | AUTO | Bash
+- 2026-04-21 15:52 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 15:52 | AUTO | Bash
+- 2026-04-21 15:52 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 15:52 | AUTO | Bash
+- 2026-04-21 15:52 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 15:57 | AUTO | Edit
+- 2026-04-21 15:57 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 15:58 | AUTO | Bash
+- 2026-04-21 15:58 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 16:00 | AUTO | Bash
+- 2026-04-21 16:00 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 16:01 | AUTO | Bash
+- 2026-04-21 16:01 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 16:01 | AUTO | Bash
+- 2026-04-21 16:01 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 16:04 | AUTO | Bash
+- 2026-04-21 16:04 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 16:05 | AUTO | Bash
+- 2026-04-21 16:05 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 16:05 | AUTO | Write
+- 2026-04-21 16:05 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 16:07 | AUTO | Write
+- 2026-04-21 16:07 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 16:08 | AUTO | Write
+- 2026-04-21 16:08 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 16:10 | AUTO | Edit
+- 2026-04-21 16:10 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 16:10 | AUTO | Edit
+- 2026-04-21 16:10 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 16:20 | AUTO | Edit
+- 2026-04-21 16:20 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 16:20 | AUTO | Edit
+- 2026-04-21 16:20 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 16:20 | AUTO | Bash
+- 2026-04-21 16:20 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 16:20 | AUTO | Bash
+- 2026-04-21 16:20 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 16:21 | AUTO | Write
+- 2026-04-21 16:21 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 16:22 | AUTO | Edit
+- 2026-04-21 16:22 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 16:23 | AUTO | Bash
+- 2026-04-21 16:23 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 16:29 | AUTO | Bash
+- 2026-04-21 16:29 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 16:33 | AUTO | Bash
+- 2026-04-21 16:33 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 16:33 | AUTO | Bash
+- 2026-04-21 16:33 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 16:33 | AUTO | Bash
+- 2026-04-21 16:33 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 16:34 | AUTO | Edit
+- 2026-04-21 16:34 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 16:34 | AUTO | Bash
+- 2026-04-21 16:34 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 16:43 | AUTO | Bash
+- 2026-04-21 16:43 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 17:23 | AUTO | Bash
+- 2026-04-21 17:23 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 17:27 | AUTO | Bash
+- 2026-04-21 17:27 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 17:58 | AUTO | Edit
+- 2026-04-21 17:58 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 17:58 | AUTO | unknown
+- 2026-04-21 17:58 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-21 18:02 | AUTO | unknown
+- 2026-04-21 18:02 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-21 18:04 | AUTO | Edit
+- 2026-04-21 18:04 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 18:25 | AUTO | Bash
+- 2026-04-21 18:25 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 18:26 | AUTO | Edit
+- 2026-04-21 18:26 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 18:26 | AUTO | Edit
+- 2026-04-21 18:26 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 18:36 | AUTO | Edit
+- 2026-04-21 18:36 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 18:36 | AUTO | Edit
+- 2026-04-21 18:36 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 18:36 | AUTO | Edit
+- 2026-04-21 18:36 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 18:38 | AUTO | Edit
+- 2026-04-21 18:38 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 18:38 | AUTO | unknown
+- 2026-04-21 18:38 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-21 18:39 | AUTO | Write
+- 2026-04-21 18:39 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 18:48 | AUTO | Bash
+- 2026-04-21 18:48 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 18:49 | AUTO | Write
+- 2026-04-21 18:49 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 18:50 | AUTO | Bash
+- 2026-04-21 18:50 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 18:50 | AUTO | Write
+- 2026-04-21 18:50 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 18:50 | AUTO | Edit
+- 2026-04-21 18:50 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 18:52 | AUTO | Edit
+- 2026-04-21 18:52 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 18:54 | AUTO | Bash
+- 2026-04-21 18:54 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 18:54 | AUTO | Write
+- 2026-04-21 18:54 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-21 18:54 | AUTO | Bash
+- 2026-04-21 18:54 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 18:56 | AUTO | Bash
+- 2026-04-21 18:56 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 19:02 | AUTO | Bash
+- 2026-04-21 19:02 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 19:11 | AUTO | Edit
+- 2026-04-21 19:11 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-21 19:19 | AUTO | unknown
+- 2026-04-21 19:19 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-21 21:20 | AUTO | Bash
+- 2026-04-21 21:20 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 21:21 | AUTO | Bash
+- 2026-04-21 21:21 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 21:22 | AUTO | Bash
+- 2026-04-21 21:22 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 21:22 | AUTO | Bash
+- 2026-04-21 21:22 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 21:22 | AUTO | unknown
+- 2026-04-21 21:22 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-21 21:22 | AUTO | Bash
+- 2026-04-21 21:22 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 21:23 | AUTO | Bash
+- 2026-04-21 21:23 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 21:25 | AUTO | Bash
+- 2026-04-21 21:25 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 21:27 | AUTO | Bash
+- 2026-04-21 21:27 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 21:30 | AUTO | unknown
+- 2026-04-21 21:30 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-21 21:39 | AUTO | Bash
+- 2026-04-21 21:39 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 21:44 | AUTO | Bash
+- 2026-04-21 21:44 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 21:49 | AUTO | Bash
+- 2026-04-21 21:49 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 21:54 | AUTO | Bash
+- 2026-04-21 21:54 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 21:55 | AUTO | Bash
+- 2026-04-21 21:55 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 21:59 | AUTO | Bash
+- 2026-04-21 21:59 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:02 | AUTO | Bash
+- 2026-04-21 22:02 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:02 | AUTO | Bash
+- 2026-04-21 22:02 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:04 | AUTO | Bash
+- 2026-04-21 22:04 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:05 | AUTO | Bash
+- 2026-04-21 22:05 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:06 | AUTO | Bash
+- 2026-04-21 22:06 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:08 | AUTO | Bash
+- 2026-04-21 22:08 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:08 | AUTO | Bash
+- 2026-04-21 22:08 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:10 | AUTO | Bash
+- 2026-04-21 22:10 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:11 | AUTO | Bash
+- 2026-04-21 22:11 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:13 | AUTO | Bash
+- 2026-04-21 22:13 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:15 | AUTO | Bash
+- 2026-04-21 22:15 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:16 | AUTO | Bash
+- 2026-04-21 22:16 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:18 | AUTO | Bash
+- 2026-04-21 22:18 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:18 | AUTO | Bash
+- 2026-04-21 22:18 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:18 | AUTO | Bash
+- 2026-04-21 22:18 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:19 | AUTO | Bash
+- 2026-04-21 22:19 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:19 | AUTO | Bash
+- 2026-04-21 22:19 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:19 | AUTO | unknown
+- 2026-04-21 22:19 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-21 22:20 | AUTO | Bash
+- 2026-04-21 22:20 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:20 | AUTO | Bash
+- 2026-04-21 22:20 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:20 | AUTO | Bash
+- 2026-04-21 22:20 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:21 | AUTO | Bash
+- 2026-04-21 22:21 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:22 | AUTO | Bash
+- 2026-04-21 22:22 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:26 | AUTO | Bash
+- 2026-04-21 22:26 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:26 | AUTO | Bash
+- 2026-04-21 22:26 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:26 | AUTO | Bash
+- 2026-04-21 22:26 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:29 | AUTO | Bash
+- 2026-04-21 22:29 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:30 | AUTO | Bash
+- 2026-04-21 22:30 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:30 | AUTO | Bash
+- 2026-04-21 22:30 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:32 | AUTO | Bash
+- 2026-04-21 22:32 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:33 | AUTO | Bash
+- 2026-04-21 22:33 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:33 | AUTO | Bash
+- 2026-04-21 22:33 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:35 | AUTO | Bash
+- 2026-04-21 22:35 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:35 | AUTO | Bash
+- 2026-04-21 22:35 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:35 | AUTO | Bash
+- 2026-04-21 22:35 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:37 | AUTO | Bash
+- 2026-04-21 22:37 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:38 | AUTO | Bash
+- 2026-04-21 22:38 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:39 | AUTO | Bash
+- 2026-04-21 22:39 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:41 | AUTO | Bash
+- 2026-04-21 22:41 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:41 | AUTO | Bash
+- 2026-04-21 22:41 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:42 | AUTO | Bash
+- 2026-04-21 22:42 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:43 | AUTO | Bash
+- 2026-04-21 22:43 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:53 | AUTO | Bash
+- 2026-04-21 22:53 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 22:57 | AUTO | Bash
+- 2026-04-21 22:57 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 23:01 | AUTO | Bash
+- 2026-04-21 23:01 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 23:02 | AUTO | Bash
+- 2026-04-21 23:02 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 23:03 | AUTO | unknown
+- 2026-04-21 23:03 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-21 23:04 | AUTO | Bash
+- 2026-04-21 23:04 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 23:13 | AUTO | Bash
+- 2026-04-21 23:13 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 23:13 | AUTO | Bash
+- 2026-04-21 23:13 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 23:13 | AUTO | Bash
+- 2026-04-21 23:13 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 23:13 | AUTO | Bash
+- 2026-04-21 23:13 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 23:14 | AUTO | Bash
+- 2026-04-21 23:14 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 23:17 | AUTO | Bash
+- 2026-04-21 23:17 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 23:21 | AUTO | Bash
+- 2026-04-21 23:21 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 23:25 | AUTO | Bash
+- 2026-04-21 23:25 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 23:26 | AUTO | Bash
+- 2026-04-21 23:26 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 23:30 | AUTO | Bash
+- 2026-04-21 23:30 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 23:34 | AUTO | Bash
+- 2026-04-21 23:34 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 23:40 | AUTO | Bash
+- 2026-04-21 23:40 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 23:40 | AUTO | Bash
+- 2026-04-21 23:40 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 23:40 | AUTO | Bash
+- 2026-04-21 23:40 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 23:41 | AUTO | Bash
+- 2026-04-21 23:41 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 23:48 | AUTO | Bash
+- 2026-04-21 23:48 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-21 23:50 | AUTO | Bash
+- 2026-04-21 23:50 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 02:19 | AUTO | Bash
+- 2026-04-22 02:19 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 03:15 | AUTO | Bash
+- 2026-04-22 03:15 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 03:21 | AUTO | Bash
+- 2026-04-22 03:21 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:02 | AUTO | Bash
+- 2026-04-22 05:02 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:02 | AUTO | Bash
+- 2026-04-22 05:02 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:02 | AUTO | Bash
+- 2026-04-22 05:02 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:03 | AUTO | Bash
+- 2026-04-22 05:03 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:03 | AUTO | Bash
+- 2026-04-22 05:03 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:05 | AUTO | Bash
+- 2026-04-22 05:05 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:05 | AUTO | Bash
+- 2026-04-22 05:05 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:06 | AUTO | unknown
+- 2026-04-22 05:06 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-22 05:15 | AUTO | Edit
+- 2026-04-22 05:15 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 05:24 | AUTO | Bash
+- 2026-04-22 05:24 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:26 | AUTO | Bash
+- 2026-04-22 05:26 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:26 | AUTO | Bash
+- 2026-04-22 05:26 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:26 | AUTO | Bash
+- 2026-04-22 05:26 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:27 | AUTO | Bash
+- 2026-04-22 05:27 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:27 | AUTO | Bash
+- 2026-04-22 05:27 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:28 | AUTO | Bash
+- 2026-04-22 05:28 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:28 | AUTO | Bash
+- 2026-04-22 05:28 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:28 | AUTO | Bash
+- 2026-04-22 05:28 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:28 | AUTO | Bash
+- 2026-04-22 05:28 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:29 | AUTO | Bash
+- 2026-04-22 05:29 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:29 | AUTO | Bash
+- 2026-04-22 05:29 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:30 | AUTO | Bash
+- 2026-04-22 05:30 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:41 | AUTO | Bash
+- 2026-04-22 05:41 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:42 | AUTO | Bash
+- 2026-04-22 05:42 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:42 | AUTO | Bash
+- 2026-04-22 05:42 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:42 | AUTO | Bash
+- 2026-04-22 05:42 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:42 | AUTO | Bash
+- 2026-04-22 05:42 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:42 | AUTO | Bash
+- 2026-04-22 05:42 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:45 | AUTO | Bash
+- 2026-04-22 05:45 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 05:46 | AUTO | Bash
+- 2026-04-22 05:46 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 06:00 | AUTO | Bash
+- 2026-04-22 06:00 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 06:01 | AUTO | Bash
+- 2026-04-22 06:01 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 06:02 | AUTO | Bash
+- 2026-04-22 06:02 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 06:03 | AUTO | Bash
+- 2026-04-22 06:03 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 06:04 | AUTO | Bash
+- 2026-04-22 06:04 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 06:08 | AUTO | Bash
+- 2026-04-22 06:08 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 06:09 | AUTO | Bash
+- 2026-04-22 06:09 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 06:10 | AUTO | Bash
+- 2026-04-22 06:10 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 06:11 | AUTO | Bash
+- 2026-04-22 06:11 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 06:14 | AUTO | Bash
+- 2026-04-22 06:14 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 06:24 | AUTO | Bash
+- 2026-04-22 06:24 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 06:24 | AUTO | Bash
+- 2026-04-22 06:24 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 06:33 | AUTO | Bash
+- 2026-04-22 06:33 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 06:34 | AUTO | Bash
+- 2026-04-22 06:34 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 06:48 | AUTO | Bash
+- 2026-04-22 06:48 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 07:24 | AUTO | Edit
+- 2026-04-22 07:24 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 09:26 | AUTO | Bash
+- 2026-04-22 09:26 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 09:26 | AUTO | Bash
+- 2026-04-22 09:26 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 09:27 | AUTO | Edit
+- 2026-04-22 09:27 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 09:27 | AUTO | Bash
+- 2026-04-22 09:27 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 09:27 | AUTO | Edit
+- 2026-04-22 09:27 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 09:27 | AUTO | Edit
+- 2026-04-22 09:27 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 09:27 | AUTO | Edit
+- 2026-04-22 09:27 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 09:27 | AUTO | Bash
+- 2026-04-22 09:27 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 09:27 | AUTO | Edit
+- 2026-04-22 09:27 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 09:28 | AUTO | Bash
+- 2026-04-22 09:28 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 09:29 | AUTO | Bash
+- 2026-04-22 09:29 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 09:29 | AUTO | Edit
+- 2026-04-22 09:29 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 09:29 | AUTO | Bash
+- 2026-04-22 09:29 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 09:29 | AUTO | Edit
+- 2026-04-22 09:29 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 09:30 | AUTO | Bash
+- 2026-04-22 09:30 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 09:32 | AUTO | Bash
+- 2026-04-22 09:32 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 09:33 | AUTO | Bash
+- 2026-04-22 09:33 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 09:33 | AUTO | Bash
+- 2026-04-22 09:33 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 09:33 | AUTO | Bash
+- 2026-04-22 09:33 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 09:34 | AUTO | Bash
+- 2026-04-22 09:34 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 09:35 | AUTO | Bash
+- 2026-04-22 09:35 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 09:36 | AUTO | Bash
+- 2026-04-22 09:36 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 09:48 | AUTO | Bash
+- 2026-04-22 09:48 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 09:48 | AUTO | Bash
+- 2026-04-22 09:48 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 09:53 | AUTO | Bash
+- 2026-04-22 09:53 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 09:53 | AUTO | Bash
+- 2026-04-22 09:53 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 09:55 | AUTO | Bash
+- 2026-04-22 09:55 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 10:02 | AUTO | Bash
+- 2026-04-22 10:02 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 10:03 | AUTO | Bash
+- 2026-04-22 10:03 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 10:03 | AUTO | Bash
+- 2026-04-22 10:03 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 10:04 | AUTO | Bash
+- 2026-04-22 10:04 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 10:15 | AUTO | unknown
+- 2026-04-22 10:15 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-22 10:17 | AUTO | Bash
+- 2026-04-22 10:17 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 10:26 | AUTO | Bash
+- 2026-04-22 10:26 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 10:27 | AUTO | Bash
+- 2026-04-22 10:27 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 10:29 | AUTO | Bash
+- 2026-04-22 10:29 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 10:33 | AUTO | Bash
+- 2026-04-22 10:33 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 10:48 | AUTO | Bash
+- 2026-04-22 10:48 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 10:49 | AUTO | Bash
+- 2026-04-22 10:49 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 10:49 | AUTO | Write
+- 2026-04-22 10:49 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-22 10:49 | AUTO | Bash
+- 2026-04-22 10:49 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 10:50 | AUTO | Bash
+- 2026-04-22 10:50 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 10:50 | AUTO | Bash
+- 2026-04-22 10:50 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 10:52 | AUTO | Write
+- 2026-04-22 10:52 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-22 11:06 | AUTO | Write
+- 2026-04-22 11:06 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-22 11:06 | AUTO | Write
+- 2026-04-22 11:06 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-22 11:06 | AUTO | Write
+- 2026-04-22 11:06 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-22 11:06 | AUTO | Write
+- 2026-04-22 11:06 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-22 11:06 | AUTO | Write
+- 2026-04-22 11:06 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-22 11:06 | AUTO | Write
+- 2026-04-22 11:06 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-22 11:06 | AUTO | Bash
+- 2026-04-22 11:06 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 11:13 | AUTO | Write
+- 2026-04-22 11:13 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-22 11:13 | AUTO | Bash
+- 2026-04-22 11:13 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 11:13 | AUTO | Write
+- 2026-04-22 11:13 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-22 11:13 | AUTO | Write
+- 2026-04-22 11:13 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-22 11:21 | AUTO | Bash
+- 2026-04-22 11:21 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 11:21 | AUTO | Bash
+- 2026-04-22 11:21 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 11:25 | AUTO | Bash
+- 2026-04-22 11:25 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 11:35 | AUTO | Bash
+- 2026-04-22 11:35 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 11:36 | AUTO | Bash
+- 2026-04-22 11:36 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 12:58 | AUTO | Bash
+- 2026-04-22 12:58 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 20:13 | AUTO | Write
+- 2026-04-22 20:13 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-22 20:13 | AUTO | Write
+- 2026-04-22 20:13 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-22 20:13 | AUTO | Bash
+- 2026-04-22 20:13 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 20:14 | AUTO | Edit
+- 2026-04-22 20:14 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 20:14 | AUTO | Bash
+- 2026-04-22 20:14 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 20:14 | AUTO | Edit
+- 2026-04-22 20:14 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 20:18 | AUTO | Bash
+- 2026-04-22 20:18 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 20:21 | AUTO | Edit
+- 2026-04-22 20:21 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 20:21 | AUTO | Edit
+- 2026-04-22 20:21 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 20:23 | AUTO | Edit
+- 2026-04-22 20:23 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 20:26 | AUTO | Edit
+- 2026-04-22 20:26 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 20:29 | AUTO | unknown
+- 2026-04-22 20:29 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-22 20:34 | AUTO | Edit
+- 2026-04-22 20:34 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 20:34 | AUTO | unknown
+- 2026-04-22 20:34 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-22 20:47 | AUTO | unknown
+- 2026-04-22 20:47 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-22 20:48 | AUTO | Edit
+- 2026-04-22 20:48 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 20:49 | AUTO | unknown
+- 2026-04-22 20:49 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-22 20:51 | AUTO | Bash
+- 2026-04-22 20:51 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 21:18 | AUTO | Edit
+- 2026-04-22 21:18 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 21:18 | AUTO | Edit
+- 2026-04-22 21:18 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 21:19 | AUTO | Edit
+- 2026-04-22 21:19 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 21:22 | AUTO | Edit
+- 2026-04-22 21:22 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 21:23 | AUTO | Bash
+- 2026-04-22 21:23 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 21:23 | AUTO | Bash
+- 2026-04-22 21:23 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 21:24 | AUTO | Bash
+- 2026-04-22 21:24 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 21:39 | AUTO | Edit
+- 2026-04-22 21:39 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 21:44 | AUTO | Edit
+- 2026-04-22 21:44 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 21:46 | AUTO | Bash
+- 2026-04-22 21:46 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 21:53 | AUTO | Edit
+- 2026-04-22 21:53 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 21:53 | AUTO | Edit
+- 2026-04-22 21:53 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 21:53 | AUTO | Edit
+- 2026-04-22 21:53 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 21:53 | AUTO | Bash
+- 2026-04-22 21:53 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 21:53 | AUTO | Edit
+- 2026-04-22 21:53 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 22:05 | AUTO | Bash
+- 2026-04-22 22:05 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 22:07 | AUTO | Bash
+- 2026-04-22 22:07 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 22:07 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 22:07 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 22:09 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 22:09 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 22:13 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 22:13 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 22:22 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 22:25 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-22 22:40 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 22:40 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 22:40 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 22:40 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 22:40 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 22:41 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 22:42 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 22:43 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 22:43 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 22:44 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 22:45 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 22:45 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 22:49 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 22:52 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 22:52 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 22:52 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 22:52 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-22 22:54 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 22:58 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 22:58 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 22:58 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-22 22:59 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-22 22:59 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 23:01 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 23:02 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 23:02 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 23:02 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 23:02 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 23:03 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-22 23:03 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 23:03 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 23:03 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 23:03 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 23:04 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 23:04 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 23:04 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 23:07 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 23:08 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 23:08 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 23:13 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 23:14 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-22 23:14 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 23:18 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 23:20 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-22 23:21 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 23:26 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-22 23:46 | DENY-L1 | Write | critical invariant: secret value in JSON/config file - use env var
+- 2026-04-22 23:54 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-23 02:19 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-23 03:15 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-23 03:21 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-23 03:57 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-23 03:57 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-23 03:57 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-23 04:00 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-23 04:01 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-23 04:13 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-23 04:13 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-23 04:13 | AUTO-L0 | Edit | local-write (git protected)
+
 ## Archived 2026-04-18 (308 lines)
 
 - 2026-04-18 11:12 | AUTO | Bash
