@@ -500,6 +500,42 @@ def main():
         checked += anchor_checked
         failed += anchor_failed
 
+    # 5c. Scheduled-task SKILL discipline — detect describe-only anti-patterns
+    # that trigger user frustration in autonomous scheduled contexts.
+    # Cause: learning 2026-04-24-scheduled-task-discipline.md
+    # Agent in scheduled mode MUST execute changes, not propose them.
+    scheduled_tasks_dir = Path.home() / ".claude" / "scheduled-tasks"
+    if scheduled_tasks_dir.is_dir():
+        # Match only imperative describe-only statements (what the skill tells the agent
+        # to DO), not warnings/anti-pattern descriptions. The leading context ensures
+        # we catch "Do NOT apply X automatically" imperatives, not "describe-only is
+        # forbidden" warnings.
+        DESCRIBE_ANTI = re.compile(
+            r"(do\s+not\s+apply\s+[a-z]+\s+automatically"
+            r"|only\s+generate\s+[a-z]+\s+for\s+human\s+review"
+            r"|only\s+for\s+human\s+review"
+            r"|don'?t\s+apply\s+—\s+just\s+propose)",
+            re.IGNORECASE,
+        )
+        for skill_file in sorted(scheduled_tasks_dir.glob("*/SKILL.md")):
+            try:
+                content = skill_file.read_text(encoding="utf-8", errors="replace")
+            except OSError:
+                continue
+            checked += 1
+            m = DESCRIBE_ANTI.search(content)
+            if not m:
+                continue
+            failed += 1
+            snippet = m.group(0)[:60]
+            violations.append({
+                "timestamp": ts,
+                "source": f"scheduled-tasks/{skill_file.parent.name}/SKILL.md",
+                "label": "describe-only anti-pattern in scheduled-task SKILL",
+                "check": f"describe-only regex match: '{snippet}'",
+                "result": "replace with APPLY/EDIT/COMMIT imperatives — scheduled agents must execute, not report",
+            })
+
     # 6. Log violations
     if violations:
         VIOLATIONS_LOG.parent.mkdir(parents=True, exist_ok=True)

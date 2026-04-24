@@ -34,6 +34,16 @@
 - System stable: 0 prune/decay across 195 learnings, healthy scorecards, corrections localized to scheduled-task-context only.
 - Critical-patterns at 9/10 — slot #10 remains free; no universally-applicable candidate compelling enough.
 
+### Follow-up — Source Fix + Regression Guard (2026-04-24)
+
+Applied same day, post-commit:
+
+- **Direct edit** `~/.claude/scheduled-tasks/daily-rebalancer/SKILL.md` — strengthened Phase 2.5 whitelist with explicit FORBIDDEN anti-examples (node_modules, __pycache__, .env, IDE dirs) + SILENT SKIP rule ("If it looks like local state but isn't one of the three → skip silently, don't propose")
+- **Direct edit** `~/.claude/scheduled-tasks/auto-evolve-skills/SKILL.md` — replaced "Do NOT apply candidates automatically — only generate them for human review" with SAFE/RISKY classification: apply description/frontmatter/verify_check tweaks immediately via Edit, log workflow restructures to `evolve-candidates.md` for review
+- **Regression guard** `.claude/hooks/verify-sweep.py` §5c — new check scans `~/.claude/scheduled-tasks/*/SKILL.md` for describe-only imperative regex. Tested: catches original bad text, zero false positives on 38 current SKILLs.
+
+Note: `~/.claude/` is not under git — SKILL edits are local-only. Validator will flag regression if any future scheduled-task SKILL re-introduces describe-only imperatives.
+
 ---
 
 ## Evolution Run — 2026-04-14 (#10)
