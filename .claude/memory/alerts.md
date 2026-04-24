@@ -67,3 +67,23 @@ Rotating log of genuine problems that need user attention: failures, security fi
 - **Severity:** low
 - **Source:** telegram-notify.sh (legacy caller)
 - **Status:** open
+
+## 2026-04-23 20:22 — [hook] 🏁 Session dokončena 
+- **Severity:** low
+- **Source:** telegram-notify.sh (legacy caller)
+- **Status:** open
+
+## 2026-04-23 20:24 — [hook] 🏁 Session dokončena 
+- **Severity:** low
+- **Source:** telegram-notify.sh (legacy caller)
+- **Status:** open
+
+## 2026-04-23 20:27 — [hook] 🏁 Session dokončena 
+- **Severity:** low
+- **Source:** telegram-notify.sh (legacy caller)
+- **Status:** open
+
+## 2026-04-23 20:56 — [hook] 🏁 Session dokončena 
+- **Severity:** low
+- **Source:** telegram-notify.sh (legacy caller)
+- **Status:** open

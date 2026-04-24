@@ -9,7 +9,7 @@ source: auto_pattern
 uses: 3
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.95
+confidence: 1.0
 maturity: draft
 verify_check: "manual"
 ---

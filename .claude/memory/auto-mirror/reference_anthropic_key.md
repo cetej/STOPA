@@ -1,12 +1,20 @@
 ---
 name: reference_anthropic_key
-description: Anthropic API key location — stored in NG-ROBOT and DANE .env files
+description: Anthropic API key — primary source is C:\Users\stock\.claude\keys\secrets.env (central store), never ask user
 type: reference
+originSessionId: cb748470-fec5-4188-b198-8e07e0688ce7
 ---
+**Primary source:** `C:\Users\stock\.claude\keys\secrets.env` — centrální store pro všechny projekty. Obsahuje `ANTHROPIC_API_KEY=sk-ant-...` a další klíče (gitignored přes `.claude/keys/.gitignore`).
 
-Anthropic API key je v:
-- `C:\Users\stock\Documents\000_NGM\DANE\.env` (ANTHROPIC_API_KEY)
-- NG-ROBOT projekt (původní zdroj)
+**Backup umístění (historická):**
+- `C:\Users\stock\Documents\000_NGM\DANE\.env`
+- NG-ROBOT projekt
 
-**Why:** Uživatel opakovaně upozorňoval, že klíč už existuje v projektech. Nehledat znovu, nekopírovat — je na místě.
-**How to apply:** Při jakémkoli projektu vyžadujícím Anthropic API — ověřit .env v DANE nebo NG-ROBOT, ne se ptát uživatele.
+**Použitý vzor pro nové projekty:**
+1. `grep "^ANTHROPIC_API_KEY=" C:/Users/stock/.claude/keys/secrets.env | sed 's/^[^=]*=//' > <project>/secrets/api_key.txt`
+2. Projekt si klíč načte přes vlastní helper (např. `load_api_key_from_file()` v KRIZOVKA/krizovka/clue_gen.py)
+3. Adresář `secrets/` přidat do `.gitignore`
+
+**Why:** Uživatel opakovaně upozorňoval, že klíč už existuje. Ptát se znovu = frustrace. Centrální `.claude/keys/secrets.env` je kanonický.
+
+**How to apply:** Před jakýmkoli dotazem na klíč — **VŽDY** nejdřív `ls C:/Users/stock/.claude/keys/` a `grep ANTHROPIC secrets.env`. Nikdy nekopírovat klíč do chatu, jen extrahovat přes shell do cílového souboru.

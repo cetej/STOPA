@@ -38,3 +38,4 @@ One line per scheduled task run, newest at the top. For silent-OK runs this is t
 2026-04-22 03:35 | dreams | OK — 2 new learnings, 2 outcomes; 5 cross-links added (deception/trust cluster complete, CALM↔IHA reverse, doom-loop↔hook cluster); 1 backward update; 3 patterns detected; dream log written
 2026-04-23 11:07 | arxiv-daily-digest | OK — 5 papers found (1 ACTION: arXiv:2511.17908 conformal RAG context reduction), 3 new URLs queued in brain/inbox.md
 2026-04-23 08:00 | morning-watch | OK — 3 new items: #110 CC odstraněn z Pro (test ~2% nových), #111 Claude Cowork GA + Analytics API, #112 CC prompt caching controls (1h + 5min)
+2026-04-24 00:00 | autodream | OK — 185 learnings scanned; 7 confidence boosts (3× to 1.0); 0 archived; 0 promoted (no graduation candidates); 27 dedup candidates flagged for next /evolve

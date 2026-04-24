@@ -9,7 +9,7 @@ source: user_correction
 uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.95
+confidence: 1.0
 maturity: draft
 failure_class: logic
 failure_agent: panic-detector
