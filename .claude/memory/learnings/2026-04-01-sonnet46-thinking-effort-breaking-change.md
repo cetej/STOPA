@@ -11,6 +11,7 @@ confidence: 1.00
 uses: 2
 harmful_uses: 0
 model_gate: "sonnet-4.6"
+valid_until: 2026-10-31
 verify_check: "manual"
 successful_uses: 0
 ---

@@ -10,7 +10,7 @@ uses: 5
 successful_uses: 0
 harmful_uses: 0
 confidence: 1.00
-maturity: draft
+maturity: validated
 skill_scope: [autoloop, autoresearch, self-evolve]
 related: [2026-04-15-prm-step-verification-orchestrate.md, 2026-04-13-generate-then-discard-suboptimal.md, 2026-04-11-iteration-paradox-meta-pattern.md]
 verify_check: "Glob('.claude/memory/outcomes/autoloop-*') → 0+ files (can be empty)"

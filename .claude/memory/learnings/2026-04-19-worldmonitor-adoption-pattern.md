@@ -10,7 +10,7 @@ uses: 5
 harmful_uses: 0
 successful_uses: 0
 confidence: 1.00
-maturity: draft
+maturity: validated
 task_context: {task_class: cross_project, complexity: high, tier: deep}
 verify_check: "Glob('.claude/memory/learnings/*worldmonitor*') → 1+ matches"
 related: [2026-04-14-paseo-orchestration-patterns.md]

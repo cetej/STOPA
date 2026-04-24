@@ -1,7 +1,38 @@
 # Evolution Log
 
-- bigmas (uses=9) will graduate on next retrieval — slot now ready (9/10)
+- bigmas graduated to `core` maturity (uses=15, now core+); no further action needed
 - Auto-graduation pipeline fully wired for future graduations without manual intervention
+
+---
+
+## Evolution Run — 2026-04-24 (#11)
+
+### Signals
+- 38 corrections (5 new since #10: daily-rebalancer whitelist 4×, evolve-skills describe-only 2× + 5 frustrations)
+- 200 violations (4 clusters — 3 resolved post-hoc, annotations.jsonl stale ref 30+ still firing)
+- 195 learnings scanned (+46 since #10)
+- 0 prune candidates, 0 decay warnings (system very healthy)
+- 5 draft→validated candidates, 0 val→core
+- 2 model_gate (sonnet-4.6 stale, opus-4-7 current)
+- 26 panic episodes (all yellow, bulk-edit noise, no action needed)
+- 0 replay queue items, 0 generated skills
+- Sessions: 100/100 healthy scorecards
+- Skill usage: no data (tracking not active)
+
+### Proposals
+- 6 proposed, 5 approved (2+3 consolidated into single learning), 0 rejected
+
+### Applied
+- CREATE: `.claude/memory/annotations.jsonl` (empty placeholder) — resolves 30+ active violations
+- CREATE: `2026-04-24-scheduled-task-discipline.md` — consolidates daily-rebalancer whitelist + evolve-skills describe-only patterns (draft, skill_scope: scheduled-tasks)
+- MATURITY: 5 draft→validated (ecosystem-scan, agent-deception, living-memory, experience-replay, worldmonitor)
+- MODIFY: sonnet46-thinking-effort — added `valid_until: 2026-10-31` (auto-expires, model_gate=sonnet-4.6 stale for opus-4-7)
+- UPDATE_CONFIRMED: all 9 critical-patterns last_confirmed → 2026-04-24
+
+### Key Findings
+- Root cross-project issue: scheduled agents operating in autonomous mode violate both whitelist discipline AND execution mandate. Fix must land at scheduled-task SKILL source, not STOPA rules — captured as cross-project learning.
+- System stable: 0 prune/decay across 195 learnings, healthy scorecards, corrections localized to scheduled-task-context only.
+- Critical-patterns at 9/10 — slot #10 remains free; no universally-applicable candidate compelling enough.
 
 ---
 
