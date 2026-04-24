@@ -42,7 +42,7 @@ try:
         or 'unknown'
     )
     ti = d.get('tool_input') or {}
-    fp = ti.get('file_path') or ti.get('path') or ''
+    fp = (ti.get('file_path') or ti.get('path') or '').replace(chr(92), '/')
     # content may be under 'content' (Write), 'new_string' (Edit), or 'command' (Bash)
     content = ti.get('content') or ti.get('new_string') or ti.get('command') or ''
     # Truncate content to 2000 chars for pattern matching (secrets usually in first few hundred)
