@@ -4,7 +4,7 @@ Tracked findings from `/radar` scans and manual evaluations.
 Archived: `radar-archive.md` (when >400 lines)
 
 ## Stats
-Last scan: 2026-04-23 (batch from X tweets, 15 URL → 13 unique, 2 SKIP known) | Total: 96 tools | 🔴 21 | 🟡 69 | 🟢 6
+Last scan: 2026-04-24 (automated web scan, 4 searches, 6 fetches, 3 new) | Total: 99 tools | 🔴 21 | 🟡 72 | 🟢 6
 
 ## Active Research (🔴)
 | Tool | Category | Score | Source | Captured | Status | Project fit |
