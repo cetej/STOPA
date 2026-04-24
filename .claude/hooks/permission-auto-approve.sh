@@ -176,14 +176,24 @@ fi
 # --- Routine-path allow-list (fast auto-approve) ---
 if [ "$TOOL" = "Write" ] || [ "$TOOL" = "Edit" ] || [ "$TOOL" = "NotebookEdit" ]; then
   case "$FILE_PATH" in
-    # Wiki indices and content pages — safe, high-frequency writes
-    */brain/wiki/index.md|*/brain/wiki/log.md|*/brain/wiki/concepts/*.md|*/brain/wiki/entities/*.md|*/brain/wiki/sources/*.md)
+    # Wiki indices and content pages — safe, high-frequency writes (case-insensitive INDEX)
+    */brain/wiki/index.md|*/brain/wiki/INDEX.md|*/brain/wiki/log.md|*/brain/wiki/concepts/*.md|*/brain/wiki/entities/*.md|*/brain/wiki/sources/*.md)
       auto_allow "L1" "routine wiki write"
       exit 0
       ;;
-    # Brain raw/processed pipeline
-    */brain/raw/processed/*.md|*/brain/inbox.md|*/brain/watchlist.md|*/brain/knowledge-graph.json)
+    # Brain raw/processed pipeline + knowledge/concept graphs
+    */brain/raw/processed/*.md|*/brain/inbox.md|*/brain/watchlist.md|*/brain/knowledge-graph.json|*/brain/**/*.md|*/brain/**/*.json)
       auto_allow "L1" "routine brain pipeline write"
+      exit 0
+      ;;
+    # Memory concept graph (ingest target) + daily reports, news streams
+    */memory/concept-graph.json|*/memory/daily-reports.md|*/memory/news.md|*/memory/watchlist.md|*/memory/inbox.md)
+      auto_allow "L1" "routine memory graph/feed write"
+      exit 0
+      ;;
+    # Wiki INDEX at memory root (ingest writes here too)
+    */memory/wiki/INDEX.md|*/memory/wiki/index.md|*/memory/wiki/entities/*.md|*/memory/wiki/sources/*.md|*/memory/wiki/concepts/*.md|*/memory/wiki/log.md)
+      auto_allow "L1" "routine wiki (memory root)"
       exit 0
       ;;
     # Memory learnings, outcomes, failures, dreams — append-mostly
