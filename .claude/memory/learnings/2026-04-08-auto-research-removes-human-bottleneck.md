@@ -31,3 +31,5 @@ Proof: overnight auto-research on a "fairly well-tuned" repo found untuned weigh
 - Before launching `/autoresearch` or `/autoloop`: confirm task has an objective metric that agents can verify autonomously
 - If no such metric exists: auto-research is the wrong skill — use `/orchestrate` instead
 - On multi-step research: your job is to define the metric and boundaries, then step away
+
+> Updated 2026-04-24: Empirical study of 25K agent runs (8 domains, 11 LLMs) shows 68% of auto-research traces ignore contradicting evidence without an explicit falsification gate. Value of auto-research is real, but confirmation bias is the default failure mode — add mandatory "What evidence would refute this?" check before each iteration (see 2026-04-23-llm-confirmation-bias.md).
