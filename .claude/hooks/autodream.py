@@ -3,17 +3,24 @@
 
 Runs as a scheduled task (no LLM calls, no external deps).
 Complements /evolve (deep manual analysis) with automated numerical maintenance:
-- Confidence decay for unused learnings (60+ days)
-- Confidence boost from uses counter
-- Penalty from harmful_uses counter
+- Confidence decay for unused learnings (60+ days), modulated by reward_factor
+- Confidence boost from uses counter (log2 cumulative, Hippo-inspired)
+- Penalty from harmful_uses counter (reduced; reward_factor handles continuous case)
 - Auto-archive learnings with confidence < 0.3
 - Staleness flagging (90+ days + low confidence)
 - Dedup detection (same component + 3+ shared tags)
 - Graduation candidate reporting
 
+Confidence dynamics (Hippo-inspired, kitfunso/hippo-memory src/memory.ts):
+  reward_ratio  = (succ - harm) / (succ + harm + 1)   # ∈ [-1, +1]
+  reward_factor = 1 + 0.5 * reward_ratio              # ∈ [0.5, 1.5]
+  decay_rate    = base_rate * (2 - reward_factor)     # ∈ [0.5, 1.5] × base
+  boost         = 0.1 * log2(uses + 1) * reward_factor
+
 Output: JSON report to intermediate/autodream-report.json + stdout summary.
 """
 import json
+import math
 import re
 import shutil
 import sys
@@ -31,6 +38,7 @@ sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 LEARNINGS_DIR = _REPO_ROOT / ".claude/memory/learnings"
 ARCHIVE_DIR = LEARNINGS_DIR / "archive"
 REPORT_PATH = _REPO_ROOT / ".claude/memory/intermediate/autodream-report.json"
+MERGE_CANDIDATES_DIR = _REPO_ROOT / ".claude/memory/intermediate/merge-candidates"
 
 # Confidence defaults by source (from memory-files.md rules)
 SOURCE_DEFAULTS: dict[str, float] = {
@@ -102,12 +110,19 @@ def compute_effective_confidence(
     base: float,
     date_str: str,
     uses: int,
+    successful_uses: int,
     harmful_uses: int,
     today: date,
 ) -> float:
-    """Compute effective confidence per STOPA rules.
+    """Compute effective confidence per STOPA rules with Hippo reward modulation.
 
-    Order: decay → boost → penalty → clamp [0.1, 1.0]
+    Hippo-inspired (kitfunso/hippo-memory src/memory.ts):
+    - reward_factor ∈ [0.5, 1.5] continuously modulates decay rate AND boost magnitude
+    - Successful learnings (factor → 1.5): decay halved, boost amplified
+    - Harmful learnings (factor → 0.5): decay 1.5×, boost dampened
+    - Untracked (succ=harm=0, factor=1.0): unchanged behaviour
+
+    Order: parse → reward_factor → decay (modulated) → boost (modulated) → harm penalty → clamp
     """
     # Parse learning date
     try:
@@ -116,18 +131,28 @@ def compute_effective_confidence(
         learning_date = today  # Can't decay if date unknown
 
     days_old = (today - learning_date).days
+
+    # Hippo continuous reward modulation
+    denom = successful_uses + harmful_uses + 1
+    reward_ratio = (successful_uses - harmful_uses) / denom
+    reward_factor = 1.0 + 0.5 * reward_ratio  # ∈ [0.5, 1.5]
+
     result = base
 
-    # Decay: unused 60+ days → -0.1 per 30 days beyond threshold
+    # Decay: amplified for harmful, dampened for successful
+    # decay_multiplier = (2 - reward_factor) ∈ [0.5, 1.5]
     if days_old > 60 and uses == 0:
         decay_periods = (days_old - 60) // 30
-        result -= decay_periods * 0.1
+        result -= decay_periods * 0.1 * (2.0 - reward_factor)
 
-    # Boost: each use adds 0.05
-    result += uses * 0.05
+    # Boost: log2 cumulative (matches outcome-credit.py per-step delta), modulated by reward
+    if uses > 0:
+        base_boost = 0.1 * math.log2(uses + 1)
+        result += base_boost * reward_factor
 
-    # Penalty: each harmful use subtracts 0.15
-    result -= harmful_uses * 0.15
+    # Discrete penalty for hard signals — reduced from 0.15 since reward_factor
+    # already handles continuous adjustment via dampened boost + amplified decay
+    result -= harmful_uses * 0.10
 
     # Clamp
     return round(max(0.1, min(1.0, result)), 2)
@@ -156,12 +181,40 @@ def reassemble_file(raw_yaml: str, body: str) -> str:
 # Dedup detection
 # ---------------------------------------------------------------------------
 
+_TOKEN_RE = re.compile(r"[a-zA-Z0-9_-]{3,}")
+
+
+def _summary_tokens(summary: str) -> set[str]:
+    """Extract distinctive tokens from summary text (>= 3 chars, lowercased)."""
+    return {t.lower() for t in _TOKEN_RE.findall(summary or "")}
+
+
+def jaccard_similarity(a: set[str], b: set[str]) -> float:
+    """Standard Jaccard: |A ∩ B| / |A ∪ B|. Returns 0 for empty union."""
+    if not a and not b:
+        return 0.0
+    union = a | b
+    if not union:
+        return 0.0
+    return len(a & b) / len(union)
+
+
 def find_dedup_candidates(
     learnings: list[dict],
 ) -> list[dict]:
     """Find learnings with same component + 3+ shared tags.
 
-    Returns list of {"files": [str], "component": str, "shared_tags": [str]}
+    Returns list of {
+        "files": [str], "component": str, "shared_tags": [str],
+        "summary_jaccard": float,
+        "merge_strong": bool,  # Hippo-inspired: high overlap → strong merge candidate
+    }
+
+    A pair is `merge_strong` (warrants automatic soft-sunset → merged learning)
+    when Jaccard summary token overlap >= 0.5 AND both confidence > 0.5. The actual
+    merge content synthesis is deferred to /dreams skill (LLM-aware).
+    Ref: kitfunso/hippo-memory src/consolidate.ts:414 — clusters with Jaccard
+    textOverlap >= 0.35 are merged; STOPA uses 0.5 threshold (more conservative).
     """
     # Group by component
     by_component: dict[str, list[dict]] = {}
@@ -177,12 +230,26 @@ def find_dedup_candidates(
         for i, a in enumerate(group):
             for b in group[i + 1:]:
                 shared = set(a.get("tags_list", [])) & set(b.get("tags_list", []))
-                if len(shared) >= 3:
-                    candidates.append({
-                        "files": [a["filename"], b["filename"]],
-                        "component": comp,
-                        "shared_tags": sorted(shared),
-                    })
+                if len(shared) < 3:
+                    continue
+
+                tokens_a = _summary_tokens(a.get("summary", ""))
+                tokens_b = _summary_tokens(b.get("summary", ""))
+                jaccard = round(jaccard_similarity(tokens_a, tokens_b), 3)
+
+                merge_strong = (
+                    jaccard >= 0.5
+                    and a.get("confidence", 0) > 0.5
+                    and b.get("confidence", 0) > 0.5
+                )
+
+                candidates.append({
+                    "files": [a["filename"], b["filename"]],
+                    "component": comp,
+                    "shared_tags": sorted(shared),
+                    "summary_jaccard": jaccard,
+                    "merge_strong": merge_strong,
+                })
     return candidates
 
 
@@ -231,6 +298,7 @@ def main() -> None:
             SOURCE_DEFAULTS.get(source, DEFAULT_CONFIDENCE),
         )
         uses = safe_int(fields.get("uses", ""), 0)
+        successful_uses = safe_int(fields.get("successful_uses", ""), 0)
         harmful_uses = safe_int(fields.get("harmful_uses", ""), 0)
 
         # Compute new confidence
@@ -241,7 +309,7 @@ def main() -> None:
         # For decay check: use original base (not already-decayed value)
         # We re-derive from source default if confidence field was missing
         new_confidence = compute_effective_confidence(
-            base, date_str, uses, harmful_uses, today,
+            base, date_str, uses, successful_uses, harmful_uses, today,
         )
 
         # Store for dedup
@@ -252,6 +320,7 @@ def main() -> None:
             "confidence": new_confidence,
             "date": date_str,
             "uses": uses,
+            "successful_uses": successful_uses,
             "harmful_uses": harmful_uses,
             "summary": fields.get("summary", ""),
         }
@@ -326,8 +395,56 @@ def main() -> None:
                 "summary": fields.get("summary", "")[:80],
             })
 
-    # Dedup detection
+    # Dedup detection (with merge_strong flag for high-overlap pairs)
     dedup = find_dedup_candidates(all_learnings)
+
+    # Persist merge candidate stubs for /dreams skill to consume
+    # /dreams reads these to perform LLM-aware merge synthesis (rule-based detection
+    # here, content synthesis there — Hippo consolidate.ts:414 pattern)
+    merge_strong = [d for d in dedup if d.get("merge_strong")]
+    if merge_strong:
+        MERGE_CANDIDATES_DIR.mkdir(parents=True, exist_ok=True)
+        # Lookup by filename for richer stub data
+        by_filename = {lr["filename"]: lr for lr in all_learnings}
+        for cand in merge_strong:
+            fa, fb = cand["files"]
+            stub_name = f"{fa.replace('.md', '')}__{fb.replace('.md', '')}.json"
+            stub_path = MERGE_CANDIDATES_DIR / stub_name
+            if stub_path.exists():
+                continue  # already proposed; /dreams handles or user dismisses
+            la = by_filename.get(fa, {})
+            lb = by_filename.get(fb, {})
+            stub_data = {
+                "created": today.isoformat(),
+                "component": cand["component"],
+                "shared_tags": cand["shared_tags"],
+                "summary_jaccard": cand["summary_jaccard"],
+                "files": [
+                    {
+                        "name": fa,
+                        "summary": la.get("summary", ""),
+                        "confidence": la.get("confidence"),
+                        "uses": la.get("uses", 0),
+                        "successful_uses": la.get("successful_uses", 0),
+                    },
+                    {
+                        "name": fb,
+                        "summary": lb.get("summary", ""),
+                        "confidence": lb.get("confidence"),
+                        "uses": lb.get("uses", 0),
+                        "successful_uses": lb.get("successful_uses", 0),
+                    },
+                ],
+                "suggested_action": (
+                    "Merge via /dreams Phase 2b. Synthesize unified summary, "
+                    "set supersedes: [old1, old2] on merged file, set valid_until "
+                    "on both originals to today (skip retrieval, keep audit trail)."
+                ),
+            }
+            try:
+                atomic_write(stub_path, json.dumps(stub_data, indent=2, ensure_ascii=False))
+            except OSError as e:
+                print(f"[WARN] Failed to write merge stub {stub_name}: {e}", file=sys.stderr)
 
     # Build report
     report = {
@@ -337,6 +454,7 @@ def main() -> None:
         "archived": archived,
         "stale": stale,
         "dedup_candidates": dedup,
+        "merge_strong_count": len(merge_strong),
         "graduation_candidates": graduation,
     }
 
@@ -367,9 +485,14 @@ def main() -> None:
             print(f"  {s['file']}: {s['days_old']}d old, confidence={s['confidence']:.2f}")
 
     if dedup:
-        print(f"\nDedup candidates: {len(dedup)}")
+        strong_count = sum(1 for d in dedup if d.get("merge_strong"))
+        print(f"\nDedup candidates: {len(dedup)} ({strong_count} merge-strong)")
         for d in dedup:
-            print(f"  [{d['component']}] {', '.join(d['files'])} — shared: {', '.join(d['shared_tags'])}")
+            tag = " [MERGE-STRONG]" if d.get("merge_strong") else ""
+            jac = f" jaccard={d['summary_jaccard']:.2f}" if "summary_jaccard" in d else ""
+            print(f"  [{d['component']}]{tag} {', '.join(d['files'])} — shared: {', '.join(d['shared_tags'])}{jac}")
+        if strong_count:
+            print(f"  → {strong_count} merge stub(s) written to {MERGE_CANDIDATES_DIR.relative_to(_REPO_ROOT)}/")
 
     if graduation:
         print(f"\nGraduation candidates: {len(graduation)}")

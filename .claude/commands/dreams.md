@@ -13,7 +13,7 @@ discovery-keywords: [consolidate, integrate, reflect, cross-link, pattern detect
 input-contract: "scheduled-task or user → no input required → reads memory state autonomously"
 output-contract: "dream log → markdown → .claude/memory/dreams/YYYY-MM-DD.md"
 preconditions: [".claude/memory/learnings/ directory exists"]
-effects: ["related: fields updated in learnings", "dream log written", "concept-graph.json updated if new connections found"]
+effects: ["related: fields updated in learnings", "dream log written", "concept-graph.json updated if new connections found", "merged learnings created from merge-candidates stubs (originals soft-sunset)"]
 ---
 
 # Dreams — Offline Memory Consolidation
@@ -70,6 +70,38 @@ For each recent learning, check:
 - Max 3 `related:` entries per learning (already in memory-files.md rules)
 - Only link genuinely related learnings, not just same-component
 - Prefer linking across components (cross-cutting insights are most valuable)
+
+#### 2a1: Merge Synthesis (Hippo-inspired)
+
+Read merge candidate stubs from `.claude/memory/intermediate/merge-candidates/*.json`. Each stub was written by `autodream.py` for a pair with `summary_jaccard >= 0.5` AND both confidence > 0.5 AND 3+ shared tags. The stub contains both summaries, counters, and shared tags.
+
+For EACH stub:
+
+1. Read both source learning files in full (frontmatter + body)
+2. Synthesize a unified merged learning:
+   - **Filename**: `merged-YYYY-MM-DD-<short-topic>.md`
+   - **Summary**: 1-2 sentences capturing the union of both insights — NOT concatenation
+   - **Tags**: union of both tag sets
+   - **Confidence**: max(a.confidence, b.confidence)
+   - **uses, successful_uses, harmful_uses**: sum of both (preserves earned credit)
+   - **source**: keep the more authoritative one (`user_correction` > `critic_finding` > `auto_pattern` > `external_research` > `agent_generated`)
+   - **maturity**: max(a.maturity, b.maturity) using ordering draft < validated < core
+   - **supersedes**: filename of the OLDER source (max 1 entry; if both, use most-recent date)
+   - **related**: union of both `related:` minus the two filenames being merged
+   - **body**: blend the two bodies — preserve any post-mortem / Reflexion notes verbatim, dedupe identical lines, keep most concrete examples
+3. Write the merged learning via Edit/Write
+4. Soft-sunset both originals: set `valid_until: <today>` on both source files (skip retrieval, keep audit trail; do NOT delete files)
+5. Move the consumed stub to `.claude/memory/intermediate/merge-candidates/processed/<stub>.json`
+
+**Per-cycle limits:**
+- Max 3 merges per dream cycle (avoid mass restructuring)
+- If stub count > 3: process top 3 by `summary_jaccard` desc, leave rest for next cycle
+- If a stub references a missing source file (already archived/deleted): move stub to `processed/` with a `skipped: source_missing` note
+
+**Refuse to merge** if either source has:
+- `maturity: core` AND `harmful_uses == 0` (battle-tested rules don't get restructured silently)
+- `model_gate:` field set (model-specific learnings stay separate)
+- `valid_until:` already in the past (already invalidated; let normal lifecycle handle)
 
 #### 2b: Backward-Update (A-MEM inspired)
 
@@ -158,6 +190,9 @@ Track token usage:
 | "This pattern is obvious, no need to log" | Obvious patterns still need measurement | Log it — if it's real, uses counter will validate |
 | "I'll backward-update extensively" | Heavy updates change meaning of old learnings | Append-only context notes, max 1 per learning per cycle |
 | "No new learnings, nothing to do" | Cross-linking existing learnings is always valuable | Check existing learnings for missing connections |
+| "I'll merge anything similar — autodream flagged it" | autodream.py only detects shape, not whether merge is correct | Read both source files in full; refuse merge if either is `maturity: core` and harmless |
+| "I'll merge by concatenating both bodies" | Concatenation duplicates content and loses synthesis value | Synthesize unified summary; preserve verbatim post-mortem/Reflexion notes; dedupe identical lines |
+| "I'll delete the originals after merge" | Audit trail required — past confidence/uses earned matter | Set `valid_until: today` on originals (skip retrieval, keep on disk) |
 
 ## Red Flags
 
@@ -166,6 +201,8 @@ STOP and re-evaluate if any of these occur:
 - Backward-updating more than 3 learnings in one cycle (too aggressive)
 - Dream log exceeds 100 lines (too verbose, consolidate)
 - Spending > 10 minutes on Phase 1 scan (too many files, narrow scope)
+- Merging >3 learnings in one cycle (mass restructuring — let pile up for next cycle instead)
+- Merge candidate stub references a `core` learning (refuse, stub should not have been written)
 
 ## Verification Checklist
 
@@ -174,6 +211,9 @@ STOP and re-evaluate if any of these occur:
 - [ ] Backward updates are append-only (original content unchanged)
 - [ ] Dream log written with accurate counts
 - [ ] No fabricated connections (every link has stated reason)
+- [ ] Each merged learning has `supersedes:` pointing at the older source
+- [ ] Both originals soft-sunset (`valid_until: <today>`) — not deleted
+- [ ] Consumed merge stubs moved to `intermediate/merge-candidates/processed/`
 
 ## Rules
 

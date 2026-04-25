@@ -6,7 +6,7 @@ globs: "**/*"
 
 These rules load on EVERY file edit regardless of context length or compaction.
 They exist because violating them causes real, hard-to-debug problems in STOPA.
-Max 7 entries — only rules that break things if violated.
+Max 9 entries — only rules that break things if violated.
 
 ---
 
@@ -50,3 +50,21 @@ Default `max-depth` pro skills je 1 (orchestrátor → worker, worker neorchestu
 Depth=2 povoleno jen pro skills s explicitním `max-depth: 2` ve frontmatter (deepresearch, build-project).
 Důvod: RLM production (arXiv:2512.24601) používá depth=1. Depth>1 je experimentální a nestabilní.
 Worker agent při depth=1 pracuje přímo (Read/Edit/Bash) — NESMÍ spouštět sub-orchestrátora.
+
+## 9. No Execution, No Memory — learnings need evidence
+Learning zapisovaný do `.claude/memory/learnings/` musí mít evidence původu, jinak je to halucinace která maskuje znalost faktem-vypadající strukturou.
+
+Přípustný `source:` field (jeden z):
+- `user_correction` — uživatel explicitně vyjádřil korekci
+- `critic_finding` — `/critic` skill identifikoval pattern v aktuální session
+- `auto_pattern` — hook nebo skript detekoval pattern v reálných datech (nejen v hypotéze)
+- `external_research` — citace papíru, repa, dokumentace s URL
+- `agent_generated` — povoleno POUZE pokud `summary:` obsahuje doslovnou citaci tool výstupu (error message, test fail, command output)
+
+LLM-inferred patterns BEZ tool evidence ("Mohlo by se stát...", "Nejspíš to znamená...", "Obvykle..."):
+- **NE** do `learnings/`
+- ANO do `.claude/memory/brain/inbox.md` jako kandidát na pozdější validaci přes replay nebo critic
+
+Důvod: GenericAgent governance "Action-Verified Only" — paměť bez evidence se rychle plní pravděpodobnostními prohlášeními která decay nemůže rozeznat od validních faktů. Hippo conflict detection je užitečná pouze když oba kandidáti pochází z observation, ne z reasoning.
+
+Verify: `learning-admission.py` má soft-mode warning. Pro hard-mode auditing: `grep -L "source:" .claude/memory/learnings/*.md` — každý hit je kandidát na move do `inbox.md`.

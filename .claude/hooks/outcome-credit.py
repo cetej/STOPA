@@ -6,8 +6,17 @@ Reads `learnings_applied` from the outcome YAML frontmatter and increments
 helpful/harmful/neutral counters on referenced learning files.
 
 Closes the retrieval-use-feedback loop (RCL integration, Phase 1).
+
+Confidence boost on helpful credit follows Hippo logarithmic formula
+(arXiv: derived from kitfunso/hippo-memory src/memory.ts:104-155):
+  boost(n) = 0.1 * log2(n + 1)
+  delta(n -> n+1) = boost(n+1) - boost(n)
+This produces diminishing returns: 1st use +0.10, 5th +0.022, 100th +0.0014.
+Replaces the prior linear +0.05 per use which saturated confidence at cap=1.0
+after ~6 uses, losing rank discrimination between 10x and 100x used learnings.
 """
 import json
+import math
 import re
 import sys
 from pathlib import Path
@@ -85,6 +94,11 @@ def update_learning_counter(learning_file: Path, credit: str) -> bool:
     body = content[end + 3:]
     modified = False
 
+    def read_field(text: str, field: str) -> int:
+        pattern = re.compile(rf"^{field}:\s*(\d+)", re.MULTILINE)
+        match = pattern.search(text)
+        return int(match.group(1)) if match else 0
+
     def bump_field(text: str, field: str, delta: int) -> str:
         pattern = re.compile(rf"^({field}:\s*)(\d+)", re.MULTILINE)
         match = pattern.search(text)
@@ -100,14 +114,19 @@ def update_learning_counter(learning_file: Path, credit: str) -> bool:
         match = pattern.search(text)
         if match:
             old_val = float(match.group(2))
-            new_val = round(min(1.0, max(0.0, old_val + delta)), 2)
+            new_val = round(min(1.0, max(0.0, old_val + delta)), 3)
             return pattern.sub(rf"\g<1>{new_val}", text, count=1)
         return text
 
+    def log_boost_delta(uses_before: int) -> float:
+        """Hippo log2-based incremental boost: delta(n -> n+1) = 0.1*(log2(n+2) - log2(n+1))."""
+        return 0.1 * (math.log2(uses_before + 2) - math.log2(uses_before + 1))
+
     if credit == "helpful":
+        uses_before = read_field(fm_text, "uses")
         fm_text = bump_field(fm_text, "uses", 1)
         fm_text = bump_field(fm_text, "successful_uses", 1)
-        fm_text = bump_confidence(fm_text, 0.05)
+        fm_text = bump_confidence(fm_text, log_boost_delta(uses_before))
         modified = True
     elif credit == "harmful":
         fm_text = bump_field(fm_text, "uses", 1)

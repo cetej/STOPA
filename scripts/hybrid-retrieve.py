@@ -68,6 +68,11 @@ class RankedFile:
     sources: list[str] = field(default_factory=list)
     mempalace_content: str | None = None  # verbatim snippet from MemPalace
     mentions_boost: float = 1.0  # multiplier from concept-graph mentions reranker
+    # Outcome-aware retrieval (Hippo-inspired, RCL Phase 2)
+    uses: int = 0
+    successful_uses: int = 0
+    harmful_uses: int = 0
+    success_rate: float | None = None  # successful_uses / uses, None if uses == 0
 
 
 # ── Mentions reranker (Zep-inspired, arXiv:2501.13956) ─────────────────
@@ -141,6 +146,19 @@ def _maturity_boost(head: str) -> float:
         return 1.0
     maturity = m.group(1).lower()
     return {"core": 1.3, "validated": 1.1}.get(maturity, 1.0)
+
+
+def _parse_outcome_counters(head: str) -> tuple[int, int, int]:
+    """Parse uses, successful_uses, harmful_uses from YAML frontmatter.
+
+    Returns (uses, successful_uses, harmful_uses). Missing fields default to 0.
+    Used for outcome-aware retrieval (Hippo-inspired): agent sees empirical
+    success rate alongside the learning, informing trust decisions.
+    """
+    def _read(field: str) -> int:
+        m = re.search(rf"^{field}:\s*(\d+)", head, re.MULTILINE)
+        return int(m.group(1)) if m else 0
+    return _read("uses"), _read("successful_uses"), _read("harmful_uses")
 
 
 def grep_search(query: str, max_results: int = 15) -> list[str]:
@@ -370,8 +388,12 @@ def fuse_rrf(
         if not rf.filename.startswith("mp:"):
             fp = LEARNINGS_DIR / rf.filename
             try:
-                head = fp.read_text(encoding="utf-8", errors="replace")[:800]
+                head = fp.read_text(encoding="utf-8", errors="replace")[:1500]
                 score *= _maturity_boost(head)
+                # Outcome-aware retrieval: surface empirical success rate to caller
+                rf.uses, rf.successful_uses, rf.harmful_uses = _parse_outcome_counters(head)
+                if rf.uses > 0:
+                    rf.success_rate = round(rf.successful_uses / rf.uses, 2)
             except OSError:
                 pass
             rf.mentions_boost = _mentions_boost(rf.filename)
@@ -417,11 +439,24 @@ def hybrid_search(
     if task_tier == "light" and len(grep_results) >= 3:
         superseded = load_superseded_set()
         limit = len(grep_results) if mode == "aggregate" else top_n
-        return [
-            RankedFile(filename=f, grep_rank=i + 1, rrf_score=1.0 / (RRF_K + i + 1), sources=["grep"])
-            for i, f in enumerate(grep_results[:limit])
-            if f not in superseded
-        ]
+        ranked = []
+        for i, f in enumerate(grep_results[:limit]):
+            if f in superseded:
+                continue
+            rf = RankedFile(
+                filename=f, grep_rank=i + 1,
+                rrf_score=1.0 / (RRF_K + i + 1), sources=["grep"],
+            )
+            # Outcome-aware retrieval: parse counters even on fast path
+            try:
+                head = (LEARNINGS_DIR / f).read_text(encoding="utf-8", errors="replace")[:1500]
+                rf.uses, rf.successful_uses, rf.harmful_uses = _parse_outcome_counters(head)
+                if rf.uses > 0:
+                    rf.success_rate = round(rf.successful_uses / rf.uses, 2)
+            except OSError:
+                pass
+            ranked.append(rf)
+        return ranked
 
     # Signal 3: Graph walk (seeded from grep + BM25 union)
     seed_files = list(dict.fromkeys(grep_results + bm25_results))  # deduplicated, order preserved
@@ -524,6 +559,10 @@ def main():
                 "graph_rank": rf.graph_rank,
                 "mempalace_rank": rf.mempalace_rank,
                 "mentions_boost": round(rf.mentions_boost, 3),
+                "uses": rf.uses,
+                "successful_uses": rf.successful_uses,
+                "harmful_uses": rf.harmful_uses,
+                "success_rate": rf.success_rate,
             }
             if rf.mempalace_content:
                 entry["mempalace_snippet"] = rf.mempalace_content[:300]
@@ -536,7 +575,14 @@ def main():
             print(f"Hybrid search: {len(results)} results (RRF k={RRF_K})\n")
             for i, rf in enumerate(results, 1):
                 signals = "+".join(rf.sources)
-                print(f"  {i}. [{rf.rrf_score:.5f}] ({signals}) {rf.filename}")
+                # Outcome suffix: empirical success rate when uses > 0
+                outcome = ""
+                if rf.uses > 0:
+                    outcome = f" [{rf.successful_uses}/{rf.uses} succ"
+                    if rf.harmful_uses > 0:
+                        outcome += f", {rf.harmful_uses} harm"
+                    outcome += "]"
+                print(f"  {i}. [{rf.rrf_score:.5f}] ({signals}){outcome} {rf.filename}")
 
     sys.exit(0 if results else 1)
 
