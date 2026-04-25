@@ -7,11 +7,11 @@ tags: [scheduled-tasks, autonomy, whitelist, execution-discipline, cross-project
 summary: "Scheduled/autonomous agenti opakovaně porušují dva pilíře disciplíny: (1) rozšiřují explicitní whitelisty o 'podobné' patterny (daily-rebalancer: 4× correction), (2) reportují 'should change X' místo skutečné exekuce (evolve-skills: 5 frustration + 2 correction). Pravidlo: v scheduled módu MATCH EXAKTNĚ whitelist a APLIKUJ změny — nikdy ne suggest-only."
 source: user_correction
 maturity: draft
-confidence: 0.9
-uses: 0
-successful_uses: 0
+confidence: 0.95
+uses: 1
+successful_uses: 1
 harmful_uses: 0
-verify_check: "manual"
+verify_check: "Grep('AUTONOMOUS-EXECUTION v1', path='~/.claude/scheduled-tasks') → 38+ matches"
 skill_scope: [scheduled-tasks]
 ---
 
@@ -68,6 +68,17 @@ Když edituješ scheduled-task SKILL.md:
 - `corrections.jsonl` entries: 2026-04-20T10:20, 2026-04-21T12:09, 2026-04-22T10:50, 2026-04-24T08:19 (daily-rebalancer)
 - `corrections.jsonl` entries: 2026-04-19T03:29, 2026-04-19T03:30, 2026-04-20T04:52, 2026-04-20T04:52, 2026-04-23T04:03, 2026-04-23T05:49 (evolve-skills frustration/corrections)
 - Feedback memory: `feedback_autonomy.md`
+
+## Reinforcement (2026-04-25)
+
+User reported 4 cloud sessions stuck in "Needs input" status: brain-watch, brain-ingest, arxiv-daily-digest, "Review Twitter AI discussion threads". Daily-reports.md had no entry for today's runs — agents did the work but ended waiting for approval instead of writing the report line and exiting.
+
+**Fix:**
+1. Added explicit "Forbidden terminal actions" + "Then EXIT" instructions to all 4 stuck SKILLs
+2. Created uniform `<!-- AUTONOMOUS-EXECUTION v1 -->` block injected after NO-TELEGRAM-POLICY into all 38 scheduled-task SKILLs
+3. Added `verify-sweep.py §5d` positive check — scheduled-task SKILLs without the autonomy directive are flagged at SessionStart
+
+The §5c describe-only check from 2026-04-24 catches negative phrasing ("don't apply automatically"); §5d catches the absence of positive imperative. Both needed.
 
 ## Related
 

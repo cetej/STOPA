@@ -536,6 +536,40 @@ def main():
                 "result": "replace with APPLY/EDIT/COMMIT imperatives — scheduled agents must execute, not report",
             })
 
+    # 5d. Scheduled-task autonomy directive — positive check.
+    # Every recurring scheduled-task SKILL.md must declare autonomous execution
+    # (AUTONOMOUS-EXECUTION block OR equivalent imperative). Without it agents
+    # default to interactive behaviour and end runs in "Needs input".
+    # Cause: 2026-04-25 — 4 cloud sessions stuck (brain-watch, brain-ingest,
+    # arxiv-daily-digest, tool-radar-scan) because SKILLs lacked the directive.
+    if scheduled_tasks_dir.is_dir():
+        AUTONOMY_DIRECTIVE = re.compile(
+            r"(AUTONOMOUS-EXECUTION"
+            r"|run\s+all\s+actions\s+without\s+asking"
+            r"|scheduled\s+autonomous\s+mode"
+            r"|APPLY\s+changes\s+directly)",
+            re.IGNORECASE,
+        )
+        for skill_file in sorted(scheduled_tasks_dir.glob("*/SKILL.md")):
+            try:
+                content = skill_file.read_text(encoding="utf-8", errors="replace")
+            except OSError:
+                continue
+            # Skip disabled tasks (they shouldn't run anyway)
+            if "DISABLED" in content[:300]:
+                continue
+            checked += 1
+            if AUTONOMY_DIRECTIVE.search(content):
+                continue
+            failed += 1
+            violations.append({
+                "timestamp": ts,
+                "source": f"scheduled-tasks/{skill_file.parent.name}/SKILL.md",
+                "label": "missing autonomy directive in scheduled-task SKILL",
+                "check": "no AUTONOMOUS-EXECUTION block or equivalent imperative",
+                "result": "add AUTONOMOUS-EXECUTION v1 block after NO-TELEGRAM-POLICY (see brain-watch SKILL for template)",
+            })
+
     # 6. Log violations
     if violations:
         VIOLATIONS_LOG.parent.mkdir(parents=True, exist_ok=True)
