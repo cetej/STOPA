@@ -4,25 +4,44 @@ How `/scribe`, `/handoff`, `/checkpoint` (and any future memory-writing skill) o
 
 ## The pattern
 
-After every successful local memory write, attempt a parallel write to the managed store via the MCP bridge:
+After every successful local memory write, attempt a parallel write to the managed store. Two transport options, in order of preference:
 
 ```
 1. Local write (canonical):  Edit/Write `.claude/memory/<file>`   ← always
-2. Bridge detection:         Is mcp__stopa-memory__memstore_write_memory available?
-3. If yes — dual-write:      memstore_write_memory(path=<file>, content=<same>)
-4. If no — skip silently:    local-only mode is the default
+
+2. Dual-write — try in order:
+   a) MCP tool (preferred):  mcp__stopa-memory__memstore_write_memory(path, content)
+                             — used when the MCP server is registered AND
+                               its tools are loaded into the CC session.
+   b) CLI subprocess:        Bash(`python scripts/memstore.py write <path> @<tmpfile>`)
+                             — fallback when MCP tools aren't in the tool list
+                               but the bridge is still configured. Always works
+                               if ANTHROPIC_API_KEY is reachable.
+
+3. Detection:                Check tool availability for (a). If the MCP tool
+                             is in your tool list → use it. Otherwise → use (b).
+4. Both unavailable:         Skip silently. Local write was committed; bridge is opt-in.
 ```
 
 Local file is always the source of truth. Managed store is a versioned shadow.
 
 ## Detection (graceful degradation)
 
-Skills MUST check availability before calling. Two signals:
+Skills check availability in this order:
 
-1. **Tool list** — is `mcp__stopa-memory__memstore_write_memory` in the available tools? If not, the bridge is not configured. Skip.
-2. **Env var** — is `STOPA_MEMSTORE_ID` set? Without it, the bridge raises `ValueError` on every call. Read once at session start; cache the result.
+1. **MCP tool path:** is `mcp__stopa-memory__memstore_write_memory` in the available tool list? If yes → use it.
+2. **CLI fallback path:** does `scripts/memstore.py` exist AND is `STOPA_MEMSTORE_ID` resolvable (env or `.claude/settings.local.json`)? If yes → spawn subprocess:
+   ```bash
+   python scripts/memstore.py write "<remapped-path>" @<tmpfile>
+   ```
+   Pass content via temp file (stdin or `@file` syntax) to avoid argv shell-escape issues with multiline content.
+3. **Neither path available:** skip dual-write silently. Local write is the source of truth.
 
-If either check fails, **continue without error**. The skill's job is to write memory — bridge dual-write is a nice-to-have, not a requirement.
+If a chosen path errors at runtime (network, auth, beta limit), log to stderr and continue.
+
+Why prefer MCP when available: lower per-call latency (~50ms vs ~200ms subprocess startup), no temp file, structured error handling.
+
+Why fall back to CLI: in some CC versions the MCP tool discovery doesn't surface server tools into the model's tool list even when `claude mcp list` reports the server as connected. The CLI bypasses CC entirely and talks straight to the Anthropic SDK.
 
 ## Path mapping
 

@@ -237,15 +237,19 @@ Before creating a new learning file, check for conflicts with existing knowledge
 
 ## Optional: Managed Memory Bridge Dual-Write
 
-After every successful local write to `.claude/memory/decisions.md` or `.claude/memory/learnings/<file>.md`, ALSO call `mcp__stopa-memory__memstore_write_memory(path=<remapped>, content=<same>)` IF that tool is in your available tool list. If not, skip silently — the bridge is not configured and local-only mode is the default.
+After every successful local write to `.claude/memory/decisions.md` or `.claude/memory/learnings/<file>.md`, attempt dual-write to the managed memory store. Try transports in this order:
+
+1. **MCP tool** (preferred): if `mcp__stopa-memory__memstore_write_memory` is in your available tool list, call `memstore_write_memory(path=<remapped>, content=<same>)`.
+2. **CLI fallback**: if the MCP tool isn't loaded but `scripts/memstore.py` exists, spawn `Bash(python scripts/memstore.py write "<remapped>" @<tmpfile>)`. Write content to a temp file first to avoid shell-escape issues.
+3. **Skip silently** if neither is available. Local write is canonical.
 
 **Path remap**: strip `.claude/memory/` prefix. `.claude/memory/decisions.md` → `/decisions.md`; `.claude/memory/learnings/YYYY-MM-DD-name.md` → `/learnings/YYYY-MM-DD-name.md`.
 
-**Failure handling**: if the MCP call fails (network, auth, beta limits), log one line to stderr (`[memstore] WARN: <reason>`) and continue. Local write is canonical and already committed.
+**Failure handling**: log `[memstore] WARN: <reason>` to stderr and continue. Local write was already committed.
 
 **What this buys**: versioned audit trail (every change = immutable version, 30-day retention in beta) + cross-session sync with future Managed Agent runs. Skip dual-write for: state.md (ephemeral), files >100 kB (beta limit), anything containing secrets.
 
-Full pattern, edge cases, and rationale: see `stopa-memory-mcp/INTEGRATION.md`. Tracking: STOPA#26 (live-tested 2026-04-25, 7/7 PASS).
+Full pattern, both transports, edge cases, and rationale: see `stopa-memory-mcp/INTEGRATION.md`. Tracking: STOPA#26 (live-tested 2026-04-25, 7/7 PASS).
 
 ## Maintenance
 

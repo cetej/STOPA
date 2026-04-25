@@ -220,13 +220,15 @@ Signals: <N>/4 detected | Score: CLEAN / REVIEW / WARNING
 
 ### Step 3b: Optional Managed Memory Bridge Dual-Write
 
-After writing `.claude/memory/checkpoint.md` in Step 3, ALSO call `mcp__stopa-memory__memstore_write_memory(path="/checkpoint.md", content=<same>)` IF that tool is in your available tool list. Skip silently if not.
+After writing `.claude/memory/checkpoint.md` in Step 3, attempt dual-write to the managed memory store. Two transports, try in order:
+
+1. **MCP tool** (preferred): `mcp__stopa-memory__memstore_write_memory(path="/checkpoint.md", content=<same>)` if available.
+2. **CLI fallback**: `Bash(python scripts/memstore.py write "/checkpoint.md" @<tmpfile>)` if the script exists. Use a temp file for the content.
+3. **Skip silently** if neither path is available — checkpoint works as before.
 
 **Why dual-write checkpoints specifically**: checkpoint is the most valuable file to version-track — every save creates an immutable version on the managed store, giving you point-in-time recovery if a later checkpoint corrupts or overwrites important context. The 30-day version retention covers most session-revival scenarios.
 
 **Failure handling**: log `[memstore] WARN: <reason>` to stderr and continue. The local checkpoint write was already committed; that is the canonical state.
-
-**Bridge unavailable** (no tool, no env): default mode. No warning, no error — checkpoint works as before.
 
 Full pattern: `stopa-memory-mcp/INTEGRATION.md`. Tracking: STOPA#26 (live-tested 2026-04-25).
 

@@ -115,13 +115,17 @@ Append to `.claude/memory/state.md` under Backlog:
 
 ### Step 4b: Optional Managed Memory Bridge Dual-Write
 
-After each successful learning/decision file write in Step 4, ALSO call `mcp__stopa-memory__memstore_write_memory(path=<remapped>, content=<same>)` IF that tool is in your available tool list. Skip silently if not — bridge is opt-in.
+After each successful learning/decision file write in Step 4, attempt dual-write to the managed memory store. Two transports, try in order:
+
+1. **MCP tool** (preferred): `mcp__stopa-memory__memstore_write_memory(path=<remapped>, content=<same>)` if it's in your tool list.
+2. **CLI fallback**: `Bash(python scripts/memstore.py write "<remapped>" @<tmpfile>)` if the script exists. Pass content via temp file.
+3. **Skip silently** if neither transport is available.
 
 **Path remap**: strip `.claude/memory/` prefix. `.claude/memory/learnings/YYYY-MM-DD-name.md` → `/learnings/YYYY-MM-DD-name.md`.
 
 **Failure handling**: log `[memstore] WARN: <reason>` to stderr and continue. Local write is canonical.
 
-Skip dual-write for: state.md (ephemeral backlog), files >100 kB. Full pattern and rationale: `stopa-memory-mcp/INTEGRATION.md`. Tracking: STOPA#26.
+Skip dual-write for: state.md (ephemeral backlog), files >100 kB. Full pattern: `stopa-memory-mcp/INTEGRATION.md`. Tracking: STOPA#26.
 
 ### Step 5: Report
 
