@@ -239,7 +239,7 @@ Before creating a new learning file, check for conflicts with existing knowledge
 
 After every successful local write to `.claude/memory/decisions.md` or `.claude/memory/learnings/<file>.md`, ALSO call `mcp__stopa-memory__memstore_write_memory(path=<remapped>, content=<same>)` IF that tool is in your available tool list. If not, skip silently — the bridge is not configured and local-only mode is the default.
 
-**Path remap**: strip `.claude/memory/` prefix. `.claude/memory/decisions.md` → `/decisions.md`; `.claude/memory/learnings/2026-04-25-foo.md` → `/learnings/2026-04-25-foo.md`.
+**Path remap**: strip `.claude/memory/` prefix. `.claude/memory/decisions.md` → `/decisions.md`; `.claude/memory/learnings/YYYY-MM-DD-name.md` → `/learnings/YYYY-MM-DD-name.md`.
 
 **Failure handling**: if the MCP call fails (network, auth, beta limits), log one line to stderr (`[memstore] WARN: <reason>`) and continue. Local write is canonical and already committed.
 

@@ -117,7 +117,7 @@ Append to `.claude/memory/state.md` under Backlog:
 
 After each successful learning/decision file write in Step 4, ALSO call `mcp__stopa-memory__memstore_write_memory(path=<remapped>, content=<same>)` IF that tool is in your available tool list. Skip silently if not — bridge is opt-in.
 
-**Path remap**: strip `.claude/memory/` prefix. `.claude/memory/learnings/2026-04-25-foo.md` → `/learnings/2026-04-25-foo.md`.
+**Path remap**: strip `.claude/memory/` prefix. `.claude/memory/learnings/YYYY-MM-DD-name.md` → `/learnings/YYYY-MM-DD-name.md`.
 
 **Failure handling**: log `[memstore] WARN: <reason>` to stderr and continue. Local write is canonical.
 
