@@ -41,6 +41,7 @@ from __future__ import annotations
 
 import os
 import sys
+from pathlib import Path
 from typing import Any
 
 from fastmcp import FastMCP
@@ -67,13 +68,36 @@ DEFAULT_STORE_ID = os.environ.get("STOPA_MEMSTORE_ID", "")
 mcp = FastMCP("stopa-memory")
 
 
+def _load_key_from_secrets_file() -> str:
+    """Fallback: read ANTHROPIC_API_KEY from ~/.claude/keys/secrets.env.
+
+    Windows User-scope env vars don't always propagate to MCP subprocesses
+    started by Claude Code. The secrets.env file is the canonical fallback
+    (gitignored, central store across all STOPA projects).
+    """
+    secrets_path = Path.home() / ".claude" / "keys" / "secrets.env"
+    if not secrets_path.exists():
+        return ""
+    try:
+        for line in secrets_path.read_text(encoding="utf-8").splitlines():
+            if line.startswith("ANTHROPIC_API_KEY="):
+                return line.split("=", 1)[1].strip().strip('"').strip("'")
+    except OSError:
+        pass
+    return ""
+
+
 def _client() -> anthropic.Anthropic:
-    """Lazy-construct Anthropic client. Errors surface as MCP error responses."""
-    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+    """Lazy-construct Anthropic client.
+
+    Resolution order: env var first, secrets.env file as fallback. Errors
+    surface as MCP error responses.
+    """
+    api_key = os.environ.get("ANTHROPIC_API_KEY", "") or _load_key_from_secrets_file()
     if not api_key:
         raise RuntimeError(
-            "ANTHROPIC_API_KEY env var not set. The bridge cannot reach "
-            "Anthropic's memory store API without credentials."
+            "ANTHROPIC_API_KEY not found. Checked: $ANTHROPIC_API_KEY, "
+            "~/.claude/keys/secrets.env. Set one of these to use the bridge."
         )
     return anthropic.Anthropic(api_key=api_key)
 
