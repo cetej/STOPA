@@ -25,8 +25,10 @@ import os
 import sys
 import time
 import traceback
-from datetime import datetime
+from datetime import datetime, timezone
 
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 if not os.environ.get("ANTHROPIC_API_KEY"):
@@ -47,9 +49,10 @@ def log(prefix: str, msg: str) -> None:
 
 
 def main() -> int:
-    test_store_name = f"stopa-bridge-livetest-{datetime.utcnow():%Y%m%d-%H%M%S}"
+    now = datetime.now(timezone.utc)
+    test_store_name = f"stopa-bridge-livetest-{now:%Y%m%d-%H%M%S}"
     test_path = f"/livetest/{int(time.time())}.md"
-    test_content = f"# Live test\n\nTimestamp: {datetime.utcnow().isoformat()}Z\n"
+    test_content = f"# Live test\n\nTimestamp: {now.isoformat()}\n"
 
     print(f"\n{'═' * 60}")
     print(f"  stopa-memory-mcp LIVE TEST")
