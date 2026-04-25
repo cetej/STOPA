@@ -4,6 +4,10 @@ One line per scheduled task run, newest at the top. For silent-OK runs this is t
 
 **Format:** `YYYY-MM-DD HH:MM | task-name | short status (counts, summary)`
 
+2026-04-25 18:30 | tool-radar-scan | 2 new tools (1 🔴, 1 🟡, 0 🟢): Hippo (kitfunso/hippo-memory) 8/10 biological memory for AI agents → alert raised; GenericAgent (lsdefine) 6/10 4-layer memory study reference. Total: 120 tools tracked.
+2026-04-25 | brain-ingest | All 13 queue URLs already ingested (9 from 2026-04-24 batch, 4 earlier duplicates) — stale queue cleaned, no new wiki articles needed
+2026-04-24 00:00 | tool-radar-scan | SKIP — task marked DISABLED (migrated to CC Routines); radar.md already has 2 scans from today (3 new tools + 13 X/tabs processed)
+
 2026-04-24 | dreams | 8 learnings scanned, 4 cross-link pairs added (autoresearch triangle complete), 1 backward-update, 1 pattern detected. Compression cluster dedup resolved.
 2026-04-24 | daily-rebalancer | STOPA: 2 files committed (concept-graph.json, radar.md). NG-ROBOT: utilities.py unstaged (source code, skip). 12/12 projects active last 3d. No .gitignore extensions needed.
 2026-04-24 | tool-radar-scan | 3 new 🟡 tools: AI-SPM (OPA runtime security 6/10), Hive Memory (cross-project MCP 5/10), Almanac MCP (web research 5/10). No score >=8. Total: 99 tools tracked.
@@ -47,3 +51,5 @@ One line per scheduled task run, newest at the top. For silent-OK runs this is t
 2026-04-23 08:00 | morning-watch | OK — 3 new items: #110 CC odstraněn z Pro (test ~2% nových), #111 Claude Cowork GA + Analytics API, #112 CC prompt caching controls (1h + 5min)
 2026-04-24 00:00 | autodream | OK — 185 learnings scanned; 7 confidence boosts (3× to 1.0); 0 archived; 0 promoted (no graduation candidates); 27 dedup candidates flagged for next /evolve
 2026-04-24 07:52 | arxiv-daily-digest | OK — 5 papers added to news.md (1 [ACTION]: 2604.02988 self-optimizing deep research); 1 new URL queued in inbox.md (2512.17102 SAGE)
+2026-04-25 04:51 | dreams | skip: last dream 2026-04-24, no new learnings/outcomes, replay queue empty
+2026-04-25 | arxiv-daily-digest | OK — 5 papers added to news.md (2 [ACTION]: 2603.01327 SWE-Adept localization+resolution split, 2603.01896 semi-formal code reasoning); 5 URLs queued in inbox.md for brain-ingest

@@ -87,3 +87,10 @@ Rotating log of genuine problems that need user attention: failures, security fi
 - **Severity:** low
 - **Source:** telegram-notify.sh (legacy caller)
 - **Status:** open
+
+## 2026-04-25 18:30 — [tool-radar-scan] New 🔴 tool: Hippo (kitfunso/hippo-memory) 8/10
+- **Severity:** high
+- **Source:** tool-radar-scan
+- **Detail:** Biologically-inspired memory for AI agents (593★, MIT, TS+SQLite, v0.31.0 Apr 22 2026, npm i -g hippo-memory). Implements 7 mechanisms: 7-day half-life decay, retrieval strengthening (+2d per recall), error memories 2× persistence, consolidation cycles (`hippo sleep`), conflict detection, multi-tool portability (ChatGPT/Claude/Cursor → markdown), outcome feedback. Validates STOPA memory-files.md ACT-R note + introduces 2 NEW patterns absent from STOPA: (1) error memories 2× persistence (STOPA currently penalizes errors via harmful_uses, doesn't extend their half-life), (2) exponential decay with retrieval extension (STOPA uses linear 0.05 confidence boost).
+- **Action suggested:** /improve STOPA — pilot exponential decay in evolve script + add "error 2× persistence" rule to memory-files.md. /improve 2BRAIN — multi-tool portability pattern (Claude/Cursor → markdown export). M effort.
+- **Status:** open
