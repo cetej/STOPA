@@ -475,6 +475,8 @@ Intensity levels (NOT orchestration tiers — these control debate rounds, not a
 | "The rewriter should see the synthesis too" | Role contamination — rewriter addresses critique, synthesizer merges | Keep roles strictly separate |
 | "I'll skip B from the judge panel — synthesis already incorporates it" | Ablation (autoreason 2026): removing B alone collapses performance; A/B/AB as a triad is necessary | Always include all 3 candidates in Borda panel |
 | "I'll use 3 judges to save tokens" | 3 judges converge 3× slower than 7; minimum practical is 5 for important texts | Use 5 judges for `standard`, 7 for `deep` |
+| "Let me upgrade writers from Sonnet to Opus for better output" | Empirically Haiku 3.5 hit 42/42 with this loop — gain comes from A/B/AB structure, not model scale (Principle 10) | Keep Sonnet for writers, Haiku for judges; spend the budget on more rounds/judges instead |
+| "I'll skip incumbent A — synthesis is always better" | Without A, naive loops shrink text each pass (345→102 reported) — A is the structural safeguard against monotonic deletion | Always include A in Borda panel |
 
 ## Key Design Principles (from literature)
 
@@ -487,3 +489,5 @@ Intensity levels (NOT orchestration tiers — these control debate rounds, not a
 7. **A/B/AB tournament necessity** — all three candidates are structurally necessary; ablation shows removing either B or AB alone collapses performance (autoreason, NousResearch 2026)
 8. **Borda count > majority vote** — rank aggregation across 3 candidates captures preference intensity, not just binary win/loss; prevents split-vote failure modes (Borda 1784, applied to LLM judging by autoreason 2026)
 9. **Incumbent preservation** — A (unchanged) always competing prevents prompt-bias assumption that "improvement is always possible" (autoreason 2026)
+10. **Mid-tier sweet spot** — empirically the structure carries more signal than model scale: Haiku 3.5 reached perfect 42/42 with this loop while standard self-refinement degraded the same model's output below a single unrefined pass. Mid-tier recovery rate ~62% vs ~43% for frontier-only baselines. Implication: do NOT upgrade writers to Opus thinking it will help — the loop's gain comes from A/B/AB triáda + blind judges, not from raw model capability (autoreason 2026)
+11. **Beware monotonic shrinkage** — naive self-refinement loops without an A baseline tend to delete content each pass (one reported case: 345 → 102 words). The incumbent-A vote is the structural safeguard; never disable it to "speed things up" (autoreason 2026)
