@@ -20,6 +20,7 @@ You discover, evaluate, and track new tools, libraries, and techniques relevant 
 1. Read `.claude/memory/radar.md` — previous findings, last scan date, known tools
 2. Read `.claude/memory/key-facts.md` — current stack and project context
 3. Read `.claude/memory/news.md` — last 20 lines only (avoid duplicating /watch findings)
+4. Read `.claude/memory/radar-proposals.md` — brain-sourced findings awaiting review (issue #24, G7 bridge). Pending rows are candidates from `brain-ingest` LLM classification — review them at the start of `digest` and `scan` modes; user accepts/rejects per row.
 
 <!-- CACHE_BOUNDARY -->
 
@@ -180,6 +181,39 @@ Agent(prompt="Research tool '{name}': What does it do? How mature is it?
 How could we use it in {relevant_project}? Competitors? Installation?
 Write findings to outputs/radar-{name}-{date}.md", model="sonnet")
 ```
+
+---
+
+## Mode 4: Proposal Review (brain → STOPA bridge, issue #24)
+
+Triggered automatically at the start of **`digest`** and **`scan`** modes if `radar-proposals.md` has any rows with `Status: pending`. May also be invoked explicitly: `/radar proposals`.
+
+### Why
+`brain-ingest.py` classifies every URL it processes. When `action_class ∈ {tool, library, mcp-server, cli}`, it appends to `radar-proposals.md` (after dedup against `radar.md`). This avoids silent drift between the 2BRAIN pipeline and STOPA action memory while keeping `radar.md` curated.
+
+### Flow
+
+1. Read `.claude/memory/radar-proposals.md`
+2. For each `pending` row:
+   - Show the user: tool name, action class, URL, key idea (1 line)
+   - Re-fetch via Jina Reader if context insufficient (max 3 fetches per session)
+   - Apply standard 3-Gate Filter + Numeric Score (same rubric as Mode 1)
+3. Write the result based on score:
+   - **🔴 ≥ 8** → append to `radar.md` Active Research with `source: brain-watch` field, mark proposal row `Status: accepted` and move to `## Resolved`. Also launch `/improve` for cross-project routing.
+   - **🟡 5-7** → append to `radar.md` Watch List with `source: brain-watch`, mark `accepted`.
+   - **🟢 < 5** → mark proposal row `rejected` and move to `## Resolved` with one-line reason. Do NOT pollute `radar.md`.
+4. Update `Stats` line in `radar.md` accordingly.
+
+### Audit invariants (must hold)
+
+- Every row promoted from proposals to `radar.md` MUST include `source: brain-watch` in the Source column
+- Every reviewed row MUST land in `## Resolved` (no row deletion — keeps audit trail)
+- Dedup is enforced at write time by `brain-ingest.py`, but re-check before promotion: if the tool is now in `radar.md` (some other path added it), mark proposal `dedup` and resolve
+
+### Circuit breaker
+
+- `/radar` MUST NOT write to `brain/inbox.md`, `brain/watchlist.md`, or `brain/raw/`. Bridge is one-way (brain → STOPA only).
+- If `radar-proposals.md` has > 50 pending rows: STOP, ask user — likely indicates `brain-ingest` classification needs tuning.
 
 ---
 

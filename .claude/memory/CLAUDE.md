@@ -14,7 +14,9 @@
 | `checkpoint.md` | Session snapshot (YAML frontmatter + markdown) | Per-session |
 | `key-facts.md` | Stack, endpoints, env vars (max 200 lines) | On infra change |
 | `news.md` | /watch scan results | Weekly |
+| `news-proposals.md` | brain-ingest → /watch review queue (papers, issue #24 G7 bridge) | Per-ingest |
 | `radar.md` | /radar tool evaluations | Per-scan |
+| `radar-proposals.md` | brain-ingest → /radar review queue (tools, issue #24 G7 bridge) | Per-ingest |
 | `improvement-log.md` | Cross-project routing audit trail | Per-routing |
 | `replay-queue.md` | HERA failure-sourced learning validation queue | Per-failure |
 | `outcomes/` | Per-run RCL credit records (success/failure) | Per-skill-run |
