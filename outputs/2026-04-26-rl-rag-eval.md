@@ -8,7 +8,13 @@
 ## TL;DR
 
 Rule-based `select_strategy(query)` implemented in [scripts/hybrid-retrieve.py](../scripts/hybrid-retrieve.py)
-behind opt-in flag `--use-strategy`. Default behavior unchanged (fixed RRF k=60).
+behind opt-in flag `--use-strategy`. Default behavior largely unchanged (fixed RRF k=60).
+
+**Update 2026-04-26 (post-eval):** Sub-rule `grep_only` for ≤2-word queries promoted
+from opt-in to **always-on default** (validated by A/B: 75% speedup, lowest blast radius,
+extends light-tier fast-path). Other strategies stay opt-in. Verified on 4 scenarios:
+1-word `memory` and 2-word `memory consolidation` skip BM25+graph (~27ms vs ~92ms full
+hybrid for 5-word query) — ~3.4× speedup. Other queries unchanged.
 
 A/B on 11 unique queries (197 total occurrences in `.claude/memory/retrieval-metrics.jsonl`):
 

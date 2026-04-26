@@ -584,10 +584,21 @@ def hybrid_search(
         weights = STRATEGY_WEIGHTS[strategy]
         if debug:
             print(f"[STRATEGY] {strategy} weights={weights}")
+    else:
+        # Always-on safe sub-rule: grep_only for ≤2-word queries.
+        # Validated by A/B (outputs/2026-04-26-rl-rag-eval.md) — 75% speedup,
+        # extends existing light-tier fast-path. Other strategies stay opt-in
+        # via --use-strategy until critic-citation reward signal exists.
+        _words = re.findall(r"[a-záčďéěíňóřšťúůýž0-9_-]{2,}", query.strip().lower())
+        if 0 < len(_words) <= 2:
+            strategy = "grep_only"
+            weights = STRATEGY_WEIGHTS["grep_only"]
+            if debug:
+                print(f"[STRATEGY] auto grep_only (n_words={len(_words)})")
 
-    skip_grep = use_strategy and weights["grep"] == 0.0
-    skip_bm25 = use_strategy and weights["bm25"] == 0.0
-    skip_graph = use_strategy and weights["graph"] == 0.0
+    skip_grep = weights["grep"] == 0.0
+    skip_bm25 = weights["bm25"] == 0.0
+    skip_graph = weights["graph"] == 0.0
 
     # Signals 1-2 run in parallel (Combee-inspired, arXiv:2604.04247)
     # Signal 3 (graph) depends on 1+2 seeds, so runs after.
@@ -669,7 +680,7 @@ def hybrid_search(
     fused = fuse_rrf(
         grep_results, bm25_results, graph_results, superseded,
         effective_top_n, mp_results,
-        signal_weights=weights if use_strategy else None,
+        signal_weights=weights if strategy != "hybrid" else None,
     )
 
     if debug:
