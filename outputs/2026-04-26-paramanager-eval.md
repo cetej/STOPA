@@ -97,19 +97,46 @@ ParaManager doporučuje **lightweight orchestrátor + uniform Agent-as-Tool inte
 
 **Output**: strukturovaný JSON plán s decomposition, parallel_groups, expected_artifacts, success_criteria. NE execute, jen plan.
 
-### 4.2 Měření
+### 4.2 Měření — POC1 (plan-only, 3-way)
 
-| Metrika | Haiku orchestrátor | Sonnet baseline | Pozn. |
-|---------|---------------------|-----------------|-------|
-| **Total tokens** | 86,242 | 43,351 | Sonnet 2× méně |
-| **Duration (wall-clock)** | 9.35 s | 15.95 s | Haiku 1.7× rychlejší |
-| **Plan validity (JSON schema)** | ✓ | ✓ | Oba dodrželi |
-| **Decomposition kroky** | 4 (W1→W2→W3→W4) | 4 (W1→W2→W3→W4) | Identická topologie |
-| **Explicit data flow syntax** | implicit ("filtered subset from step 2") | explicit (`{{step1.artifacts}}`) | Sonnet jasnější |
-| **Edge case handling** | success_criteria zmiňuje "≥1 opus skill" | success_criteria zmiňuje "if step 2 returns 0" | Sonnet preciznější |
-| **Schema specifications** | Step 2 schema podrobné | Step 2 schema podrobné | Srovnatelné |
+| Metrika | Haiku | Sonnet | Opus | Pozn. |
+|---------|-------|--------|------|-------|
+| **Total tokens** | 86,242 | 43,351 | 59,373 | Sonnet nejlepší |
+| **Duration (wall-clock)** | 9.35 s | 15.95 s | 18.37 s | Haiku nejrychlejší |
+| **Plan validity (JSON schema)** | ✓ | ✓ | ✓ | Všichni dodrželi |
+| **Decomposition kroky** | 4 (W1→W2→W3→W4) | 4 (W1→W2→W3→W4) | 5 (přidal explicit filter step) | Opus nejdetailnější |
+| **Explicit data flow syntax** | implicit | explicit (`{{step1.artifacts}}`) | explicit (`{{step_1.artifacts.paths}}`) | Sonnet/Opus jasnější |
+| **Edge case handling** | "≥1 opus skill" | "if step 2 returns 0" | "short-circuit to Step5 with empty-result report" | Opus nejpreciznější |
+| **Schema specifications** | OK | dobré | typed (`dict[path, yaml_dict]`) | Opus formálnější |
+| **Worker reuse** | 4 unique | 4 unique | reuses W2 pro filter step | Opus efektivnější topologie |
 
-### 4.3 Ground truth
+**Klíčové pozorování**: Opus přidal explicit filter step (Step 3 — filter `model == 'opus'` před classification) — to zlepšuje data flow ale zvyšuje step count. Haiku/Sonnet to dělali implicitně v rámci classifier W3. Pro plan quality jsou rozdíly kosmetické — všechny 3 plány by produkovaly correct výsledek.
+
+### 4.3 Měření — POC2 (execute end-to-end, 2-way)
+
+Reálný end-to-end execute: agent dostal full execute permissions (Read, Glob, Grep, Bash) a měl find opus skills + napsat report. Ground truth = 2 skills (build-project, orchestrate).
+
+| Metrika | Haiku | Sonnet |
+|---------|-------|--------|
+| **Total tokens** | 109,810 | 52,601 |
+| **Duration (wall-clock)** | 102.16 s | 99.38 s |
+| **Tool calls** | 6 | 6 |
+| **Found count** | 2 / 2 | 2 / 2 |
+| **Verified against ground truth** | ✓ yes | ✓ yes |
+| **Recovery from Windows path issue** | (neuvedeno) | ✓ explicit (Grep glob fail → fallback Bash grep) |
+| **Recommendation quality** | "keep both opus, justified" | "keep both opus, justified" |
+| **Output artifact** | [`outputs/2026-04-26-haiku-execute-poc.md`](outputs/2026-04-26-haiku-execute-poc.md) | [`outputs/2026-04-26-sonnet-execute-poc.md`](outputs/2026-04-26-sonnet-execute-poc.md) |
+
+**Klíčové pozorování**: Oba modely **dosáhly stejné task success rate (100%)** na light-tier execute. Sonnet prokázal lepší **error recovery** — explicitně reportoval Windows-specific Grep glob fail a fallback na Bash. Haiku tento detail neuvedl (možná měl, možná tichý retry). Wall-clock je téměř identický (~100 s) protože většinu času zabírají skutečné tool roundtripy, ne model thinking.
+
+### 4.4 Klíčové zjištění (kombinované POC1+POC2)
+
+**Hypotéza paperu potvrzena**:
+- **Plan task**: Haiku produkuje plán srovnatelné kvality jako Sonnet/Opus. Opus jen marginálně preciznější (explicit filter step, formal types).
+- **Execute task**: Haiku i Sonnet dosáhly 100 % task success rate. Sonnet má lepší error recovery transparency.
+- Token usage je překvapivě **vyšší pro Haiku** (86k plan / 110k execute vs 43k / 53k Sonnet) — Haiku potřebuje víc verbose thinking, zejména při execute s tool calls.
+
+### 4.5 Ground truth
 
 ```bash
 $ grep -l "^model: opus" .claude/skills/*/SKILL.md
@@ -117,28 +144,39 @@ $ grep -l "^model: opus" .claude/skills/*/SKILL.md
 .claude/skills/orchestrate/SKILL.md
 ```
 
-Oba plans by tento výsledek našly. Quality plánu nezávisí na orchestrátoru pro jednoduchý decomposition — interface stačí.
+Všechny 3 plans + oba execute runs našly tento výsledek. Quality plánu/execute nezávisí na orchestrátoru pro tento light-tier task — interface stačí.
 
-### 4.4 Klíčové zjištění
+### 4.6 Ekonomická kalkulace
 
-**Hypotéza paperu potvrzena pro plánovací task se standardizovaným interface**:
-- Haiku produkuje plán srovnatelné kvality jako Sonnet
-- Sonnet je preciznější v explicit data flow syntax (use `{{step1.artifacts}}`) a edge cases
-- Token usage je překvapivě **vyšší pro Haiku** (86k vs 43k) — Haiku potřebuje víc verbose thinking
+Anthropic ceník (output tokens, ne včetně cache):
+- Haiku 4.5: ~$5/Mtok output
+- Sonnet 4.6: ~$15/Mtok output
+- Opus 4.7: ~$75/Mtok output
 
-**Ekonomická kalkulace** (Anthropic ceník, output tokens):
-- Haiku 4.5: $5/Mtok output
-- Sonnet 4.6: $15/Mtok output
-- Opus 4.7: $75/Mtok output
-- POC cost ratio: Haiku 86k × $5 ≈ $0.43 vs Sonnet 43k × $15 ≈ $0.65 → Haiku ~33 % levnější
-- Vs Opus baseline (current): ~$3.20+ per orchestration → Haiku ~85 % úspora
+| POC run | Tokens | Estimated cost |
+|---------|--------|----------------|
+| Plan: Haiku | 86,242 | ~$0.43 |
+| Plan: Sonnet | 43,351 | ~$0.65 |
+| Plan: Opus | 59,373 | ~$4.45 |
+| Execute: Haiku | 109,810 | ~$0.55 |
+| Execute: Sonnet | 52,601 | ~$0.79 |
 
-### 4.5 Limitace POC
+**Cost reduction Haiku vs Opus**:
+- Plan task: ~$0.43 vs ~$4.45 → **90 % úspora**
+- Pokud je plan task representative, Haiku orchestrator pro light tier ušetří ~85–90 % per orchestration ve srovnání s Opus baseline (current).
 
-1. **Plánovací task je úzká skupina** — POC neměřil execution coordination (course-correction při FAIL, multi-wave handoff, mid-execution replanning).
-2. **Standardizované workers byly synthetic** — reálné STOPA workers mají variabilní outputy. ParaManager paper trénuje orchestrator přesně na tuto variabilitu, STOPA ji nemůže trénovat.
-3. **Skill body size unaddressed** — POC nepoužil 1275-řádkový SKILL.md. V realitě by Haiku narazil na context limit.
-4. **Single task class** — light-tier plánování. Standard/deep tier vyžaduje hlubší reasoning, který Haiku nemusí zvládnout.
+**Cost reduction Haiku vs Sonnet**:
+- Plan: $0.43 vs $0.65 → 34 %
+- Execute: $0.55 vs $0.79 → 30 %
+- Sonnet má vyšší per-token cenu ale méně tokenů; ekonomický rozdíl Haiku vs Sonnet je menší než Haiku vs Opus.
+
+### 4.7 Limitace POC
+
+1. **Single task class** — light-tier audit task. Standard/deep tier vyžaduje hlubší reasoning, který Haiku nemusí zvládnout. Execute POC pro standard tier nebyl testován.
+2. **Course-correction nezměřeno** — žádný z runs nezasáhl FAIL/replan path. ParaManager právě tuhle situaci paper testuje a ParaManager training na ni reaguje. Bez RL trainingu nelze zaručit, že Haiku zvládne complex recovery.
+3. **Standardizované workers byly synthetic** (POC1) — reálné STOPA workers mají variabilní outputy. POC2 (execute) tuto výtku částečně eliminuje (real tool calls).
+4. **Skill body size unaddressed** — POC nepoužil 1275-řádkový `/orchestrate` SKILL.md. V realitě by Haiku narazil na context limit. Toto je P0 prerekvizita (SKILL.compact.md).
+5. **Opus execute nebyl spuštěn** — Sonnet/Haiku dosáhly 100 % na tomto úkolu, takže Opus by neukázal rozdíl. Ale to neznamená, že na složitějším úkolu by se rozdíl neukázal.
 
 ---
 
