@@ -319,3 +319,31 @@ Focused audit triggered by overlap detection between two skill-component learnin
 - FIX_DATA: Removed empty `model_gate: ""` from skill-retrieval-bottleneck.md
 - RECOMMEND: /compile (2 new LH-Deception learnings since last build)
 - AUTOMATE: Created scheduled task `weekly-evolve` (Monday 9:23, auto-run /evolve)
+
+---
+
+## Evolution Run — 2026-04-26
+
+First run since 2026-04-08 (#4) — 18 days of accumulated signals.
+
+### Signals
+- 43 corrections (33 new since #4) — clusters A (skill-evolution agent describe-only ×4) + B (daily-rebalancer whitelist ×2) both ALREADY_COVERED by 2026-04-24-scheduled-task-discipline.md
+- 200 violations across 4 patterns — ALL stale (fixes e745ebc + 0e7692c deployed 2026-04-26 17:00, latest violation 16:50 = pre-fix)
+- 100 sessions, last 10 healthy (corrections=0, errors=0, frustrations=0)
+- 197 learnings scanned: 0 new graduation candidates (3 high-use already at maturity=core), 0 prune candidates (none < 0.3 confidence), 0 draft→validated upgrades
+- 26 panic episodes (single-day burst 2026-04-18, all yellow, dominant `edit_velocity:3 + scope_creep:1`) — covered by calm-steering protocol
+- replay-queue empty, annotations.jsonl empty, skill-usage.jsonl still missing (deferred again)
+- critical-patterns.md healthy at 9/10, all last_confirmed 2026-04-24
+
+### Proposals
+- 3 proposed, 2 approved + applied, 1 self-rejected
+
+### Applied
+- ARCHIVE_LOG: Rotated violations.jsonl (200 stale entries) → violations-archive.jsonl, fresh empty log started
+- ADD_AUTONOMY_MARKER: Added `<!-- AUTONOMOUS-EXECUTION v1 -->` block to ~/.claude/scheduled-tasks/tool-radar-scan/SKILL.md (38th task — was the only one missing the marker; cross-project edit, not in STOPA repo)
+
+### Self-Rejected (post-approval, pre-application)
+- BUMP_USES_COUNTER on 2026-04-24-scheduled-task-discipline.md (4→6): proposal was based on counting source-signal corrections (2026-04-19 to 2026-04-21) that PRE-DATED the learning's creation (2026-04-24). Source signals don't count as post-creation retrievals. Current `uses: 4` already correctly reflects actual applications.
+
+### Deferred (again)
+- Skill-usage tracking hook — sessions.jsonl shows skills=0 across all 100 sessions. Either tracking still inactive or the autonomous-mode work bypasses skill invocations. Revisit when skills appear in session scorecards.
