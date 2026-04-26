@@ -78,7 +78,7 @@ def extract_inline_verify_checks(content: str) -> list[tuple[str, str]]:
 
 def run_grep(pattern: str, path_str: str, glob_pat: str | None) -> int:
     """Count grep matches across files. Returns total match count."""
-    base = Path(path_str) if path_str else Path(".")
+    base = Path(path_str).expanduser() if path_str else Path(".")
     if not base.exists():
         return 0
 
@@ -110,7 +110,13 @@ def run_grep(pattern: str, path_str: str, glob_pat: str | None) -> int:
 
 
 def run_glob(pattern: str) -> int:
-    """Count glob matches from project root."""
+    """Count glob matches from project root.
+
+    If pattern starts with `~/`, expand to home and use absolute glob.
+    """
+    if pattern.startswith("~"):
+        expanded = Path(pattern).expanduser()
+        return len(list(expanded.parent.glob(expanded.name)))
     return len(list(Path(".").glob(pattern)))
 
 

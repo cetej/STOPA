@@ -7,11 +7,11 @@ tags: [scheduled-tasks, autonomy, whitelist, execution-discipline, cross-project
 summary: "Scheduled/autonomous agenti opakovaně porušují dva pilíře disciplíny: (1) rozšiřují explicitní whitelisty o 'podobné' patterny (daily-rebalancer: 4× correction), (2) reportují 'should change X' místo skutečné exekuce (evolve-skills: 5 frustration + 2 correction). Pravidlo: v scheduled módu MATCH EXAKTNĚ whitelist a APLIKUJ změny — nikdy ne suggest-only."
 source: user_correction
 maturity: draft
-confidence: 0.95
-uses: 1
+confidence: 1.00
+uses: 3
 successful_uses: 1
 harmful_uses: 0
-verify_check: "Grep('AUTONOMOUS-EXECUTION v1', path='~/.claude/scheduled-tasks') → 38+ matches"
+verify_check: "Grep('AUTONOMOUS-EXECUTION v1', path='~/.claude/scheduled-tasks') → 37+ matches"
 skill_scope: [scheduled-tasks]
 ---
 
