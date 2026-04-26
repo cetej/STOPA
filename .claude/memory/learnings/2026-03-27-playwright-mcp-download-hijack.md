@@ -8,10 +8,11 @@ summary: "Playwright MCP hijacks Chrome downloads to temp folder, breaking all b
 source: auto_pattern
 maturity: draft
 verify_check: "manual"
-confidence: 1.0
-uses: 1
+confidence: 1.00
+uses: 3
 successful_uses: 0
 harmful_uses: 0
+related: [2026-04-25-mcp-config-canonical-location.md, 2026-03-27-secrets-in-config-files.md]
 ---
 
 # Playwright MCP unáší Chrome downloads — post-mortem

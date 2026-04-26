@@ -8,7 +8,7 @@ summary: "Sonnet 4.6 s thinking:disabled agresivně sumarizuje dlouhý text (~40
 source: user_correction
 maturity: draft
 confidence: 1.00
-uses: 2
+uses: 3
 harmful_uses: 0
 model_gate: "sonnet-4.6"
 valid_until: 2026-10-31

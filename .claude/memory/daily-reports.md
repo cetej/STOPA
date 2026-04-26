@@ -4,6 +4,12 @@ One line per scheduled task run, newest at the top. For silent-OK runs this is t
 
 **Format:** `YYYY-MM-DD HH:MM | task-name | short status (counts, summary)`
 
+2026-04-26 | arxiv-daily-digest | OK — 3 papers added to news.md (1 [ACTION]: 2604.17658 self-improving error diagnosis; 2 [WATCH]: 2601.13671 MAS orchestration survey, 2601.09822 LLM agentic SE survey); 3 new URLs queued in inbox.md
+2026-04-26 | auto-evolve-skills | 17 skills evaluated (2 sessions, 14d window), 0 candidates generated — all 0% error rate / insufficient failure evidence; 1 timeout (radar), 4 not-found skills
+
+2026-04-26 | autodream | 187 scanned, 4 confidence updates, 27 dedup candidates (0 merge-strong), 0 graduation candidates, 0 archived
+2026-04-26 | dreams | OK abbreviated cycle — 1 new learning (mcp-config-canonical-location) cross-linked into MCP-config cluster (4 bidirectional links across 3 prior learnings: secrets-in-config, playwright-hijack, mcp-token-overhead); 0 backward updates, 0 patterns, 0 merges; replay queue empty
+
 2026-04-25 18:30 | tool-radar-scan | 2 new tools (1 🔴, 1 🟡, 0 🟢): Hippo (kitfunso/hippo-memory) 8/10 biological memory for AI agents → alert raised; GenericAgent (lsdefine) 6/10 4-layer memory study reference. Total: 120 tools tracked.
 2026-04-25 | brain-ingest | All 13 queue URLs already ingested (9 from 2026-04-24 batch, 4 earlier duplicates) — stale queue cleaned, no new wiki articles needed
 2026-04-24 00:00 | tool-radar-scan | SKIP — task marked DISABLED (migrated to CC Routines); radar.md already has 2 scans from today (3 new tools + 13 X/tabs processed)
@@ -53,3 +59,11 @@ One line per scheduled task run, newest at the top. For silent-OK runs this is t
 2026-04-24 07:52 | arxiv-daily-digest | OK — 5 papers added to news.md (1 [ACTION]: 2604.02988 self-optimizing deep research); 1 new URL queued in inbox.md (2512.17102 SAGE)
 2026-04-25 04:51 | dreams | skip: last dream 2026-04-24, no new learnings/outcomes, replay queue empty
 2026-04-25 | arxiv-daily-digest | OK — 5 papers added to news.md (2 [ACTION]: 2603.01327 SWE-Adept localization+resolution split, 2603.01896 semi-formal code reasoning); 5 URLs queued in inbox.md for brain-ingest
+2026-04-25 23:30 | brain-ingest | 1 URLs
+2026-04-26 00:09 | brain-ingest | 10 URLs
+2026-04-26 00:23 | brain-ingest | inbox empty
+2026-04-26 00:29 | brain-watch | arxiv: 30, blogs: 6, queued: 36
+2026-04-26 09:33 | brain-ingest | 39 URLs
+2026-04-26 10:53 | brain-ingest | inbox empty
+2026-04-26 12:23 | brain-ingest | inbox empty
+2026-04-26 15:23 | brain-ingest | inbox empty

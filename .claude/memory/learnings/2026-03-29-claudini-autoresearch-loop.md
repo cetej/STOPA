@@ -11,7 +11,7 @@ uses: 3
 harmful_uses: 0
 related: [2026-04-23-llm-confirmation-bias.md, 2026-04-08-auto-research-removes-human-bottleneck.md]
 verify_check: "manual"
-confidence: 0.85
+confidence: 1.0
 successful_uses: 0
 ---
 

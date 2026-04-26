@@ -8,10 +8,11 @@ summary: "NEVER write API keys/tokens into JSON config files. Use environment va
 source: auto_pattern
 maturity: draft
 verify_check: "Grep('ANTHROPIC_API_KEY.*:.*sk-ant|ghp_[a-zA-Z0-9]{36,}', path='.claude/settings.json') → 0 matches"
-confidence: 1.0
-uses: 1
+confidence: 1.00
+uses: 4
 successful_uses: 0
 harmful_uses: 0
+related: [2026-04-25-mcp-config-canonical-location.md, 2026-03-27-playwright-mcp-download-hijack.md]
 ---
 
 # Tokeny a API klíče nesmí být přímo v config souborech

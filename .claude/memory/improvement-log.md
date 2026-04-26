@@ -41,3 +41,8 @@ Cross-project improvement routing audit trail. Each row = one routed finding.
 | 2026-04-23 | HyperFrames PoC — deterministic HTML→MP4 data viz (Apache 2.0, 9.5k⭐) | radar.md 8/10 | cetej/NG-ROBOT | [#9](https://github.com/cetej/NG-ROBOT/issues/9) |
 | 2026-04-23 | Claude Context MCP pilot — AST hybrid code search (Zilliz, 7.95k⭐) | radar.md 7/10 | cetej/NG-ROBOT | [#10](https://github.com/cetej/NG-ROBOT/issues/10) |
 | 2026-04-23 | Brain → STOPA memory bridge (G7 postmortem) — sync-all/selective/propose-only | postmortem G7 | cetej/STOPA | [#24](https://github.com/cetej/STOPA/issues/24) |
+| 2026-04-25 | Tool Attention (arXiv:2604.21816) — 95% MCP token overhead reduction via dynamic ISS gating | radar 8/10 | cetej/STOPA | [#25](https://github.com/cetej/STOPA/issues/25) |
+| 2026-04-25 | Tool Attention (arXiv:2604.21816) — dynamic MCP schema gating for FastMCP | radar 8/10 | cetej/POLYBOT | [#3](https://github.com/cetej/POLYBOT/issues/3) |
+| 2026-04-25 | Claude Managed Agents Memory (Anthropic beta) — shared memory stores for multi-agent | radar 8/10 | cetej/STOPA | [#26](https://github.com/cetej/STOPA/issues/26) |
+| 2026-04-25 | Claude Managed Agents Memory (Anthropic beta) — shared state for pipeline stages | radar 8/10 | cetej/NG-ROBOT | [#11](https://github.com/cetej/NG-ROBOT/issues/11) |
+| 2026-04-25 | Claude Managed Agents Memory (Anthropic beta) — shared prediction state across agents | radar 8/10 | cetej/POLYBOT | [#4](https://github.com/cetej/POLYBOT/issues/4) |

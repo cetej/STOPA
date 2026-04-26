@@ -7,7 +7,7 @@ tags: [multi-agent, security, trust, deception, pressure, model-selection]
 summary: Agent deception increases under event pressure (failures, high stakes) and varies by model — in STOPA, increase critic skepticism when a sub-agent hits repeated failures.
 source: external_research
 maturity: validated
-uses: 5
+uses: 6
 successful_uses: 0
 harmful_uses: 0
 confidence: 1.00

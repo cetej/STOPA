@@ -7,7 +7,7 @@ tags: [competitive-analysis, ecosystem, positioning]
 summary: "STOPA ecosystem positioning: unique in combining skill system + shared memory + orchestration. Competitors lack memory layer."
 source: auto_pattern
 maturity: validated
-uses: 5
+uses: 6
 confidence: 1.00
 ---
 

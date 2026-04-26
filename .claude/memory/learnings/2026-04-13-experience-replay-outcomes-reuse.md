@@ -6,7 +6,7 @@ component: orchestration
 tags: [autoloop, autoresearch, self-evolve, outcomes, optstate, replay, compute-efficiency]
 summary: "Skills čtou optstate momentum, ale ne konkrétní outcomes z minulých runů. Phase 0 by mělo glob outcomes/<skill>-* (last 5, desc) a číst Trajectory Summary — stejný mechanismus jako experience replay v RL snižuje 'inference cost' (agent spawns) bez ztráty kvality."
 source: external_research
-uses: 5
+uses: 6
 successful_uses: 0
 harmful_uses: 0
 confidence: 1.00

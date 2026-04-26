@@ -197,3 +197,21 @@ Older digests: see news-archive.md
 | 2026-04-24 | [WATCH] | Adaptive Orchestration: Scalable Self-Evolving Multi-Agent Systems (arXiv:2601.09742) — Dynamic Mixture of Experts (DMoE) concierge dynamically hires specialized sub-agents based on real-time task analysis; relevant for evolve and orchestrate | medium | No | arxiv-daily-digest |
 | 2026-04-24 | [WATCH] | RL for Self-Improving Agent with Skill Library — SAGE (arXiv:2512.17102) — reinforcement learning with skill library achieves 8.9% task completion improvement and skill reuse across similar tasks; directly relevant to self-evolve | medium | No | arxiv-daily-digest |
 | 2026-04-24 | [WATCH] | CoCR-RAG: Concept-oriented Context Reconstruction for Web Q&A (arXiv:2603.23989) — concept distillation from AMR fuses multi-document concepts into unified dense context; complements STOPA concept-graph retrieval | medium | No | arxiv-daily-digest |
+
+## 2026-04-25 arXiv Daily Digest
+
+| Date | Type | Item | Urgency | Acted | Source |
+|------|------|------|---------|-------|--------|
+| 2026-04-25 | [ACTION] | SWE-Adept: LLM Agentic Framework for Deep Codebase Analysis and Structured Issue Resolution (arXiv:2603.01327) — two-agent split (localization via agent-directed DFS + resolution with adaptive planning) sharing working memory of code-state checkpoints; +4.7% on SWE-Bench; directly applicable to /scout + /fix-issue handoff | high | No | arxiv-daily-digest |
+| 2026-04-25 | [ACTION] | Agentic Code Reasoning (arXiv:2603.01896) — semi-formal reasoning prompt methodology requiring explicit premises, execution traces, and formal conclusions; 78%→88% on patch equivalence, 87% on code QA; implementable in /critic and /verify reasoning chains | high | No | arxiv-daily-digest |
+| 2026-04-25 | [WATCH] | SWE-AGILE: Software Agent Framework for Efficiently Managing Dynamic Reasoning Context (arXiv:2604.11716) — adaptive context management for long-running coding agents; relevant to STOPA context engineering and progressive skill withdrawal | medium | No | arxiv-daily-digest |
+| 2026-04-25 | [WATCH] | From Reasoning to Agentic: Credit Assignment in RL for LLMs (arXiv:2604.09459) — credit assignment techniques bridging reasoning and agentic regimes; relevant to RCL outcomes/credit tracking and dual-trace assignment | medium | No | arxiv-daily-digest |
+| 2026-04-25 | [WATCH] | Evaluating Multi-Hop Reasoning in RAG: CARE LLM-as-judge framework (arXiv:2604.18234, ECIR 2026) — CARE outperforms baseline methods on HotPotQA/MuSiQue/SQuAD 2.0 for multi-hop context relevance; relevant to /eval and hybrid retrieval evaluation | medium | No | arxiv-daily-digest |
+
+## 2026-04-26 arXiv Daily Digest
+
+| Date | Type | Item | Urgency | Acted | Source |
+|------|------|------|---------|-------|--------|
+| 2026-04-26 | [ACTION] | Towards Self-Improving Error Diagnosis in Multi-Agent Systems (arXiv:2604.17658) — self-evolving diagnosis framework decomposing failure analysis into specialized roles for backward tracing, hypothesis generation, and tool-grounded verification; directly applicable to /critic and /learn-from-failure failure-attribution pipeline | high | No | arxiv-daily-digest |
+| 2026-04-26 | [WATCH] | The Orchestration of Multi-Agent Systems: Architectures, Protocols, and Enterprise Adoption (arXiv:2601.13671) — survey of architectural composition, agent roles, orchestration logic, communication protocols, and governance for enterprise MAS; reference taxonomy for /orchestrate decisions | medium | No | arxiv-daily-digest |
+| 2026-04-26 | [WATCH] | LLM-Based Agentic Systems for Software Engineering Survey (arXiv:2601.09822) — comprehensive survey of LLM-based agentic SE systems with taxonomy of capabilities, gaps, and patterns; useful synthesis for /orchestrate and /fix-issue evolution | medium | No | arxiv-daily-digest |

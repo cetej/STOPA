@@ -3,12 +3,12 @@
 Obsah kompilovaných wiki článků organizovaný podle typu entity.
 LLM čte tento soubor PRVNÍ při odpovídání na dotazy.
 
-**Last updated:** 2026-04-23
-**Total articles:** 78
+**Last updated:** 2026-04-24
+**Total articles:** 87
 
 ---
 
-## Concepts (49)
+## Concepts (58)
 
 | Article | Summary | Sources | Updated |
 |---------|---------|---------|---------|
@@ -79,6 +79,15 @@ LLM čte tento soubor PRVNÍ při odpovídání na dotazy.
 | [conformal-rag-filtering](concepts/conformal-rag-filtering.md) | Conformal prediction for RAG context filtering; 2-3× reduction with statistical coverage guarantees | arXiv:2511.17908 | 2026-04-23 |
 | [single-multi-evolution-loop](concepts/single-multi-evolution-loop.md) | Multi-model collaboration + distillation loop: +8% individual, +14.9% collaborative; single-model inference cost | arXiv:2602.05182 | 2026-04-23 |
 | [cognitive-fabric-nodes](concepts/cognitive-fabric-nodes.md) | CFN active middleware: memory + topology + semantic grounding + security; >10% improvement on HotPotQA/MuSiQue | arXiv:2604.03430 | 2026-04-23 |
+| [sage-skill-library](concepts/sage-skill-library.md) | SAGE: RL-based skill library self-improvement; +8.9% completion, −26% steps, −59% tokens via skill reuse; GRPO | arXiv:2512.17102 | 2026-04-24 |
+| [resilient-write-mcp](concepts/resilient-write-mcp.md) | Six-layer durable write surface for LLM coding agents; 5× recovery speedup, 13× self-correction rate | arXiv:2604.10842 | 2026-04-24 |
+| [coars-agentic-recommenders](concepts/coars-agentic-recommenders.md) | CoARS: co-evolving recommender+user agents via self-distilled RL; coupled supervision + token-level credit assignment | arXiv:2604.10029 | 2026-04-24 |
+| [single-vs-multi-agent-tokens](concepts/single-vs-multi-agent-tokens.md) | Single-agent matches/exceeds MAS on multi-hop reasoning under equal token budgets; Data Processing Inequality | arXiv:2604.02460 | 2026-04-24 |
+| [meta-harness-optimization](concepts/meta-harness-optimization.md) | Automated harness optimization via code search; +7.7 accuracy, −75% context tokens vs SOTA; TerminalBench-2 | arXiv:2603.28052 | 2026-04-24 |
+| [ai-disempowerment-patterns](concepts/ai-disempowerment-patterns.md) | Anthropic: 1 in 50–70 conversations mildly disempowering; users seek disempowerment; 3 dimensions (reality/value/action) | Anthropic Research 2026 | 2026-04-24 |
+| [ai-coding-skill-atrophy](concepts/ai-coding-skill-atrophy.md) | AI delegation → 17% lower comprehension; debugging gap largest; strategic use preserves mastery | Anthropic Research | 2026-04-24 |
+| [ai-transforming-work-anthropic](concepts/ai-transforming-work-anthropic.md) | 28→59% daily work, 9.8→21.2 consecutive calls; delegation heuristics; 27% entirely new work created | Anthropic Research 2026 | 2026-04-24 |
+| [anthropic-amazon-5gw-compute](concepts/anthropic-amazon-5gw-compute.md) | Anthropic-AWS: up to 5 GW secured for training + inference; 1 GW by Q4 2026 | @AnthropicAI tweet 2026-04-20 | 2026-04-24 |
 
 ## People (3)
 

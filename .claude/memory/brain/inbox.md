@@ -13,24 +13,60 @@ Zpracované záznamy se přesunou do `inbox-archive.md`.
 
 ## Queue
 
-URL: https://arxiv.org/abs/2512.17102
-URL: https://arxiv.org/abs/2604.17240
-URL: https://arxiv.org/abs/2604.17009
-URL: https://arxiv.org/abs/2604.10842
-URL: https://arxiv.org/abs/2604.11270
-URL: https://arxiv.org/abs/2604.16548
-URL: https://arxiv.org/abs/2604.10029
-URL: https://arxiv.org/abs/2604.02460
-URL: https://arxiv.org/abs/2603.28052
-URL: https://www.anthropic.com/research/disempowerment-patterns
-URL: https://www.anthropic.com/research/AI-assistance-coding-skills
-URL: https://www.anthropic.com/research/how-ai-is-transforming-work-at-anthropic
-URL: https://x.com/AnthropicAI/status/2046327624092487688
-
 ## Processed
 
 | Date | Item |
 |------|------|
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21928v1 — raw/2026-04-26-llm-hodnoceni-asr-semanticka-metrika.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21924v1 — raw/2026-04-26-loho-manip-vla-planning-traces.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21922v1 — raw/2026-04-26-streaming-csp-non-redundancy.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21927v1 — raw/2026-04-26-fine-tuning-regimes-continual-learning-3.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21924v1 — raw/2026-04-26-loho-manip-vla-planning-traces.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21921v1 — raw/2026-04-26-context-unrolling-omni-models.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21920v1 — raw/2026-04-26-mereni-vetru-o-hvezda-azv75.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21918v1 — raw/2026-04-26-vlnova-fyzika-notace-parovy-tanec.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21917v1 — raw/2026-04-26-crosscommitvuln-bench-multi-commit-vulne.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21924v1 — raw/2026-04-26-loho-manip-vla-planning-traces.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21916v1 — raw/2026-04-26-mathduels-llm-problem-posers-solvers.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21911v1 — raw/2026-04-26-prompt-induced-hallucinations-lvlm.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21928v1 — raw/2026-04-26-llm-hodnoceni-asr-semanticka-metrika.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21920v1 — raw/2026-04-26-mereni-vetru-o-hvezda-azv75.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21917v1 — raw/2026-04-26-crosscommitvuln-bench-multi-commit-vulne.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21931v1 — raw/2026-04-26-seeing-fast-slow-temporal-video-learning-3.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21930v1 — raw/2026-04-26-temporal-taskification-continual-learnin-4.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21927v1 — raw/2026-04-26-fine-tuning-regimes-continual-learning-3.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21931v1 — raw/2026-04-26-seeing-fast-slow-temporal-video-learning-3.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21930v1 — raw/2026-04-26-temporal-taskification-continual-learnin-4.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21928v1 — raw/2026-04-26-llm-hodnoceni-asr-semanticka-metrika.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21926v1 — raw/2026-04-26-imu-4d-human-scene-understanding.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21924v1 — raw/2026-04-26-loho-manip-vla-planning-traces.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21920v1 — raw/2026-04-26-mereni-vetru-o-hvezda-azv75.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21931v1 — raw/2026-04-26-seeing-fast-slow-temporal-video-learning-3.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21930v1 — raw/2026-04-26-temporal-taskification-continual-learnin-4.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21929v1 — raw/2026-04-26-subsystem-resolved-spectral-theory.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21930v1 — raw/2026-04-26-temporal-taskification-continual-learnin-4.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21928v1 — raw/2026-04-26-llm-hodnoceni-asr-semanticka-metrika.md |
+| 2026-04-26 | URL: http://arxiv.org/abs/2604.21927v1 — raw/2026-04-26-fine-tuning-regimes-continual-learning-3.md |
+| 2026-04-26 | URL: https://karpathy.bearblog.dev/year-in-review-2025/ — raw/2026-04-26-karpathy-llm-2025-review.md |
+| 2026-04-26 | URL: https://karpathy.bearblog.dev/blog/ — raw/2026-04-26-karpathy-blog-prehled.md |
+| 2026-04-26 | URL: https://karpathy.bearblog.dev — raw/2026-04-26-karpathy-bear-blog.md |
+| 2026-04-26 | URL: https://simonwillison.net/2026/apr/18/opus-system-prompt/ — raw/2026-04-26-claude-opus-system-prompt-changes.md |
+| 2026-04-26 | URL: https://simonwillison.net/2026/Mar/18/ — raw/2026-04-26-prompt-injection-snowflake-lokalni-llm.md |
+| 2026-04-26 | URL: https://simonwillison.net/2026/Mar/19/openai-acquiring-astral/ — raw/2026-04-26-openai-kupuje-astral-python-nastroje.md |
+| 2026-04-26 | URL: https://arxiv.org/abs/2604.17658 — raw/2026-04-26-errorprobe-self-improving-diagnostics-ma.md |
+| 2026-04-26 | URL: https://arxiv.org/abs/2601.13671 — raw/2026-04-26-orchestrace-multi-agentnich-systemu-prot.md |
+| 2026-04-26 | URL: https://arxiv.org/abs/2601.09822 — raw/2026-04-26-llm-agentic-systems-software-engineering.md |
+| 2026-04-26 | URL: https://arxiv.org/abs/2603.01896 — raw/2026-04-26-agentic-code-reasoning-semi-formal.md |
+| 2026-04-26 | URL: https://arxiv.org/abs/2604.11716 — raw/2026-04-26-swe-agile-dynamic-reasoning-context.md |
+| 2026-04-26 | URL: https://arxiv.org/abs/2604.09459 — raw/2026-04-26-credit-assignment-rl-llm-reasoning-agent.md |
+| 2026-04-26 | URL: https://arxiv.org/abs/2604.18234 — raw/2026-04-26-care-multi-hop-reasoning-rag-evaluation.md |
+| 2026-04-26 | URL: https://simonwillison.net/2026/Apr/24/weekly/ — raw/2026-04-26-simon-willison-weekly-newsletter-gpt5-de.md |
+| 2026-04-26 | URL: https://simonwillison.net/2026/Apr/23/llm-openai-via-codex/ — raw/2026-04-26-llm-openai-via-codex-release.md |
+| 2026-04-26 | URL: https://arxiv.org/abs/2604.20261 — raw/2026-04-26-malmas-multi-agent-feature-generation.md |
+| 2026-04-26 | URL: https://arxiv.org/abs/2604.03870 — raw/2026-04-26-indirect-prompt-injection-vulnerabilitie.md |
+| 2026-04-26 | URL: https://x.com/omarsar0/status/2046249336162632155 — raw/2026-04-26-skill-rag-adaptivni-vyhledavani.md |
+| 2026-04-26 | URL: https://x.com/AnthropicAI/status/2047006557183897664 — raw/2026-04-26-anthropic-economic-index-survey.md |
+| 2026-04-25 | URL: https://arxiv.org/abs/2603.01327 — raw/2026-04-25-swe-adept-llm-agentic-codebase-analysis.md |
 | 2026-04-13 | URL: https://karpathy.bearblog.dev/ — zpracováno, 4 nové wiki články |
 | 2026-04-14 | URL: https://arxiv.org/abs/2603.29493 — MemFactory paper → new wiki article memfactory.md |
 | 2026-04-14 | URL: https://arxiv.org/abs/2603.07670 — Agent Memory Survey → new wiki article agent-memory-taxonomy.md |
@@ -92,3 +128,16 @@ URL: https://x.com/AnthropicAI/status/2046327624092487688
 | 2026-04-23 | URL: https://arxiv.org/abs/2511.17908 — Conformal RAG context filtering (2-3× reduction, statistical guarantees) → new wiki article conformal-rag-filtering.md, graph +1 node +4 edges |
 | 2026-04-23 | URL: https://arxiv.org/abs/2602.05182 — Single-Multi Evolution Loop (+8% individual, +14.9% collaborative) → new wiki article single-multi-evolution-loop.md, graph +1 node +4 edges |
 | 2026-04-23 | URL: https://arxiv.org/abs/2604.03430 — Cognitive Fabric Nodes active middleware (>10% HotPotQA/MuSiQue) → new wiki article cognitive-fabric-nodes.md, graph +1 node +5 edges |
+| 2026-04-25 | URL: https://arxiv.org/abs/2512.17102 — DUPLICATE SKIP (sage-skill-library already processed 2026-04-24) |
+| 2026-04-25 | URL: https://arxiv.org/abs/2604.17240 — DUPLICATE SKIP (camco-policy-orchestration already processed 2026-04-23) |
+| 2026-04-25 | URL: https://arxiv.org/abs/2604.17009 — DUPLICATE SKIP (paramanager-orchestrator already processed 2026-04-22) |
+| 2026-04-25 | URL: https://arxiv.org/abs/2604.10842 — DUPLICATE SKIP (resilient-write-mcp already processed 2026-04-24) |
+| 2026-04-25 | URL: https://arxiv.org/abs/2604.11270 — DUPLICATE SKIP (analysis-bench-agents already processed 2026-04-23) |
+| 2026-04-25 | URL: https://arxiv.org/abs/2604.16548 — DUPLICATE SKIP (mnemonic-sovereignty already processed 2026-04-23) |
+| 2026-04-25 | URL: https://arxiv.org/abs/2604.10029 — DUPLICATE SKIP (coars-agentic-recommenders already processed 2026-04-24) |
+| 2026-04-25 | URL: https://arxiv.org/abs/2604.02460 — DUPLICATE SKIP (single-vs-multi-agent-tokens already processed 2026-04-24) |
+| 2026-04-25 | URL: https://arxiv.org/abs/2603.28052 — DUPLICATE SKIP (meta-harness-optimization already processed 2026-04-24) |
+| 2026-04-25 | URL: https://www.anthropic.com/research/disempowerment-patterns — DUPLICATE SKIP (ai-disempowerment-patterns already processed 2026-04-24) |
+| 2026-04-25 | URL: https://www.anthropic.com/research/AI-assistance-coding-skills — DUPLICATE SKIP (ai-coding-skill-atrophy already processed 2026-04-24) |
+| 2026-04-25 | URL: https://www.anthropic.com/research/how-ai-is-transforming-work-at-anthropic — DUPLICATE SKIP (ai-transforming-work-anthropic already processed 2026-04-24) |
+| 2026-04-25 | URL: https://x.com/AnthropicAI/status/2046327624092487688 — DUPLICATE SKIP (anthropic-amazon-5gw-compute already processed 2026-04-24) |

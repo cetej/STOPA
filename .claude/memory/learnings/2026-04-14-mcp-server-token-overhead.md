@@ -6,12 +6,12 @@ component: orchestration
 tags: [tokens, mcp, cost-optimization]
 summary: Each connected MCP server loads ~18K tokens per message into context. Disconnect unused servers per session. Prefer CLI tools over MCP where equivalent.
 source: external_research
-uses: 2
+uses: 4
 successful_uses: 0
 harmful_uses: 0
-confidence: 1.0
+confidence: 1.00
 maturity: draft
-related: [2026-04-12-purpose-built-tools-75x-faster.md, 2026-04-14-compact-timing-60pct.md]
+related: [2026-04-12-purpose-built-tools-75x-faster.md, 2026-04-14-compact-timing-60pct.md, 2026-04-25-mcp-config-canonical-location.md]
 verify_check: "manual"
 ---
 
