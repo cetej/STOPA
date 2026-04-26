@@ -405,6 +405,43 @@ def fuse_rrf(
     return ranked[:top_n]
 
 
+# ── Context Awareness Gate (arXiv:2411.16133) ───────────────────────────
+
+# Pure expression: digits, whitespace, basic math/comparison ops, parens.
+_NUMERIC_RE = re.compile(r"^[\d\s+\-*/().=<>!^%]+$")
+
+
+def context_awareness_gate(query: str) -> tuple[bool, str]:
+    """Pre-filter: decide whether retrieval is likely to help this query.
+
+    Conservative — defaults to retrieve. Skips only on strong signals that
+    past learnings cannot help (trivial queries, pure arithmetic, code-only
+    snippets without natural language).
+
+    Returns (should_retrieve, reason). The reason is logged to metrics so
+    skip rate vs. accuracy can be tuned later from real data.
+
+    Reference: arXiv:2411.16133 — Context Awareness Gate for conditional RAG.
+    """
+    q = query.strip()
+
+    if len(q) < 3:
+        return False, "trivial query (<3 chars)"
+
+    if _NUMERIC_RE.match(q):
+        return False, "pure numeric/arithmetic"
+
+    # Code-like density heuristic: queries dominated by punctuation/symbols
+    # and lacking natural language alpha runs are usually self-contained
+    # transformations (regex tweaks, JSON snippets) where learnings won't help.
+    if len(q) >= 12:
+        alpha_chars = sum(1 for c in q if c.isalpha())
+        if alpha_chars / len(q) < 0.35:
+            return False, "code-like (low alpha density)"
+
+    return True, "proceed"
+
+
 # ── Main entry point ────────────────────────────────────────────────────
 
 def hybrid_search(
@@ -413,13 +450,27 @@ def hybrid_search(
     top_n: int = 8,
     debug: bool = False,
     mode: str = "standard",
+    use_gate: bool = True,
 ) -> list[RankedFile]:
     """Run hybrid retrieval with tiered triggering.
 
     light tier + grep >= 3 hits → grep only (fast path)
     standard/deep → full hybrid (grep + BM25 + graph → RRF)
     mode='aggregate' → return ALL matching results (ignores top_n)
+    use_gate=True → run context-awareness pre-filter (arXiv:2411.16133)
     """
+    # Signal 0: Context awareness gate (arXiv:2411.16133)
+    # Skip retrieval entirely for queries where it cannot help (trivial,
+    # arithmetic, code-only). Conservative — defaults to retrieve.
+    if use_gate:
+        proceed, gate_reason = context_awareness_gate(query)
+        if not proceed:
+            if debug:
+                print(f"[GATE] skip: {gate_reason}")
+            return []
+        elif debug:
+            print(f"[GATE] proceed: {gate_reason}")
+
     # Signals 1-2 run in parallel (Combee-inspired, arXiv:2604.04247)
     # Signal 3 (graph) depends on 1+2 seeds, so runs after.
     t0 = time.monotonic()
@@ -511,8 +562,14 @@ def main():
     parser.add_argument("--debug", action="store_true", help="Show per-signal details")
     parser.add_argument("--mode", default="standard", choices=["standard", "aggregate"],
                         help="standard: apply --top limit; aggregate: return all matches")
+    parser.add_argument("--no-gate", action="store_true",
+                        help="Disable context-awareness gate (arXiv:2411.16133)")
 
     args = parser.parse_args()
+
+    # Run gate first so we can log skip decisions even when retrieval is bypassed
+    use_gate = not args.no_gate
+    gate_proceed, gate_reason = (True, "disabled") if not use_gate else context_awareness_gate(args.query)
 
     t_start = time.perf_counter()
     results = hybrid_search(
@@ -521,6 +578,7 @@ def main():
         top_n=args.top,
         debug=args.debug,
         mode=args.mode,
+        use_gate=use_gate,
     )
     duration_ms = int((time.perf_counter() - t_start) * 1000)
 
@@ -539,6 +597,8 @@ def main():
             "duration_ms": duration_ms,
             "top_score": round(results[0].rrf_score, 6) if results else 0.0,
             "signals": sorted(signal_set),
+            "gate_proceed": gate_proceed,
+            "gate_reason": gate_reason,
         }
         METRICS_FILE.parent.mkdir(parents=True, exist_ok=True)
         with METRICS_FILE.open("a", encoding="utf-8") as f:
