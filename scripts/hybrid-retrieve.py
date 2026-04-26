@@ -56,6 +56,95 @@ SKIP_FILES = frozenset({
 PALACE_DIR = Path.home() / ".mempalace" / "palace"
 
 
+# ── Strategy selector (rule-based proxy for RL for RAG) ────────────────
+# Ref: arXiv:2510.24652 — RL-trained policy selects retrieval strategy per query.
+# We use rule-based heuristics derived from query length + structure as a
+# zero-training proxy. Each strategy maps to per-signal weight multipliers
+# applied during RRF fusion.
+STRATEGY_WEIGHTS: dict[str, dict[str, float]] = {
+    "grep_only":      {"grep": 1.0, "bm25": 0.0, "graph": 0.0},
+    "bm25_only":      {"grep": 0.0, "bm25": 1.0, "graph": 0.0},
+    "hybrid":         {"grep": 1.0, "bm25": 1.0, "graph": 1.0},  # current default
+    "grep_priority":  {"grep": 1.5, "bm25": 0.7, "graph": 0.7},
+    "bm25_priority":  {"grep": 0.7, "bm25": 1.5, "graph": 0.7},
+    "graph_priority": {"grep": 0.8, "bm25": 0.8, "graph": 1.5},
+}
+
+_STRATEGY_GRAPH_ENTITIES: set[str] | None = None
+
+
+def _load_graph_entities() -> set[str]:
+    """Load lowercased concept-graph entity names for strategy selection."""
+    global _STRATEGY_GRAPH_ENTITIES
+    if _STRATEGY_GRAPH_ENTITIES is not None:
+        return _STRATEGY_GRAPH_ENTITIES
+
+    graph_path = STOPA_ROOT / ".claude" / "memory" / "concept-graph.json"
+    if not graph_path.exists():
+        _STRATEGY_GRAPH_ENTITIES = set()
+        return _STRATEGY_GRAPH_ENTITIES
+
+    try:
+        graph = json.loads(graph_path.read_text(encoding="utf-8"))
+        _STRATEGY_GRAPH_ENTITIES = {
+            name.lower().strip()
+            for name in graph.get("entities", {}).keys()
+            if name and len(name.strip()) >= 3  # skip tiny noise entities
+        }
+    except (json.JSONDecodeError, OSError):
+        _STRATEGY_GRAPH_ENTITIES = set()
+    return _STRATEGY_GRAPH_ENTITIES
+
+
+_FILENAME_RE = re.compile(r"\.(md|py|json|sh|yaml|yml|jsonl|toml)\b")
+_QUESTION_RE = re.compile(r"^(how|why|when|what|which|where|kdy|proč|jak|co|kde)\b")
+
+
+def select_strategy(query: str) -> str:
+    """Pick retrieval strategy from query characteristics. Defaults to 'hybrid'.
+
+    Heuristics (all rule-based, zero training):
+      1. Query <= 2 words → grep_only (BM25 saturation adds nothing)
+      2. Filename/path pattern (.md, .py, slug-style) → grep_priority
+      3. Question word prefix (how/why/jak/proč) → hybrid (semantic + keyword)
+      4. Known concept name from concept-graph → graph_priority
+      5. Long query (>= 15 words, often auto-generated context dump) → bm25_priority
+      6. Otherwise → hybrid (conservative default = current behavior)
+
+    Returns one of: grep_only | bm25_only | hybrid | grep_priority |
+                    bm25_priority | graph_priority
+    """
+    q = query.strip().lower()
+    if not q:
+        return "hybrid"
+
+    words = re.findall(r"[a-záčďéěíňóřšťúůýž0-9_-]{2,}", q)
+    n_words = len(words)
+
+    if n_words == 0:
+        return "hybrid"
+
+    if n_words <= 2:
+        return "grep_only"
+
+    if _FILENAME_RE.search(q) or "/" in q:
+        return "grep_priority"
+
+    if _QUESTION_RE.match(q):
+        return "hybrid"
+
+    if n_words >= 15:
+        return "bm25_priority"
+
+    entities = _load_graph_entities()
+    if entities:
+        for word in words:
+            if word in entities:
+                return "graph_priority"
+
+    return "hybrid"
+
+
 @dataclass
 class RankedFile:
     """A learning file with scores from each signal."""
@@ -333,8 +422,19 @@ def fuse_rrf(
     superseded: set[str],
     top_n: int = 8,
     mempalace_results: list[tuple[str, str]] | None = None,
+    signal_weights: dict[str, float] | None = None,
 ) -> list[RankedFile]:
-    """Reciprocal Rank Fusion across up to four signal lists."""
+    """Reciprocal Rank Fusion across up to four signal lists.
+
+    signal_weights: optional per-signal multipliers (keys: grep, bm25, graph).
+    Defaults to {grep:1, bm25:1, graph:1} (standard equal-weighted RRF).
+    """
+    if signal_weights is None:
+        signal_weights = {"grep": 1.0, "bm25": 1.0, "graph": 1.0}
+    w_grep = signal_weights.get("grep", 1.0)
+    w_bm25 = signal_weights.get("bm25", 1.0)
+    w_graph = signal_weights.get("graph", 1.0)
+
     files: dict[str, RankedFile] = {}
 
     def ensure(name: str) -> RankedFile:
@@ -372,15 +472,17 @@ def fuse_rrf(
             rf.mempalace_content = snippet
             rf.sources.append("mempalace")
 
-    # Compute RRF score with maturity boost
+    # Compute weighted RRF score with maturity boost.
+    # MemPalace stays at weight 1.0 — it's a fallback channel orthogonal to
+    # the strategy decision (triggered by sparsity, not by query type).
     for rf in files.values():
         score = 0.0
         if rf.grep_rank is not None:
-            score += 1.0 / (RRF_K + rf.grep_rank)
+            score += w_grep / (RRF_K + rf.grep_rank)
         if rf.bm25_rank is not None:
-            score += 1.0 / (RRF_K + rf.bm25_rank)
+            score += w_bm25 / (RRF_K + rf.bm25_rank)
         if rf.graph_rank is not None:
-            score += 1.0 / (RRF_K + rf.graph_rank)
+            score += w_graph / (RRF_K + rf.graph_rank)
         if rf.mempalace_rank is not None:
             score += 1.0 / (RRF_K + rf.mempalace_rank)
 
@@ -451,6 +553,7 @@ def hybrid_search(
     debug: bool = False,
     mode: str = "standard",
     use_gate: bool = True,
+    use_strategy: bool = False,
 ) -> list[RankedFile]:
     """Run hybrid retrieval with tiered triggering.
 
@@ -458,6 +561,7 @@ def hybrid_search(
     standard/deep → full hybrid (grep + BM25 + graph → RRF)
     mode='aggregate' → return ALL matching results (ignores top_n)
     use_gate=True → run context-awareness pre-filter (arXiv:2411.16133)
+    use_strategy=True → run rule-based strategy selector (arXiv:2510.24652 proxy)
     """
     # Signal 0: Context awareness gate (arXiv:2411.16133)
     # Skip retrieval entirely for queries where it cannot help (trivial,
@@ -471,14 +575,37 @@ def hybrid_search(
         elif debug:
             print(f"[GATE] proceed: {gate_reason}")
 
+    # Strategy selection (rule-based proxy for arXiv:2510.24652)
+    # When enabled, picks per-signal weights AND skips signals with weight 0.
+    strategy = "hybrid"
+    weights = {"grep": 1.0, "bm25": 1.0, "graph": 1.0}
+    if use_strategy:
+        strategy = select_strategy(query)
+        weights = STRATEGY_WEIGHTS[strategy]
+        if debug:
+            print(f"[STRATEGY] {strategy} weights={weights}")
+
+    skip_grep = use_strategy and weights["grep"] == 0.0
+    skip_bm25 = use_strategy and weights["bm25"] == 0.0
+    skip_graph = use_strategy and weights["graph"] == 0.0
+
     # Signals 1-2 run in parallel (Combee-inspired, arXiv:2604.04247)
     # Signal 3 (graph) depends on 1+2 seeds, so runs after.
     t0 = time.monotonic()
-    with ThreadPoolExecutor(max_workers=2, thread_name_prefix="sig") as pool:
-        fut_grep = pool.submit(grep_search, query)
-        fut_bm25 = pool.submit(bm25_search, query)
-        grep_results = fut_grep.result()
-        bm25_results = fut_bm25.result()
+    grep_results: list[str] = []
+    bm25_results: list[str] = []
+    if skip_grep and skip_bm25:
+        pass  # nothing to run
+    elif skip_grep:
+        bm25_results = bm25_search(query)
+    elif skip_bm25:
+        grep_results = grep_search(query)
+    else:
+        with ThreadPoolExecutor(max_workers=2, thread_name_prefix="sig") as pool:
+            fut_grep = pool.submit(grep_search, query)
+            fut_bm25 = pool.submit(bm25_search, query)
+            grep_results = fut_grep.result()
+            bm25_results = fut_bm25.result()
 
     if debug:
         dt = (time.monotonic() - t0) * 1000
@@ -509,11 +636,15 @@ def hybrid_search(
             ranked.append(rf)
         return ranked
 
-    # Signal 3: Graph walk (seeded from grep + BM25 union)
+    # Signal 3: Graph walk (seeded from grep + BM25 union).
+    # Skipped when strategy weight = 0 (perf bonus for grep_only / bm25_only).
     seed_files = list(dict.fromkeys(grep_results + bm25_results))  # deduplicated, order preserved
-    graph_results = graph_search(seed_files[:10])
+    graph_results: list[str] = [] if skip_graph else graph_search(seed_files[:10])
     if debug:
-        print(f"[GRAPH] {len(graph_results)} results: {graph_results[:5]}")
+        if skip_graph:
+            print(f"[GRAPH] skipped (strategy={strategy})")
+        else:
+            print(f"[GRAPH] {len(graph_results)} results: {graph_results[:5]}")
 
     # Signal 4: MemPalace semantic fallback
     # Triggers when local signals are sparse (<2 unique results) AND tier >= standard
@@ -532,10 +663,14 @@ def hybrid_search(
     elif debug:
         print(f"[MEMPALACE] skipped (local={local_unique}, tier={task_tier})")
 
-    # Fuse with RRF
+    # Fuse with RRF (weighted when strategy is active)
     superseded = load_superseded_set()
     effective_top_n = 9999 if mode == "aggregate" else top_n
-    fused = fuse_rrf(grep_results, bm25_results, graph_results, superseded, effective_top_n, mp_results)
+    fused = fuse_rrf(
+        grep_results, bm25_results, graph_results, superseded,
+        effective_top_n, mp_results,
+        signal_weights=weights if use_strategy else None,
+    )
 
     if debug:
         print(f"[RRF] {len(fused)} fused results:")
@@ -564,12 +699,19 @@ def main():
                         help="standard: apply --top limit; aggregate: return all matches")
     parser.add_argument("--no-gate", action="store_true",
                         help="Disable context-awareness gate (arXiv:2411.16133)")
+    parser.add_argument("--use-strategy", action="store_true",
+                        help="Enable rule-based strategy selector (arXiv:2510.24652 proxy)")
 
     args = parser.parse_args()
 
     # Run gate first so we can log skip decisions even when retrieval is bypassed
     use_gate = not args.no_gate
     gate_proceed, gate_reason = (True, "disabled") if not use_gate else context_awareness_gate(args.query)
+
+    # Compute strategy upfront so we can log it even when retrieval is bypassed
+    strategy_label = "disabled"
+    if args.use_strategy and gate_proceed:
+        strategy_label = select_strategy(args.query)
 
     t_start = time.perf_counter()
     results = hybrid_search(
@@ -579,6 +721,7 @@ def main():
         debug=args.debug,
         mode=args.mode,
         use_gate=use_gate,
+        use_strategy=args.use_strategy,
     )
     duration_ms = int((time.perf_counter() - t_start) * 1000)
 
@@ -599,6 +742,7 @@ def main():
             "signals": sorted(signal_set),
             "gate_proceed": gate_proceed,
             "gate_reason": gate_reason,
+            "strategy": strategy_label,
         }
         METRICS_FILE.parent.mkdir(parents=True, exist_ok=True)
         with METRICS_FILE.open("a", encoding="utf-8") as f:

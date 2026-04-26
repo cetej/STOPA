@@ -1,0 +1,186 @@
+{
+  "summary": {
+    "n_queries": 11,
+    "n_weighted": 197,
+    "top1_stability": 0.091,
+    "top1_stability_weighted": 0.01,
+    "avg_top3_jacc": 0.518,
+    "avg_top5_jacc": 0.486,
+    "avg_top8_jacc": 0.39,
+    "weighted_top3_jacc": 0.493,
+    "avg_a_dur_ms": 240.6,
+    "avg_b_dur_ms": 185.9,
+    "avg_delta_ms": -54.5,
+    "speedup_pct": 22.7
+  },
+  "per_strategy": {
+    "graph_priority": {
+      "n": 7,
+      "weighted": 187
+    },
+    "grep_only": {
+      "n": 3,
+      "weighted": 8
+    },
+    "hybrid": {
+      "n": 1,
+      "weighted": 2
+    }
+  },
+  "rows": [
+    {
+      "query": "**Chase Context-Engineering Patterns: Align Evals & Agent Attribution** (Harriso",
+      "count": 93,
+      "strategy": "graph_priority",
+      "top1_same": false,
+      "top3_jacc": 0.5,
+      "top5_jacc": 0.43,
+      "top8_jacc": 0.23,
+      "a_dur_ms": 372,
+      "b_dur_ms": 331,
+      "delta_ms": -41,
+      "a_top": "2026-04-08-progressive-knowledge-routing.md",
+      "b_top": "2026-03-23-ecosystem-scan.md"
+    },
+    {
+      "query": "**Phase 3: Měřitelný feedback loop** (watch → ingest → actionable learnings) fea",
+      "count": 37,
+      "strategy": "graph_priority",
+      "top1_same": false,
+      "top3_jacc": 0.5,
+      "top5_jacc": 0.67,
+      "top8_jacc": 0.45,
+      "a_dur_ms": 256,
+      "b_dur_ms": 239,
+      "delta_ms": -16,
+      "a_top": "2026-04-05-self-improving-harness.md",
+      "b_top": "2026-03-23-ecosystem-scan.md"
+    },
+    {
+      "query": "**Phase 3: Měřitelný feedback loop** (watch → ingest → actionable learnings) cho",
+      "count": 26,
+      "strategy": "graph_priority",
+      "top1_same": false,
+      "top3_jacc": 0.5,
+      "top5_jacc": 0.43,
+      "top8_jacc": 0.33,
+      "a_dur_ms": 295,
+      "b_dur_ms": 308,
+      "delta_ms": 14,
+      "a_top": "2026-04-05-self-improving-harness.md",
+      "b_top": "2026-03-23-ecosystem-scan.md"
+    },
+    {
+      "query": "**Phase 3: Měřitelný feedback loop** (watch → ingest → actionable learnings) cho",
+      "count": 24,
+      "strategy": "graph_priority",
+      "top1_same": false,
+      "top3_jacc": 0.5,
+      "top5_jacc": 0.43,
+      "top8_jacc": 0.33,
+      "a_dur_ms": 291,
+      "b_dur_ms": 278,
+      "delta_ms": -13,
+      "a_top": "2026-04-05-self-improving-harness.md",
+      "b_top": "2026-03-23-ecosystem-scan.md"
+    },
+    {
+      "query": "validation",
+      "count": 4,
+      "strategy": "grep_only",
+      "top1_same": false,
+      "top3_jacc": 0.0,
+      "top5_jacc": 0.11,
+      "top8_jacc": 0.23,
+      "a_dur_ms": 236,
+      "b_dur_ms": 38,
+      "delta_ms": -198,
+      "a_top": "2026-04-08-llm-native-validation-hardstop.md",
+      "b_top": "2026-03-23-harness-engineering.md"
+    },
+    {
+      "query": "**Phase 3: Měřitelný feedback loop** (watch → ingest → actionable learnings) cho",
+      "count": 3,
+      "strategy": "graph_priority",
+      "top1_same": false,
+      "top3_jacc": 0.5,
+      "top5_jacc": 0.67,
+      "top8_jacc": 0.33,
+      "a_dur_ms": 254,
+      "b_dur_ms": 272,
+      "delta_ms": 18,
+      "a_top": "2026-04-05-self-improving-harness.md",
+      "b_top": "2026-04-11-memory-sovereignty-open-harness.md"
+    },
+    {
+      "query": "memory consolidation",
+      "count": 3,
+      "strategy": "grep_only",
+      "top1_same": false,
+      "top3_jacc": 0.2,
+      "top5_jacc": 0.43,
+      "top8_jacc": 0.23,
+      "a_dur_ms": 222,
+      "b_dur_ms": 39,
+      "delta_ms": -183,
+      "a_top": "2026-04-11-memory-sovereignty-open-harness.md",
+      "b_top": "2026-03-29-bigmas-directed-graph-orchestration.md"
+    },
+    {
+      "query": "**Phase 3: Měřitelný feedback loop** (watch → ingest → actionable learnings) cho",
+      "count": 2,
+      "strategy": "graph_priority",
+      "top1_same": false,
+      "top3_jacc": 0.5,
+      "top5_jacc": 0.43,
+      "top8_jacc": 0.33,
+      "a_dur_ms": 255,
+      "b_dur_ms": 263,
+      "delta_ms": 9,
+      "a_top": "2026-04-05-self-improving-harness.md",
+      "b_top": "2026-03-23-ecosystem-scan.md"
+    },
+    {
+      "query": "**Phase 3: Měřitelný feedback loop** (watch → ingest → actionable learnings) rad",
+      "count": 2,
+      "strategy": "graph_priority",
+      "top1_same": false,
+      "top3_jacc": 0.5,
+      "top5_jacc": 0.25,
+      "top8_jacc": 0.33,
+      "a_dur_ms": 268,
+      "b_dur_ms": 242,
+      "delta_ms": -26,
+      "a_top": "2026-04-05-self-improving-harness.md",
+      "b_top": "2026-03-23-ecosystem-scan.md"
+    },
+    {
+      "query": "2+2",
+      "count": 2,
+      "strategy": "hybrid",
+      "top1_same": true,
+      "top3_jacc": 1.0,
+      "top5_jacc": 1.0,
+      "top8_jacc": 1.0,
+      "a_dur_ms": 0,
+      "b_dur_ms": 0,
+      "delta_ms": 0,
+      "a_top": "—",
+      "b_top": "—"
+    },
+    {
+      "query": "permission sentinel",
+      "count": 1,
+      "strategy": "grep_only",
+      "top1_same": false,
+      "top3_jacc": 1.0,
+      "top5_jacc": 0.5,
+      "top8_jacc": 0.5,
+      "a_dur_ms": 198,
+      "b_dur_ms": 35,
+      "delta_ms": -163,
+      "a_top": "2026-04-07-hook-architecture-patterns.md",
+      "b_top": "2026-03-25-batch-edit-pattern.md"
+    }
+  ]
+}
