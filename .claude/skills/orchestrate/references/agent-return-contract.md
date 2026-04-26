@@ -160,7 +160,19 @@ Orchestrator action: proceed to critic (subtask is done), but log blockers to st
 - Orchestrator parser:
   1. Try `json.loads(agent_output)` — if success, validate against schema
   2. If invalid JSON or fails validation → fallback to current "first 500 chars" + Haiku verifier
-- Run pilot on 3-5 light-tier tasks, compare token cost vs baseline.
+
+**Pilot tier choice — must be standard or deep, NOT light or farm.** Per `SKILL.md` L975, light tier *already skips* Phase 4 step 4 Haiku verifier ("single critic at end is sufficient"), and farm tier skips per L976 (mechanical tasks). Pilot on light/farm would have no Haiku-verifier baseline to compare against — token-savings number would be ~0. Standard tier (4 subtasks × ~200 tok verifier overhead = ~800 tok/wave) is where the contract actually displaces Haiku passes.
+
+**Success metrics for pilot (run on 3-5 standard-tier tasks):**
+
+| Metric | Baseline (free-form) | Target (JSON contract) | Threshold to advance |
+|--------|---------------------|------------------------|---------------------|
+| Token cost per wave | Current Haiku verifier × N subtasks | Schema overhead in worker prompt only | ≥ 30% reduction |
+| Subtask success rate | Current Phase 5 critic PASS rate | Same OR higher | Parity (no regression) |
+| Invalid-JSON fallback rate | n/a | Workers emit valid JSON first try | ≤ 20% fallback rate |
+| Orchestrator parsing time | n/a | `json.loads + validate` round-trip | ≤ 50ms median |
+
+If JSON-validity rate < 80% → Phase 2 fails, do not advance. Tighten schema instruction in worker prompt or revisit shape.
 
 ### Phase 3 (broad adoption — pending pilot signal)
 - Make `return_format: "json"` default for standard+ tier
