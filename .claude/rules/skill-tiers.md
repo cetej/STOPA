@@ -7,6 +7,7 @@ Daily-use skills that should be triggered proactively:
 - `/profile` — project stack detection & skill recommendation (run when entering new project)
 - `/triage` — task routing: STOPA vs project vs both (run before orchestrate when unsure)
 - `/orchestrate` — multi-step task decomposition
+- `/orchestrate-light` — lightweight orchestrator for single-file mechanical fixes (typo, rename, bump version)
 - `/scout` — codebase exploration before changes
 - `/critic` — quality review after edits
 - `/checkpoint` — session state management
