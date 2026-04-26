@@ -4,6 +4,7 @@ One line per scheduled task run, newest at the top. For silent-OK runs this is t
 
 **Format:** `YYYY-MM-DD HH:MM | task-name | short status (counts, summary)`
 
+2026-04-26 | tool-radar-scan | SKIP — task marked DISABLED (migrated to CC Routines)
 2026-04-26 | arxiv-daily-digest | OK — 3 papers added to news.md (1 [ACTION]: 2604.17658 self-improving error diagnosis; 2 [WATCH]: 2601.13671 MAS orchestration survey, 2601.09822 LLM agentic SE survey); 3 new URLs queued in inbox.md
 2026-04-26 | auto-evolve-skills | 17 skills evaluated (2 sessions, 14d window), 0 candidates generated — all 0% error rate / insufficient failure evidence; 1 timeout (radar), 4 not-found skills
 
@@ -68,3 +69,4 @@ One line per scheduled task run, newest at the top. For silent-OK runs this is t
 2026-04-26 12:23 | brain-ingest | inbox empty
 2026-04-26 15:23 | brain-ingest | inbox empty
 2026-04-26 18:23 | brain-ingest | inbox empty
+2026-04-26 21:23 | brain-ingest | inbox empty
