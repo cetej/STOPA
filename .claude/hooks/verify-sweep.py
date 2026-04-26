@@ -262,8 +262,9 @@ def main():
         "improvement-backlog.md",
         # /orchestrate ephemeral plan (phase 4 write, cleanup at end)
         "orchestrate-plan.md",
-        # /radar brain-bridge proposals queue (created on-demand)
+        # brain-bridge proposals queues (created on-demand by brain-ingest)
         "radar-proposals.md",
+        "news-proposals.md",
     }
     # Directories that skills create on first run
     RUNTIME_CREATED_DIRS = {"briefings"}
