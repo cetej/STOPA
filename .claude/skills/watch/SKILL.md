@@ -22,6 +22,7 @@ You scan external sources for news, updates, and changes relevant to this projec
 1. Read `.claude/memory/news.md` — previous findings and last scan date
 2. Read `.claude/memory/learnings.md` — current patterns (to spot relevant updates)
 3. Read `CLAUDE.md` — project dependencies and tech stack (to know what to watch)
+4. Read `.claude/memory/news-proposals.md` — brain-sourced paper findings awaiting review (issue #24, G7 bridge). Pending rows are candidates from `brain-ingest` LLM classification — review them at the start of `full` and `papers` modes; user accepts/rejects per row.
 
 <!-- CACHE_BOUNDARY -->
 
@@ -234,6 +235,37 @@ Example row format:
 
 Flag HIGH urgency if: (a) global rate dropped >10pp vs last scan, or (b) any harness-adopted project has stale_days > 30.
 ```
+
+## Proposal Review (brain → STOPA bridge, issue #24)
+
+Triggered automatically at the start of **`full`** and **`papers`** modes if `news-proposals.md` has any rows with `Status: pending`. May also be invoked explicitly: `/watch proposals`.
+
+### Why
+`brain-ingest.py` classifies every URL it processes. When `action_class = paper`, it appends to `news-proposals.md` (after dedup against `news.md`). This ensures arXiv/research findings flowing through the 2BRAIN pipeline reach STOPA's news memory without polluting curated entries.
+
+### Flow
+
+1. Read `.claude/memory/news-proposals.md`
+2. For each `pending` row:
+   - Show the user: title, URL, key idea (1 line)
+   - Re-fetch via Jina Reader if context insufficient (max 3 fetches per session)
+   - Apply standard Paper Relevance Filter (Tier 2b table) + Signal Strength prioritization
+3. Write the result based on classification:
+   - **[ACTION]** → append to `news.md` Action Items table with `source: brain-watch` in Evidence column, mark proposal row `Status: accepted` and move to `## Resolved`. Also invoke `/improve` for cross-project routing.
+   - **[WATCH]** → append to `news.md` recent-findings table with `source: brain-watch`, mark `accepted`.
+   - **[reject]** → mark proposal row `rejected` and move to `## Resolved` with one-line reason. Do NOT pollute `news.md`.
+4. Update Scan log in `news.md` accordingly.
+
+### Audit invariants (must hold)
+
+- Every row promoted from proposals to `news.md` MUST include `source: brain-watch` in the Evidence column
+- Every reviewed row MUST land in `## Resolved` (no row deletion — keeps audit trail)
+- Dedup is enforced at write time by `brain-ingest.py`, but re-check before promotion: if the paper is now in `news.md` (some other path added it), mark proposal `dedup` and resolve
+
+### Circuit breaker
+
+- `/watch` MUST NOT write to `brain/inbox.md`, `brain/watchlist.md`, or `brain/raw/`. Bridge is one-way (brain → STOPA only).
+- If `news-proposals.md` has > 50 pending rows: STOP, ask user — likely indicates `brain-ingest` classification needs tuning.
 
 ## After Scanning
 
