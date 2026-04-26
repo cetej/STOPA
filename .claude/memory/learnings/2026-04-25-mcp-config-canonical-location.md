@@ -6,7 +6,7 @@ component: hook
 tags: [mcp, settings, claude-code, config]
 summary: "Claude Code MCP servers must be registered in ~/.claude/mcp.json (user-global) or .mcp.json (project-local), NOT in settings.local.json mcpServers block. The settings.local.json mcpServers field is silently ignored — symptoms: tools never appear in deferred tool list after restart."
 source: critic_finding
-uses: 5
+uses: 6
 successful_uses: 0
 harmful_uses: 0
 confidence: 1.00

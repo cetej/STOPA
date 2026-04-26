@@ -8,7 +8,7 @@ summary: "Scheduled/autonomous agenti opakovaně porušují dva pilíře discipl
 source: user_correction
 maturity: draft
 confidence: 1.00
-uses: 4
+uses: 5
 successful_uses: 1
 harmful_uses: 0
 verify_check: "Grep('AUTONOMOUS-EXECUTION v1', path='~/.claude/scheduled-tasks') → 37+ matches"
