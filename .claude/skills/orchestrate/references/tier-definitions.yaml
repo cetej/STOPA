@@ -9,6 +9,11 @@ tiers:
     model: haiku
     keywords: [fix, typo, rename, update, bump, tweak]
     file_range: [1, 1]
+    # Recommended orchestrator skill: /orchestrate-light (model: haiku, ParaManager-style).
+    # Empirically validated POC (issue #18, 2026-04-26): Haiku orchestrator achieves
+    # 100% task success on light-tier execute at ~85-90% cost reduction vs Opus.
+    # Auto-escalates to /orchestrate if scope exceeds light during execution.
+    recommended_orchestrator: orchestrate-light
 
   standard:
     criteria: "Multi-file, some exploration needed"

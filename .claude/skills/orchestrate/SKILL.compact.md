@@ -17,14 +17,16 @@ NO access to Bash, Write, Edit. Delegate via Agent. Track via TodoWrite.
 
 ## Tier Selection
 
-| Signal | Tier |
-|--------|------|
-| fix/typo/rename, 1 file | light (0-1 agents) |
-| 2-5 files, logic changes | standard (2-4 agents) |
-| 6+ files, cross-cutting | deep (5-8 agents) |
-| 20+ mechanical files | farm |
+| Signal | Tier | Recommended skill |
+|--------|------|-------------------|
+| fix/typo/rename, 1 file | light (0-1 agents) | **`/orchestrate-light`** (haiku, 85-90% cheaper — issue #18) |
+| 2-5 files, logic changes | standard (2-4 agents) | `/orchestrate` |
+| 6+ files, cross-cutting | deep (5-8 agents) | `/orchestrate` |
+| 20+ mechanical files | farm | `/orchestrate` |
 
 Amdahl gate: p < 0.4 → cap at light. Cost-first: start lowest viable.
+
+**Light-tier note (ParaManager, arXiv:2604.17009)**: For pure light-tier tasks, prefer `/orchestrate-light` — it auto-escalates back to `/orchestrate` if scope grows.
 
 ## Core Loop
 
