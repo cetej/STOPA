@@ -215,3 +215,53 @@ Older digests: see news-archive.md
 | 2026-04-26 | [ACTION] | Towards Self-Improving Error Diagnosis in Multi-Agent Systems (arXiv:2604.17658) — self-evolving diagnosis framework decomposing failure analysis into specialized roles for backward tracing, hypothesis generation, and tool-grounded verification; directly applicable to /critic and /learn-from-failure failure-attribution pipeline | high | No | arxiv-daily-digest |
 | 2026-04-26 | [WATCH] | The Orchestration of Multi-Agent Systems: Architectures, Protocols, and Enterprise Adoption (arXiv:2601.13671) — survey of architectural composition, agent roles, orchestration logic, communication protocols, and governance for enterprise MAS; reference taxonomy for /orchestrate decisions | medium | No | arxiv-daily-digest |
 | 2026-04-26 | [WATCH] | LLM-Based Agentic Systems for Software Engineering Survey (arXiv:2601.09822) — comprehensive survey of LLM-based agentic SE systems with taxonomy of capabilities, gaps, and patterns; useful synthesis for /orchestrate and /fix-issue evolution | medium | No | arxiv-daily-digest |
+
+## 2026-04-27 arXiv Daily Digest
+
+| Date | Type | Item | Urgency | Acted | Source |
+|------|------|------|---------|-------|--------|
+| 2026-04-27 | [ACTION] | Small Model as Master Orchestrator: Learning Unified Agent-Tool Orchestration with Parallel Subtask Decomposition (arXiv:2604.17009) — ParaManager places multi-agent collaboration and external tool use into a single learnable tool space, lightweight parallel orchestrator as decision core; directly applicable to STOPA orchestrate dispatcher pattern (haiku-as-orchestrator + parallel decomposition) | high | No | arxiv-daily-digest |
+| 2026-04-27 | [ACTION] | Self-Optimizing Multi-Agent Systems for Deep Research (arXiv:2604.02988) — agents self-play to explore prompt combinations producing high-quality systems matching/outperforming expert-crafted prompts; directly applicable to /deepresearch and /self-evolve adversarial co-evolution loop | high | No | arxiv-daily-digest |
+| 2026-04-27 | [WATCH] | Safe and Policy-Compliant Multi-Agent Orchestration for Enterprise AI — CAMCO (arXiv:2604.17240) — runtime coordination layer modeling MAS as constrained optimization with constraint projection engine, adaptive risk-weighted Lagrangian utility shaping, and iterative negotiation with bounded convergence; relevant for /orchestrate budget tier guards and circuit breakers | medium | No | arxiv-daily-digest |
+| 2026-04-27 | [WATCH] | Context Kubernetes: Declarative Orchestration of Enterprise Knowledge for Agentic AI Systems (arXiv:2604.11623) — reference architecture for declarative knowledge orchestration in agentic systems; potential pattern for STOPA skills + memory + hooks lifecycle management | medium | No | arxiv-daily-digest |
+| 2026-04-27 | [WATCH] | Principled Context Engineering for RAG: Statistical Guarantees via Conformal Prediction (arXiv:2511.17908) — conformal filtering after retrieval guarantees coverage of relevant evidence while reducing context size 2-3×; relevant for hybrid-retrieve.py budget-aware shrinking with statistical guarantees | medium | No | arxiv-daily-digest |
+
+## 2026-04-27 morning-watch
+
+| Date | Type | Item | Urgency | Acted | Source |
+|------|------|------|---------|-------|--------|
+| 2026-04-27 | [ACTION] | Claude Code v2.1.116 quality fixes (Apr 20) — restored higher default reasoning effort, fixed caching bug that dropped thinking history, reverted verbosity prompt change that hurt coding quality; affects daily CC use, no STOPA action needed (server-side fix) | high | No | morning-watch |
+| 2026-04-27 | [ACTION] | CC adds vim visual modes + custom themes + direct MCP tool hooks — vim `v`/`V` selection with operators, named custom themes, hooks can now invoke MCP tools directly (relevant for STOPA hook architecture — could let invariant-checker call MCP tools instead of subprocess) | medium | No | morning-watch |
+| 2026-04-27 | [WATCH] | Rate Limits API + Haiku 3 retired — programmatic rate-limit query for orgs/workspaces (useful for STOPA budget guards); Haiku 3 EOL, upgrade to Haiku 4.5 (STOPA already uses 4.5) | medium | No | morning-watch |
+
+## Weekly Digest 2026-04-27
+
+**Aktivita projektů (od 2026-04-20):**
+- STOPA: 50 commits — Karpathy Rule 5 wired (orchestrate/fix-issue success criteria), orchestrate-light Haiku tier, hybrid-retrieve Context Awareness Gate + auto grep_only, brain-bridge → radar/news (issue #24 closed), Hippo+GenericAgent memory dynamics adoption, L2 sentinel fix
+- NG-ROBOT: 155 commits — pipeline runs (CMS h1_title fix klíčový), většina hook-generated automatika
+- ADOBE-AUTOMAT, ZACHVEV, POLYBOT, MONITOR, GRAFIK: 0 commitů (idle)
+
+**Novinky:**
+- 14 ACTION items open; top urgency: #109 CC Plugin manifest monitors, #105 CC Desktop redesign, #114 CC 7 nových hook events
+- 5 WATCH items z Apr 21 scanu + 4 nové ACTION/WATCH 2026-04-27 (ParaManager arXiv:2604.17009, Self-Optimizing MAS arXiv:2604.02988, CAMCO, Context K8s)
+- Trend: orchestrace + memory engineering dominují papers; Anthropic posouvá CC k hookům jako primární extension point
+
+**Poučení týdne (12 nových learnings od 2026-04-20):**
+- 2026-04-27: verify-cc-features-against-docs, l2-sentinel-double-eval
+- 2026-04-26: autoreason-mid-tier-sweet-spot (graduation candidate)
+- 2026-04-25: mcp-config-canonical-location
+- 2026-04-24: scheduled-task-discipline
+- 2026-04-23: llm-confirmation-bias, ucsd-devs-dont-vibe, deepmind-agent-attack-vectors
+- 2026-04-21: vertical-scaling-phase-b-not-implemented, doom-loop-signal, ch-samostatne-pismeno
+
+**Údržba:**
+- ⚠️ news.md = 227 řádků (>120 warning) — kandidát na archivaci starších scan logs do news-archive.md
+- decisions.md (34) ✓, budget.md (39) ✓
+- Actionable rate 51.9% (target 50% ✓ dosažen)
+- Harness adoption: 1/8 projektů (NG-ROBOT) — pod target 2+ do 2026-05-17
+
+**Doporučení na týden 2026-04-28 → 2026-05-04:**
+1. **Harness pilot replikace** na ZACHVEV nebo POLYBOT — kritické pro target do 2026-05-17 (item #111)
+2. **Archivace news.md** (227 → ~150 řádků): přesun scan logs z dubna do news-archive.md
+3. **Evaluace CC novinek**: PowerShell Tool (#115), 7 hook events (#114) → behavioral-genome.md update; /ultrareview (#113) jako heavy-tier critic backend
+

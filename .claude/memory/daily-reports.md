@@ -4,6 +4,11 @@ One line per scheduled task run, newest at the top. For silent-OK runs this is t
 
 **Format:** `YYYY-MM-DD HH:MM | task-name | short status (counts, summary)`
 
+2026-04-27 06:48 | arxiv-daily-digest | OK — 5 papers added to news.md (2 [ACTION]: 2604.17009 ParaManager small-model orchestrator, 2604.02988 self-optimizing deep research; 3 [WATCH]: 2604.17240 CAMCO safe orchestration, 2604.11623 Context Kubernetes, 2511.17908 conformal RAG); 5 new URLs queued in inbox.md
+2026-04-27 | auto-evolve-skills | OK — 17 skills evaluated, 0 candidates generated (all skip on insufficient signal: 0% error rates, single-session evidence); 4 skills not-found (commit-commands:commit, less-permission-prompts, schedule, update-config); 4 timeouts (deepresearch, improve, self-evolve, +1 in script tail) — silent OK per task spec
+2026-04-27 | mirror-automemory-daily | OK — 4 new + 1 updated + 145 unchanged, commit 46099c6
+2026-04-27 | autodream | OK — 188 learnings scanned, 4 confidence updates (3 boosted to ceiling, 1 mid-range), 0 archived, 27 dedup candidates (0 merge-strong) for next /evolve, no graduation candidates
+2026-04-27 | dreams | OK abbreviated cycle — 1 new learning (autoreason-mid-tier-sweet-spot) cross-linked into iterative-skill cluster (3 bidirectional links: autoreason-adversarial-debate, claudini-autoresearch-loop, karpathy-loop-autoloop); 1 backward update (architecture doc confidence boost via reward modulation); 1 meta-pattern detected ("Structure > raw capability" across 3 iterative-skill learnings — graduation candidate, pending STOPA-native validation); replay queue empty
 2026-04-26 | tool-radar-scan | SKIP — task marked DISABLED (migrated to CC Routines)
 2026-04-26 | arxiv-daily-digest | OK — 3 papers added to news.md (1 [ACTION]: 2604.17658 self-improving error diagnosis; 2 [WATCH]: 2601.13671 MAS orchestration survey, 2601.09822 LLM agentic SE survey); 3 new URLs queued in inbox.md
 2026-04-26 | auto-evolve-skills | 17 skills evaluated (2 sessions, 14d window), 0 candidates generated — all 0% error rate / insufficient failure evidence; 1 timeout (radar), 4 not-found skills
@@ -70,3 +75,7 @@ One line per scheduled task run, newest at the top. For silent-OK runs this is t
 2026-04-26 15:23 | brain-ingest | inbox empty
 2026-04-26 18:23 | brain-ingest | inbox empty
 2026-04-26 21:23 | brain-ingest | inbox empty
+2026-04-27 06:23 | brain-ingest | inbox empty
+2026-04-27 07:21 | brain-watch | arxiv: 30, blogs: 6, queued: 32
+2026-04-27 09:31 | brain-ingest | 37 URLs, 18 radar/news proposals, 18 dedup
+2026-04-27 12:23 | brain-ingest | inbox empty
