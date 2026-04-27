@@ -1,0 +1,48 @@
+name: pr-merged
+description: "When a PR merges, record decision in memory and optionally notify Telegram."
+
+# Mutating steps: write_decision (memory), notify (telegram)
+# Read-only steps: fetch_pr
+
+inputs:
+  repo:
+    required: true
+    desc: "owner/repo, e.g., cetej/STOPA"
+  pr:
+    required: true
+    desc: "PR number"
+  chat_id:
+    required: false
+    desc: "Telegram chat_id; if omitted, skip notify step"
+    default: ""
+
+steps:
+  - id: fetch_pr
+    tool: mcp__github__get_pull_request
+    desc: "Read PR metadata"
+    args:
+      owner: "{{inputs.repo | split:/ | first}}"
+      repo: "{{inputs.repo | split:/ | last}}"
+      pull_number: "{{inputs.pr}}"
+    expose: true
+    on_error: abort
+
+  - id: write_decision
+    tool: mcp__stopa-memory__memstore_write_memory
+    desc: "Persist merge decision (mutates memory)"
+    args:
+      key: "decisions/pr-{{inputs.pr}}"
+      value: "PR {{inputs.repo}}#{{inputs.pr}} merged: {{step_fetch_pr.output.title}}\n\nMerged at: {{step_fetch_pr.output.merged_at}}\nBy: {{step_fetch_pr.output.merged_by.login}}"
+    on_error: continue
+
+  - id: notify
+    tool: mcp__plugin_telegram_telegram__reply
+    desc: "Optional Telegram notification (mutates external)"
+    skip_if: "{{inputs.chat_id}} == ''"
+    args:
+      chat_id: "{{inputs.chat_id}}"
+      text: "PR merged: {{inputs.repo}}#{{inputs.pr}} — {{step_fetch_pr.output.title}}"
+    on_error: continue
+
+dual_write: true
+budget_cap: 0.20

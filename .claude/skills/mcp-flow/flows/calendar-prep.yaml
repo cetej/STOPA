@@ -1,0 +1,46 @@
+name: calendar-prep
+description: "Pull tomorrow's calendar events + fetch related memory context. Useful as morning briefing prep."
+
+# Read-only flow — no mutations.
+
+inputs:
+  date_range_start:
+    required: false
+    default: "tomorrow"
+    desc: "ISO date or 'tomorrow', 'today'"
+  date_range_end:
+    required: false
+    default: "tomorrow"
+  calendar_id:
+    required: false
+    default: "primary"
+
+steps:
+  - id: list_events
+    tool: mcp__e27626c3-6a73-478e-b549-50b244a018e3__list_events
+    desc: "Fetch events in range"
+    args:
+      calendar_id: "{{inputs.calendar_id}}"
+      time_min: "{{inputs.date_range_start}}"
+      time_max: "{{inputs.date_range_end}}"
+    expose: true
+    on_error: abort
+
+  - id: lookup_decisions
+    tool: mcp__stopa-memory__memstore_read_memory
+    desc: "Search memory for context related to event titles"
+    args:
+      key_pattern: "decisions/*"
+    expose: true
+    on_error: continue
+
+  - id: write_briefing
+    tool: mcp__stopa-memory__memstore_write_memory
+    desc: "Save composed briefing to memory for later read (mutates memory)"
+    args:
+      key: "briefings/{{inputs.date_range_start}}"
+      value: "Briefing for {{inputs.date_range_start}}:\n{{step_list_events.output}}\n\nRelated decisions:\n{{step_lookup_decisions.output}}"
+    on_error: continue
+
+dual_write: false
+budget_cap: 0.10

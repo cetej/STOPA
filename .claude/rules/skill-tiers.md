@@ -38,6 +38,7 @@ Specialized skills for specific workflows:
 - `/fetch` — clean URL reader via Jina Reader (no API key, no browser needed)
 - `/radar` — proactive tool discovery & evaluation (auto-scan 2x/day + manual URL input)
 - `/improve` — cross-project improvement router (scores findings × project profiles, creates GitHub issues)
+- `/mcp-flow` — declarative cross-tool MCP workflow executor (PR merged → memory write → Telegram notify, Calendar prep, etc.). Flows live in `.claude/skills/mcp-flow/flows/`
 - `/ingest` — raw source → structured knowledge (entity extraction, source summaries, concept-graph updates)
 - `/compile` — synthesize learnings into thematic wiki articles for better retrieval
 - `/discover` — semantic behavior discovery from session traces (Tang "Semantic Observability" inspired)
