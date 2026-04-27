@@ -323,6 +323,67 @@ Before I scout, 2 things need clarification:
 (If both are obvious from context, say so and I'll skip this.)
 ```
 
+## Phase 1.95: Success Criteria Lock (Imperative → Verifiable Goal)
+
+**Trigger:** verifiability == `METRIC` or `HEURISTIC`. Skip if: `--auto` flag, light tier, OR `$ARGUMENTS` already contains explicit binary checks (e.g., "tests pass", "score > X", "endpoint returns 200").
+
+**Why this exists:** Without locked success criteria, agents in Phase 4 invent their own "done" definition — leads to scope creep, subjective "looks right" verdicts, and nested-session disagreements about exit. Karpathy Rule 5 (`code-editing-examples.md`): transform imperative requests → testable goals BEFORE implementation. This phase makes that mandatory, not advisory.
+
+**Process:**
+
+1. **Restate the goal in 1 sentence** as a deliverable (not an action):
+   - Action form: "fix validation bug" → Deliverable form: "validate_email rejects empty/None/non-http inputs"
+   - Action form: "improve search latency" → Deliverable form: "search returns top-10 results in <200ms p95"
+
+2. **Write 3-5 binary success criteria** — each MUST be verifiable by a single command or observation:
+   - GOOD: `pytest tests/test_email.py -k "test_empty" passes`
+   - GOOD: `grep -c "TODO" src/auth.py returns 0`
+   - GOOD: `curl /api/search?q=test returns 200 with json.results.length > 0`
+   - BAD: "code is clean" (subjective)
+   - BAD: "feature works" (vague)
+   - BAD: "tests are good" (no specific test named)
+
+3. **Identify 2-3 edge cases** the criteria must cover (empty input, concurrent access, missing env, malformed data, etc.). If you can't think of any, the goal is too narrow — re-read the request.
+
+4. **Gate decision:** Can you write 3 binary checks?
+   - YES → Write to state.md (see Output Format below), proceed to Phase 2
+   - NO → Loop back to Phase 1.9 Grill — task is still too vague. If Grill already ran: STOP and ask user "I cannot define binary success criteria for this task — please clarify what 'done' means."
+
+**Output Format (append to state.md):**
+
+```yaml
+## Success Criteria (locked Phase 1.95)
+goal: "<1-sentence deliverable form>"
+criteria:
+  - id: sc-1
+    check: "<binary verification command/observation>"
+    blocks: ["wave-1", "wave-2"]  # which waves this gates
+  - id: sc-2
+    check: "<...>"
+    blocks: ["wave-2"]
+  - id: sc-3
+    check: "<...>"
+    blocks: ["final"]
+edge_cases:
+  - "<edge case 1>"
+  - "<edge case 2>"
+locked_at: "<ISO timestamp>"
+```
+
+**Use downstream:**
+- Phase 3 decomposition: each subtask MUST cite which `sc-N` it satisfies
+- Phase 4 agents: receive criteria in their File Access Manifest as exit conditions
+- Phase 5 verify: runs each `check:` field — no green = no done
+- /critic in handoffs: reads criteria as evaluation rubric instead of inventing one
+
+**Anti-rationalization:**
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "Goal is clear, success criteria are obvious" | "Obvious" criteria diverge between agent and user 60% of time (per failure trace analysis). The criteria the model thinks are obvious differ from what the user assumes. | Write them down explicitly anyway. 30 seconds now saves a Phase 5 re-do. |
+| "I'll define criteria as I decompose in Phase 3" | Decomposition shapes criteria toward what's easy to subtask, not toward what user wants. Backwards causality. | Lock criteria FIRST, decompose to satisfy them. |
+| "Task is too creative for binary checks" | If truly UNVERIFIABLE (per Phase 1 assessment), this phase is skipped. If METRIC/HEURISTIC and you can't write checks, the task is mis-classified. | Re-classify or define explicit milestone exits. |
+
 ## Phase 2: Scout (scaled to tier)
 
 ### Precomputed Results Check
@@ -468,10 +529,12 @@ Based on scout results:
    - Two subtasks modifying the same file → CANNOT be in the same wave
 6. **Assess risks** — what could go wrong?
 6b. **Rank by leverage** (Meadows heuristic): prioritize by structural depth — paradigm changes first, parameter tweaks last.
-7. **Define acceptance criteria** — each subtask MUST have a verifiable criterion:
-   - Good: "API returns 200 with valid token and 401 without"
+7. **Define acceptance criteria** — each subtask MUST have a verifiable criterion AND link to a `sc-N` from Phase 1.95:
+   - Good: "API returns 200 with valid token and 401 without" (satisfies sc-2)
    - Bad: "Auth is implemented"
+   - Bad: criterion that doesn't trace to any locked `sc-N` (orphan subtask — either add new sc or drop the subtask)
    - If criterion can't be made specific, subtask is too vague — decompose further
+   - **Coverage check:** every locked `sc-N` from Phase 1.95 must be satisfied by ≥1 subtask. Unsatisfied criteria = incomplete plan.
 8. **Define done-when** — machine-verifiable completion condition the AGENT checks itself:
    - Format: shell command or tool assertion that returns pass/fail
    - Good: `"ruff check src/auth.py passes AND python -m pytest tests/test_auth.py passes"`
@@ -507,8 +570,8 @@ task_style: <exploratory|structured>
 status: in_progress
 branch: <git branch>
 subtasks:
-  - {id: "st-1", description: "<subtask>", criterion: "<pass/fail>", done_when: "<machine-verifiable completion condition>", context_scope: ["<file1>", "<file2>"], grounding_refs: [], depends_on: [], wave: 1, method: "Agent:general", status: "pending", artifacts: []}
-  - {id: "st-2", description: "<subtask>", criterion: "<pass/fail>", done_when: "<machine-verifiable completion condition>", context_scope: ["<file3>"], grounding_refs: ["learnings/2026-04-05-auth-pattern.md"], depends_on: ["st-1"], wave: 2, method: "Skill:/review", status: "pending", artifacts: []}
+  - {id: "st-1", description: "<subtask>", criterion: "<pass/fail>", done_when: "<machine-verifiable completion condition>", satisfies_sc: ["sc-1"], context_scope: ["<file1>", "<file2>"], grounding_refs: [], depends_on: [], wave: 1, method: "Agent:general", status: "pending", artifacts: []}
+  - {id: "st-2", description: "<subtask>", criterion: "<pass/fail>", done_when: "<machine-verifiable completion condition>", satisfies_sc: ["sc-2", "sc-3"], context_scope: ["<file3>"], grounding_refs: ["learnings/2026-04-05-auth-pattern.md"], depends_on: ["st-1"], wave: 2, method: "Skill:/review", status: "pending", artifacts: []}
 ---
 
 ## Active Task

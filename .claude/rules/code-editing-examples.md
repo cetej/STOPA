@@ -213,6 +213,11 @@ Report agenta:
 - Existuje test passující SE změnou kódu?
 - Regrese je měřitelná přes re-run?
 
+**Wired into skills (od 2026-04-27):**
+- [`/orchestrate` Phase 1.95: Success Criteria Lock](../skills/orchestrate/SKILL.md) — produkuje 3-5 binary `sc-N` checks PŘED Phase 2 (Scout). Phase 3 decomposition vyžaduje, aby každý subtask citoval, který `sc-N` satisfaiuje (coverage gate).
+- [`/fix-issue` Phase 2.5: Test-First Reproduction](../skills/fix-issue/SKILL.md) — píše failing test reprodukující bug PŘED Phase 3 (Implement). Test na unfixed code MUSÍ failovat (proves it captures the bug); na fixed code MUSÍ passovat.
+- Tento přechod změnil Rule 5 z **principu** (agent musí pamatovat) na **mechaniku** (skill ji vynucuje). Pokud přidáváš novou skill která provádí editaci kódu, zvaž napojení na Phase 1.95 nebo přidání ekvivalentního test-first kroku.
+
 ---
 
 ## Použití v praxi

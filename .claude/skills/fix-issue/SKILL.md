@@ -72,6 +72,46 @@ Based on the issue description:
 
 If scope is larger than expected (3+ files need changes), warn the user and suggest upgrading to `/orchestrate`.
 
+## Phase 2.5: Test-First Reproduction (Karpathy Rule 5)
+
+**Why this exists:** Without a failing test that reproduces the bug, "fix" has no objective exit criterion. Agents declare done when *symptoms* are gone, not when the actual bug is fixed. Karpathy: transform imperative → verifiable goals BEFORE implementation.
+
+**Skip only if:** the issue has NO testable surface (config/docs typo, build script tweak with no logic). State explicitly why skipped.
+
+**Process:**
+
+1. **Write 1-3 failing tests** that reproduce the bug from the issue:
+   - Each test must fail on `main` (current code) — proves it captures the bug
+   - Each test must pass after the fix — proves the fix resolves it
+   - Use the project's existing test framework (don't introduce new one)
+   - Place in the natural test location (mirror src/ structure)
+
+2. **Run the tests on the unfixed code** to confirm they fail in the expected way:
+   ```bash
+   # Example: pytest tests/test_<module>.py -k "test_<bug_scenario>"
+   ```
+   - Expected output: failure with the same error/symptom from the issue
+   - If tests pass on unfixed code → tests don't reproduce the bug → rewrite them
+
+3. **Lock test names as exit criteria** for Phase 3:
+   ```
+   Exit when: pytest tests/test_X.py -k "test_empty_input" passes
+              pytest tests/test_X.py -k "test_concurrent_logout" passes
+   ```
+
+4. **If you cannot write a failing test** (the bug is non-deterministic, environment-specific, or hard to isolate):
+   - Document why in the fix report
+   - Use stricter manual verification in Phase 4 instead
+   - Flag this in commit message as `cannot-auto-test: <reason>`
+
+**Anti-rationalization:**
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "The fix is obvious, no test needed" | Obvious fixes break things 30% of time. Test catches the regression you didn't see. | Write the test anyway — 5 min cost, infinite value if regression appears later. |
+| "I'll write the test after implementing" | Post-hoc tests pass too easily — they're written knowing the implementation. Pre-fix tests prove the bug exists. | Test first, fix second. Order matters. |
+| "Issue describes symptom, test would just duplicate it" | Test encodes the expectation in code that runs forever. Issue text rots. | Encode the symptom as test — that's the point. |
+
 ## Phase 3: Implement the Fix
 
 1. Create a feature branch:
@@ -85,17 +125,25 @@ If scope is larger than expected (3+ files need changes), warn the user and sugg
 
 ## Phase 4: Test
 
-1. If tests exist for the affected area:
-   - Run them: `python -m pytest <test_file>` or equivalent
-   - Ensure they pass
+1. **Run the locked tests from Phase 2.5** — they MUST pass now:
+   ```bash
+   # Same command as Phase 2.5, expecting different result
+   pytest tests/test_<module>.py -k "test_<bug_scenario>"
+   ```
+   - Phase 2.5: failed (bug reproduced)
+   - Phase 4: passes (bug fixed)
+   - This delta is the proof.
 
-2. If no tests exist:
-   - Write a minimal test that reproduces the bug (fails without fix, passes with fix)
-   - Run it to confirm
+2. **Run the broader test suite for the affected area** — catch regressions:
+   ```bash
+   python -m pytest tests/test_<module>.py
+   ```
+   - All previously-passing tests must still pass.
 
-3. If testing is not feasible:
-   - At minimum verify syntax: `python -c "import <module>"` or equivalent
-   - Explain to user why full testing wasn't possible
+3. **If Phase 2.5 was skipped** (no testable surface):
+   - Verify syntax: `python -c "import <module>"` or equivalent
+   - Manually verify the symptom from the issue is gone
+   - Explain in fix report why automated test wasn't feasible
 
 ## Phase 5: Quality Check
 
