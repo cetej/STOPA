@@ -3,7 +3,8 @@ name: LATS
 type: paper
 first_seen: 2026-04-07
 last_updated: 2026-04-07
-sources: [egoa-prompt-techniques]
+sources: [egoa-prompt-techniques, ai-planning-framework-web-agents]
+last_updated: 2026-04-26
 tags: [orchestration, planning, reasoning, mcts]
 ---
 
@@ -22,6 +23,10 @@ tags: [orchestration, planning, reasoning, mcts]
 
 Inspirace pro STOPA deep tier: branch exploration před lineárním 3-fix escalation. LATS-lite verze = zkus 2-3 různé přístupy paralelně (fork agents), vyhodnoť výsledky, pak implementuj nejlepší — odpovídá Best-of-N rollout vzoru.
 
+- MCTS tree search efektivní na tool planning (+3-10pp), ale UNDERPERFORMUJE na WebArena vs linear AgentOccam (39.2% Plan-MCTS vs 45.7% AgentOccam) — doménová závislost (ref: sources/ai-planning-framework-web-agents.md)
+- ToolTree §6: LATS citován jako kanonický "MCTS pro language agenty" (ref: sources/ai-planning-framework-web-agents.md)
+
 ## Mentioned In
 
 - [EgoAlpha/prompt-in-context-learning Research Brief](../sources/egoa-prompt-techniques.md)
+- [AI Planning Framework for LLM-Based Web Agents Research Brief](../sources/ai-planning-framework-web-agents.md)

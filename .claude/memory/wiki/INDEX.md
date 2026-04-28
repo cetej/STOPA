@@ -50,6 +50,7 @@ Health score: 10 - (0 stale×0.5) - (1 contradiction×1.5) - (4 gaps×0.5) - (62
 
 ## Sources
 
+- [ai-planning-framework-web-agents](sources/ai-planning-framework-web-agents.md) — Shahnovsky & Dror (2026): web agent BFS/Best-First/DFS taxonomy (derivative), 5 trajectory metrics (Element Accuracy + Recovery Rate novel), AgentOccam linear 45.7% > tree-search, "wrong plan executed perfectly" diagnostic pattern — addresses INDEX gap: trajectory auditing (2026-04-26)
 - [latent-briefing-kv-cache-compaction](sources/latent-briefing-kv-cache-compaction.md) — Latent Briefing: task-guided KV cache compaction for cross-agent memory; 49-65% token savings, +3pp accuracy; speculative reasoning is noise for workers (2026-04-11)
 - [piarena-prompt-injection-evaluation](sources/piarena-prompt-injection-evaluation.md) — PIArena (ACL 2026): adaptive attack 86% ASR vs best defense; task-alignment defeats all 9 defenses; Claude Sonnet 4.5 most robust at 31% ASR (2026-04-11)
 - [karpathy-nopriors-autoagent-loopy-era](sources/karpathy-nopriors-autoagent-loopy-era.md) — Karpathy: auto-research removes human bottleneck; program.md = research org as markdown; Jevons paradox applies to coding; education shifts to teaching agents (2026-04-08)
