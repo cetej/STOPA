@@ -6,10 +6,10 @@ component: orchestration
 tags: [subagent, context-isolation, delegation, memory, multi-agent]
 summary: CC subagent sidechains never return full history to parent — only final response text. STOPA agents already do this via Agent() tool, but agent instructions often don't explicitly mandate concise response summarization before return, causing context bloat.
 source: external_research
-uses: 0
+uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.6
+confidence: 0.65
 maturity: draft
 skill_scope: [orchestrate, deepresearch, scout]
 verify_check: manual

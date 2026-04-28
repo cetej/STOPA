@@ -1,3 +1,364 @@
+## Archived 2026-04-27 (358 lines)
+
+- 2026-04-24 15:11 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-24 15:13 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-24 15:17 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-24 15:17 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-24 15:18 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-24 15:20 | AUTO-L1 | Write | routine wiki write
+- 2026-04-24 15:20 | AUTO-L1 | Edit | routine wiki write
+- 2026-04-24 15:21 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-24 15:24 | AUTO-L1 | Edit | routine wiki write
+- 2026-04-24 15:25 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-24 18:27 | AUTO-L1 | Edit | routine memory graph/feed write
+- 2026-04-24 21:07 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-24 21:09 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-24 21:46 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-24 21:55 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-24 22:01 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-24 22:09 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-24 22:09 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-24 22:09 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-24 22:10 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-24 22:10 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-24 22:10 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-24 22:10 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-24 22:11 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-24 22:13 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-24 22:28 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-25 02:18 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 03:20 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 04:20 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-25 04:20 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-25 04:24 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-25 04:31 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-25 04:48 | AUTO-L1 | Write | routine memory artifact write
+- 2026-04-25 04:51 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 06:17 | AUTO-L1 | Edit | routine monitoring log
+- 2026-04-25 06:19 | AUTO-L1 | Edit | routine monitoring log
+- 2026-04-25 06:24 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-25 06:24 | AUTO-L1 | Edit | routine brain pipeline write
+- 2026-04-25 06:25 | AUTO-L1 | Edit | routine monitoring log
+- 2026-04-25 06:49 | AUTO-L1 | Edit | routine memory graph/feed write
+- 2026-04-25 07:23 | AUTO-L1 | Edit | routine brain pipeline write
+- 2026-04-25 09:25 | AUTO-L1 | Edit | routine monitoring log
+- 2026-04-25 09:26 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 09:26 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 09:27 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 09:27 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 09:27 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 09:28 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 09:28 | AUTO-L1 | Edit | routine monitoring log
+- 2026-04-25 09:36 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 09:40 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 09:46 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 09:47 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 09:49 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-25 09:53 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-25 09:53 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-25 09:53 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-25 09:53 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-25 09:54 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-25 09:54 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-25 09:54 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-25 09:54 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 09:55 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 09:56 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 09:57 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-25 10:01 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 10:01 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 10:02 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 10:03 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 10:03 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 10:03 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 10:03 | AUTO-L1 | Edit | routine memory artifact write
+- 2026-04-25 10:04 | AUTO-L1 | Edit | routine memory artifact write
+- 2026-04-25 10:04 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 10:05 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 10:05 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 10:06 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 10:08 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 10:15 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 10:15 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 10:16 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 10:16 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 10:17 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 10:17 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 10:17 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 10:18 | AUTO-L1 | Edit | routine brain pipeline write
+- 2026-04-25 10:18 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 10:18 | AUTO-L1 | Edit | routine brain pipeline write
+- 2026-04-25 10:18 | AUTO-L1 | Edit | routine brain pipeline write
+- 2026-04-25 10:22 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 10:25 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 10:35 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 10:35 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 10:36 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 10:36 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 10:38 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 10:38 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-25 10:39 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 11:11 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-25 11:13 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-25 11:15 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-25 11:15 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-25 11:20 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-25 11:21 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-25 11:21 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-25 11:21 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-25 11:21 | AUTO-L1 | Edit | routine brain pipeline write
+- 2026-04-25 11:21 | AUTO-L1 | Edit | routine memory graph/feed write
+- 2026-04-25 11:21 | AUTO-L1 | Edit | routine brain pipeline write
+- 2026-04-25 11:22 | AUTO-L1 | Edit | routine memory graph/feed write
+- 2026-04-25 11:22 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 11:22 | AUTO-L1 | Edit | routine brain pipeline write
+- 2026-04-25 11:22 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 11:22 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 11:24 | AUTO-L1 | Write | routine wiki write
+- 2026-04-25 11:26 | AUTO-L1 | Edit | routine monitoring log
+- 2026-04-25 11:55 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 11:56 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 11:57 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 11:58 | AUTO-L1 | Edit | routine brain pipeline write
+- 2026-04-25 11:58 | AUTO-L1 | Write | routine wiki write
+- 2026-04-25 11:58 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-25 11:58 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-25 12:18 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-25 12:19 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-25 12:19 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 12:20 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 12:20 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 12:21 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 12:21 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 12:51 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-25 12:51 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 12:52 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 12:52 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 13:02 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 13:02 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 13:04 | AUTO-L1 | Write | routine brain pipeline write
+- 2026-04-25 13:04 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 13:05 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-25 13:21 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-25 13:21 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 13:49 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 13:55 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 13:57 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 13:58 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 13:58 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-25 13:58 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-25 13:59 | AUTO-L1 | Edit | routine memory artifact write
+- 2026-04-25 13:59 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-25 14:12 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 14:13 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 14:17 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 14:20 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-25 14:20 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 14:32 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-25 14:32 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-25 14:33 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-25 14:33 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 14:33 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 15:23 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 16:22 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 16:25 | AUTO-L1 | Write | routine brain pipeline write
+- 2026-04-25 16:26 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-25 16:26 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 16:27 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 17:53 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 17:59 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 18:09 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 18:16 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 18:18 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 18:18 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 18:19 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 18:19 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 18:30 | AUTO-L1 | Edit | routine monitoring log
+- 2026-04-25 18:31 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 20:42 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 20:42 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-25 20:42 | AUTO-L1 | Write | routine brain pipeline write
+- 2026-04-25 20:43 | AUTO-L1 | Edit | routine monitoring log
+- 2026-04-25 20:43 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-25 20:43 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 20:43 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-25 20:43 | AUTO-L1 | Write | routine brain pipeline write
+- 2026-04-25 20:44 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 21:06 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 21:09 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-25 21:17 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 21:20 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 21:21 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 21:22 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 21:28 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 21:50 | AUTO-L1 | Edit | routine memory graph/feed write
+- 2026-04-25 21:50 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 21:51 | AUTO-L1 | Write | routine brain pipeline write
+- 2026-04-25 21:51 | AUTO-L1 | Write | routine brain pipeline write
+- 2026-04-25 23:29 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-25 23:31 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 00:07 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 00:08 | AUTO-L1 | Write | routine brain pipeline write
+- 2026-04-26 00:09 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 00:10 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 00:10 | AUTO-L1 | Write | routine brain pipeline write
+- 2026-04-26 00:12 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 00:14 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 00:15 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 00:15 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 00:16 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-26 00:16 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 00:16 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-26 00:16 | AUTO-L0 | PowerShell | unknown tool fallthrough
+- 2026-04-26 00:16 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 00:24 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 00:24 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-26 00:26 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-26 00:26 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 00:28 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 00:28 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 00:29 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 00:29 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 00:30 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-26 00:30 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 00:30 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-26 00:32 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-26 00:37 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-26 00:37 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-26 00:37 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-26 00:39 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-26 00:41 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 00:42 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 00:42 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 00:44 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 00:45 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-26 00:45 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-26 00:46 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-26 00:47 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-26 00:48 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-26 00:52 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 01:36 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 01:38 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-26 01:41 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 08:02 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 08:02 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 08:02 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 08:03 | AUTO-L1 | Edit | routine memory graph/feed write
+- 2026-04-26 08:03 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 08:04 | AUTO-L1 | Edit | routine memory artifact write
+- 2026-04-26 08:06 | AUTO-L1 | Edit | routine memory artifact write
+- 2026-04-26 08:09 | AUTO-L1 | Edit | routine memory graph/feed write
+- 2026-04-26 08:12 | AUTO-L1 | Edit | routine brain pipeline write
+- 2026-04-26 08:12 | AUTO-L1 | Edit | routine memory artifact write
+- 2026-04-26 08:12 | DENY-L1 | Edit | critical invariant: secret value in JSON/config file - use env var
+- 2026-04-26 08:16 | AUTO-L1 | Edit | routine memory graph/feed write
+- 2026-04-26 09:00 | AUTO-L1 | Edit | routine memory artifact write
+- 2026-04-26 09:00 | AUTO-L1 | Edit | routine memory artifact write
+- 2026-04-26 09:00 | AUTO-L1 | Edit | routine memory artifact write
+- 2026-04-26 09:01 | AUTO-L1 | Edit | routine memory graph/feed write
+- 2026-04-26 09:01 | AUTO-L1 | Write | routine memory artifact write
+- 2026-04-26 09:02 | AUTO-L1 | Edit | routine memory graph/feed write
+- 2026-04-26 09:03 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 09:04 | AUTO-L1 | Edit | routine monitoring log
+- 2026-04-26 09:12 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-26 09:30 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-26 09:31 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-26 09:41 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-26 10:19 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-26 10:20 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-26 10:20 | AUTO-L1 | Edit | routine memory artifact write
+- 2026-04-26 10:20 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 10:21 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 10:31 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 10:35 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 10:36 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 10:36 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 10:36 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 10:49 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-26 10:50 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 10:51 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-26 10:53 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 10:54 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 11:02 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-26 11:02 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 11:02 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 11:03 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-26 11:03 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-26 11:08 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 11:08 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 11:16 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 11:21 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 13:47 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 13:47 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 13:48 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 13:48 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 15:07 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 15:07 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 15:07 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 15:09 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-26 15:10 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 15:10 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 15:11 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 15:12 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 15:12 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 15:18 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-26 15:19 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 15:20 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 15:20 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 15:21 | AUTO-L0 | Write | local-write (git protected)
+- 2026-04-26 15:23 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 15:36 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 15:39 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-26 15:42 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 15:43 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 15:44 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 15:44 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 15:45 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 15:46 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 15:49 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 15:50 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 15:51 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-26 15:51 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-26 15:51 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 15:51 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 15:52 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 15:53 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 15:54 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 15:58 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 16:03 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 16:05 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 16:34 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 16:34 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 16:46 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 16:48 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 16:49 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 16:49 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 16:50 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-26 16:51 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 16:51 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 17:00 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 17:00 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 17:03 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 17:03 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 17:03 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 17:09 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 17:13 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 17:34 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 17:34 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 17:36 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 17:36 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 17:36 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 17:36 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 17:42 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 17:44 | AUTO-L0 | unknown | unknown tool fallthrough
+- 2026-04-26 17:45 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 17:46 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 17:48 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 17:48 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 17:51 | AUTO-L0 | Bash | bash (PreToolUse filter)
+- 2026-04-26 18:06 | AUTO-L0 | Edit | local-write (git protected)
+- 2026-04-26 18:06 | AUTO-L0 | Bash | bash (PreToolUse filter)
+
 ## Archived 2026-04-26 (307 lines)
 
 - 2026-04-23 04:16 | AUTO-L0 | Bash | bash (PreToolUse filter)

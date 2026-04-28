@@ -26,8 +26,8 @@ Emaily od těchto odesílatelů se automaticky zpracují:
 
 | URL | Autor | Frekvence | Poslední scan |
 |-----|-------|-----------|---------------|
-| https://karpathy.bearblog.dev/ | Karpathy | daily | 2026-04-26 |
-| https://simonwillison.net/ | Simon Willison | daily | 2026-04-26 |
+| https://karpathy.bearblog.dev/ | Karpathy | daily | 2026-04-27 |
+| https://simonwillison.net/ | Simon Willison | daily | 2026-04-27 |
 | https://www.answer.ai/blog | Jeremy Howard (Answer.ai) | weekly | 2026-04-24 |
 | https://www.anthropic.com/research | Anthropic Research | weekly | 2026-04-24 |
 | https://lilianweng.github.io/ | Lilian Weng (OpenAI) | monthly | 2026-04-19 |
@@ -36,16 +36,16 @@ Emaily od těchto odesílatelů se automaticky zpracují:
 
 | Query | Oblast | Kategorie | Poslední scan |
 |-------|--------|-----------|---------------|
-| LLM memory augmented agents | AI/ML | cs.AI | 2026-04-26 |
-| personal knowledge management AI | PKM | cs.AI | 2026-04-26 |
-| agent orchestration multi-agent tool-use | Orchestrace | cs.AI, cs.MA | 2026-04-26 |
-| RAG retrieval-augmented prompting context-engineering | Retrieval | cs.CL | 2026-04-26 |
-| LLM coding agent automated software engineering | Dev tools | cs.SE | 2026-04-26 |
-| self-improving agent reinforcement learning feedback | Self-improve | cs.AI, cs.LG | 2026-04-26 |
-| process reward model step verification | RL/Rewards | cs.AI, cs.LG | 2026-04-26 |
-| prompt injection agent safety defense | Safety | cs.CR, cs.AI | 2026-04-26 |
-| LLM knowledge graph entity extraction structured memory | Knowledge | cs.AI, cs.IR | 2026-04-26 |
-| agentic benchmark evaluation autonomous task | Eval | cs.AI | 2026-04-26 |
+| LLM memory augmented agents | AI/ML | cs.AI | 2026-04-27 |
+| personal knowledge management AI | PKM | cs.AI | 2026-04-27 |
+| agent orchestration multi-agent tool-use | Orchestrace | cs.AI, cs.MA | 2026-04-27 |
+| RAG retrieval-augmented prompting context-engineering | Retrieval | cs.CL | 2026-04-27 |
+| LLM coding agent automated software engineering | Dev tools | cs.SE | 2026-04-27 |
+| self-improving agent reinforcement learning feedback | Self-improve | cs.AI, cs.LG | 2026-04-27 |
+| process reward model step verification | RL/Rewards | cs.AI, cs.LG | 2026-04-27 |
+| prompt injection agent safety defense | Safety | cs.CR, cs.AI | 2026-04-27 |
+| LLM knowledge graph entity extraction structured memory | Knowledge | cs.AI, cs.IR | 2026-04-27 |
+| agentic benchmark evaluation autonomous task | Eval | cs.AI | 2026-04-27 |
 
 ## X/Twitter Accounts
 

@@ -59,6 +59,7 @@ Tabulka níže je auto-generována z YAML profilů — uprav profil, ne tabulku.
 | **ADOBE-AUTOMAT** | automation | medium |
 | **MONITOR** | monitoring | medium |
 | **POLYBOT** | bot | medium |
+| **PREKLAD** | translation-pipeline | medium |
 | **ZACHVEV** | web-app | medium |
 | **ZRCADLO** | monitoring-tool | medium |
 | **ADVISORS** | agent-system | low |

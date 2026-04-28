@@ -7,11 +7,11 @@ tags: [autoreason, debate, subjective-optimization, multi-agent]
 summary: "AutoReason pattern (SHL0MS) extends AutoResearch to subjective domains via adversarial debate loop. Key: cold-start agent isolation prevents confirmation bias, randomized judge labels prevent position bias, structured critique > binary preference."
 source: external_research
 maturity: draft
-uses: 0
+uses: 1
 harmful_uses: 0
-confidence: 0.6
+confidence: 0.9
 verify_check: "Glob('.claude/commands/autoreason.md') → 1+ matches"
-related: [2026-03-30-society-of-thought-orchestration.md]
+related: [2026-03-30-society-of-thought-orchestration.md, 2026-04-26-autoreason-mid-tier-sweet-spot.md]
 successful_uses: 0
 ---
 

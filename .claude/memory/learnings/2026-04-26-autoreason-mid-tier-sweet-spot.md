@@ -6,13 +6,13 @@ component: skill
 tags: [autoreason, model-selection, self-refinement, debate-loop, cost-optimization]
 summary: "AutoReason A/B/AB triáda + blind judges nese gain především strukturou, ne velikostí modelu. Haiku 3.5 dosáhl 42/42 s tímto loopem; standard self-refinement na stejném modelu degraduje výstup pod nulový baseline. Mid-tier recovery rate ~62 % vs ~43 % pro frontier-only. Investice do víc rounds/judges > upgrade writerů na Opus."
 source: external_research
-uses: 0
+uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.6
+confidence: 0.75
 maturity: draft
 verify_check: "Grep('Mid-tier sweet spot', path='.claude/skills/autoreason/SKILL.md') → 1+ matches"
-related: [2026-03-29-claudini-autoresearch-loop.md]
+related: [2026-04-01-autoreason-adversarial-debate.md, 2026-03-29-claudini-autoresearch-loop.md, karpathy-loop-autoloop.md]
 skill_scope: [autoreason]
 task_context: {task_class: research, complexity: low, tier: light}
 ---

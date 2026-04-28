@@ -1,15 +1,47 @@
 ---
+task_id: preklad-bootstrap
+goal: "Bootstrap PREKLAD project: RTT PDF/DOCX → structured CZ DOCX with FastAPI+HTMX UI"
+type: feature
+task_style: structured
+status: done
 branch: main
-last_update: 2026-04-23T11:00:00
+locked_at: 2026-04-27
+completed_at: 2026-04-27T18:00:00
+result: "MVP scaffold complete. 5 commits in PREKLAD. 108/108 tests pass. 4/6 SC verified (sc-3/sc-5 require ANTHROPIC_API_KEY for live translation). Latest commit: 92aeaee."
 ---
 
 # Shared Memory — Task State
 
 ## Active Task
 
-**Chase Context-Engineering Patterns: Align Evals & Agent Attribution** (Harrison Chase 5 patterns integration) — **COMPLETE**
+**Goal**: PREKLAD — translation-only pipeline for NG-ROBOT RTT files
 
-Příprava:
+**Tier**: deep
+**Verifiability**: METRIC
+
+### Success Criteria (locked Phase 1.95)
+
+- sc-1: `python -c "import preklad"` succeeds
+- sc-2: `python -m preklad.api.app` starts FastAPI on :8000, GET /health returns 200
+- sc-3: Upload rainbow_lizards.pdf → CZ DOCX produced, parses with python-docx, non-empty body
+- sc-4: Upload okavango.docx → Phase 0 detects long+backgrounder, line-parser splits correctly, full pipeline runs
+- sc-5: Side-by-side EN|CZ DOCX downloadable, contains paragraph pairs
+- sc-6: UI loads at /, drag&drop works, no console errors, anti-slop visual identity verified
+
+### Wave Plan
+
+| Wave | Agents | Files |
+|------|--------|-------|
+| 1 | scaffold (DONE after this run) | structure, configs, refs port, termdb client, fixtures |
+| 2 | parser, pipeline, exporter | parser/*, pipeline/phase*.py + orchestrator, exporter/* |
+| 3 | api, ui | api/*, ui/templates/*, ui/static/* |
+| 4 | verify | end-to-end test on both fixtures |
+
+## History
+
+### Chase Context-Engineering Patterns: Align Evals & Agent Attribution (COMPLETE, 2026-04-23)
+
+Harrison Chase 5 patterns integration:
 - [x] Phase 1 complete: sensors fixed, hooks pruned, skills archived (commit 890f00b)
 - [x] Phase 2 complete: KODER agent, task queue, handoff protocol (commit 09b251a)
 - [x] Phase 3.1: Retrospektivní audit — 27 active items mapped, 5 acted (18.5% baseline)
@@ -23,8 +55,7 @@ Příprava:
 - [x] Phase 4.4: End-to-end annotation workflow tested — `annotations.jsonl` (3 records: skip/bad/good), `.claude/evals/annotated/case-001/` generated with input.md + expected.md + eval.md for `bad` verdict on seq=3 (pytest blind run)
 - [x] Phase 4.5: Documentation — Phase 4 complete, ready for commit + distribution
 
-## Phase 4 Artifacts (Evidence)
-
+Phase 4 Artifacts:
 | File | Purpose | Verification |
 |------|---------|--------------|
 | `.claude/hooks/trace-capture.py` | Agent attribution in traces | Lines 81, 143–144 read/write `agent_type` |
@@ -34,15 +65,3 @@ Příprava:
 | `.traces/sessions/test-trace-2026-04-23.jsonl` | Test fixture | 5 records, includes `agent: critic` |
 | `.claude/memory/annotations.jsonl` | Annotation store | 3 records: skip/bad/good |
 | `.claude/evals/annotated/case-001/` | Generated eval case | input.md + expected.md + eval.md |
-
-## Session Files (Phase 1 Completion)
-
-| File | Status | Notes |
-|------|--------|-------|
-| .claude/hooks/session-summary.sh | ✅ FIXED | line 35: `Skill[: ]` regex pattern |
-| .claude/hooks/outcome-writer.py | ✅ FIXED | added `_record_failure_inline()` |
-| .claude/settings.json | ✅ MODIFIED | deactivated 25 low-value hooks (82→57) |
-| .claude/archive/skills/ | ✅ CREATED | 20 dead skills moved |
-| .claude/archive/commands/ | ✅ CREATED | 20 command files moved |
-| .claude/memory/raw/archive/ | ✅ CREATED | 602 old captures archived |
-| outputs/stopa-restructure-plan.md | ✅ SAVED | Full 3-phase plan with metrics |

@@ -4,6 +4,7 @@ One line per scheduled task run, newest at the top. For silent-OK runs this is t
 
 **Format:** `YYYY-MM-DD HH:MM | task-name | short status (counts, summary)`
 
+2026-04-27 | weekly-digest | OK — STOPA 50 commits + NG-ROBOT 155, 5 projects idle (ADOBE-AUTOMAT/ZACHVEV/POLYBOT/MONITOR/GRAFIK); 14 ACTION items open (top: #109 plugin monitors, #105 desktop redesign, #114 7 hooks); 12 new learnings (top: autoreason mid-tier sweet spot graduation candidate); news.md=227 lines (>120 warn, archive needed); harness 1/8 projects (target 2+ by 2026-05-17 — replicate on ZACHVEV/POLYBOT); digest appended to news.md
 2026-04-27 06:48 | arxiv-daily-digest | OK — 5 papers added to news.md (2 [ACTION]: 2604.17009 ParaManager small-model orchestrator, 2604.02988 self-optimizing deep research; 3 [WATCH]: 2604.17240 CAMCO safe orchestration, 2604.11623 Context Kubernetes, 2511.17908 conformal RAG); 5 new URLs queued in inbox.md
 2026-04-27 | auto-evolve-skills | OK — 17 skills evaluated, 0 candidates generated (all skip on insufficient signal: 0% error rates, single-session evidence); 4 skills not-found (commit-commands:commit, less-permission-prompts, schedule, update-config); 4 timeouts (deepresearch, improve, self-evolve, +1 in script tail) — silent OK per task spec
 2026-04-27 | mirror-automemory-daily | OK — 4 new + 1 updated + 145 unchanged, commit 46099c6
@@ -79,3 +80,12 @@ One line per scheduled task run, newest at the top. For silent-OK runs this is t
 2026-04-27 07:21 | brain-watch | arxiv: 30, blogs: 6, queued: 32
 2026-04-27 09:31 | brain-ingest | 37 URLs, 18 radar/news proposals, 18 dedup
 2026-04-27 12:23 | brain-ingest | inbox empty
+
+2026-04-27 12:31 | morning-watch | 3 new items added (CC v2.1.116 fixes, vim modes+MCP hooks, Rate Limits API+Haiku 3 EOL)2026-04-27 12:31 | daily-rebalancer | STOPA: drift commit d819ec5 (2 files). Mimo whitelist (čeká review): invariant-checker.py + 14 learnings + 67 raw archive deletes + 5 untracked (mcp-flow skill, dreams, outputs). Ostatní 12 projektů čistých. Aktivní za 3d: 2/13 (STOPA, ZRCADLO).
+2026-04-27 15:23 | brain-ingest | inbox empty
+2026-04-27 18:23 | brain-ingest | inbox empty
+2026-04-27 21:23 | brain-ingest | inbox empty
+2026-04-28 00:23 | brain-ingest | inbox empty
+2026-04-28 03:23 | brain-ingest | inbox empty
+2026-04-28 06:23 | brain-ingest | inbox empty
+2026-04-28 09:00 | skill-evolution | candidate=orchestrate (improvement-queue priority 75, count 25 — BIGMAS dynamic graph). No harmful_uses signal across learnings; failures/ empty. Last self-evolve: browse 04-10, autoloop 04-20. Skipped autonomous /self-evolve (50-turn maxTurns + sub-agent fan-out exceeds standard tier safety for unattended exec). Manual: /self-evolve orchestrate
