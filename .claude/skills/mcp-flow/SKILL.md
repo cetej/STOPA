@@ -22,7 +22,7 @@ output-contract: "execution log + final outputs → markdown report in stdout, o
 Execute deklarativně-popsanou sekvenci MCP volání napříč servery (GitHub, Telegram, Calendar, Gmail, memory). Pattern řeší případy, kde žádný stávající skill nepokrývá full workflow napříč servisy a vytvoření jednorázového skillu by bylo overkill.
 
 **Co MCP flow NENÍ:**
-- Není to runtime engine — Claude (model) exekuuje kroky manuálně podle YAML deklarace
+- Není to runtime engine v skill body — Claude (model) exekuuje kroky manuálně podle YAML deklarace. Pro autonomní běh existuje Python runtime: `python scripts/mcp-flow-run.py <flow> key=value ...` (`--dry-run` validuje YAML beze spuštění; `--start-at <step_id>` resume po failure)
 - Není to nahrazení existujících skills (improve, handoff, checkpoint, radar) — ty pokračují dál pro svoje use cases
 - Není to sub-orchestrace (max-depth=1) — flow nesmí spawnovat agents
 
