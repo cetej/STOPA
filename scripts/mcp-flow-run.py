@@ -159,28 +159,49 @@ def parse_cli_inputs(pairs: list[str]) -> dict[str, str]:
 def resolve_inputs(
     schema: dict[str, dict[str, Any]],
     cli_inputs: dict[str, str],
-) -> dict[str, str]:
-    """Validate required + apply defaults. Defaults pre-render env vars."""
-    resolved: dict[str, str] = {}
+) -> dict[str, Any]:
+    """Validate required + apply defaults + coerce types. Defaults pre-render env vars.
+
+    Supported types via `type:` in input spec: string (default), integer, boolean.
+    Without a type: hint, value stays as string (CLI argv preserves strings).
+    """
+    def _coerce(key: str, value: str, target: str | None) -> Any:
+        if target in (None, "", "string"):
+            return value
+        if target == "integer":
+            try:
+                return int(value)
+            except (TypeError, ValueError):
+                raise SystemExit(f"ERROR: input '{key}' must be integer (got {value!r}).")
+        if target == "boolean":
+            if value.lower() in ("true", "1", "yes", "on"):
+                return True
+            if value.lower() in ("false", "0", "no", "off", ""):
+                return False
+            raise SystemExit(f"ERROR: input '{key}' must be boolean (got {value!r}).")
+        raise SystemExit(f"ERROR: input '{key}' has unknown type '{target}'.")
+
+    resolved: dict[str, Any] = {}
     for key, spec in schema.items():
         spec = spec or {}
         required = bool(spec.get("required", False))
         default = spec.get("default")
+        target_type = spec.get("type")
         if key in cli_inputs:
-            resolved[key] = cli_inputs[key]
+            resolved[key] = _coerce(key, cli_inputs[key], target_type)
             continue
         if default is not None:
-            # Pre-render env vars at input level; step-time render covers
-            # nested {{inputs.X}} references that may chain into defaults.
-            resolved[key] = render_template(str(default), {"inputs": {}, "env": dict(os.environ)})
+            rendered = render_template(str(default), {"inputs": {}, "env": dict(os.environ)})
+            resolved[key] = _coerce(key, rendered, target_type)
             continue
         if required:
             raise SystemExit(
                 f"ERROR: Flow requires input '{key}'. Provide via `{key}=value`."
             )
+        # Optional input without default: empty string, no coercion (caller checks via skip_if)
         resolved[key] = ""
 
-    # Allow extra CLI inputs (forward-compat) but warn.
+    # Allow extra CLI inputs (forward-compat) — pass as strings.
     for k, v in cli_inputs.items():
         if k not in resolved:
             resolved[k] = v
@@ -304,9 +325,26 @@ def render_template(text: str, ctx: dict[str, Any]) -> str:
     return TEMPLATE_RE.sub(sub, text)
 
 
+_PURE_TEMPLATE_RE = re.compile(r"^\s*\{\{\s*([^{}]+?)\s*\}\}\s*$")
+
+
 def render_args(value: Any, ctx: dict[str, Any]) -> Any:
-    """Recursively render strings inside dict/list/str args."""
+    """Recursively render strings inside dict/list/str args.
+
+    Type preservation: if a string value is a SINGLE template placeholder with
+    no surrounding text (e.g., `"{{inputs.pr}}"`), return the raw resolved
+    value (int, bool, dict, ...) — not its string representation. This lets
+    typed inputs flow through to MCP tools that require non-string types
+    (e.g., GitHub `pull_number` expects integer).
+    Mixed strings (e.g., `"PR #{{inputs.pr}} merged"`) still render to string.
+    """
     if isinstance(value, str):
+        m = _PURE_TEMPLATE_RE.match(value)
+        if m:
+            try:
+                return _render_one(m.group(1), ctx)
+            except ValueError as exc:
+                raise SystemExit(f"ERROR: template '{value}' failed: {exc}") from exc
         return render_template(value, ctx)
     if isinstance(value, dict):
         return {k: render_args(v, ctx) for k, v in value.items()}
@@ -543,8 +581,17 @@ async def run_step(
                 output=result["output"], duration_ms=duration_ms,
                 args_rendered=log_args, redacted=redact,
             )
-        except Exception as exc:  # noqa: BLE001 — surface any MCP/transport error
+        except BaseException as exc:  # noqa: BLE001 — surface any MCP/transport error (incl. BaseExceptionGroup from asyncio TaskGroup)
             last_error = f"{type(exc).__name__}: {exc}"
+            # Unwrap ExceptionGroup (Python 3.11+) to surface root cause from asyncio TaskGroup
+            sub_exceptions = getattr(exc, "exceptions", None)
+            if sub_exceptions:
+                sub = sub_exceptions[0]
+                last_error += f" → {type(sub).__name__}: {sub}"
+                # Recurse one level (TaskGroup wrapping TaskGroup)
+                inner = getattr(sub, "exceptions", None)
+                if inner:
+                    last_error += f" → {type(inner[0]).__name__}: {inner[0]}"
             if attempt < attempts:
                 if verbose:
                     print(f"         retry after error: {last_error}", file=sys.stderr)
@@ -552,6 +599,8 @@ async def run_step(
                 continue
 
     duration_ms = int((time.monotonic() - start) * 1000)
+    if verbose:
+        print(f"         FAILED: {last_error}", file=sys.stderr)
     return StepResult(
         step_id=sid, tool=tool, status="failed",
         error=last_error, duration_ms=duration_ms,

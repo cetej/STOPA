@@ -13,6 +13,7 @@ inputs:
     desc: "owner/repo, e.g., cetej/STOPA"
   pr:
     required: true
+    type: integer
     desc: "PR number"
   chat_id:
     required: false
