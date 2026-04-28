@@ -57,17 +57,17 @@ Tabulka níže je auto-generována z YAML profilů — uprav profil, ne tabulku.
 |---------|-----|----------|
 | **NG-ROBOT** | content-pipeline | high |
 | **ADOBE-AUTOMAT** | automation | medium |
-| **MONITOR** | monitoring | medium |
-| **POLYBOT** | bot | medium |
+| **MONITOR** | OSINT-intelligence | medium |
+| **POLYBOT** | prediction-markets | medium |
 | **PREKLAD** | translation-pipeline | medium |
-| **ZACHVEV** | web-app | medium |
+| **ZACHVEV** | social-analysis | medium |
 | **ZRCADLO** | monitoring-tool | medium |
-| **ADVISORS** | agent-system | low |
+| **ADVISORS** | personal-AI | low |
 | **BONANZA** | trading-bot | low |
-| **DANE** | utility | low |
-| **GRAFIK** | graphics | low |
-| **KARTOGRAF** | web-app | low |
-| **ORAKULUM** | library | low |
+| **DANE** | tax-calculator | low |
+| **GRAFIK** | image-editing | low |
+| **KARTOGRAF** | cartography | low |
+| **ORAKULUM** | prediction-library | low |
 <!-- AUTO:projects:end -->
 
 ## Distribuce do projektů
