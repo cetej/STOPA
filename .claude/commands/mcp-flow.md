@@ -120,6 +120,7 @@ If flow YAML has `dual_write: true`, also write the report markdown to `.claude/
 ```yaml
 name: pr-merged
 description: "When a PR merges, record decision and notify"
+safety_class: mutating-external  # see below — required for proactive composition gating
 
 inputs:
   repo:
@@ -156,12 +157,28 @@ dual_write: true
 budget_cap: 0.20
 ```
 
+## Safety Class (per-flow gating for proactive composition)
+
+Every flow YAML MUST declare a `safety_class` field. The composition engine (`trigger-engine.py`) reads this when `/mcp-flow <name>` appears in a `composition-rules.yaml` sequence and decides whether the flow may fire proactively.
+
+| Value | Meaning | Proactive composition? |
+|---|---|---|
+| `read-only` | All steps only read (github_get, memstore_read, calendar_list_events). No writes. | ✅ Allowed |
+| `mutating-local` | Writes only to local memory/files (memstore_write, fs writes). No external visibility. | ✅ Allowed |
+| `mutating-external` | Sends to external services with visible side effects (Telegram reply, GitHub comment, email send). | ❌ Forbidden — user-invoked only |
+
+**Rules:**
+1. Field is REQUIRED for new flows. Missing → engine fail-safe to `mutating-external` (forbidden).
+2. Classify by the WORST step in the flow (one telegram_reply makes the entire flow `mutating-external`).
+3. User-invoked `/mcp-flow <name>` always runs regardless of class — gating only applies to proactive composition firing.
+4. Adding a new mutating-external step to an existing `mutating-local` flow → MUST update the class.
+
 ## Available Flows
 
 Run `Glob .claude/skills/mcp-flow/flows/*.yaml` to list. Bootstrapping flows shipped with this skill:
 
-- `pr-merged` — record PR merge decision + Telegram notify
-- `calendar-prep` — pull tomorrow's events + summarize from related memory
+- `pr-merged` — record PR merge decision + Telegram notify (`mutating-external`)
+- `calendar-prep` — pull tomorrow's events + summarize from related memory (`mutating-local`)
 
 Add new flows by writing YAML to `mcp-flows/`. No code changes required.
 

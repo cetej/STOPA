@@ -1,7 +1,10 @@
 name: calendar-prep
 description: "Pull tomorrow's calendar events + fetch related memory context. Useful as morning briefing prep."
+safety_class: mutating-local
 
-# Read-only flow — no mutations.
+# Read steps: list_events, lookup_decisions
+# Mutating-local step: write_briefing (memstore_write — no external visibility)
+# safety_class: mutating-local — composition engine ALLOWS this flow proactively.
 
 inputs:
   date_range_start:
