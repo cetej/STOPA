@@ -91,3 +91,4 @@ One line per scheduled task run, newest at the top. For silent-OK runs this is t
 2026-04-28 09:00 | skill-evolution | candidate=orchestrate (improvement-queue priority 75, count 25 — BIGMAS dynamic graph). No harmful_uses signal across learnings; failures/ empty. Last self-evolve: browse 04-10, autoloop 04-20. Skipped autonomous /self-evolve (50-turn maxTurns + sub-agent fan-out exceeds standard tier safety for unattended exec). Manual: /self-evolve orchestrate
 2026-04-28 07:21 | brain-watch | arxiv: 30, blogs: 6, queued: 32
 2026-04-28 09:31 | brain-ingest | 32 URLs, 17 radar/news proposals, 13 dedup
+2026-04-28 02:00 | memory-maintenance | CLEAN — news.md trimmed 267→185 (archived Apr 12-23 scans, DONE #112, Apr 15-20 findings to news-archive 363→446 lines); decisions.md 34, budget.md 39, state.md 67, critical-patterns.md 51 ✓; 200 learning files, 0 stale (>90d)

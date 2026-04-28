@@ -17,6 +17,38 @@ Zpracované záznamy se přesunou do `inbox-archive.md`.
 
 | Date | Item |
 |------|------|
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24741v1 — raw/2026-04-28-universal-tracer-statistics-single-file-.md → proposed (paper) |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24732v1 — raw/2026-04-28-distributional-robustness-linear-contrac-4.md → dedup |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24723v1 — raw/2026-04-28-multivariate-kelly-optimization-sigmoida.md → proposed (paper) |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24758v1 — raw/2026-04-28-personalized-worked-examples-pattern-kc.md → dedup |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24732v1 — raw/2026-04-28-distributional-robustness-linear-contrac-4.md → dedup |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24710v1 — raw/2026-04-28-case-specific-rubrics-clinical-ai-evalua.md → proposed (paper) |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24732v1 — raw/2026-04-28-distributional-robustness-linear-contrac-4.md → dedup |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24720v1 — raw/2026-04-28-indonesian-ecommerce-sentiment-emotion-b.md → proposed (paper) |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24714v1 — raw/2026-04-28-homology-brain-morphometry.md → proposed (paper) |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24719v1 — raw/2026-04-28-diffusam-diffusion-prompt-free-sam2-medi.md → dedup |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24712v1 — raw/2026-04-28-prompt-underspecification-code-correctne.md → proposed (paper) |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24700v1 — raw/2026-04-28-green-shielding-user-centric-trustworthy.md → proposed (paper) |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24758v1 — raw/2026-04-28-personalized-worked-examples-pattern-kc.md → dedup |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24744v1 — raw/2026-04-28-u1-quantum-spin-liquids-ultracold-atoms.md → proposed (paper) |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24739v1 — raw/2026-04-28-cablecar-qldpc-scheduling-spin-qubits.md → proposed (paper) |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24764v1 — raw/2026-04-28-world-r1-3d-video-reinforcement-learning.md → dedup |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24763v1 — raw/2026-04-28-tuna-2-pixel-embeddings-multimodal-3.md → dedup |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24759v1 — raw/2026-04-28-zivotnost-molekularnich-mraken-phangs.md → proposed (paper) |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24764v1 — raw/2026-04-28-world-r1-3d-video-reinforcement-learning.md → dedup |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24763v1 — raw/2026-04-28-tuna-2-pixel-embeddings-multimodal-3.md → dedup |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24761v1 — raw/2026-04-28-redshift-dependent-snia-calibration.md → proposed (paper) |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24764v1 — raw/2026-04-28-world-r1-3d-video-reinforcement-learning.md → dedup |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24732v1 — raw/2026-04-28-distributional-robustness-linear-contrac-4.md → dedup |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24719v1 — raw/2026-04-28-diffusam-diffusion-prompt-free-sam2-medi.md → dedup |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24764v1 — raw/2026-04-28-world-r1-3d-video-reinforcement-learning.md → dedup |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24762v1 — raw/2026-04-28-omnishotcut-shot-boundary-detection.md → dedup |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24758v1 — raw/2026-04-28-personalized-worked-examples-pattern-kc.md → dedup |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24764v1 — raw/2026-04-28-world-r1-3d-video-reinforcement-learning.md → dedup |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24763v1 — raw/2026-04-28-tuna-2-pixel-embeddings-multimodal-3.md → dedup |
+| 2026-04-28 | URL: http://arxiv.org/abs/2604.24762v1 — raw/2026-04-28-omnishotcut-shot-boundary-detection.md → dedup |
+| 2026-04-28 | URL: https://karpathy.bearblog.dev/digital-hygiene/ — raw/2026-04-28-digital-hygiene-karpathy.md |
+| 2026-04-28 | URL: https://simonwillison.net/2026/Apr/21/gpt-image-2/ — raw/2026-04-28-chatgpt-images-2-wheres-waldo-test.md |
 | 2026-04-27 | URL: https://arxiv.org/abs/2604.17009 — raw/2026-04-27-paramanager-unified-agent-tool-orchestra.md → proposed (paper) |
 | 2026-04-27 | URL: https://arxiv.org/abs/2604.02988 — raw/2026-04-27-self-optimizing-multi-agent-deep-researc.md → proposed (paper) |
 | 2026-04-27 | URL: https://arxiv.org/abs/2604.17240 — raw/2026-04-27-camco-safe-multi-agent-orchestration.md → proposed (paper) |
