@@ -424,6 +424,50 @@ After delivering the research brief, automatically ingest the output into the me
 
 **Why:** Research outputs in `outputs/` are dead data — they don't compound. Auto-ingest ensures every research session enriches the knowledge graph for future retrieval.
 
+### Step 9: Outcome Record (RCL credit loop)
+
+Write outcome to `.claude/memory/outcomes/<date>-deepresearch-<outcome>-<slug>.md`. **Failure paths must follow this template too** — see `.claude/rules/failure-outcome-protocol.md` for mandatory exit discipline at every Step.
+
+```markdown
+---
+skill: deepresearch
+run_id: deepresearch-<slug>-<timestamp>
+date: <YYYY-MM-DD>
+task: "<research question>"
+outcome: success | partial | failure
+score_start: "n/a"
+score_end: "<verified-claim-rate>"  # e.g., "75%" or "n/a" if not measured
+iterations: <agent rounds completed>
+kept: <agents that delivered usable evidence>
+discarded: <agents that returned no findings>
+exit_reason: <completed|budget_exceeded|infra_error|stuck|timeout>
+---
+
+## Trajectory Summary
+1. Plan: <scale, sub-questions count, agents spawned>
+2. Phase 2a discovery: <URLs found across N agents>
+3. Phase 2b reading: <sources read, evidence gathered>
+4. Phase 4 verification: <issues found>
+... (max 15 entries)
+
+## Learnings Applied
+- file: <learning-filename.md> | credit: helpful | evidence: <how it informed plan/source quality>
+- file: <other.md> | credit: neutral | evidence: <why>
+
+## What Worked (if outcome != failure)
+- <effective sub-question decomposition or source strategy>
+
+## What Failed (if outcome != success)
+- <gaps in evidence, dead links, claims unable to verify>
+```
+
+**Outcome classification:**
+- `success` = brief delivered with <30% UNVERIFIED claims AND verifier passed → exit_reason: `completed`
+- `partial` = brief delivered but >30% UNVERIFIED OR verifier raised concerns → exit_reason: `completed` or `budget_exceeded`
+- `failure` = no brief produced (agent rescue failed, all sources dead, eval-equivalent infra fail) → exit_reason: `infra_error` (URL fetcher down) | `stuck` (no usable sources found) | `budget_exceeded` (budget hit before synthesis) | `timeout` (an agent exceeded wall-clock cap)
+
+**Canonical exit_reason** for failure/partial must match `failure-recorder.py:170-177` class_map.
+
 ## Scale Decision Matrix
 
 Classify the research question **before** Step 2 to determine execution scale:

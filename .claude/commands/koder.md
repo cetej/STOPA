@@ -100,3 +100,4 @@ STOP and re-evaluate if any of these occur:
 3. Don't mix multiple unrelated changes in one task
 4. Reference relevant learnings when they exist
 5. Default budget: light. Upgrade only for multi-file tasks.
+6. **Outcome write is mandatory at every exit** — including FAILED, BLOCKED, PARTIAL. KODER agent must follow `.claude/rules/failure-outcome-protocol.md` for canonical `exit_reason` mapping (FAILED → `crash_loop`, BLOCKED → `stuck` or `infra_error`, PARTIAL → `budget_exceeded`). Without canonical values, `failure-recorder.py` defaults to `logic` and the failure pipeline loses resource/timeout signal.

@@ -158,7 +158,7 @@ git status --porcelain
 ls .git/index.lock 2>/dev/null && rm .git/index.lock
 ```
 
-If any FAIL: stop and inform user. Do not enter the loop with broken preconditions.
+If any FAIL: write failure outcome per `.claude/rules/failure-outcome-protocol.md` (exit_reason: `infra_error`, iterations: 0, score: n/a), then inform user. Do not enter the loop with broken preconditions.
 
 ### Detect mode
 
@@ -554,9 +554,12 @@ Valid TSV statuses (updated): `baseline`, `keep`, `keep (reworked)`, `discard`, 
 
 **Deterministic alternative:** `Run: python scripts/loop-state.py circuit-breaker --consecutive-reverts N --eval-cases N --skill-lines N --iteration N --max-iterations N` Returns JSON with `{stop, triggers}`.
 
-- **Max score**: metric can't improve further
-- **Budget**: iteration count hit limit
-- **Crash loop**: 3 crashes in a row
+- **Max score**: metric can't improve further (success exit, exit_reason: `max_score`)
+- **Budget**: iteration count hit limit (failure/partial exit, exit_reason: `budget_exceeded`)
+- **Crash loop**: 3 crashes in a row (failure exit, exit_reason: `crash_loop`)
+- **Hard stop** at consecutive_discards=7: failure exit, exit_reason: `plateau`
+
+**On ANY non-success exit**: before returning to user, write the failure outcome per `.claude/rules/failure-outcome-protocol.md`. The Phase 3 Outcome Record below is the success path; failure paths must mirror its structure with `outcome: failure | partial` and a canonical `exit_reason`.
 
 Every 5 iterations, print progress summary:
 ```
@@ -674,7 +677,7 @@ Ask the user: "Merge branch `autoloop/<name>` into current branch, or discard?"
 
 ### Outcome Record (RCL credit loop)
 
-Write an outcome record to `.claude/memory/outcomes/<date>-autoloop-<outcome>-<slug>.md`:
+Write an outcome record to `.claude/memory/outcomes/<date>-autoloop-<outcome>-<slug>.md`. **Failure paths must follow this template too** — see `.claude/rules/failure-outcome-protocol.md` for the mandatory write discipline at every exit point.
 
 ```markdown
 ---
@@ -688,7 +691,7 @@ score_end: <final>
 iterations: <used>
 kept: <count>
 discarded: <count>
-exit_reason: <budget|plateau|max_score|crash_loop>
+exit_reason: <max_score|budget_exceeded|plateau|crash_loop|infra_error|timeout|stuck>
 ---
 
 ## Trajectory Summary
@@ -707,7 +710,12 @@ exit_reason: <budget|plateau|max_score|crash_loop>
 - <key gap or wrong assumption>
 ```
 
-**Outcome classification:** success = delta > 0 AND exit != crash_loop; partial = delta > 0 BUT exit == plateau/budget before target; failure = delta <= 0 OR crash_loop.
+**Outcome classification:**
+- `success` = delta > 0 AND exit_reason ∈ {`max_score`, `budget_exceeded` with target met}
+- `partial` = delta > 0 BUT plateau/budget hit before target → exit_reason: `plateau` | `budget_exceeded`
+- `failure` = delta ≤ 0 OR crash_loop OR invariant breach → exit_reason: `crash_loop` | `stuck` | `plateau` (no improvement) | `infra_error` (Phase 0 abort) | `timeout` (verify killed)
+
+**Canonical exit_reason** must match `failure-recorder.py:170-177` class_map. See `.claude/rules/failure-outcome-protocol.md` for the table.
 
 **Learnings Applied:** List every learning file that was Read/Grep'd during this run and influenced a decision. Assign credit: `helpful` if it led to a kept iteration, `harmful` if it led to a discarded one, `neutral` if consulted but not decisive.
 

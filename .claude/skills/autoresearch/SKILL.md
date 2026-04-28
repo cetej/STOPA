@@ -238,7 +238,7 @@ eval_output=$(<eval_command> 2>&1)
 ls .git/index.lock 2>/dev/null && rm .git/index.lock
 ```
 
-If eval command fails on baseline: **STOP**. The user must provide a working eval command before experiments can begin.
+If eval command fails on baseline: write failure outcome per `.claude/rules/failure-outcome-protocol.md` (exit_reason: `infra_error`, iterations: 0, score: n/a), then **STOP**. The user must provide a working eval command before experiments can begin.
 
 ### Create experiment branch
 
@@ -616,15 +616,20 @@ Read `${CLAUDE_SKILL_DIR}/references/failure-taxonomy.md` for the 10-category cl
 
 ## Error Handling
 
-| Failure | Response |
-|---------|----------|
-| Eval command fails on baseline | STOP — user must fix eval before experiments begin |
-| Eval produces no number | STOP — show raw output, ask user to fix grep pattern |
-| All experiments crash | STOP after 3rd crash, report what happened |
-| 3+ crashes of same category | Mark category non-repairable, skip similar hypotheses |
-| Agent rescue returns nothing | Continue with random perturbation strategy |
-| Budget exceeded | Stop, synthesize what you have, note truncation |
-| Git conflict on revert | `git revert --abort && git reset --hard <best_commit>` |
+**On any STOP listed below**: write failure outcome per `.claude/rules/failure-outcome-protocol.md` BEFORE returning to user. Use the canonical `exit_reason` from the right column.
+
+| Failure | Response | exit_reason |
+|---------|----------|-------------|
+| Eval command fails on baseline | STOP — user must fix eval before experiments begin | `infra_error` |
+| Eval produces no number | STOP — show raw output, ask user to fix grep pattern | `infra_error` |
+| All experiments crash | STOP after 3rd crash, report what happened | `crash_loop` |
+| 3+ crashes of same category | Mark category non-repairable, skip similar hypotheses | (continues; only abort triggers outcome) |
+| Agent rescue returns nothing | Continue with random perturbation strategy | (continues) |
+| Budget exceeded | Stop, synthesize what you have, note truncation | `budget_exceeded` |
+| Eval timeout (>5× baseline) | Kill and treat as crash; on 3rd: STOP | `timeout` |
+| Git conflict on revert | `git revert --abort && git reset --hard <best_commit>`; if persistent: STOP | `infra_error` |
+| ABORT decision (Step 10) | Phase 3 with failure analysis | `stuck` |
+| 6 consecutive discards (plateau) | Exit loop normally | `plateau` |
 
 ## Anti-Patterns to Avoid
 
@@ -641,7 +646,7 @@ Read `${CLAUDE_SKILL_DIR}/references/failure-taxonomy.md` for the 10-category cl
 
 ### Outcome Record (RCL credit loop)
 
-Write an outcome record to `.claude/memory/outcomes/<date>-autoresearch-<outcome>-<slug>.md`:
+Write an outcome record to `.claude/memory/outcomes/<date>-autoresearch-<outcome>-<slug>.md`. **Failure paths must follow this template too** — see `.claude/rules/failure-outcome-protocol.md` for mandatory exit discipline.
 
 ```markdown
 ---
@@ -655,7 +660,7 @@ score_end: <best>
 iterations: <used>
 kept: <count>
 discarded: <count>
-exit_reason: <budget|plateau|solved|crash_loop|abort>
+exit_reason: <solved|budget_exceeded|plateau|crash_loop|stuck|infra_error|timeout>
 ---
 
 ## Trajectory Summary
@@ -674,7 +679,12 @@ exit_reason: <budget|plateau|solved|crash_loop|abort>
 - <key gap, wrong assumption, or dead-end approach>
 ```
 
-**Outcome classification:** success = solved OR (delta > 0 AND exit == budget/plateau); partial = some improvement but not solved; failure = delta <= 0 OR crash_loop OR abort.
+**Outcome classification:**
+- `success` = `solved` OR (delta > 0 AND clean budget/plateau exit) → exit_reason: `solved` | `budget_exceeded` | `plateau`
+- `partial` = some improvement but not solved → exit_reason: `plateau` | `budget_exceeded`
+- `failure` = delta ≤ 0 OR crash_loop OR ABORT → exit_reason: `crash_loop` | `stuck` (ABORT) | `infra_error` (Phase 0) | `timeout` (eval killed)
+
+**Canonical exit_reason** must match `failure-recorder.py:170-177` class_map (only failure/partial flow through it). See `.claude/rules/failure-outcome-protocol.md`.
 
 **Learnings Applied:** List every learning file consulted during this run. Credit: `helpful` if it informed a kept hypothesis, `harmful` if it led to a discard, `neutral` otherwise.
 

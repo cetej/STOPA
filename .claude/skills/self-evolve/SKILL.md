@@ -80,7 +80,7 @@ Validation:
 2. Check for eval cases: `.claude/evals/<target>/`
    - If cases exist: count them, read structure
    - If no cases AND bootstrap=true: delegate to `/autoharness` to generate 3-5 initial cases
-   - If no cases AND bootstrap=false: ERROR — "No eval cases found. Run with bootstrap:true or create cases in .claude/evals/<target>/"
+   - If no cases AND bootstrap=false: write failure outcome per `.claude/rules/failure-outcome-protocol.md` (exit_reason: `infra_error`, iterations: 0), then ERROR — "No eval cases found. Run with bootstrap:true or create cases in .claude/evals/<target>/"
    - **Also scan `.claude/evals/annotated/`** for user-annotated cases from `/annotate`. Include cases whose `input.md` frontmatter mentions `<target>` in trace/skill context (grep for target name). When `mode:system`, include all annotated cases as cross-cutting eval pool. These apply alongside target-specific cases during baseline and re-grade.
 3. **Load evolved parameters** (if `meta:true`):
    - Check `.claude/memory/intermediate/self-evolve-meta/<target>.json`
@@ -419,7 +419,7 @@ If yes: write to `.claude/memory/intermediate/self-evolve-meta/<target>.json`
 
 ### Outcome Record (RCL credit loop)
 
-Write to `.claude/memory/outcomes/<date>-self-evolve-<outcome>-<target>.md`:
+Write to `.claude/memory/outcomes/<date>-self-evolve-<outcome>-<target>.md`. **Failure paths must follow this template too** — see `.claude/rules/failure-outcome-protocol.md` for mandatory exit discipline.
 
 ```markdown
 ---
@@ -433,7 +433,7 @@ score_end: <final_pass_rate>
 iterations: <rounds>
 kept: <count>
 discarded: <reverts>
-exit_reason: <convergence|budget|circuit-breaker>
+exit_reason: <convergence|budget_exceeded|crash_loop|stuck|infra_error>
 ---
 
 ## Trajectory Summary
@@ -550,13 +550,18 @@ Pass threshold: all criteria checked
 
 ## Circuit Breakers
 
-| Trigger | Action |
-|---------|--------|
-| 3 consecutive reverts | STOP + report to user |
-| 20 eval cases reached | STOP + no more curriculum generation |
-| Skill >500 lines | STOP + warn about complexity |
-| Budget exhausted | Normal exit with report |
-| Critic FAIL 2x on same issue | STOP + escalate to user |
+**On any STOP listed below**: write failure outcome per `.claude/rules/failure-outcome-protocol.md` BEFORE returning to user. Use the canonical `exit_reason` from the right column.
+
+| Trigger | Action | exit_reason |
+|---------|--------|-------------|
+| 3 consecutive reverts | STOP + report to user | `crash_loop` |
+| 20 eval cases reached | STOP + no more curriculum generation | `stuck` |
+| Skill >500 lines | STOP + warn about complexity | `stuck` |
+| Budget exhausted (no convergence) | Exit with report | `budget_exceeded` |
+| Budget exhausted (with kept improvements) | Normal exit (success/partial) | `convergence` (success) or `budget_exceeded` (partial) |
+| Critic FAIL 2x on same issue | STOP + escalate to user | `crash_loop` |
+| 3 consecutive invariant violations | STOP + escalate | `crash_loop` |
+| 3 consecutive meta-changes drop score | Disable meta-mode, revert params; loop continues | (no exit unless other breaker fires) |
 
 Run: `python scripts/loop-state.py circuit-breaker --consecutive-reverts N --eval-cases N --skill-lines N --iteration N --max-iterations 20`
 Returns JSON with `{stop, triggers}`. Use this instead of manual threshold checks.

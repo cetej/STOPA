@@ -40,7 +40,7 @@ Read the task file from `.claude/tasks/koder-queue/`. It contains:
 
 ### 4. Record Outcome
 
-Write outcome to `.claude/memory/outcomes/<date>-koder-<result>-<slug>.md`:
+Write outcome to `.claude/memory/outcomes/<date>-koder-<result>-<slug>.md`. **Failure paths must follow this template too** — see `.claude/rules/failure-outcome-protocol.md` for mandatory exit discipline.
 
 ```yaml
 ---
@@ -53,7 +53,7 @@ task_file: "original task filename"
 files_changed:
   - path/to/file1.py
   - path/to/file2.py
-exit_reason: "completed | tests_fail | blocked | scope_exceeded"
+exit_reason: <completed|crash_loop|stuck|infra_error|timeout|budget_exceeded>
 ---
 
 ## What Was Done
@@ -65,6 +65,18 @@ exit_reason: "completed | tests_fail | blocked | scope_exceeded"
 ## What Failed (if any)
 <diagnosis of failures>
 ```
+
+**Status → outcome+exit_reason mapping** (must use canonical exit_reason for failure/partial — `failure-recorder.py:170-177`):
+
+| Status | outcome | exit_reason |
+|---|---|---|
+| DONE | success | `completed` |
+| DONE_WITH_CONCERNS | success | `completed` (note concerns in body) |
+| PARTIAL | partial | `budget_exceeded` (more work remained) or `stuck` |
+| FAILED (3-fix limit) | failure | `crash_loop` |
+| FAILED (test infrastructure broken) | failure | `infra_error` |
+| BLOCKED (unclear spec, missing scope decision) | failure | `stuck` |
+| BLOCKED (env/dep missing) | failure | `infra_error` |
 
 ### 5. Report Status
 
