@@ -3,7 +3,8 @@ name: Tree of Thoughts
 type: paper
 first_seen: 2026-04-07
 last_updated: 2026-04-07
-sources: [egoa-prompt-techniques]
+sources: [egoa-prompt-techniques, ai-planning-framework-web-agents]
+last_updated: 2026-04-26
 tags: [reasoning, planning, search]
 ---
 
@@ -22,6 +23,10 @@ tags: [reasoning, planning, search]
 
 LATS (92.7% HumanEval) rozšiřuje ToT o MCTS + Reflexion. STOPA deep tier orchestrace s branching by měl implementovat ToT-inspired explorace: spusť 2-3 přístupy paralelně (fork agents), evaluuj výsledky /critic, implementuj nejlepší.
 
+- BFS/DFS atribuce: ToolTree §6 (2026, ICLR) explicitně označuje ToT jako canonical zdroj BFS/DFS pro LLM thought trees — potvrzuje prioritu (ref: sources/ai-planning-framework-web-agents.md)
+- Shahnovsky & Dror (2026) BFS/DFS taxonomie je derivativní od ToT — nevzniká nová taxonomie (ref: sources/ai-planning-framework-web-agents.md)
+
 ## Mentioned In
 
 - [EgoAlpha/prompt-in-context-learning Research Brief](../sources/egoa-prompt-techniques.md)
+- [AI Planning Framework for LLM-Based Web Agents Research Brief](../sources/ai-planning-framework-web-agents.md)
