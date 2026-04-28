@@ -155,6 +155,12 @@
             "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/memory-maintenance.sh",
             "timeout": 15,
             "statusMessage": "Memory maintenance (rotate logs, prune archives)..."
+          },
+          {
+            "type": "command",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/regen-claude-md-check.py",
+            "timeout": 10,
+            "statusMessage": ""
           }
         ]
       }
