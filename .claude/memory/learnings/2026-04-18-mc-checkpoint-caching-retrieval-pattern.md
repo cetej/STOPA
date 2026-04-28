@@ -6,7 +6,7 @@ component: memory
 tags: [memory, retrieval, checkpoints, compaction, architecture]
 summary: "Memory Caching (MC) formalizes a universal pattern: segment long stream → compress state at boundary → cache checkpoint → gate retrieval by query. STOPA session checkpoints and hybrid-retrieve implement this implicitly. Formal design: use GRM-style query-dependent gating (query × cached-state similarity) when choosing which checkpoints to surface, not flat recency."
 source: external_research
-uses: 3
+uses: 4
 successful_uses: 0
 harmful_uses: 0
 confidence: 1.00

@@ -6,10 +6,10 @@ component: orchestration
 tags: [context-management, compaction, memory, pipeline, hooks]
 summary: CC uses 5 graduated compression layers (Budget Reduction → Snip → Microcompact → Context Collapse → Auto-Compact), each targeting a different pressure type. Apply lightest first, heaviest last. STOPA /compact jumps straight to aggressive summarization — adopt progressive strategy.
 source: external_research
-uses: 1
+uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.95
+confidence: 1.00
 maturity: draft
 skill_scope: [compact, checkpoint, orchestrate]
 verify_check: manual

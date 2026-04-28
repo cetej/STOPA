@@ -17,6 +17,43 @@ Zpracované záznamy se přesunou do `inbox-archive.md`.
 
 | Date | Item |
 |------|------|
+| 2026-04-27 | URL: https://arxiv.org/abs/2604.17009 — raw/2026-04-27-paramanager-unified-agent-tool-orchestra.md → proposed (paper) |
+| 2026-04-27 | URL: https://arxiv.org/abs/2604.02988 — raw/2026-04-27-self-optimizing-multi-agent-deep-researc.md → proposed (paper) |
+| 2026-04-27 | URL: https://arxiv.org/abs/2604.17240 — raw/2026-04-27-camco-safe-multi-agent-orchestration.md → proposed (paper) |
+| 2026-04-27 | URL: https://arxiv.org/abs/2604.11623 — raw/2026-04-27-context-kubernetes-enterprise-knowledge-.md → proposed (paper) |
+| 2026-04-27 | URL: https://arxiv.org/abs/2511.17908 — raw/2026-04-27-rag-conformal-prediction-context-filteri.md → proposed (paper) |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22750v1 — raw/2026-04-27-token-consumption-agentic-coding-analysi.md → dedup |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22749v1 — raw/2026-04-27-llm-representational-harms-global-majori-5.md → dedup |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22748v1 — raw/2026-04-27-agentic-world-modeling-taxonomy-4.md → dedup |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22750v1 — raw/2026-04-27-token-consumption-agentic-coding-analysi.md → dedup |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22748v1 — raw/2026-04-27-agentic-world-modeling-taxonomy-4.md → dedup |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22747v1 — raw/2026-04-27-vibe-coding-hackathon-education.md → dedup |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22750v1 — raw/2026-04-27-token-consumption-agentic-coding-analysi.md → dedup |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22748v1 — raw/2026-04-27-agentic-world-modeling-taxonomy-4.md → dedup |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22715v1 — raw/2026-04-27-atrs-adaptive-trajectory-resplitting.md → proposed (paper) |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22749v1 — raw/2026-04-27-llm-representational-harms-global-majori-5.md → dedup |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22747v1 — raw/2026-04-27-vibe-coding-hackathon-education.md → dedup |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22722v1 — raw/2026-04-27-uae-utility-aligned-embeddings-llm-retri.md → proposed (paper) |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22753v1 — raw/2026-04-27-budget-efficient-scaling-law-fitting-4.md → dedup |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22750v1 — raw/2026-04-27-token-consumption-agentic-coding-analysi.md → dedup |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22749v1 — raw/2026-04-27-llm-representational-harms-global-majori-5.md → dedup |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22753v1 — raw/2026-04-27-budget-efficient-scaling-law-fitting-4.md → dedup |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22752v1 — raw/2026-04-27-exponential-families-maximum-entropy.md → proposed (paper) |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22750v1 — raw/2026-04-27-token-consumption-agentic-coding-analysi.md → dedup |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22753v1 — raw/2026-04-27-budget-efficient-scaling-law-fitting-4.md → dedup |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22750v1 — raw/2026-04-27-token-consumption-agentic-coding-analysi.md → dedup |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22749v1 — raw/2026-04-27-llm-representational-harms-global-majori-5.md → dedup |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22750v1 — raw/2026-04-27-token-consumption-agentic-coding-analysi.md → dedup |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22749v1 — raw/2026-04-27-llm-representational-harms-global-majori-5.md → dedup |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22748v1 — raw/2026-04-27-agentic-world-modeling-taxonomy-4.md → dedup |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22751v1 — raw/2026-04-27-correlated-quantum-dephasometry-2d-super.md → proposed (paper) |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22750v1 — raw/2026-04-27-token-consumption-agentic-coding-analysi.md → dedup |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22749v1 — raw/2026-04-27-llm-representational-harms-global-majori-5.md → dedup |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22753v1 — raw/2026-04-27-budget-efficient-scaling-law-fitting-4.md → dedup |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22750v1 — raw/2026-04-27-token-consumption-agentic-coding-analysi.md → dedup |
+| 2026-04-27 | URL: http://arxiv.org/abs/2604.22749v1 — raw/2026-04-27-llm-representational-harms-global-majori-5.md → dedup |
+| 2026-04-27 | URL: https://simonwillison.net/2026/Apr/22/ — raw/2026-04-27-claude-copilot-pricing-qwen36.md → proposed (library) |
+| 2026-04-27 | URL: https://simonwillison.net/2026/Jan/8/llm-predictions-for-2026/ — raw/2026-04-27-willison-llm-predictions-2026-2032.md |
 | 2026-04-26 | URL: http://arxiv.org/abs/2604.21928v1 — raw/2026-04-26-llm-hodnoceni-asr-semanticka-metrika.md |
 | 2026-04-26 | URL: http://arxiv.org/abs/2604.21924v1 — raw/2026-04-26-loho-manip-vla-planning-traces.md |
 | 2026-04-26 | URL: http://arxiv.org/abs/2604.21922v1 — raw/2026-04-26-streaming-csp-non-redundancy.md |

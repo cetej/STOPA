@@ -6,7 +6,7 @@ component: orchestration
 tags: [multi-agent, monitoring, reflection, farm-tier, self-evolve]
 summary: "Heartbeat-triggered intervention: orchestrátor posílá prompt-injections do běžících agentů (reflection, skill consolidation, direction change) bez jejich restartu — non-destructive mid-run steering. Odlišné od kritika: critic hodnotí output, heartbeat mění direction."
 source: external_research
-uses: 13
+uses: 14
 harmful_uses: 0
 confidence: 1.00
 maturity: core

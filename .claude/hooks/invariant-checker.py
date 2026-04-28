@@ -90,38 +90,47 @@ def check_inv1_skill_location(filepath: str) -> dict | None:
 def check_inv2_sync(filepath: str) -> dict | None:
     """INV2: commands/ and skills/ must stay in sync.
 
-    If editing a command file, check if the corresponding skill exists (and vice versa).
-    We only flag the desync risk — actual content comparison is too expensive for a hook.
+    Performs actual content diff between commands/<name>.md and skills/<name>/SKILL.md.
+    Only logs violation when files actually differ — skill-sync.sh runs in parallel
+    and usually resolves the desync within milliseconds, so preventive reminders
+    create heavy log noise (251/308 violations were false-positives, 2026-04-27 audit).
     """
     norm = normalize_path(filepath)
 
-    # Editing a command file?
     cmd_match = re.search(r'\.claude/commands/([^/]+)\.md$', norm)
+    skill_match = re.search(r'\.claude/skills/([^/]+)/SKILL\.md$', norm)
+
     if cmd_match:
         skill_name = cmd_match.group(1)
-        skill_path = Path(f'.claude/skills/{skill_name}/SKILL.md')
-        if skill_path.exists():
-            return {
-                "invariant": "INV2",
-                "severity": "INFO",
-                "message": f"commands/{skill_name}.md edited — remember to sync skills/{skill_name}/SKILL.md",
-                "filepath": filepath,
-            }
-
-    # Editing a skill file?
-    skill_match = re.search(r'\.claude/skills/([^/]+)/SKILL\.md$', norm)
-    if skill_match:
+        counterpart = PROJECT_ROOT / f'.claude/skills/{skill_name}/SKILL.md'
+        edited = PROJECT_ROOT / f'.claude/commands/{skill_name}.md'
+        msg_pair = (f"commands/{skill_name}.md", f"skills/{skill_name}/SKILL.md")
+    elif skill_match:
         skill_name = skill_match.group(1)
-        cmd_path = Path(f'.claude/commands/{skill_name}.md')
-        if cmd_path.exists():
-            return {
-                "invariant": "INV2",
-                "severity": "INFO",
-                "message": f"skills/{skill_name}/SKILL.md edited — remember to sync commands/{skill_name}.md",
-                "filepath": filepath,
-            }
+        counterpart = PROJECT_ROOT / f'.claude/commands/{skill_name}.md'
+        edited = PROJECT_ROOT / f'.claude/skills/{skill_name}/SKILL.md'
+        msg_pair = (f"skills/{skill_name}/SKILL.md", f"commands/{skill_name}.md")
+    else:
+        return None
 
-    return None
+    if not counterpart.exists():
+        return None
+
+    try:
+        edited_content = edited.read_text(encoding='utf-8', errors='replace') if edited.exists() else ""
+        counterpart_content = counterpart.read_text(encoding='utf-8', errors='replace')
+    except OSError:
+        return None
+
+    if edited_content == counterpart_content:
+        return None
+
+    return {
+        "invariant": "INV2",
+        "severity": "WARN",
+        "message": f"DESYNC: {msg_pair[0]} differs from {msg_pair[1]} — run skill-sync.sh or sync manually",
+        "filepath": filepath,
+    }
 
 
 def check_inv3_description(filepath: str, content: str) -> dict | None:

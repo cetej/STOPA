@@ -361,3 +361,86 @@ Archived items from `news.md`. Read-only reference — not actively loaded into 
 - 2026-03-29 — full (PyTorch 2.11, Modular Diffusers, hf papers CLI)
 - 2026-03-28 — full (Mythos leak, LiteLLM, MCP Elicitation)
 - 2026-03-27 — targeted (CC v2.1.85)
+
+
+<!-- Archived 2026-04-27 — memory-maintenance scheduled task -->
+
+## Archived Scan Logs (Apr 12-18, 2026)
+
+- **2026-04-18** — arxiv-daily-digest | Items: 1 action, 4 watch — AgentForge (arXiv:2604.13120), CoMAS
+- **2026-04-17** — morning-watch | Items: 3 action — CC Routines, CC Desktop Redesign, Opus 4.7 GA
+- **2026-04-17** — arxiv-daily-digest | Items: 1 action, 4 watch — RL Skill Library, Context Kubernetes, MAE
+- **2026-04-16** — arxiv-daily-digest | Items: 2 action, 3 watch — Context Engineering Multi-Agent, Smart MAS Middleware
+- **2026-04-15** — arxiv-daily-digest | Items: 1 action, 4 watch — Self-Optimizing MAS, CLEAR, Verified Orchestration
+- **2026-04-15** — CC-focused | Items: 4 action, 2 watch — Desktop redesign, v2.1.108, PreCompact hook, skill desc 1536
+- **2026-04-14** — full scan | Searches: 19 | Items: 6 action, 4 watch, 2 info — CC Analytics GA, DACS, TraceGuard
+- **2026-04-13** — morning-watch | Items: 1 watch, 2 info — /team-onboarding, Vertex AI wizard, effort param GA
+- **2026-04-12** — full scan | Fetches: 3 | Items: 3 action, 3 watch, 4 info — Advisor Tool beta, CC Monitor, Hermes v0.8.0
+
+## Archived DONE Action Items
+
+- **#112 Agent `resume` param removed** (2026-04-21) — Breaking: Agent() resume param gone, must use SendMessage(). STOPA skills checked (grep clean) — zero impact. Status: DONE.
+
+## Archived Recent Findings (Apr 15-20, 2026)
+
+| Date | Type | Item | Priority | Acted |
+|------|------|------|----------|-------|
+| 2026-04-20 | ACTION | Context Awareness Gate (arXiv:2411.16133) | high | No |
+| 2026-04-19 | ACTION | RL for RAG (arXiv:2510.24652) | high | No |
+| 2026-04-18 | ACTION | AgentForge (arXiv:2604.13120) — 40% SWE-bench | high | No |
+| 2026-04-17 | ACTION | CC Routines — cloud-side automations | high | No |
+| 2026-04-17 | ACTION | CC Desktop Redesign — parallel sessions, drag-drop | high | No |
+| 2026-04-17 | ACTION | Claude Opus 4.7 GA — 3x visual resolution, $5/$25 | high | No |
+| 2026-04-17 | ACTION | RL Skill Library (arXiv:2512.17102) | high | No |
+| 2026-04-16 | ACTION | Context Engineering Multi-Agent (arXiv:2603.09619) | high | No |
+| 2026-04-16 | ACTION | Smart MAS Middleware (arXiv:2604.03430) | high | No |
+| 2026-04-15 | ACTION | Self-Optimizing MAS (arXiv:2604.02988) | high | Yes |
+| 2026-04-20 | WATCH | SE Benchmarks Survey (arXiv:2510.09721) | medium | No |
+| 2026-04-20 | WATCH | Context Matters ADR (arXiv:2604.03826) | medium | No |
+| 2026-04-19 | WATCH | TEA Protocol (arXiv:2506.12508) | medium | No |
+| 2026-04-19 | WATCH | Orchestral AI (arXiv:2601.02577) | medium | No |
+| 2026-04-19 | WATCH | Hierarchical RAG (arXiv:2604.14166) | medium | No |
+| 2026-04-18 | WATCH | CoMAS (arXiv:2510.08529) | medium | No |
+| 2026-04-17 | WATCH | Context Kubernetes (arXiv:2604.11623) | medium | No |
+| 2026-04-17 | WATCH | MAE Self-Improve (arXiv:2510.23595) | medium | No |
+| 2026-04-16 | WATCH | Adaptive Orchestration MoE (arXiv:2601.09742) | medium | No |
+| 2026-04-16 | WATCH | MCP Planner-Executor (arXiv:2604.07681) | medium | No |
+| 2026-04-15 | WATCH | CLEAR (arXiv:2604.07487) | medium | No |
+| 2026-04-15 | WATCH | Verified Orchestration (arXiv:2603.11445) | medium | No |
+
+## Archived Daily Scans (Apr 21-23, 2026)
+
+### 2026-04-21 Morning Scan
+- #104 CC Routines — cloud automations
+- #105 Claude Opus 4.7 GA — 1M context, $5/$25
+- #106 Compaction API + auto-caching beta
+
+### 2026-04-22 arXiv Daily Digest
+- [ACTION] Self-Optimizing Multi-Agent Systems (arXiv:2604.02988) — high
+- [WATCH] Small Model as Master Orchestrator (arXiv:2604.17009) — medium
+- [WATCH] CoCR-RAG (arXiv:2603.23989) — medium
+- [WATCH] AgentForge (arXiv:2604.13120) — medium
+- [WATCH] Adaptive Orchestration DMoE (arXiv:2601.09742) — medium
+
+### 2026-04-22 Morning Watch
+- #107 CC Ultraplan preview — cloud plan drafting
+- #108 CC /resume 67% faster, /tui fullscreen, mobile push
+- #109 API data residency (inference_geo) — US-only inference 1.1×
+
+### 2026-04-23 arXiv Daily Digest
+- [ACTION] Principled Context Engineering for RAG (arXiv:2511.17908) — high, conformal prediction
+- [WATCH] CAMCO Safe MAS Orchestration (arXiv:2604.17240) — medium
+- [WATCH] Single-Multi Evolution Loop (arXiv:2602.05182) — medium
+- [WATCH] Smart Middleware (arXiv:2604.03430) — medium
+- [WATCH] Context Kubernetes (arXiv:2604.11623) — medium
+
+### 2026-04-23 Morning Watch
+- #110 CC removed from Pro (test, ~2% users) — STOPA pricing impact
+- #111 Claude Cowork GA — Analytics API + SCIM
+- #112 CC prompt caching controls — 1h cache + Skill tool slash commands
+
+## Archived Weekly Digest 2026-04-13
+
+**Aktivita:** STOPA 10 commitů (deterministic gates, workspace validator). NG-ROBOT 10 commitů (pipeline fix, SEO). ADOBE 10 commitů (IDML Track Changes, DOCX export).
+**Novinky:** Advisor Tool beta, Mythos/Capybara piloting. CC v2.1.94->v2.1.101 za týden.
+**Poučení:** 34 nových learnings (Apr 5-8) — deception pod tlakem, auto-research, iterative refinement.

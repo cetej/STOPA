@@ -6,10 +6,10 @@ component: session
 tags: [context-management, context-rot, compaction, token-efficiency]
 summary: Anthropic confirms context rot begins at ~300-400k tokens on 1M context model (30-40%), not at 60-95% thresholds previously used. Proactive compact should trigger earlier than assumed.
 source: external_research
-uses: 0
+uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.8
+confidence: 0.85
 maturity: draft
 related: [2026-04-01-autocompact-threshold.md, 2026-04-14-compact-timing-60pct.md]
 verify_check: "manual"

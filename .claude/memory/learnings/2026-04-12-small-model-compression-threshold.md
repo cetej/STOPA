@@ -10,7 +10,7 @@ maturity: draft
 uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.86
+confidence: 1.0
 impact_score: 0.0
 related: [2026-04-11-compression-regime-maps-to-tiers.md]
 verify_check: "manual"
