@@ -537,12 +537,50 @@ def load_composition_rules() -> list:
     return [c for c in compositions if c.get("enabled", True)]
 
 
+FLOWS_DIR = HOOKS_DIR.parent / "skills" / "mcp-flow" / "flows"
+SAFE_FLOW_CLASSES = frozenset({"read-only", "mutating-local"})
+
+
+def get_flow_safety_class(flow_name: str) -> str:
+    """Read safety_class from a flow YAML. Fail-safe to 'mutating-external' on missing/unreadable."""
+    flow_path = FLOWS_DIR / f"{flow_name}.yaml"
+    if not flow_path.exists():
+        return "mutating-external"
+    try:
+        text = flow_path.read_text(encoding="utf-8", errors="replace")
+        for line in text.split("\n"):
+            stripped = line.strip()
+            if stripped.startswith("safety_class:"):
+                val = stripped.split(":", 1)[1].strip().strip('"').strip("'")
+                # strip inline comment
+                if "  #" in val:
+                    val = val[:val.index("  #")].strip()
+                return val.lower()
+    except Exception:
+        pass
+    return "mutating-external"
+
+
 def validate_composition_safety(sequence: list) -> bool:
-    """Return True if no step in the sequence contains a destructive skill."""
+    """Return True if no step in the sequence contains a destructive skill.
+
+    Special case for /mcp-flow: extract the flow name and check its safety_class.
+    Only 'read-only' and 'mutating-local' flows may fire proactively.
+    """
     for step in sequence:
-        step_lower = step.lower()
+        step_lower = step.lower().strip()
+        # Standard destructive-skill substring check
         for ds in DESTRUCTIVE_SKILLS:
             if ds in step_lower:
+                return False
+        # Per-flow safety check for /mcp-flow steps
+        if step_lower.startswith("/mcp-flow"):
+            tokens = step_lower.split()
+            if len(tokens) < 2:
+                # /mcp-flow without a flow name = invalid → reject
+                return False
+            flow_name = tokens[1]
+            if get_flow_safety_class(flow_name) not in SAFE_FLOW_CLASSES:
                 return False
     return True
 

@@ -1,9 +1,17 @@
 # Composition Rules — Proactive Skill Sequences (Session D / Phase 4b)
 # Fired by trigger-engine.py when a matching skill outcome is written to outcomes/.
 #
-# Boundary rule: NEVER include destructive skills.
-# Forbidden: fix-issue, autofix, git push, git commit, koder (writes code autonomously)
-# Allowed: analysis, verification, synthesis, capture, checkpoint
+# Boundary rules:
+# 1. NEVER include destructive skills.
+#    Forbidden: fix-issue, autofix, git push, git commit, koder (writes code autonomously)
+#    Allowed: analysis, verification, synthesis, capture, checkpoint
+#
+# 2. /mcp-flow steps are gated per-flow via safety_class field in flow YAML:
+#    - read-only          → ✅ allowed proactively
+#    - mutating-local     → ✅ allowed proactively (memory writes only)
+#    - mutating-external  → ❌ forbidden (Telegram, GitHub comments, etc.)
+#    Missing safety_class → fail-safe to mutating-external (forbidden).
+#    User-invoked /mcp-flow always runs regardless of class — gating only applies here.
 
 compositions:
   - name: "Post-research synthesis"
@@ -44,3 +52,14 @@ compositions:
     budget_cap: 0.5
     cooldown: 0h
     enabled: true
+
+  - name: "Post-build session prep"
+    description: "After build-project succeeds, prep tomorrow's briefing via mcp-flow (mutating-local only)"
+    trigger:
+      skill: build-project
+      outcome: success
+    sequence:
+      - "/mcp-flow calendar-prep"
+    budget_cap: 0.2
+    cooldown: 24h
+    enabled: false  # opt-in: requires Calendar MCP configured. Engine will gate on calendar-prep.yaml safety_class=mutating-local.

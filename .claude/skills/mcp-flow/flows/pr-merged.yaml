@@ -1,8 +1,11 @@
 name: pr-merged
 description: "When a PR merges, record decision in memory and optionally notify Telegram."
+safety_class: mutating-external
 
 # Mutating steps: write_decision (memory), notify (telegram)
 # Read-only steps: fetch_pr
+# safety_class: mutating-external — Telegram reply commits visible side effects.
+# Composition engine REJECTS this flow in proactive sequences.
 
 inputs:
   repo:
