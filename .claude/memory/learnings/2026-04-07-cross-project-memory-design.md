@@ -7,10 +7,10 @@ tags: [cross-project, sync, distribution, memory-transfer]
 summary: "Cross-project memory design: sync critical-patterns.md + wiki/ articles (universal knowledge), NOT learnings/ (project-specific). Two-tier: shared knowledge via sync script, project-specific via auto-memory."
 source: auto_pattern
 maturity: draft
-uses: 1
+uses: 2
 harmful_uses: 0
 successful_uses: 0
-confidence: 1.0
+confidence: 1.00
 supersedes: 2026-04-04-gap-cross-project-memory.md
 verify_check: "Grep('SYNC_MEMORY_FILES', path='scripts/sync-orchestration.sh') → 1+ matches"
 ---

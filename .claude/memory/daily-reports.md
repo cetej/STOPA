@@ -4,6 +4,9 @@ One line per scheduled task run, newest at the top. For silent-OK runs this is t
 
 **Format:** `YYYY-MM-DD HH:MM | task-name | short status (counts, summary)`
 
+2026-04-29 | autodream | scanned 194, +confidence:5, dedup:28 (0 strong), no graduation candidates
+
+2026-04-29 | daily-rebalancer | OK — STOPA: 4 root memory files committed e44b773; subdirectory drift left for review (concept-graph.json, brain/inbox.md, brain/watchlist.md, 13 learnings/, 26 brain/raw/); 13 other projects clean; 14/14 active in 3d; no .gitignore extensions needed
 2026-04-29 03:00 | prompt-evolve-weekly | skipped — generation-stats.json missing, no generations tracked since last run
 2026-04-29 | p22-router-trace-check | OK — 0 JSON traces (file has only 8 header comment lines); <50 threshold; classifier not yet ready; silent no-op
 2026-04-27 | weekly-digest | OK — STOPA 50 commits + NG-ROBOT 155, 5 projects idle (ADOBE-AUTOMAT/ZACHVEV/POLYBOT/MONITOR/GRAFIK); 14 ACTION items open (top: #109 plugin monitors, #105 desktop redesign, #114 7 hooks); 12 new learnings (top: autoreason mid-tier sweet spot graduation candidate); news.md=227 lines (>120 warn, archive needed); harness 1/8 projects (target 2+ by 2026-05-17 — replicate on ZACHVEV/POLYBOT); digest appended to news.md

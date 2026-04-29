@@ -49,3 +49,9 @@ last_confirmed: 2026-04-24
 Orchestrátor může posílat heartbeat prompts do běžících agentů pro non-destructive mid-run steering (reflection, direction change, skill consolidation). Odlišné od kritika: critic hodnotí hotový output, heartbeat mění direction za běhu. Zdroj: CORAL (arXiv:2604.01658), uses=12, core maturity.
 verify: Grep("stagnation-detector", path=".claude/settings.json") → 1+ matches
 last_confirmed: 2026-04-24
+
+## 10. Living memory (evolving + compressed trajectories) beats static RAG...
+Living memory (evolving + compressed trajectories) beats static RAG by +31% avg across 11 benchmarks. Traditional long-context accumulation can underperform even no-memory baselines — more stored context ≠ better performance.
+verify: manual
+last_confirmed: 2026-04-28
+source_learning: 2026-04-08-living-memory-over-static-retrieval.md
