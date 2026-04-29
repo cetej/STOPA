@@ -4,6 +4,8 @@ One line per scheduled task run, newest at the top. For silent-OK runs this is t
 
 **Format:** `YYYY-MM-DD HH:MM | task-name | short status (counts, summary)`
 
+2026-04-29 03:00 | prompt-evolve-weekly | skipped — generation-stats.json missing, no generations tracked since last run
+2026-04-29 | p22-router-trace-check | OK — 0 JSON traces (file has only 8 header comment lines); <50 threshold; classifier not yet ready; silent no-op
 2026-04-27 | weekly-digest | OK — STOPA 50 commits + NG-ROBOT 155, 5 projects idle (ADOBE-AUTOMAT/ZACHVEV/POLYBOT/MONITOR/GRAFIK); 14 ACTION items open (top: #109 plugin monitors, #105 desktop redesign, #114 7 hooks); 12 new learnings (top: autoreason mid-tier sweet spot graduation candidate); news.md=227 lines (>120 warn, archive needed); harness 1/8 projects (target 2+ by 2026-05-17 — replicate on ZACHVEV/POLYBOT); digest appended to news.md
 2026-04-27 06:48 | arxiv-daily-digest | OK — 5 papers added to news.md (2 [ACTION]: 2604.17009 ParaManager small-model orchestrator, 2604.02988 self-optimizing deep research; 3 [WATCH]: 2604.17240 CAMCO safe orchestration, 2604.11623 Context Kubernetes, 2511.17908 conformal RAG); 5 new URLs queued in inbox.md
 2026-04-27 | auto-evolve-skills | OK — 17 skills evaluated, 0 candidates generated (all skip on insufficient signal: 0% error rates, single-session evidence); 4 skills not-found (commit-commands:commit, less-permission-prompts, schedule, update-config); 4 timeouts (deepresearch, improve, self-evolve, +1 in script tail) — silent OK per task spec
@@ -92,3 +94,13 @@ One line per scheduled task run, newest at the top. For silent-OK runs this is t
 2026-04-28 07:21 | brain-watch | arxiv: 30, blogs: 6, queued: 32
 2026-04-28 09:31 | brain-ingest | 32 URLs, 17 radar/news proposals, 13 dedup
 2026-04-28 02:00 | memory-maintenance | CLEAN — news.md trimmed 267→185 (archived Apr 12-23 scans, DONE #112, Apr 15-20 findings to news-archive 363→446 lines); decisions.md 34, budget.md 39, state.md 67, critical-patterns.md 51 ✓; 200 learning files, 0 stale (>90d)
+2026-04-28 18:23 | brain-ingest | inbox empty
+2026-04-28 21:23 | brain-ingest | inbox empty
+2026-04-29 00:23 | brain-ingest | inbox empty
+2026-04-29 03:23 | brain-ingest | inbox empty
+2026-04-29 06:23 | brain-ingest | inbox empty
+2026-04-29 07:21 | brain-watch | arxiv: 30, blogs: 6, queued: 30
+2026-04-29 09:30 | brain-ingest | 30 URLs, 16 radar/news proposals, 14 dedup
+2026-04-29 12:23 | brain-ingest | inbox empty
+2026-04-29 15:23 | brain-ingest | inbox empty
+2026-04-29 18:23 | brain-ingest | inbox empty
