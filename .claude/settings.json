@@ -186,6 +186,12 @@
             "command": "bash C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/block-no-verify.sh",
             "timeout": 3,
             "statusMessage": ""
+          },
+          {
+            "type": "command",
+            "command": "python C:/Users/stock/Documents/000_NGM/STOPA/.claude/hooks/drift-pr-guard.py",
+            "timeout": 10,
+            "statusMessage": ""
           }
         ]
       },
