@@ -6,13 +6,14 @@ component: general
 tags: [browser-automation, anti-detect, scraping, windows, mcp-pilot, camoufox, obscura]
 summary: Anti-detect browser pilot pattern — install do izolovaného _<tool>-pilot/ adresáře, test REST API přímo místo MCP layer, time-box 1.5h. Camoufox v135.0.1-beta.24 (jo-inc/camofox-browser v1.8.15) na Windows: 4/5 fingerprint testů pass, ale Cloudflare bypass currently broken (Turnstile stuck na "Just a moment", upstream issue #574), 3 plugins padly na ESM URL bug, 7 lingering camoufox.exe po shutdown. Stalled upstream 13 měsíců = anti-detect efficacy decay risk.
 source: agent_generated
-uses: 0
+uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.7
+confidence: 0.80
 maturity: draft
 valid_until: 2026-10-30
 verify_check: "Grep('camofox-browser', path='STOPA/.claude/memory/radar.md') → 1+ match"
+related: [2026-03-27-playwright-mcp-download-hijack.md]
 ---
 
 ## Anti-detect MCP pilot pattern

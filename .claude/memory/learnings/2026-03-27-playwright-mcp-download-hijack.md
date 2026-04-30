@@ -9,10 +9,10 @@ source: auto_pattern
 maturity: draft
 verify_check: "manual"
 confidence: 1.00
-uses: 3
+uses: 4
 successful_uses: 0
 harmful_uses: 0
-related: [2026-04-25-mcp-config-canonical-location.md, 2026-03-27-secrets-in-config-files.md]
+related: [2026-04-25-mcp-config-canonical-location.md, 2026-03-27-secrets-in-config-files.md, 2026-04-30-camofox-windows-pilot.md]
 ---
 
 # Playwright MCP unáší Chrome downloads — post-mortem

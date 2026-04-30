@@ -143,6 +143,11 @@ Formula: `python scripts/passes-rate.py`
 | 2026-04-27 | [WATCH] | CAMCO Safe and Policy-Compliant MAS Orchestration (arXiv:2604.17240) — relevant for /orchestrate budget tier guards and circuit breakers | medium | No | arxiv-daily-digest |
 | 2026-04-27 | [WATCH] | Context Kubernetes (arXiv:2604.11623) — potential pattern for STOPA skills + memory + hooks lifecycle management | medium | No | arxiv-daily-digest |
 | 2026-04-27 | [WATCH] | Principled Context Engineering for RAG via Conformal Prediction (arXiv:2511.17908) — relevant for hybrid-retrieve.py budget-aware shrinking with statistical guarantees | medium | No | arxiv-daily-digest |
+| 2026-04-30 | [ACTION] | CoMAS: Co-Evolving Multi-Agent Systems via Interaction Rewards (arXiv:2510.08529) — agents self-evolve from inter-agent interactions without external supervision; directly applicable to /self-evolve adversarial loop and /autoreason | high | No | arxiv-daily-digest |
+| 2026-04-30 | [ACTION] | EET: Experience-Driven Early Termination for Cost-Efficient SE Agents (arXiv:2601.05777) — predict when to stop agent loop based on past trajectories; applicable to STOPA budget tier guards and circuit breakers | high | No | arxiv-daily-digest |
+| 2026-04-30 | [WATCH] | Single-Multi Evolution Loop for Self-Improving Model Collaboration (arXiv:2602.05182) — multi-LLM collaboration distilled back to single LLMs via knowledge distillation; relevant for /self-evolve teacher-student pattern | medium | No | arxiv-daily-digest |
+| 2026-04-30 | [WATCH] | Smart Middleware for Improving Agent Interactions (arXiv:2604.03430) — scaling MAS via middleware coordination layer; comparable to STOPA hooks + memory architecture | medium | No | arxiv-daily-digest |
+| 2026-04-30 | [WATCH] | A Survey of Context Engineering for LLMs (arXiv:2507.13334) — taxonomy of retrieval, processing, management + RAG/memory/tool-integrated reasoning/MAS; reference for STOPA architecture documentation | medium | No | arxiv-daily-digest |
 
 ## 2026-04-27 morning-watch
 
@@ -159,6 +164,14 @@ Formula: `python scripts/passes-rate.py`
 | 2026-04-29 | [ACTION] | CC PostToolUse hooks now replace tool output via `hookSpecificOutput.updatedToolOutput` — applicable to STOPA verify-sweep / invariant-checker hooks (mutate tool output, not just block) | medium | No | morning-watch |
 | 2026-04-29 | [INFO] | CC `/skills` adds type-to-filter search box — minor UX, no STOPA action | low | No | morning-watch |
 | 2026-04-29 | [WATCH] | Sonnet 4.5/4 1M context beta retired 2026-04-30 (tomorrow) — STOPA already on Opus 4.7 1M (standard pricing), no action; flag if any skill pinned to Sonnet 4.5 with 1M flag | medium | No | morning-watch |
+
+## 2026-04-30 morning-watch
+
+| Date | Type | Item | Urgency | Acted | Source |
+|------|------|------|---------|-------|--------|
+| 2026-04-30 | [ACTION] | **Opus 4.7 Task Budgets** — model receives token budget for full agentic loop (thinking + tools + output) with running countdown to prioritize/finish gracefully. Direct parallel to STOPA budget tier system; evaluate wiring `/budget` ledger into Opus 4.7 task_budget header for native countdown vs. external tracking | high | No | morning-watch |
+| 2026-04-30 | [ACTION] | **Automatic prompt caching** — new `cache_control` mode auto-advances cache point as conversation grows; no manual breakpoint management. Could simplify STOPA skill loading + memory injection patterns; backward-compatible with existing block-level cache_control | medium | No | morning-watch |
+| 2026-04-30 | [WATCH] | **CC push notification tool** — Claude can send mobile push when Remote Control + "Push when Claude decides" enabled. Possible alternative to disabled Telegram channel for scheduled-task alerts; requires CC mobile app + Remote Control config | medium | No | morning-watch |
 
 ## Weekly Digest 2026-04-27
 

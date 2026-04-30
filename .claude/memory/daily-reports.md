@@ -4,6 +4,11 @@ One line per scheduled task run, newest at the top. For silent-OK runs this is t
 
 **Format:** `YYYY-MM-DD HH:MM | task-name | short status (counts, summary)`
 
+2026-04-30 12:34 | koder-queue-check | KODER queue empty — 3 task files all status:done (T-2026-04-14-001, T-2026-04-14-002, T-2026-04-21-001)
+2026-04-30 22:00 | p22-router-trace-check | OK — 0 JSON traces (file has only 8 header comment lines); <50 threshold; classifier not yet ready; silent no-op
+2026-04-30 21:25 | arxiv-daily-digest | silent skip — today's batch already in news.md (5 papers earlier today: CoMAS, EET, Single-Multi Evolution, Smart Middleware, Context Engineering Survey); current re-scan returned only papers already in news/archive (2604.07681, 2604.03826, 2510.09721, 2506.12508, 2601.02577)
+2026-04-30 04:22 | koder-queue-check | KODER queue empty — 3 task files all status:done (T-2026-04-14-001, T-2026-04-14-002, T-2026-04-21-001)
+2026-04-30 03:20 | auto-evolve-skills | 0 candidates — 13 skills evaluated (1 session/14d, 0% err); 12 skipped insufficient evidence, 1 (deepresearch) timeout; nothing to apply
 2026-04-30 | tool-radar-scan | 3 new tools (1 🔴, 2 🟡, 0 🟢) — MCP Apps SEP-1865 8/10 (official MCP UI extension), MirrorCode 6/10 (METR/Epoch long-horizon SWE benchmark), gh-aw OpenCode engine 6/10 (GitHub Agentic Workflows 4th engine)
 2026-04-30 | morning-watch | OK — 3 items appended to news.md (1 ACTION: PostToolUse updatedToolOutput hook capability; 1 INFO: /skills filter search; 1 WATCH: Sonnet 4.5/4 1M beta retiring 2026-04-30, no STOPA exposure)
 2026-04-29 | autodream | scanned 194, +confidence:5, dedup:28 (0 strong), no graduation candidates
@@ -114,3 +119,15 @@ One line per scheduled task run, newest at the top. For silent-OK runs this is t
 
 2026-04-30 01:51 | dreams | abbreviated cycle: 1 new learning (genus-consensus), 4 cross-links (1 new + 3 backfill bidirectional), 1 backward-update on multica-curated-vs-similarity
 2026-04-30 03:23 | brain-ingest | inbox empty
+2026-04-30 03:31 | weekly-compile | OK - 13 new learnings (182->195) integrated into 8 wiki articles
+2026-04-30 04:20 | memory-10-dreams-batch | OK: dreams 7-day batch upgrade implemented (commit 88d95fe), all 3 copies in sync, 226→271 lines, eval+report in outputs/.research/
+2026-04-30 04:27 | autodream | 196 scanned, 2 confidence updates (cc-sidechain 0.85->0.95, autoreason-mid-tier 0.95->1.00), 28 dedup candidates (0 merge-strong) for next /evolve, 0 graduation candidates
+2026-04-30 08:01 | brain-ingest | inbox empty
+2026-04-30 08:03 | brain-watch | blogs: 6, queued: 1
+2026-04-30 10:19 | brain-ingest | 1 URLs, 1 radar/news proposals
+2026-04-30 11:24 | morning-watch | OK — 3 new items: Opus 4.7 Task Budgets (high), automatic prompt caching cache_control (med), CC push notification tool (med)
+2026-04-30 11:36 | dreams (evening) | abbreviated cycle: 2 new learnings (camofox, fincept) consolidated, 2 cross-links added, 1 backward-update, 0 patterns (Phase 2c skipped), R=329 deferred → log: dreams/2026-04-30-evening.md
+
+2026-04-30 11:37 | daily-rebalancer | STOPA: 16 non-drift paths need review (case-auto-006 eval, checkpoint.md.tmp, 2 learnings, 8 wiki + .compile-state.json); 13 other projects clean. Drift not committed pending review.
+2026-04-30 13:34 | brain-ingest | inbox empty
+2026-04-30 15:31 | brain-ingest | inbox empty

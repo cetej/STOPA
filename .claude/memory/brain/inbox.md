@@ -17,6 +17,7 @@ Zpracované záznamy se přesunou do `inbox-archive.md`.
 
 | Date | Item |
 |------|------|
+| 2026-04-30 | URL: https://simonwillison.net/2026/Apr/24/ — raw/2026-04-30-willison-sqlite-queues-claude-bugs-deeps.md → proposed (library) |
 | 2026-04-29 | URL: http://arxiv.org/abs/2604.25917v1 — raw/2026-04-29-recursive-mas-latent-multiagent-collabor.md → dedup |
 | 2026-04-29 | URL: http://arxiv.org/abs/2604.25914v1 — raw/2026-04-29-dv-world-benchmark-datova-vizualizace.md → dedup |
 | 2026-04-29 | URL: http://arxiv.org/abs/2604.25906v1 — raw/2026-04-29-hypergraph-of-text-navigable-collections-2.md → dedup |

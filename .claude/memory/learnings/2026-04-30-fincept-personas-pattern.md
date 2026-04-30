@@ -6,13 +6,14 @@ component: skill
 tags: [council, persona, multi-agent, prompt-engineering]
 summary: Fincept Terminal používá 37 personas (Trader/Economic/Geopolitics) jako JSON configs s společnou base_agent runtime. Pattern persona-as-config (ne persona-as-code) = aplikovatelné na /council expansion — přidat personu = přidat JSON entry, ne code change.
 source: external_research
-uses: 0
+uses: 1
 harmful_uses: 0
 successful_uses: 0
-confidence: 0.6
+confidence: 0.65
 maturity: draft
 skill_scope: [council, brainstorm]
 verify_check: "Glob('.claude/skills/council/personas/*.json') → 0+ matches (pattern reference, not enforcement)"
+related: [2026-03-30-society-of-thought-orchestration.md]
 ---
 
 ## Pattern abstrakce — persona-as-config
