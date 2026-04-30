@@ -4,7 +4,7 @@ Tracked findings from `/radar` scans and manual evaluations.
 Archived: `radar-archive.md` (when >400 lines)
 
 ## Stats
-Last scan: 2026-04-29 (tool-radar-scan automated #5, 3 new: 1🔴 2🟡) | Total: 128 tools | 🔴 27 | 🟡 85 | 🟢 16
+Last scan: 2026-04-30 (batch/manual, 19 URLs, 1 new: 🟡) | Total: 129 tools | 🔴 27 | 🟡 86 | 🟢 16
 
 ## Active Research (🔴)
 | Tool | Category | Score | Source | Captured | Status | Project fit |
@@ -124,6 +124,7 @@ Last scan: 2026-04-29 (tool-radar-scan automated #5, 3 new: 1🔴 2🟡) | Total
 | [Agent Behavioral Contracts](https://x.com/ZabihullahAtal/status/2047692175019008019) | Research / design-by-contract for agents | 5/10 | X/@ZabihullahAtal | 2026-04-25 | STOPA orchestration safety — Design-by-Contract principy pro AI agenty: preconditions, invariants, governance rules, recovery mechanisms. 1,980 sessions: 88-100% compliance s critical constraints, detekuje violations které standardní agenti miss. **Fit**: konceptuální alignment s STOPA commit-invariants.md + core-invariants.md. Žádný GitHub/arXiv URL v tweetu — dohledat paper. **Akce**: WebSearch pro paper, revisit. Watch. |
 | [HorizonBench](https://x.com/StellaLisy/status/2047645651324821998) | Benchmark / long-horizon personalization | 5/10 | X/@StellaLisy | 2026-04-25 | STOPA memory quality + 2BRAIN — UW NLP + Meta AI (Stella Li, PhD). Benchmark pro long-horizon personalization: tracking user preferences across conversation history kde life events silently change them. Řeší academic gap (proprietary conversation data). **Fit**: eval metric pro STOPA memory quality over long sessions. Watch pro paper URL. Low urgency. |
 | [JARVIS (CC + Obsidian)](https://x.com/ChrisLaubAI/status/2047628152139366766) | Second brain / Claude Code workflow | 5/10 | X/@ChrisLaubAI | 2026-04-25 | 2BRAIN — CC-powered Obsidian second brain: Templater + Dataview + QuickAdd + Git. 20-min daily sessions (capture → inbox → connections → briefs). Weekly deep-dive + monthly performance analysis. Type-based note organization (vs topic-based). **Fit**: 2BRAIN pattern reference — STOPA má vlastní memory system ale type-based organization zajímavý vzor. Watch. |
+| [agentmemory](https://github.com/rohitg00/agentmemory) | Agent memory / coding-agent specific | 6/10 | batch/X | 2026-04-30 | **WATCH** — rohitg00 (ten samý dev jako LLM Wiki v2 v radar). TypeScript+iii-engine, 2.1k★, v0.9.4, 800 testů, žádná externí DB. **4-tier memory** (working→episodic→semantic→procedural) + 12 auto-capture hooks pro coding agenty (CC, Cursor, Gemini CLI, 15+ dalších) + hybrid BM25+vector+KG search (claim 95.2% R@5). MCP server + 107 REST endpointů, real-time dashboard port 3113, privacy-first (auto-strip API klíčů). **STOPA fit**: architektonická reference — 4-tier paralelní k STOPA learnings+outcomes+wiki; auto-capture hooks = STOPA PostToolUse pattern na steroidech; hybrid search validuje hybrid-retrieve.py. Nevýhody: TypeScript (STOPA Python), overlaps s Hippo (8/10) + Claude Managed Memory (8/10). **⚠️ Pozn.**: 17 různých AI aggregátorových účtů tweeting simultánně = koordinovaný marketing blitz, ne organický hype. Trendshift #25123. **Akce**: Watch — re-evaluate při STOPA memory architecture refactor. |
 | Tool | Score | Captured | Why low |
 |------|-------|----------|---------|
 | [OpenMythos](https://github.com/kyegomez/OpenMythos) | 3/10 | 2026-04-22 | Spekulativní reverse-engineering Claude Mythos (kyegomez, bez benchmarků, 35 commitů). Looped transformer architektura = Universal Transformer 2018 + Parcae (již v memory). STOPA nefine-tuní modely → 0 přímé využití. Konceptuální mental model (loop depth > parameter count) pokryt Parcae zápisem. |
@@ -146,6 +147,12 @@ Last scan: 2026-04-29 (tool-radar-scan automated #5, 3 new: 1🔴 2🟡) | Total
 - Fork karpathy/llm-wiki. 6 chybějících vrstev: memory lifecycle, knowledge graph, hybrid search, automation, quality controls, multi-agent. Core teze: bottleneck = bookkeeping. Memory pipeline: Working→Episodic→Semantic→Procedural. Hybrid search: BM25+vector+graph→RRF fusion. Gap analýza vs STOPA: knowledge graph (biggest gap, typed entities > flat MD) + shared/private memory scoping pro paralelní agenty. Žádný veřejný GitHub repo. Artifact: claude.ai/public/artifacts/bd55c656-de32-414e-ba8f-81454c66bd62
 
 ## Scan Log
+### 2026-04-30 — batch/manual | 19 URLs | Fetches: 2 | New: 1 🟡
+- Source: user batch (17 X tweets + github.com/rohitg00/agentmemory + alphaxiv.org/abs/2604.21254)
+- **🟡 1**: agentmemory 6/10 — rohitg00 (LLM Wiki v2 author), TypeScript MCP, 4-tier memory, 12 auto-capture hooks pro coding agenty. Overlaps Hippo+Claude Managed Memory. Watch.
+- **SKIP 1**: Hyperloop Transformers (2604.21254) — already archived 2026-04-25 (4/10 🟢, line 140).
+- **SKIP 17 X**: všechny tweety = koordinovaný marketing blitz pro agentmemory. 17 AI aggregátorových účtů (AlphaSignalAI, TheWhizzAI, KanikaBK ×2, HowToAI_, UiSavior, arceyul, oggii_0, so_ainsight, NainsiDwiv50980, dani_avila7, askalphaxiv, che_shr_cat, iam_elias1, ZabihullahAtal, heygurisingh, Akashi203) tweeting simultánně. Promotuje agentmemory přes rohitg00/ghumare64.
+
 ### 2026-04-30 — automated web scan #5 | Searches: 4 | Fetches: 0 (search-summary based) | Found: 3 new
 - Source: web search (new AI dev tools site:github.com, new MCP servers, Show HN AI agent tools, Python AI agent libraries — current month/year)
 - **🔴 1**: MCP Apps (SEP-1865) 8/10 — official MCP extension by Anthropic+OpenAI MCP core maintainers + MCP-UI team. `ui://` URI scheme, sandboxed iframes, bidirectional JSON-RPC. Stable spec 2026-01-26. Repo: modelcontextprotocol/ext-apps. STOPA fit: future memory/budget/status dashboards as MCP-served UIs, /critic interactive review panes, 2BRAIN graph navigation. First official MCP extension = production-ready signal.

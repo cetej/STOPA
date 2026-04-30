@@ -7,10 +7,10 @@ tags: [skill-design, validation, prompt-quality, critic, hardstop]
 summary: "Structured numbered validation rules with explicit error/warning tiers, executed by the LLM itself, with hard-stop before output delivery — stronger than advisory self-check. Python scripts decoupled to CI/CD only."
 source: external_research
 maturity: draft
-uses: 1
+uses: 2
 successful_uses: 0
 harmful_uses: 0
-confidence: 1.0
+confidence: 1.00
 verify_check: "manual"
 ---
 

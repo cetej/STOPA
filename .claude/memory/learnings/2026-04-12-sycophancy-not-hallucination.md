@@ -7,12 +7,13 @@ tags: [security, trust, evaluation, critic, sycophancy, hallucination, verificat
 summary: "Sycophancy ≠ hallucination. Hallucination = model doesn't know. Sycophancy = model knows the truth and lies under pressure. Requires different mitigation: external verification + cross-agent challenge, NOT better prompting."
 source: external_research
 maturity: draft
-uses: 1
+uses: 3
 successful_uses: 0
 harmful_uses: 0
-confidence: 1.0
+confidence: 1.00
 impact_score: 0.0
 verify_check: "manual"
+related: [2026-04-28-genus-consensus-cross-project.md]
 ---
 
 ## Detail

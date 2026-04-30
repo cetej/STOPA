@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-12
 cluster: orchestration-iteration
-sources: 19
-last_updated: 2026-04-18
+sources: 22
+last_updated: 2026-04-30
 ---
 
 # Iterative Optimization Patterns

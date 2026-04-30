@@ -6,7 +6,7 @@ component: general
 tags: [czech-language, text-processing, normalization, alphabet]
 summary: V české abecedě je CH samostatné písmeno (pozice mezi H a I), ne digraf C+H. Při zpracování češtiny pro jakoukoli grafémovou aplikaci (křížovky, hláskování, řazení) nikdy nerozepisovat CH na dvě písmena. Web research může tvrdit opak ("švédská křížovka rozepisuje CH") — ale to je proti jazyku, ne kvůli jazyku.
 source: user_correction
-uses: 2
+uses: 3
 harmful_uses: 0
 successful_uses: 0
 confidence: 1.00

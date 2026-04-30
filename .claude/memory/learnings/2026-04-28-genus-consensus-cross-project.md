@@ -6,14 +6,14 @@ component: pipeline
 tags: [translation, termdb, species, glossary, hallucination, anti-pattern]
 summary: Při překladu článků o nově objevených druzích Phase 1 Claude halucinoval české názvy ("tarantule" pro Ceratogyrus attonitifer, "býčí slon" pro bull elephant), protože druh nebyl v termdb a žádný projekt neměl genus-level fallback. Fix: NormalizedTermDB.lookup_genus_consensus extrahuje shared CZ genus z ≥3 sourozenců v termdb a poskytuje formulaci "nový druh <CZ_genus> (*Latin*)" jako pre-fetch hint do Phase 1.
 source: critic_finding
-uses: 1
+uses: 3
 successful_uses: 0
 harmful_uses: 0
-confidence: 1.0
+confidence: 1.00
 maturity: validated
 skill_scope: []
 verify_check: "Grep('lookup_genus_consensus', path='C:/Users/stock/Documents/000_NGM/terminology-db/ngm_terminology/normalized_db.py') → 1+ matches"
-related: [2026-04-12-sycophancy-not-hallucination.md, 2026-04-07-cross-project-memory-design.md]
+related: [2026-04-12-sycophancy-not-hallucination.md, 2026-04-07-cross-project-memory-design.md, 2026-04-19-multica-curated-vs-similarity.md]
 ---
 
 ## Problém

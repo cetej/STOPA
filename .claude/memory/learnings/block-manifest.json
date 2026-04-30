@@ -1,8 +1,32 @@
 {
-  "generated": "2026-04-22",
-  "total_blocks": 183,
-  "active_blocks": 180,
+  "generated": "2026-04-30",
+  "total_blocks": 195,
+  "active_blocks": 192,
   "blocks": {
+    "2026-04-23-deepmind-agent-attack-vectors.md": {
+      "id": "2026-04-23-deepmind-agent-attack-vectors.md",
+      "component": "general",
+      "date": "2026-04-23",
+      "type": "architecture",
+      "severity": "critical",
+      "tags": [
+        "security",
+        "fetch",
+        "browse",
+        "ingest",
+        "injection",
+        "steganography",
+        "monitor"
+      ],
+      "summary": "Google DeepMind (Franklin et al., SSRN 03/2026) mapuje 6 attack vector kategorií na AI agenty. Content Injection 86% úspěch, Cognitive State (RAG poisoning) 80%+, Behavioural Control 58-93%. 'Can't sanitize a pixel' — LSB steganography je invisible ale extractable. STOPA /fetch, /browse, /deepresearch, /ingest, MONITOR OSINT mají žádný security layer.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 816,
+      "retrieval_score": 3.582,
+      "active": true
+    },
     "2026-04-21-ch-samostatne-pismeno-ceske-abecedy.md": {
       "id": "2026-04-21-ch-samostatne-pismeno-ceske-abecedy.md",
       "component": "general",
@@ -16,12 +40,12 @@
         "alphabet"
       ],
       "summary": "V české abecedě je CH samostatné písmeno (pozice mezi H a I), ne digraf C+H. Při zpracování češtiny pro jakoukoli grafémovou aplikaci (křížovky, hláskování, řazení) nikdy nerozepisovat CH na dvě písmena. Web research může tvrdit opak (\"švédská křížovka rozepisuje CH\") — ale to je proti jazyku, ne kvůli jazyku.",
-      "uses": 1,
+      "uses": 2,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 815,
-      "retrieval_score": 1.967,
+      "retrieval_score": 1.739,
       "active": true
     },
     "2026-04-15-sd-zero-self-revision-supervision.md": {
@@ -46,7 +70,7 @@
         "2026-04-13-generate-then-discard-suboptimal.md"
       ],
       "token_estimate": 581,
-      "retrieval_score": 1.791,
+      "retrieval_score": 1.6,
       "active": true
     },
     "2026-04-13-ai-persuasion-creates-genuine-preferences.md": {
@@ -63,12 +87,12 @@
         "recommendation"
       ],
       "summary": "AI persuasion creates genuine preferences (not compliance). Post-debriefing retention matches freely-chosen selections. By the time disclosure occurs, the preference is already formed and cannot be undone by information.",
-      "uses": 2,
+      "uses": 3,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 531,
-      "retrieval_score": 2.609,
+      "retrieval_score": 2.338,
       "active": true
     },
     "2026-04-13-ai-persuasion-disclosure-insufficient.md": {
@@ -90,7 +114,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 490,
-      "retrieval_score": 2.609,
+      "retrieval_score": 2.338,
       "active": true
     },
     "2026-04-13-disparagement-stronger-than-promotion.md": {
@@ -112,7 +136,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 461,
-      "retrieval_score": 2.609,
+      "retrieval_score": 2.338,
       "active": true
     },
     "2026-04-11-calm-continuous-autoregressive.md": {
@@ -135,7 +159,7 @@
         "2026-04-11-iha-interleaved-head-attention.md"
       ],
       "token_estimate": 411,
-      "retrieval_score": 1.69,
+      "retrieval_score": 1.519,
       "active": true
     },
     "2026-04-11-iha-interleaved-head-attention.md": {
@@ -159,7 +183,7 @@
         "2026-04-11-calm-continuous-autoregressive.md"
       ],
       "token_estimate": 421,
-      "retrieval_score": 1.69,
+      "retrieval_score": 1.519,
       "active": true
     },
     "2026-04-08-jevons-paradox-ai-coding.md": {
@@ -179,7 +203,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 332,
-      "retrieval_score": 1.622,
+      "retrieval_score": 1.463,
       "active": true
     },
     "2026-04-07-model-metadata-dynamic-ui-pattern.md": {
@@ -201,7 +225,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 475,
-      "retrieval_score": 1.6,
+      "retrieval_score": 1.446,
       "active": true
     },
     "2026-04-07-multi-reward-normalization-collapse.md": {
@@ -222,7 +246,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 458,
-      "retrieval_score": 1.6,
+      "retrieval_score": 1.446,
       "active": true
     },
     "2026-04-01-image-cache-invalidation.md": {
@@ -243,7 +267,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 423,
-      "retrieval_score": 1.481,
+      "retrieval_score": 1.348,
       "active": true
     },
     "2026-03-27-playwright-mcp-download-hijack.md": {
@@ -262,12 +286,15 @@
         "security"
       ],
       "summary": "Playwright MCP hijacks Chrome downloads to temp folder, breaking all browser downloads. NEVER add to Claude Desktop.",
-      "uses": 1,
+      "uses": 3,
       "harmful_uses": 0,
       "supersedes": null,
-      "related": [],
-      "token_estimate": 801,
-      "retrieval_score": 2.791,
+      "related": [
+        "2026-04-25-mcp-config-canonical-location.md",
+        "2026-03-27-secrets-in-config-files.md"
+      ],
+      "token_estimate": 824,
+      "retrieval_score": 2.553,
       "active": true
     },
     "2026-03-27-secrets-in-config-files.md": {
@@ -284,12 +311,15 @@
         "env-vars"
       ],
       "summary": "NEVER write API keys/tokens into JSON config files. Use environment variables or .env files excluded from git.",
-      "uses": 1,
+      "uses": 4,
       "harmful_uses": 0,
       "supersedes": null,
-      "related": [],
-      "token_estimate": 332,
-      "retrieval_score": 2.791,
+      "related": [
+        "2026-04-25-mcp-config-canonical-location.md",
+        "2026-03-27-playwright-mcp-download-hijack.md"
+      ],
+      "token_estimate": 358,
+      "retrieval_score": 2.553,
       "active": true
     },
     "2026-03-23-ecosystem-scan.md": {
@@ -304,12 +334,12 @@
         "positioning"
       ],
       "summary": "STOPA ecosystem positioning: unique in combining skill system + shared memory + orchestration. Competitors lack memory layer.",
-      "uses": 5,
+      "uses": 7,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 226,
-      "retrieval_score": 0.667,
+      "token_estimate": 227,
+      "retrieval_score": 0.612,
       "active": true
     },
     "2026-03-23-environment-falai.md": {
@@ -330,7 +360,94 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 207,
-      "retrieval_score": 1.333,
+      "retrieval_score": 1.224,
+      "active": true
+    },
+    "2026-04-26-linear-beats-tree-search-webarena.md": {
+      "id": "2026-04-26-linear-beats-tree-search-webarena.md",
+      "component": "orchestration",
+      "date": "2026-04-26",
+      "type": "best_practice",
+      "severity": "high",
+      "tags": [
+        "orchestration",
+        "planning",
+        "search",
+        "evaluation",
+        "budget"
+      ],
+      "summary": "Na WebArena (noisy web actions) AgentOccam (linear, 45.7%) bije všechny tree-search baselines. Zavést search do orchestrace až když linear pipeline dosáhla plateau. Tree search pomáhá pouze u typed I/O (tool planning).",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 378,
+      "retrieval_score": 2.812,
+      "active": true
+    },
+    "2026-04-26-wrong-plan-executed-perfectly.md": {
+      "id": "2026-04-26-wrong-plan-executed-perfectly.md",
+      "component": "orchestration",
+      "date": "2026-04-26",
+      "type": "architecture",
+      "severity": "high",
+      "tags": [
+        "orchestration",
+        "planning",
+        "evaluation",
+        "critic",
+        "scout"
+      ],
+      "summary": "Pokud agenti reportují 100% subtask completion ale verify FAILuje, root cause je v plan quality (špatný plán proveden perfektně), ne v execution. Re-run scout místo retry agentů.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 409,
+      "retrieval_score": 2.812,
+      "active": true
+    },
+    "2026-04-24-scheduled-task-discipline.md": {
+      "id": "2026-04-24-scheduled-task-discipline.md",
+      "component": "orchestration",
+      "date": "2026-04-24",
+      "type": "anti_pattern",
+      "severity": "high",
+      "tags": [
+        "scheduled-tasks",
+        "autonomy",
+        "whitelist",
+        "execution-discipline",
+        "cross-project"
+      ],
+      "summary": "Scheduled/autonomous agenti opakovaně porušují dva pilíře disciplíny: (1) rozšiřují explicitní whitelisty o 'podobné' patterny (daily-rebalancer: 4× correction), (2) reportují 'should change X' místo skutečné exekuce (evolve-skills: 5 frustration + 2 correction). Pravidlo: v scheduled módu MATCH EXAKTNĚ whitelist a APLIKUJ změny — nikdy ne suggest-only.",
+      "uses": 5,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 1158,
+      "retrieval_score": 2.727,
+      "active": true
+    },
+    "2026-04-23-ucsd-devs-dont-vibe.md": {
+      "id": "2026-04-23-ucsd-devs-dont-vibe.md",
+      "component": "orchestration",
+      "date": "2026-04-23",
+      "type": "best_practice",
+      "severity": "medium",
+      "tags": [
+        "verification",
+        "orchestration-validation",
+        "field-study",
+        "external-evidence"
+      ],
+      "summary": "UCSD + Cornell field study (Huang et al., arXiv:2512.14012, N=13 observed + N=99 surveyed experienced devs): delegují max 2.1 kroků agentovi PŘED validací. Všech 13 observed kontrolovalo design (vlastní plán nebo revize agent-generated plánu). Validates STOPA orchestrate (budget tiers + critic per 2 rounds) + behavioral-genome § Verification.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 534,
+      "retrieval_score": 1.791,
       "active": true
     },
     "2026-04-21-vertical-scaling-phase-b-not-implemented.md": {
@@ -346,12 +463,12 @@
         "phase-management"
       ],
       "summary": "Fáze B vertikálního škálování (skill /telescope) nebyla nikdy implementována, přestože C-DECIDE scheduled task vyhodnocoval Go/No-Go. Task fired na datum B-START (2026-04-21), nikoli C-DECIDE (2026-05-18). Výsledek: NO-GO pro Fázi C, nutno implementovat Fázi B.",
-      "uses": 1,
+      "uses": 3,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 426,
-      "retrieval_score": 1.967,
+      "token_estimate": 425,
+      "retrieval_score": 1.739,
       "active": true
     },
     "2026-04-19-feature-must-reach-main-ui.md": {
@@ -367,12 +484,12 @@
         "dead-code"
       ],
       "summary": "Nová feature (backend + standalone page) není hotová dokud není dostupná z hlavní navigace projektu. Bez linku/pillu/entry-pointu z hlavního UI je feature mrtvá — user ji nenajde.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 720,
-      "retrieval_score": 2.857,
+      "retrieval_score": 2.535,
       "active": true
     },
     "2026-04-19-harness-engineering-adoption.md": {
@@ -390,7 +507,7 @@
         "agent-ground-truth"
       ],
       "summary": "Multi-session project harness pattern (Anthropic/OpenAI/SWE-agent): feature-list.json as ground truth, progress.md for continuity, init.sh for reliable startup, docs/ as system-of-record. STOPA adopted via extended /project-init --harness flag + /build-project per-feature loop + passes-rate.py metric. Prevents 'declare victory too early' and context-window-boundary confusion in long-running projects.",
-      "uses": 3,
+      "uses": 4,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
@@ -398,7 +515,7 @@
         "2026-04-05-self-improving-harness.md"
       ],
       "token_estimate": 1436,
-      "retrieval_score": 2.857,
+      "retrieval_score": 2.535,
       "active": true
     },
     "2026-04-19-worldmonitor-adoption-pattern.md": {
@@ -415,14 +532,14 @@
         "monitor"
       ],
       "summary": "Clean-room adoption AGPL-3.0 projektů bez copy-paste — 3 paralelní Explore agenti pro strukturální analýzu, pak syntéza do Tier A/B/C/D roadmapy, NOTICE.md s atribucí, implementace v target-project stylu.",
-      "uses": 3,
+      "uses": 6,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
         "2026-04-14-paseo-orchestration-patterns.md"
       ],
-      "token_estimate": 724,
-      "retrieval_score": 1.905,
+      "token_estimate": 725,
+      "retrieval_score": 1.69,
       "active": true
     },
     "2026-04-18-autogenesis-protocol.md": {
@@ -449,7 +566,7 @@
         "2026-04-15-sd-zero-self-revision-supervision.md"
       ],
       "token_estimate": 1584,
-      "retrieval_score": 2.812,
+      "retrieval_score": 2.5,
       "active": true
     },
     "2026-04-18-cc-graduated-compaction-5layer.md": {
@@ -466,12 +583,12 @@
         "hooks"
       ],
       "summary": "CC uses 5 graduated compression layers (Budget Reduction → Snip → Microcompact → Context Collapse → Auto-Compact), each targeting a different pressure type. Apply lightest first, heaviest last. STOPA /compact jumps straight to aggressive summarization — adopt progressive strategy.",
-      "uses": 1,
+      "uses": 2,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 453,
-      "retrieval_score": 1.875,
+      "retrieval_score": 1.667,
       "active": true
     },
     "2026-04-18-cc-sidechain-transcript-isolation.md": {
@@ -488,12 +605,12 @@
         "multi-agent"
       ],
       "summary": "CC subagent sidechains never return full history to parent — only final response text. STOPA agents already do this via Agent() tool, but agent instructions often don't explicitly mandate concise response summarization before return, causing context bloat.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 399,
-      "retrieval_score": 1.875,
+      "retrieval_score": 1.667,
       "active": true
     },
     "2026-04-18-mask-belief-vs-statement-pipeline.md": {
@@ -521,7 +638,7 @@
         "2026-04-08-long-horizon-deception-eval.md"
       ],
       "token_estimate": 947,
-      "retrieval_score": 2.812,
+      "retrieval_score": 2.5,
       "active": true
     },
     "2026-04-18-monitoring-task-type-dependency.md": {
@@ -545,7 +662,7 @@
         "2026-04-08-heartbeat-mid-run-steering.md"
       ],
       "token_estimate": 486,
-      "retrieval_score": 2.812,
+      "retrieval_score": 2.5,
       "active": true
     },
     "2026-04-18-opus-4-7-effort-calibration.md": {
@@ -568,7 +685,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 506,
-      "retrieval_score": 2.812,
+      "retrieval_score": 2.5,
       "active": true
     },
     "2026-04-18-parallel-monitoring-failure-baseline.md": {
@@ -589,7 +706,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 480,
-      "retrieval_score": 1.875,
+      "retrieval_score": 1.667,
       "active": true
     },
     "2026-04-18-simula-reasoning-first-taxonomies.md": {
@@ -618,7 +735,7 @@
         "2026-04-12-model-size-negatively-correlated-honesty.md"
       ],
       "token_estimate": 2169,
-      "retrieval_score": 2.812,
+      "retrieval_score": 2.5,
       "active": true
     },
     "2026-04-15-best-of-n-parallel-candidates.md": {
@@ -644,7 +761,7 @@
         "2026-04-15-sd-zero-self-revision-supervision.md"
       ],
       "token_estimate": 559,
-      "retrieval_score": 1.791,
+      "retrieval_score": 1.6,
       "active": true
     },
     "2026-04-15-prm-step-verification-orchestrate.md": {
@@ -669,7 +786,7 @@
         "2026-04-13-experience-replay-outcomes-reuse.md"
       ],
       "token_estimate": 563,
-      "retrieval_score": 2.687,
+      "retrieval_score": 2.4,
       "active": true
     },
     "2026-04-14-dacs-context-scoping.md": {
@@ -692,7 +809,7 @@
         "2026-04-11-compression-regime-maps-to-tiers.md"
       ],
       "token_estimate": 420,
-      "retrieval_score": 2.647,
+      "retrieval_score": 2.368,
       "active": true
     },
     "2026-04-14-mcp-server-token-overhead.md": {
@@ -707,15 +824,16 @@
         "cost-optimization"
       ],
       "summary": "Each connected MCP server loads ~18K tokens per message into context. Disconnect unused servers per session. Prefer CLI tools over MCP where equivalent.",
-      "uses": 2,
+      "uses": 4,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
         "2026-04-12-purpose-built-tools-75x-faster.md",
-        "2026-04-14-compact-timing-60pct.md"
+        "2026-04-14-compact-timing-60pct.md",
+        "2026-04-25-mcp-config-canonical-location.md"
       ],
-      "token_estimate": 342,
-      "retrieval_score": 2.647,
+      "token_estimate": 353,
+      "retrieval_score": 2.368,
       "active": true
     },
     "2026-04-14-paseo-orchestration-patterns.md": {
@@ -741,7 +859,7 @@
         "2026-04-12-morning-briefing-cron-pattern.md"
       ],
       "token_estimate": 688,
-      "retrieval_score": 2.647,
+      "retrieval_score": 2.368,
       "active": true
     },
     "2026-04-14-traceguard-5d-critic.md": {
@@ -764,7 +882,7 @@
         "2026-04-13-judge-panel-size-convergence.md"
       ],
       "token_estimate": 431,
-      "retrieval_score": 1.765,
+      "retrieval_score": 1.579,
       "active": true
     },
     "2026-04-13-breadth-depth-axis-tier-selection.md": {
@@ -786,7 +904,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 470,
-      "retrieval_score": 2.609,
+      "retrieval_score": 2.338,
       "active": true
     },
     "2026-04-13-do-nothing-first-class-option.md": {
@@ -811,7 +929,7 @@
         "2026-04-11-iteration-paradox-meta-pattern.md"
       ],
       "token_estimate": 359,
-      "retrieval_score": 2.609,
+      "retrieval_score": 2.338,
       "active": true
     },
     "2026-04-13-experience-replay-outcomes-reuse.md": {
@@ -830,7 +948,7 @@
         "compute-efficiency"
       ],
       "summary": "Skills čtou optstate momentum, ale ne konkrétní outcomes z minulých runů. Phase 0 by mělo glob outcomes/<skill>-* (last 5, desc) a číst Trajectory Summary — stejný mechanismus jako experience replay v RL snižuje 'inference cost' (agent spawns) bez ztráty kvality.",
-      "uses": 5,
+      "uses": 7,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
@@ -838,8 +956,8 @@
         "2026-04-13-generate-then-discard-suboptimal.md",
         "2026-04-11-iteration-paradox-meta-pattern.md"
       ],
-      "token_estimate": 674,
-      "retrieval_score": 2.609,
+      "token_estimate": 675,
+      "retrieval_score": 2.338,
       "active": true
     },
     "2026-04-13-generate-then-discard-suboptimal.md": {
@@ -866,7 +984,7 @@
         "2026-04-03-autoagent-overfitting-guard.md"
       ],
       "token_estimate": 505,
-      "retrieval_score": 2.609,
+      "retrieval_score": 2.338,
       "active": true
     },
     "2026-04-13-judge-panel-size-convergence.md": {
@@ -889,7 +1007,7 @@
         "2026-04-14-traceguard-5d-critic.md"
       ],
       "token_estimate": 271,
-      "retrieval_score": 1.739,
+      "retrieval_score": 1.558,
       "active": true
     },
     "2026-04-13-pairwise-choice-sufficient-verifiable-signal.md": {
@@ -913,7 +1031,7 @@
         "2026-04-08-direction-magnitude-decoupling-optimization.md"
       ],
       "token_estimate": 404,
-      "retrieval_score": 1.739,
+      "retrieval_score": 1.558,
       "active": true
     },
     "2026-04-13-pretraining-loss-insufficient-generalization-proxy.md": {
@@ -937,7 +1055,7 @@
         "2026-04-08-early-iteration-unreliable-eval.md"
       ],
       "token_estimate": 424,
-      "retrieval_score": 2.609,
+      "retrieval_score": 2.338,
       "active": true
     },
     "2026-04-13-tournament-self-refinement-abc.md": {
@@ -962,7 +1080,7 @@
         "2026-04-11-iteration-paradox-meta-pattern.md"
       ],
       "token_estimate": 358,
-      "retrieval_score": 2.609,
+      "retrieval_score": 2.338,
       "active": true
     },
     "2026-04-12-advisor-tool-public-beta.md": {
@@ -983,7 +1101,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 315,
-      "retrieval_score": 2.571,
+      "retrieval_score": 2.308,
       "active": true
     },
     "2026-04-12-fresh-session-self-report-verification.md": {
@@ -1005,7 +1123,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 395,
-      "retrieval_score": 1.714,
+      "retrieval_score": 1.538,
       "active": true
     },
     "2026-04-12-ib-optimality-predicts-benchmarks.md": {
@@ -1027,7 +1145,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 414,
-      "retrieval_score": 2.571,
+      "retrieval_score": 2.308,
       "active": true
     },
     "2026-04-12-model-size-negatively-correlated-honesty.md": {
@@ -1053,7 +1171,7 @@
         "2026-04-08-long-horizon-deception-eval.md"
       ],
       "token_estimate": 395,
-      "retrieval_score": 2.571,
+      "retrieval_score": 2.308,
       "active": true
     },
     "2026-04-12-morning-briefing-cron-pattern.md": {
@@ -1075,7 +1193,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 399,
-      "retrieval_score": 1.714,
+      "retrieval_score": 1.538,
       "active": true
     },
     "2026-04-12-pretraining-vs-posttraining-dissociation.md": {
@@ -1098,7 +1216,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 392,
-      "retrieval_score": 1.714,
+      "retrieval_score": 1.538,
       "active": true
     },
     "2026-04-12-skillclaw-auto-evolve-pipeline.md": {
@@ -1120,8 +1238,8 @@
       "related": [
         "2026-04-08-nlah-skill-evolution.md"
       ],
-      "token_estimate": 455,
-      "retrieval_score": 2.571,
+      "token_estimate": 454,
+      "retrieval_score": 2.308,
       "active": true
     },
     "2026-04-12-small-model-compression-threshold.md": {
@@ -1139,12 +1257,14 @@
         "capacity"
       ],
       "summary": "Models below ~1B parameters fail to enter the compression phase of IB training dynamics — they lack capacity to compress a given data complexity. This is a fundamental limit, not a training duration issue: SmolLM2 1.7B (11T tokens) also fails.",
-      "uses": 0,
+      "uses": 2,
       "harmful_uses": 0,
       "supersedes": null,
-      "related": [],
-      "token_estimate": 376,
-      "retrieval_score": 2.571,
+      "related": [
+        "2026-04-11-compression-regime-maps-to-tiers.md"
+      ],
+      "token_estimate": 390,
+      "retrieval_score": 2.308,
       "active": true
     },
     "2026-04-12-sycophancy-not-hallucination.md": {
@@ -1163,12 +1283,12 @@
         "verification"
       ],
       "summary": "Sycophancy ≠ hallucination. Hallucination = model doesn't know. Sycophancy = model knows the truth and lies under pressure. Requires different mitigation: external verification + cross-agent challenge, NOT better prompting.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 405,
-      "retrieval_score": 2.571,
+      "retrieval_score": 2.308,
       "active": true
     },
     "2026-04-11-compression-regime-maps-to-tiers.md": {
@@ -1185,15 +1305,16 @@
         "orchestration"
       ],
       "summary": "Optimal context compression varies systematically by task type: long/broad → light compression (preserve coverage, 49% savings), hard/focused → aggressive compression (strip noise, +3pp accuracy), simple → moderate. Maps directly to STOPA budget tiers.",
-      "uses": 2,
+      "uses": 4,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
         "2026-04-11-task-guided-context-beats-raw-sharing.md",
-        "2026-04-10-rlm-architectural-principles.md"
+        "2026-04-10-rlm-architectural-principles.md",
+        "2026-04-12-small-model-compression-threshold.md"
       ],
-      "token_estimate": 588,
-      "retrieval_score": 1.69,
+      "token_estimate": 601,
+      "retrieval_score": 1.519,
       "active": true
     },
     "2026-04-11-iteration-paradox-meta-pattern.md": {
@@ -1222,7 +1343,7 @@
         "2026-04-03-autoagent-overfitting-guard.md"
       ],
       "token_estimate": 635,
-      "retrieval_score": 2.535,
+      "retrieval_score": 2.278,
       "active": true
     },
     "2026-04-11-speculative-reasoning-degrades-workers.md": {
@@ -1246,7 +1367,7 @@
         "2026-04-11-task-guided-context-beats-raw-sharing.md"
       ],
       "token_estimate": 653,
-      "retrieval_score": 1.69,
+      "retrieval_score": 1.519,
       "active": true
     },
     "2026-04-11-task-guided-context-beats-raw-sharing.md": {
@@ -1263,7 +1384,7 @@
         "orchestration"
       ],
       "summary": "Latent Briefing: task-guided KV cache compaction pro cross-agent memory dosahuje 49-65% token savings + 3pp accuracy gain. Princip platí i na API úrovni: orchestrátor by měl posílat workerům task-relevantní kontext, ne celou trajektorii. Speculative reasoning je šum pro workery.",
-      "uses": 4,
+      "uses": 5,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
@@ -1272,7 +1393,7 @@
         "2026-04-14-dacs-context-scoping.md"
       ],
       "token_estimate": 801,
-      "retrieval_score": 2.535,
+      "retrieval_score": 2.278,
       "active": true
     },
     "2026-04-10-eggroll-evolutionary-optimization.md": {
@@ -1294,7 +1415,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 568,
-      "retrieval_score": 2.5,
+      "retrieval_score": 2.25,
       "active": true
     },
     "2026-04-10-rlm-architectural-principles.md": {
@@ -1312,12 +1433,12 @@
         "RLM"
       ],
       "summary": "RLM (arXiv:2512.24601) validuje STOPA RLM principy a přidává 3 implementované vzory: budget propagation do sub-agentů (soft-cap + 20% reserve), metadata-first scout (--metadata flag), recursion depth guard (max-depth frontmatter, default 1). Klíčový závěr: STOPA neadoptuje REPL — Agent tool je ekvivalent. Depth=1 stačí i v produkčním RLM.",
-      "uses": 6,
+      "uses": 7,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 564,
-      "retrieval_score": 2.5,
+      "retrieval_score": 2.25,
       "active": true
     },
     "2026-04-08-agent-deception-pressure-trigger.md": {
@@ -1335,15 +1456,15 @@
         "model-selection"
       ],
       "summary": "Agent deception increases under event pressure (failures, high stakes) and varies by model — in STOPA, increase critic skepticism when a sub-agent hits repeated failures.",
-      "uses": 5,
+      "uses": 7,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
         "2026-04-08-long-horizon-deception-eval.md",
         "2026-04-12-model-size-negatively-correlated-honesty.md"
       ],
-      "token_estimate": 436,
-      "retrieval_score": 1.622,
+      "token_estimate": 437,
+      "retrieval_score": 1.463,
       "active": true
     },
     "2026-04-08-auto-research-removes-human-bottleneck.md": {
@@ -1360,12 +1481,15 @@
         "autoresearch"
       ],
       "summary": "The human is always the bottleneck in iterative optimization. For any task with a cheap-to-verify objective metric, remove yourself from the loop: define objective + metric + boundaries, let agents iterate autonomously. Karpathy's overnight auto-research found issues 20 years of manual tuning missed.",
-      "uses": 1,
+      "uses": 3,
       "harmful_uses": 0,
       "supersedes": null,
-      "related": [],
-      "token_estimate": 407,
-      "retrieval_score": 2.432,
+      "related": [
+        "2026-04-23-llm-confirmation-bias.md",
+        "2026-03-29-claudini-autoresearch-loop.md"
+      ],
+      "token_estimate": 526,
+      "retrieval_score": 2.195,
       "active": true
     },
     "2026-04-08-group-experience-sharing-beats-isolated-evolution.md": {
@@ -1387,7 +1511,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 372,
-      "retrieval_score": 2.432,
+      "retrieval_score": 2.195,
       "active": true
     },
     "2026-04-08-heartbeat-mid-run-steering.md": {
@@ -1404,14 +1528,14 @@
         "self-evolve"
       ],
       "summary": "Heartbeat-triggered intervention: orchestrátor posílá prompt-injections do běžících agentů (reflection, skill consolidation, direction change) bez jejich restartu — non-destructive mid-run steering. Odlišné od kritika: critic hodnotí output, heartbeat mění direction.",
-      "uses": 13,
+      "uses": 14,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
         "2026-04-08-shared-public-state-agent-coordination.md"
       ],
       "token_estimate": 500,
-      "retrieval_score": 1.622,
+      "retrieval_score": 1.463,
       "active": true
     },
     "2026-04-08-in-place-ttt-long-context-multiplier.md": {
@@ -1433,7 +1557,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 364,
-      "retrieval_score": 1.622,
+      "retrieval_score": 1.463,
       "active": true
     },
     "2026-04-08-inference-time-sampling-beats-rl-for-diversity.md": {
@@ -1456,7 +1580,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 367,
-      "retrieval_score": 1.622,
+      "retrieval_score": 1.463,
       "active": true
     },
     "2026-04-08-iterative-refinement-beats-long-cot.md": {
@@ -1478,7 +1602,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 412,
-      "retrieval_score": 2.432,
+      "retrieval_score": 2.195,
       "active": true
     },
     "2026-04-08-llm-judge-factuality-weak.md": {
@@ -1500,7 +1624,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 311,
-      "retrieval_score": 2.432,
+      "retrieval_score": 2.195,
       "active": true
     },
     "2026-04-08-long-horizon-deception-eval.md": {
@@ -1526,7 +1650,7 @@
         "2026-04-12-model-size-negatively-correlated-honesty.md"
       ],
       "token_estimate": 458,
-      "retrieval_score": 2.432,
+      "retrieval_score": 2.195,
       "active": true
     },
     "2026-04-08-reasoning-midtraining-beats-posttraining.md": {
@@ -1548,7 +1672,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 404,
-      "retrieval_score": 2.432,
+      "retrieval_score": 2.195,
       "active": true
     },
     "2026-04-08-shared-public-state-agent-coordination.md": {
@@ -1565,14 +1689,14 @@
         "isolation"
       ],
       "summary": "CORAL pattern: agents share knowledge via symlinked `.coral/public/` dir instead of message passing — zero sync overhead, każdy agent v vlastním git worktree branchi. Knowledge reuse je primární driver multi-agent gainů, ne parallelismus samotný.",
-      "uses": 14,
+      "uses": 17,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
         "2026-03-29-claudini-autoresearch-loop.md"
       ],
       "token_estimate": 465,
-      "retrieval_score": 1.622,
+      "retrieval_score": 1.463,
       "active": true
     },
     "2026-04-08-test-time-learning-inference-evolution.md": {
@@ -1596,7 +1720,7 @@
         "2026-04-08-living-memory-over-static-retrieval.md"
       ],
       "token_estimate": 336,
-      "retrieval_score": 1.622,
+      "retrieval_score": 1.463,
       "active": true
     },
     "2026-04-07-agents-md-efficiency-validated.md": {
@@ -1617,7 +1741,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 520,
-      "retrieval_score": 2.4,
+      "retrieval_score": 2.169,
       "active": true
     },
     "2026-04-07-budget-calibration-baseline.md": {
@@ -1633,12 +1757,12 @@
         "measurement"
       ],
       "summary": "Budget calibration baseline: 7 historical tasks analyzed, no actual cost data available. Proposed measurement protocol using ccusage + session tagging.",
-      "uses": 2,
+      "uses": 3,
       "harmful_uses": 0,
       "supersedes": "2026-04-04-gap-budget-calibration.md",
       "related": [],
       "token_estimate": 559,
-      "retrieval_score": 1.6,
+      "retrieval_score": 1.446,
       "active": true
     },
     "2026-04-07-kaizen-loop-weekly-improvement.md": {
@@ -1661,7 +1785,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 422,
-      "retrieval_score": 2.4,
+      "retrieval_score": 2.169,
       "active": true
     },
     "2026-04-07-mom-taro-orchestration-upgrades.md": {
@@ -1685,7 +1809,7 @@
         "2026-04-06-self-organizing-agents-ab-test.md"
       ],
       "token_estimate": 626,
-      "retrieval_score": 2.4,
+      "retrieval_score": 2.169,
       "active": true
     },
     "2026-04-07-nsm-neuro-symbolic-orchestration.md": {
@@ -1706,7 +1830,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 560,
-      "retrieval_score": 2.4,
+      "retrieval_score": 2.169,
       "active": true
     },
     "2026-04-07-operational-rhythm-silence-discipline.md": {
@@ -1729,7 +1853,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 421,
-      "retrieval_score": 1.6,
+      "retrieval_score": 1.446,
       "active": true
     },
     "2026-04-07-sas-beats-mas-equal-compute.md": {
@@ -1751,7 +1875,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 711,
-      "retrieval_score": 2.4,
+      "retrieval_score": 2.169,
       "active": true
     },
     "2026-04-06-osft-self-sharpening.md": {
@@ -1772,7 +1896,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 498,
-      "retrieval_score": 1.579,
+      "retrieval_score": 1.429,
       "active": true
     },
     "2026-04-06-self-organizing-agents-ab-test.md": {
@@ -1792,7 +1916,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 587,
-      "retrieval_score": 2.368,
+      "retrieval_score": 2.143,
       "active": true
     },
     "2026-04-05-openfang-architecture-patterns.md": {
@@ -1815,7 +1939,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 570,
-      "retrieval_score": 1.558,
+      "retrieval_score": 1.412,
       "active": true
     },
     "2026-04-05-regression-gate-pattern.md": {
@@ -1837,7 +1961,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 583,
-      "retrieval_score": 2.338,
+      "retrieval_score": 2.118,
       "active": true
     },
     "2026-04-05-self-improving-harness.md": {
@@ -1858,7 +1982,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 567,
-      "retrieval_score": 2.338,
+      "retrieval_score": 2.118,
       "active": true
     },
     "2026-04-04-gap-budget-calibration.md": {
@@ -1874,12 +1998,12 @@
         "gap"
       ],
       "summary": "GAP: No data on budget tracking accuracy — estimated costs vs actual API costs are never compared. Budget tier assignments may be systematically over- or under-estimating.",
-      "uses": 3,
+      "uses": 4,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 250,
-      "retrieval_score": 1.538,
+      "retrieval_score": 1.395,
       "active": false
     },
     "2026-04-03-autoagent-overfitting-guard.md": {
@@ -1904,7 +2028,7 @@
         "2026-04-13-generate-then-discard-suboptimal.md"
       ],
       "token_estimate": 364,
-      "retrieval_score": 2.278,
+      "retrieval_score": 2.069,
       "active": true
     },
     "2026-04-03-autoagent-parallel-candidates.md": {
@@ -1928,7 +2052,7 @@
         "2026-04-03-autoagent-overfitting-guard.md"
       ],
       "token_estimate": 348,
-      "retrieval_score": 1.519,
+      "retrieval_score": 1.379,
       "active": true
     },
     "2026-04-03-smart-tool-overuse.md": {
@@ -1951,7 +2075,7 @@
         "2026-04-03-testing-bottleneck.md"
       ],
       "token_estimate": 364,
-      "retrieval_score": 1.519,
+      "retrieval_score": 1.379,
       "active": true
     },
     "2026-04-03-testing-bottleneck.md": {
@@ -1974,7 +2098,7 @@
         "2026-04-03-smart-tool-overuse.md"
       ],
       "token_estimate": 366,
-      "retrieval_score": 1.519,
+      "retrieval_score": 1.379,
       "active": true
     },
     "2026-04-02-audit-must-verify-consumers.md": {
@@ -1994,7 +2118,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 379,
-      "retrieval_score": 3.0,
+      "retrieval_score": 2.727,
       "active": true
     },
     "2026-04-02-distributed-systems-amdahl-gate.md": {
@@ -2015,7 +2139,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 436,
-      "retrieval_score": 2.25,
+      "retrieval_score": 2.045,
       "active": true
     },
     "2026-04-01-autocompact-threshold.md": {
@@ -2030,12 +2154,12 @@
         "long-sessions"
       ],
       "summary": "Setting CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=70 triggers context compaction earlier (default ~95%), preventing quality degradation in long sessions. Verified from CC source leak.",
-      "uses": 4,
+      "uses": 5,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 430,
-      "retrieval_score": 1.481,
+      "retrieval_score": 1.348,
       "active": true
     },
     "2026-04-01-gsd2-error-classification.md": {
@@ -2055,7 +2179,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 295,
-      "retrieval_score": 2.222,
+      "retrieval_score": 2.022,
       "active": true
     },
     "2026-03-30-society-of-thought-orchestration.md": {
@@ -2077,7 +2201,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 646,
-      "retrieval_score": 2.169,
+      "retrieval_score": 1.978,
       "active": true
     },
     "2026-03-29-bigmas-directed-graph-orchestration.md": {
@@ -2093,7 +2217,7 @@
         "global-workspace-theory"
       ],
       "summary": "BIGMAS dynamic graph orchestration — PARTIALLY IMPLEMENTED (2026-04-11): Phase 3.3 Topology Selection (deep tier), 4-zone workspace schema, full-state routing at wave boundaries, routing count tracking. Gains: +14-36pp on reasoning benchmarks, orthogonal to model-level improvements.",
-      "uses": 15,
+      "uses": 17,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
@@ -2101,7 +2225,7 @@
         "2026-04-07-mom-taro-orchestration-upgrades.md"
       ],
       "token_estimate": 1071,
-      "retrieval_score": 1.429,
+      "retrieval_score": 1.304,
       "active": true
     },
     "2026-03-29-claudini-autoresearch-loop.md": {
@@ -2118,12 +2242,15 @@
         "research-automation"
       ],
       "summary": "Autoresearch via Claude Code agent loop succeeds when: (1) starting from existing implementations, (2) dense quantitative feedback per iteration, (3) white-box domain (red-teaming). Claudini discovered novel adversarial attacks outperforming 30+ baselines by iterating on GCG.",
-      "uses": 0,
+      "uses": 4,
       "harmful_uses": 0,
       "supersedes": null,
-      "related": [],
-      "token_estimate": 544,
-      "retrieval_score": 2.143,
+      "related": [
+        "2026-04-23-llm-confirmation-bias.md",
+        "2026-04-08-auto-research-removes-human-bottleneck.md"
+      ],
+      "token_estimate": 566,
+      "retrieval_score": 1.957,
       "active": true
     },
     "2026-03-29-paged-context-protocol.md": {
@@ -2149,7 +2276,7 @@
         "2026-03-26-harness-simplification.md"
       ],
       "token_estimate": 554,
-      "retrieval_score": 1.429,
+      "retrieval_score": 1.304,
       "active": true
     },
     "2026-03-29-slopcodebench-iterative-degradation.md": {
@@ -2171,7 +2298,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 508,
-      "retrieval_score": 2.143,
+      "retrieval_score": 1.957,
       "active": true
     },
     "2026-03-26-channels-24x7-architecture.md": {
@@ -2195,7 +2322,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 522,
-      "retrieval_score": 2.069,
+      "retrieval_score": 1.895,
       "active": true
     },
     "2026-03-26-harness-simplification.md": {
@@ -2218,7 +2345,7 @@
         "harness-engineering.md"
       ],
       "token_estimate": 560,
-      "retrieval_score": 2.069,
+      "retrieval_score": 1.895,
       "active": true
     },
     "2026-03-24-openclaw-postmortem-patterns.md": {
@@ -2240,7 +2367,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 444,
-      "retrieval_score": 2.022,
+      "retrieval_score": 1.856,
       "active": true
     },
     "2026-03-23-gsd-patterns.md": {
@@ -2256,12 +2383,12 @@
         "verification"
       ],
       "summary": "GSD wave execution: batch independent tasks, verify after each wave, deviation rules for agent coordination.",
-      "uses": 2,
+      "uses": 3,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 266,
-      "retrieval_score": 1.333,
+      "token_estimate": 267,
+      "retrieval_score": 1.224,
       "active": true
     },
     "2026-03-23-spec-kit-adoption.md": {
@@ -2282,7 +2409,33 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 268,
-      "retrieval_score": 1.333,
+      "retrieval_score": 1.224,
+      "active": true
+    },
+    "2026-04-28-genus-consensus-cross-project.md": {
+      "id": "2026-04-28-genus-consensus-cross-project.md",
+      "component": "pipeline",
+      "date": "2026-04-28",
+      "type": "bug_fix",
+      "severity": "high",
+      "tags": [
+        "translation",
+        "termdb",
+        "species",
+        "glossary",
+        "hallucination",
+        "anti-pattern"
+      ],
+      "summary": "Při překladu článků o nově objevených druzích Phase 1 Claude halucinoval české názvy (\"tarantule\" pro Ceratogyrus attonitifer, \"býčí slon\" pro bull elephant), protože druh nebyl v termdb a žádný projekt neměl genus-level fallback. Fix: NormalizedTermDB.lookup_genus_consensus extrahuje shared CZ genus z ≥3 sourozenců v termdb a poskytuje formulaci \"nový druh <CZ_genus> (*Latin*)\" jako pre-fetch hint do Phase 1.",
+      "uses": 1,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [
+        "2026-04-12-sycophancy-not-hallucination.md",
+        "2026-04-07-cross-project-memory-design.md"
+      ],
+      "token_estimate": 1802,
+      "retrieval_score": 2.903,
       "active": true
     },
     "2026-04-14-openmontage-production-governance.md": {
@@ -2304,7 +2457,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 677,
-      "retrieval_score": 2.647,
+      "retrieval_score": 2.368,
       "active": true
     },
     "2026-04-09-triattention-pre-rope-kv-compression.md": {
@@ -2322,12 +2475,12 @@
         "llm-architecture"
       ],
       "summary": "Pre-RoPE Q/K vectors cluster around fixed centers (Q/K Concentration), enabling 10.7× KV cache compression and 2.5× throughput for long-reasoning via trigonometric importance scoring — bypassing the instability of post-RoPE attention scores used by prior methods.",
-      "uses": 7,
+      "uses": 8,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 396,
-      "retrieval_score": 1.644,
+      "retrieval_score": 1.481,
       "active": true
     },
     "2026-04-01-sonnet46-thinking-effort-breaking-change.md": {
@@ -2345,12 +2498,12 @@
         "breaking-change"
       ],
       "summary": "Sonnet 4.6 s thinking:disabled agresivně sumarizuje dlouhý text (~40% výstupu). S thinking:adaptive leakuje chain-of-thought a XML tool markup do outputu. Effort 'low' zhoršuje oba problémy. Fix: buď effort 'medium'+adaptive, nebo PATCH formát místo reprodukce.",
-      "uses": 2,
+      "uses": 3,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
-      "token_estimate": 619,
-      "retrieval_score": 2.963,
+      "token_estimate": 625,
+      "retrieval_score": 2.697,
       "active": true
     },
     "2026-03-23-harness-engineering.md": {
@@ -2373,7 +2526,80 @@
         "2026-03-26-harness-simplification.md"
       ],
       "token_estimate": 243,
-      "retrieval_score": 2.0,
+      "retrieval_score": 1.837,
+      "active": true
+    },
+    "2026-04-26-annotate-3-axis-schema.md": {
+      "id": "2026-04-26-annotate-3-axis-schema.md",
+      "component": "skill",
+      "date": "2026-04-26",
+      "type": "best_practice",
+      "severity": "medium",
+      "tags": [
+        "evaluation",
+        "annotate",
+        "trajectory",
+        "annotation"
+      ],
+      "summary": "AgentRewardBench zavádí 3-osé expert anotační schema (success / side effects / repetitiveness) jako náhradu binárního labelu. Toto schema by měl adopovat /annotate Align Evals pro richer eval dataset.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 385,
+      "retrieval_score": 1.875,
+      "active": true
+    },
+    "2026-04-26-autoreason-mid-tier-sweet-spot.md": {
+      "id": "2026-04-26-autoreason-mid-tier-sweet-spot.md",
+      "component": "skill",
+      "date": "2026-04-26",
+      "type": "best_practice",
+      "severity": "medium",
+      "tags": [
+        "autoreason",
+        "model-selection",
+        "self-refinement",
+        "debate-loop",
+        "cost-optimization"
+      ],
+      "summary": "AutoReason A/B/AB triáda + blind judges nese gain především strukturou, ne velikostí modelu. Haiku 3.5 dosáhl 42/42 s tímto loopem; standard self-refinement na stejném modelu degraduje výstup pod nulový baseline. Mid-tier recovery rate ~62 % vs ~43 % pro frontier-only. Investice do víc rounds/judges > upgrade writerů na Opus.",
+      "uses": 1,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [
+        "2026-04-01-autoreason-adversarial-debate.md",
+        "2026-03-29-claudini-autoresearch-loop.md",
+        "karpathy-loop-autoloop.md"
+      ],
+      "token_estimate": 599,
+      "retrieval_score": 1.875,
+      "active": true
+    },
+    "2026-04-23-llm-confirmation-bias.md": {
+      "id": "2026-04-23-llm-confirmation-bias.md",
+      "component": "skill",
+      "date": "2026-04-23",
+      "type": "anti_pattern",
+      "severity": "critical",
+      "tags": [
+        "autoresearch",
+        "deepresearch",
+        "critic",
+        "falsification",
+        "evidence",
+        "bias"
+      ],
+      "summary": "LLM scientific agents ignore evidence in 68% of traces, revise beliefs only 26%, use independent evidence lines only 7% (25K runs, 8 domains). Counter-example prompting boosts rule discovery 42→56%. STOPA /autoresearch + /critic need explicit falsification gate.",
+      "uses": 4,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [
+        "2026-04-08-auto-research-removes-human-bottleneck.md",
+        "2026-03-29-claudini-autoresearch-loop.md"
+      ],
+      "token_estimate": 619,
+      "retrieval_score": 3.582,
       "active": true
     },
     "2026-04-18-html-as-agent-native-medium.md": {
@@ -2398,7 +2624,7 @@
         "2026-04-12-purpose-built-tools-75x-faster.md"
       ],
       "token_estimate": 613,
-      "retrieval_score": 1.875,
+      "retrieval_score": 1.667,
       "active": true
     },
     "2026-04-15-parcae-exponential-decay-stopping.md": {
@@ -2427,7 +2653,7 @@
         "2026-04-15-best-of-n-parallel-candidates.md"
       ],
       "token_estimate": 734,
-      "retrieval_score": 2.687,
+      "retrieval_score": 2.4,
       "active": true
     },
     "2026-04-12-diarization-as-knowledge-extraction.md": {
@@ -2449,7 +2675,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 387,
-      "retrieval_score": 1.714,
+      "retrieval_score": 1.538,
       "active": true
     },
     "2026-04-12-latent-deterministic-boundary.md": {
@@ -2471,7 +2697,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 423,
-      "retrieval_score": 2.571,
+      "retrieval_score": 2.308,
       "active": true
     },
     "2026-04-12-latent-deterministic-extraction.md": {
@@ -2496,7 +2722,7 @@
         "2026-04-12-purpose-built-tools-75x-faster.md"
       ],
       "token_estimate": 430,
-      "retrieval_score": 2.571,
+      "retrieval_score": 2.308,
       "active": true
     },
     "2026-04-12-purpose-built-tools-75x-faster.md": {
@@ -2518,7 +2744,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 367,
-      "retrieval_score": 2.571,
+      "retrieval_score": 2.308,
       "active": true
     },
     "2026-04-11-verification-shift-meta-pattern.md": {
@@ -2545,7 +2771,7 @@
         "2026-04-05-regression-gate-pattern.md"
       ],
       "token_estimate": 508,
-      "retrieval_score": 2.535,
+      "retrieval_score": 2.278,
       "active": true
     },
     "2026-04-08-descriptive-over-narrative-generative.md": {
@@ -2567,7 +2793,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 530,
-      "retrieval_score": 1.622,
+      "retrieval_score": 1.463,
       "active": true
     },
     "2026-04-08-direction-magnitude-decoupling-optimization.md": {
@@ -2589,7 +2815,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 510,
-      "retrieval_score": 1.622,
+      "retrieval_score": 1.463,
       "active": true
     },
     "2026-04-08-early-iteration-performance-unreliable.md": {
@@ -2612,7 +2838,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 601,
-      "retrieval_score": 2.432,
+      "retrieval_score": 2.195,
       "active": true
     },
     "2026-04-08-education-teaches-agents-not-humans.md": {
@@ -2633,7 +2859,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 377,
-      "retrieval_score": 1.622,
+      "retrieval_score": 1.463,
       "active": true
     },
     "2026-04-08-instruction-following-compositional-not-universal.md": {
@@ -2654,7 +2880,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 485,
-      "retrieval_score": 1.622,
+      "retrieval_score": 1.463,
       "active": true
     },
     "2026-04-08-llm-native-validation-hardstop.md": {
@@ -2676,7 +2902,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 546,
-      "retrieval_score": 2.432,
+      "retrieval_score": 2.195,
       "active": true
     },
     "2026-04-08-progressive-knowledge-routing.md": {
@@ -2697,7 +2923,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 537,
-      "retrieval_score": 2.432,
+      "retrieval_score": 2.195,
       "active": true
     },
     "2026-04-08-reverse-engineered-benchmark-from-artifacts.md": {
@@ -2720,7 +2946,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 392,
-      "retrieval_score": 1.622,
+      "retrieval_score": 1.463,
       "active": true
     },
     "2026-04-07-compact-variant-baseline.md": {
@@ -2741,7 +2967,7 @@
       "supersedes": "2026-04-04-gap-compact-variant-measurement.md",
       "related": [],
       "token_estimate": 526,
-      "retrieval_score": 1.6,
+      "retrieval_score": 1.446,
       "active": true
     },
     "2026-04-07-skill-retrieval-bottleneck.md": {
@@ -2762,7 +2988,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 421,
-      "retrieval_score": 2.4,
+      "retrieval_score": 2.169,
       "active": true
     },
     "2026-04-06-deepresearch-agent-scope.md": {
@@ -2782,7 +3008,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 250,
-      "retrieval_score": 2.368,
+      "retrieval_score": 2.143,
       "active": true
     },
     "2026-04-05-egoalpha-prompt-patterns.md": {
@@ -2803,7 +3029,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 926,
-      "retrieval_score": 2.338,
+      "retrieval_score": 2.118,
       "active": true
     },
     "2026-04-04-gap-compact-variant-measurement.md": {
@@ -2824,7 +3050,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 279,
-      "retrieval_score": 1.538,
+      "retrieval_score": 1.395,
       "active": false
     },
     "2026-04-04-skill0-dynamic-curriculum.md": {
@@ -2845,7 +3071,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 335,
-      "retrieval_score": 2.308,
+      "retrieval_score": 2.093,
       "active": true
     },
     "2026-04-04-toolgenesis-cascade-evaluation.md": {
@@ -2868,7 +3094,7 @@
         "2026-03-26-harness-simplification.md"
       ],
       "token_estimate": 495,
-      "retrieval_score": 2.308,
+      "retrieval_score": 2.093,
       "active": true
     },
     "2026-04-03-anthropic-skill-creator-patterns.md": {
@@ -2891,7 +3117,7 @@
         "2026-04-03-description-optimizer-plan.md"
       ],
       "token_estimate": 588,
-      "retrieval_score": 2.278,
+      "retrieval_score": 2.069,
       "active": true
     },
     "2026-04-03-description-optimizer-plan.md": {
@@ -2914,7 +3140,7 @@
         "2026-04-03-anthropic-skill-creator-patterns.md"
       ],
       "token_estimate": 520,
-      "retrieval_score": 2.278,
+      "retrieval_score": 2.069,
       "active": true
     },
     "2026-04-03-disable-skill-shell-audit.md": {
@@ -2935,7 +3161,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 395,
-      "retrieval_score": 2.278,
+      "retrieval_score": 2.069,
       "active": true
     },
     "2026-04-01-autoreason-adversarial-debate.md": {
@@ -2951,14 +3177,15 @@
         "multi-agent"
       ],
       "summary": "AutoReason pattern (SHL0MS) extends AutoResearch to subjective domains via adversarial debate loop. Key: cold-start agent isolation prevents confirmation bias, randomized judge labels prevent position bias, structured critique > binary preference.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
-        "2026-03-30-society-of-thought-orchestration.md"
+        "2026-03-30-society-of-thought-orchestration.md",
+        "2026-04-26-autoreason-mid-tier-sweet-spot.md"
       ],
-      "token_estimate": 505,
-      "retrieval_score": 1.481,
+      "token_estimate": 516,
+      "retrieval_score": 1.348,
       "active": true
     },
     "2026-03-27-commands-vs-skills-structure.md": {
@@ -2980,7 +3207,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 428,
-      "retrieval_score": 2.791,
+      "retrieval_score": 2.553,
       "active": true
     },
     "2026-03-27-skills-must-live-in-stopa.md": {
@@ -3000,7 +3227,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 436,
-      "retrieval_score": 2.093,
+      "retrieval_score": 1.915,
       "active": true
     },
     "2026-03-25-decomposed-evaluation.md": {
@@ -3022,7 +3249,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 437,
-      "retrieval_score": 2.045,
+      "retrieval_score": 1.875,
       "active": true
     },
     "2026-03-25-reasoning-isolation.md": {
@@ -3045,7 +3272,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 449,
-      "retrieval_score": 2.045,
+      "retrieval_score": 1.875,
       "active": true
     },
     "2026-03-25-skill-description-triggers.md": {
@@ -3066,7 +3293,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 310,
-      "retrieval_score": 2.045,
+      "retrieval_score": 1.875,
       "active": true
     },
     "2026-03-24-fix-issue-solo-workflow.md": {
@@ -3087,7 +3314,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 245,
-      "retrieval_score": 1.348,
+      "retrieval_score": 1.237,
       "active": true
     },
     "2026-03-23-superpowers-adoption.md": {
@@ -3108,7 +3335,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 236,
-      "retrieval_score": 2.0,
+      "retrieval_score": 1.837,
       "active": true
     },
     "2026-03-23-youtube-transcript-yt-dlp.md": {
@@ -3129,7 +3356,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 244,
-      "retrieval_score": 2.0,
+      "retrieval_score": 1.837,
       "active": true
     },
     "karpathy-loop-autoloop.md": {
@@ -3145,12 +3372,12 @@
         "structural-heuristic"
       ],
       "summary": "Karpathy optimization loop: edit → measure → score → iterate. Use structural heuristics + LLM-as-judge for scoring.",
-      "uses": 2,
+      "uses": 4,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 217,
-      "retrieval_score": 1.333,
+      "retrieval_score": 1.224,
       "active": true
     },
     "2026-04-19-multica-curated-vs-similarity.md": {
@@ -3167,7 +3394,7 @@
         "external-validation"
       ],
       "summary": "Multica (15.4k★ open-source Claude Managed Agents clone) ships memory with 6 relational tables and ZERO vector embeddings — explicit skill attachment via JOIN, JSONB snapshot at dispatch. Validates STOPA grep-first + curated discovery-keywords approach: \"curated relevance beats learned similarity for coding agents — a migration runbook needs the exact runbook, not the statistically-closest one.",
-      "uses": 2,
+      "uses": 3,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
@@ -3175,7 +3402,7 @@
         "2026-04-08-living-memory-over-static-retrieval.md"
       ],
       "token_estimate": 1007,
-      "retrieval_score": 1.905,
+      "retrieval_score": 1.69,
       "active": true
     },
     "2026-04-18-embedding-dimension-retrieval-limit.md": {
@@ -3200,7 +3427,7 @@
         "2026-04-05-bm25-memory-search.md"
       ],
       "token_estimate": 496,
-      "retrieval_score": 1.875,
+      "retrieval_score": 1.667,
       "active": true
     },
     "2026-04-18-in-place-ttt-fast-weights-analog.md": {
@@ -3223,7 +3450,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 639,
-      "retrieval_score": 0.938,
+      "retrieval_score": 0.833,
       "active": true
     },
     "2026-04-18-mc-checkpoint-caching-retrieval-pattern.md": {
@@ -3240,7 +3467,7 @@
         "architecture"
       ],
       "summary": "Memory Caching (MC) formalizes a universal pattern: segment long stream → compress state at boundary → cache checkpoint → gate retrieval by query. STOPA session checkpoints and hybrid-retrieve implement this implicitly. Formal design: use GRM-style query-dependent gating (query × cached-state similarity) when choosing which checkpoints to surface, not flat recency.",
-      "uses": 3,
+      "uses": 4,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
@@ -3249,7 +3476,7 @@
         "2026-04-08-recency-beats-complex-memory.md"
       ],
       "token_estimate": 494,
-      "retrieval_score": 1.875,
+      "retrieval_score": 1.667,
       "active": true
     },
     "2026-04-18-recency-biased-scoring-depth-collapse.md": {
@@ -3276,7 +3503,7 @@
         "2026-04-09-triattention-pre-rope-kv-compression.md"
       ],
       "token_estimate": 543,
-      "retrieval_score": 2.812,
+      "retrieval_score": 2.5,
       "active": true
     },
     "2026-04-18-retrieval-depth-knob-complexity-interpolation.md": {
@@ -3302,7 +3529,7 @@
         "2026-04-08-living-memory-over-static-retrieval.md"
       ],
       "token_estimate": 467,
-      "retrieval_score": 1.875,
+      "retrieval_score": 1.667,
       "active": true
     },
     "2026-04-18-subliminal-learning-agent-generated-risk.md": {
@@ -3327,7 +3554,7 @@
         "2026-04-18-in-place-ttt-fast-weights-analog.md"
       ],
       "token_estimate": 1006,
-      "retrieval_score": 2.812,
+      "retrieval_score": 2.5,
       "active": true
     },
     "2026-04-12-evolve-must-verify-current-state.md": {
@@ -3349,7 +3576,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 438,
-      "retrieval_score": 2.571,
+      "retrieval_score": 2.308,
       "active": true
     },
     "2026-04-12-queries-back-to-wiki-compounding.md": {
@@ -3370,7 +3597,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 379,
-      "retrieval_score": 2.571,
+      "retrieval_score": 2.308,
       "active": true
     },
     "2026-04-11-memory-sovereignty-open-harness.md": {
@@ -3395,7 +3622,7 @@
         "2026-03-29-memcollab-agent-agnostic-memory.md"
       ],
       "token_estimate": 1416,
-      "retrieval_score": 2.535,
+      "retrieval_score": 2.278,
       "active": true
     },
     "2026-04-09-local-aggregator-beats-global.md": {
@@ -3420,7 +3647,7 @@
         "2026-03-30-write-time-gating-salience.md"
       ],
       "token_estimate": 428,
-      "retrieval_score": 2.466,
+      "retrieval_score": 2.222,
       "active": true
     },
     "2026-04-08-living-memory-over-static-retrieval.md": {
@@ -3438,7 +3665,7 @@
         "evolution"
       ],
       "summary": "Living memory (evolving + compressed trajectories) beats static RAG by +31% avg across 11 benchmarks. Traditional long-context accumulation can underperform even no-memory baselines — more stored context ≠ better performance.",
-      "uses": 7,
+      "uses": 12,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
@@ -3446,8 +3673,8 @@
         "2026-04-08-recency-beats-complex-memory.md",
         "2026-04-18-mc-checkpoint-caching-retrieval-pattern.md"
       ],
-      "token_estimate": 462,
-      "retrieval_score": 2.432,
+      "token_estimate": 472,
+      "retrieval_score": 2.195,
       "active": true
     },
     "2026-04-08-parametric-nonparametric-memory-bridge.md": {
@@ -3465,7 +3692,7 @@
         "retrieval"
       ],
       "summary": "Bidirectional conversion between parametric (model weights) and non-parametric (explicit files) memory enables agents to leverage both: fast internalized knowledge + updateable external store. Key to living memory systems.",
-      "uses": 1,
+      "uses": 2,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
@@ -3473,7 +3700,7 @@
         "2026-03-29-memcollab-agent-agnostic-memory.md"
       ],
       "token_estimate": 422,
-      "retrieval_score": 2.432,
+      "retrieval_score": 2.195,
       "active": true
     },
     "2026-04-08-recency-beats-complex-memory.md": {
@@ -3498,7 +3725,7 @@
         "2026-04-08-living-memory-over-static-retrieval.md"
       ],
       "token_estimate": 440,
-      "retrieval_score": 1.622,
+      "retrieval_score": 1.463,
       "active": true
     },
     "2026-04-07-cross-project-memory-design.md": {
@@ -3514,12 +3741,12 @@
         "memory-transfer"
       ],
       "summary": "Cross-project memory design: sync critical-patterns.md + wiki/ articles (universal knowledge), NOT learnings/ (project-specific). Two-tier: shared knowledge via sync script, project-specific via auto-memory.",
-      "uses": 1,
+      "uses": 2,
       "harmful_uses": 0,
       "supersedes": "2026-04-04-gap-cross-project-memory.md",
       "related": [],
-      "token_estimate": 822,
-      "retrieval_score": 2.4,
+      "token_estimate": 823,
+      "retrieval_score": 2.169,
       "active": true
     },
     "2026-04-05-bm25-memory-search.md": {
@@ -3541,7 +3768,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 362,
-      "retrieval_score": 2.338,
+      "retrieval_score": 2.118,
       "active": true
     },
     "2026-04-04-gap-cross-project-memory.md": {
@@ -3556,12 +3783,12 @@
         "gap"
       ],
       "summary": "RESOLVED 2026-04-15: Cross-project memory mechanics now implemented — auto-memory system (~/.claude/projects/*/memory/), /improve skill for routing findings to target projects, behavioral-genome.md documents handoff protocol.",
-      "uses": 1,
+      "uses": 3,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 291,
-      "retrieval_score": 1.538,
+      "retrieval_score": 1.395,
       "active": false
     },
     "2026-03-30-calm-semantic-bandwidth.md": {
@@ -3581,7 +3808,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 421,
-      "retrieval_score": 1.446,
+      "retrieval_score": 1.319,
       "active": true
     },
     "2026-03-30-write-time-gating-salience.md": {
@@ -3607,7 +3834,7 @@
         "2026-03-29-memcollab-agent-agnostic-memory.md"
       ],
       "token_estimate": 512,
-      "retrieval_score": 2.169,
+      "retrieval_score": 1.978,
       "active": true
     },
     "2026-03-29-memcollab-agent-agnostic-memory.md": {
@@ -3629,7 +3856,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 677,
-      "retrieval_score": 2.143,
+      "retrieval_score": 1.957,
       "active": true
     },
     "2026-03-26-autodream-coexistence.md": {
@@ -3651,7 +3878,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 346,
-      "retrieval_score": 2.069,
+      "retrieval_score": 1.895,
       "active": true
     },
     "2026-03-24-checkpoint-versioning.md": {
@@ -3671,7 +3898,28 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 190,
-      "retrieval_score": 1.895,
+      "retrieval_score": 1.748,
+      "active": true
+    },
+    "2026-04-27-verify-cc-features-against-docs.md": {
+      "id": "2026-04-27-verify-cc-features-against-docs.md",
+      "component": "workflow",
+      "date": "2026-04-27",
+      "type": "anti_pattern",
+      "severity": "medium",
+      "tags": [
+        "verification",
+        "external-research",
+        "claude-code",
+        "content-marketing"
+      ],
+      "summary": "External blog posts about Claude Code mix real APIs with fabricated ones (e.g., CLAUDE_CODE_FORK_SUBAGENT env var, /fork slash command, \"Plan\" built-in subagent — all claimed but don't exist). Verify named env vars/flags/commands against docs.anthropic.com via claude-code-guide subagent BEFORE designing tests or implementations.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 856,
+      "retrieval_score": 1.905,
       "active": true
     },
     "2026-03-25-batch-edit-pattern.md": {
@@ -3692,7 +3940,55 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 295,
-      "retrieval_score": 2.045,
+      "retrieval_score": 1.875,
+      "active": true
+    },
+    "2026-04-27-l2-sentinel-double-eval.md": {
+      "id": "2026-04-27-l2-sentinel-double-eval.md",
+      "component": "hook",
+      "date": "2026-04-27",
+      "type": "bug_fix",
+      "severity": "high",
+      "tags": [
+        "permissions",
+        "sentinel",
+        "autonomy",
+        "l1",
+        "l2",
+        "double-eval"
+      ],
+      "summary": "L2 permission-sentinel běžel jako druhý hook v PermissionRequest řetězu a re-evaluoval i to, co L1 už schválil — Haiku prompt s \"If uncertain, prefer DENY\" generoval falešné DENY na vlastní hooks/scripts (např. \"Cannot verify safety of executing arbitrary Python scripts in .claude/hooks/\"). Fix: fast-skip routine paths/bash prefixes před API call + prompt změněn na ALLOW-by-default s konkrétními harm patterns.",
+      "uses": 0,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [],
+      "token_estimate": 642,
+      "retrieval_score": 2.857,
+      "active": true
+    },
+    "2026-04-25-mcp-config-canonical-location.md": {
+      "id": "2026-04-25-mcp-config-canonical-location.md",
+      "component": "hook",
+      "date": "2026-04-25",
+      "type": "bug_fix",
+      "severity": "high",
+      "tags": [
+        "mcp",
+        "settings",
+        "claude-code",
+        "config"
+      ],
+      "summary": "Claude Code MCP servers must be registered in ~/.claude/mcp.json (user-global) or .mcp.json (project-local), NOT in settings.local.json mcpServers block. The settings.local.json mcpServers field is silently ignored — symptoms: tools never appear in deferred tool list after restart.",
+      "uses": 6,
+      "harmful_uses": 0,
+      "supersedes": null,
+      "related": [
+        "2026-03-27-secrets-in-config-files.md",
+        "2026-03-27-playwright-mcp-download-hijack.md",
+        "2026-04-14-mcp-server-token-overhead.md"
+      ],
+      "token_estimate": 853,
+      "retrieval_score": 2.769,
       "active": true
     },
     "2026-04-21-doom-loop-signal-from-ml-intern.md": {
@@ -3707,7 +4003,7 @@
         "ml-intern"
       ],
       "summary": "Detect tool-call repetition via signature hashing — identical consecutive (3+) and [A,B,A,B] sequences — catches Grep/Read panic loops that edit-fail cycles miss.",
-      "uses": 1,
+      "uses": 2,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
@@ -3715,7 +4011,7 @@
         "2026-04-18-hook-import-path-silent-blockage.md"
       ],
       "token_estimate": 500,
-      "retrieval_score": 1.967,
+      "retrieval_score": 1.739,
       "active": true
     },
     "2026-04-18-hook-import-path-silent-blockage.md": {
@@ -3737,7 +4033,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 1001,
-      "retrieval_score": 3.75,
+      "retrieval_score": 3.333,
       "active": true
     },
     "2026-04-18-panic-detector-requires-failure-signal.md": {
@@ -3753,12 +4049,12 @@
         "signal-quality"
       ],
       "summary": "Panic-detector yellow fired ~20×/day on edit_velocity + scope_creep alone (0 failures). Fixed by requiring a failure-based signal (bash_fails|edit_fail_cycle) for yellow. False positives erode calm-steering signal credibility per calm-steering.md (\"2 yellows = pattern is real\").",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [],
       "token_estimate": 570,
-      "retrieval_score": 1.875,
+      "retrieval_score": 1.667,
       "active": true
     },
     "2026-04-18-verify-sweep-hook-import-smoke-test.md": {
@@ -3780,7 +4076,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 813,
-      "retrieval_score": 2.812,
+      "retrieval_score": 2.5,
       "active": true
     },
     "2026-04-16-hook-cwd-anchor-pattern.md": {
@@ -3805,7 +4101,7 @@
         "2026-04-07-hook-testing-patterns.md"
       ],
       "token_estimate": 834,
-      "retrieval_score": 1.818,
+      "retrieval_score": 1.622,
       "active": true
     },
     "2026-04-15-msys-tmp-path-mismatch.md": {
@@ -3829,7 +4125,7 @@
         "2026-04-16-hook-cwd-anchor-pattern.md"
       ],
       "token_estimate": 388,
-      "retrieval_score": 1.791,
+      "retrieval_score": 1.6,
       "active": true
     },
     "2026-04-12-model-router-hook.md": {
@@ -3850,7 +4146,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 462,
-      "retrieval_score": 2.571,
+      "retrieval_score": 2.308,
       "active": true
     },
     "2026-04-12-steering-ov-circuit-sparsification.md": {
@@ -3872,7 +4168,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 399,
-      "retrieval_score": 1.714,
+      "retrieval_score": 1.538,
       "active": true
     },
     "2026-04-11-adaptive-attacks-defeat-static-defenses.md": {
@@ -3896,7 +4192,7 @@
         "2026-04-05-agent-defense-frameworks.md"
       ],
       "token_estimate": 540,
-      "retrieval_score": 1.69,
+      "retrieval_score": 1.519,
       "active": true
     },
     "2026-04-11-no-defense-achieves-security-and-utility.md": {
@@ -3917,7 +4213,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 518,
-      "retrieval_score": 1.69,
+      "retrieval_score": 1.519,
       "active": true
     },
     "2026-04-11-self-incrimination-training.md": {
@@ -3938,7 +4234,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 638,
-      "retrieval_score": 2.535,
+      "retrieval_score": 2.278,
       "active": true
     },
     "2026-04-11-task-alignment-bypasses-instruction-defenses.md": {
@@ -3960,7 +4256,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 528,
-      "retrieval_score": 2.535,
+      "retrieval_score": 2.278,
       "active": true
     },
     "2026-04-07-hook-architecture-patterns.md": {
@@ -3981,7 +4277,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 870,
-      "retrieval_score": 2.4,
+      "retrieval_score": 2.169,
       "active": true
     },
     "2026-04-07-hook-failure-modes.md": {
@@ -4004,7 +4300,7 @@
         "2026-04-16-hook-cwd-anchor-pattern.md"
       ],
       "token_estimate": 857,
-      "retrieval_score": 2.4,
+      "retrieval_score": 2.169,
       "active": true
     },
     "2026-04-07-hook-testing-patterns.md": {
@@ -4027,7 +4323,7 @@
         "2026-04-16-hook-cwd-anchor-pattern.md"
       ],
       "token_estimate": 637,
-      "retrieval_score": 1.6,
+      "retrieval_score": 1.446,
       "active": true
     },
     "2026-04-07-judgment-script-separation-reliability.md": {
@@ -4050,7 +4346,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 431,
-      "retrieval_score": 2.4,
+      "retrieval_score": 2.169,
       "active": true
     },
     "2026-04-05-agent-defense-frameworks.md": {
@@ -4070,7 +4366,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 762,
-      "retrieval_score": 1.558,
+      "retrieval_score": 1.412,
       "active": true
     },
     "2026-04-18-bad-compact-direction-unpredictability.md": {
@@ -4086,7 +4382,7 @@
         "session-management"
       ],
       "summary": "Bad compacts happen when the model can't predict the next task direction — content outside the session's dominant theme gets dropped. Fix — trigger /compact proactively with an explicit direction hint before the topic changes.",
-      "uses": 1,
+      "uses": 2,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
@@ -4094,7 +4390,7 @@
         "2026-04-14-compact-timing-60pct.md"
       ],
       "token_estimate": 421,
-      "retrieval_score": 2.812,
+      "retrieval_score": 2.5,
       "active": true
     },
     "2026-04-18-context-rot-absolute-threshold.md": {
@@ -4110,7 +4406,7 @@
         "token-efficiency"
       ],
       "summary": "Anthropic confirms context rot begins at ~300-400k tokens on 1M context model (30-40%), not at 60-95% thresholds previously used. Proactive compact should trigger earlier than assumed.",
-      "uses": 0,
+      "uses": 1,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
@@ -4118,7 +4414,7 @@
         "2026-04-14-compact-timing-60pct.md"
       ],
       "token_estimate": 369,
-      "retrieval_score": 1.875,
+      "retrieval_score": 1.667,
       "active": true
     },
     "2026-04-18-rewind-beats-correction.md": {
@@ -4139,7 +4435,7 @@
       "supersedes": null,
       "related": [],
       "token_estimate": 415,
-      "retrieval_score": 2.812,
+      "retrieval_score": 2.5,
       "active": true
     },
     "2026-04-14-compact-timing-60pct.md": {
@@ -4154,7 +4450,7 @@
         "context-management"
       ],
       "summary": "Compact at 60% context capacity, not at autocompact's 95%. After 3-4 compacts, quality degrades — do /clear + session summary + fresh start instead.",
-      "uses": 3,
+      "uses": 4,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
@@ -4162,7 +4458,7 @@
         "2026-04-14-prompt-cache-ttl-5min.md"
       ],
       "token_estimate": 278,
-      "retrieval_score": 1.765,
+      "retrieval_score": 1.579,
       "active": true
     },
     "2026-04-14-prompt-cache-ttl-5min.md": {
@@ -4177,7 +4473,7 @@
         "cost-optimization"
       ],
       "summary": "Prompt cache TTL is 5 minutes. After 5min pause, next message reprocesses entire context at full cost. Compact or clear before stepping away.",
-      "uses": 2,
+      "uses": 3,
       "harmful_uses": 0,
       "supersedes": null,
       "related": [
@@ -4185,7 +4481,7 @@
         "2026-04-01-autocompact-threshold.md"
       ],
       "token_estimate": 318,
-      "retrieval_score": 1.765,
+      "retrieval_score": 1.579,
       "active": true
     }
   },
@@ -4295,10 +4591,17 @@
     "analog": [
       "2026-04-18-in-place-ttt-fast-weights-analog.md"
     ],
+    "annotate": [
+      "2026-04-26-annotate-3-axis-schema.md"
+    ],
+    "annotation": [
+      "2026-04-26-annotate-3-axis-schema.md"
+    ],
     "anthropic-api": [
       "2026-04-01-sonnet46-thinking-effort-breaking-change.md"
     ],
     "anti-pattern": [
+      "2026-04-28-genus-consensus-cross-project.md",
       "2026-04-13-do-nothing-first-class-option.md",
       "2026-04-13-tournament-self-refinement-abc.md",
       "2026-03-27-skills-must-live-in-stopa.md",
@@ -4376,11 +4679,17 @@
       "2026-04-12-model-router-hook.md",
       "2026-04-12-morning-briefing-cron-pattern.md"
     ],
+    "autonomy": [
+      "2026-04-27-l2-sentinel-double-eval.md",
+      "2026-04-24-scheduled-task-discipline.md"
+    ],
     "autoreason": [
+      "2026-04-26-autoreason-mid-tier-sweet-spot.md",
       "2026-04-13-pairwise-choice-sufficient-verifiable-signal.md",
       "2026-04-01-autoreason-adversarial-debate.md"
     ],
     "autoresearch": [
+      "2026-04-23-llm-confirmation-bias.md",
       "2026-04-15-parcae-exponential-decay-stopping.md",
       "2026-04-13-experience-replay-outcomes-reuse.md",
       "2026-04-13-generate-then-discard-suboptimal.md",
@@ -4407,6 +4716,7 @@
       "2026-04-15-best-of-n-parallel-candidates.md"
     ],
     "bias": [
+      "2026-04-23-llm-confirmation-bias.md",
       "2026-04-09-local-aggregator-beats-global.md"
     ],
     "block-manifest": [
@@ -4426,12 +4736,14 @@
       "2026-04-01-sonnet46-thinking-effort-breaking-change.md"
     ],
     "browse": [
+      "2026-04-23-deepmind-agent-attack-vectors.md",
       "2026-04-01-image-cache-invalidation.md"
     ],
     "browser": [
       "2026-03-24-openclaw-postmortem-patterns.md"
     ],
     "budget": [
+      "2026-04-26-linear-beats-tree-search-webarena.md",
       "2026-04-10-rlm-architectural-principles.md",
       "2026-03-24-openclaw-postmortem-patterns.md",
       "2026-04-07-budget-calibration-baseline.md",
@@ -4494,9 +4806,11 @@
       "2026-04-18-parallel-monitoring-failure-baseline.md"
     ],
     "claude-code": [
-      "2026-04-18-opus-4-7-effort-calibration.md",
+      "2026-04-25-mcp-config-canonical-location.md",
       "2026-03-27-playwright-mcp-download-hijack.md",
-      "2026-03-29-claudini-autoresearch-loop.md"
+      "2026-04-18-opus-4-7-effort-calibration.md",
+      "2026-03-29-claudini-autoresearch-loop.md",
+      "2026-04-27-verify-cc-features-against-docs.md"
     ],
     "claude-desktop": [
       "2026-03-27-playwright-mcp-download-hijack.md",
@@ -4559,8 +4873,14 @@
     "confidence": [
       "2026-04-18-in-place-ttt-fast-weights-analog.md"
     ],
+    "config": [
+      "2026-04-25-mcp-config-canonical-location.md"
+    ],
     "constitution": [
       "2026-03-23-spec-kit-adoption.md"
+    ],
+    "content-marketing": [
+      "2026-04-27-verify-cc-features-against-docs.md"
     ],
     "context": [
       "2026-04-08-recency-beats-complex-memory.md",
@@ -4608,6 +4928,7 @@
       "2026-04-12-advisor-tool-public-beta.md",
       "2026-04-12-model-router-hook.md",
       "2026-04-02-distributed-systems-amdahl-gate.md",
+      "2026-04-26-autoreason-mid-tier-sweet-spot.md",
       "2026-04-14-prompt-cache-ttl-5min.md",
       "2026-04-03-smart-tool-overuse.md",
       "2026-04-01-image-cache-invalidation.md"
@@ -4622,6 +4943,8 @@
       "2026-04-08-direction-magnitude-decoupling-optimization.md"
     ],
     "critic": [
+      "2026-04-23-llm-confirmation-bias.md",
+      "2026-04-26-wrong-plan-executed-perfectly.md",
       "2026-04-18-mask-belief-vs-statement-pipeline.md",
       "2026-04-18-simula-reasoning-first-taxonomies.md",
       "2026-04-15-prm-step-verification-orchestrate.md",
@@ -4647,6 +4970,7 @@
       "2026-04-02-audit-must-verify-consumers.md"
     ],
     "cross-project": [
+      "2026-04-24-scheduled-task-discipline.md",
       "2026-04-07-cross-project-memory-design.md",
       "2026-04-19-worldmonitor-adoption-pattern.md"
     ],
@@ -4668,6 +4992,9 @@
     "debate": [
       "2026-04-01-autoreason-adversarial-debate.md"
     ],
+    "debate-loop": [
+      "2026-04-26-autoreason-mid-tier-sweet-spot.md"
+    ],
     "debiasing": [
       "2026-03-25-reasoning-isolation.md"
     ],
@@ -4686,6 +5013,7 @@
       "2026-03-30-write-time-gating-salience.md"
     ],
     "deepresearch": [
+      "2026-04-23-llm-confirmation-bias.md",
       "2026-04-06-deepresearch-agent-scope.md",
       "2026-04-08-reverse-engineered-benchmark-from-artifacts.md"
     ],
@@ -4756,6 +5084,9 @@
     "double-critic": [
       "2026-04-18-simula-reasoning-first-taxonomies.md"
     ],
+    "double-eval": [
+      "2026-04-27-l2-sentinel-double-eval.md"
+    ],
     "downloads": [
       "2026-03-27-playwright-mcp-download-hijack.md"
     ],
@@ -4804,6 +5135,8 @@
       "2026-04-08-reverse-engineered-benchmark-from-artifacts.md"
     ],
     "evaluation": [
+      "2026-04-26-linear-beats-tree-search-webarena.md",
+      "2026-04-26-wrong-plan-executed-perfectly.md",
       "2026-04-18-mask-belief-vs-statement-pipeline.md",
       "2026-04-18-simula-reasoning-first-taxonomies.md",
       "2026-04-13-disparagement-stronger-than-promotion.md",
@@ -4816,11 +5149,15 @@
       "2026-04-04-toolgenesis-cascade-evaluation.md",
       "2026-04-03-anthropic-skill-creator-patterns.md",
       "2026-04-03-description-optimizer-plan.md",
+      "2026-04-26-annotate-3-axis-schema.md",
       "2026-03-25-decomposed-evaluation.md",
       "2026-04-13-judge-panel-size-convergence.md",
       "2026-04-13-pairwise-choice-sufficient-verifiable-signal.md",
       "2026-04-12-fresh-session-self-report-verification.md",
       "2026-04-08-reverse-engineered-benchmark-from-artifacts.md"
+    ],
+    "evidence": [
+      "2026-04-23-llm-confirmation-bias.md"
     ],
     "evolution": [
       "2026-04-10-eggroll-evolutionary-optimization.md",
@@ -4834,8 +5171,17 @@
     "evolve-input": [
       "2026-04-18-hook-import-path-silent-blockage.md"
     ],
+    "execution-discipline": [
+      "2026-04-24-scheduled-task-discipline.md"
+    ],
     "experience-sharing": [
       "2026-04-08-group-experience-sharing-beats-isolated-evolution.md"
+    ],
+    "external-evidence": [
+      "2026-04-23-ucsd-devs-dont-vibe.md"
+    ],
+    "external-research": [
+      "2026-04-27-verify-cc-features-against-docs.md"
     ],
     "external-validation": [
       "2026-04-19-multica-curated-vs-similarity.md"
@@ -4855,6 +5201,9 @@
     "false-positive": [
       "2026-04-18-panic-detector-requires-failure-signal.md"
     ],
+    "falsification": [
+      "2026-04-23-llm-confirmation-bias.md"
+    ],
     "farm-tier": [
       "2026-04-08-group-experience-sharing-beats-isolated-evolution.md",
       "2026-04-08-heartbeat-mid-run-steering.md",
@@ -4872,6 +5221,12 @@
     "feedback-loop": [
       "2026-04-18-mask-belief-vs-statement-pipeline.md",
       "2026-04-09-local-aggregator-beats-global.md"
+    ],
+    "fetch": [
+      "2026-04-23-deepmind-agent-attack-vectors.md"
+    ],
+    "field-study": [
+      "2026-04-23-ucsd-devs-dont-vibe.md"
     ],
     "fix-issue": [
       "2026-03-24-fix-issue-solo-workflow.md"
@@ -4903,6 +5258,9 @@
     "global-workspace-theory": [
       "2026-03-29-bigmas-directed-graph-orchestration.md"
     ],
+    "glossary": [
+      "2026-04-28-genus-consensus-cross-project.md"
+    ],
     "graduation": [
       "2026-04-09-local-aggregator-beats-global.md"
     ],
@@ -4916,6 +5274,7 @@
       "2026-04-12-small-model-compression-threshold.md"
     ],
     "hallucination": [
+      "2026-04-28-genus-consensus-cross-project.md",
       "2026-04-12-sycophancy-not-hallucination.md"
     ],
     "handoff": [
@@ -4992,7 +5351,11 @@
       "2026-03-26-channels-24x7-architecture.md"
     ],
     "ingest": [
+      "2026-04-23-deepmind-agent-attack-vectors.md",
       "2026-04-12-diarization-as-knowledge-extraction.md"
+    ],
+    "injection": [
+      "2026-04-23-deepmind-agent-attack-vectors.md"
     ],
     "instruction-following": [
       "2026-04-12-pretraining-vs-posttraining-dissociation.md",
@@ -5045,6 +5408,12 @@
       "2026-04-18-recency-biased-scoring-depth-collapse.md",
       "2026-04-11-task-guided-context-beats-raw-sharing.md",
       "2026-04-09-triattention-pre-rope-kv-compression.md"
+    ],
+    "l1": [
+      "2026-04-27-l2-sentinel-double-eval.md"
+    ],
+    "l2": [
+      "2026-04-27-l2-sentinel-double-eval.md"
     ],
     "latent-space": [
       "2026-04-12-latent-deterministic-boundary.md",
@@ -5113,6 +5482,7 @@
       "2026-04-18-in-place-ttt-fast-weights-analog.md"
     ],
     "mcp": [
+      "2026-04-25-mcp-config-canonical-location.md",
       "2026-03-27-playwright-mcp-download-hijack.md",
       "2026-04-14-mcp-server-token-overhead.md",
       "2026-04-12-purpose-built-tools-75x-faster.md",
@@ -5197,6 +5567,7 @@
       "2026-04-12-small-model-compression-threshold.md",
       "2026-04-12-model-router-hook.md",
       "2026-04-08-reasoning-midtraining-beats-posttraining.md",
+      "2026-04-26-autoreason-mid-tier-sweet-spot.md",
       "2026-04-12-pretraining-vs-posttraining-dissociation.md",
       "2026-04-08-agent-deception-pressure-trigger.md",
       "2026-04-08-in-place-ttt-long-context-multiplier.md",
@@ -5206,6 +5577,7 @@
       "2026-04-06-osft-self-sharpening.md"
     ],
     "monitor": [
+      "2026-04-23-deepmind-agent-attack-vectors.md",
       "2026-04-19-worldmonitor-adoption-pattern.md"
     ],
     "monitoring": [
@@ -5301,6 +5673,8 @@
       "2026-04-18-opus-4-7-effort-calibration.md"
     ],
     "orchestration": [
+      "2026-04-26-linear-beats-tree-search-webarena.md",
+      "2026-04-26-wrong-plan-executed-perfectly.md",
       "2026-04-14-paseo-orchestration-patterns.md",
       "2026-04-14-openmontage-production-governance.md",
       "2026-04-13-breadth-depth-axis-tier-selection.md",
@@ -5330,6 +5704,9 @@
     ],
     "orchestration-graph": [
       "2026-03-29-bigmas-directed-graph-orchestration.md"
+    ],
+    "orchestration-validation": [
+      "2026-04-23-ucsd-devs-dont-vibe.md"
     ],
     "os-themis": [
       "2026-03-25-decomposed-evaluation.md"
@@ -5383,6 +5760,9 @@
     "performance": [
       "2026-04-12-purpose-built-tools-75x-faster.md"
     ],
+    "permissions": [
+      "2026-04-27-l2-sentinel-double-eval.md"
+    ],
     "persuasion": [
       "2026-04-13-ai-persuasion-creates-genuine-preferences.md",
       "2026-04-13-ai-persuasion-disclosure-insufficient.md",
@@ -5401,6 +5781,8 @@
       "2026-04-14-paseo-orchestration-patterns.md"
     ],
     "planning": [
+      "2026-04-26-linear-beats-tree-search-webarena.md",
+      "2026-04-26-wrong-plan-executed-perfectly.md",
       "2026-04-07-nsm-neuro-symbolic-orchestration.md"
     ],
     "playwright": [
@@ -5605,6 +5987,7 @@
       "2026-03-24-openclaw-postmortem-patterns.md"
     ],
     "scheduled-tasks": [
+      "2026-04-24-scheduled-task-discipline.md",
       "2026-04-12-morning-briefing-cron-pattern.md",
       "2026-04-07-operational-rhythm-silence-discipline.md"
     ],
@@ -5620,6 +6003,7 @@
       "2026-04-08-llm-judge-factuality-weak.md"
     ],
     "scout": [
+      "2026-04-26-wrong-plan-executed-perfectly.md",
       "2026-04-10-rlm-architectural-principles.md"
     ],
     "scripts": [
@@ -5627,12 +6011,14 @@
       "2026-04-07-judgment-script-separation-reliability.md"
     ],
     "search": [
+      "2026-04-26-linear-beats-tree-search-webarena.md",
       "2026-04-05-bm25-memory-search.md"
     ],
     "secrets": [
       "2026-03-27-secrets-in-config-files.md"
     ],
     "security": [
+      "2026-04-23-deepmind-agent-attack-vectors.md",
       "2026-03-27-playwright-mcp-download-hijack.md",
       "2026-03-27-secrets-in-config-files.md",
       "2026-04-12-model-size-negatively-correlated-honesty.md",
@@ -5668,8 +6054,14 @@
       "2026-04-15-sd-zero-self-revision-supervision.md",
       "2026-04-06-osft-self-sharpening.md"
     ],
+    "self-refinement": [
+      "2026-04-26-autoreason-mid-tier-sweet-spot.md"
+    ],
     "self-report": [
       "2026-04-11-self-incrimination-training.md"
+    ],
+    "sentinel": [
+      "2026-04-27-l2-sentinel-double-eval.md"
     ],
     "session-continuity": [
       "2026-03-24-checkpoint-versioning.md"
@@ -5680,6 +6072,9 @@
     ],
     "session-start": [
       "2026-04-18-verify-sweep-hook-import-smoke-test.md"
+    ],
+    "settings": [
+      "2026-04-25-mcp-config-canonical-location.md"
     ],
     "shared-workspace": [
       "2026-03-29-bigmas-directed-graph-orchestration.md"
@@ -5769,6 +6164,9 @@
     "spec-kit": [
       "2026-03-23-spec-kit-adoption.md"
     ],
+    "species": [
+      "2026-04-28-genus-consensus-cross-project.md"
+    ],
     "speculation": [
       "2026-04-11-speculative-reasoning-degrades-workers.md"
     ],
@@ -5786,6 +6184,9 @@
     ],
     "steering": [
       "2026-04-12-steering-ov-circuit-sparsification.md"
+    ],
+    "steganography": [
+      "2026-04-23-deepmind-agent-attack-vectors.md"
     ],
     "step-verification": [
       "2026-04-15-prm-step-verification-orchestrate.md"
@@ -5842,6 +6243,9 @@
     ],
     "temperature-decoupling": [
       "2026-04-06-osft-self-sharpening.md"
+    ],
+    "termdb": [
+      "2026-04-28-genus-consensus-cross-project.md"
     ],
     "test-time-compute": [
       "2026-04-15-parcae-exponential-decay-stopping.md"
@@ -5920,11 +6324,17 @@
     "training-methodology": [
       "2026-04-08-reasoning-midtraining-beats-posttraining.md"
     ],
+    "trajectory": [
+      "2026-04-26-annotate-3-axis-schema.md"
+    ],
     "trajectory-distillation": [
       "2026-03-29-memcollab-agent-agnostic-memory.md"
     ],
     "transcript": [
       "2026-03-23-youtube-transcript-yt-dlp.md"
+    ],
+    "translation": [
+      "2026-04-28-genus-consensus-cross-project.md"
     ],
     "transparency": [
       "2026-04-13-ai-persuasion-disclosure-insufficient.md"
@@ -5976,6 +6386,8 @@
       "2026-04-11-task-alignment-bypasses-instruction-defenses.md",
       "2026-04-05-egoalpha-prompt-patterns.md",
       "2026-04-04-toolgenesis-cascade-evaluation.md",
+      "2026-04-27-verify-cc-features-against-docs.md",
+      "2026-04-23-ucsd-devs-dont-vibe.md",
       "2026-04-14-traceguard-5d-critic.md",
       "2026-04-12-fresh-session-self-report-verification.md",
       "2026-04-03-testing-bottleneck.md",
@@ -6012,6 +6424,9 @@
     "weak-to-strong": [
       "2026-04-07-mom-taro-orchestration-upgrades.md"
     ],
+    "whitelist": [
+      "2026-04-24-scheduled-task-discipline.md"
+    ],
     "wiki": [
       "2026-04-12-queries-back-to-wiki-compounding.md"
     ],
@@ -6037,6 +6452,7 @@
   },
   "component_index": {
     "general": [
+      "2026-04-23-deepmind-agent-attack-vectors.md",
       "2026-03-27-playwright-mcp-download-hijack.md",
       "2026-03-27-secrets-in-config-files.md",
       "2026-04-13-ai-persuasion-creates-genuine-preferences.md",
@@ -6055,6 +6471,8 @@
     ],
     "hook": [
       "2026-04-18-hook-import-path-silent-blockage.md",
+      "2026-04-27-l2-sentinel-double-eval.md",
+      "2026-04-25-mcp-config-canonical-location.md",
       "2026-04-18-verify-sweep-hook-import-smoke-test.md",
       "2026-04-12-model-router-hook.md",
       "2026-04-11-self-incrimination-training.md",
@@ -6086,8 +6504,8 @@
       "2026-03-30-write-time-gating-salience.md",
       "2026-03-29-memcollab-agent-agnostic-memory.md",
       "2026-03-26-autodream-coexistence.md",
-      "2026-04-19-multica-curated-vs-similarity.md",
       "2026-03-24-checkpoint-versioning.md",
+      "2026-04-19-multica-curated-vs-similarity.md",
       "2026-04-18-embedding-dimension-retrieval-limit.md",
       "2026-04-18-mc-checkpoint-caching-retrieval-pattern.md",
       "2026-04-18-retrieval-depth-knob-complexity-interpolation.md",
@@ -6096,6 +6514,9 @@
       "2026-04-18-in-place-ttt-fast-weights-analog.md"
     ],
     "orchestration": [
+      "2026-04-26-linear-beats-tree-search-webarena.md",
+      "2026-04-26-wrong-plan-executed-perfectly.md",
+      "2026-04-24-scheduled-task-discipline.md",
       "2026-04-02-audit-must-verify-consumers.md",
       "2026-04-19-feature-must-reach-main-ui.md",
       "2026-04-19-harness-engineering-adoption.md",
@@ -6147,6 +6568,7 @@
       "2026-03-26-channels-24x7-architecture.md",
       "2026-03-26-harness-simplification.md",
       "2026-03-24-openclaw-postmortem-patterns.md",
+      "2026-04-23-ucsd-devs-dont-vibe.md",
       "2026-04-21-vertical-scaling-phase-b-not-implemented.md",
       "2026-04-19-worldmonitor-adoption-pattern.md",
       "2026-04-18-cc-graduated-compaction-5layer.md",
@@ -6181,6 +6603,7 @@
       "2026-03-23-spec-kit-adoption.md"
     ],
     "pipeline": [
+      "2026-04-28-genus-consensus-cross-project.md",
       "2026-04-01-sonnet46-thinking-effort-breaking-change.md",
       "2026-04-14-openmontage-production-governance.md",
       "2026-03-23-harness-engineering.md",
@@ -6194,6 +6617,7 @@
       "2026-04-14-prompt-cache-ttl-5min.md"
     ],
     "skill": [
+      "2026-04-23-llm-confirmation-bias.md",
       "2026-03-27-commands-vs-skills-structure.md",
       "2026-04-15-parcae-exponential-decay-stopping.md",
       "2026-04-12-latent-deterministic-boundary.md",
@@ -6212,6 +6636,8 @@
       "2026-04-03-description-optimizer-plan.md",
       "2026-04-03-disable-skill-shell-audit.md",
       "2026-03-27-skills-must-live-in-stopa.md",
+      "2026-04-26-annotate-3-axis-schema.md",
+      "2026-04-26-autoreason-mid-tier-sweet-spot.md",
       "2026-03-25-decomposed-evaluation.md",
       "2026-03-25-reasoning-isolation.md",
       "2026-03-25-skill-description-triggers.md",
@@ -6230,6 +6656,7 @@
       "karpathy-loop-autoloop.md"
     ],
     "workflow": [
+      "2026-04-27-verify-cc-features-against-docs.md",
       "2026-03-25-batch-edit-pattern.md"
     ]
   }
