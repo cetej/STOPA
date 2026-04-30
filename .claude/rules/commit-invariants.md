@@ -55,6 +55,17 @@ The Commit operator κ accepts a candidate state ONLY when the score improves AN
 ### I9. Verification Checklist preserved
 - Same rule as I8 for `Verification Checklist` heading
 
+### I10. No LLM config drift during iterative skill evolution
+- Iterative skills (`/self-evolve`, `/autoloop`, `/autoresearch`) MUST NOT modify these fields in skill YAML frontmatter:
+  - `model:` (haiku/sonnet/opus)
+  - `temperature:`
+  - `reasoning_effort:`
+  - `max_tokens:`
+- These are operator-level decisions, not improvement targets
+- Detection in diff → **ROLLBACK**
+- Why: LLM config changes cause broad regressions that mask the effect of every other harness change. Per AHE (arXiv:2604.25850): "LLM config changes consistently cause broad, hard-to-diagnose regressions."
+- Manual operator changes outside `/self-evolve` runs are allowed (this invariant applies only to iterative skill evolution flows)
+
 ## Mechanism
 
 - Run invariants AFTER score evaluation (ε), BEFORE commit (κ)
