@@ -17,6 +17,36 @@ Zpracované záznamy se přesunou do `inbox-archive.md`.
 
 | Date | Item |
 |------|------|
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25917v1 — raw/2026-04-29-recursive-mas-latent-multiagent-collabor.md → dedup |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25914v1 — raw/2026-04-29-dv-world-benchmark-datova-vizualizace.md → dedup |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25906v1 — raw/2026-04-29-hypergraph-of-text-navigable-collections-2.md → dedup |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25905v1 — raw/2026-04-29-paradox-ai-fluency-paper.md → proposed (paper) |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25903v1 — raw/2026-04-29-carbon-taxed-transformers-green-llm-comp-2.md → dedup |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25898v1 — raw/2026-04-29-tsn-affinity-continual-offline-rl.md → proposed (paper) |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25917v1 — raw/2026-04-29-recursive-mas-latent-multiagent-collabor.md → dedup |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25914v1 — raw/2026-04-29-dv-world-benchmark-datova-vizualizace.md → dedup |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25899v1 — raw/2026-04-29-pythia-predictable-agent-llm-serving.md → dedup |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25891v1 — raw/2026-04-29-conditional-misalignment-contextual-trig.md → proposed (paper) |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25840v1 — raw/2026-04-29-psi-bench-depression-patient-simulator-e.md → proposed (paper) |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25809v1 — raw/2026-04-29-iecd2-dual-stream-decoding-grounded-vlm.md → proposed (paper) |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25917v1 — raw/2026-04-29-recursive-mas-latent-multiagent-collabor.md → dedup |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25914v1 — raw/2026-04-29-dv-world-benchmark-datova-vizualizace.md → dedup |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25910v1 — raw/2026-04-29-heralding-probability-optimization-noncl.md → proposed (paper) |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25917v1 — raw/2026-04-29-recursive-mas-latent-multiagent-collabor.md → dedup |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25914v1 — raw/2026-04-29-dv-world-benchmark-datova-vizualizace.md → dedup |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25911v1 — raw/2026-04-29-gmc-evolution-star-formation-models.md → proposed (paper) |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25917v1 — raw/2026-04-29-recursive-mas-latent-multiagent-collabor.md → dedup |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25915v1 — raw/2026-04-29-jwst-joys-ocn-nitrogen-ices-protostars.md → proposed (paper) |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25914v1 — raw/2026-04-29-dv-world-benchmark-datova-vizualizace.md → dedup |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25917v1 — raw/2026-04-29-recursive-mas-latent-multiagent-collabor.md → dedup |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25914v1 — raw/2026-04-29-dv-world-benchmark-datova-vizualizace.md → dedup |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25899v1 — raw/2026-04-29-pythia-predictable-agent-llm-serving.md → dedup |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25908v1 — raw/2026-04-29-b18ag2-double-ring-cluster-bonding-analy.md → proposed (paper) |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25906v1 — raw/2026-04-29-hypergraph-of-text-navigable-collections-2.md → dedup |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25903v1 — raw/2026-04-29-carbon-taxed-transformers-green-llm-comp-2.md → dedup |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25917v1 — raw/2026-04-29-recursive-mas-latent-multiagent-collabor.md → dedup |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25914v1 — raw/2026-04-29-dv-world-benchmark-datova-vizualizace.md → dedup |
+| 2026-04-29 | URL: http://arxiv.org/abs/2604.25907v1 — raw/2026-04-29-tsallis-loss-continuum-reasoning-models.md → proposed (paper) |
 | 2026-04-28 | URL: http://arxiv.org/abs/2604.24741v1 — raw/2026-04-28-universal-tracer-statistics-single-file-.md → proposed (paper) |
 | 2026-04-28 | URL: http://arxiv.org/abs/2604.24732v1 — raw/2026-04-28-distributional-robustness-linear-contrac-4.md → dedup |
 | 2026-04-28 | URL: http://arxiv.org/abs/2604.24723v1 — raw/2026-04-28-multivariate-kelly-optimization-sigmoida.md → proposed (paper) |

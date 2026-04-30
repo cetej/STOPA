@@ -7,7 +7,7 @@ tags: [memory-sharing, cross-project, gap]
 summary: "RESOLVED 2026-04-15: Cross-project memory mechanics now implemented — auto-memory system (~/.claude/projects/*/memory/), /improve skill for routing findings to target projects, behavioral-genome.md documents handoff protocol."
 source: auto_pattern
 maturity: draft
-uses: 2
+uses: 3
 harmful_uses: 0
 confidence: 1.00
 verify_check: manual

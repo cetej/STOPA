@@ -9,7 +9,7 @@ source: external_research
 uses: 1
 successful_uses: 0
 harmful_uses: 0
-confidence: 0.75
+confidence: 0.95
 maturity: draft
 verify_check: "Grep('Mid-tier sweet spot', path='.claude/skills/autoreason/SKILL.md') → 1+ matches"
 related: [2026-04-01-autoreason-adversarial-debate.md, 2026-03-29-claudini-autoresearch-loop.md, karpathy-loop-autoloop.md]

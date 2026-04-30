@@ -9,7 +9,7 @@ source: external_research
 maturity: draft
 uses: 1
 harmful_uses: 0
-confidence: 0.9
+confidence: 1.0
 verify_check: "Glob('.claude/commands/autoreason.md') → 1+ matches"
 related: [2026-03-30-society-of-thought-orchestration.md, 2026-04-26-autoreason-mid-tier-sweet-spot.md]
 successful_uses: 0

@@ -152,6 +152,14 @@ Formula: `python scripts/passes-rate.py`
 | 2026-04-27 | [ACTION] | CC adds vim visual modes + custom themes + direct MCP tool hooks — relevant for STOPA hook architecture (invariant-checker could call MCP tools directly) | medium | No | morning-watch |
 | 2026-04-27 | [WATCH] | Rate Limits API + Haiku 3 retired — programmatic rate-limit query for orgs/workspaces (useful for STOPA budget guards); Haiku 3 EOL, STOPA already on 4.5 | medium | No | morning-watch |
 
+## 2026-04-29 morning-watch
+
+| Date | Type | Item | Urgency | Acted | Source |
+|------|------|------|---------|-------|--------|
+| 2026-04-29 | [ACTION] | CC PostToolUse hooks now replace tool output via `hookSpecificOutput.updatedToolOutput` — applicable to STOPA verify-sweep / invariant-checker hooks (mutate tool output, not just block) | medium | No | morning-watch |
+| 2026-04-29 | [INFO] | CC `/skills` adds type-to-filter search box — minor UX, no STOPA action | low | No | morning-watch |
+| 2026-04-29 | [WATCH] | Sonnet 4.5/4 1M context beta retired 2026-04-30 (tomorrow) — STOPA already on Opus 4.7 1M (standard pricing), no action; flag if any skill pinned to Sonnet 4.5 with 1M flag | medium | No | morning-watch |
+
 ## Weekly Digest 2026-04-27
 
 **Aktivita projektů (od 2026-04-20):**

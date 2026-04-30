@@ -20,6 +20,13 @@ Rotating log of genuine problems that need user attention: failures, security fi
 
 ## Log
 
+## 2026-04-30 — [tool-radar-scan] MCP Apps (SEP-1865) score 8/10 — official MCP UI extension
+- **Severity:** high
+- **Source:** tool-radar-scan
+- **Detail:** First official MCP extension formalized as SEP-1865, stable spec 2026-01-26. Developed by MCP core maintainers at Anthropic + OpenAI together with MCP-UI team. Standardizes interactive UI delivery from MCP servers to hosts (Claude Code, ChatGPT) via `ui://` URI scheme + tool metadata + bidirectional JSON-RPC, sandboxed iframes. Repo: modelcontextprotocol/ext-apps. Direct relevance for STOPA: future memory/budget/status dashboards as MCP-served UIs, /critic interactive review panes, 2BRAIN graph navigation, document review with inline rendering. First official MCP extension = production-ready signal from Anthropic.
+- **Action suggested:** WebFetch ext-apps repo for Python SDK status. If Python SDK exists: PoC memory dashboard MCP server (`stopa-memory-ui`) rendering `/budget`+`/status`+learnings index. /improve STOPA + 2BRAIN routing.
+- **Status:** open
+
 ## 2026-04-21 14:27 — [keys-health] FAL_KEY — expired_or_invalid
 - **Severity:** high
 - **Source:** scripts/keys-health.py
