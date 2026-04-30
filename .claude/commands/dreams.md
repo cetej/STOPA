@@ -13,7 +13,7 @@ discovery-keywords: [consolidate, integrate, reflect, cross-link, pattern detect
 input-contract: "scheduled-task or user → no input required → reads memory state autonomously"
 output-contract: "dream log → markdown → .claude/memory/dreams/YYYY-MM-DD.md"
 preconditions: [".claude/memory/learnings/ directory exists"]
-effects: ["related: fields updated in learnings", "dream log written", "concept-graph.json updated if new connections found", "merged learnings created from merge-candidates stubs (originals soft-sunset)"]
+effects: ["related: fields updated in learnings", "dream log written", "concept-graph.json updated if new connections found", "merged learnings created from merge-candidates stubs (originals soft-sunset)", "7-day raw session window scanned for cross-session patterns (OpenClaw batch model)"]
 ---
 
 # Dreams — Offline Memory Consolidation
@@ -28,35 +28,49 @@ Research validates this approach:
 - A-MEM's backward-updating makes old memories evolve with new context
 - MemMachine shows retrieval quality >> storage sophistication
 - OpenClaw's dream cycle: collect → consolidate → evaluate with Smart Skip
+- OpenClaw batch model (7-day window): immediate per-session summarization loses cross-session patterns; 7d batch with Smart Skip saves ~90% tokens on idle days while surfacing recurrence signals invisible to single-session reflection
 
 ## Process
 
-### Phase 0: Smart Skip Check
+### Phase 0: Smart Skip Check (OpenClaw 7-day batch model)
 
-Before doing anything expensive:
+Before doing anything expensive, count signal across four sources:
 
-1. Read `.claude/memory/dreams/` — check last dream date
-2. Read `.claude/memory/intermediate/autodream-report.json` — last maintenance report
-3. Count new learnings since last dream: `Glob("*.md", path=".claude/memory/learnings/")` and check dates
-4. Count new outcomes since last dream: `Glob("*.md", path=".claude/memory/outcomes/")`
+1. **Last dream**: Read most recent `.claude/memory/dreams/YYYY-MM-DD*.md` — extract `date:` and `consolidated_through:` (if present) from frontmatter
+2. **Autodream report**: Read `.claude/memory/intermediate/autodream-report.json` — last maintenance report
+3. **New learnings**: `Glob("2026-*.md", path=".claude/memory/learnings/")` — count files mtime ≥ last dream date
+4. **New outcomes**: `Glob("2026-*.md", path=".claude/memory/outcomes/")` — count files mtime ≥ last dream date
+5. **Unconsolidated raw (7d window)**: `Glob("2026-*.md", path=".claude/memory/raw/")` (NOT `raw/processed/`) — count files dated within last 7 days. This is the OpenClaw signal — raw session captures that no dream has yet folded into pattern detection.
+6. **Replay queue ready items**: Read `.claude/memory/replay-queue.md` — count rows with `Status: ready` (file may not exist; treat as 0)
 
-**Skip conditions** (exit with "Nothing new to consolidate"):
-- Last dream was < 3 days ago AND no new learnings AND no new outcomes
-- Zero learnings total
+Decision matrix (`L` = new learnings, `O` = new outcomes, `R` = unconsolidated raw in 7d, `Q` = replay-ready):
 
-If skipping, write a 1-line log: `.claude/memory/dreams/YYYY-MM-DD-skip.md` with reason.
+| L | O | R | Q | Action | Token target |
+|---|---|---|---|--------|--------------|
+| 0 | 0 | 0 | 0 | **Full skip** — write 1-line `YYYY-MM-DD-skip.md` and exit | ~2K |
+| 0 | 0 | 1-2 | 0 | **Skip with raw note** — 1-line skip log mentioning raw count, exit | ~3K |
+| 0 | 0 | ≥3 | 0 | **Raw-only abbreviated cycle** — Phase 1 (raw window only) → Phase 2c (cross-session patterns) → Phase 3 (minimal log) | ~10K |
+| 1-2 | * | * | 0 | **Abbreviated cycle** — Phase 1 + 2a + 2b + 2e + 3 (skip 2c, 2d) | ~25K |
+| ≥3 | * | * | * | **Full cycle** — all phases | ~50–150K |
+| * | * | * | ≥1 | **Force full cycle** — replay-ready items override skip | ~50–150K |
+
+If skipping, write a 1-line log: `.claude/memory/dreams/YYYY-MM-DD-skip.md` with the reason and the (L, O, R, Q) tuple.
+
+**Why 7-day window**: OpenClaw's batch model retains raw traces for 7 days then consolidates. Immediate per-session summarization loses cross-session recurrence — a failure that appears once is noise, the same failure four times in a week is signal. 7d is the minimum window where pattern recurrence becomes statistically meaningful for typical agent workloads, while still being short enough that boost confidence reflects current behavior.
 
 ### Phase 1: Collect (read-only scan)
 
-Gather raw material for consolidation:
+Gather raw material for consolidation. The 7-day raw window is the OpenClaw addition — distilled artefacts (learnings, outcomes) keep their existing 14-day window.
 
 1. **Recent learnings** (last 14 days): Read all `.claude/memory/learnings/2026-*.md` files from the last 14 days
 2. **Recent outcomes** (last 14 days): Read `.claude/memory/outcomes/2026-*.md` if directory exists
 3. **Current checkpoint**: Read `.claude/memory/checkpoint.md` — what was the user working on?
 4. **Autodream report**: Read `.claude/memory/intermediate/autodream-report.json` — what's stale, what's graduating?
 5. **Concept graph**: Read `.claude/memory/concept-graph.json` — existing knowledge connections
+6. **Raw 7-day session window** (OpenClaw batch): `Glob("2026-*.md", path=".claude/memory/raw/")` (NOT `raw/processed/` — those are already consolidated). Filter to files dated within last 7 days. Read frontmatter only (date, timestamp, type, writes, agents, skills_count) plus the `## Files Touched`, `## Agent Activity`, and `## Key Decisions & Outputs` sections — skip body if size > 5 KB. **Cap**: at most 50 raw files per cycle, most-recent-first. Record actual count read in `raw_traces_scanned` and total in `raw_traces_in_window` for the dream log.
+7. **Farm ledgers** (optional): `Glob("farm-ledger-*.md", path=".claude/memory/intermediate/")` — read any archived farm ledger frontmatter from the 7-day window. Skip the live `farm-ledger.md` if it is still at sweep 0 (template). Each archived ledger contributes a `## Discovered Patterns` section worth scanning for cross-cutting techniques.
 
-Build a mental model: What themes keep appearing? What's connected but not linked?
+Build a mental model: What themes keep appearing? What's connected but not linked? Which raw sessions touched the same files / spawned the same agents / hit the same errors? Distilled learnings tell you the conclusions; raw traces show recurrence.
 
 ### Phase 2: Consolidate (the actual dreaming)
 
@@ -110,17 +124,25 @@ When a new learning changes context for an older one:
 - Don't change the original content — append context
 - Max 1 backward-update per old learning per dream cycle
 
-#### 2c: Pattern Detection
+#### 2c: Pattern Detection (raw + distilled)
 
-Look for recurring patterns across learnings and outcomes:
+Look for recurring patterns across learnings, outcomes, AND raw 7-day session window:
 - Same `failure_class` appearing 3+ times → candidate for critical-patterns.md
 - Same component failing repeatedly → systemic issue
 - Techniques that work across different contexts → candidate for generalization
+- Same file path appearing in `## Files Touched` of 4+ raw sessions → systemic hotspot (recommend in dream log)
+- Same agent name appearing in `## Agent Activity` of 3+ raw sessions with no corresponding learning → silent overuse, flag for /discover
 
 **Maturity-Aware Generalization:**
 - When a pattern appears 3+ times across sessions (different dates in learnings): recommend `maturity: validated` upgrade
 - Cross-session patterns carry stronger signal than single-session observations
 - Check: grep same `failure_class` or `component` across learnings → count unique dates
+
+**Cross-Session Confidence Boost (OpenClaw batch produce):**
+- For each `maturity: draft` learning examined in this cycle: count distinct raw session dates within the 7-day window where the learning's `tags:` overlap with raw session metadata (skills_count list, files touched extensions, agent names).
+- Threshold: overlap on ≥3 distinct session dates = "cross-session validated" candidate.
+- Action: list these in dream log under `## Cross-Session Patterns` with format `<learning-file> | <N sessions> | <overlap evidence>`. Do NOT mutate the learning's confidence here — this is a recommendation surfaced for `/evolve` to apply on next maintenance pass (separation of concerns: dream surfaces, evolve mutates).
+- Why: a draft learning that recurs across multiple independent sessions in a week carries stronger generalization signal than the single capture event that produced it. Cross-session corroboration is the OpenClaw "batch validated" signal.
 
 #### Phase 2e: Replay Queue Check
 
@@ -145,11 +167,17 @@ Write dream log to `.claude/memory/dreams/YYYY-MM-DD.md`:
 ```markdown
 ---
 date: YYYY-MM-DD
+cycle_type: full | abbreviated | raw-only-abbreviated
+cycle_window_days: 7
 learnings_scanned: N
 outcomes_scanned: N
+raw_traces_scanned: N
+raw_traces_in_window: N
 connections_found: N
 backward_updates: N
 patterns_detected: N
+cross_session_patterns: N
+consolidated_through: <ISO timestamp of newest raw file scanned>
 duration_estimate: Nmin
 ---
 
@@ -167,6 +195,11 @@ duration_estimate: Nmin
 - <pattern description>: seen in [learning-1, learning-2, learning-3]
 - ...
 
+## Cross-Session Patterns
+<!-- New section. List draft learnings whose tags overlap with raw session metadata across ≥3 distinct dates in the 7-day window. Recommendation only — /evolve applies confidence boost. -->
+- learning-X.md | 4 sessions (2026-04-25, 04-26, 04-28, 04-30) | overlap: shared tag `pipeline`, files touched include `phase16_glossary.py`
+- ...
+
 ## Consolidation Health
 - Total learnings: N
 - Average confidence: N.NN
@@ -175,12 +208,18 @@ duration_estimate: Nmin
 - Suggested actions: ...
 ```
 
+For abbreviated and raw-only-abbreviated cycles, omit sections that weren't run (e.g. raw-only-abbreviated has no `## New Connections` or `## Backward Updates`).
+
 ### Phase 4: Smart Skip Optimization
 
-Track token usage:
-- If Phase 1 scan shows < 3 new items since last dream → abbreviated cycle (skip Phase 2c-2d)
-- If nothing actionable found → log "clean dream" and exit
-- Target: < 50K tokens for routine dreams, < 150K for full consolidation
+Track token usage and cycle type (set in Phase 0):
+- **Full skip** (~2K tokens): 1-line log, exit immediately
+- **Skip with raw note** (~3K tokens): 1-line log noting unconsolidated raw count
+- **Raw-only abbreviated** (~10K tokens): Phase 1 (raw + checkpoint only) + Phase 2c (cross-session patterns) + Phase 3 (minimal log with `## Cross-Session Patterns` section)
+- **Abbreviated** (~25K tokens): Phase 1 + 2a + 2b + 2e + 3 (skip 2c, 2d)
+- **Full** (~50–150K tokens): all phases
+
+If cycle finds nothing actionable, log "clean dream" and exit. Always set `cycle_type:` in dream log frontmatter so trace analysis can distinguish modes. Always record `consolidated_through:` as the timestamp of the newest raw file scanned — next dream can use it to compute the unconsolidated window without rescanning everything.
 
 ## Anti-Rationalization Defense
 
@@ -193,6 +232,8 @@ Track token usage:
 | "I'll merge anything similar — autodream flagged it" | autodream.py only detects shape, not whether merge is correct | Read both source files in full; refuse merge if either is `maturity: core` and harmless |
 | "I'll merge by concatenating both bodies" | Concatenation duplicates content and loses synthesis value | Synthesize unified summary; preserve verbatim post-mortem/Reflexion notes; dedupe identical lines |
 | "I'll delete the originals after merge" | Audit trail required — past confidence/uses earned matter | Set `valid_until: today` on originals (skip retrieval, keep on disk) |
+| "Cross-session match — I'll bump confidence right here" | Dream surfaces, /evolve mutates. Bumping in dream collapses the audit trail and overrides the maturity ladder | List the candidate under `## Cross-Session Patterns`; let `/evolve` apply the boost on its next maintenance pass |
+| "I'll read all 200+ raw files for completeness" | Most-recent-first cap of 50 keeps cycles bounded; cross-session signal is statistical, not exhaustive | Read at most 50 raw files in the 7-day window; record `raw_traces_scanned` vs `raw_traces_in_window` so the gap is auditable |
 
 ## Red Flags
 
@@ -203,17 +244,22 @@ STOP and re-evaluate if any of these occur:
 - Spending > 10 minutes on Phase 1 scan (too many files, narrow scope)
 - Merging >3 learnings in one cycle (mass restructuring — let pile up for next cycle instead)
 - Merge candidate stub references a `core` learning (refuse, stub should not have been written)
+- Reading more than 50 raw session files in one cycle (cap exceeded — hit the most-recent-first limit)
+- Cross-Session Patterns section lists more than 8 candidates (signal threshold too loose, raise threshold or split cycle)
 
 ## Verification Checklist
 
-- [ ] Smart Skip correctly evaluated (checked dates, counts)
+- [ ] Smart Skip correctly evaluated using (L, O, R, Q) tuple from Phase 0
+- [ ] `cycle_type:` field set in dream log frontmatter (full | abbreviated | raw-only-abbreviated | skip)
 - [ ] All new `related:` links are bidirectional (A→B and B→A)
 - [ ] Backward updates are append-only (original content unchanged)
-- [ ] Dream log written with accurate counts
+- [ ] Dream log written with accurate counts including `raw_traces_scanned` and `raw_traces_in_window`
 - [ ] No fabricated connections (every link has stated reason)
 - [ ] Each merged learning has `supersedes:` pointing at the older source
 - [ ] Both originals soft-sunset (`valid_until: <today>`) — not deleted
 - [ ] Consumed merge stubs moved to `intermediate/merge-candidates/processed/`
+- [ ] `## Cross-Session Patterns` is recommendation-only (no learning confidence mutated by this dream)
+- [ ] `consolidated_through:` set to newest raw file timestamp scanned (or omitted if no raw files read)
 
 ## Rules
 
