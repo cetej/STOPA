@@ -158,11 +158,61 @@ RCL-inspired optimizer state (arXiv:2604.03189). Rolling JSON capturing cross-ru
 
 - Stored in `.claude/memory/optstate/` as JSON files
 - Filename: `<skill>.json` (e.g., `autoloop.json`, `autoresearch.json`, `self-evolve.json`)
-- Schema: `last_updated`, `total_runs`, `health`, `change_ledger[]` (max 20 FIFO), `strategies_that_work[]`, `strategies_that_fail[]`, `recurring_failure_patterns[]`, `optimization_velocity{stage, trend}`
+- Top-level schema: `last_updated`, `total_runs`, `health`, `change_ledger[]` (max 20 FIFO), `strategies_that_work[]`, `strategies_that_fail[]`, `recurring_failure_patterns[]`, `optimization_velocity{stage, trend}`, optional `per_target{}`
 - Read at skill Phase 0 (Setup) — strategies inform initial approach
 - Updated at skill Phase 3 (Report) — merge new run data into existing state
 - Haiku summarization for merge if state exceeds 50 lines
 - If file doesn't exist: skill proceeds normally (no prior state)
+
+### change_ledger[] entry schema
+
+Each ledger entry records one accept/reject decision. Iterative skills (`/self-evolve`, `/autoloop`, `/autoresearch`) append on Step 6 (κ Commit). UCB1 selector reads `strategy` + `outcome` for next-run exploration/exploitation.
+
+| Field | Type | Required | Purpose |
+|-------|------|----------|---------|
+| `round` | int | yes | Iteration number within the run (1-indexed) |
+| `target` | string | yes | Skill or file being evolved (e.g., `"browse"`, `"path/to/file.py"`) |
+| `strategy` | string | yes | Mutation strategy (e.g., `"edge case"`, `"adversarial"`, `"composition"`) |
+| `mutations` | string[] | yes | 1-sentence descriptions of what was changed |
+| `outcome` | enum | yes | `"success"` (kept + score up) \| `"partial"` (kept + same) \| `"failure"` (reverted) \| `"invariant_violation"` (rolled back per safety) |
+| `pass_rate_delta` | float | yes | Score change vs. prior round |
+| `component_level` | enum | optional | AHE Pattern 3 component taxonomy: `"prompt"` \| `"tool_desc"` \| `"tool_impl"` \| `"middleware"` \| `"skill"` \| `"sub_agent"` \| `"long_term_memory"` \| `"short_term_memory"`. Identifies WHICH layer of the system was modified. Required for Step 6b PIVOT detection in `/self-evolve`. Legacy entries (written before this field existed) remain valid — Step 6b explicitly handles missing values via legacy fallback. |
+| `failure_pattern` | string | optional | 1-line classification of the failure being addressed (e.g., `"critic rejects partial-pass cases"`, `"executor over-edits when σ=large"`). Used together with `component_level` to detect 2+ consecutive failures at the same component for the same pattern → trigger ROLLBACK+PIVOT. Empty/missing → PIVOT detection disabled for this entry. |
+| `predicted_fixes` | string[] | optional | Eval cases / tasks the Executor predicted this change would fix. Enables calibration tracking (predicted vs. actual fixed). Default: empty array. |
+| `risk_tasks` | string[] | optional | Eval cases / tasks at risk of regressing from this change. Used by Step 6b IMPROVE branch (score improved on predicted_fixes but regressed on risk_tasks → IMPROVE not KEEP). Default: empty array. |
+| `why_this_component` | string | optional | One-sentence rationale for why this `component_level` was chosen over alternatives. Auditing aid for component-level decision quality. Default: empty string. |
+
+**Backward compatibility:** all four PIVOT-related fields (`component_level`, `failure_pattern`, `predicted_fixes`, `risk_tasks`) and the auditing field (`why_this_component`) are **optional**. Entries written before this schema landed remain valid. Skills that read these fields MUST handle missing values gracefully — typically by falling through to pre-PIVOT logic and logging a one-time "PIVOT skipped (legacy data)" notice. Do NOT backfill old entries; let them age out via FIFO (max 20 entries).
+
+**Example entry (post-AHE Pattern 3 schema):**
+```json
+{
+  "round": 4,
+  "target": "browse",
+  "strategy": "adversarial",
+  "mutations": ["Added timeout retry wrapper to extract_text()"],
+  "outcome": "success",
+  "pass_rate_delta": 0.15,
+  "component_level": "tool_impl",
+  "failure_pattern": "transient timeouts on slow pages cause critic FAIL",
+  "predicted_fixes": ["case-007", "case-012"],
+  "risk_tasks": ["case-003"],
+  "why_this_component": "tool_desc and prompt already mention retry; root cause was implementation gap"
+}
+```
+
+**Example entry (legacy — pre-AHE schema):**
+```json
+{
+  "round": 2,
+  "target": "browse",
+  "strategy": "edge case",
+  "mutations": ["Added Anti-Rationalization Defense section"],
+  "outcome": "success",
+  "pass_rate_delta": 0.25
+}
+```
+Both entries are valid. Skills handling PIVOT detection will skip the legacy entry (no `component_level`/`failure_pattern`) and process only entries with the full schema.
 
 ## Failures (per-failure YAML records)
 
