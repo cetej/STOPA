@@ -9,6 +9,8 @@
 .claude/plans/
 # tool-synth sandbox — drafts live here until graduated via /evolve
 .claude/skills/_generated/
+# Eval scratch — third-party tool evaluation artifacts (radar/improve)
+.claude/sandbox/
 .playwright-mcp/
 .traces/
 
