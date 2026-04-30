@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: skill-design
-sources: 22
-last_updated: 2026-04-18
+sources: 24
+last_updated: 2026-04-30
 ---
 
 # Skill Design & Architecture
@@ -70,6 +70,16 @@ HeyGen HyperFrames validates a broader principle: tools for agents should use th
 - See also: [skill-evaluation](skill-evaluation.md) — evaluation patterns for skill output quality
 - See also: [orchestration-resilience](orchestration-resilience.md) — error handling that skills depend on
 
+
+
+### 2026-04-26: AgentRewardBench 3-axis annotation schema
+
+AgentRewardBench replaces binary trace labels with a 3-axis expert annotation schema: **success** (did the agent achieve the user's goal?), **side effects** (did it cause unintended state changes?), **repetitiveness** (did it loop or repeat work?). Binary labels conflate these - a trace that succeeds while causing side effects, or that succeeds via a repetitive path, both flag as success in single-axis schemes but should not be promoted as eval exemplars. STOPA `/annotate` (Align Eval) should adopt the 3-axis schema for richer training datasets - and downstream `/self-evolve` selecting from the eval pool gets cleaner positive/negative examples. (ref: 2026-04-26-annotate-3-axis-schema.md)
+
+### Karpathy autoloop: structural heuristics + LLM judge
+
+Karpathy's optimization loop pattern: edit > measure > score > iterate, with a hybrid metric: structural heuristics (grep-based, zero LLM cost) for fast per-iteration scoring + a single LLM-as-judge pass at the end for validation. Pure LLM-as-judge per iteration is expensive and creates self-reinforcing bias (the same model that generates is the one that scores). Hybrid M5 metric scored 22/25 on the original benchmark. STOPA `/autoloop` follows this - the lesson for new iterative skills: don't put LLM scoring in the inner loop; use cheap structural signals, save the LLM judge for the final commit gate. (ref: karpathy-loop-autoloop.md)
+
 ## Source Learnings
 
 | File | Date | Severity | Summary |
@@ -96,3 +106,5 @@ HeyGen HyperFrames validates a broader principle: tools for agents should use th
 | [2026-04-12-purpose-built-tools-75x-faster](../learnings/2026-04-12-purpose-built-tools-75x-faster.md) | 2026-04-12 | high | Purpose-built tools 75x faster than general MCP |
 | [2026-04-12-diarization-as-knowledge-extraction](../learnings/2026-04-12-diarization-as-knowledge-extraction.md) | 2026-04-12 | medium | Diarization as knowledge extraction technique |
 | [2026-04-18-html-as-agent-native-medium](../learnings/2026-04-18-html-as-agent-native-medium.md) | 2026-04-18 | medium | HTML/markdown > proprietary DSL for agent-facing tools |
+| [2026-04-26-annotate-3-axis-schema](../learnings/2026-04-26-annotate-3-axis-schema.md) | 2026-04-26 | medium | 3-axis annotation (success/side-effects/repetitiveness) for `/annotate` Align Evals |
+| [karpathy-loop-autoloop](../learnings/karpathy-loop-autoloop.md) | 2026-03-23 | medium | Hybrid scoring: structural heuristic per-iteration + LLM judge at end avoids self-reinforcing bias |

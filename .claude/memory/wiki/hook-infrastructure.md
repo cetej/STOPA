@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-07
 cluster: hook-infrastructure
-sources: 14
-last_updated: 2026-04-22
+sources: 16
+last_updated: 2026-04-30
 ---
 
 # Hook Infrastructure & Security
@@ -95,6 +95,14 @@ LlamaFirewall PromptGuard (BERT, 19-92ms, AUC 0.98) is ADOPT for PostToolUse inj
 - **Debug via activity log**: `.claude/hooks/lib/activity-log.jsonl`
 - **Traces**: `.claude/traces/` from trace-capture.py and session-trace.py
 
+## MCP Server Registration Location
+
+Claude Code's MCP discovery only reads two paths: `~/.claude.json` (user-global) and `.mcp.json` (project-local). The `mcpServers` block inside `.claude/settings.local.json` is silently ignored — server module loads fine standalone, FastMCP registers tools, but `ToolSearch` returns "No matching deferred tools found" after restart. STOPA's `stopa-memory-mcp` bridge (PR #29) lost a session of debugging to this. Verification: after registering, run `claude mcp list` — server must appear there before tool names will be reachable via `ToolSearch select:mcp__<name>__*` (ref: 2026-04-25-mcp-config-canonical-location.md).
+
+## Multi-Layer Permission Hooks: Avoid Re-Evaluation
+
+When chaining permission hooks (L1 deterministic + L2 LLM gate), the second hook must **fast-skip** anything L1 already approved. STOPA's `permission-sentinel.py` (Haiku gate, second in `PermissionRequest` chain) re-evaluated routine paths and bash prefixes that `permission-auto-approve.sh` had already passed. Combined with a "If uncertain, prefer DENY" prompt, Haiku produced false-DENY on the project's own hooks: "Cannot verify safety of executing arbitrary Python scripts in .claude/hooks/". Two fixes required: (1) add an early-exit allowlist that skips the LLM call for known-safe routes (covered by L1), and (2) flip the prompt to ALLOW-by-default with concrete harm patterns (rm, curl|bash, base64+exec, sensitive paths). Without both, double-evaluation amplifies false negatives in the L1+L2 chain rather than catching what L1 missed (ref: 2026-04-27-l2-sentinel-double-eval.md).
+
 ## Panic Detector Design Principles
 
 The panic-detector.py hook tracks edit→fail cycles and drift signals to inject `[calm-steering]` interventions. Two critical lessons emerged:
@@ -134,3 +142,5 @@ The panic-detector.py hook tracks edit→fail cycles and drift signals to inject
 | [2026-04-18-verify-sweep-hook-import-smoke-test](../learnings/2026-04-18-verify-sweep-hook-import-smoke-test.md) | 2026-04-18 | high | In-process importlib smoke test at SessionStart catches import/syntax errors in all `.claude/hooks/*.py` |
 | [2026-04-18-panic-detector-requires-failure-signal](../learnings/2026-04-18-panic-detector-requires-failure-signal.md) | 2026-04-18 | medium | Yellow requires bash_fails/edit_fail_cycle — state-based gating (task_style) silently fails without /orchestrate |
 | [2026-04-21-doom-loop-signal-from-ml-intern](../learnings/2026-04-21-doom-loop-signal-from-ml-intern.md) | 2026-04-21 | medium | Signal 6: tool-call signature hashing detects Grep/Read loops; doom_ prefix bypasses failure-signal gate |
+| [2026-04-25-mcp-config-canonical-location](../learnings/2026-04-25-mcp-config-canonical-location.md) | 2026-04-25 | high | MCP servers register in `~/.claude.json` or `.mcp.json` — `settings.local.json` mcpServers block silently ignored |
+| [2026-04-27-l2-sentinel-double-eval](../learnings/2026-04-27-l2-sentinel-double-eval.md) | 2026-04-27 | high | L2 LLM permission hook must fast-skip what L1 already approved; pair with ALLOW-by-default prompt |

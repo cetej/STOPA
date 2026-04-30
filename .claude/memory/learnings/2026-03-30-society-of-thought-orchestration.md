@@ -7,11 +7,12 @@ tags: [multi-agent, reasoning, critic, diversity, alignment]
 summary: "Kim et al. (2026) empiricky dokázali, že RL optimalizační tlak spontánně generuje interní multi-agentní debatu v reasoning modelech (DeepSeek-R1, QwQ-32B). Steering feature 30939 zdvojnásobil přesnost. Heterogenita perspektiv → výkon. Implikace: critic agent s odlišným system promptem není hack, je architektonicky opodstatněn. STOPA checkpoint/shared state potvrzena jako nutnost (bez temporal alignment se systémy rozpadají)."
 source: external_research
 maturity: draft
-uses: 2
+uses: 4
 harmful_uses: 0
 verify_check: "manual"
-confidence: 1.0
+confidence: 1.00
 successful_uses: 0
+related: [2026-04-30-fincept-personas-pattern.md]
 ---
 
 ## Nález
@@ -48,3 +49,5 @@ Paper Evans, Bratton & Agüera y Arcas (Science 2026, arXiv:2603.20639) je pozic
 - Empirická základna úzká (aritmetika, malé modely)
 - Formálně tenký — neobsahuje inženýrské instrukce
 - Přímé kritiky zatím neexistují (paper 9 dní starý k 2026-03-30)
+
+> Updated 2026-04-30: Operational implementation surfaced — Fincept Terminal používá 37 personas jako JSON configs s společným base_agent runtime ([2026-04-30-fincept-personas-pattern.md](2026-04-30-fincept-personas-pattern.md)). Persona-as-config pattern (instructions + capabilities + output_schema per JSON) je konkrétní inženýrská realizace heterogenity-system-promptů principu. Aplikováno na STOPA `/council` (skill_scope: [council, brainstorm]) — přidat personu = JSON entry, ne code change. Pattern external (Fincept AGPL-3.0, study only), ale architektonický princip je STOPA-native.

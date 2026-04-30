@@ -8,11 +8,11 @@ summary: Multica (15.4k★ open-source Claude Managed Agents clone) ships memory
 source: external_research
 confidence: 1.00
 maturity: draft
-uses: 3
+uses: 7
 successful_uses: 0
 harmful_uses: 0
 verify_check: "Grep('discovery-keywords', path='.claude/skills') → 1+ matches AND Grep('hybrid-retrieve', path='.claude/memory') → 1+ matches"
-related: [2026-04-18-mc-checkpoint-caching-retrieval-pattern.md, 2026-04-08-living-memory-over-static-retrieval.md]
+related: [2026-04-18-mc-checkpoint-caching-retrieval-pattern.md, 2026-04-08-living-memory-over-static-retrieval.md, 2026-04-28-genus-consensus-cross-project.md]
 ---
 
 ## Context
@@ -72,3 +72,5 @@ SELECT * FROM skill s
 - Article: mem0 In Context blog #6
 - Repo: https://github.com/multica-ai/multica (15.4k stars as of 2026-04-19)
 - Context: mem0 is the commercial sponsor — they pitch their context layer as complement, not replacement. Treat the limitation list as real but mind the vendor bias.
+
+> Updated 2026-04-30: STOPA-native empirical confirmation in `2026-04-28-genus-consensus-cross-project.md`. Translation pipeline (PREKLAD/NG-ROBOT/ADOBE-AUTOMAT) demonstrated Claude's "learned similarity" producing wrong Czech species names ("tarantule", "býčí slon") for unknown taxa, while curated termdb sister-genus consensus ("sklípkan", "samec slona") fixed it. Concrete domain instance of the blog's "exact runbook, not statistically-closest one" thesis — curated lookup beats trained-distribution guess when domain accuracy matters.

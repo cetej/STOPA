@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: skill-evaluation
-sources: 14
-last_updated: 2026-04-17
+sources: 16
+last_updated: 2026-04-30
 ---
 
 # Skill Evaluation & Optimization
@@ -65,6 +65,16 @@ SD-ZERO (arXiv:2604.12002) turns binary pass/fail rewards into dense token-level
 - See also: [skill-design](skill-design.md) — structural rules for SKILL.md files
 - See also: [orchestration-multi-agent](orchestration-multi-agent.md) — multi-agent debate patterns
 
+
+
+### 2026-04-26: AutoReason mid-tier sweet spot
+
+NousResearch AutoReason (2026) shows that the gain from A/B/AB triada + blind judges comes from **structure**, not model size. Haiku 3.5 + AutoReason loop scored **42/42** on the eval; standard self-refinement on the same model degraded outputs below baseline. Mid-tier recovery rate is ~62% vs ~43% frontier-only. Practical rule: invest in more rounds and more diverse judges before upgrading writers to Opus. STOPA `/autoreason` should default to mid-tier writers with adversarial structure - upgrade is the wrong knob to turn first. (ref: 2026-04-26-autoreason-mid-tier-sweet-spot.md)
+
+### 2026-04-27: Verify CC features against official docs
+
+External blog posts about Claude Code mix real APIs with fabricated ones. Concrete case: an article claimed `CLAUDE_CODE_FORK_SUBAGENT=1` env var, a `/fork` slash command, and a built-in `Plan` subagent - all plausible-sounding (matching the `CLAUDE_CODE_*` convention) but none actually documented at docs.anthropic.com. Pattern: when designing tests or implementations against any named env var, flag, or built-in subagent from a non-Anthropic source, verify against the official docs first via the `claude-code-guide` subagent. "Looks like Anthropic naming" is not evidence of existence. Applies broadly to any external documentation source, not just Claude Code. (ref: 2026-04-27-verify-cc-features-against-docs.md)
+
 ## Source Learnings
 
 | File | Date | Severity | Summary |
@@ -83,3 +93,5 @@ SD-ZERO (arXiv:2604.12002) turns binary pass/fail rewards into dense token-level
 | [2026-04-08-reverse-engineered-benchmark-from-artifacts](../learnings/2026-04-08-reverse-engineered-benchmark-from-artifacts.md) | 2026-04-08 | medium | Build benchmarks from real artifacts, not synthetic generation |
 | [2026-04-13-pairwise-choice-sufficient-verifiable-signal](../learnings/2026-04-13-pairwise-choice-sufficient-verifiable-signal.md) | 2026-04-13 | medium | Pairwise comparison sufficient for RL signal |
 | [2026-04-15-sd-zero-self-revision-supervision](../learnings/2026-04-15-sd-zero-self-revision-supervision.md) | 2026-04-15 | medium | SD-ZERO: self-revision → dense token-level supervision; +10.5% Qwen3-4B, -50% length |
+| [2026-04-26-autoreason-mid-tier-sweet-spot](../learnings/2026-04-26-autoreason-mid-tier-sweet-spot.md) | 2026-04-26 | medium | Mid-tier + AutoReason structure beats frontier-only on eval - invest in rounds, not model size |
+| [2026-04-27-verify-cc-features-against-docs](../learnings/2026-04-27-verify-cc-features-against-docs.md) | 2026-04-27 | medium | External CC blog posts mix fabricated APIs with real ones - verify named env vars/flags via official docs |

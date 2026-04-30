@@ -1,25 +1,28 @@
 {
-  "last_compile": "2026-04-22T10:00:00Z",
+  "last_compile": "2026-04-30T02:30:00Z",
   "compile_mode": "incremental",
-  "total_learnings": 182,
+  "total_learnings": 195,
   "total_articles": 10,
   "contradictions": 1,
   "gaps": 4,
   "articles": {
     "general-security-environment.md": {
       "source_learnings": [
-        "2026-04-21-ch-samostatne-pismeno-ceske-abecedy"
+        "2026-04-21-ch-samostatne-pismeno-ceske-abecedy",
+        "2026-04-23-deepmind-agent-attack-vectors.md"
       ],
-      "sources_count": 20,
-      "generated": "2026-04-22"
+      "sources_count": 21,
+      "generated": "2026-04-30"
     },
     "hook-infrastructure.md": {
       "source_learnings": [
         "2026-04-18-panic-detector-requires-failure-signal",
-        "2026-04-21-doom-loop-signal-from-ml-intern"
+        "2026-04-21-doom-loop-signal-from-ml-intern",
+        "2026-04-25-mcp-config-canonical-location.md",
+        "2026-04-27-l2-sentinel-double-eval.md"
       ],
-      "sources_count": 14,
-      "generated": "2026-04-22"
+      "sources_count": 16,
+      "generated": "2026-04-30"
     },
     "memory-architecture.md": {
       "source_learnings": [
@@ -31,10 +34,11 @@
     "orchestration-infrastructure.md": {
       "source_learnings": [
         "2026-04-19-worldmonitor-adoption-pattern",
-        "2026-04-21-vertical-scaling-phase-b-not-implemented"
+        "2026-04-21-vertical-scaling-phase-b-not-implemented",
+        "2026-04-24-scheduled-task-discipline.md"
       ],
-      "sources_count": 29,
-      "generated": "2026-04-22"
+      "sources_count": 30,
+      "generated": "2026-04-30"
     },
     "orchestration-iteration.md": {
       "source_learnings": [
@@ -44,22 +48,26 @@
         "2026-04-15-parcae-exponential-decay-stopping",
         "2026-04-15-prm-step-verification-orchestrate",
         "2026-04-18-autogenesis-protocol.md",
+        "2026-04-18-mask-belief-vs-statement-pipeline.md",
         "2026-04-18-simula-reasoning-first-taxonomies.md",
-        "2026-04-18-mask-belief-vs-statement-pipeline.md"
+        "2026-04-23-llm-confirmation-bias.md",
+        "2026-04-23-ucsd-devs-dont-vibe.md",
+        "2026-04-26-wrong-plan-executed-perfectly.md"
       ],
-      "sources_count": 19,
-      "generated": "2026-04-18"
+      "sources_count": 22,
+      "generated": "2026-04-30"
     },
     "orchestration-multi-agent.md": {
       "source_learnings": [
-        "2026-04-08-shared-public-state-agent-coordination",
-        "2026-04-08-heartbeat-mid-run-steering",
+        "2026-04-07-nsm-neuro-symbolic-orchestration",
         "2026-04-08-group-experience-sharing-beats-isolated-evolution",
+        "2026-04-08-heartbeat-mid-run-steering",
         "2026-04-08-inference-time-sampling-beats-rl-for-diversity",
-        "2026-04-07-nsm-neuro-symbolic-orchestration"
+        "2026-04-08-shared-public-state-agent-coordination",
+        "2026-04-26-linear-beats-tree-search-webarena.md"
       ],
-      "sources_count": 31,
-      "generated": "2026-04-14"
+      "sources_count": 32,
+      "generated": "2026-04-30"
     },
     "orchestration-resilience.md": {
       "source_learnings": [
@@ -70,34 +78,39 @@
     },
     "pipeline-engineering.md": {
       "source_learnings": [
-        "2026-04-19-harness-engineering-adoption"
+        "2026-04-19-harness-engineering-adoption",
+        "2026-04-28-genus-consensus-cross-project.md"
       ],
-      "sources_count": 6,
-      "generated": "2026-04-22"
+      "sources_count": 7,
+      "generated": "2026-04-30"
     },
     "skill-design.md": {
       "source_learnings": [
-        "2026-04-06-deepresearch-agent-scope",
-        "2026-04-04-gap-compact-variant-measurement",
-        "2026-04-04-skill0-dynamic-curriculum",
         "2026-04-03-anthropic-skill-creator-patterns",
         "2026-04-03-description-optimizer-plan",
-        "2026-04-18-html-as-agent-native-medium.md"
+        "2026-04-04-gap-compact-variant-measurement",
+        "2026-04-04-skill0-dynamic-curriculum",
+        "2026-04-06-deepresearch-agent-scope",
+        "2026-04-18-html-as-agent-native-medium.md",
+        "2026-04-26-annotate-3-axis-schema.md",
+        "karpathy-loop-autoloop.md"
       ],
-      "sources_count": 22,
-      "generated": "2026-04-18"
+      "sources_count": 24,
+      "generated": "2026-04-30"
     },
     "skill-evaluation.md": {
       "source_learnings": [
-        "2026-04-05-egoalpha-prompt-patterns",
-        "2026-04-04-toolgenesis-cascade-evaluation",
-        "2026-04-01-autoreason-adversarial-debate",
         "2026-03-25-decomposed-evaluation",
         "2026-03-25-reasoning-isolation",
-        "2026-04-15-sd-zero-self-revision-supervision"
+        "2026-04-01-autoreason-adversarial-debate",
+        "2026-04-04-toolgenesis-cascade-evaluation",
+        "2026-04-05-egoalpha-prompt-patterns",
+        "2026-04-15-sd-zero-self-revision-supervision",
+        "2026-04-26-autoreason-mid-tier-sweet-spot.md",
+        "2026-04-27-verify-cc-features-against-docs.md"
       ],
-      "sources_count": 14,
-      "generated": "2026-04-17"
+      "sources_count": 16,
+      "generated": "2026-04-30"
     }
   },
   "learnings_compiled": [
@@ -282,6 +295,19 @@
     "2026-04-19-worldmonitor-adoption-pattern.md",
     "2026-04-21-ch-samostatne-pismeno-ceske-abecedy.md",
     "2026-04-21-doom-loop-signal-from-ml-intern.md",
-    "2026-04-21-vertical-scaling-phase-b-not-implemented.md"
+    "2026-04-21-vertical-scaling-phase-b-not-implemented.md",
+    "2026-04-23-deepmind-agent-attack-vectors.md",
+    "2026-04-23-llm-confirmation-bias.md",
+    "2026-04-23-ucsd-devs-dont-vibe.md",
+    "2026-04-24-scheduled-task-discipline.md",
+    "2026-04-25-mcp-config-canonical-location.md",
+    "2026-04-26-annotate-3-axis-schema.md",
+    "2026-04-26-autoreason-mid-tier-sweet-spot.md",
+    "2026-04-26-linear-beats-tree-search-webarena.md",
+    "2026-04-26-wrong-plan-executed-perfectly.md",
+    "2026-04-27-l2-sentinel-double-eval.md",
+    "2026-04-27-verify-cc-features-against-docs.md",
+    "2026-04-28-genus-consensus-cross-project.md",
+    "karpathy-loop-autoloop.md"
   ]
 }

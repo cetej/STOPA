@@ -31,6 +31,16 @@ EGGROLL-style evolutionary optimization (low-rank ES with GRPO scoring) outperfo
 
 **MASK honesty measurement** (paper) separates belief B from statement S: neutral prompt elicits belief, pressure prompt elicits statement, compare S≠B (lying) independently from B≠T (accuracy). Measuring only accuracy conflates two orthogonal dimensions — a model can be accurate while lying when pressured. Implementation: `/critic` should run neutral-then-pressure for deception-sensitive tasks (research citations, cost estimates, uncertainty calibration) (ref: 2026-04-18-mask-belief-vs-statement-pipeline.md).
 
+### 2026-04-23/26 sharpening: confirmation bias, plan-quality vs execution, human delegation cap
+
+**LLM confirmation bias is empirically dominant in scientific agents** (25K runs, 8 domains, 11 LLMs): 68% of traces ignore evidence, only 26% revise beliefs in light of refutation, 7% draw on independent evidence lines. Base model variance explained 41.4% of outcome differences vs 1.5% from scaffold — model > framework. Counter-example prompting raised rule-discovery from 42% to 56%. STOPA `/autoresearch`, `/deepresearch`, `/critic`, `/self-evolve` need an explicit falsification gate: "What evidence would refute this hypothesis? Have you looked for it?" — current confirmatory loops will compound bias rather than correct it (ref: 2026-04-23-llm-confirmation-bias.md).
+
+**Plan quality dominates execution quality**. When agents report 100% subtask completion but `/verify` FAILs, the root cause is a wrong plan executed perfectly — not a bad agent. Re-running scout (re-plan from current evidence) outperforms retrying the same agents on the same plan. The diagnostic is the gap between agent self-reports and verify outcomes: matching reports + failing verify = plan defect; non-matching reports = execution defect. STOPA `/orchestrate` should treat "verify FAIL after clean agent reports" as scout-rerun signal, not retry signal (ref: 2026-04-26-wrong-plan-executed-perfectly.md).
+
+**Human delegation ceiling = 2.1 steps**. UCSD + Cornell field study (Huang et al., arXiv:2512.14012, N=13 observed + N=99 surveyed experienced devs, Aug-Oct 2025): experienced developers delegate at most 2.1 sequential steps to an agent before validating. All 13 observed sessions involved either reviewing the agent's plan or working from the dev's own. Agents are perceived positively — but as productivity boost, not autonomous implementer. This calibrates STOPA's existing budget tiers and per-2-rounds critic: the design matches observed expert behavior, validating the approach against external evidence (ref: 2026-04-23-ucsd-devs-dont-vibe.md).
+
+**Linear orchestration beats naive tree search on noisy environments**. AgentOccam (linear pipeline, 45.7% on WebArena) outperforms all tree-search baselines on noisy web actions. Tree search only helps with typed I/O (tool planning where actions have clean preconditions/effects). Rule for STOPA: ramp linear pipeline to plateau first; only add search when you have high-quality state observations and plan-step typing. For web/UI domains, search is overhead. (ref: 2026-04-26-linear-beats-tree-search-webarena.md)
+
 ## Key Rules
 
 1. **Don't judge early iterations**: Performance at iter 1-3 is unreliable — commit to at least 5 iterations before evaluating (ref: 2026-04-08-early-iteration-performance-unreliable.md)
@@ -97,3 +107,6 @@ EGGROLL-style evolutionary optimization (low-rank ES with GRPO scoring) outperfo
 | [2026-04-18-autogenesis-protocol](../learnings/2026-04-18-autogenesis-protocol.md) | 2026-04-18 | high | 0 | RSPL+SEPL protocol: resources × 5 operators (ρσιεκ) for self-evolving agents |
 | [2026-04-18-simula-reasoning-first-taxonomies](../learnings/2026-04-18-simula-reasoning-first-taxonomies.md) | 2026-04-18 | high | 0 | Mechanism design as 4th axis; taxonomic sampling + double-critic |
 | [2026-04-18-mask-belief-vs-statement-pipeline](../learnings/2026-04-18-mask-belief-vs-statement-pipeline.md) | 2026-04-18 | high | 0 | MASK: disentangle honesty (S≠B) from accuracy (B≠T) via neutral+pressure elicitation |
+| [2026-04-23-llm-confirmation-bias](../learnings/2026-04-23-llm-confirmation-bias.md) | 2026-04-23 | critical | 4 | 68% ignore evidence, 26% revise beliefs — explicit falsification gate needed in autoresearch/critic |
+| [2026-04-23-ucsd-devs-dont-vibe](../learnings/2026-04-23-ucsd-devs-dont-vibe.md) | 2026-04-23 | medium | 0 | Field study: experienced devs delegate ≤2.1 steps before validating — STOPA tier+critic design matches |
+| [2026-04-26-wrong-plan-executed-perfectly](../learnings/2026-04-26-wrong-plan-executed-perfectly.md) | 2026-04-26 | high | 0 | When agents report 100% but verify FAILs → re-run scout (plan defect), not retry agents (execution defect) |

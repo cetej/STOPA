@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: orchestration-multi-agent
-sources: 31
-last_updated: 2026-04-14
+sources: 32
+last_updated: 2026-04-30
 ---
 
 # Multi-Agent Orchestration
@@ -93,6 +93,12 @@ See also: [program-md-research-org](entities/program-md-research-org.md) entity 
 - See also: [general-security-environment](general-security-environment.md) — agent trust and deception
 - See also: [skill-evaluation](skill-evaluation.md) — adversarial debate patterns
 
+
+
+### 2026-04-26: Linear orchestration beats naive tree search on noisy domains
+
+AgentOccam (linear, 45.7% on WebArena) outperforms all tree-search baselines on noisy web-action environments. Tree search adds value only in typed-I/O regimes where actions have clean preconditions and effects (tool planning). Implication for STOPA `/orchestrate`: ramp linear pipelines (scout → decompose → execute → critic) to plateau before adding search; for web/UI domains specifically, search is overhead. (ref: 2026-04-26-linear-beats-tree-search-webarena.md)
+
 ## Source Learnings
 
 | File | Date | Severity | Summary |
@@ -128,3 +134,4 @@ See also: [program-md-research-org](entities/program-md-research-org.md) entity 
 | [2026-04-13-judge-panel-size-convergence](../learnings/2026-04-13-judge-panel-size-convergence.md) | 2026-04-13 | medium | 3-5 judges sufficient for convergence |
 | [2026-04-12-morning-briefing-cron-pattern](../learnings/2026-04-12-morning-briefing-cron-pattern.md) | 2026-04-12 | medium | Scheduled morning briefing cron pattern |
 | [2026-04-12-skillclaw-auto-evolve-pipeline](../learnings/2026-04-12-skillclaw-auto-evolve-pipeline.md) | 2026-04-12 | high | SkillClaw auto-evolve: summarize+evolve daily |
+| [2026-04-26-linear-beats-tree-search-webarena](../learnings/2026-04-26-linear-beats-tree-search-webarena.md) | 2026-04-26 | high | AgentOccam linear 45.7% beats all tree-search on WebArena — search only helps typed I/O |

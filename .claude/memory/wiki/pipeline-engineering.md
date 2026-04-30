@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: pipeline-engineering
-sources: 6
-last_updated: 2026-04-22
+sources: 7
+last_updated: 2026-04-30
 ---
 
 # Pipeline Engineering
@@ -48,6 +48,12 @@ Three independent sources converge on a multi-session project harness pattern: A
 - See also: [orchestration-resilience](orchestration-resilience.md) — error classification and verification patterns
 - See also: [general-security-environment](general-security-environment.md) — API and model behavior
 
+
+
+### 2026-04-28: Genus-consensus fallback for translation pipelines
+
+Translation pipelines (PREKLAD) hallucinated Czech names for newly-discovered species absent from termdb ("tarantule" for *Ceratogyrus attonitifer*, "bull elephant" mistranslated). Phase 1 had no genus-level fallback - when a species lookup missed, the model invented a name rather than escalating uncertainty. Fix: `NormalizedTermDB.lookup_genus_consensus()` extracts a shared CZ genus from at least 3 termdb siblings of the same Latin genus and supplies the formulation "novy druh <CZ_genus> (*Latin*)" as a pre-fetch hint into Phase 1. Pattern generalizes: pipeline miss-handlers should escalate to one-step-up taxonomic/structural fallback before falling back to model improvisation. (ref: 2026-04-28-genus-consensus-cross-project.md)
+
 ## Source Learnings
 
 | File | Date | Severity | Summary |
@@ -58,3 +64,4 @@ Three independent sources converge on a multi-session project harness pattern: A
 | [2026-04-09-triattention-pre-rope-kv-compression](../learnings/2026-04-09-triattention-pre-rope-kv-compression.md) | 2026-04-09 | medium | TriAttention: 10.7× KV cache, 2.5× throughput for long-reasoning |
 | [2026-04-14-openmontage-production-governance](../learnings/2026-04-14-openmontage-production-governance.md) | 2026-04-14 | high | OpenMontage: 7D scoring, delivery promises, slideshow risk |
 | [2026-04-19-harness-engineering-adoption](../learnings/2026-04-19-harness-engineering-adoption.md) | 2026-04-19 | high | Multi-session harness: feature-list.json + progress.md + init.sh validated by Anthropic+OpenAI+SWE-agent |
+| [2026-04-28-genus-consensus-cross-project](../learnings/2026-04-28-genus-consensus-cross-project.md) | 2026-04-28 | high | Genus-consensus fallback prevents species-name hallucination - generalizes to any taxonomic miss-handler |

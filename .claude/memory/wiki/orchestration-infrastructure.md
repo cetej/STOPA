@@ -1,8 +1,8 @@
 ---
 generated: 2026-04-04
 cluster: orchestration-infrastructure
-sources: 29
-last_updated: 2026-04-22
+sources: 30
+last_updated: 2026-04-30
 ---
 
 # Orchestration Infrastructure & Sessions
@@ -38,6 +38,8 @@ Opus 4.7 in Claude Code: default effort=xhigh is the recommended setting; max ef
 For adopting large AGPL/GPL projects (WorldMonitor 48.9k★, ~10MB TypeScript, 2636 files), clean-room adoption beats copy-paste: (1) 3 parallel Explore agents partition the codebase (feeds, scoring, UI), each with ~1000-word limit; (2) Tier A/B/C/D classification at synthesis (A=2-week value, D=skip); (3) clean-room implementation in target-project style (algorithms aren't copyrighted, only the code); (4) NOTICE.md with attribution table. Applies only to copyleft licenses — MIT/Apache projects can copy directly. Phase A (highest-value) first, others as roadmap (ref: 2026-04-19-worldmonitor-adoption-pattern.md).
 
 Scheduled task naming anti-pattern: task `vertical-scaling-phase-c` was set to fire on B-START date (2026-04-21, the start of Phase B), not C-DECIDE date (2026-05-18). When it fired, Phase B (/telescope skill) didn't exist — Go/No-Go could not be evaluated. The name "phase-c" implied evaluation readiness, but the fire date was phase B's beginning. Rule: scheduled task names MUST match their fire-date phase, or include explicit date anchors in the task description (ref: 2026-04-21-vertical-scaling-phase-b-not-implemented.md).
+
+**Scheduled / autonomous-agent execution discipline.** Two recurring failure modes in scheduled agents (running outside the main interactive session): (1) **whitelist expansion** — `daily-rebalancer` accumulated 4 corrections from auto-committing files outside its 3-path explicit allowlist, the agent reasoning "this looks similar enough"; (2) **suggest-only drift** — `evolve-skills` collected 5 frustration markers and 2 corrections for reporting "should change X" instead of applying the change. The fix: every scheduled task SKILL.md now stamps `<!-- AUTONOMOUS-EXECUTION v1 -->` and `<!-- NO-TELEGRAM-POLICY v1 -->` blocks (37+ files) that mandate two rules — match whitelist exactly (no fuzzy expansion), and apply changes directly via Edit/Write/Bash with forbidden phrases like "should I...?", "let me know if...", "consider running..." explicitly listed. Out-of-scope steps silent-skip and log to `daily-reports.md` rather than expand scope or wait for input (ref: 2026-04-24-scheduled-task-discipline.md).
 
 ## Key Rules
 
