@@ -12,6 +12,9 @@
 .playwright-mcp/
 .traces/
 
+# Pilot directories — isolated tool evaluations (Camoufox, AHE, etc.)
+_*-pilot/
+
 # Node
 node_modules/
 
