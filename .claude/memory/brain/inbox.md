@@ -17,6 +17,41 @@ Zpracované záznamy se přesunou do `inbox-archive.md`.
 
 | Date | Item |
 |------|------|
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28196v1 — raw/2026-05-01-hermes-plus-plus-unified-driving-world-m-4.md → dedup |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28197v1 — raw/2026-05-01-omnirobothome-multiadic-robot-interactio.md → dedup |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28185v1 — raw/2026-05-01-visual-generation-evolution-agentic-worl.md → dedup |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28196v1 — raw/2026-05-01-hermes-plus-plus-unified-driving-world-m-4.md → dedup |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28185v1 — raw/2026-05-01-visual-generation-evolution-agentic-worl.md → dedup |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28182v1 — raw/2026-05-01-exploration-hacking-llm-rl-resistance-3.md → dedup |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28185v1 — raw/2026-05-01-visual-generation-evolution-agentic-worl.md → dedup |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28182v1 — raw/2026-05-01-exploration-hacking-llm-rl-resistance-3.md → dedup |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28181v1 — raw/2026-05-01-synthetic-computers-scale-productivity-s.md → proposed (paper) |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28157v1 — raw/2026-05-01-flashrt-efficient-red-teaming-llm.md → proposed (tool) |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28138v1 — raw/2026-05-01-crab-checkpoint-restore-agent-sandboxes.md → proposed (paper) |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28129v1 — raw/2026-05-01-latent-adversarial-detection-multi-turn-.md → proposed (paper) |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28196v1 — raw/2026-05-01-hermes-plus-plus-unified-driving-world-m-4.md → dedup |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28185v1 — raw/2026-05-01-visual-generation-evolution-agentic-worl.md → dedup |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28183v1 — raw/2026-05-01-uniaxial-strain-ferroelastic-domain-cont.md → proposed (paper) |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28195v1 — raw/2026-05-01-omega-centauri-chemical-taxonomy-ten-pop.md → proposed (paper) |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28193v1 — raw/2026-05-01-genwildsplat-sparse-3d-reconstruction.md → dedup |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28192v1 — raw/2026-05-01-last-r1-adaptive-physical-reasoning-vla.md → dedup |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28196v1 — raw/2026-05-01-hermes-plus-plus-unified-driving-world-m-4.md → dedup |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28195v1 — raw/2026-05-01-omega-centauri-chemical-taxonomy-ten-pop.md → proposed (paper) |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28197v1 — raw/2026-05-01-omnirobothome-multiadic-robot-interactio.md → dedup |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28197v1 — raw/2026-05-01-omnirobothome-multiadic-robot-interactio.md → dedup |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28185v1 — raw/2026-05-01-visual-generation-evolution-agentic-worl.md → dedup |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28182v1 — raw/2026-05-01-exploration-hacking-llm-rl-resistance-3.md → dedup |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28196v1 — raw/2026-05-01-hermes-plus-plus-unified-driving-world-m-4.md → dedup |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28197v1 — raw/2026-05-01-omnirobothome-multiadic-robot-interactio.md → dedup |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28185v1 — raw/2026-05-01-visual-generation-evolution-agentic-worl.md → dedup |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28196v1 — raw/2026-05-01-hermes-plus-plus-unified-driving-world-m-4.md → dedup |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28193v1 — raw/2026-05-01-genwildsplat-sparse-3d-reconstruction.md → dedup |
+| 2026-05-01 | URL: http://arxiv.org/abs/2604.28192v1 — raw/2026-05-01-last-r1-adaptive-physical-reasoning-vla.md → dedup |
+| 2026-05-01 | URL: https://simonwillison.net/2026/Apr/24/deepseek-v4/ — raw/2026-05-01-deepseek-v4-frontier-zlomek-ceny.md |
+| 2026-05-01 | URL: https://simonwillison.net/2026/Apr/30/zig-anti-ai/ — raw/2026-05-01-zig-anti-llm-contributor-poker.md |
+| 2026-05-01 | URL: https://www.anthropic.com/research/economic-index-march-2026-report — raw/2026-05-01-anthropic-economic-index-learning-curves.md |
+| 2026-05-01 | URL: https://www.anthropic.com/research/81k-economics — raw/2026-05-01-ai-ekonomicke-dopady-81k-uzivatelu.md → proposed (paper) |
+| 2026-05-01 | URL: https://www.anthropic.com/research/economic-index-survey-announcement — raw/2026-05-01-anthropic-economic-index-survey.md |
 | 2026-04-30 | URL: https://simonwillison.net/2026/Apr/24/ — raw/2026-04-30-willison-sqlite-queues-claude-bugs-deeps.md → proposed (library) |
 | 2026-04-29 | URL: http://arxiv.org/abs/2604.25917v1 — raw/2026-04-29-recursive-mas-latent-multiagent-collabor.md → dedup |
 | 2026-04-29 | URL: http://arxiv.org/abs/2604.25914v1 — raw/2026-04-29-dv-world-benchmark-datova-vizualizace.md → dedup |
