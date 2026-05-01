@@ -23,7 +23,7 @@ You grade harness execution traces to measure quality, detect regressions, and s
 | Item | Why it matters |
 |------|---------------|
 | **Trace file or harness name** | Without scope, grading is unfocused |
-| **Mode** | --list (browse traces), --replay (re-run), --diff (compare), --baseline (lock current as expected) |
+| **Mode** | --list (browse traces), --replay (re-run), --diff (compare), --divergence (find partial-pass split point), --baseline (lock current as expected) |
 
 <!-- CACHE_BOUNDARY -->
 
@@ -35,6 +35,7 @@ From `$ARGUMENTS`, extract:
 - **`--list`**: list all available traces with metadata — then STOP
 - **`--replay`**: re-run the harness with same inputs and compare to original trace
 - **`--diff <trace1> <trace2>`**: compare two traces side by side (harness drift analysis)
+- **`--divergence <trace1> <trace2> [<trace3>...]`**: partial-pass diagnostic — when 2+ runs of the SAME task have different outcomes (some passed, some failed), find the divergence point and recommend the successful strategy as default
 - **`--baseline`**: mark current trace as the expected baseline for future regression checks
 
 If no arguments: run `--list` mode.
@@ -204,6 +205,113 @@ harness_health:  0.80 → 0.65  (↓ -0.15 regression)
 Root cause: Model downgrade (sonnet→haiku) + missing Phase 2 output schema
 Recommendation: Restore sonnet, add output schema for Phase 2
 ```
+
+---
+
+## Mode: --divergence (partial-pass diagnostic, AHE Pattern 6)
+
+When 2+ runs of the same task produce different outcomes (some pass, some fail), find the **divergence point** — the first phase or decision where the runs started behaving differently. The successful strategy at that point becomes the recommended default.
+
+Source: [outputs/ahe-pilot-2026-04-30.md](https://github.com/cetej/STOPA/blob/main/outputs/ahe-pilot-2026-04-30.md) Pattern 6. AHE quote (evolve_prompt.md L179-181):
+> "Partial-pass tasks (some rollouts pass, some fail) are the most valuable. Compare the passing and failing rollouts of the same task, find the divergence point, and make the successful strategy the reliable default."
+
+### When to use
+
+- A harness was run multiple times (replay, retry, parallel variants) and outcomes split
+- You want to understand WHY identical setups produce different results
+- You want to extract the successful pathway as a learning
+
+### Required inputs
+
+- **2 or more trace files** for the SAME harness/task (different timestamps or variants)
+- At least one trace must end in `success` and at least one in `failure` or `partial` — otherwise this mode has nothing to compare. If all passed → use `--baseline`. If all failed → use `--replay` to investigate.
+
+### Step 1: Validate input set
+
+For each trace, read header and check `harness_name` matches across all traces. If not: STOP with error `"--divergence requires traces from the same harness."`. Then categorize each trace as `success`, `partial`, or `failure` based on its final-record `status` field.
+
+If categorization is uniform (all same outcome): STOP with note `"All traces have same outcome — no divergence to analyze. Use --diff for general comparison."`
+
+### Step 2: Phase-by-phase outcome alignment
+
+Build a matrix: rows = phases, columns = traces. Each cell shows `PASS | FAIL | retry | skip`. Mark the **first row** where any cell differs from another — this is the divergence-candidate row.
+
+```
+Phase  trace_A.success  trace_B.failure  trace_C.partial
+1      PASS             PASS             PASS
+2      PASS             PASS             PASS
+3      PASS             FAIL             retry→PASS    ← divergence row
+4      PASS             skip             PASS
+5      PASS             skip             PASS
+```
+
+If multiple rows have differences, the EARLIEST one is the divergence point — later differences are usually consequences, not causes.
+
+### Step 3: Drill into divergence-row inputs
+
+For the divergence row, extract per-trace:
+- Inputs to that phase (if logged)
+- Validation criteria applied
+- Tool calls made by the agent (from `tools.jsonl` if present)
+- Output produced (or error message if failed)
+
+Compare side-by-side. Look for:
+- **Different inputs** for the same phase → upstream phase produced inconsistent state (look 1 phase back)
+- **Same inputs, different outputs** → agent decision was non-deterministic; the success path used a strategy worth promoting
+- **Same outputs, different validation** → validator changed between runs (rare, but possible if criteria were tightened)
+
+### Step 4: Extract successful strategy
+
+From the success trace's divergence-row tool calls + output, distill ONE actionable rule:
+
+```
+Successful strategy at Phase 3:
+- Tool sequence: Read → Grep → Edit (in this order)
+- Key decision: trace_A used regex pattern '^def \w+_async' to find async functions;
+  trace_B used substring 'async' which over-matched
+- Validation: both used the same criteria; trace_A's input was sharper
+
+Recommendation: When Phase 3 expects "async function names", prefer regex over
+substring matching. Add as anti-pattern to the harness HARNESS.md or as a
+learning to .claude/memory/learnings/.
+```
+
+### Step 5: Divergence report
+
+```
+## Divergence Report: <harness_name>
+
+Traces analyzed: 3 (1 success, 1 failure, 1 partial)
+
+Divergence point: Phase 3 (input-validation)
+
+Outcome split:
+  trace_A (2026-04-30T10:00) — success
+  trace_B (2026-04-30T11:30) — failure (Phase 3 FAIL)
+  trace_C (2026-04-30T14:15) — partial (Phase 3 retry succeeded)
+
+Why they diverged:
+  trace_A used regex '^def \w+_async' for async function detection
+  trace_B used substring 'async' which matched 'async' in docstrings → false positives
+  trace_C used substring first (failed), retried with regex (passed)
+
+Successful strategy: regex with anchored pattern, not substring search
+
+Recommended action:
+  - Update HARNESS.md Phase 3 example to use regex
+  - Capture as learning: 'Async function detection: anchored regex > substring' (auto_pattern source)
+  - Consider adding harness validator that rejects substring search at Phase 3 input
+```
+
+### Step 6: Optional — write learning
+
+If the user confirms the extracted strategy is general, offer to invoke `/scribe` with the recommendation pre-filled. Do not write learnings automatically — divergence analysis is investigative, the human/critic decides what generalizes.
+
+### Anti-patterns
+
+- **Pure outcome comparison without phase-level alignment**: aggregate success/fail counts hide WHERE the runs split. Always do per-phase matrix first.
+- **Treating consequences as causes**: if Phase 5 differs but Phase 3 already differed, Phase 5 is downstream — investigate Phase 3.
+- **Auto-promoting strategy without validation**: a single divergence point in a single run set is not statistically conclusive. Recommend, do not auto-write.
 
 ---
 
