@@ -43,6 +43,19 @@ The Commit operator κ accepts a candidate state ONLY when the score improves AN
 - If edit adds `supersedes:` or `related:` fields: target files must exist
 - Dangling reference → **ROLLBACK**
 
+### I10. No LLM config modification during iterative evolution
+- Iterative skills (`/self-evolve`, `/autoloop`, `/autoresearch`, `/autoharness`) MUST NOT modify the target skill's LLM configuration fields during the κ Commit step
+- Forbidden fields in YAML frontmatter (top-level OR inside `handoffs[]`):
+  - `model:` (haiku | sonnet | opus)
+  - `effort:` (low | high | auto)
+  - `maxTurns:`
+  - `temperature:` and `reasoning_effort:` (if present — Claude SDK doesn't currently expose these in skill frontmatter, but the prohibition holds for any future config field that controls model behavior)
+- Detection: `git diff HEAD~1 -- <skill.md>` matching `^[+-](model|effort|maxTurns|temperature|reasoning_effort):` in the YAML frontmatter region
+- Match → **ROLLBACK**
+- Why: AHE evolve_prompt.md L229-241 — "LLM config changes consistently cause broad, hard-to-diagnose regressions." Switching haiku↔sonnet↔opus shifts behavior across the entire skill body in ways pass_rate can mask short-term but degrade weeks later. Same applies to `effort:` and `maxTurns:` — they reshape the agent's reasoning depth, not just one capability.
+- LLM config is an **operator decision**, not an optimization target. Changes land via human review (PR), not iterative loops.
+- Exception: user-initiated `--bump-model <new>` flag passed to the iterative skill, which writes the change with `decision: operator-override` in the change_ledger entry. No such flag exists yet — until implemented, this invariant has no exception.
+
 ## Recommended invariants (check when relevant)
 
 ### I7. Frontmatter preserved
