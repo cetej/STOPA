@@ -49,11 +49,13 @@ The Commit operator κ accepts a candidate state ONLY when the score improves AN
   - `model:` (haiku | sonnet | opus)
   - `effort:` (low | high | auto)
   - `maxTurns:`
+  - `max_tokens:`
   - `temperature:` and `reasoning_effort:` (if present — Claude SDK doesn't currently expose these in skill frontmatter, but the prohibition holds for any future config field that controls model behavior)
-- Detection: `git diff HEAD~1 -- <skill.md>` matching `^[+-](model|effort|maxTurns|temperature|reasoning_effort):` in the YAML frontmatter region
+- Detection: `git diff HEAD~1 -- <skill.md>` matching `^[+-](model|effort|maxTurns|max_tokens|temperature|reasoning_effort):` in the YAML frontmatter region
 - Match → **ROLLBACK**
 - Why: AHE evolve_prompt.md L229-241 — "LLM config changes consistently cause broad, hard-to-diagnose regressions." Switching haiku↔sonnet↔opus shifts behavior across the entire skill body in ways pass_rate can mask short-term but degrade weeks later. Same applies to `effort:` and `maxTurns:` — they reshape the agent's reasoning depth, not just one capability.
 - LLM config is an **operator decision**, not an optimization target. Changes land via human review (PR), not iterative loops.
+- Manual operator changes outside iterative skill runs are permitted — this invariant applies only when an iterative skill's κ Commit step writes the change.
 - Exception: user-initiated `--bump-model <new>` flag passed to the iterative skill, which writes the change with `decision: operator-override` in the change_ledger entry. No such flag exists yet — until implemented, this invariant has no exception.
 
 ## Recommended invariants (check when relevant)
@@ -67,17 +69,6 @@ The Commit operator κ accepts a candidate state ONLY when the score improves AN
 
 ### I9. Verification Checklist preserved
 - Same rule as I8 for `Verification Checklist` heading
-
-### I10. No LLM config drift during iterative skill evolution
-- Iterative skills (`/self-evolve`, `/autoloop`, `/autoresearch`) MUST NOT modify these fields in skill YAML frontmatter:
-  - `model:` (haiku/sonnet/opus)
-  - `temperature:`
-  - `reasoning_effort:`
-  - `max_tokens:`
-- These are operator-level decisions, not improvement targets
-- Detection in diff → **ROLLBACK**
-- Why: LLM config changes cause broad regressions that mask the effect of every other harness change. Per AHE (arXiv:2604.25850): "LLM config changes consistently cause broad, hard-to-diagnose regressions."
-- Manual operator changes outside `/self-evolve` runs are allowed (this invariant applies only to iterative skill evolution flows)
 
 ## Mechanism
 
