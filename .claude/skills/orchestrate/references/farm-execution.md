@@ -198,3 +198,66 @@ Archive the farm ledger to `.claude/memory/intermediate/farm-ledger-{task_id}.md
 for post-run analysis. The `/sweep` skill will clean up archived ledgers after 24h.
 
 **Farm tier budget:** Count each agent spawn toward the agent limit (5-8). One critic pass at the end (not per-agent). If sweep 2 is needed, it counts as additional agent spawns.
+
+## Optional: Strategy Constraints Mode (AHE Pattern 4 — Best-of-N)
+
+Default farm tier is **partition mode**: N agents work on disjoint file chunks of the SAME problem with the SAME approach. Good for mechanical bulk work (linter fixes, type-checker errors).
+
+Strategy Constraints mode is **opt-in**, useful when the same problem could be solved multiple competing ways and cross-variant comparison yields signal for the next iteration. Inspired by Agentic Harness Engineering (`outputs/ahe-pilot-2026-04-30.md` Pattern 4): "2 variants běží paralelně s mandatory orthogonal constraints. Cross-variant comparison = signal pro next iteration."
+
+### When to use
+
+- The work is **non-mechanical** (architecture choices, refactor strategies, UX rewrites where multiple valid approaches exist)
+- You want **diverse outputs** for human/critic comparison rather than a uniform partition
+- Sweep 2 would normally be a retry of failures — instead, treat it as alternative-strategy exploration
+
+### Parameter
+
+When invoking farm tier, pass `strategy_constraints: [...]` (array of N constraint strings, one per variant). When the array has length ≥ 2, the orchestrator switches from partition mode to **variant mode**:
+
+- All N agents work on the **same problem** (no chunking)
+- Each agent receives a different `strategy_constraints[i]` as a MANDATORY directive
+- Constraints MUST be orthogonal (a variant satisfying one cannot also satisfy another)
+- Output: N parallel solutions for cross-variant evaluation
+
+### Example: refactor strategy
+
+```yaml
+strategy_constraints:
+  - "STRUCTURAL ONLY: middleware, helper extraction, file split. Do NOT modify
+     prompts, descriptions, or any *.md content this variant."
+  - "GUIDANCE ONLY: prompts, skill descriptions, learnings, *.md tables. Do NOT
+     create or modify Python files this variant."
+```
+
+Each variant is forced into one half of the design space. Cross-variant comparison reveals which axis the problem actually lives on.
+
+### Example: bug fix approach
+
+```yaml
+strategy_constraints:
+  - "DEFENSIVE: add validation at entry points, fail-fast on bad input. Do NOT
+     change core logic."
+  - "REWRITE: simplify or replace the broken code path. Do NOT add validation
+     wrappers."
+  - "INSTRUMENT: add logging/assertions to expose the failure. Do NOT fix it
+     yet — produce a diagnostic-only variant."
+```
+
+### Mechanics (variant mode)
+
+1. **Step 1 (work list):** Single problem statement, no per-file enumeration
+2. **Step 2 (partition):** Skipped — every variant gets the full problem
+3. **Step 3 (spawn):** N agents in parallel, agent `i` gets `strategy_constraints[i]` injected at top of prompt as: `## Mandatory Constraint (orthogonal to other variants)\n{constraint[i]}`
+4. **Step 4 (collect):** Each variant writes results to `.claude/memory/intermediate/farm-variant-{i}.md` (different from partition's `farm-worker-{N}.json`). Orchestrator presents all N variants side-by-side for review or critic comparison.
+5. **Step 5 (report):** Highlight which variant the critic prefers + why; do NOT auto-merge any variant — variant mode produces options, human or critic chooses.
+
+### Anti-patterns
+
+- **Non-orthogonal constraints**: variants converge on similar solutions despite the directive — wastes agent budget. If you cannot draft constraints that genuinely partition the design space, do NOT use this mode.
+- **More than 3 variants**: AHE empirical finding — diminishing returns past N=3 (cross-comparison effort grows quadratically). Cap at 3 unless the use case explicitly justifies more.
+- **Auto-merging best variant**: variant mode is a divergent step before convergent decision. The critic or user chooses, not the orchestrator. Auto-pick removes the value of multi-variant exploration.
+
+### Status: documentation-only chip
+
+This section documents the **convention** for `strategy_constraints[]`. The orchestrator's main SKILL.md does not yet have implementation code that switches partition→variant mode based on this parameter — that is a follow-up. Until then, this serves as the spec for the next implementation chip and as guidance when farm tier is invoked manually with these constraints in the prompt.
