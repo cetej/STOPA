@@ -200,6 +200,15 @@ Spawn a **Sonnet** sub-agent with surgical-editing system prompt:
 > understand the root cause, and make the smallest edit that addresses it. Preserve
 > existing behavior — do not refactor, do not add features beyond what the case requires."
 
+**PIVOT constraint check (AHE Pattern 3 — read first):**
+
+Read `.claude/memory/intermediate/self-evolve-pivot-state.md`. If file exists AND `active: true`:
+- Extract `excluded_levels[]` — `component_level`s already attempted unsuccessfully for the active `failure_pattern`.
+- Executor edit MUST target a `component_level` NOT in `excluded_levels`. Valid levels (AHE taxonomy):
+  `prompt` (system prompt of skill or sub-agent) | `tool_desc` (skill `description:` field, examples, exclusions) | `tool_impl` (scripts/, hooks/, helpers) | `skill` (skill workflow body, phases, decision tables) | `sub_agent` (Curriculum/Executor sub-prompts in `references/`) | `long_term_memory` (learnings/, key-facts.md, rules) | `short_term_memory` (intermediate/, post-it state).
+- Document chosen `component_level` in the change_ledger entry (Step 6 schema). After successful commit: write `active: false` back to `pivot-state.md` so the constraint clears.
+- Legacy fallback: file missing or `active: false` → PIVOT not in effect, Executor selects level freely.
+
 - **Single atomic edit per round** — one conceptual change only
 - **Read execution trace** (if `.traces/self-evolve-<target>-*/tools.jsonl` exists): `grep "iteration":<round> .traces/.../tools.jsonl` to see WHERE the skill broke during the failing eval case execution — tool calls, outputs, exit codes. This shows the exact failure point, not just the final grade.
 - Read the failing case(s) to understand what is expected
@@ -295,10 +304,62 @@ Why net >= 2 threshold: a single net gain could be noise; two+ indicates genuine
     "strategy": "<strategy used this round — edge/adversarial/scale/composition>",
     "mutations": ["<1-sentence description of what Executor changed>"],
     "outcome": "success" (kept + pass_rate up) | "partial" (kept + same) | "failure" (reverted),
-    "pass_rate_delta": <float>
+    "pass_rate_delta": <float>,
+    "component_level": "<level>",       // AHE Pattern 3 — see Step 3 taxonomy. Required when prerequisite schema chip lands; legacy entries omit it
+    "failure_pattern": "<1-line>",      // 1-line classification of the failure addressed; required for Step 6b PIVOT detection
+    "predicted_fixes": ["<task>"],      // optional: tasks the Executor predicted this change would fix (calibration tracking)
+    "risk_tasks": ["<task>"]            // optional: tasks at risk of regressing — used by Step 6b IMPROVE branch
   }
   ```
   This feeds UCB1 on next run — strategies that consistently produce kept changes get higher scores.
+
+  **Schema dependency**: `component_level`, `failure_pattern`, `predicted_fixes`, `risk_tasks` are added by the prerequisite chip "Extend optstate change_ledger schema" in `.claude/rules/memory-files.md`. Until that chip lands, write empty placeholders or omit — Step 6b explicitly handles legacy entries by falling through to standard keep/revert.
+
+#### Step 6b (κ Commit — AHE Pattern 3): KEEP/IMPROVE/ROLLBACK+PIVOT/ESCALATE Decision
+
+After Step 6's keep/revert decision and ledger update, compute the four-way action category. Reads `optstate/self-evolve.json` `recurring_failure_patterns[]` plus the last 1-N change_ledger entries with `component_level` + `failure_pattern` fields.
+
+**Decision rule:**
+
+| Condition | Action |
+|-----------|--------|
+| Score improved AND no regression in `risk_tasks` (or `risk_tasks` absent) | **KEEP** — accept, log `decision: keep` |
+| Score improved BUT regression in `risk_tasks` exceeds 1 task (predicted_fixes hit, risk_tasks broke) | **IMPROVE** — accept partial, mark for refinement at same `component_level` next round, log `decision: improve` |
+| Score did NOT improve AND `recurring_failure_patterns[]` shows ≥2 consecutive ledger entries with same `component_level` for same `failure_pattern` | **ROLLBACK + PIVOT** — `git revert HEAD` (already done by Step 6), emit pivot signal, log `decision: pivot` |
+| Score did NOT improve AND ≥2 prior PIVOTs already recorded for this `failure_pattern` (3+ component_levels tried) | **ESCALATE** — STOP, write checkpoint, ask user, log `decision: escalate` |
+| None of the above | Fall through to standard Step 6 keep/revert (no PIVOT action this round) |
+
+**PIVOT signal mechanics:**
+
+When ROLLBACK+PIVOT fires:
+1. Append entry to evolution log with `decision: pivot` and `excluded_levels: [<failed_level>]`.
+2. Write `.claude/memory/intermediate/self-evolve-pivot-state.md` (overwrite):
+   ```yaml
+   ---
+   active: true
+   target: <target>
+   failure_pattern: "<exact pattern from recurring_failure_patterns[]>"
+   excluded_levels: [<level1>, <level2>]   # accumulated across PIVOTs in this run
+   pivot_count: N                           # 1 on first PIVOT, 2 on second
+   round_emitted: <current round>
+   ---
+   ```
+3. Next round's Step 3 (σ Select / Executor) reads this file and excludes listed `component_level`s. The Executor MUST commit a change at a different level — see Step 3 PIVOT constraint check.
+4. After the next round's Step 6 records a non-failure outcome at the new level: clear pivot state (`active: false`).
+
+**Hard limits (circuit breakers):**
+
+- Max 1 PIVOT per `failure_pattern` per `/self-evolve` run.
+- After 2 PIVOTs total in one run → STOP unconditionally (circuit-breaker exit, not just escalate). Logged as `exit_reason: pivot-thrash`.
+- PIVOT requires explicit `component_level` change in the next Executor edit — refactoring at the same level does not satisfy the constraint and is rejected by Step 3.
+- If the Executor's next edit lands at an excluded level despite the constraint: critic FAIL, count as discard, no second PIVOT permitted (escalate immediately).
+
+**Legacy fallback (graceful degradation):**
+
+If the latest ledger entry lacks `component_level` or `failure_pattern` (data written before AHE Pattern 3 schema landed):
+- Step 6b is **disabled** for this run; standard Step 6 keep/revert applies.
+- Log once: `"PIVOT skipped: change_ledger missing component_level/failure_pattern (legacy data — chip 'Extend optstate change_ledger schema' not yet applied)"`.
+- After the schema chip lands and new ledger entries carry the fields, PIVOT logic activates automatically on the next run.
 
 #### Step 7: Meta-Mode Check (only if `meta:true`, every 3 rounds)
 
@@ -537,6 +598,25 @@ Each case lives in `.claude/evals/<target>/case-{NNN}/` with three files:
 Pass threshold: all criteria checked
 ```
 
+## Anti-Rationalization Defense
+
+| Rationalization | Why Wrong | Do Instead |
+|---|---|---|
+| "I'll refactor the same component again — it's almost working" | Two consecutive failures at the same `component_level` for the same `failure_pattern` is the precise PIVOT trigger (AHE evolve_prompt.md L172-176). Refactoring the same level repeats the failure mode. | Apply Step 6b PIVOT rule: rollback, write `excluded_levels` to pivot-state.md, force Executor to a different `component_level` next round. |
+| "Score didn't improve, but the direction is right — I'll keep this change" | KEEP requires score improvement. IMPROVE requires score improvement on wrong tasks. "Direction is right" with no measurable progress is rationalization, not a decision branch. | If score did not improve and PIVOT criteria are met → ROLLBACK+PIVOT. If criteria not met → standard revert. Never KEEP on non-improvement. |
+| "I already did one PIVOT this run, the third level might work" | Hard limit: 2 PIVOTs total per run. A third PIVOT means three component_levels failed — that is thrashing, not progress. | After 2 PIVOTs → STOP via circuit breaker, write `exit_reason: pivot-thrash` to outcome record, ask user. Do not auto-continue. |
+| "Old ledger entries lack `component_level` so I'll guess based on the diff" | Legacy entries explicitly disable PIVOT (graceful fallback). Guessing creates false PIVOT signals based on incomplete data. | Skip Step 6b for this run, log `"PIVOT skipped: change_ledger missing component_level (legacy data)"` once, fall through to standard keep/revert. Re-enable after the schema chip lands. |
+| "PIVOT signal is stale, I can ignore the constraint and edit at the easier level" | If pivot-state.md says `active: true` and Executor edits an `excluded_level`: critic FAIL by design, no second PIVOT permitted, immediate ESCALATE. | Honor the constraint. Pick a different `component_level` from the AHE taxonomy (Step 3). If no level looks viable → ESCALATE explicitly, do not bypass. |
+
+## Verification Checklist
+
+- [ ] Step 6 keep/revert logged AND Step 6b explicit four-way decision logged (`decision: keep | improve | pivot | escalate`)
+- [ ] If PIVOT fired this round: `.claude/memory/intermediate/self-evolve-pivot-state.md` exists with `active: true` and non-empty `excluded_levels`
+- [ ] If PIVOT fired previous round: this round's Executor edit hits a `component_level` NOT in `excluded_levels` (verify via change_ledger entry's `component_level` field)
+- [ ] PIVOT count for this run ≤ 2 (circuit breaker honored, no `exit_reason: pivot-thrash` skipped)
+- [ ] If `change_ledger[]` lacks `component_level`/`failure_pattern`: evolution log shows `"PIVOT skipped (legacy data)"` once and standard keep/revert applied
+- [ ] After successful post-PIVOT round at new level: pivot-state.md cleared (`active: false`) before next round begins
+
 ## Rules
 
 1. **Eval cases are sacred** — do not modify existing eval cases, because changing them retroactively invalidates all prior improvement measurements and makes it impossible to track genuine progress. Only add new ones.
@@ -557,6 +637,8 @@ Pass threshold: all criteria checked
 | Skill >500 lines | STOP + warn about complexity |
 | Budget exhausted | Normal exit with report |
 | Critic FAIL 2x on same issue | STOP + escalate to user |
+| 2 PIVOTs total in one run | STOP + `exit_reason: pivot-thrash` (3+ component_levels tried for same failure_pattern) |
+| Step 6b ESCALATE fired | STOP + checkpoint + ask user (failure_pattern persists across pivots) |
 
 Run: `python scripts/loop-state.py circuit-breaker --consecutive-reverts N --eval-cases N --skill-lines N --iteration N --max-iterations 20`
 Returns JSON with `{stop, triggers}`. Use this instead of manual threshold checks.
