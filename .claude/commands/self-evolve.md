@@ -99,6 +99,13 @@ Validation:
    - Concrete trajectory > optstate aggregate. If outcome says "structural completeness audit as first round" worked, start there.
    - If no outcome files exist: proceed normally (first run — no replay possible)
    - Why: "Generate-then-discard" wastes 40% compute. Ref: arXiv:2604.08706 Theorem 4.5.
+4c. **Evidence Corpus pre-read** (AHE Pattern 5 — pre-built analysis tier):
+   - Refresh corpus (no-op if fresh < 24h): `python scripts/evidence-corpus-build.py --max-age-hours 24`
+   - Read **Layer 1** FIRST: `.claude/memory/intermediate/analysis-overview.md` — cross-skill rollup of recent outcomes, failure patterns, current farm activity.
+   - If Layer 1 signals concentration of failures/issues for the target skill, drill into **Layer 2**: `.claude/memory/intermediate/analysis/detail/<target>.md`
+   - DO NOT skip the corpus to read raw outcomes/ files directly (AHE evolve_prompt.md L162-167). Step 4b's targeted "last 5 outcomes" read is fine — Layer 1 is the cross-cutting view.
+   - If `analysis-overview.md` is missing entirely: corpus has not been built. Run the script without `--max-age-hours` to force build. If the script itself is missing: skip this step (graceful fallback for older STOPA installs).
+   - Why: AHE empirical finding — agents reading raw traces every iteration spend ~30-40% of context on parsing instead of reasoning. Pre-aggregated tier is the leverage point.
 5. Create evolution branch: `git checkout -b self-evolve/<target>`
 6. Run baseline eval: execute all cases, record pass_rate
 5a. **Trace initialization:** Create `.traces/self-evolve-<target>-<timestamp>/` with `diffs/` subdir. Write `trace-active.json` marker: `{"skill":"self-evolve","run_id":"self-evolve-<target>-<timestamp>","target":"<target>","trace_dir":".traces/...","started":"<ISO>","current_iteration":0}`. Purge traces >7 days: `find .traces/ -maxdepth 1 -mtime +7 -exec rm -rf {} + 2>/dev/null || true`
